@@ -1,0 +1,50 @@
+{
+  "vecka": "2026-W21",
+  "middagar": [
+    {
+      "dag": "mandag",
+      "datum": "2026-05-18",
+      "recept": "Krämig svamprisotto",
+      "varianter": { "Sarah": "parmesan blir näringsjäst" }
+    },
+    {
+      "dag": "tisdag",
+      "datum": "2026-05-19",
+      "recept": "Snabb linsgryta & ris",
+      "kommentar": "Sarah har träning kl 18!"
+    },
+    {
+      "dag": "onsdag",
+      "datum": "2026-05-20",
+      "recept": "Pasta med pesto & halloumi"
+    },
+    {
+      "dag": "torsdag",
+      "datum": "2026-05-21",
+      "recept": "Ugnsbakad lax & rotsaker",
+      "varianter": { "Sarah": "tofu istället för lax" }
+    },
+    {
+      "dag": "fredag",
+      "datum": "2026-05-22",
+      "recept": null,
+      "anteckning": "🍕 Pizza-utflykt på Roma"
+    },
+    {
+      "dag": "lordag",
+      "datum": "2026-05-23",
+      "recept": "Stekt fläsk & rödbetssallad",
+      "kommentar": "Mormor & morfar kommer!"
+    },
+    {
+      "dag": "sondag",
+      "datum": "2026-05-24",
+      "recept": "Coq au vin"
+    }
+  ],
+  "anteckningar": [
+    { "nar": "Den här veckan", "text": "Mormor & morfar kommer på lördag — fixa något lite festligt!" },
+    { "nar": "Vecka 22", "text": "Sarah åker på lägret onsdag–söndag. Mindre vegoplanering." }
+  ],
+  "skapad": "2026-05-17T18:30:00Z"
+}
