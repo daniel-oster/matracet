@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Life - as it should be — Matracet · Produktbeskrivning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #faf8f3;
+    --bg-card: #ffffff;
+    --bg-deep: #f0ebe0;
+    --ink: #1a1410;
+    --ink-soft: #4a3f33;
+    --ink-muted: #7a6f60;
+    --line: #c8bba0;
+    --line-soft: #ddd2b8;
+
+    --mvp: #b8350a;
+    --mvp-bg: #ffe4d2;
+    --v2: #155c48;
+    --v2-bg: #cee8dc;
+    --later: #4a3d6e;
+    --later-bg: #e0d8f0;
+    --risk: #7a1f1f;
+    --risk-bg: #f4d0d0;
+    --note: #6b4815;
+    --note-bg: #f5e2b2;
+  }
+
+  * { box-sizing: border-box; }
+  html {
+    scroll-behavior: smooth;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100vw;
+    width: 100%;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    max-width: 1320px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  main {
+    min-width: 0;
+  }
+
+  nav.sidebar {
+    position: sticky;
+    top: 0;
+    align-self: start;
+    height: 100vh;
+    padding: 36px 28px 36px 36px;
+    border-right: 1px solid var(--line);
+    overflow-y: auto;
+    background: var(--bg);
+  }
+  .brand {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 1.1;
+    margin-bottom: 4px;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .brand em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--ink-soft);
+  }
+  .brand-sub {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--ink-muted);
+    margin-bottom: 32px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .nav-section {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--ink-muted);
+    margin: 24px 0 8px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  nav ul { list-style: none; padding: 0; margin: 0; }
+  nav a {
+    display: block;
+    padding: 7px 10px;
+    margin-left: -10px;
+    border-radius: 4px;
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.15s ease;
+    border-left: 2px solid transparent;
+  }
+  nav a:hover {
+    color: var(--ink);
+    background: var(--bg-card);
+    border-left-color: var(--mvp);
+  }
+  nav a.active {
+    color: var(--ink);
+    font-weight: 600;
+    border-left-color: var(--mvp);
+  }
+
+  main {
+    padding: 64px 80px 120px;
+    max-width: 900px;
+    background: var(--bg);
+  }
+
+  .hero {
+    margin-bottom: 64px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--line);
+  }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.24em;
+    color: var(--mvp);
+    margin-bottom: 24px;
+  }
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    margin: 0 0 16px;
+    color: var(--ink);
+  }
+  h1 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--mvp);
+  }
+  .hero-sub {
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    max-width: 620px;
+    margin: 0 0 32px;
+  }
+  .meta {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-muted);
+  }
+  .meta span strong {
+    display: block;
+    color: var(--ink);
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 4px;
+    text-transform: none;
+    letter-spacing: 0;
+    font-family: 'Inter Tight', sans-serif;
+  }
+
+  .legend {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 16px 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--line-soft);
+    border-radius: 8px;
+    margin: 40px 0;
+  }
+  .legend-title {
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--ink-muted);
+    align-self: center;
+    margin-right: 8px;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.04em;
+  }
+  .chip::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  .chip-mvp { background: var(--mvp-bg); color: var(--mvp); }
+  .chip-v2 { background: var(--v2-bg); color: var(--v2); }
+  .chip-later { background: var(--later-bg); color: var(--later); }
+  .chip-risk { background: var(--risk-bg); color: var(--risk); }
+  .chip-note { background: var(--note-bg); color: var(--note); }
+
+  section { margin-bottom: 56px; scroll-margin-top: 24px; }
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 32px;
+    letter-spacing: -0.02em;
+    margin: 0 0 8px;
+    line-height: 1.15;
+    color: var(--ink);
+  }
+  h2 .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--ink-muted);
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    margin-right: 12px;
+    vertical-align: middle;
+  }
+  h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 22px;
+    letter-spacing: -0.01em;
+    margin: 32px 0 12px;
+    color: var(--ink);
+  }
+  .section-intro {
+    font-size: 17px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+  p { margin: 0 0 14px; color: var(--ink); }
+  strong { font-weight: 600; color: var(--ink); }
+
+  ul.clean { list-style: none; padding: 0; }
+  ul.clean li {
+    padding: 10px 0 10px 24px;
+    border-bottom: 1px dashed var(--line-soft);
+    position: relative;
+    color: var(--ink);
+  }
+  ul.clean li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--mvp);
+    font-weight: 600;
+  }
+  ul.clean li:last-child { border-bottom: none; }
+
+  .feature {
+    background: var(--bg-card);
+    border: 1px solid var(--line-soft);
+    border-radius: 8px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    transition: border-color 0.2s ease;
+  }
+  .feature:hover { border-color: var(--line); }
+  .feature-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 22px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .feature-header:hover { background: rgba(0,0,0,0.02); }
+  .feature-title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex: 1;
+    min-width: 0;
+  }
+  .feature-name {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .toggle {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-muted);
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+  }
+  .feature.open .toggle { transform: rotate(45deg); }
+  .feature-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  .feature.open .feature-body { max-height: 2000px; }
+  .feature-content {
+    padding: 0 22px 22px 22px;
+    border-top: 1px dashed var(--line-soft);
+    padding-top: 18px;
+  }
+  .feature-content p:first-child { margin-top: 0; }
+
+  .callout {
+    padding: 18px 20px;
+    border-radius: 6px;
+    margin: 20px 0;
+    font-size: 15px;
+    line-height: 1.55;
+    border-left: 3px solid;
+    color: var(--ink);
+  }
+  .callout strong { font-weight: 600; color: var(--ink); }
+  .callout-note { background: var(--note-bg); border-color: var(--note); }
+  .callout-risk { background: var(--risk-bg); border-color: var(--risk); }
+  .callout-mvp { background: var(--mvp-bg); border-color: var(--mvp); }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 14px;
+    background: var(--bg-card);
+  }
+  th, td {
+    text-align: left;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--line-soft);
+    vertical-align: top;
+    color: var(--ink);
+  }
+  th {
+    background: var(--bg-deep);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-soft);
+    font-weight: 600;
+  }
+
+  .persona {
+    display: flex;
+    gap: 16px;
+    padding: 22px;
+    background: var(--bg-card);
+    border: 1px solid var(--line-soft);
+    border-radius: 8px;
+    margin-bottom: 16px;
+  }
+  .persona-icon {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--bg-deep);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--mvp);
+  }
+  .persona h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    font-weight: 600;
+    margin: 0 0 4px;
+    color: var(--ink);
+  }
+  .persona-role {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+    margin-bottom: 8px;
+  }
+  .persona p { font-size: 14px; margin: 0; color: var(--ink-soft); }
+
+  .footer-note {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+    font-size: 13px;
+    color: var(--ink-muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  pre {
+    background: #1a1410;
+    color: #f0e8d8;
+    padding: 18px 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.55;
+    margin: 16px 0;
+    border: 1px solid #2a2520;
+  }
+  pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    font-size: inherit;
+  }
+  code {
+    background: var(--bg-deep);
+    color: var(--mvp);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9em;
+  }
+
+  .principle-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin: 24px 0;
+  }
+  .principle {
+    padding: 18px 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--line-soft);
+    border-radius: 8px;
+    border-top: 3px solid var(--mvp);
+  }
+  .principle h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 8px;
+    color: var(--ink);
+  }
+  .principle p {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 1100px) {
+    main { padding: 48px 48px 80px; }
+    h1 { font-size: clamp(36px, 6vw, 52px); }
+  }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    nav.sidebar {
+      position: relative;
+      height: auto;
+      border-right: none;
+      border-bottom: 1px solid var(--line);
+      padding: 20px 18px;
+    }
+    main {
+      padding: 24px 18px 60px;
+      max-width: 100%;
+      width: 100%;
+      overflow-x: hidden;
+    }
+    h1 {
+      font-size: 32px;
+      line-height: 1.05;
+      word-break: break-word;
+    }
+    h2 { font-size: 26px; word-break: break-word; }
+    h3 { font-size: 19px; }
+    .hero-sub { font-size: 16px; }
+    .section-intro { font-size: 15px; }
+    .meta { gap: 16px; font-size: 10px; }
+    .legend { padding: 12px 14px; gap: 8px; }
+    .feature-header { padding: 14px 16px; gap: 12px; }
+    .feature-content { padding: 0 16px 16px 16px; padding-top: 14px; }
+    .feature-name { font-size: 16px; }
+    .callout { padding: 14px 16px; font-size: 14px; }
+    .persona { padding: 16px; gap: 12px; }
+    .persona-icon { width: 40px; height: 40px; font-size: 18px; }
+    pre {
+      font-size: 11px;
+      padding: 14px 16px;
+      max-width: 100%;
+      overflow-x: auto;
+      white-space: pre;
+    }
+    code { font-size: 0.85em; word-break: break-word; }
+    table {
+      font-size: 12px;
+      display: block;
+      overflow-x: auto;
+      max-width: 100%;
+    }
+    th, td { padding: 10px 8px; }
+    .principle-grid { grid-template-columns: 1fr; gap: 10px; }
+    .principle { padding: 14px 16px; }
+    p, li { word-wrap: break-word; overflow-wrap: break-word; }
+  }
+
+  @media (max-width: 480px) {
+    body { font-size: 15px; }
+    main { padding: 20px 14px 48px; }
+    h1 { font-size: 28px; }
+    h2 { font-size: 22px; }
+    h2 .num { display: block; margin-bottom: 4px; font-size: 11px; }
+    nav.sidebar { padding: 16px 14px; }
+    .brand { font-size: 18px; }
+    pre { font-size: 10px; padding: 12px 14px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <nav class="sidebar">
+    <div class="brand">Life<br><em>as it should be</em></div>
+    <div class="brand-sub">Matracet · v0.1</div>
+
+    <div class="nav-section">Vision</div>
+    <ul>
+      <li><a href="#vision">Varför finns det här?</a></li>
+      <li><a href="#malgrupp">Målgrupp</a></li>
+      <li><a href="#kannetecken">Kärnvärden</a></li>
+    </ul>
+
+    <div class="nav-section">Approach</div>
+    <ul>
+      <li><a href="#personal-mvp">Personal MVP-filosofi</a></li>
+      <li><a href="#arkitektur">Arkitektur &amp; data</a></li>
+      <li><a href="#mappstruktur">Mappstruktur</a></li>
+    </ul>
+
+    <div class="nav-section">Produkt</div>
+    <ul>
+      <li><a href="#kanan">Funktioner</a></li>
+      <li><a href="#mvp">MVP-scope</a></li>
+      <li><a href="#senare">Senare versioner</a></li>
+    </ul>
+
+    <div class="nav-section">Verklighet</div>
+    <ul>
+      <li><a href="#risker">Risker &amp; svårigheter</a></li>
+      <li><a href="#konkurrens">Konkurrens</a></li>
+      <li><a href="#missat">Vad du missat</a></li>
+      <li><a href="#nasta">Nästa steg</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <header class="hero">
+      <div class="eyebrow">Produktbeskrivning · Utkast 1</div>
+      <h1>Mat som <em>fungerar</em><br>i en familj som inte är likadan.</h1>
+      <p class="hero-sub">
+        En matplaneringsapp för familjer där alla inte äter samma sak,
+        pengarna ska räcka, hälsan ska hänga med — och morgonen ändå måste hinnas.
+      </p>
+      <div class="meta">
+        <span>Författare<strong>Daniel</strong></span>
+        <span>Sambruk<strong>Claude (Opus 4.7)</strong></span>
+        <span>Status<strong>Tidigt utkast</strong></span>
+        <span>Mål<strong>Hitta MVP-scopet</strong></span>
+      </div>
+
+      <div class="legend">
+        <span class="legend-title">Prioritering</span>
+        <span class="chip chip-mvp">MVP</span>
+        <span class="chip chip-v2">V2</span>
+        <span class="chip chip-later">Senare</span>
+        <span class="chip chip-risk">Risk</span>
+        <span class="chip chip-note">Observation</span>
+      </div>
+    </header>
+
+    <section id="vision">
+      <h2><span class="num">01</span>Varför finns det här?</h2>
+      <p class="section-intro">
+        Matplanering är en av de tyngsta osynliga bördorna i en barnfamilj. Det är inte
+        själva matlagningen som är svår — det är besluten <em>innan</em>. Vad ska vi äta?
+        Vad finns hemma? Vad gillar barnen? Vad är billigt just nu? Vad är nyttigt? Vad
+        hinner vi mellan träningen och läxorna? Den som tar de besluten gör det 21 gånger
+        i veckan, varje vecka, för alltid.
+      </p>
+
+      <p>
+        <strong>Life - as it should be — Matracet</strong> är en app som tar bort så många av de besluten
+        som möjligt, utan att ta bort kontrollen från användaren. Den ska kunna lyssna på
+        familjens verklighet — olika preferenser, hälsa, budget, kalender, säsong — och
+        föreslå en veckomeny som faktiskt går att genomföra.
+      </p>
+
+      <div class="callout callout-mvp">
+        <strong>Kärnlöftet i en mening:</strong> "Säg mig vad jag ska handla, så att vi äter bra
+        i veckan utan att jag behöver tänka."
+      </div>
+    </section>
+
+    <section id="malgrupp">
+      <h2><span class="num">02</span>Målgrupp</h2>
+      <p class="section-intro">
+        Vem är "vi"? Det är värt att vara konkret, även om appen sen kan vidgas.
+        Du är själv den primära användaren — det är en styrka.
+      </p>
+
+      <div class="persona">
+        <div class="persona-icon">P</div>
+        <div>
+          <h4>Primär: Föräldern med blandade matpreferenser</h4>
+          <div class="persona-role">Drivande användare · "Daniel-personan"</div>
+          <p>
+            Barnfamilj där två eller fler personer äter olika (vegan / "vanligt" / allergier /
+            hälsokrav). Har egen hälsofråga (t.ex. blodtryck). Tycker om mat men har slut på
+            ork när det är vardag. Vill ha kontroll men inte arbete.
+          </p>
+        </div>
+      </div>
+
+      <div class="persona">
+        <div class="persona-icon">S</div>
+        <div>
+          <h4>Sekundär: Den budgetmedvetne</h4>
+          <div class="persona-role">Värdedrivare · V2</div>
+          <p>
+            Ensamstående förälder, student, pensionär. Maten har blivit dyr. Behöver
+            handla där det är billigast just denna vecka — utan att behöva läsa fem
+            reklamblad. Lägger gärna till bönor och linser om någon säger åt dem hur.
+          </p>
+        </div>
+      </div>
+
+      <div class="persona">
+        <div class="persona-icon">H</div>
+        <div>
+          <h4>Tertiär: Den hälsomedvetne</h4>
+          <div class="persona-role">Senare · V3</div>
+          <p>
+            Vill äta för specifika mål (sänka blodtryck, äta mer fiber, mindre socker)
+            men vill inte räkna kalorier. Vill ha hjälp att se över tid om det blir
+            balanserat — inte mikromanagement per måltid.
+          </p>
+        </div>
+      </div>
+
+      <div class="callout callout-note">
+        <strong>Observation:</strong> Du är själv din primära persona. Det är fantastiskt för
+        produktutveckling (kort feedback-loop, äkta empati) men en risk för marknaden — det
+        som löser <em>ditt</em> problem är inte automatiskt det som säljer. Validera tidigt
+        med 3–5 andra familjer som inte är du.
+      </div>
+    </section>
+
+    <section id="kannetecken">
+      <h2><span class="num">03</span>Kärnvärden</h2>
+      <p class="section-intro">
+        Det här är de principer som varje funktion måste hålla sig till. När du står
+        i en feature-diskussion senare och funderar "ska det här vara med?" — kom tillbaka hit.
+      </p>
+
+      <ul class="clean">
+        <li><strong>Lagom intelligens.</strong> Appen ska föreslå, inte föreläsa. Användaren har alltid sista ordet — utan att straffas för att avvika.</li>
+        <li><strong>Verklighetens kompromisser.</strong> En vegansk middag och en köttbullsmiddag samma kväll ska vara helt normalt. Appen ska kunna hantera två "spår" i samma måltid.</li>
+        <li><strong>Beslutsekonomi.</strong> Varje skärm svarar på frågan: "Vad ska jag göra härnäst?" Inga öppna landskap av val.</li>
+        <li><strong>Snabb start, gradvis djup.</strong> Du ska kunna få en användbar veckomeny på 60 sekunder första gången. Sen ska appen lära sig.</li>
+        <li><strong>Pengar är inte fult.</strong> Pris och hälsa ska vara likvärdiga axlar — inte ett "premium-tillägg".</li>
+      </ul>
+    </section>
+
+    <section id="personal-mvp">
+      <h2><span class="num">04</span>Personal MVP-filosofi</h2>
+      <p class="section-intro">
+        Det här är en omtag av hela MVP-tanken. Istället för att bygga en produkt för marknaden
+        bygger vi <em>en app för Daniels familj först</em>. Den ska vara körbar inom dagar, inte månader,
+        och kosta noll i månaden att underhålla. Marknadsversionen kommer senare — om den kommer alls.
+      </p>
+
+      <div class="callout callout-mvp">
+        <strong>Principen:</strong> Validera värdet i mitt eget kök innan jag bygger automationen.
+        Allt "smart" görs manuellt i början — Claude och jag pratar fram veckans meny, jag committar
+        en JSON-fil till repot, appen läser den. När det visar sig att jag öppnar appen varje söndag
+        är det dags att bygga generatorn. Inte innan.
+      </p>
+
+      <h3>Vad det betyder konkret</h3>
+
+      <div class="principle-grid">
+        <div class="principle">
+          <h4>Ingen backend</h4>
+          <p>Bara en statisk React-app. Inga API:er, ingen server, ingen databas. Hostas gratis på GitHub Pages eller Vercel.</p>
+        </div>
+        <div class="principle">
+          <h4>All data i Git</h4>
+          <p>Recept, veckomenyer, prislistor — allt som filer i repot. Versionshistorik gratis. Inga datamigreringar.</p>
+        </div>
+        <div class="principle">
+          <h4>Manuell intelligens</h4>
+          <p>Veckomeny genereras i chatten med Claude. Alexa-listan screenshottas och tolkas manuellt. Automation byggs när mönstret bevisats.</p>
+        </div>
+        <div class="principle">
+          <h4>Ingen auth</h4>
+          <p>Appen är personlig. Ingen inloggning, inga användarkonton, inga GDPR-flöden. Kanske skyddad bakom en enkel access-token om den ligger publikt.</p>
+        </div>
+        <div class="principle">
+          <h4>Webbläsarens minne</h4>
+          <p>Tillstånd som "avbockat på listan" sparas i <code>localStorage</code>. Försvinner det är det inget drama — listan finns i Git.</p>
+        </div>
+        <div class="principle">
+          <h4>Familjen är användarbasen</h4>
+          <p>5 personer max. Inga A/B-tester, ingen analytics. Feedback kommer på köksbordet.</p>
+        </div>
+      </div>
+
+      <h3>Varför det här är ett bra val</h3>
+      <p>
+        De flesta sidoprojekt dör inte för att idén var dålig — de dör för att utvecklaren ägnar
+        80% av tiden åt auth, deployments, databas-migreringar och CI/CD innan första riktiga
+        användaren ens fanns. Här hoppas alltsammans över. Tröskeln från "idé" till "körbar i köket"
+        är dagar, inte månader.
+      </p>
+      <p>
+        Det är också så de flesta framgångsrika produkter började på riktigt: någon byggde något
+        ovärdigt och dåligt åt sig själv, märkte att det funkade, och växte därifrån. Stripe var en
+        helpdesk-skript. Airbnb var en luftmadrass. Att börja personligt är inte ett kompromissval —
+        det är ofta det rätta.
+      </p>
+
+      <div class="callout callout-note">
+        <strong>Observation:</strong> Det här upplägget förutsätter att utvecklaren är bekväm med
+        utvecklingsmiljön (Daniel: tick), att innehållet inte är externt beroende från dag ett
+        (vi har egna recept att börja med), och att det är okej att ingen annan kan använda appen
+        innan vi bestämmer att det är dags. Inget av detta är problem här.
+      </div>
+    </section>
+
+    <section id="arkitektur">
+      <h2><span class="num">05</span>Arkitektur &amp; data</h2>
+      <p class="section-intro">
+        Allt går att förklara på en sida. Det är meningen.
+      </p>
+
+      <h3>Stack</h3>
+      <ul class="clean">
+        <li><strong>Vite + React + TypeScript.</strong> Snabb dev-loop, modern toolchain, ingen ramverkstyngd.</li>
+        <li><strong>Statisk build.</strong> <code>npm run build</code> producerar HTML/CSS/JS som ligger på GitHub Pages.</li>
+        <li><strong>Tailwind eller vanilla CSS.</strong> Bestäms när vi börjar bygga. Lutar mot Tailwind för snabbhet.</li>
+        <li><strong>Vite Markdown-plugin</strong> (eller egen loader) för att läsa recept med frontmatter vid build-tid.</li>
+        <li><strong>Inget mer.</strong> Ingen state-manager, ingen router (en sida räcker länge), ingen testpipeline.</li>
+      </ul>
+
+      <h3>Två datatyper, två format</h3>
+      <p>
+        Gränsen är skarp och enkel att komma ihåg: <strong>text som människor läser och skriver</strong>
+        lagras som Markdown med frontmatter. <strong>Data som kod producerar och konsumerar</strong>
+        lagras som JSON.
+      </p>
+
+      <ul class="clean">
+        <li><strong>Recept → Markdown.</strong> Frontmatter bär struktur (taggar, ingredienser), brödtext bär tillagning i naturlig form. Trevliga att redigera i vim, läsbara direkt i GitHub.</li>
+        <li><strong>Veckomenyer → JSON.</strong> Maskingenererad, kort referensdata. Bara dagsfält och recept-slugar.</li>
+        <li><strong>Ätarprofiler → JSON.</strong> Strukturerat, kort.</li>
+        <li><strong>Prislistor → JSON.</strong> Tolkad data från reklamblad eller Matspar. Ren maskindata.</li>
+        <li><strong>Bilder → JPG/WebP</strong> bredvid sina recept (se mappstruktur).</li>
+      </ul>
+
+      <h3>Exempel: ett recept i Markdown</h3>
+
+<pre><code>---
+slug: svamprisotto
+namn: Krämig svamprisotto
+tid_min: 35
+kategorier: [vegetarisk, glutenfri]
+sasong: [host, vinter]
+svarighet: enkel
+barnvanlig: ja
+taggar: [comfort-food, billig]
+ingredienser:
+  - { vara: arborioris, mangd: 300, enhet: g }
+  - { vara: skogssvamp, mangd: 400, enhet: g }
+  - { vara: gul lök, mangd: 1, enhet: st }
+  - { vara: vitlöksklyfta, mangd: 2, enhet: st }
+  - { vara: grönsaksbuljong, mangd: 1, enhet: l }
+  - { vara: parmesan, mangd: 50, enhet: g }
+  - { vara: smör, mangd: 30, enhet: g }
+varianter:
+  vegansk:
+    byt:
+      parmesan: näringsjäst
+      smör: olivolja
+---
+
+# Krämig svamprisotto
+
+En av höstens lugnaste middagar. Riset gör jobbet medan
+man pratar bort dagen.
+
+## Tillagning
+
+1. Hacka löken fint och pressa vitlöken. Fräs i smöret
+   tills löken är glansig.
+2. Tillsätt riset och rör så det blir blankt.
+3. Häll på buljong en slev i taget...</code></pre>
+
+      <h3>Exempel: en veckomeny i JSON</h3>
+
+<pre><code>{
+  "vecka": "2026-W21",
+  "middagar": [
+    {
+      "dag": "mandag",
+      "recept": "svamprisotto",
+      "kommentar": "Sarah har träning kl 18"
+    },
+    {
+      "dag": "tisdag",
+      "recept": "linsgryta",
+      "varianter": { "andra-barnet": "kottfars" }
+    },
+    {
+      "dag": "onsdag",
+      "recept": null,
+      "anteckning": "Pizza-utflykt"
+    }
+  ],
+  "skapad": "2026-05-17T18:30:00Z"
+}</code></pre>
+    </section>
+
+    <section id="mappstruktur">
+      <h2><span class="num">06</span>Mappstruktur</h2>
+      <p class="section-intro">
+        Co-location är principen: allt som hör till ett recept ligger i samma mapp.
+        Flyttar du receptet följer bilden med. Tar du bort receptet finns inga döda filer kvar.
+      </p>
+
+<pre><code>matracet/
+├── data/
+│   ├── recipes/
+│   │   ├── svamprisotto/
+│   │   │   ├── recept.md
+│   │   │   └── bild.jpg
+│   │   ├── linsgryta/
+│   │   │   ├── recept.md
+│   │   │   └── bild.jpg
+│   │   └── pasta-pesto/
+│   │       ├── recept.md
+│   │       ├── bild.jpg
+│   │       └── steg-3.jpg          ← framtida möjlighet
+│   ├── eaters.json                  ← Daniel, Sarah, andra barnet
+│   ├── pantry.json                  ← "saker jag alltid har hemma"
+│   ├── weeks/
+│   │   ├── 2026-W21.json
+│   │   └── 2026-W22.json
+│   └── prices/
+│       └── 2026-W21-willys.json
+├── public/
+│   └── (statiska tillgångar som inte hör till recept)
+├── src/
+│   ├── App.tsx
+│   ├── components/
+│   │   ├── Fridge.tsx               ← huvudvyn (kylskåpet)
+│   │   ├── Note.tsx                 ← en lapp (generisk)
+│   │   ├── MenuNote.tsx             ← veckans middagar
+│   │   ├── ShoppingNote.tsx         ← inköpslistan
+│   │   └── RecipeNote.tsx           ← öppnat recept
+│   └── lib/
+│       ├── recipes.ts               ← läser markdown vid build
+│       └── shopping.ts              ← aggregerar ingredienser
+├── package.json
+└── vite.config.ts</code></pre>
+
+      <h3>Konvention över konfiguration</h3>
+      <p>
+        Bilden för ett recept heter alltid <code>bild.jpg</code> (eller <code>bild.webp</code>). Receptet
+        heter alltid <code>recept.md</code>. Mappnamnet <em>är</em> slugen. Det betyder att vi inte behöver
+        ange bildvägen i frontmatter — koden hittar bilden själv. Ett fält mindre att glömma, ett fält
+        mindre som kan vara fel.
+      </p>
+
+      <div class="callout callout-note">
+        <strong>Teknisk detalj:</strong> För att Vite ska servera bilder från <code>/data/recipes/</code> behöver vi
+        antingen flytta <code>data/</code> till <code>public/data/</code> eller använda Vites <code>?url</code>-import.
+        Båda är trivialt löst när vi bygger. Inget arkitekturhinder, bara ett vägval senare.
+      </div>
+
+      <h3>Vad vi inte har i mappstrukturen</h3>
+      <ul class="clean">
+        <li>Ingen <code>/api/</code> — ingen backend</li>
+        <li>Ingen <code>/db/</code> eller migrationer — ingen databas</li>
+        <li>Ingen <code>/auth/</code> — ingen inloggning</li>
+        <li>Ingen <code>/tests/</code> — inte än, kommer när någon del verkligen är värd att testa</li>
+        <li>Ingen <code>/.github/workflows/</code> utöver "deploy till Pages vid push till main"</li>
+      </ul>
+      <p>
+        Det här är medveten enkelhet, inte slarv. Varje sak som inte finns är en sak som inte måste
+        underhållas. När en personal MVP växer till något större lägger vi tillbaka det vi behöver —
+        med data på hur det faktiskt används.
+      </p>
+    </section>
+
+    <section id="kanan">
+      <h2><span class="num">07</span>Funktioner</h2>
+      <p class="section-intro">
+        Här är allt vi pratat om, uppdelat i fyra delsystem. Klicka för detaljer.
+        Varje funktion har en prioriteringsmärkning så vi ser vad som måste finnas dag 1
+        kontra vad som kan vänta.
+      </p>
+
+      <h3>A. Veckomenyn — appens hjärta</h3>
+
+      <div class="feature">
+        <div class="feature-header" onclick="toggleFeature(this)">
+          <div class="feature-title">
+            <span class="chip chip-mvp">MVP</span>
+            <span class="feature-name">Generera veckomeny från preferenser</span>
+          </div>
+          <div class="toggle">+</div>
+        </div>
+        <div class="feature-body"><div class="feature-content">
+          <p>
+            Användaren anger antal personer, vilka som äter vad (t.ex. "Sarah = vegan",
+            "Daniel = lågt natrium"), antal middagar att planera (5? 7?), och hur mycket tid
+            som finns på vardagar kontra helger.
+          </p>
+          <p>
+            Appen föreslår en veckomeny där varje middag har en "huvudversion" och eventuellt
+            en "variant" för avvikande ätare (t.ex. samma bas men kyckling/tofu byts ut).
+          </p>
+          <p><strong>Varför MVP:</strong> Utan detta finns ingen app. Det är produktens hela existensberättigande.</p>
+        </div></div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-header" onclick="toggleFeature(this)">
+          <div class="feature-title">
+            <span class="chip chip-mvp">MVP</span>
+            <span class="feature-name">Byta ut / låsa / ogilla rätter</span>
+          </div>
+          <div class="toggle">+</div>
+        </div>
+        <div class="feature-body"><div class="feature-content">
+          <p>
+            För varje föreslagen middag: byt ut den (få ett nytt förslag), lås den (kommer
+            tillbaka regelbundet), eller markera "äter vi aldrig igen". Det här är där appen
+            lär sig familjen.
+          </p>
+          <p><strong>Varför MVP:</strong> Ett första förslag är aldrig perfekt. Friktionen att korrigera måste vara nära noll, annars överger användaren appen efter andra veckan.</p>
+        </div></div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-header" onclick="toggleFeature(this)">
+          <div class="feature-title">
+            <span class="chip chip-mvp">MVP</span>
+            <span class="feature-name">Säsongsanpassning</span>
+          </div>
+          <div class="toggle">+</div>
+        </div>
+        <div class="feature-body"><div class="feature-content">
+          <p>
+            Receptbiblioteket är taggat med säsong. I oktober föreslås rotsaker, kål, äpplen,
+            svamp. I juli sallader, jordgubbar, färska bönor. Det är ofta sammanfallande med
+            pris också.
+          </p>
+          <p><strong>Varför MVP:</strong> Lätt att implementera (statisk tabell) och en av de tydligaste
+          differentieringspunkterna mot generiska recept-appar.</p>
+        </div></div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-header" onclick="toggleFeature(this)">
+          <div class="feature-title">
+            <span class="chip chip-v2">V2</span>
+            <span class="feature-name">Frukostrutiner</span>
+          </div>
+          <div class="toggle">+</div>
+        </div>
+        <div class="feature-body"><div class="feature-content">
+          <p>
+            Frukost är inte samma problem som middag — det är repetitivt, tidsbegränsat
+            och utan stora val. Det handlar mer om att <em>ha rätt saker hemma</em> och
+            att ha 3–5 "default-frukostar" att rotera mellan.
+          </p>
+          <p><strong>Varför V2:</strong> Värdefullt men separat domän. Att blanda in det i MVP gör
+          designen rörig. När middagen är löst, lägg till "morgonkit" som en distinkt vy.</p>
+        </div></div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-header" onclick="toggleFeature(this)">
+          <div class="feature-title">
+            <span class="chip chip-later">Senare</span>
+            <span class="feature-name">Lunch + matlådor</span>
+          </div>
+          <div class="toggle">+</div>
+        </div>
+        <div class="feature-body"><div class="feature-content">
+          <p>Användning av middagsrester, ihopkopplat med skolschema/jobbschema.</p>
+          <p><strong>Varför senare:</strong> Bygg först middag bra, då löser sig matlådor nästan av sig själv som biprodukt.</p>
+        </div></div>
+      </div>
+
+      <h3>B. Receptbiblioteket</h3>
+
+      <div class="feature">
+        <div class="feature-header" onclick="toggleFeature(this)">
+          <div class="feature-title">
+            <span class="chip chip-mvp">MVP</span>
+            <span class="feature-name">Förkurerat startbibliotek (50–100 recept)</span>
+          </div>
+          <div class="toggle">+</div>
+        </div>
+        <div class="feature-body"><div class="feature-content">
+          <p>
+            Innan användaren har lagt in egna recept måste appen ha tillräckligt eget innehåll
+            för att generera meningsfulla veckomenyer. Räkna med 50–100 manuellt skapade recept,
+            taggade på rätt sätt: säsong, näringsprofil, kostkategori (vegan/kött/fisk), tid,
+            svårighet, "barnvänlighet".
+          </p>
+          <p><strong>Varför MVP:</strong> Utan ett startbibliotek har MVP inget bränsle. Det här är
+          mycket arbete men oundvikligt.</p>
+        </div></div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-header" onclick="toggleFeature(this)">
+          <div class="feature-title">
+            <span class="chip chip-v2">V2</span>
+            <span class="feature-name">Lägg till eget recept (skriv in / klistra in)</span>
+          </div>
+          <div class="toggle">+</div>
+        </div>
+        <div class="feature-body"><div class="feature-content">
+          <p>
+            Användaren skriver eller klistrar in ett recept som fritext. En LLM strukturerar
+            upp det: extraherar ingredienser med mängder, steg, kategoriserar.
+          </p>
+          <p><strong>Varför V2:</strong> Behövs inte dag 1 om startbiblioteket är bra. Men det är
+          den första funktionen som gör appen "min" istället för "en app".</p>
+        </div></div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-header" onclick="toggleFeature(this)">
+          <div class="feature-title">
+            <span class="chip chip-v2">V2</span>
+            <span class="feature-name">Importera recept från webbsida (URL)</span>
+          </div>
+          <div class="toggle">+</div>
+        </div>
+        <div class="feature-body"><div class="feature-content">
+          <p>
+            Användaren klistrar in en länk till en receptsida. Appen hämtar och strukturerar.
+            Bra nyhet: de flesta receptsidor har strukturerad data (schema.org/Recipe) som
+            gör det här relativt lätt.
+          </p>
+          <p><strong>Risk:</strong> Sajter ändrar struktur, ibland blockerar robotar, vissa har
+          upphovsrättsfrågor om recept lagras lokalt. Behöver hanteras.</p>
+        </div></div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-header" onclick="toggleFeature(this)">
+          <div class="feature-title">
+            <span class="chip chip-later">Senare</span>
+            <span class="feature-name">Fota recept (OCR + LLM)</span>
+          </div>
+          <div class="toggle">+</div>
+        </div>
+        <div class="feature-body"><div class="feature-content">
+          <p>
+            Användaren fotar ett recept från en kokbok eller tidning. OCR läser texten,
+            en LLM strukturerar. Mormors recept får liv.
+          </p>
+          <p><strong>Varför senare:</strong> Charmig funktion men inte avgörande för veckoplaneringen. Bygg
+          den när användarbasen finns och efterfrågar det.</p>
+        </div></div>
+      </div>
+
+      <h3>C. Inköpslista &amp; butikslogik</h3>
+
+      <div class="feature">
+        <div class="feature-header" onclick="toggleFeature(this)">
+          <div class="feature-title">
+            <span class="chip chip-mvp">MVP</span>
+            <span class="feature-name">Generera inköpslista från veckomeny</span>
+          </div>
+          <div class="toggle">+</div>
+        </div>
+        <div class="feature-body"><div class="feature-content">
+          <p>
+            Alla ingredienser från veckans rätter slås samman, mängderna räknas ihop,
+            organiseras per butiks-zon (frukt/grönt, mejeri, frys, skafferi).
+          </p>
+          <p><strong>Varför MVP:</strong> Det här är vad användaren faktiskt agerar på. Veckomenyn
+          ger värdet, listan levererar det.</p>
+        </div></div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-header" onclick="toggleFeature(this)">
+          <div class="feature-title">
+            <span class="chip chip-mvp">MVP</span>
+            <span class="feature-name">"Detta har jag redan hemma"</span>
+          </div>
+          <div class="toggle">+</div>
+        </div>
+        <div class="feature-body"><div class="feature-content">
+          <p>
+            En enkel checkruta per ingrediens innan listan finaliseras. Inget skafferi-system —
+            bara "kryssa av det du har". Tar bort 80% av problemet med 5% av komplexiteten.
+          </p>
+          <p><strong>Varför MVP:</strong> Annars köper man kanel varje vecka.</p>
+        </div></div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-header" onclick="toggleFeature(this)">
+          <div class="feature-title">
+            <span class="chip chip-mvp">MVP</span>
+            <span class="feature-name">"Saker jag vill ha utöver"</span>
+          </div>
+          <div class="toggle">+</div>
+        </div>
+        <div class="feature-body"><div class="feature-content">
+          <p>
+            Användaren kan lägga till valfria rader i listan (toalettpapper, tvättmedel,
+            choklad). Listan är inte bara mat — den är "veckans handling".
+          </p>
+        </div></div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-header" onclick="toggleFeature(this)">
+          <div class="feature-title">
+            <span class="chip chip-v2">V2</span>
+            <span class="feature-name">Priser och erbjudanden per butik</span>
+          </div>
+          <div class="toggle">+</div>
+        </div>
+        <div class="feature-body"><div class="feature-content">
+          <p>
+            ICA, Coop, Willys, Lidl etc. har egna reklamblad. Appen läser dessa (via API
+            där det finns, scraping där det inte finns) och kan markera: "den här veckan
+            är fläskfilén 30% billigare på Willys". Veckomenyn kan välja att <em>använda
+            sig av</em> rabatterna.
+          </p>
+          <p><strong>Varför V2:</strong> Här ligger det stora värdeerbjudandet ("appen som faktiskt
+          sparar pengar") men det är också tekniskt och juridiskt komplicerat. Se risker.</p>
+        </div></div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-header" onclick="toggleFeature(this)">
+          <div class="feature-title">
+            <span class="chip chip-v2">V2</span>
+            <span class="feature-name">Dela listan på flera butiker</span>
+          </div>
+          <div class="toggle">+</div>
+        </div>
+        <div class="feature-body"><div class="feature-content">
+          <p>
+            "Köp grönsakerna på Lidl, allt annat på ICA Maxi." Appen kan optimera mellan
+            tid (en butik) och pengar (flera). Användaren väljer trösklen.
+          </p>
+        </div></div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-header" onclick="toggleFeature(this)">
+          <div class="feature-title">
+            <span class="chip chip-later">Senare</span>
+            <span class="feature-name">Alexa-integration (synk med befintliga listor)</span>
+          </div>
+          <div class="toggle">+</div>
+        </div>
+        <div class="feature-body"><div class="feature-content">
+          <p>
+            Tanken: <em>använd användarens existerande Alexa-shoppinglista istället för att
+            skapa en ny silo.</em> Matracet läser från och skriver till en av användarens Alexa-listor
+            (default "Shopping List" eller en valfri egen lista som "Matracet"). När appen
+            genererar veckans inköpslista pushas den till Alexa — och när någon säger
+            "Alexa, lägg till mjölk på listan" i köket dyker det upp i Matracet nästa gång
+            appen öppnas.
+          </p>
+          <p>
+            Tekniskt: Alexa har ett officiellt <strong>List API</strong> (List Read &amp; List Write
+            permissions) som tillåter just det här. Användaren godkänner åtkomst via Alexa-appen
+            första gången. Det är fullt möjligt — bara inte trivialt att bygga.
+          </p>
+          <p><strong>Varför senare:</strong> En Alexa Skill är ett eget byggprojekt med egen
+          publiceringsprocess hos Amazon (granskning, certifiering). Värdefullt men inte
+          avgörande för MVP. Liknande lösning bör finnas för Google Home (Keep) och iOS
+          (Påminnelser-appen) när tiden kommer.</p>
+        </div></div>
+      </div>
+
+      <h3>D. Familjelogik &amp; integration</h3>
+
+      <div class="feature">
+        <div class="feature-header" onclick="toggleFeature(this)">
+          <div class="feature-title">
+            <span class="chip chip-v2">V2</span>
+            <span class="feature-name">Kalenderkoppling (aktiviteter / hemmakvällar)</span>
+          </div>
+          <div class="toggle">+</div>
+        </div>
+        <div class="feature-body"><div class="feature-content">
+          <p>
+            Importera kalender. Tisdagar har Sarah träning kl. 18 — då föreslår appen en
+            snabb middag (max 25 min). Söndagar är hemma — gott om tid till ugnsgryta.
+          </p>
+          <p><strong>Varför V2:</strong> Enorm kvalitetsskillnad när det funkar, men kräver att veckomenyn redan funkar bra.</p>
+        </div></div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-header" onclick="toggleFeature(this)">
+          <div class="feature-title">
+            <span class="chip chip-later">Senare</span>
+            <span class="feature-name">Näringsöversikt över veckan</span>
+          </div>
+          <div class="toggle">+</div>
+        </div>
+        <div class="feature-body"><div class="feature-content">
+          <p>
+            Inte per måltid — det blir tjatigt. Men per vecka: fick familjen i sig
+            tillräckligt med fiber, järn, omega-3? Får jag ner natrium? Visualiserat
+            som "rörliga bollar" snarare än tabeller.
+          </p>
+          <p><strong>Risk:</strong> Hälsodata och påståenden är reglerat. Var försiktig med språket.</p>
+        </div></div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-header" onclick="toggleFeature(this)">
+          <div class="feature-title">
+            <span class="chip chip-later">Senare</span>
+            <span class="feature-name">"Fyll-ut-bönor"-läge för budget</span>
+          </div>
+          <div class="toggle">+</div>
+        </div>
+        <div class="feature-body"><div class="feature-content">
+          <p>
+            En skjutreglage: "hur mycket vill vi strama åt den här veckan?" Appen ökar
+            andelen baljväxter, rotfrukter, pasta — minskar kött, premium-fisk, importerade
+            grönsaker. Behåller smak och mättnad.
+          </p>
+        </div></div>
+      </div>
+    </section>
+
+    <section id="mvp">
+      <h2><span class="num">08</span>MVP-scope: vad bygger vi <em>först</em>?</h2>
+      <p class="section-intro">
+        Med personal MVP-filosofin blir scope-frågan annorlunda: det handlar inte längre om
+        "minsta produkt vi vågar visa". Det handlar om "minsta som faktiskt fungerar i mitt
+        kök på söndag kväll". Mycket lägre tröskel.
+      </p>
+
+      <div class="callout callout-mvp">
+        <strong>MVP-tes (omskriven):</strong> "Söndag kväll kan jag öppna appen på telefonen, se
+        veckans middagar som lappar på ett kylskåp, och få en inköpslista jag kan bocka av i butiken.
+        Veckomenyn har Claude och jag pratat fram i en separat chat, och jag har commitat in den i repot."
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Funktion</th>
+            <th>Komplexitet</th>
+            <th>Manuell eller automatisk?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>10–15 recept som Markdown</strong></td>
+            <td>Medel (innehåll)</td>
+            <td>Manuell — familjefavoriterna först</td>
+          </tr>
+          <tr>
+            <td><strong>Kylskåpsvy (lappar) i React</strong></td>
+            <td>Medel (design)</td>
+            <td>Automatisk rendering</td>
+          </tr>
+          <tr>
+            <td><strong>Veckomeny som JSON</strong></td>
+            <td>Låg</td>
+            <td>Manuell — genererad i Claude-chatt, commitad</td>
+          </tr>
+          <tr>
+            <td><strong>Inköpslista (aggregerad)</strong></td>
+            <td>Låg</td>
+            <td>Automatisk — räknar ihop ingredienser från veckans recept</td>
+          </tr>
+          <tr>
+            <td><strong>"Har hemma"-bockning</strong></td>
+            <td>Låg</td>
+            <td>Automatisk — localStorage</td>
+          </tr>
+          <tr>
+            <td><strong>Avbockning i butiken</strong></td>
+            <td>Låg</td>
+            <td>Automatisk — localStorage</td>
+          </tr>
+          <tr>
+            <td><strong>Deploy till GitHub Pages</strong></td>
+            <td>Låg</td>
+            <td>Automatisk — vid push till main</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        <strong>Inte med i MVP:</strong> Receptredigerare i UI, automatisk meny-generator,
+        prisjakt, kalenderkoppling, näringsöversikt, Alexa-synk, recept-import, OCR, multi-användare.
+        Allt det görs <em>manuellt med Claude:s hjälp</em> tills mönstret är så stabilt att det är värt
+        att automatisera.
+      </p>
+
+      <div class="callout callout-note">
+        <strong>Förväntad tid till körbar version i köket:</strong> En helg om allt flyter.
+        En vecka om det krånglar. Inte månader.
+      </div>
+    </section>
+
+    <section id="senare">
+      <h2><span class="num">09</span>Roadmap efter MVP</h2>
+      <p class="section-intro">
+        Inte en utfästelse, bara en rimlig ordning baserat på vad som bygger på vad.
+      </p>
+
+      <h3>V2 — "Min app, inte en app"</h3>
+      <ul class="clean">
+        <li>Lägg till egna recept (fritext &amp; URL-import)</li>
+        <li>Frukostmodul med 3–5 default-rutiner</li>
+        <li>Kalenderkoppling: tidsbegränsade middagar tisdagar</li>
+        <li>Reklamblad &amp; prisjämförelse för 2–3 svenska kedjor</li>
+      </ul>
+
+      <h3>V3 — "Appen som sparar pengar"</h3>
+      <ul class="clean">
+        <li>Optimera meny baserat på veckans rea-priser</li>
+        <li>Dela inköpslista på flera butiker</li>
+        <li>Budget-skjutreglage ("hur stramt denna vecka?")</li>
+      </ul>
+
+      <h3>V4+ — "Appen som tar hand om hela måltidsekonomin"</h3>
+      <ul class="clean">
+        <li>Näringsöversikt över tid</li>
+        <li>Lunch / matlådor / restanvändning</li>
+        <li>Foto-recept (OCR)</li>
+        <li>Alexa / Google Home / Siri Shortcuts</li>
+        <li>Familjedelning (förälder + tonåring + sambo)</li>
+      </ul>
+    </section>
+
+    <section id="risker">
+      <h2><span class="num">10</span>Risker &amp; svårigheter</h2>
+      <p class="section-intro">
+        Det här är problemen som kommer dyka upp. Bättre att se dem nu än bli överraskad.
+      </p>
+
+      <div class="callout callout-risk">
+        <strong>Risk 1 — Innehållskostnaden.</strong> Receptbiblioteket är inte ett par dagars jobb.
+        50 högkvalitativa, korrekt taggade recept för olika preferenser och säsonger är
+        kanske 60–100 timmars arbete om du gör det själv. Det är dyrare än själva apputvecklingen
+        för en hobbyutvecklare. Plan: kanske LLM-genererade utkast som du redigerar?
+      </div>
+
+      <div class="callout callout-risk">
+        <strong>Risk 2 — Prisdata är hala.</strong> Svenska matkedjor publicerar inga öppna API:er
+        för priser. Scraping av reklamblad är skört (sajter ändrar struktur). Det finns
+        tjänster som Matspar och Matpriskollen som har gjort detta — det går, men det är
+        en betydande teknisk skuld att underhålla. Tänk om: kan du <em>integrera</em> Matspar?
+      </div>
+
+      <div class="callout callout-risk">
+        <strong>Risk 3 — "Förslag jag inte gillar"-spiralen.</strong> Den största risken med
+        AI-genererade veckomenyer är att första veckan är okej, andra veckan känns träig,
+        tredje veckan har användaren gett upp. Lärningsslingan (byt/lås/ogilla) <em>måste</em>
+        fungera väldigt snabbt och kännbart, annars dör appen i månad två.
+      </div>
+
+      <div class="callout callout-risk">
+        <strong>Risk 4 — Optimeringsproblemet är inte tekniskt, det är socialt.</strong> Mat handlar
+        om humör, vana, kultur, minnen. "Optimal" mat enligt en algoritm kan vara helt fel
+        för en stressig tisdag när Sarah har haft en jobbig dag och bara vill ha pasta.
+        Appen får aldrig kännas som en diktator.
+      </div>
+
+      <div class="callout callout-risk">
+        <strong>Risk 5 — Hälsopåståenden.</strong> "Sänker blodtryck" är ett medicinskt påstående.
+        I Sverige är detta reglerat av Livsmedelsverket och EU:s Health Claims-förordning.
+        Var försiktig: "fiberrik" är ok, "förebygger hjärtsjukdomar" är inte. Det här gäller
+        även när det är användaren själv som angett "lågt natrium" — du kan inte marknadsföra
+        appen som ett medicinskt verktyg utan att hamna i en helt annan regelvärld.
+      </div>
+
+      <div class="callout callout-risk">
+        <strong>Risk 6 — GDPR &amp; familjedata.</strong> Hälsouppgifter (blodtryck, allergier) är
+        känsliga personuppgifter enligt GDPR Art. 9. Information om barn har extra skydd.
+        Att lagra "Sarah, 14, vegan, gluten" kräver tydligt samtycke och ändamål.
+        Lokal datalagring (allt på enheten) är den enklaste vägen tidigt — undvik moln-sync i MVP.
+      </div>
+    </section>
+
+    <section id="konkurrens">
+      <h2><span class="num">11</span>Konkurrenslandskap</h2>
+      <p class="section-intro">
+        Det finns inte ett tomrum här. Men ingen gör det <em>du</em> vill göra fullt ut.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Aktör</th>
+            <th>Vad de gör bra</th>
+            <th>Var de inte räcker</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Mealime</strong></td>
+            <td>Snabb veckomeny, ren inköpslista</td>
+            <td>Engelska, inga svenska butiker, ingen prisjakt, hanterar inte "olika ätare i samma familj" elegant</td>
+          </tr>
+          <tr>
+            <td><strong>Paprika Recipe Manager</strong></td>
+            <td>Bästa receptbiblioteket, URL-import som flyter</td>
+            <td>Är ett bibliotek, inte en planerare. Ingen intelligens.</td>
+          </tr>
+          <tr>
+            <td><strong>Whisk / Samsung Food</strong></td>
+            <td>AI-genererade menyer, stor receptdatabas</td>
+            <td>Generisk, inte svensk kontext, ingen prisdata</td>
+          </tr>
+          <tr>
+            <td><strong>Tasteline / Köket.se</strong></td>
+            <td>Svenska recept, säsong</td>
+            <td>Receptsidor, inte planerare. Ingen familjelogik.</td>
+          </tr>
+          <tr>
+            <td><strong>Matspar / Matpriskollen</strong></td>
+            <td>Prisjakt mellan svenska kedjor</td>
+            <td>Prisverktyg, inte planerare. Ingen koppling till veckomeny.</td>
+          </tr>
+          <tr>
+            <td><strong>ICA / Coop-appar</strong></td>
+            <td>Egna recept, integrerade med butiken</td>
+            <td>Bunden till en kedja. Ingen jämförelse möjlig.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-note">
+        <strong>Din position:</strong> "En svensk familjeplanerare som tar hänsyn till olika ätare,
+        hälsobehov och pris över flera butiker — och faktiskt lär sig vad just min familj
+        gillar." Det finns ingen som täcker hela den kombinationen. Frågan är: är marknaden
+        stor nog? Sverige har ca 1 miljon barnfamiljer. Om 1% betalar 49 kr/mån = 490k SEK/mån.
+        Det är inget startup-bolag, men det är en helt rimlig bisyssla.
+      </div>
+    </section>
+
+    <section id="missat">
+      <h2><span class="num">12</span>Vad du inte nämnde — men borde tänka på</h2>
+      <p class="section-intro">
+        Saker som inte var med i din ursprungliga beskrivning men som kommer dyka upp.
+      </p>
+
+      <h3>Plattform och teknikval</h3>
+      <p>
+        iOS först, Android först, webb först, eller cross-platform (Flutter / React Native /
+        .NET MAUI)? Det här påverkar allt: utvecklingstid, vilka Alexa-integrationer som blir
+        lätta, hur kalendersync funkar, hur ofta du kan släppa uppdateringar.
+        Givet att du jobbar med .NET — <strong>.NET MAUI eller en webb-PWA</strong> är värda att
+        utvärdera. PWA är billigast att börja med och kräver ingen App Store.
+      </p>
+
+      <h3>Datamodell för "olika ätare i samma måltid"</h3>
+      <p>
+        Det här är subtilare än det låter. Är en vegansk middag och en köttmiddag samma kväll
+        <em>en</em> måltid med två varianter, eller två måltider? Svaret påverkar databasdesign,
+        inköpslistans aggregering, presentation i UI. Tänk igenom detta tidigt — det är värt
+        ett par timmars whiteboard-tid.
+      </p>
+
+      <h3>Onboarding</h3>
+      <p>
+        Första interaktionen är allt. Hur många frågor får du ställa innan användaren tappar
+        intresset? Forskningen säger 3–5. Hur väljer du dem? "Hur många i hushållet, äter alla
+        samma, hur många middagar/vecka, någon allergi/preferens, någon hälsofråga (valfritt)."
+      </p>
+
+      <h3>Affärsmodell</h3>
+      <p>
+        Gratis med annonser? Freemium (X recept gratis, sedan abonnemang)? Helt betald?
+        En engångsavgift? För en svensk familjeapp är 39–59 kr/mån eller 299 kr/år rimligt.
+        Men det förutsätter att MVP redan funkar bra nog att betala för. <strong>Ta inte betalt
+        på dag 1.</strong> Få 50 användare som faktiskt använder appen i 3 månader, sen prata pengar.
+      </p>
+
+      <h3>Mätbarhet — hur vet du att appen funkar?</h3>
+      <p>
+        Definiera nu, innan du börjar: vad är "framgång"? Förslag på nyckeltal:
+      </p>
+      <ul class="clean">
+        <li><strong>D7-retention:</strong> Hur många kommer tillbaka efter en vecka? (Mål: &gt; 40%)</li>
+        <li><strong>Plan-till-handling-ratio:</strong> Hur ofta leder en genererad meny till en faktisk inköpslista? (Mål: &gt; 70%)</li>
+        <li><strong>Veckor-i-rad:</strong> Hur många veckor i rad använder en aktiv användare appen? (Mål: median &gt; 3)</li>
+      </ul>
+
+      <h3>Namn</h3>
+      <p>
+        Produkten heter <strong>Matracet</strong> — som modul under paraplynamnet
+        <em>Life - as it should be</em>. Det är ett bra val: kort, svenskt, lätt att säga, leker
+        med "trace" (att spåra vad som ska handlas) och "race" (snabbt, effektivt). Tänk på
+        att kolla varumärkesregister hos PRV och domännamn (matracet.se, .com) innan du
+        går vidare. Sök också på App Store och Google Play så det inte redan finns en app
+        med samma namn.
+      </p>
+    </section>
+
+    <section id="nasta">
+      <h2><span class="num">13</span>Nästa steg</h2>
+      <p class="section-intro">
+        Personal MVP betyder att vi kan börja den här veckan. Här är en realistisk ordning.
+      </p>
+
+      <ul class="clean">
+        <li><strong>Steg 1 — Designprototyp.</strong> Claude bygger en statisk HTML-version av kylskåpsvyn med fejkdata. Du tittar, vi iterierar tills känslan stämmer. <em>Ingen kod ännu.</em></li>
+        <li><strong>Steg 2 — 10 familjefavoriter.</strong> Skriv ner de 10 middagar din familj faktiskt äter ofta. Lägg in dem som Markdown-filer. Det här är det som tar mest tid men ger mest värde.</li>
+        <li><strong>Steg 3 — Repot.</strong> Skapa GitHub-repot <code>matracet</code>, Vite + React + TypeScript, mappstrukturen ovan, två-tre exempelrecept incheckade.</li>
+        <li><strong>Steg 4 — Första kylskåpsvyn.</strong> Bygg <code>Fridge.tsx</code> med fejkdata. Få den att se ut som prototypen. Deploy till GitHub Pages.</li>
+        <li><strong>Steg 5 — Riktig data.</strong> Koppla in Markdown-läsaren. Lägg in en första veckomeny som JSON och låt den rendera.</li>
+        <li><strong>Steg 6 — Inköpslistan.</strong> Aggregera ingredienser från veckans recept. localStorage för avbockning. Test i en riktig matbutik.</li>
+        <li><strong>Steg 7 — Tre veckor.</strong> Använd appen i tre veckor på riktigt. Notera var det skaver. Det blir grunden för nästa iteration.</li>
+      </ul>
+
+      <div class="callout callout-mvp">
+        <strong>När det här är klart</strong> har du en app som faktiskt fungerar i ditt kök på söndagar.
+        Inga abonnemang, ingen backend, ingen marknadsstrategi — bara en sak som löser ett verkligt problem.
+        Allt annat (frukost, Alexa, prisjakt, kalender) byggs <em>när</em> behovet är konkret bevisat — inte innan.
+      </div>
+
+      <p>
+        Möjlig nästa konversation från där vi är nu: jag bygger designprototypen (steg 1), du tittar
+        i solen och säger om det känns rätt. Sen sätter vi upp repot tillsammans.
+      </p>
+    </section>
+
+    <div class="footer-note">
+      Utkast 1 · Genererad i samtal · Inget av detta är hugget i sten
+    </div>
+
+  </main>
+</div>
+
+<script>
+  function toggleFeature(header) {
+    const feature = header.parentElement;
+    feature.classList.toggle('open');
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const firstFeature = document.querySelector('.feature');
+    if (firstFeature) firstFeature.classList.add('open');
+  });
+
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('nav a[href^="#"]');
+
+  function updateActiveNav() {
+    let current = '';
+    const scrollY = window.scrollY + 120;
+    sections.forEach(section => {
+      if (section.offsetTop <= scrollY) {
+        current = section.id;
+      }
+    });
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) {
+        link.classList.add('active');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', updateActiveNav, { passive: true });
+  updateActiveNav();
+</script>
+
+</body>
+</html>
