@@ -1,0 +1,28 @@
+{
+  "eaters": [
+    {
+      "id": "daniel",
+      "namn": "Daniel",
+      "roll": "Pappa",
+      "halsa": ["lågt natrium", "högt blodtryck"],
+      "gillar": ["svamp", "fisk", "starka smaker"],
+      "undviker": []
+    },
+    {
+      "id": "sarah",
+      "namn": "Sarah",
+      "roll": "Dotter · år 9",
+      "kost": ["vegan"],
+      "gillar": ["pasta", "curry", "avokado"],
+      "undviker": ["svamp", "bittert"]
+    },
+    {
+      "id": "yngsta",
+      "namn": "Yngsta barnet",
+      "roll": "Barn · \"vanlig mat\"",
+      "kost": ["vanlig"],
+      "gillar": ["kött", "potatismos", "pasta"],
+      "undviker": ["bönor", "linser", "grön sallad"]
+    }
+  ]
+}
