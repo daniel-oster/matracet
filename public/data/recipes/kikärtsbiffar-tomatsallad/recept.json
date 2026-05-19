@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "slug": "kikärtsbiffar-tomatsallad",
+  "nummer": 12,
+  "namn": "Kikärtsbiffar med tomatsallad",
+  "tid_min": 25,
+  "portioner": 4,
+  "kategorier": ["vegansk"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["biffar", "kikärter", "billig", "snabb"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "kikärter", "mangd": 400, "enhet": "g" },
+    { "vara": "gul lök", "mangd": 1, "enhet": "st" },
+    { "vara": "vitlök", "mangd": 2, "enhet": "klyftor" },
+    { "vara": "salt och peppar", "mangd": 1, "enhet": "tsk" },
+    { "vara": "olivolja", "mangd": 2, "enhet": "msk" },
+    { "vara": "tomater", "mangd": 4, "enhet": "st", "grupp": "tomatsallad" },
+    { "vara": "rödlök", "mangd": 0.5, "enhet": "st", "grupp": "tomatsallad" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Skölj och låt kikärterna rinna av. Pressa dem med en gaffel eller i en matberedare tills grovt mosade. Blanda med riven lök, pressad vitlök, salt och peppar.",
+    "Forma ca 12 biffar. Hetta upp olja i en stekpanna.",
+    "Stek biffarna 3–4 min per sida tills de fått fin gyllenbrun färg.",
+    "Tärna tomater och skiva rödlök. Blanda med olivolja, salt och peppar till sallad.",
+    "Servera biffarna med tomatsalladen."
+  ],
+  "servering": ["tomatsallad", "pitabröd"],
+  "tips": null,
+  "komplett": true
+}

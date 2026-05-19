@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "slug": "rostad-pumpa-blomkål",
+  "nummer": 42,
+  "namn": "Rostad pumpa med blomkål och harissasalsa",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": ["vegansk"],
+  "sasong": ["host"],
+  "svarighet": "enkel",
+  "barnvanlig": "delvis",
+  "taggar": ["ugn", "pumpa", "blomkål", "harissa"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "butternutpumpa", "mangd": 1.2, "enhet": "kg" },
+    { "vara": "blomkål", "mangd": 800, "enhet": "g" },
+    { "vara": "neutral olja", "mangd": 2, "enhet": "msk" },
+    { "vara": "salt", "mangd": 1, "enhet": "tsk" },
+    { "vara": "olivolja", "mangd": 0.5, "enhet": "dl", "grupp": "harissasalsa" },
+    { "vara": "röd harissa", "mangd": 0.5, "enhet": "dl", "grupp": "harissasalsa" },
+    { "vara": "rödlök", "mangd": 1, "enhet": "st", "grupp": "harissasalsa" },
+    { "vara": "koriander", "mangd": 0.5, "enhet": "dl", "grupp": "harissasalsa" },
+    { "vara": "vitlök", "mangd": 1, "enhet": "klyfta", "grupp": "harissasalsa" },
+    { "vara": "couscous eller ris", "mangd": 3, "enhet": "dl", "grupp": "servering" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Sätt ugnen på 225°. Skala pumpa och dela blomkål i buketter. Lägg på plåt med olja och salt. Rosta ca 20 min.",
+    "Blanda olivolja, harissa, finhackad rödlök, koriander och vitlök till salsa.",
+    "Servera rostad pumpa och blomkål med couscous och harissasalsa. Toppa med koriander."
+  ],
+  "servering": ["couscous", "koriander"],
+  "tips": null,
+  "komplett": true
+}

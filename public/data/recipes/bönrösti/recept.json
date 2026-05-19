@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "slug": "bönrösti",
+  "nummer": 32,
+  "namn": "Bönrösti med ägg och sallad",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": ["vegetarisk"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["bönor", "rösti", "ägg", "snabb"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "vita bönor", "mangd": 400, "enhet": "g" },
+    { "vara": "potatis", "mangd": 300, "enhet": "g" },
+    { "vara": "ägg", "mangd": 4, "enhet": "st" },
+    { "vara": "gul lök", "mangd": 1, "enhet": "st" },
+    { "vara": "neutral olja", "mangd": 2, "enhet": "msk" },
+    { "vara": "salt och peppar", "mangd": 1, "enhet": "tsk" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Riv potatisen och pressa ur vätskan. Mosa bönorna grovt. Blanda med potatis, riven lök, salt och peppar.",
+    "Forma till plattor och stek i olja 3–4 min per sida.",
+    "Stek äggen. Servera röstisen med stekta ägg och sallad."
+  ],
+  "servering": ["stekta ägg", "sallad"],
+  "tips": null,
+  "komplett": false
+}

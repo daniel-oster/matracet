@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "slug": "linsgryta-kokos-lime",
+  "nummer": 11,
+  "namn": "Linsgryta med kokos och lime",
+  "tid_min": 25,
+  "portioner": 4,
+  "kategorier": ["vegansk"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["gryta", "linser", "kokos", "snabb", "billig"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "röda linser", "mangd": 2, "enhet": "dl" },
+    { "vara": "kokosmjölk", "mangd": 400, "enhet": "ml" },
+    { "vara": "krossade tomater", "mangd": 400, "enhet": "g" },
+    { "vara": "gul lök", "mangd": 1, "enhet": "st" },
+    { "vara": "vitlök", "mangd": 2, "enhet": "klyftor" },
+    { "vara": "ingefära", "mangd": 2, "enhet": "cm" },
+    { "vara": "garam masala", "mangd": 2, "enhet": "tsk" },
+    { "vara": "lime", "mangd": 1, "enhet": "st" },
+    { "vara": "neutral olja", "mangd": 1, "enhet": "msk" },
+    { "vara": "ris", "mangd": 3, "enhet": "dl", "grupp": "servering" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Fräs lök, vitlök och riven ingefära i olja tills mjukt. Tillsätt garam masala och rör om.",
+    "Häll i linser, krossade tomater och kokosmjölk. Koka upp och sjud ca 15 min tills linserna är mjuka.",
+    "Pressa i limejuice och smaka av med salt.",
+    "Servera med ris och gärna färsk koriander."
+  ],
+  "servering": ["ris", "koriander", "limeklyftor"],
+  "tips": null,
+  "komplett": true
+}

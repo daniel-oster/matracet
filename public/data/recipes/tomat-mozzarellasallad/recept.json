@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "slug": "tomat-mozzarellasallad",
+  "nummer": 18,
+  "namn": "Tomat- och mozzarellasallad med pesto",
+  "tid_min": 15,
+  "portioner": 4,
+  "kategorier": ["vegetarisk"],
+  "sasong": ["sommar"],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["sallad", "snabb", "sommar", "no-cook"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1608897013039-887f21d8c804?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "tomater", "mangd": 6, "enhet": "st" },
+    { "vara": "mozzarella", "mangd": 250, "enhet": "g" },
+    { "vara": "pesto", "mangd": 3, "enhet": "msk" },
+    { "vara": "olivolja", "mangd": 2, "enhet": "msk" },
+    { "vara": "färsk basilika", "mangd": 1, "enhet": "kruka" },
+    { "vara": "salt och peppar", "mangd": 1, "enhet": "tsk" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Skiva tomater och mozzarella. Lägg omväxlande på ett fat.",
+    "Ringla pesto och olivolja över. Toppa med basilikablad.",
+    "Salta och peppra. Servera direkt."
+  ],
+  "servering": ["ciabatta"],
+  "tips": null,
+  "komplett": true
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "slug": "bönpastasallad",
+  "nummer": 50,
+  "namn": "Bönpastasallad",
+  "tid_min": 25,
+  "portioner": 4,
+  "kategorier": ["vegansk"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["pasta", "sallad", "bönor", "dagkedja", "matlåda"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": "C",
+  "bildUrl": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "pasta", "mangd": 400, "enhet": "g" },
+    { "vara": "blandade bönor", "mangd": 400, "enhet": "g" },
+    { "vara": "körsbärstomater", "mangd": 200, "enhet": "g" },
+    { "vara": "gurka", "mangd": 1, "enhet": "st" },
+    { "vara": "rödlök", "mangd": 0.5, "enhet": "st" },
+    { "vara": "olivolja", "mangd": 3, "enhet": "msk", "grupp": "dressing" },
+    { "vara": "rödvinsvinäger", "mangd": 2, "enhet": "msk", "grupp": "dressing" },
+    { "vara": "salt och peppar", "mangd": 1, "enhet": "tsk", "grupp": "dressing" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Koka pasta och kyl lätt. Skölj bönorna.",
+    "Halvera körsbärstomater, tärna gurka, skiva rödlöken.",
+    "Blanda pasta, bönor och grönsaker. Blanda dressing och häll över.",
+    "Servera ljummen eller kall.",
+    "💾 Spara extra bönor och pasta till tomatsoppa dag 2 (recept 51)."
+  ],
+  "servering": ["olivolja", "rödvinsvinäger"],
+  "tips": "Gör extra — resterna värms upp som tomatsoppa dagen efter.",
+  "komplett": true
+}

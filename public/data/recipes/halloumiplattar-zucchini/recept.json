@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "slug": "halloumiplattar-zucchini",
+  "nummer": 21,
+  "namn": "Halloumiplattar med stekt zucchini",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": ["vegetarisk"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["pannkaka", "halloumi", "zucchini"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1541614101331-1a5a3a194e92?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "vetemjöl", "mangd": 3, "enhet": "dl" },
+    { "vara": "salt", "mangd": 0.5, "enhet": "tsk" },
+    { "vara": "mjölk", "mangd": 6, "enhet": "dl" },
+    { "vara": "ägg", "mangd": 3, "enhet": "st" },
+    { "vara": "halloumi", "mangd": 200, "enhet": "g" },
+    { "vara": "citron", "mangd": 1, "enhet": "st" },
+    { "vara": "neutral olja", "mangd": 1, "enhet": "msk" },
+    { "vara": "smör", "mangd": 2, "enhet": "msk" },
+    { "vara": "zucchini", "mangd": 1, "enhet": "st", "grupp": "servering" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Mät upp vetemjöl och salt i en bunke. Tillsätt hälften av mjölken och vispa till klumpfri smet. Tillsätt resten av mjölken, ägg, grovriven halloumi och finrivet citronskal.",
+    "Hetta upp olja i en plättlagg eller stekpanna och lägg i en klick smör. Stek plättarna på båda sidor tills gyllenbrun stekyta.",
+    "Tärna zucchinin och stek i olja ett par minuter. Salta och peppra.",
+    "Servera plattarna med den stekta zucchinin."
+  ],
+  "servering": ["stekt zucchini"],
+  "tips": null,
+  "komplett": true
+}

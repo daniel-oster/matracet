@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "slug": "kokosplattar-morot",
+  "nummer": 37,
+  "namn": "Kokosplattar med morot och ingefära",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": ["vegetarisk"],
+  "sasong": ["host", "vinter"],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["pannkaka", "kokos", "morot", "ingefära"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "röd- eller gulbetor", "mangd": 500, "enhet": "g" },
+    { "vara": "kokosmjölk", "mangd": 400, "enhet": "ml" },
+    { "vara": "ägg", "mangd": 2, "enhet": "st" },
+    { "vara": "grahamsmjöl", "mangd": 2.5, "enhet": "dl" },
+    { "vara": "kanel", "mangd": 1, "enhet": "tsk" },
+    { "vara": "malen ingefära", "mangd": 2, "enhet": "tsk" },
+    { "vara": "salt", "mangd": 1, "enhet": "tsk" },
+    { "vara": "potatis", "mangd": 200, "enhet": "g" },
+    { "vara": "apelsin", "mangd": 1, "enhet": "st" },
+    { "vara": "rostade pumpafrön", "mangd": 1, "enhet": "dl", "grupp": "servering" },
+    { "vara": "yoghurt", "mangd": 1, "enhet": "dl", "grupp": "servering" },
+    { "vara": "honung eller lönnsirap", "mangd": 2, "enhet": "msk", "grupp": "servering" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Koka betorna mjuka i saltat vatten. Gnid bort skalet och skär i klyftor.",
+    "Vispa ihop kokosmjölk, ägg, mjöl, kryddor och salt. Vänd ner finriven potatis, apelsinskal och apelsinsaft.",
+    "Stek små plattar i smör tills gyllene på båda sidor.",
+    "Servera med betor, yoghurt, pumpafrön och honung."
+  ],
+  "servering": ["kokta betor", "yoghurt", "pumpafrön", "honung eller lönnsirap"],
+  "tips": null,
+  "komplett": true
+}

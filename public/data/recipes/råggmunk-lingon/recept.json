@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "slug": "råggmunk-lingon",
+  "nummer": 5,
+  "namn": "Råggmunk med lingon",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": ["vegetarisk"],
+  "sasong": ["host", "vinter"],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["pannkaka", "rotfrukter", "klassiker", "billig"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "rotselleri", "mangd": 300, "enhet": "g" },
+    { "vara": "palsternacka", "mangd": 150, "enhet": "g" },
+    { "vara": "ägg", "mangd": 3, "enhet": "st" },
+    { "vara": "vetemjöl", "mangd": 1, "enhet": "dl" },
+    { "vara": "salt", "mangd": 1, "enhet": "tsk" },
+    { "vara": "mjölk", "mangd": 2.5, "enhet": "dl" },
+    { "vara": "neutral olja", "mangd": 1, "enhet": "msk" },
+    { "vara": "smör", "mangd": 3, "enhet": "msk" },
+    { "vara": "rårörda lingon", "mangd": 1, "enhet": "dl", "grupp": "servering" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Skala och riv rotselleri och palsternacka grovt.",
+    "Vispa ihop ägg, mjöl och salt. Tillsätt mjölken och vispa till en klumpfri smet. Rör om och tillsätt de rivna rotfrukterna.",
+    "Hetta upp olja i en stekpanna och lägg i en klick smör. Sleva upp ca 1 dl smet och platta till med stekspaden. Stek ca 2 min per sida tills gyllenbrun. Lägg på plåt och håll dem varma i ugnen.",
+    "Servera med rårörda lingon."
+  ],
+  "servering": ["rårörda lingon"],
+  "tips": "Blanda lingonen med tärnat eller rivet äpple!",
+  "komplett": true
+}

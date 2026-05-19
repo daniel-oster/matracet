@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "slug": "falafel",
+  "nummer": 31,
+  "namn": "Falafel med yoghurtsås",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": ["vegansk"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["kikärter", "streetfood", "billig"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1615361200141-f45040f367be?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "kikärter", "mangd": 400, "enhet": "g" },
+    { "vara": "gul lök", "mangd": 1, "enhet": "st" },
+    { "vara": "vitlök", "mangd": 2, "enhet": "klyftor" },
+    { "vara": "persilja", "mangd": 1, "enhet": "kruka" },
+    { "vara": "spiskummin", "mangd": 1, "enhet": "tsk" },
+    { "vara": "koriander", "mangd": 1, "enhet": "tsk" },
+    { "vara": "salt", "mangd": 1, "enhet": "tsk" },
+    { "vara": "neutral olja", "mangd": 3, "enhet": "msk" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Mixa kikärter, lök, vitlök, persilja och kryddor i matberedare till en grov massa.",
+    "Forma till bollar och stek i olja 3–4 min per sida tills gyllene och knapriga.",
+    "Servera i pitabröd med yoghurtsås, sallad och tomat."
+  ],
+  "servering": ["pitabröd", "yoghurtsås", "sallad", "tomat"],
+  "tips": null,
+  "komplett": false
+}

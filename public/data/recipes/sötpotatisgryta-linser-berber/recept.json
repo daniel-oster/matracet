@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "slug": "sötpotatisgryta-linser-berber",
+  "nummer": 41,
+  "namn": "Sötpotatisgryta med linser och berberkryddor",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": ["vegansk"],
+  "sasong": ["host", "vinter"],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["gryta", "sötpotatis", "linser", "afrikansk"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "gul lök", "mangd": 1, "enhet": "st" },
+    { "vara": "neutral olja", "mangd": 3, "enhet": "msk" },
+    { "vara": "berberkryddor", "mangd": 2, "enhet": "msk" },
+    { "vara": "sötpotatis", "mangd": 350, "enhet": "g" },
+    { "vara": "vatten", "mangd": 4, "enhet": "dl" },
+    { "vara": "gröna linser", "mangd": 2, "enhet": "dl" },
+    { "vara": "kokosmjölk", "mangd": 400, "enhet": "ml" },
+    { "vara": "salt", "mangd": 1, "enhet": "tsk" },
+    { "vara": "lime", "mangd": 1, "enhet": "st" },
+    { "vara": "ris", "mangd": 3, "enhet": "dl", "grupp": "servering" },
+    { "vara": "persilja", "mangd": 1, "enhet": "dl", "grupp": "servering" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Stek lök i olja tills gyllenbrun. Tillsätt berberkryddor och tärnad sötpotatis. Rör om.",
+    "Häll i kokosmjölk, vatten, linser och salt. Koka tills linser och sötpotatis är mjuka, ca 15 min.",
+    "Rör ner persiljan och pressa i limesaft.",
+    "Servera med ris."
+  ],
+  "servering": ["ris", "persilja"],
+  "tips": null,
+  "komplett": true
+}

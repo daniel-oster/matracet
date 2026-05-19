@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "slug": "indisk-spenatgryta",
+  "nummer": 35,
+  "namn": "Indisk spenatgryta",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": ["vegansk"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "delvis",
+  "taggar": ["gryta", "indisk", "spenat", "kikärter"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "fryst tinad spenat", "mangd": 400, "enhet": "g" },
+    { "vara": "gul lök", "mangd": 1, "enhet": "st" },
+    { "vara": "vitlök", "mangd": 2, "enhet": "klyftor" },
+    { "vara": "garam masala", "mangd": 1, "enhet": "tsk" },
+    { "vara": "spiskummin", "mangd": 1, "enhet": "tsk" },
+    { "vara": "krossade tomater", "mangd": 400, "enhet": "g" },
+    { "vara": "kikärter", "mangd": 2, "enhet": "dl" },
+    { "vara": "grönsaksbuljong", "mangd": 1, "enhet": "tärning" },
+    { "vara": "vatten", "mangd": 1.5, "enhet": "dl" },
+    { "vara": "ägg", "mangd": 4, "enhet": "st" },
+    { "vara": "salt och peppar", "mangd": 1, "enhet": "tsk" },
+    { "vara": "ris", "mangd": 3, "enhet": "dl", "grupp": "servering" },
+    { "vara": "persilja eller koriander", "mangd": 1, "enhet": "dl", "grupp": "servering" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Låt spenaten rinna av. Fräs lök, vitlök, spiskummin och garam masala tills löken är mjuk.",
+    "Tillsätt spenaten och stek en minut. Häll i tomater, kikärter, vatten och smulad buljong. Sjud ca 10 min. Smaka av.",
+    "Knäck försiktigt i äggen i grytan. Sjud under lock tills vitan stelnat men gulan är rinnig, ca 8 min.",
+    "Strö över persilja och servera med ris."
+  ],
+  "servering": ["ris", "koriander eller persilja", "limeklyftor"],
+  "tips": null,
+  "komplett": true
+}

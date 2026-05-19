@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "slug": "bönbullar-potatismos",
+  "nummer": 22,
+  "namn": "Bönbullar med potatismos och lingon",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": ["vegansk"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["bönbullar", "klassiker", "comfort-food", "billig"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1544025162-d76538950491?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "vita bönor", "mangd": 400, "enhet": "g" },
+    { "vara": "gul lök", "mangd": 1, "enhet": "st" },
+    { "vara": "spiskummin", "mangd": 1, "enhet": "tsk" },
+    { "vara": "paprikapulver", "mangd": 1, "enhet": "tsk" },
+    { "vara": "salt", "mangd": 1, "enhet": "tsk" },
+    { "vara": "havregryn", "mangd": 1, "enhet": "dl" },
+    { "vara": "neutral olja", "mangd": 2, "enhet": "msk" },
+    { "vara": "potatis", "mangd": 600, "enhet": "g", "grupp": "servering" },
+    { "vara": "smör", "mangd": 2, "enhet": "msk", "grupp": "servering" },
+    { "vara": "havremjölk", "mangd": 1, "enhet": "dl", "grupp": "servering" },
+    { "vara": "lingon", "mangd": 1, "enhet": "dl", "grupp": "servering" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Skölj och mosa bönorna. Blanda med riven lök, kryddor, havregryn och salt. Forma ca 20 bollar.",
+    "Stek bollarna i olja på medelvärme tills gyllene, ca 4 min per sida.",
+    "Koka och mosa potatisen med smör och havremjölk.",
+    "Servera bönbullarna med potatismos och lingon."
+  ],
+  "servering": ["potatismos", "lingon"],
+  "tips": null,
+  "komplett": true
+}

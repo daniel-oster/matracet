@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "slug": "rotfruktssoppa",
+  "nummer": 53,
+  "namn": "Rotfruktssoppa",
+  "tid_min": 15,
+  "portioner": 2,
+  "kategorier": ["vegetarisk"],
+  "sasong": ["host", "vinter"],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["soppa", "snabb", "dagkedja", "rotfrukter"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": "D",
+  "bildUrl": "https://images.unsplash.com/photo-1547592180-85f173990554?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "rotfruktspytt (från dag 1)", "mangd": 3, "enhet": "dl" },
+    { "vara": "vatten", "mangd": 5, "enhet": "dl" },
+    { "vara": "vitt vin", "mangd": 1, "enhet": "dl" },
+    { "vara": "grönsaksbuljong", "mangd": 0.5, "enhet": "tärning" },
+    { "vara": "chèvrekräm", "mangd": 3, "enhet": "msk" },
+    { "vara": "bröd", "mangd": 2, "enhet": "skivor", "grupp": "krutonger" },
+    { "vara": "olivolja", "mangd": 1, "enhet": "tsk", "grupp": "krutonger" }
+  ],
+  "varianter": {
+    "vegansk": {
+      "byt": {
+        "chèvrekräm": "havregrädde"
+      }
+    }
+  },
+  "instruktioner": [
+    "Koka rotfruktspytten med vatten, vitt vin och buljong ca 5 min.",
+    "Tillsätt chèvrekrämen och mixa slät med stavmixer.",
+    "Tärna brödet och rosta på plåt med olivolja och salt, 5 min i 225° ugnen.",
+    "Servera soppan med krutongerna."
+  ],
+  "servering": ["krutonger"],
+  "tips": "Dag 2 i kedja D — använder överblivna rotfruktspytt. Klar på 15 min!",
+  "komplett": true
+}

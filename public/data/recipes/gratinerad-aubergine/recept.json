@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "slug": "gratinerad-aubergine",
+  "nummer": 7,
+  "namn": "Gratinerad aubergine med tomatsås",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": ["vegetarisk"],
+  "sasong": ["sommar", "host"],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["ugn", "aubergine", "gratin"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1574484284002-952d92456975?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "aubergine", "mangd": 2, "enhet": "st" },
+    { "vara": "krossade tomater", "mangd": 400, "enhet": "g" },
+    { "vara": "vitlök", "mangd": 2, "enhet": "klyftor" },
+    { "vara": "olivolja", "mangd": 2, "enhet": "msk" },
+    { "vara": "mozzarella", "mangd": 250, "enhet": "g" },
+    { "vara": "salt och peppar", "mangd": 1, "enhet": "tsk" },
+    { "vara": "färsk basilika", "mangd": 1, "enhet": "kruka" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Sätt ugnen på 200°. Skär auberginen i skivor, pensla med olivolja, salta och lägg på en plåt. Rosta 15 min.",
+    "Gör en enkel tomatsås av krossade tomater, vitlök och olivolja. Krydda med salt och peppar.",
+    "Varva aubergine och tomatsås i en ugnsfast form. Toppa med skivad mozzarella.",
+    "Gratinera högt upp i ugnen ca 10 min tills osten är gyllenbrun och bubblig.",
+    "Toppa med färsk basilika och servera."
+  ],
+  "servering": ["färsk basilika", "bröd"],
+  "tips": null,
+  "komplett": true
+}

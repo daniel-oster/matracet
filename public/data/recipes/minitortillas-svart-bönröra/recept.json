@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "slug": "minitortillas-svart-bönröra",
+  "nummer": 44,
+  "namn": "Minitortillas med svart bönröra",
+  "tid_min": 20,
+  "portioner": 4,
+  "kategorier": ["vegansk"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["tacos", "bönor", "snabb", "streetfood"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "svarta bönor", "mangd": 800, "enhet": "g" },
+    { "vara": "neutral olja", "mangd": 2, "enhet": "msk" },
+    { "vara": "gul lök", "mangd": 1, "enhet": "st" },
+    { "vara": "vitlök", "mangd": 1, "enhet": "klyfta" },
+    { "vara": "spiskummin", "mangd": 2, "enhet": "tsk" },
+    { "vara": "malen koriander", "mangd": 2, "enhet": "tsk" },
+    { "vara": "salt", "mangd": 1, "enhet": "tsk" },
+    { "vara": "avokado", "mangd": 2, "enhet": "st", "grupp": "salsa" },
+    { "vara": "tomater", "mangd": 2, "enhet": "st", "grupp": "salsa" },
+    { "vara": "koriander", "mangd": 0.5, "enhet": "kruka", "grupp": "salsa" },
+    { "vara": "lime", "mangd": 1, "enhet": "st", "grupp": "salsa" },
+    { "vara": "tortillabröd", "mangd": 8, "enhet": "st", "grupp": "servering" },
+    { "vara": "picklad rödlök", "mangd": 1, "enhet": "portion", "grupp": "servering" },
+    { "vara": "gräddfil", "mangd": 1, "enhet": "dl", "grupp": "servering" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Stek lök, vitlök och kryddor i olja. Tillsätt sköljda bönor och salt. Mosa delvis med en slev.",
+    "Blanda tärnad avokado, tärnade tomater, hackad koriander och limesaft till salsa.",
+    "Värm tortillabröden. Fyll med varma bönor, salsa, picklad lök och gräddfil."
+  ],
+  "servering": ["tortillabröd", "picklad rödlök", "gräddfil"],
+  "tips": null,
+  "komplett": true
+}

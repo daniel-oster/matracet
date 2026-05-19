@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "slug": "böngryta-spenat",
+  "nummer": 33,
+  "namn": "Böngryta med spenat",
+  "tid_min": 20,
+  "portioner": 4,
+  "kategorier": ["vegansk"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["gryta", "bönor", "spenat", "snabb", "billig"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1547592180-85f173990554?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "gul lök", "mangd": 1, "enhet": "st" },
+    { "vara": "vitlök", "mangd": 2, "enhet": "klyftor" },
+    { "vara": "curry", "mangd": 1, "enhet": "tsk" },
+    { "vara": "gurkmeja", "mangd": 0.5, "enhet": "tsk" },
+    { "vara": "kajennpeppar", "mangd": 2, "enhet": "krm" },
+    { "vara": "olivolja", "mangd": 1, "enhet": "msk" },
+    { "vara": "vatten", "mangd": 10, "enhet": "dl" },
+    { "vara": "potatis", "mangd": 300, "enhet": "g" },
+    { "vara": "grönsaksbuljong", "mangd": 2, "enhet": "tärningar" },
+    { "vara": "blandade bönor", "mangd": 400, "enhet": "g" },
+    { "vara": "färsk spenat", "mangd": 70, "enhet": "g" },
+    { "vara": "salt", "mangd": 1, "enhet": "tsk" },
+    { "vara": "bröd", "mangd": 4, "enhet": "skivor", "grupp": "servering" },
+    { "vara": "majonnäs", "mangd": 1, "enhet": "dl", "grupp": "servering" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Stek lök, vitlök, curry, gurkmeja och kajennpeppar i olivoljan tills löken mjuknat.",
+    "Häll i vatten och lägg i tärnad potatis och buljongtärningar. Koka tills potatisen är mjuk, ca 15 min.",
+    "Skölj bönorna och vänd ner dem tillsammans med spenaten. Smaka av med salt.",
+    "Servera med bröd och en klick majonnäs."
+  ],
+  "servering": ["bröd", "majonnäs"],
+  "tips": null,
+  "komplett": true
+}

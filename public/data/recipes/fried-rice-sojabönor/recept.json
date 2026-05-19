@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "slug": "fried-rice-sojabönor",
+  "nummer": 20,
+  "namn": "Fried Rice med sojabönor och cashewnötter",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": ["vegansk"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "delvis",
+  "taggar": ["ris", "wok", "asiatisk", "snabb"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "jasminris", "mangd": 3, "enhet": "dl" },
+    { "vara": "neutral olja", "mangd": 2, "enhet": "dl" },
+    { "vara": "cashewnötter", "mangd": 200, "enhet": "g" },
+    { "vara": "salladslök", "mangd": 5, "enhet": "st" },
+    { "vara": "böngröddar", "mangd": 3, "enhet": "dl" },
+    { "vara": "edamamebönor", "mangd": 3, "enhet": "dl" },
+    { "vara": "vitlök", "mangd": 4, "enhet": "klyftor" },
+    { "vara": "röd chili", "mangd": 1, "enhet": "st" },
+    { "vara": "färsk ingefära", "mangd": 2, "enhet": "msk" },
+    { "vara": "salt", "mangd": 0.25, "enhet": "tsk" },
+    { "vara": "sesamolja", "mangd": 2, "enhet": "tsk" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Koka riset enligt anvisningen på förpackningen. Låt svalna.",
+    "Rosta cashewnötterna i en het, torr wokpanna tills de fått färg. Lägg åt sidan.",
+    "Hetta upp hälften av oljan. Woka salladslök, böngröddar och edamamebönor på hög värme 3–4 min. Tillsätt vitlök, chili, ingefära och salt. Woka ytterligare en minut. Lägg åt sidan.",
+    "Hetta upp resten av oljan och stek riset under omrörning 3–4 min. Tillsätt grönsaker och nötter. Ringla sesamoljan över och stek ytterligare en minut."
+  ],
+  "servering": ["sojasås"],
+  "tips": null,
+  "komplett": true
+}

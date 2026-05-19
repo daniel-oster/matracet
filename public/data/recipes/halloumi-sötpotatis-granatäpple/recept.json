@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "slug": "halloumi-sötpotatis-granatäpple",
+  "nummer": 27,
+  "namn": "Halloumi med ugnsrostad sötpotatis och granatäppelsalsa",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": ["vegetarisk"],
+  "sasong": ["host", "vinter"],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["halloumi", "sötpotatis", "granatäpple", "ugn"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1541014741259-de529411b96a?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "sötpotatis", "mangd": 400, "enhet": "g" },
+    { "vara": "neutral olja", "mangd": 2, "enhet": "msk" },
+    { "vara": "salt", "mangd": 0.5, "enhet": "tsk" },
+    { "vara": "kajennpeppar", "mangd": 0.5, "enhet": "tsk" },
+    { "vara": "halloumi", "mangd": 250, "enhet": "g" },
+    { "vara": "ägg", "mangd": 1, "enhet": "st" },
+    { "vara": "kokosflingor", "mangd": 1, "enhet": "dl" },
+    { "vara": "granatäpple", "mangd": 0.5, "enhet": "st" },
+    { "vara": "koriander", "mangd": 0.5, "enhet": "kruka", "grupp": "salsa" },
+    { "vara": "salladslök", "mangd": 2, "enhet": "st", "grupp": "salsa" },
+    { "vara": "lime", "mangd": 1, "enhet": "st", "grupp": "salsa" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Sätt ugnen på 225°. Skala och tärna sötpotatisen. Blanda med olja, salt och kajennpeppar på en plåt. Rosta ca 20 min.",
+    "Blanda granatäppelkärnor med hackad koriander, skivad salladslök, limeskal och limesaft till salsa.",
+    "Skär halloumin i skivor. Vispa upp ägget. Doppa skivorna i ägg och sedan i kokosflingor.",
+    "Stek halloumin i olja tills gyllene på båda sidor.",
+    "Servera med rostad sötpotatis och granatäppelsalsa."
+  ],
+  "servering": ["granatäppelsalsa", "rostad sötpotatis"],
+  "tips": null,
+  "komplett": true
+}

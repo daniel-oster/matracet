@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "slug": "lasagne-soltorkade-tomater",
+  "nummer": 6,
+  "namn": "Lasagne med soltorkade tomater",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": ["vegetarisk"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["pasta", "ugn", "comfort-food", "matlåda"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1551183053-bf91798d576d?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "gul lök", "mangd": 1, "enhet": "st" },
+    { "vara": "vitlök", "mangd": 2, "enhet": "klyftor" },
+    { "vara": "olivolja", "mangd": 1, "enhet": "msk" },
+    { "vara": "salt", "mangd": 0.5, "enhet": "tsk" },
+    { "vara": "krossade tomater", "mangd": 285, "enhet": "g" },
+    { "vara": "soltorkade tomater", "mangd": 140, "enhet": "g" },
+    { "vara": "crème fraîche", "mangd": 3, "enhet": "dl" },
+    { "vara": "färska lasagneplattor", "mangd": 250, "enhet": "g" },
+    { "vara": "vatten", "mangd": 2, "enhet": "dl" },
+    { "vara": "spenat", "mangd": 70, "enhet": "g" },
+    { "vara": "körsbärstomater", "mangd": 250, "enhet": "g" },
+    { "vara": "chèvre", "mangd": 50, "enhet": "g", "grupp": "servering" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Sätt ugnen på 225°. Hacka löken och fräs mjuk i oljan. Tillsätt vitlök och stek ytterligare en minut.",
+    "Häll bort oljan från de soltorkade tomaterna och finhacka dem. Rör ihop krossade tomater, soltorkade tomater, crème fraîche och vatten.",
+    "Varva lasagneplattor med spenat och tomatsås i en ugnsform. Avsluta med tomatsås och körsbärstomater på toppen.",
+    "Grädda mitt i ugnen ca 20 min tills lasagnen är bubblig och fått lite färg.",
+    "Servera med sallad och ev smulad chèvre."
+  ],
+  "servering": ["sallad", "smulad chèvre"],
+  "tips": "Ogilllar du rucola? Byt mot spenat — det funkar lika bra.",
+  "komplett": true
+}

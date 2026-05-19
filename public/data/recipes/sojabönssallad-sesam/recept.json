@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "slug": "sojabönssallad-sesam",
+  "nummer": 26,
+  "namn": "Sojabönssallad med sesamdressing",
+  "tid_min": 20,
+  "portioner": 4,
+  "kategorier": ["vegansk"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "delvis",
+  "taggar": ["sallad", "asiatisk", "snabb", "no-cook"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "edamamebönor", "mangd": 400, "enhet": "g" },
+    { "vara": "gurka", "mangd": 1, "enhet": "st" },
+    { "vara": "rödlök", "mangd": 0.5, "enhet": "st" },
+    { "vara": "sesamolja", "mangd": 2, "enhet": "msk", "grupp": "dressing" },
+    { "vara": "sojasås", "mangd": 2, "enhet": "msk", "grupp": "dressing" },
+    { "vara": "risvinäger", "mangd": 1, "enhet": "msk", "grupp": "dressing" },
+    { "vara": "socker", "mangd": 1, "enhet": "tsk", "grupp": "dressing" },
+    { "vara": "sesamfrön", "mangd": 2, "enhet": "msk" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Tina edamamebönorna. Skär gurkan i halvmånar och skiva rödlöken tunt.",
+    "Blanda sesamolja, sojasås, risvinäger och socker till dressing.",
+    "Blanda bönor, gurka och lök. Häll dressingen över och toppa med sesamfrön."
+  ],
+  "servering": ["sesamfrön", "koriander"],
+  "tips": null,
+  "komplett": true
+}

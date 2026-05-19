@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "slug": "svarta-bönbiffar-tomatsalsa",
+  "nummer": 46,
+  "namn": "Svarta bönbiffar med tomatsalsa",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": ["vegansk"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["biffar", "svarta bönor", "dagkedja"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": "A",
+  "bildUrl": "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "svarta bönor", "mangd": 800, "enhet": "g" },
+    { "vara": "gul lök", "mangd": 1, "enhet": "st" },
+    { "vara": "vitlök", "mangd": 2, "enhet": "klyftor" },
+    { "vara": "spiskummin", "mangd": 1, "enhet": "tsk" },
+    { "vara": "paprikapulver", "mangd": 1, "enhet": "tsk" },
+    { "vara": "havregryn", "mangd": 1, "enhet": "dl" },
+    { "vara": "salt", "mangd": 1, "enhet": "tsk" },
+    { "vara": "neutral olja", "mangd": 2, "enhet": "msk" },
+    { "vara": "tomater", "mangd": 4, "enhet": "st", "grupp": "salsa" },
+    { "vara": "rödlök", "mangd": 0.5, "enhet": "st", "grupp": "salsa" },
+    { "vara": "koriander", "mangd": 0.5, "enhet": "kruka", "grupp": "salsa" },
+    { "vara": "lime", "mangd": 1, "enhet": "st", "grupp": "salsa" },
+    { "vara": "ris", "mangd": 3, "enhet": "dl", "grupp": "servering" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Skölj och mosa bönorna grovt. Blanda med riven lök, pressad vitlök, kryddor, havregryn och salt.",
+    "Forma ca 12 biffar. Stek i olja 3–4 min per sida.",
+    "Blanda tärnade tomater, rödlök, koriander och limesaft till salsa.",
+    "Servera biffarna med tomatsalsa och ris.",
+    "💾 Spara 4 överblivna biffar till dag 2 (recept 47)."
+  ],
+  "servering": ["tomatsalsa", "ris"],
+  "tips": "Gör dubbel sats — överblivna biffar smulas ner i tomatsås till spaghetti dagen efter!",
+  "komplett": true
+}

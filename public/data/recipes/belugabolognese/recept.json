@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "slug": "belugabolognese",
+  "nummer": 48,
+  "namn": "Belugabolognese",
+  "tid_min": 35,
+  "portioner": 4,
+  "kategorier": ["vegansk"],
+  "sasong": ["host", "vinter"],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["pasta", "linser", "bolognese", "dagkedja", "comfort-food"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": "B",
+  "bildUrl": "https://images.unsplash.com/photo-1551892374-ecf8754cf8b0?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "belugalinser", "mangd": 3, "enhet": "dl" },
+    { "vara": "morötter", "mangd": 2, "enhet": "st" },
+    { "vara": "gul lök", "mangd": 1, "enhet": "st" },
+    { "vara": "vitlök", "mangd": 3, "enhet": "klyftor" },
+    { "vara": "krossade tomater", "mangd": 800, "enhet": "g" },
+    { "vara": "tomatpuré", "mangd": 2, "enhet": "msk" },
+    { "vara": "timjan", "mangd": 2, "enhet": "tsk" },
+    { "vara": "oregano", "mangd": 1, "enhet": "tsk" },
+    { "vara": "olivolja", "mangd": 2, "enhet": "msk" },
+    { "vara": "grönsaksbuljong", "mangd": 2, "enhet": "dl" },
+    { "vara": "salt och peppar", "mangd": 1, "enhet": "tsk" },
+    { "vara": "pasta", "mangd": 400, "enhet": "g", "grupp": "servering" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Finhacka lök och vitlök. Riv morötterna grovt. Stek i olivolja tills mjukt.",
+    "Tillsätt tomatpuré och rör om. Häll i krossade tomater, buljong, belugalinser och kryddor.",
+    "Koka upp och sjud ca 20 min tills linserna är mjuka. Smaka av.",
+    "Koka pasta och servera med bolognesen.",
+    "💾 Gör dubbel sats — resten används till cannelloni dag 2 (recept 49)."
+  ],
+  "servering": ["pasta", "riven parmesan"],
+  "tips": "Gör dubbel sats! Belugalinser ger bolognesen ett köttigare tugg än röda linser.",
+  "komplett": true
+}
