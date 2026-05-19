@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "slug": "morotssoppa-kokos",
+  "nummer": 24,
+  "namn": "Morotssoppa med ingefära och kokosmjölk",
+  "tid_min": 25,
+  "portioner": 4,
+  "kategorier": ["vegansk"],
+  "sasong": ["host", "vinter"],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["soppa", "morot", "kokos", "billig"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1547592180-85f173990554?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "morötter", "mangd": 600, "enhet": "g" },
+    { "vara": "kokosmjölk", "mangd": 400, "enhet": "ml" },
+    { "vara": "gul lök", "mangd": 1, "enhet": "st" },
+    { "vara": "ingefära", "mangd": 3, "enhet": "cm" },
+    { "vara": "vitlök", "mangd": 2, "enhet": "klyftor" },
+    { "vara": "grönsaksbuljong", "mangd": 6, "enhet": "dl" },
+    { "vara": "neutral olja", "mangd": 1, "enhet": "msk" },
+    { "vara": "lime", "mangd": 1, "enhet": "st" },
+    { "vara": "salt", "mangd": 1, "enhet": "tsk" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Skala och skär morötterna i bitar. Fräs lök, vitlök och riven ingefära i olja.",
+    "Tillsätt morötter och buljong. Koka 15 min tills mjuka.",
+    "Tillsätt kokosmjölk och mixa slät med stavmixer. Pressa i lime. Smaka av."
+  ],
+  "servering": ["koriander", "limeklyftor", "bröd"],
+  "tips": null,
+  "komplett": true
+}

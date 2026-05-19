@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "slug": "tofu-stroganoff",
+  "nummer": 3,
+  "namn": "Tofu Stroganoff",
+  "tid_min": 20,
+  "portioner": 4,
+  "kategorier": ["vegetarisk"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["pasta", "tofu", "snabb", "comfort-food"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "rökt tofu", "mangd": 400, "enhet": "g" },
+    { "vara": "gul lök", "mangd": 1, "enhet": "st" },
+    { "vara": "vitlök", "mangd": 2, "enhet": "klyftor" },
+    { "vara": "tomatpuré", "mangd": 2, "enhet": "msk" },
+    { "vara": "smör", "mangd": 1, "enhet": "msk" },
+    { "vara": "krossade tomater", "mangd": 400, "enhet": "g" },
+    { "vara": "soltorkade tomater", "mangd": 50, "enhet": "g" },
+    { "vara": "grädde", "mangd": 2, "enhet": "dl" },
+    { "vara": "ris eller bulgur", "mangd": 3, "enhet": "dl", "grupp": "servering" },
+    { "vara": "grön sallad", "mangd": 1, "enhet": "portion", "grupp": "servering" }
+  ],
+  "varianter": {
+    "vegansk": {
+      "byt": {
+        "smör": "olivolja",
+        "grädde": "havregrädde"
+      }
+    }
+  },
+  "instruktioner": [
+    "Tärna tofun i kuber. Hacka löken och skiva vitlöken fint.",
+    "Hetta upp smör (eller olja) i en stekpanna. Fräs lök och vitlök tills löken är mjuk.",
+    "Tillsätt tomatpuré och rör om. Häll i krossade tomater och hackade soltorkade tomater.",
+    "Vänd ner tofukuberna. Häll i grädden och låt sjuda på svag värme ca 10 min. Smaka av med salt och peppar.",
+    "Servera med ris eller bulgur och en grön sallad."
+  ],
+  "servering": ["ris", "bulgur", "grön sallad"],
+  "tips": "Byt smör mot olja och grädde mot havregrädde för en vegansk version.",
+  "komplett": true
+}

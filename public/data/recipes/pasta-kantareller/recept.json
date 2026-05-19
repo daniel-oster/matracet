@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "slug": "pasta-kantareller",
+  "nummer": 39,
+  "namn": "Pasta med kantareller och örter",
+  "tid_min": 25,
+  "portioner": 4,
+  "kategorier": ["vegetarisk"],
+  "sasong": ["sommar", "host"],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["pasta", "svamp", "kantareller", "höst"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "pasta", "mangd": 320, "enhet": "g" },
+    { "vara": "kantareller", "mangd": 500, "enhet": "g" },
+    { "vara": "bananschalottenlök", "mangd": 1, "enhet": "st" },
+    { "vara": "smör", "mangd": 1, "enhet": "msk" },
+    { "vara": "grädde", "mangd": 2, "enhet": "dl" },
+    { "vara": "vatten", "mangd": 2, "enhet": "dl" },
+    { "vara": "vitlök", "mangd": 2, "enhet": "klyftor" },
+    { "vara": "färsk spenat", "mangd": 70, "enhet": "g" },
+    { "vara": "färska örter (timjan)", "mangd": 2, "enhet": "dl" },
+    { "vara": "salt och peppar", "mangd": 1, "enhet": "tsk" }
+  ],
+  "varianter": {
+    "vegansk": {
+      "byt": {
+        "smör": "olivolja",
+        "grädde": "havregrädde"
+      }
+    }
+  },
+  "instruktioner": [
+    "Koka pasta. Putsa kantarellerna och skär i bitar. Stek svampen torrt tills vätskan kokat bort.",
+    "Tillsätt smör, hackad lök och vitlök. Stek tills löken mjuknat.",
+    "Häll i grädde och vatten. Sjud ca 5 min. Smaka av. Vänd ner spenat och pasta.",
+    "Strö över hackade färska örter och servera."
+  ],
+  "servering": ["färska örter"],
+  "tips": null,
+  "komplett": true
+}

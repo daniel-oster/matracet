@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "slug": "cannelloni-belugafyllning",
+  "nummer": 49,
+  "namn": "Cannelloni med belugafyllning",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": ["vegetarisk"],
+  "sasong": [],
+  "svarighet": "medel",
+  "barnvanlig": "ja",
+  "taggar": ["pasta", "ugn", "dagkedja", "helgmys"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": "B",
+  "bildUrl": "https://images.unsplash.com/photo-1551183053-bf91798d576d?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "belugabolognese (från dag 1)", "mangd": 4, "enhet": "dl" },
+    { "vara": "cannellonirör", "mangd": 250, "enhet": "g" },
+    { "vara": "smör", "mangd": 2, "enhet": "msk", "grupp": "béchamel" },
+    { "vara": "vetemjöl", "mangd": 2, "enhet": "msk", "grupp": "béchamel" },
+    { "vara": "mjölk", "mangd": 4, "enhet": "dl", "grupp": "béchamel" },
+    { "vara": "salt och peppar", "mangd": 1, "enhet": "tsk", "grupp": "béchamel" },
+    { "vara": "riven ost", "mangd": 100, "enhet": "g" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Sätt ugnen på 200°. Fyll cannelloniröret med belugabolognesen med en sked.",
+    "Gör béchamel: smält smör, vispa i mjöl, tillsätt mjölk gradvis under vispning. Koka tills tjock.",
+    "Lägg de fyllda rören i en ugnsform. Häll béchamel över och toppa med riven ost.",
+    "Grädda 25–30 min tills gyllenbrun."
+  ],
+  "servering": ["grön sallad"],
+  "tips": "Dag 2 i kedja B — använder överblivna belugabolognesen från recept 48.",
+  "komplett": true
+}

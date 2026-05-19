@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "slug": "karljohansvamp-risotto",
+  "nummer": 2,
+  "namn": "Karljohansvamp-risotto med grönkålschips",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": ["vegetarisk"],
+  "sasong": ["host", "vinter"],
+  "svarighet": "medel",
+  "barnvanlig": "delvis",
+  "taggar": ["risotto", "svamp", "comfort-food", "helgmys"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "torkad karljohansvamp", "mangd": 30, "enhet": "g" },
+    { "vara": "arborioris", "mangd": 300, "enhet": "g" },
+    { "vara": "grönsaksbuljong", "mangd": 1, "enhet": "l" },
+    { "vara": "smör", "mangd": 30, "enhet": "g" },
+    { "vara": "gul lök", "mangd": 1, "enhet": "st" },
+    { "vara": "vitlök", "mangd": 2, "enhet": "klyftor" },
+    { "vara": "vitt vin", "mangd": 1, "enhet": "dl" },
+    { "vara": "pecorino eller parmesan", "mangd": 50, "enhet": "g" },
+    { "vara": "grönkål", "mangd": 100, "enhet": "g", "grupp": "grönkålschips" },
+    { "vara": "olivolja", "mangd": 1, "enhet": "msk", "grupp": "grönkålschips" }
+  ],
+  "varianter": {
+    "vegansk": {
+      "byt": {
+        "pecorino eller parmesan": "näringsjäst",
+        "smör": "olivolja"
+      }
+    }
+  },
+  "instruktioner": [
+    "Blötlägg den torkade svampen i varmt vatten i 15 min. Sila av blötläggningsvätskan och spara — det är smakrik buljong. Hacka svampen grovt.",
+    "Sätt ugnen på 180°. Riv grönkålen i bitar, blanda med olivolja och salt. Bred ut på en plåt och rosta 8–10 min tills knaprig.",
+    "Hetta upp smöret i en rymlig kastrull. Fräs löken mjuk utan att ta färg. Tillsätt vitlök och riset, rör tills riset är blankt.",
+    "Häll i vinet och rör tills det absorberats. Tillsätt en slev varm buljong i taget, rör hela tiden och vänta tills vätskan absorberats innan du häller på mer.",
+    "Vänd ner svampen när riset är al dente, ca 18 min. Rör i osten och smaka av med salt och peppar.",
+    "Servera risotton toppad med grönkålschipsen."
+  ],
+  "servering": ["grönkålschips", "riven pecorino"],
+  "tips": "Svampblötläggningsvätskan ger massor av umami — häll den i buljongen!",
+  "komplett": true
+}

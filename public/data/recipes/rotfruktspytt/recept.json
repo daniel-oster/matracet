@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "slug": "rotfruktspytt",
+  "nummer": 52,
+  "namn": "Rotfruktspytt med stekt ägg",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": ["vegansk"],
+  "sasong": ["host", "vinter"],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["pytt", "rotfrukter", "ägg", "dagkedja", "billig"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": "D",
+  "bildUrl": "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "potatis", "mangd": 400, "enhet": "g" },
+    { "vara": "morötter", "mangd": 2, "enhet": "st" },
+    { "vara": "palsternacka", "mangd": 1, "enhet": "st" },
+    { "vara": "rotselleri", "mangd": 100, "enhet": "g" },
+    { "vara": "gul lök", "mangd": 1, "enhet": "st" },
+    { "vara": "neutral olja", "mangd": 2, "enhet": "msk" },
+    { "vara": "salt och peppar", "mangd": 1, "enhet": "tsk" },
+    { "vara": "ägg", "mangd": 4, "enhet": "st", "grupp": "servering" },
+    { "vara": "inlagda rödbetor", "mangd": 1, "enhet": "portion", "grupp": "servering" }
+  ],
+  "varianter": {
+    "vegansk": {
+      "byt": {
+        "ägg": "rökt tofu"
+      }
+    }
+  },
+  "instruktioner": [
+    "Tärna alla rotfrukter i 1 cm kuber. Hacka löken.",
+    "Hetta upp olja i en stor stekpanna. Stek rotfrukterna på hög värme tills knapriga och gyllene, ca 15–20 min. Rör sällan för att få stekyta.",
+    "Stek äggen separat.",
+    "Servera pytten med stekt ägg och inlagda rödbetor.",
+    "💾 Spara ca 3 dl pytt till rotfruktssoppa dag 2 (recept 53)."
+  ],
+  "servering": ["stekt ägg", "inlagda rödbetor"],
+  "tips": "Stek på hög värme och rör sällan — det ger knapriga kanter!",
+  "komplett": true
+}

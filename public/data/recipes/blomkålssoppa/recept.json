@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "slug": "blomkålssoppa",
+  "nummer": 8,
+  "namn": "Blomkålssoppa med rostad blomkål",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": ["vegetarisk"],
+  "sasong": ["host", "vinter"],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["soppa", "blomkål", "comfort-food"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "blomkål", "mangd": 1, "enhet": "huvud" },
+    { "vara": "gul lök", "mangd": 1, "enhet": "st" },
+    { "vara": "vitlök", "mangd": 2, "enhet": "klyftor" },
+    { "vara": "grönsaksbuljong", "mangd": 8, "enhet": "dl" },
+    { "vara": "grädde", "mangd": 2, "enhet": "dl" },
+    { "vara": "olivolja", "mangd": 2, "enhet": "msk" },
+    { "vara": "salt och peppar", "mangd": 1, "enhet": "tsk" }
+  ],
+  "varianter": {
+    "vegansk": {
+      "byt": {
+        "grädde": "havregrädde"
+      }
+    }
+  },
+  "instruktioner": [
+    "Sätt ugnen på 200°. Dela blomkålen i buketter. Lägg hälften på en plåt med olivolja och salt. Rosta 20 min tills gyllenbrun.",
+    "Fräs lök och vitlök mjuka i en kastrull. Tillsätt resten av blomkålen och buljongen. Koka 15 min.",
+    "Mixa soppan slät med stavmixer. Tillsätt grädde och värm upp. Smaka av med salt och peppar.",
+    "Servera med de rostade blomkålsbuketterna som topping."
+  ],
+  "servering": ["rostad blomkål", "crusty bread"],
+  "tips": "Toppa med rostad pumpafrön och en klick crème fraîche.",
+  "komplett": true
+}

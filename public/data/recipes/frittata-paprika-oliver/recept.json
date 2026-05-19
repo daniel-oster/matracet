@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "slug": "frittata-paprika-oliver",
+  "nummer": 4,
+  "namn": "Frittata med paprika- och olivsallad",
+  "tid_min": 20,
+  "portioner": 4,
+  "kategorier": ["vegetarisk"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["ägg", "ugn", "snabb", "matlåda"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1510693206972-df098062cb71?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "ägg", "mangd": 6, "enhet": "st" },
+    { "vara": "vatten", "mangd": 1, "enhet": "dl" },
+    { "vara": "halloumi", "mangd": 200, "enhet": "g" },
+    { "vara": "grillad paprika", "mangd": 2, "enhet": "dl", "grupp": "sallad" },
+    { "vara": "oliver utan kärnor", "mangd": 2, "enhet": "dl", "grupp": "sallad" },
+    { "vara": "färsk basilika", "mangd": 1, "enhet": "kruka", "grupp": "sallad" },
+    { "vara": "svartpeppar", "mangd": 1, "enhet": "krm", "grupp": "sallad" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Sätt ugnen på 200°. Smörj en ugnsfast form eller stekpanna.",
+    "Vispa upp ägg och vatten med en gaffel. Riv halloumin och vänd ner i äggsmeten.",
+    "Häll smeten i den smorda formen. Grädda mitt i ugnen ca 15 min tills frittatan stelnat och fått lite färg.",
+    "Hackad grillad paprika och oliver. Blanda med hackad basilika och svartpeppar.",
+    "Servera frittatan med salladen."
+  ],
+  "servering": ["paprika- och olivsallad"],
+  "tips": "Gör en enkel frittata utan halloumi och servera med stekt spenat, smulad fetaost och pressad citron.",
+  "komplett": true
+}

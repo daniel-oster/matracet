@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "slug": "hemgjord-gnocchi",
+  "nummer": 19,
+  "namn": "Hemgjord gnocchi med tomatsås",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": ["vegetarisk"],
+  "sasong": [],
+  "svarighet": "medel",
+  "barnvanlig": "ja",
+  "taggar": ["pasta", "potatis", "helgmys", "comfort-food"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1556761223-4c4282c73f77?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "mjölig potatis", "mangd": 500, "enhet": "g" },
+    { "vara": "durumvetemjöl", "mangd": 1.5, "enhet": "dl" },
+    { "vara": "ägg", "mangd": 1, "enhet": "st" },
+    { "vara": "salt", "mangd": 2, "enhet": "tsk" },
+    { "vara": "parmesan", "mangd": 59, "enhet": "g" },
+    { "vara": "tomatsås", "mangd": 4, "enhet": "dl", "grupp": "servering" },
+    { "vara": "basilika", "mangd": 1, "enhet": "kruka", "grupp": "servering" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Skala och dela potatisen i bitar. Koka ca 15 min. Häll ut på en plåt och låt svalna.",
+    "Blanda potatis med mjöl, ägg och salt. Dela degen i fyra bitar. Rulla varje del till en fingertjock rulle och skär i bitar 2–3 cm långa. Tryck till varje bit med en gaffel.",
+    "Sjud gnocchin i omgångar i saltat vatten tills de flyter upp, 2–3 min. Ta upp med hålslev.",
+    "Servera med tomatsås, riven parmesan och färska basilikablad."
+  ],
+  "servering": ["tomatsås", "riven parmesan", "basilika"],
+  "tips": "Gör dubbel tomatsås — används också till fetaostbollar (recept 16)!",
+  "komplett": true
+}

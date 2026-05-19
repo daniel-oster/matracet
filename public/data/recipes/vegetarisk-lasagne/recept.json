@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "slug": "vegetarisk-lasagne",
+  "nummer": 29,
+  "namn": "Vegetarisk lasagne",
+  "tid_min": 50,
+  "portioner": 4,
+  "kategorier": ["vegetarisk"],
+  "sasong": [],
+  "svarighet": "medel",
+  "barnvanlig": "ja",
+  "taggar": ["pasta", "ugn", "comfort-food", "matlåda"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1551183053-bf91798d576d?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "lasagneplattor", "mangd": 250, "enhet": "g" },
+    { "vara": "blandade grönsaker", "mangd": 400, "enhet": "g" },
+    { "vara": "tomatsås", "mangd": 4, "enhet": "dl" },
+    { "vara": "béchamel", "mangd": 4, "enhet": "dl" },
+    { "vara": "riven ost", "mangd": 100, "enhet": "g" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Sätt ugnen på 200°. Varva lasagneplattor, grönsaker, tomatsås och béchamel i ugnsform.",
+    "Toppa med riven ost. Grädda 30–35 min."
+  ],
+  "servering": ["grön sallad"],
+  "tips": null,
+  "komplett": false
+}

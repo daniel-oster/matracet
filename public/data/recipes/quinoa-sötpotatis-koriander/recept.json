@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "slug": "quinoa-sötpotatis-koriander",
+  "nummer": 43,
+  "namn": "Quinoa med sötpotatis och koriander",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": ["vegansk"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["quinoa", "sötpotatis", "bowl"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "quinoa", "mangd": 3, "enhet": "dl" },
+    { "vara": "spiskummin", "mangd": 1, "enhet": "tsk" },
+    { "vara": "sötpotatis", "mangd": 300, "enhet": "g" },
+    { "vara": "olivolja", "mangd": 2, "enhet": "msk" },
+    { "vara": "salt", "mangd": 0.5, "enhet": "tsk" },
+    { "vara": "kikärter", "mangd": 400, "enhet": "g" },
+    { "vara": "grillad paprika", "mangd": 2, "enhet": "st" },
+    { "vara": "koriander", "mangd": 1, "enhet": "kruka" },
+    { "vara": "lime", "mangd": 1, "enhet": "st" },
+    { "vara": "vitlök", "mangd": 1, "enhet": "klyfta", "grupp": "yoghurtsås" },
+    { "vara": "olivolja", "mangd": 0.5, "enhet": "dl", "grupp": "yoghurtsås" },
+    { "vara": "yoghurt", "mangd": 2, "enhet": "dl", "grupp": "yoghurtsås" },
+    { "vara": "spiskummin", "mangd": 0.5, "enhet": "tsk", "grupp": "yoghurtsås" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Koka quinoan med spiskummin.",
+    "Stek tärnad sötpotatis i olja tills mjuk. Salta.",
+    "Blanda quinoa, sötpotatis, sköljda kikärter, bitar av grillad paprika, koriander, olivolja och limesaft. Smaka av.",
+    "Koka vitlöken i oljan på svag värme tills ljusbrun. Mixa med yoghurt och spiskummin till sås.",
+    "Servera bowlen med yoghurtsåsen."
+  ],
+  "servering": ["yoghurtsås"],
+  "tips": "Skiljer sig från recept 15 — denna har yoghurtsås istället för chipotledressing.",
+  "komplett": true
+}

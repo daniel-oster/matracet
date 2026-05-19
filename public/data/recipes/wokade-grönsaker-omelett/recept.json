@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "slug": "wokade-grönsaker-omelett",
+  "nummer": 36,
+  "namn": "Wokade grönsaker med japansk omelett",
+  "tid_min": 25,
+  "portioner": 4,
+  "kategorier": ["vegetarisk"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["wok", "asiatisk", "nudlar", "omelett"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "risnudlar", "mangd": 250, "enhet": "g" },
+    { "vara": "ägg", "mangd": 3, "enhet": "st", "grupp": "omelett" },
+    { "vara": "vatten", "mangd": 0.25, "enhet": "dl", "grupp": "omelett" },
+    { "vara": "strösocker", "mangd": 1, "enhet": "msk", "grupp": "omelett" },
+    { "vara": "neutral olja", "mangd": 0.5, "enhet": "dl" },
+    { "vara": "broccoli", "mangd": 250, "enhet": "g" },
+    { "vara": "morot", "mangd": 1, "enhet": "st" },
+    { "vara": "daikon", "mangd": 1, "enhet": "st" },
+    { "vara": "ingefära", "mangd": 3, "enhet": "msk" },
+    { "vara": "vitlök", "mangd": 1, "enhet": "klyfta" },
+    { "vara": "koriander", "mangd": 1, "enhet": "kruka", "grupp": "servering" },
+    { "vara": "sojasås", "mangd": 2, "enhet": "msk", "grupp": "servering" },
+    { "vara": "röd chili", "mangd": 1, "enhet": "st", "grupp": "servering" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Koka nudlarna och skölj med kallt vatten.",
+    "Vispa ägg, vatten och socker. Häll tunt i varm olja, stek på låg värme tills stelnat. Vik ihop omeletten och skär i strimlor.",
+    "Skär broccolin i buketter. Stek grönsakerna i olja på hög värme. Salta. Vänd ner nudlar och omelett. Tillsätt ingefära och chili. Ringla soja.",
+    "Toppa med koriander och servera."
+  ],
+  "servering": ["koriander", "sojasås", "röd chili"],
+  "tips": null,
+  "komplett": true
+}

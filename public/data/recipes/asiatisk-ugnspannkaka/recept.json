@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "slug": "asiatisk-ugnspannkaka",
+  "nummer": 14,
+  "namn": "Asiatisk ugnspannkaka med stekt shiitakesvamp",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": ["vegetarisk"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "delvis",
+  "taggar": ["pannkaka", "ugn", "asiatisk", "svamp"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "mjölk", "mangd": 7, "enhet": "dl" },
+    { "vara": "vetemjöl", "mangd": 2, "enhet": "dl" },
+    { "vara": "ägg", "mangd": 4, "enhet": "st" },
+    { "vara": "sesamolja", "mangd": 3, "enhet": "droppar" },
+    { "vara": "japansk soja", "mangd": 1, "enhet": "msk" },
+    { "vara": "färsk ingefära", "mangd": 0.5, "enhet": "msk" },
+    { "vara": "färsk spenat", "mangd": 100, "enhet": "g" },
+    { "vara": "röd chili", "mangd": 0.5, "enhet": "st" },
+    { "vara": "neutral olja", "mangd": 1, "enhet": "msk", "grupp": "svamp" },
+    { "vara": "smör", "mangd": 1, "enhet": "msk", "grupp": "svamp" },
+    { "vara": "shiitakesvamp", "mangd": 200, "enhet": "g", "grupp": "svamp" },
+    { "vara": "vitlök", "mangd": 1, "enhet": "klyfta", "grupp": "svamp" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Sätt ugnen på 200–225°. Smörj en ugnsfast form.",
+    "Vispa ihop mjöl, ägg och mjölk till en slät smet. Tillsätt soja, sesamolja och riven ingefära.",
+    "Häll smeten i den smorda formen. Grädda 20–25 min tills pannkakan är gyllenbrun och stelnad.",
+    "Hetta upp olja och smör i en stekpanna. Tillsätt finhackad vitlök, strimlad chili och skivor av shiitakesvamp. Stek ca 5 min tills svampen fått färg.",
+    "Servera pannkakan med stekt shiitakesvamp och färsk spenat."
+  ],
+  "servering": ["stekt shiitakesvamp", "färsk spenat"],
+  "tips": null,
+  "komplett": true
+}

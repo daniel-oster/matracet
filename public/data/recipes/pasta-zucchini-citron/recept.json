@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "slug": "pasta-zucchini-citron",
+  "nummer": 9,
+  "namn": "Pasta med zucchini och citronsås",
+  "tid_min": 25,
+  "portioner": 4,
+  "kategorier": ["vegetarisk"],
+  "sasong": ["sommar"],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["pasta", "snabb", "sommar", "citron"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "pasta", "mangd": 400, "enhet": "g" },
+    { "vara": "zucchini", "mangd": 2, "enhet": "st" },
+    { "vara": "vitlök", "mangd": 2, "enhet": "klyftor" },
+    { "vara": "olivolja", "mangd": 3, "enhet": "msk" },
+    { "vara": "citron", "mangd": 1, "enhet": "st" },
+    { "vara": "grädde", "mangd": 1, "enhet": "dl" },
+    { "vara": "parmesan", "mangd": 50, "enhet": "g" },
+    { "vara": "salt och peppar", "mangd": 1, "enhet": "tsk" }
+  ],
+  "varianter": {
+    "vegansk": {
+      "byt": {
+        "grädde": "havregrädde",
+        "parmesan": "näringsjäst"
+      }
+    }
+  },
+  "instruktioner": [
+    "Koka pasta enligt anvisningen. Spara 1 dl pastavatten.",
+    "Riv zucchinin grovt eller skär i tunna skivor. Stek i olivolja med vitlök tills gyllenbrun.",
+    "Häll grädde i stekpannan, tillsätt citronskal och citronjuice. Låt koka ihop.",
+    "Blanda pastan med såsen och lite pastavatten. Rör ner riven parmesan. Smaka av."
+  ],
+  "servering": ["riven parmesan", "färsk basilika"],
+  "tips": null,
+  "komplett": true
+}

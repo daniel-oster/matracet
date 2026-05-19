@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "slug": "lindströmare-kidneybönor",
+  "nummer": 38,
+  "namn": "Lindströmare (kidneybönsbiffar)",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": ["vegansk"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["biffar", "bönor", "klassiker", "comfort-food"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1544025162-d76538950491?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "kidneybönor", "mangd": 400, "enhet": "g" },
+    { "vara": "ägg", "mangd": 1, "enhet": "st" },
+    { "vara": "gul lök", "mangd": 1, "enhet": "dl" },
+    { "vara": "mandelmjöl", "mangd": 1, "enhet": "dl" },
+    { "vara": "ströbröd", "mangd": 1, "enhet": "dl" },
+    { "vara": "gröna oliver", "mangd": 0.5, "enhet": "dl" },
+    { "vara": "kapris", "mangd": 0.5, "enhet": "dl" },
+    { "vara": "inlagd rödbeta", "mangd": 0.5, "enhet": "dl" },
+    { "vara": "neutral olja", "mangd": 2, "enhet": "msk" },
+    { "vara": "potatismos", "mangd": 1, "enhet": "portion", "grupp": "servering" },
+    { "vara": "pressgurka", "mangd": 1, "enhet": "portion", "grupp": "servering" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Skölj och låt bönorna rinna av. Mosa med ballongvisp. Tillsätt riven lök, mandelmjöl, ströbröd, hackade oliver, kapris och hackad rödbeta. Blanda till jämn smet.",
+    "Forma små biffar. Hetta upp olja och stek 2–3 min per sida tills fin färg.",
+    "Servera med potatismos och pressgurka."
+  ],
+  "servering": ["potatismos", "pressgurka"],
+  "tips": null,
+  "komplett": true
+}

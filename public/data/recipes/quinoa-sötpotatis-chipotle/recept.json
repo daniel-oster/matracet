@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "slug": "quinoa-sötpotatis-chipotle",
+  "nummer": 15,
+  "namn": "Quinoa med rostad sötpotatis och chipotledressing",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": ["vegansk"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "delvis",
+  "taggar": ["quinoa", "sötpotatis", "bowl", "chipotle"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "röd quinoa", "mangd": 4, "enhet": "dl" },
+    { "vara": "morötter", "mangd": 2, "enhet": "st" },
+    { "vara": "salt", "mangd": 1, "enhet": "tsk" },
+    { "vara": "sötpotatis", "mangd": 400, "enhet": "g" },
+    { "vara": "majskorn", "mangd": 1, "enhet": "dl" },
+    { "vara": "rapsolja", "mangd": 2, "enhet": "msk" },
+    { "vara": "koriander", "mangd": 1, "enhet": "kruka" },
+    { "vara": "chipotle (torkad)", "mangd": 2, "enhet": "st", "grupp": "dressing" },
+    { "vara": "salt", "mangd": 0.5, "enhet": "tsk", "grupp": "dressing" },
+    { "vara": "citron", "mangd": 1, "enhet": "st", "grupp": "dressing" },
+    { "vara": "strösocker", "mangd": 1, "enhet": "msk", "grupp": "dressing" },
+    { "vara": "olivolja", "mangd": 1, "enhet": "dl", "grupp": "dressing" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Koka quinoan med salt och rivna morötter enligt anvisningen på förpackningen.",
+    "Sätt ugnen på 225°. Skala och tärna sötpotatisen. Lägg på en plåt med rapsolja, salt och peppar. Rosta ca 20 min. Skär majskornerna från kolven och rosta med de sista 5 minuterna.",
+    "Koka upp vatten i en liten kastrull. Lägg ner chipotle och låt dra 10 min. Plocka upp och hacka fint.",
+    "Blanda chipotle, olivolja, citronskal, socker och salt till dressing.",
+    "Blanda quinoa, rostad sötpotatis, majskorn och dressingen. Toppa med koriander."
+  ],
+  "servering": ["koriander"],
+  "tips": null,
+  "komplett": true
+}

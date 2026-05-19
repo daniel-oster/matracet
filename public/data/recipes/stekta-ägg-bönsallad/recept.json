@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "slug": "stekta-ägg-bönsallad",
+  "nummer": 10,
+  "namn": "Stekta ägg med bönsallad",
+  "tid_min": 20,
+  "portioner": 4,
+  "kategorier": ["vegetarisk", "vegansk"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["ägg", "bönor", "snabb", "billig"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "ägg", "mangd": 8, "enhet": "st" },
+    { "vara": "smör", "mangd": 1, "enhet": "msk" },
+    { "vara": "blandade bönor", "mangd": 400, "enhet": "g" },
+    { "vara": "tomater", "mangd": 2, "enhet": "st" },
+    { "vara": "rödlök", "mangd": 0.5, "enhet": "st" },
+    { "vara": "olivolja", "mangd": 2, "enhet": "msk" },
+    { "vara": "citronsaft", "mangd": 1, "enhet": "msk" },
+    { "vara": "salt och peppar", "mangd": 1, "enhet": "tsk" }
+  ],
+  "varianter": {
+    "vegansk": {
+      "byt": {
+        "ägg": "rökt tofu i skivor"
+      }
+    }
+  },
+  "instruktioner": [
+    "Skölj och låt bönorna rinna av. Blanda med tärnade tomater, skivad rödlök, olivolja och citron. Salta och peppra.",
+    "Stek äggen i smör på medelvärme. Salta och peppra.",
+    "Servera de stekta äggen på bönsalladen."
+  ],
+  "servering": ["bröd"],
+  "tips": "Byt ägg mot rökt tofu för en vegansk variant.",
+  "komplett": true
+}

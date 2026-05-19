@@ -5,24 +5,49 @@ export interface Ingredient {
   vara: string
   mangd: number
   enhet: string
+  grupp?: string | null
 }
 
 export interface RecipeVariant {
   byt: Record<string, string>
 }
 
+/** Full recipe — loaded on demand from /data/recipes/<slug>/recept.json */
 export interface Recipe {
+  schema_version: string
   slug: string
+  nummer: number
   namn: string
   tid_min: number
+  portioner: number
   kategorier: string[]
   sasong: string[]
   svarighet: string
-  barnvanlig: boolean
+  barnvanlig: string
   taggar: string[]
+  kalla?: string
+  dagkedja?: string | null
+  bildUrl?: string
   ingredienser: Ingredient[]
   varianter?: Record<string, RecipeVariant>
-  body: string
+  instruktioner: string[]
+  servering?: string[]
+  tips?: string
+  komplett: boolean
+}
+
+/** Lightweight entry used in the list index */
+export interface RecipeIndexEntry {
+  slug: string
+  nummer: number
+  namn: string
+  tid_min: number
+  kategorier: string[]
+  bildUrl?: string
+}
+
+export interface RecipeIndex {
+  recipes: RecipeIndexEntry[]
 }
 
 export interface DayMeal {

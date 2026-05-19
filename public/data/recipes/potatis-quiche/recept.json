@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "slug": "potatis-quiche",
+  "nummer": 30,
+  "namn": "Potatis-quiche",
+  "tid_min": 45,
+  "portioner": 4,
+  "kategorier": ["vegetarisk"],
+  "sasong": [],
+  "svarighet": "medel",
+  "barnvanlig": "ja",
+  "taggar": ["paj", "potatis", "ugn", "matlåda"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1510693206972-df098062cb71?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "pajdeg", "mangd": 1, "enhet": "portion" },
+    { "vara": "potatis", "mangd": 400, "enhet": "g" },
+    { "vara": "ägg", "mangd": 3, "enhet": "st" },
+    { "vara": "grädde", "mangd": 2, "enhet": "dl" },
+    { "vara": "riven ost", "mangd": 100, "enhet": "g" },
+    { "vara": "salt och peppar", "mangd": 1, "enhet": "tsk" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Sätt ugnen på 200°. Förgrädda pajskalet 10 min.",
+    "Skiva potatisen tunt. Vispa ägg och grädde med salt och peppar.",
+    "Lägg potatisen i pajskalet, häll äggstanningen över och toppa med ost.",
+    "Grädda 25–30 min."
+  ],
+  "servering": ["grön sallad"],
+  "tips": null,
+  "komplett": false
+}

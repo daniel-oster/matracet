@@ -1,20 +1,23 @@
 import { useState } from 'react'
-import { TabName, WeekMenu, Eater } from '../types'
+import { TabName, WeekMenu, Eater, RecipeIndexEntry } from '../types'
 import Page from './Page'
 import Tabs from './Tabs'
 
 interface Props {
   week: WeekMenu
   eaters: Eater[]
+  recipeIndex: RecipeIndexEntry[]
 }
 
-export default function Binder({ week, eaters }: Props) {
+export default function Binder({ week, eaters, recipeIndex }: Props) {
   const [activeTab, setActiveTab] = useState<TabName>('veckan')
   const [portraitSide, setPortraitSide] = useState<'left' | 'right'>('left')
+  const [selectedRecipeSlug, setSelectedRecipeSlug] = useState<string | null>(null)
 
   function handleTabChange(tab: TabName) {
     setActiveTab(tab)
     setPortraitSide('left')
+    if (tab !== 'recept') setSelectedRecipeSlug(null)
   }
 
   const [year, isoWeek] = week.vecka.split('-W')
@@ -39,6 +42,9 @@ export default function Binder({ week, eaters }: Props) {
             activeTab={activeTab}
             week={week}
             eaters={eaters}
+            recipeIndex={recipeIndex}
+            selectedRecipeSlug={selectedRecipeSlug}
+            onSelectRecipe={setSelectedRecipeSlug}
             flippedOut={portraitSide === 'right'}
           />
 
@@ -51,6 +57,9 @@ export default function Binder({ week, eaters }: Props) {
             activeTab={activeTab}
             week={week}
             eaters={eaters}
+            recipeIndex={recipeIndex}
+            selectedRecipeSlug={selectedRecipeSlug}
+            onSelectRecipe={setSelectedRecipeSlug}
             flippedIn={portraitSide === 'right'}
           />
 

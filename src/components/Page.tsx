@@ -1,4 +1,4 @@
-import { TabName, PageSide, WeekMenu, Eater } from '../types'
+import { TabName, PageSide, WeekMenu, Eater, RecipeIndexEntry } from '../types'
 import VeckanView from './views/VeckanView'
 import HandlaView from './views/HandlaView'
 import ReceptView from './views/ReceptView'
@@ -10,11 +10,14 @@ interface Props {
   activeTab: TabName
   week: WeekMenu
   eaters: Eater[]
+  recipeIndex: RecipeIndexEntry[]
+  selectedRecipeSlug: string | null
+  onSelectRecipe: (slug: string) => void
   flippedOut?: boolean
   flippedIn?: boolean
 }
 
-export default function Page({ side, activeTab, week, eaters, flippedOut, flippedIn }: Props) {
+export default function Page({ side, activeTab, week, eaters, recipeIndex, selectedRecipeSlug, onSelectRecipe, flippedOut, flippedIn }: Props) {
   const classes = [
     'page',
     side,
@@ -27,7 +30,7 @@ export default function Page({ side, activeTab, week, eaters, flippedOut, flippe
       <div className="page-view" key={`${activeTab}-${side}`}>
         {activeTab === 'veckan'       && <VeckanView       side={side} week={week} />}
         {activeTab === 'handla'       && <HandlaView        side={side} />}
-        {activeTab === 'recept'       && <ReceptView        side={side} />}
+        {activeTab === 'recept'       && <ReceptView        side={side} recipeIndex={recipeIndex} selectedSlug={selectedRecipeSlug} onSelect={onSelectRecipe} />}
         {activeTab === 'familj'       && <FamiljView        side={side} eaters={eaters} />}
         {activeTab === 'anteckningar' && <AnteckningarView  side={side} />}
       </div>

@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "slug": "spaghetti-bönbiffsås",
+  "nummer": 47,
+  "namn": "Spaghetti med linser och tomatbiffsås",
+  "tid_min": 15,
+  "portioner": 4,
+  "kategorier": ["vegansk"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["pasta", "snabb", "dagkedja", "matlåda"],
+  "kalla": "Stora Veckans Vego",
+  "dagkedja": "A",
+  "bildUrl": "https://images.unsplash.com/photo-1551892374-ecf8754cf8b0?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "spaghetti", "mangd": 400, "enhet": "g" },
+    { "vara": "krossade tomater", "mangd": 400, "enhet": "g" },
+    { "vara": "svarta bönbiffar (från dag 1)", "mangd": 4, "enhet": "st" },
+    { "vara": "vitlök", "mangd": 1, "enhet": "klyfta" },
+    { "vara": "olivolja", "mangd": 1, "enhet": "msk" },
+    { "vara": "salt och peppar", "mangd": 1, "enhet": "tsk" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Koka spaghetti.",
+    "Fräs vitlök i olivolja. Häll i krossade tomater och låt sjuda 5 min.",
+    "Smula ner de överblivna bönbiffarna i såsen. Rör om och värm igenom.",
+    "Blanda med spaghetti och servera."
+  ],
+  "servering": ["riven parmesan", "basilika"],
+  "tips": "Dag 2 i kedja A — använder överblivna svarta bönbiffar (recept 46). Färdigt på 15 min!",
+  "komplett": true
+}
