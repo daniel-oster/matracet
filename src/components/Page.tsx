@@ -13,11 +13,12 @@ interface Props {
   recipeIndex: RecipeIndexEntry[]
   selectedRecipeSlug: string | null
   onSelectRecipe: (slug: string) => void
+  onOpenRecipe?: (slug: string) => void
   flippedOut?: boolean
   flippedIn?: boolean
 }
 
-export default function Page({ side, activeTab, week, eaters, recipeIndex, selectedRecipeSlug, onSelectRecipe, flippedOut, flippedIn }: Props) {
+export default function Page({ side, activeTab, week, eaters, recipeIndex, selectedRecipeSlug, onSelectRecipe, onOpenRecipe, flippedOut, flippedIn }: Props) {
   const classes = [
     'page',
     side,
@@ -28,7 +29,7 @@ export default function Page({ side, activeTab, week, eaters, recipeIndex, selec
   return (
     <div className={classes}>
       <div className="page-view" key={`${activeTab}-${side}`}>
-        {activeTab === 'veckan'       && <VeckanView       side={side} week={week} />}
+        {activeTab === 'veckan'       && <VeckanView       side={side} week={week} onOpenRecipe={onOpenRecipe} />}
         {activeTab === 'handla'       && <HandlaView        side={side} />}
         {activeTab === 'recept'       && <ReceptView        side={side} recipeIndex={recipeIndex} selectedSlug={selectedRecipeSlug} onSelect={onSelectRecipe} />}
         {activeTab === 'familj'       && <FamiljView        side={side} eaters={eaters} />}

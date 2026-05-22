@@ -8,9 +8,10 @@ const DAY_NAMES: Record<string, string> = {
 interface Props {
   side: PageSide
   week: WeekMenu
+  onOpenRecipe?: (slug: string) => void
 }
 
-export default function VeckanView({ side, week }: Props) {
+export default function VeckanView({ side, week, onOpenRecipe }: Props) {
   const days = side === 'left' ? week.middagar.slice(0, 3) : week.middagar.slice(3)
 
   const [year, isoWeek] = week.vecka.split('-W')
@@ -36,7 +37,17 @@ export default function VeckanView({ side, week }: Props) {
               <span className="day-name">{dayName}</span>
             </div>
             {day.recept ? (
-              <div className="day-dish">{day.recept}</div>
+              day.receptSlug && onOpenRecipe ? (
+                <button
+                  className="day-dish day-dish-linked"
+                  onClick={() => onOpenRecipe(day.receptSlug!)}
+                >
+                  {day.recept}
+                  <span className="day-dish-arrow">›</span>
+                </button>
+              ) : (
+                <div className="day-dish">{day.recept}</div>
+              )
             ) : day.anteckning ? (
               <div className="day-dish">{day.anteckning}</div>
             ) : null}

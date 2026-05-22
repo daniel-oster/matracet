@@ -5,18 +5,21 @@
       "dag": "mandag",
       "datum": "2026-05-18",
       "recept": "Krämig svamprisotto",
+      "receptSlug": "karljohansvamp-risotto",
       "varianter": { "Sarah": "parmesan blir näringsjäst" }
     },
     {
       "dag": "tisdag",
       "datum": "2026-05-19",
       "recept": "Snabb linsgryta & ris",
+      "receptSlug": "linsgryta-kokos-lime",
       "kommentar": "Sarah har träning kl 18!"
     },
     {
       "dag": "onsdag",
       "datum": "2026-05-20",
-      "recept": "Pasta med pesto & halloumi"
+      "recept": "Pasta med pesto & halloumi",
+      "receptSlug": "pasta-zucchini-citron"
     },
     {
       "dag": "torsdag",
