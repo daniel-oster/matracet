@@ -1,4 +1,4 @@
-import { TabName, PageSide, WeekMenu, Eater, RecipeIndexEntry } from '../types'
+import { TabName, PageSide, Eater, RecipeIndexEntry, DayMeal, WeekNote } from '../types'
 import VeckanView from './views/VeckanView'
 import HandlaView from './views/HandlaView'
 import ReceptView from './views/ReceptView'
@@ -9,7 +9,8 @@ import type { DayPlan } from '../presence/types'
 interface Props {
   side: PageSide
   activeTab: TabName
-  week: WeekMenu
+  rollingDays: DayMeal[]
+  weekNotes: WeekNote[]
   eaters: Eater[]
   recipeIndex: RecipeIndexEntry[]
   dayPlans: DayPlan[]
@@ -20,7 +21,7 @@ interface Props {
   flippedIn?: boolean
 }
 
-export default function Page({ side, activeTab, week, eaters, recipeIndex, dayPlans, selectedRecipeSlug, onSelectRecipe, onOpenRecipe, flippedOut, flippedIn }: Props) {
+export default function Page({ side, activeTab, rollingDays, weekNotes, eaters, recipeIndex, dayPlans, selectedRecipeSlug, onSelectRecipe, onOpenRecipe, flippedOut, flippedIn }: Props) {
   const classes = [
     'page',
     side,
@@ -31,11 +32,11 @@ export default function Page({ side, activeTab, week, eaters, recipeIndex, dayPl
   return (
     <div className={classes}>
       <div className="page-view" key={`${activeTab}-${side}`}>
-        {activeTab === 'veckan'       && <VeckanView       side={side} week={week} dayPlans={dayPlans} onOpenRecipe={onOpenRecipe} />}
+        {activeTab === 'veckan'       && <VeckanView       side={side} days={rollingDays} dayPlans={dayPlans} onOpenRecipe={onOpenRecipe} />}
         {activeTab === 'handla'       && <HandlaView        side={side} />}
         {activeTab === 'recept'       && <ReceptView        side={side} recipeIndex={recipeIndex} selectedSlug={selectedRecipeSlug} onSelect={onSelectRecipe} />}
         {activeTab === 'familj'       && <FamiljView        side={side} eaters={eaters} dayPlans={dayPlans} />}
-        {activeTab === 'anteckningar' && <AnteckningarView  side={side} />}
+        {activeTab === 'anteckningar' && <AnteckningarView  side={side} weekNotes={weekNotes} />}
       </div>
     </div>
   )

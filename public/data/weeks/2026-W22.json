@@ -1,0 +1,54 @@
+{
+  "vecka": "2026-W22",
+  "middagar": [
+    {
+      "dag": "mandag",
+      "datum": "2026-05-25",
+      "recept": "Pasta med zucchini & citron",
+      "receptSlug": "pasta-zucchini-citron"
+    },
+    {
+      "dag": "tisdag",
+      "datum": "2026-05-26",
+      "recept": "Blomkålssoppa",
+      "receptSlug": "blomkålssoppa",
+      "kommentar": "Rostar blomkål på toppen"
+    },
+    {
+      "dag": "onsdag",
+      "datum": "2026-05-27",
+      "recept": "Kikärtsgryta med saffran",
+      "receptSlug": "het-kikärtsgryta",
+      "kommentar": "Sarah på läger — bara Daniel & Annabelle"
+    },
+    {
+      "dag": "torsdag",
+      "datum": "2026-05-28",
+      "recept": "Svampbiffar & lingon",
+      "receptSlug": "svampbiffar-gräddsås"
+    },
+    {
+      "dag": "fredag",
+      "datum": "2026-05-29",
+      "recept": null,
+      "anteckning": "🍕 Pizza-utflykt"
+    },
+    {
+      "dag": "lordag",
+      "datum": "2026-05-30",
+      "recept": "Halloumi & sötpotatis",
+      "receptSlug": "halloumi-sötpotatis-granatäpple"
+    },
+    {
+      "dag": "sondag",
+      "datum": "2026-05-31",
+      "recept": "Svamp- & spenatpaj",
+      "receptSlug": "paj-svamp-spenat"
+    }
+  ],
+  "anteckningar": [
+    { "nar": "Vecka 22", "text": "Sarah på läger onsdag–söndag — lugnar ner vegoplanering lite." },
+    { "nar": "Helgen",   "text": "Varannan helg — Daniel & Erika-helg denna vecka." }
+  ],
+  "skapad": "2026-05-23T12:00:00Z"
+}
