@@ -10,6 +10,10 @@ export type WindowStatus = 'OPEN' | 'BOUNDED' | 'CONFLICT'
 export interface Person {
   id: string
   name: string
+  /** Minimum days that must be skipped between two servings of the same dish for this
+   *  person to be comfortable. 0 = no gap needed (e.g. Daniel). 1 = skip at least 1 day.
+   *  Used by the Side B spacing check; undefined treated as 0. */
+  minRepeatGapDays?: number
 }
 
 export interface Group {
