@@ -60,6 +60,7 @@ export default function SysdocApp() {
       <main className="sysdoc-main">
         {active === 'produkt'      && <ProductSection />}
         {active === 'narvaro'      && <PresenceSection />}
+        {active === 'matplan'      && <MealsSection />}
         {active === 'recept'       && <RecipeSchemaSection />}
         {active === 'veckomeny'    && <WeekMenuSection />}
         {active === 'konventioner' && <ConventionsSection />}
