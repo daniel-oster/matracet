@@ -3,7 +3,7 @@
     {
       "id": "daniel",
       "namn": "Daniel",
-      "roll": "Pappa",
+      "roll": "Förälder",
       "halsa": ["lågt natrium", "högt blodtryck"],
       "gillar": ["svamp", "fisk", "starka smaker"],
       "undviker": []
@@ -11,18 +11,25 @@
     {
       "id": "sarah",
       "namn": "Sarah",
-      "roll": "Dotter · år 9",
+      "roll": "Dotter · 15 år",
       "kost": ["vegan"],
       "gillar": ["pasta", "curry", "avokado"],
       "undviker": ["svamp", "bittert"]
     },
     {
-      "id": "yngsta",
-      "namn": "Yngsta barnet",
-      "roll": "Barn · \"vanlig mat\"",
+      "id": "annabelle",
+      "namn": "Annabelle",
+      "roll": "Dotter · 11 år",
       "kost": ["vanlig"],
       "gillar": ["kött", "potatismos", "pasta"],
       "undviker": ["bönor", "linser", "grön sallad"]
+    },
+    {
+      "id": "erika",
+      "namn": "Erika",
+      "roll": "Daniels flickvän",
+      "gillar": [],
+      "undviker": []
     }
   ]
 }

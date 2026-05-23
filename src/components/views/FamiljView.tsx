@@ -47,7 +47,6 @@ export default function FamiljView({ side, eaters }: Props) {
           <div className="eater-role">så här ser veckan ut</div>
           <div className="eater-list">
             <strong>Måndag–fredag:</strong> max 35 min middagar<br />
-            <strong>Tisdag:</strong> Sarah träning 18, snabbmat<br />
             <strong>Fredag:</strong> oftast pizza-utflykt<br />
             <strong>Lördag–söndag:</strong> tid för längre matlagning
           </div>
