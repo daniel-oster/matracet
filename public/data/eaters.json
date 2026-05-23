@@ -12,7 +12,6 @@
       "id": "sarah",
       "namn": "Sarah",
       "roll": "Dotter · 15 år",
-      "kost": ["vegan"],
       "gillar": ["pasta", "curry", "avokado"],
       "undviker": ["svamp", "bittert"]
     },
@@ -20,8 +19,8 @@
       "id": "annabelle",
       "namn": "Annabelle",
       "roll": "Dotter · 11 år",
-      "kost": ["vanlig"],
-      "gillar": ["kött", "potatismos", "pasta"],
+      "kost": ["vegan"],
+      "gillar": ["vegansk mat", "pasta"],
       "undviker": ["bönor", "linser", "grön sallad"]
     },
     {

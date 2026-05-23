@@ -2,10 +2,10 @@ import type { Group, Person, PresenceRule, PresenceStore } from './types'
 import { ACTIVITIES } from './activities'
 
 export const PERSONS: Person[] = [
-  { id: 'daniel',    name: 'Daniel'    },
-  { id: 'sarah',     name: 'Sarah'     },
-  { id: 'annabelle', name: 'Annabelle' },
-  { id: 'erika',     name: 'Erika'     },
+  { id: 'daniel',    name: 'Daniel',    minRepeatGapDays: 0 },
+  { id: 'sarah',     name: 'Sarah',     minRepeatGapDays: 1 },
+  { id: 'annabelle', name: 'Annabelle', minRepeatGapDays: 1 },
+  { id: 'erika',     name: 'Erika',     minRepeatGapDays: 0 },
 ]
 
 export const GROUPS: Group[] = [

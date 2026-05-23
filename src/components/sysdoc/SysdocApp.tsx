@@ -4,8 +4,9 @@ import WeekMenuSection from './WeekMenuSection'
 import ConventionsSection from './ConventionsSection'
 import ProductSection from './ProductSection'
 import PresenceSection from './PresenceSection'
+import MealsSection from './MealsSection'
 
-type Section = 'produkt' | 'narvaro' | 'recept' | 'veckomeny' | 'konventioner'
+type Section = 'produkt' | 'narvaro' | 'matplan' | 'recept' | 'veckomeny' | 'konventioner'
 
 const NAV_PROJEKT: { id: Section; label: string; badge?: string }[] = [
   { id: 'produkt', label: 'Produktbeskrivning' },
@@ -13,6 +14,7 @@ const NAV_PROJEKT: { id: Section; label: string; badge?: string }[] = [
 
 const NAV_SIDE_A: { id: Section; label: string; badge?: string }[] = [
   { id: 'narvaro', label: 'Närvaro & Vårdnad', badge: 'Side A' },
+  { id: 'matplan', label: 'Matplan & Preferenser', badge: 'Side B' },
 ]
 
 const NAV_DATA: { id: Section; label: string; badge?: string }[] = [

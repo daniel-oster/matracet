@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import { WeekMenu, EatersData, RecipeIndex, RecipeIndexEntry } from './types'
 import Binder from './components/Binder'
+import { resolvePresenceRange } from './presence/resolver'
+import { SEED_STORE } from './presence/seed'
+import type { DayPlan } from './presence/types'
 
 const CURRENT_WEEK = '2026-W21'
 
@@ -8,6 +11,7 @@ export default function App() {
   const [week, setWeek] = useState<WeekMenu | null>(null)
   const [eaters, setEaters] = useState<EatersData | null>(null)
   const [recipeIndex, setRecipeIndex] = useState<RecipeIndexEntry[]>([])
+  const [dayPlans, setDayPlans] = useState<DayPlan[]>([])
 
   useEffect(() => {
     Promise.all([
@@ -18,6 +22,11 @@ export default function App() {
       setWeek(weekData)
       setEaters(eatersData)
       setRecipeIndex(indexData.recipes)
+      if (weekData.middagar.length > 0) {
+        const start = weekData.middagar[0].datum
+        const end = weekData.middagar[weekData.middagar.length - 1].datum
+        setDayPlans(resolvePresenceRange(start, end, SEED_STORE))
+      }
     })
   }, [])
 
@@ -29,5 +38,5 @@ export default function App() {
     )
   }
 
-  return <Binder week={week} eaters={eaters.eaters} recipeIndex={recipeIndex} />
+  return <Binder week={week} eaters={eaters.eaters} recipeIndex={recipeIndex} dayPlans={dayPlans} />
 }
