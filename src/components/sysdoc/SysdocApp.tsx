@@ -3,11 +3,16 @@ import RecipeSchemaSection from './RecipeSchemaSection'
 import WeekMenuSection from './WeekMenuSection'
 import ConventionsSection from './ConventionsSection'
 import ProductSection from './ProductSection'
+import PresenceSection from './PresenceSection'
 
-type Section = 'produkt' | 'recept' | 'veckomeny' | 'konventioner'
+type Section = 'produkt' | 'narvaro' | 'recept' | 'veckomeny' | 'konventioner'
 
 const NAV_PROJEKT: { id: Section; label: string; badge?: string }[] = [
   { id: 'produkt', label: 'Produktbeskrivning' },
+]
+
+const NAV_SIDE_A: { id: Section; label: string; badge?: string }[] = [
+  { id: 'narvaro', label: 'Närvaro & Vårdnad', badge: 'Side A' },
 ]
 
 const NAV_DATA: { id: Section; label: string; badge?: string }[] = [
@@ -43,12 +48,16 @@ export default function SysdocApp() {
         <div className="sidebar-section-label">Projekt</div>
         {NAV_PROJEKT.map(n => <NavLink key={n.id} {...n} />)}
 
+        <div className="sidebar-section-label">Side A — Livet</div>
+        {NAV_SIDE_A.map(n => <NavLink key={n.id} {...n} />)}
+
         <div className="sidebar-section-label">Datamodeller</div>
         {NAV_DATA.map(n => <NavLink key={n.id} {...n} />)}
       </nav>
 
       <main className="sysdoc-main">
         {active === 'produkt'      && <ProductSection />}
+        {active === 'narvaro'      && <PresenceSection />}
         {active === 'recept'       && <RecipeSchemaSection />}
         {active === 'veckomeny'    && <WeekMenuSection />}
         {active === 'konventioner' && <ConventionsSection />}

@@ -21,21 +21,27 @@ export default function ProductSection() {
         <tbody>
           <tr>
             <td><strong>Daniel</strong></td>
-            <td><span style={{ color: 'var(--muted)', fontSize: 12 }}>Pappa</span></td>
+            <td><span style={{ color: 'var(--muted)', fontSize: 12 }}>Förälder</span></td>
             <td>Lågt natrium, högt blodtryck</td>
             <td>Svamp, fisk, starka smaker</td>
           </tr>
           <tr>
             <td><strong>Sarah</strong></td>
-            <td><span style={{ color: 'var(--muted)', fontSize: 12 }}>Dotter · år 9</span></td>
+            <td><span style={{ color: 'var(--muted)', fontSize: 12 }}>Dotter · 15 år</span></td>
             <td>Vegan</td>
             <td>Pasta, curry, avokado</td>
           </tr>
           <tr>
-            <td><strong>Yngsta barnet</strong></td>
-            <td><span style={{ color: 'var(--muted)', fontSize: 12 }}>Barn</span></td>
+            <td><strong>Annabelle</strong></td>
+            <td><span style={{ color: 'var(--muted)', fontSize: 12 }}>Dotter · 11 år</span></td>
             <td>Vanlig mat</td>
             <td>Kött, potatismos, pasta</td>
+          </tr>
+          <tr>
+            <td><strong>Erika</strong></td>
+            <td><span style={{ color: 'var(--muted)', fontSize: 12 }}>Daniels flickvän</span></td>
+            <td>—</td>
+            <td>—</td>
           </tr>
         </tbody>
       </table>
