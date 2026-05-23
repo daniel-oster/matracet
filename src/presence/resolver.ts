@@ -1,4 +1,13 @@
-import type { DayPlan, Group, Override, PresenceRule, PresenceStore, Weekday } from './types'
+import type {
+  Activity,
+  DayPlan,
+  Group,
+  Override,
+  PresenceRule,
+  PresenceStore,
+  Weekday,
+  WindowStatus,
+} from './types'
 
 // ── Date helpers ──────────────────────────────────────────────────────────────
 
@@ -66,10 +75,114 @@ function isInWindow(date: string, validFrom: string, validUntil: string | null):
   return true
 }
 
+// ── Window helpers ─────────────────────────────────────────────────────────────
+
+/**
+ * Effective departure cutoff for an activity, via the fallback chain:
+ *   leaveBy → arriveBy → startTime
+ * Returns null when no startTime is set (timeless entry).
+ */
+export function effectiveLeaveBy(act: Activity): string | null {
+  if (!act.startTime) return null
+  return act.leaveBy ?? act.arriveBy ?? act.startTime
+}
+
+/** Lexicographic minimum of a non-empty array of HH:MM strings. */
+function minTime(times: string[]): string {
+  return times.reduce((a, b) => (a <= b ? a : b))
+}
+
+/**
+ * Activities are considered to plausibly overlap the dinner window only when
+ * their effective departure is at or after this threshold. Earlier departures
+ * (daytime excursions like Trav at 14:15) are shown in activitiesToday for
+ * context but do not constrain the evening window.
+ *
+ * Rule: effective leaveBy >= 15:00 → may bind dinner.
+ *       effective leaveBy <  15:00 → daytime, displayed only.
+ */
+const DINNER_WINDOW_START = '15:00'
+
+interface WindowResult {
+  activitiesToday: Activity[]
+  windowStatus: WindowStatus
+  windowEndsBy: string | null
+  eatEarlyBy: string | null
+  windowNotes: string[]
+}
+
+function computeWindow(
+  date: string,
+  weekday: Weekday,
+  presentPersonIds: Set<string>,
+  handoverBy: string | null,
+  activities: Activity[],
+  personNameById: Map<string, string>,
+): WindowResult {
+  // Gather activities for present persons on this weekday within their validity window
+  const activitiesToday = activities.filter(a =>
+    presentPersonIds.has(a.personId) &&
+    a.weekday === weekday &&
+    isInWindow(date, a.validFrom, a.validUntil),
+  )
+
+  if (presentPersonIds.size === 0) {
+    return { activitiesToday: [], windowStatus: 'OPEN', windowEndsBy: null, eatEarlyBy: null, windowNotes: [] }
+  }
+
+  // Window-binding activities: affectsWindow=true AND effective leaveBy >= DINNER_WINDOW_START
+  const windowBinding = activitiesToday.filter(a => {
+    if (!a.affectsWindow) return false
+    const eff = effectiveLeaveBy(a)
+    return eff !== null && eff >= DINNER_WINDOW_START
+  })
+
+  // Build notes
+  const notes: string[] = []
+  if (handoverBy) {
+    notes.push(`Överlämning ${handoverBy}`)
+  }
+  for (const a of windowBinding) {
+    const eff = effectiveLeaveBy(a)!
+    const name = personNameById.get(a.personId) ?? a.personId
+    const endStr = a.endTime ? ` (klar ${a.endTime})` : ''
+    notes.push(`${name}: ${a.label} → avgång ${eff}${endStr}`)
+  }
+
+  // Collect cutoffs
+  const actCutoffs = windowBinding.map(a => effectiveLeaveBy(a)!)
+  const allCutoffs = handoverBy ? [...actCutoffs, handoverBy] : actCutoffs
+
+  if (allCutoffs.length === 0) {
+    return { activitiesToday, windowStatus: 'OPEN', windowEndsBy: null, eatEarlyBy: null, windowNotes: notes }
+  }
+
+  const bindingCutoff = minTime(allCutoffs)
+
+  // CONFLICT: at least one activity keeps the person out past the handover
+  // Criterion: effectiveLeaveBy < handoverBy AND (endTime ?? '23:59') > handoverBy
+  let hasConflict = false
+  if (handoverBy) {
+    hasConflict = windowBinding.some(a => {
+      const eff = effectiveLeaveBy(a)!
+      const end = a.endTime ?? '23:59'
+      return eff < handoverBy && end > handoverBy
+    })
+  }
+
+  if (hasConflict) {
+    // eatEarlyBy = earliest activity departure (the last moment everyone can eat together)
+    const eatEarlyBy = actCutoffs.length > 0 ? minTime(actCutoffs) : handoverBy
+    return { activitiesToday, windowStatus: 'CONFLICT', windowEndsBy: null, eatEarlyBy, windowNotes: notes }
+  }
+
+  return { activitiesToday, windowStatus: 'BOUNDED', windowEndsBy: bindingCutoff, eatEarlyBy: null, windowNotes: notes }
+}
+
 // ── Public API ─────────────────────────────────────────────────────────────────
 
 export function resolvePresence(date: string, store: PresenceStore): DayPlan {
-  const { persons, groups, rules, overrides } = store
+  const { persons, groups, rules, overrides, activities = [] } = store
 
   const groupById = (id: string): Group | null =>
     groups.find(g => g.id === id) ?? null
@@ -106,11 +219,26 @@ export function resolvePresence(date: string, store: PresenceStore): DayPlan {
         .filter((p): p is (typeof persons)[0] => p !== undefined)
     : []
 
+  // 5. Handover constraint: taken from any firing rule that declares one for this weekday.
+  //    Independent of overrides — the custody handover time is a real-world fact.
+  const wd = isoWeekday(date)
+  let handoverBy: string | null = null
+  for (const r of firingRules) {
+    const t = r.handoverByWeekday?.[wd]
+    if (t !== undefined) { handoverBy = t; break }
+  }
+
+  // 6. Compute eating window
+  const presentPersonIds = new Set(presentPersons.map(p => p.id))
+  const personNameById = new Map(persons.map(p => [p.id, p.name]))
+  const windowResult = computeWindow(date, wd, presentPersonIds, handoverBy, activities, personNameById)
+
   return {
     date,
     activeGroup: resolvedGroup,
     presentPersons,
     portions: presentPersons.length,
+    ...windowResult,
   }
 }
 

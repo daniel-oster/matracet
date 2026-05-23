@@ -28,14 +28,14 @@ export default function ProductSection() {
           <tr>
             <td><strong>Sarah</strong></td>
             <td><span style={{ color: 'var(--muted)', fontSize: 12 }}>Dotter · 15 år</span></td>
-            <td>Vegan</td>
+            <td>—</td>
             <td>Pasta, curry, avokado</td>
           </tr>
           <tr>
             <td><strong>Annabelle</strong></td>
             <td><span style={{ color: 'var(--muted)', fontSize: 12 }}>Dotter · 11 år</span></td>
-            <td>Vanlig mat</td>
-            <td>Kött, potatismos, pasta</td>
+            <td>Vegan</td>
+            <td>Vegansk mat, pasta</td>
           </tr>
           <tr>
             <td><strong>Erika</strong></td>
@@ -130,7 +130,7 @@ export default function ProductSection() {
           <ul className="convention-list" style={{ margin: 0 }}>
             <li><span className="conv-key">UI</span><span>Lägg till egna recept (fritext &amp; URL-import)</span></li>
             <li><span className="conv-key">Frukost</span><span>Frukostmodul med 3–5 default-rutiner</span></li>
-            <li><span className="conv-key">Kalender</span><span>Tidsbegränsade middagar (t.ex. Sarah tränar tisdagar)</span></li>
+            <li><span className="conv-key">Kalender</span><span>Tidsbegränsade middagar — <em>delvis implementerat:</em> aktivitets- och matfönster­resolvern (Side A) hanterar hårda tidskonflikter; måltidslogiken (Side B) återstår</span></li>
             <li><span className="conv-key">Pris</span><span>Reklamblad &amp; prisjämförelse för 2–3 svenska kedjor</span></li>
           </ul>
         </div>
