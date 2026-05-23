@@ -2,17 +2,35 @@ import { useState } from 'react'
 import RecipeSchemaSection from './RecipeSchemaSection'
 import WeekMenuSection from './WeekMenuSection'
 import ConventionsSection from './ConventionsSection'
+import ProductSection from './ProductSection'
 
-type Section = 'recept' | 'veckomeny' | 'konventioner'
+type Section = 'produkt' | 'recept' | 'veckomeny' | 'konventioner'
 
-const NAV: { id: Section; label: string; badge?: string }[] = [
-  { id: 'recept',      label: 'Recept-schema',   badge: 'v1.0' },
-  { id: 'veckomeny',   label: 'Veckomenyn',       badge: 'JSON' },
+const NAV_PROJEKT: { id: Section; label: string; badge?: string }[] = [
+  { id: 'produkt', label: 'Produktbeskrivning' },
+]
+
+const NAV_DATA: { id: Section; label: string; badge?: string }[] = [
+  { id: 'recept',       label: 'Recept-schema',  badge: 'v1.0' },
+  { id: 'veckomeny',    label: 'Veckomenyn',      badge: 'JSON' },
   { id: 'konventioner', label: 'Konventioner' },
 ]
 
 export default function SysdocApp() {
-  const [active, setActive] = useState<Section>('recept')
+  const [active, setActive] = useState<Section>('produkt')
+
+  function NavLink({ id, label, badge }: { id: Section; label: string; badge?: string }) {
+    return (
+      <a
+        href="#"
+        className={`sidebar-link ${active === id ? 'active' : ''}`}
+        onClick={e => { e.preventDefault(); setActive(id) }}
+      >
+        {label}
+        {badge && <span className="link-badge">{badge}</span>}
+      </a>
+    )
+  }
 
   return (
     <div className="sysdoc-layout">
@@ -22,21 +40,15 @@ export default function SysdocApp() {
       </header>
 
       <nav className="sysdoc-sidebar">
+        <div className="sidebar-section-label">Projekt</div>
+        {NAV_PROJEKT.map(n => <NavLink key={n.id} {...n} />)}
+
         <div className="sidebar-section-label">Datamodeller</div>
-        {NAV.map(n => (
-          <a
-            key={n.id}
-            href="#"
-            className={`sidebar-link ${active === n.id ? 'active' : ''}`}
-            onClick={e => { e.preventDefault(); setActive(n.id) }}
-          >
-            {n.label}
-            {n.badge && <span className="link-badge">{n.badge}</span>}
-          </a>
-        ))}
+        {NAV_DATA.map(n => <NavLink key={n.id} {...n} />)}
       </nav>
 
       <main className="sysdoc-main">
+        {active === 'produkt'      && <ProductSection />}
         {active === 'recept'       && <RecipeSchemaSection />}
         {active === 'veckomeny'    && <WeekMenuSection />}
         {active === 'konventioner' && <ConventionsSection />}
