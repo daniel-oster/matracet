@@ -325,6 +325,63 @@ body {
   font-style: italic;
   margin-left: 34px;
 }
+.day-group {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 11px;
+  color: var(--ink-soft);
+  margin-left: 4px;
+  opacity: 0.75;
+}
+.day-window {
+  margin-left: 34px;
+  margin-bottom: 2px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+}
+.day-window-conflict {
+  color: var(--ink-red);
+  font-weight: 600;
+}
+.day-window-bounded {
+  color: var(--ink-soft);
+}
+
+/* ============= PRESENCE TABLE ============= */
+.presence-week {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: 4px;
+}
+.presence-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-family: 'Patrick Hand', cursive;
+  font-size: 13px;
+  color: var(--ink);
+}
+.presence-day {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--ink-soft);
+  min-width: 42px;
+}
+.presence-group {
+  flex: 1;
+  color: var(--ink-soft);
+}
+.presence-window-conflict {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--ink-red);
+  font-weight: 600;
+}
+.presence-window-bounded {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--ink-soft);
+}
 
 /* ============= HANDLA ============= */
 .shop-group { margin-bottom: 10px; }

@@ -3,14 +3,16 @@ import { TabName, WeekMenu, Eater, RecipeIndexEntry } from '../types'
 import Page from './Page'
 import Tabs from './Tabs'
 import RecipeOverlay from './RecipeOverlay'
+import type { DayPlan } from '../presence/types'
 
 interface Props {
   week: WeekMenu
   eaters: Eater[]
   recipeIndex: RecipeIndexEntry[]
+  dayPlans: DayPlan[]
 }
 
-export default function Binder({ week, eaters, recipeIndex }: Props) {
+export default function Binder({ week, eaters, recipeIndex, dayPlans }: Props) {
   const [activeTab, setActiveTab] = useState<TabName>('veckan')
   const [portraitSide, setPortraitSide] = useState<'left' | 'right'>('left')
   const [selectedRecipeSlug, setSelectedRecipeSlug] = useState<string | null>(null)
@@ -45,6 +47,7 @@ export default function Binder({ week, eaters, recipeIndex }: Props) {
             week={week}
             eaters={eaters}
             recipeIndex={recipeIndex}
+            dayPlans={dayPlans}
             selectedRecipeSlug={selectedRecipeSlug}
             onSelectRecipe={setSelectedRecipeSlug}
             onOpenRecipe={setOverlaySlug}
@@ -61,6 +64,7 @@ export default function Binder({ week, eaters, recipeIndex }: Props) {
             week={week}
             eaters={eaters}
             recipeIndex={recipeIndex}
+            dayPlans={dayPlans}
             selectedRecipeSlug={selectedRecipeSlug}
             onSelectRecipe={setSelectedRecipeSlug}
             onOpenRecipe={setOverlaySlug}
