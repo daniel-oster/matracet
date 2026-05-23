@@ -1,4 +1,5 @@
 import type { Group, Person, PresenceRule, PresenceStore } from './types'
+import { ACTIVITIES } from './activities'
 
 export const PERSONS: Person[] = [
   { id: 'daniel',    name: 'Daniel'    },
@@ -27,7 +28,8 @@ export const GROUPS: Group[] = [
 
 export const RULES: PresenceRule[] = [
   {
-    // Every Mon and Wed regardless of custody week
+    // Every Mon and Wed regardless of custody week.
+    // Kids handed to mother at 19:00 on both days → structural dinner cutoff.
     id: 'mon-wed-weekly',
     groupId: 'daniel-barn',
     cadence: 'WEEKLY',
@@ -36,6 +38,7 @@ export const RULES: PresenceRule[] = [
     validFrom: '2026-01-01',
     validUntil: null,
     priority: 0,
+    handoverByWeekday: { 1: '19:00', 3: '19:00' },
   },
   {
     // Fri–Sun on Daniel's custody weeks only
@@ -48,6 +51,8 @@ export const RULES: PresenceRule[] = [
     validFrom: '2026-01-01',
     validUntil: null,
     priority: 0,
+    // No structural handover on Fri/Sat/Sun — Friday handover time varies;
+    // use a per-day Override when needed.
   },
 ]
 
@@ -56,4 +61,5 @@ export const SEED_STORE: PresenceStore = {
   groups: GROUPS,
   rules: RULES,
   overrides: [],
+  activities: ACTIVITIES,
 }
