@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { TabName, WeekMenu, Eater, RecipeIndexEntry } from '../types'
 import Page from './Page'
 import Tabs from './Tabs'
+import RecipeOverlay from './RecipeOverlay'
 
 interface Props {
   week: WeekMenu
@@ -13,6 +14,7 @@ export default function Binder({ week, eaters, recipeIndex }: Props) {
   const [activeTab, setActiveTab] = useState<TabName>('veckan')
   const [portraitSide, setPortraitSide] = useState<'left' | 'right'>('left')
   const [selectedRecipeSlug, setSelectedRecipeSlug] = useState<string | null>(null)
+  const [overlaySlug, setOverlaySlug] = useState<string | null>(null)
 
   function handleTabChange(tab: TabName) {
     setActiveTab(tab)
@@ -45,6 +47,7 @@ export default function Binder({ week, eaters, recipeIndex }: Props) {
             recipeIndex={recipeIndex}
             selectedRecipeSlug={selectedRecipeSlug}
             onSelectRecipe={setSelectedRecipeSlug}
+            onOpenRecipe={setOverlaySlug}
             flippedOut={portraitSide === 'right'}
           />
 
@@ -60,6 +63,7 @@ export default function Binder({ week, eaters, recipeIndex }: Props) {
             recipeIndex={recipeIndex}
             selectedRecipeSlug={selectedRecipeSlug}
             onSelectRecipe={setSelectedRecipeSlug}
+            onOpenRecipe={setOverlaySlug}
             flippedIn={portraitSide === 'right'}
           />
 
@@ -86,6 +90,10 @@ export default function Binder({ week, eaters, recipeIndex }: Props) {
           Höger sida →
         </button>
       </div>
+
+      {overlaySlug && (
+        <RecipeOverlay slug={overlaySlug} onClose={() => setOverlaySlug(null)} />
+      )}
     </>
   )
 }

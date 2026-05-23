@@ -54,6 +54,7 @@ export interface DayMeal {
   dag: string
   datum: string
   recept: string | null
+  receptSlug?: string
   kommentar?: string
   anteckning?: string
   varianter?: Record<string, string>
