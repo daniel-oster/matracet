@@ -12,9 +12,10 @@ Daniel (Trafikverket, Observe-teamet, .NET-bakgrund, vana att hantera kod via Cl
 
 Hushållet har olika kostpreferenser samtidigt:
 
-- **Daniel**: lågt natrium (högt blodtryck), gillar svamp, fisk, starka smaker
-- **Sarah** (dotter, år 9): vegan, gillar pasta/curry/avokado
-- **Yngsta barnet**: "vanlig mat", gillar kött och potatismos
+- **Daniel**: förälder, lågt natrium (högt blodtryck), gillar svamp, fisk, starka smaker
+- **Sarah** (dotter, 15 år): vegan, gillar pasta/curry/avokado
+- **Annabelle** (dotter, 11 år): "vanlig mat", gillar kött och potatismos
+- **Erika**: Daniels flickvän
 
 Utöver det: morgnar är stressiga, mat har blivit dyrt, säsongstänk är viktigt, och vardagsschemat (träningar, läxor) påverkar hur mycket tid det finns för matlagning.
 
@@ -64,6 +65,44 @@ Allt det ovan **görs manuellt** tills mönstret är så stabilt att det är vä
 ---
 
 ## 4. Arkitektur
+
+### Side A vs Side B — envägs-beroende
+
+Appens logik är uppdelad i två sidor som aldrig blandas:
+
+| Sida | Domän | Karaktär |
+|---|---|---|
+| **Side A — Livet / Närvaro** | Vem är hemma, när, vilka hårda villkor finns | Fakta · stabil · ändras sällan |
+| **Side B — Måltider** | Vad ska lagas, rester, preferenser | Beslut · läser Side A · skriver aldrig till Side A |
+
+**Grundprincipen:** allt är en versionerad återkommande regel med glesa undantag (`Override`).
+Ingen speciallogik för "varannan vecka" — vårdnadsschema är bara ytterligare en återkommande
+regel (`PresenceRule` med `cadence: BIWEEKLY`). Det gör att lösaren hanterar överlappande
+perioder utan specialfall.
+
+#### Side A — Presence & Custody Resolver (implementerad v21 2026)
+
+Entiteter: `Person`, `Group`, `PresenceRule` (WEEKLY | BIWEEKLY med anchor + paritet),
+`Override` (SET_GROUP | CLEAR | PHASE_FLIP), och det härledda `DayPlan`.
+
+Resolver: `resolvePresence(date)` → `DayPlan`, `resolvePresenceRange(start, end)` → `DayPlan[]`.
+Ren funktion — ingen sido-effekt.
+
+Verkligt vårdnadsmönster (kanoniskt exempel, anchor 2026-05-22):
+
+| Dag | Daniels vecka | Frisvecka |
+|---|---|---|
+| Mån | Daniel + barn | Daniel + barn |
+| Tis | (mamman) | (mamman) |
+| Ons | Daniel + barn | Daniel + barn |
+| Tor | (mamman) | (mamman) |
+| Fre | Daniel + barn | (mamman) |
+| Lör | Daniel + barn | (mamman) |
+| Sön | Daniel + barn | (mamman) |
+
+Måndag och onsdag täcks av en `WEEKLY`-regel; fredag–söndag av en `BIWEEKLY`-regel med
+samma anchor. Erikas alternering och barnens aktiviteter läggs till i Prompt 2 som ytterligare
+`PresenceRule`-poster — ingen schemaändring krävs.
 
 ### Stack
 
