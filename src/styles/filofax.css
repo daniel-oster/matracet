@@ -291,10 +291,10 @@ body {
 .day-num {
   font-family: 'Fraunces', serif;
   font-weight: 600;
-  font-size: 22px;
+  font-size: 40px;
   color: var(--ink);
   line-height: 1;
-  min-width: 24px;
+  min-width: 46px;
 }
 .day-name {
   font-family: 'Inter Tight', sans-serif;
@@ -309,13 +309,13 @@ body {
   font-size: 24px;
   color: var(--ink-blue);
   line-height: 1.1;
-  margin-left: 34px;
+  margin-left: 56px;
 }
 .day-meta {
   font-family: 'Patrick Hand', cursive;
   font-size: 13px;
   color: var(--ink-soft);
-  margin-left: 34px;
+  margin-left: 56px;
 }
 .day-meta .arrow { color: var(--ink-red); font-weight: 600; }
 .day-comment {
@@ -323,7 +323,7 @@ body {
   font-size: 16px;
   color: var(--ink-red);
   font-style: italic;
-  margin-left: 34px;
+  margin-left: 56px;
 }
 .day-group {
   font-family: 'Patrick Hand', cursive;
@@ -333,7 +333,7 @@ body {
   opacity: 0.75;
 }
 .day-window {
-  margin-left: 34px;
+  margin-left: 56px;
   margin-bottom: 2px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
@@ -834,11 +834,12 @@ body {
   .page-head { margin-bottom: 10px; padding-bottom: 6px; }
   .page-head .title { font-size: 14px; }
 
-  .day-num { font-size: 19px; min-width: 22px; }
+  .day-num { font-size: 30px; min-width: 36px; }
   .day-name { font-size: 10px; }
-  .day-dish { font-size: 20px; margin-left: 32px; }
-  .day-meta { font-size: 12px; margin-left: 32px; }
-  .day-comment { font-size: 15px; margin-left: 32px; }
+  .day-dish { font-size: 20px; margin-left: 46px; }
+  .day-meta { font-size: 12px; margin-left: 46px; }
+  .day-comment { font-size: 15px; margin-left: 46px; }
+  .day-window { margin-left: 46px; }
 
   .shop-row { font-size: 15px; padding: 2px 0; gap: 8px; }
   .recipe-name { font-size: 17px; }
@@ -873,8 +874,8 @@ body {
   font-size: 24px;
   color: var(--ink-blue);
   line-height: 1.1;
-  margin-left: 34px;
-  width: calc(100% - 34px);
+  margin-left: 56px;
+  width: calc(100% - 56px);
 }
 .day-dish-linked:hover { color: var(--leather-dark); }
 .day-dish-linked:active { opacity: 0.8; }
@@ -886,7 +887,7 @@ body {
   flex-shrink: 0;
 }
 @media (orientation: portrait), (max-width: 700px) {
-  .day-dish-linked { font-size: 20px; margin-left: 32px; width: calc(100% - 32px); }
+  .day-dish-linked { font-size: 20px; margin-left: 46px; width: calc(100% - 46px); }
 }
 
 /* ============= RECIPE OVERLAY ============= */

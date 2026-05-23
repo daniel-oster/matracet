@@ -1,18 +1,20 @@
 import { useState } from 'react'
-import { TabName, WeekMenu, Eater, RecipeIndexEntry } from '../types'
+import { TabName, Eater, RecipeIndexEntry, DayMeal, WeekNote } from '../types'
 import Page from './Page'
 import Tabs from './Tabs'
 import RecipeOverlay from './RecipeOverlay'
 import type { DayPlan } from '../presence/types'
 
 interface Props {
-  week: WeekMenu
+  rollingDays: DayMeal[]
+  weekNotes: WeekNote[]
+  weekLabel: string
   eaters: Eater[]
   recipeIndex: RecipeIndexEntry[]
   dayPlans: DayPlan[]
 }
 
-export default function Binder({ week, eaters, recipeIndex, dayPlans }: Props) {
+export default function Binder({ rollingDays, weekNotes, weekLabel, eaters, recipeIndex, dayPlans }: Props) {
   const [activeTab, setActiveTab] = useState<TabName>('veckan')
   const [portraitSide, setPortraitSide] = useState<'left' | 'right'>('left')
   const [selectedRecipeSlug, setSelectedRecipeSlug] = useState<string | null>(null)
@@ -24,19 +26,11 @@ export default function Binder({ week, eaters, recipeIndex, dayPlans }: Props) {
     if (tab !== 'recept') setSelectedRecipeSlug(null)
   }
 
-  const [year, isoWeek] = week.vecka.split('-W')
-  const firstDay = week.middagar[0]
-  const month = firstDay
-    ? new Date(firstDay.datum).toLocaleDateString('sv-SE', { month: 'long' })
-    : ''
-
   return (
     <>
       <div className="header-bar">
         <h1>Matracet <em>· Life - as it should be</em></h1>
-        <div className="meta">
-          Vecka {isoWeek} · {month ? `${month.charAt(0).toUpperCase()}${month.slice(1)} ${year}` : year}
-        </div>
+        <div className="meta">{weekLabel}</div>
       </div>
 
       <div className="binder">
@@ -44,7 +38,8 @@ export default function Binder({ week, eaters, recipeIndex, dayPlans }: Props) {
           <Page
             side="left"
             activeTab={activeTab}
-            week={week}
+            rollingDays={rollingDays}
+            weekNotes={weekNotes}
             eaters={eaters}
             recipeIndex={recipeIndex}
             dayPlans={dayPlans}
@@ -61,7 +56,8 @@ export default function Binder({ week, eaters, recipeIndex, dayPlans }: Props) {
           <Page
             side="right"
             activeTab={activeTab}
-            week={week}
+            rollingDays={rollingDays}
+            weekNotes={weekNotes}
             eaters={eaters}
             recipeIndex={recipeIndex}
             dayPlans={dayPlans}
