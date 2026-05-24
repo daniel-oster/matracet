@@ -92,6 +92,12 @@ export default function RecipeOverlay({ slug, onClose }: Props) {
           )}
         </div>
 
+        {recipe?.bildUrl && (
+          <div className="overlay-hero">
+            <img className="overlay-hero-img" src={recipe.bildUrl} alt={recipe.namn} />
+          </div>
+        )}
+
         {loading ? (
           <div className="overlay-loading">Laddar…</div>
         ) : !recipe ? (
