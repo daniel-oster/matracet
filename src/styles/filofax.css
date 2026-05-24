@@ -466,45 +466,216 @@ body {
 }
 
 /* ============= FAMILJ ============= */
-.eater {
-  margin-bottom: 12px;
-  padding-bottom: 10px;
-  border-bottom: 1px dashed rgba(0,0,0,0.15);
+
+/* ---- Schedule (left page) ---- */
+.sched-days {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
-.eater:last-child { border-bottom: none; }
-.eater-name {
-  font-family: 'Caveat', cursive;
-  font-size: 22px;
-  color: var(--ink-blue);
-  line-height: 1;
+.sched-day {
+  padding: 4px 0;
+  border-bottom: 1px dashed rgba(0,0,0,0.1);
 }
-.eater-role {
-  font-family: 'Inter Tight', sans-serif;
-  font-weight: 500;
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
+.sched-day:last-child { border-bottom: none; }
+.sched-day--away { opacity: 0.4; }
+.sched-day-header {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.sched-day-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
   color: var(--ink-soft);
-  margin-bottom: 6px;
+  min-width: 44px;
+  flex-shrink: 0;
 }
-.eater-list {
+.sched-day-group {
   font-family: 'Patrick Hand', cursive;
   font-size: 14px;
   color: var(--ink);
-  line-height: 1.5;
+  flex: 1;
 }
-.tag {
-  display: inline-block;
-  padding: 0 6px;
-  border-radius: 9px;
-  font-size: 12px;
-  margin: 1px 2px;
-  background: rgba(184, 24, 16, 0.1);
+.sched-win {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 600;
+  flex-shrink: 0;
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+.sched-win--conflict {
   color: var(--ink-red);
+  background: rgba(184,24,16,0.1);
 }
-.tag.good {
-  background: rgba(107, 142, 78, 0.15);
-  color: #3a5a2a;
+.sched-win--bounded {
+  color: var(--ink-soft);
+  background: rgba(0,0,0,0.06);
+}
+.sched-win--open {
+  color: #5a8040;
+  background: rgba(107,142,78,0.12);
+}
+.sched-acts {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding-left: 50px;
+  margin-top: 1px;
+}
+.sched-act {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 11px;
+  color: var(--ink-soft);
+}
+.sched-act--sarah   { color: #7a4a9e; }
+.sched-act--annabelle { color: #3a7a9e; }
+
+/* ---- Right page header row ---- */
+.familj-page-head-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+/* ---- Section toggle ---- */
+.familj-toggle {
+  display: flex;
+  gap: 3px;
+  flex-shrink: 0;
+}
+.familj-toggle-btn {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 2px 7px;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 9px;
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.familj-toggle-btn--active {
+  background: var(--t-familj);
+  border-color: var(--t-familj);
+  color: #fff;
+}
+
+/* ---- Profiler section ---- */
+.profiler-list {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.profil-card {
+  padding-bottom: 7px;
+  border-bottom: 1px dashed rgba(0,0,0,0.12);
+}
+.profil-card:last-child { border-bottom: none; }
+.profil-name {
+  font-family: 'Caveat', cursive;
+  font-size: 20px;
+  color: var(--ink-blue);
+  line-height: 1;
+}
+.profil-role {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink-soft);
+  margin-bottom: 4px;
+}
+.profil-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+.profil-tag {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 11px;
+  padding: 0 5px;
+  border-radius: 8px;
+}
+.profil-tag--kost     { background: rgba(107,142,78,0.2);  color: #3a5a2a; }
+.profil-tag--halsa    { background: rgba(184,24,16,0.1);   color: var(--ink-red); }
+.profil-tag--gillar   { background: rgba(107,142,78,0.12); color: #4a6a30; }
+.profil-tag--undviker { background: rgba(0,0,0,0.06);      color: var(--ink-soft); text-decoration: line-through; }
+
+/* ---- Regler section ---- */
+.regler-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.regler-label {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--ink-red);
+  border-bottom: 1px solid rgba(184,24,16,0.25);
+  padding-bottom: 2px;
+  margin-top: 8px;
+  margin-bottom: 4px;
+}
+.regler-label:first-child { margin-top: 0; }
+.regler-group {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 13px;
+  color: var(--ink);
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
+  padding: 1px 0;
+}
+.regler-group-name    { font-weight: 600; }
+.regler-group-members { color: var(--ink-soft); font-size: 11px; }
+.regler-rule {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 12px;
+  color: var(--ink);
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
+  padding: 2px 0;
+  flex-wrap: wrap;
+}
+.regler-rule-days {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--ink-soft);
+  min-width: 72px;
+}
+.regler-rule-cadence { flex: 1; }
+.regler-rule-note    { font-size: 10px; color: var(--ink-soft); }
+.regler-person-acts {
+  display: flex;
+  gap: 6px;
+  font-family: 'Patrick Hand', cursive;
+  font-size: 11px;
+  padding: 2px 0;
+  align-items: flex-start;
+}
+.regler-person-name {
+  font-size: 12px;
+  font-weight: 600;
+  min-width: 58px;
+  flex-shrink: 0;
+  padding-top: 1px;
+}
+.regler-person-name--sarah     { color: #7a4a9e; }
+.regler-person-name--annabelle { color: #3a7a9e; }
+.regler-acts-list {
+  color: var(--ink-soft);
+  line-height: 1.4;
 }
 
 /* ============= ANTECKNINGAR ============= */
