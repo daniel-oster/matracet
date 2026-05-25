@@ -467,80 +467,21 @@ body {
 
 /* ============= FAMILJ ============= */
 
-/* ---- Schedule (left page) ---- */
-.sched-days {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-.sched-day {
-  padding: 4px 0;
-  border-bottom: 1px dashed rgba(0,0,0,0.1);
-}
-.sched-day:last-child { border-bottom: none; }
-.sched-day--away { opacity: 0.4; }
-.sched-day-header {
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
-}
-.sched-day-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  color: var(--ink-soft);
-  min-width: 44px;
-  flex-shrink: 0;
-}
-.sched-day-group {
-  font-family: 'Patrick Hand', cursive;
-  font-size: 14px;
-  color: var(--ink);
-  flex: 1;
-}
-.sched-win {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  font-weight: 600;
-  flex-shrink: 0;
-  padding: 1px 5px;
-  border-radius: 3px;
-}
-.sched-win--conflict {
-  color: var(--ink-red);
-  background: rgba(184,24,16,0.1);
-}
-.sched-win--bounded {
-  color: var(--ink-soft);
-  background: rgba(0,0,0,0.06);
-}
-.sched-win--open {
-  color: #5a8040;
-  background: rgba(107,142,78,0.12);
-}
-.sched-acts {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  padding-left: 50px;
-  margin-top: 1px;
-}
-.sched-act {
-  font-family: 'Patrick Hand', cursive;
-  font-size: 11px;
-  color: var(--ink-soft);
-}
-.sched-act--sarah   { color: #7a4a9e; }
-.sched-act--annabelle { color: #3a7a9e; }
+/* Away days are dimmed */
+.fam-day--away { opacity: 0.38; }
 
-/* ---- Right page header row ---- */
-.familj-page-head-row {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 8px;
+/* Activity lines below the day header, indented to match .day-dish */
+.fam-act {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-left: 56px;
+  line-height: 1.35;
 }
+.fam-act--sarah     { color: #7a4a9e; }
+.fam-act--annabelle { color: #3a7a9e; }
 
-/* ---- Section toggle ---- */
+/* ---- Section toggle (sits inside .page-head as the .sub slot) ---- */
 .familj-toggle {
   display: flex;
   gap: 3px;

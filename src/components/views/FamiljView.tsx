@@ -4,6 +4,10 @@ import type { DayPlan, Activity } from '../../presence/types'
 import { GROUPS, RULES } from '../../presence/seed'
 import { ACTIVITIES } from '../../presence/activities'
 
+const DAY_LONG: Record<number, string> = {
+  1: 'Måndag', 2: 'Tisdag', 3: 'Onsdag', 4: 'Torsdag',
+  5: 'Fredag', 6: 'Lördag', 7: 'Söndag',
+}
 const DAY_SHORT: Record<number, string> = {
   1: 'Mån', 2: 'Tis', 3: 'Ons', 4: 'Tor', 5: 'Fre', 6: 'Lör', 7: 'Sön',
 }
@@ -14,17 +18,29 @@ function isoWeekday(iso: string): number {
   return dow === 0 ? 7 : dow
 }
 
-function shortDayLabel(iso: string): string {
-  const wd = isoWeekday(iso)
-  const num = new Date(iso + 'T00:00:00Z').getUTCDate()
-  return `${DAY_SHORT[wd]} ${num}`
+function dateNum(iso: string): number {
+  return new Date(iso + 'T00:00:00Z').getUTCDate()
+}
+
+function monthShort(iso: string): string {
+  return new Date(iso + 'T00:00:00Z').toLocaleDateString('sv-SE', { month: 'short' })
+}
+
+function dateRangeLabel(plans: DayPlan[]): string {
+  if (plans.length === 0) return ''
+  const first = plans[0]
+  const last = plans[plans.length - 1]
+  const a = dateNum(first.date)
+  const b = dateNum(last.date)
+  const mon = monthShort(first.date)
+  return `${a}–${b} ${mon}`
 }
 
 function effectiveTime(act: Activity): string | null {
   return act.leaveBy ?? act.arriveBy ?? act.startTime
 }
 
-type Section = 'profiler' | 'regler'
+type RightView = 'schema' | 'profiler' | 'regler'
 
 interface Props {
   side: PageSide
@@ -33,105 +49,98 @@ interface Props {
 }
 
 export default function FamiljView({ side, eaters, dayPlans }: Props) {
-  const [section, setSection] = useState<Section>('profiler')
+  const [rightView, setRightView] = useState<RightView>('schema')
+
+  const leftDays  = dayPlans.slice(0, 4)
+  const rightDays = dayPlans.slice(4)
 
   if (side === 'left') {
-    return <SchedulePage dayPlans={dayPlans} />
+    return (
+      <>
+        <div className="page-head">
+          <div className="title">{dateRangeLabel(leftDays)}</div>
+          <div className="sub">{leftDays.map(p => DAY_SHORT[isoWeekday(p.date)]).join(' — ')}</div>
+        </div>
+        <ScheduleDays plans={leftDays} />
+      </>
+    )
   }
-  return <FamiljPage section={section} onSection={setSection} eaters={eaters} />
-}
 
-// ── Left page: 7-day rolling schedule ──────────────────────────────────────
+  const rightTitle = rightView === 'schema'
+    ? dateRangeLabel(rightDays)
+    : rightView === 'profiler'
+      ? 'Familjen'
+      : 'Regler'
 
-function SchedulePage({ dayPlans }: { dayPlans: DayPlan[] }) {
   return (
     <>
       <div className="page-head">
-        <div className="title">Schema</div>
-        <div className="sub">närvaro · aktiviteter · matfönster</div>
+        <div className="title">{rightTitle}</div>
+        <div className="familj-toggle">
+          <button
+            className={`familj-toggle-btn${rightView === 'schema'  ? ' familj-toggle-btn--active' : ''}`}
+            onClick={() => setRightView('schema')}
+          >Schema</button>
+          <button
+            className={`familj-toggle-btn${rightView === 'profiler' ? ' familj-toggle-btn--active' : ''}`}
+            onClick={() => setRightView('profiler')}
+          >Profiler</button>
+          <button
+            className={`familj-toggle-btn${rightView === 'regler'  ? ' familj-toggle-btn--active' : ''}`}
+            onClick={() => setRightView('regler')}
+          >Regler</button>
+        </div>
       </div>
 
-      <div className="sched-days">
-        {dayPlans.map(plan => {
-          const hasGroup = plan.portions > 0
-          const timedActs = plan.activitiesToday.filter(a => a.startTime !== null)
-
-          return (
-            <div key={plan.date} className={`sched-day${hasGroup ? '' : ' sched-day--away'}`}>
-              <div className="sched-day-header">
-                <span className="sched-day-label">{shortDayLabel(plan.date)}</span>
-                <span className="sched-day-group">
-                  {hasGroup ? (plan.activeGroup?.name ?? '—') : 'mamman'}
-                </span>
-                {hasGroup && plan.windowStatus === 'CONFLICT' && (
-                  <span className="sched-win sched-win--conflict">⚠ {plan.eatEarlyBy}</span>
-                )}
-                {hasGroup && plan.windowStatus === 'BOUNDED' && (
-                  <span className="sched-win sched-win--bounded">↓ {plan.windowEndsBy}</span>
-                )}
-                {hasGroup && plan.windowStatus === 'OPEN' && (
-                  <span className="sched-win sched-win--open">öppet</span>
-                )}
-              </div>
-              {hasGroup && timedActs.length > 0 && (
-                <div className="sched-acts">
-                  {timedActs.map(act => {
-                    const t = effectiveTime(act)
-                    const initial = act.personId.charAt(0).toUpperCase()
-                    return (
-                      <span key={act.id} className={`sched-act sched-act--${act.personId}`}>
-                        {initial} · {act.label}{t ? ` ${t}` : ''}
-                      </span>
-                    )
-                  })}
-                </div>
-              )}
-            </div>
-          )
-        })}
-      </div>
+      {rightView === 'schema'  && <ScheduleDays plans={rightDays} />}
+      {rightView === 'profiler' && <ProfilerSection eaters={eaters} />}
+      {rightView === 'regler'  && <ReglerSection />}
     </>
   )
 }
 
-// ── Right page: toggle between Profiler and Regler ─────────────────────────
+// ── Schedule days (Filofax day-block style) ────────────────────────────────
 
-function FamiljPage({
-  section,
-  onSection,
-  eaters,
-}: {
-  section: Section
-  onSection: (s: Section) => void
-  eaters: Eater[]
-}) {
+function ScheduleDays({ plans }: { plans: DayPlan[] }) {
   return (
     <>
-      <div className="page-head">
-        <div className="familj-page-head-row">
-          <div className="title">Familjen</div>
-          <div className="familj-toggle">
-            <button
-              className={`familj-toggle-btn${section === 'profiler' ? ' familj-toggle-btn--active' : ''}`}
-              onClick={() => onSection('profiler')}
-            >
-              Profiler
-            </button>
-            <button
-              className={`familj-toggle-btn${section === 'regler' ? ' familj-toggle-btn--active' : ''}`}
-              onClick={() => onSection('regler')}
-            >
-              Regler
-            </button>
-          </div>
-        </div>
-      </div>
+      {plans.map(plan => {
+        const hasGroup  = plan.portions > 0
+        const wd        = isoWeekday(plan.date)
+        const timedActs = plan.activitiesToday.filter(a => a.startTime !== null)
 
-      {section === 'profiler' ? (
-        <ProfilerSection eaters={eaters} />
-      ) : (
-        <ReglerSection />
-      )}
+        return (
+          <div key={plan.date} className={`day-block${hasGroup ? '' : ' fam-day--away'}`}>
+            <div className="day-row">
+              <span className="day-num">{dateNum(plan.date)}</span>
+              <span className="day-name">{DAY_LONG[wd]}</span>
+              <span className="day-group">
+                {hasGroup ? (plan.activeGroup?.name ?? '—') : 'mamman'}
+              </span>
+            </div>
+
+            {hasGroup && plan.windowStatus !== 'OPEN' && (
+              <div className="day-window">
+                {plan.windowStatus === 'CONFLICT' && (
+                  <span className="day-window-conflict">⚠ mat senast {plan.eatEarlyBy}</span>
+                )}
+                {plan.windowStatus === 'BOUNDED' && (
+                  <span className="day-window-bounded">↓ senast {plan.windowEndsBy}</span>
+                )}
+              </div>
+            )}
+
+            {hasGroup && timedActs.map(act => {
+              const t = effectiveTime(act)
+              return (
+                <div key={act.id} className={`fam-act fam-act--${act.personId}`}>
+                  {act.label}{t ? ` · ${t}` : ''}
+                </div>
+              )
+            })}
+          </div>
+        )
+      })}
     </>
   )
 }
@@ -185,8 +194,8 @@ function ReglerSection() {
 
       <div className="regler-label">Närvaro-regler</div>
       {RULES.map(r => {
-        const days = r.weekdays.map(wd => DAY_SHORT[wd]).join(', ')
-        const cadence = r.cadence === 'BIWEEKLY' ? 'varannan v.' : 'varje v.'
+        const days     = r.weekdays.map(wd => DAY_SHORT[wd]).join(', ')
+        const cadence  = r.cadence === 'BIWEEKLY' ? 'varannan v.' : 'varje v.'
         const handover = r.handoverByWeekday
           ? (Object.values(r.handoverByWeekday).filter(Boolean)[0] as string | undefined)
           : undefined
