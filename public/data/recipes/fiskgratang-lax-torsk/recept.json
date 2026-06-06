@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "slug": "fiskgratang-lax-torsk",
+  "nummer": 63,
+  "namn": "Fiskgratäng med lax och torsk",
+  "tid_min": 35,
+  "portioner": 4,
+  "kategorier": ["fisk"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["gratäng", "lax", "torsk", "ugn"],
+  "kalla": "ICA",
+  "kallaUrl": "https://www.ica.se/recept/fiskgratang-med-lax-och-torsk-724478/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "frysta sojabönor", "mangd": 125, "enhet": "g" },
+    { "vara": "babyspenat", "mangd": 65, "enhet": "g" },
+    { "vara": "körsbärstomater", "mangd": 250, "enhet": "g" },
+    { "vara": "frysta torsk- och laxtärningar", "mangd": 300, "enhet": "g" },
+    { "vara": "salt", "mangd": 0.5, "enhet": "tsk" },
+    { "vara": "svartpeppar", "mangd": 2, "enhet": "krm" },
+    { "vara": "färdigt stomp av rotfrukter", "mangd": 0.33, "enhet": "sats" },
+    { "vara": "crème fraiche", "mangd": 2, "enhet": "dl" },
+    { "vara": "ajvar relish", "mangd": 1, "enhet": "dl" },
+    { "vara": "finriven parmesan", "mangd": 1, "enhet": "dl" },
+    { "vara": "hackad persilja", "mangd": 2, "enhet": "msk" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Sätt ugnen på 225°.",
+    "Lägg sojabönor, spenat, tomater och fisk i mitten av en smord ugnsform och krydda med salt och peppar.",
+    "Bred rotfruktsstompen runt kanterna.",
+    "Blanda crème fraiche med ajvar relish och häll över fisk och grönsaker. Strö över parmesan.",
+    "Grädda mitt i ugnen cirka 25 minuter tills fisken är genomkokt. Lägg på folie mot slutet om gratängen blir för mörk.",
+    "Toppa med persilja före servering."
+  ],
+  "servering": [],
+  "tips": "Rotfruktsstompen kan bytas mot vanligt potatismos om du vill.",
+  "komplett": true
+}

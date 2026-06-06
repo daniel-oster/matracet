@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "slug": "ratatouille",
+  "nummer": 89,
+  "namn": "Ratatouille",
+  "tid_min": 60,
+  "portioner": 4,
+  "kategorier": ["vegetarisk", "vegansk", "glutenfri"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "delvis",
+  "taggar": ["gronsaksgryta", "fransk", "aubergine"],
+  "kalla": "ICA",
+  "kallaUrl": "https://www.ica.se/recept/ratatouille-grundrecept-720849/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "rodlok", "mangd": 1, "enhet": "st" },
+    { "vara": "vitloksklyftor", "mangd": 3, "enhet": "klyftor" },
+    { "vara": "aubergine", "mangd": 300, "enhet": "g" },
+    { "vara": "zucchini", "mangd": 400, "enhet": "g" },
+    { "vara": "rod paprika", "mangd": 1, "enhet": "st" },
+    { "vara": "olivolja", "mangd": 2, "enhet": "msk" },
+    { "vara": "tomatpure", "mangd": 1, "enhet": "msk" },
+    { "vara": "torrt vitt vin eller matlagningsvin", "mangd": 1.5, "enhet": "dl" },
+    { "vara": "hela skalade tomater pa burk", "mangd": 400, "enhet": "g" },
+    { "vara": "torkad timjan", "mangd": 1, "enhet": "tsk" },
+    { "vara": "torkad rosmarin", "mangd": 1, "enhet": "tsk" },
+    { "vara": "salt och svartpeppar", "mangd": 1, "enhet": "krm" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Skala och hacka lok och vitlok. Skar aubergine, zucchini och urkarnad paprika i grova bitar.",
+    "Fras lok och vitlok i halften av oljan i en stor panna pa medelvarme cirka 2 minuter under omrorning.",
+    "Tillsatt resten av oljan samt zucchini och aubergine. Stek vidare cirka 10 minuter.",
+    "Lagg i paprika, tomatpure, vitt vin och tomater. Krydda med timjan och rosmarin.",
+    "Lat sjuda pa svag varme minst 30 minuter. Smaka av med salt och peppar."
+  ],
+  "servering": ["Brod", "Ris", "Couscous"],
+  "tips": "Ratatouillen blir godare dagen efter och fungerar fint som rora till pasta eller bakad potatis.",
+  "komplett": true
+}

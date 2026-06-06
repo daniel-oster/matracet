@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "slug": "ugnsbakad-lax-rostade-gronsaker",
+  "nummer": 64,
+  "namn": "Ugnsbakad lax med rostade grönsaker",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": ["fisk", "glutenfri", "laktosfri"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["lax", "ugn", "grönsaker"],
+  "kalla": "ICA",
+  "kallaUrl": "https://www.ica.se/recept/ugnsbakad-lax-med-rostade-gronsaker-725975/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1485921325833-c519f76c4927?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "potatis", "mangd": 600, "enhet": "g" },
+    { "vara": "zucchini", "mangd": 400, "enhet": "g" },
+    { "vara": "rödlök", "mangd": 2, "enhet": "st" },
+    { "vara": "pressad vitlöksklyfta", "mangd": 2, "enhet": "st" },
+    { "vara": "hackad persilja", "mangd": 4, "enhet": "msk" },
+    { "vara": "olivolja", "mangd": 4, "enhet": "msk" },
+    { "vara": "laxfilé utan skinn", "mangd": 600, "enhet": "g" },
+    { "vara": "salt", "mangd": 1, "enhet": "tsk" },
+    { "vara": "svartpeppar", "mangd": 0.5, "enhet": "tsk" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Sätt ugnen på 225°.",
+    "Skölj potatis och zucchini. Halvera potatisen, skiva zucchinin och skala och klyfta löken.",
+    "Lägg grönsakerna i en ugnssäker form och blanda med vitlök, persilja, olja, salt och peppar. Rosta mitt i ugnen 10–15 minuter.",
+    "Krydda laxen med salt och peppar. Ta ut formen och lägg laxen ovanpå grönsakerna. Grädda cirka 10 minuter till.",
+    "Servera med en god sallad och citronklyftor."
+  ],
+  "servering": ["sallad", "citronklyftor"],
+  "tips": "Använd valfria grönsaker efter säsong, till exempel paprika eller fänkål.",
+  "komplett": true
+}

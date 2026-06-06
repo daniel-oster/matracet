@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "slug": "fyllda-paprikor-kornotto",
+  "nummer": 90,
+  "namn": "Fyllda paprikor med kornotto och fetaost",
+  "tid_min": 55,
+  "portioner": 4,
+  "kategorier": ["vegetarisk"],
+  "sasong": [],
+  "svarighet": "medel",
+  "barnvanlig": "delvis",
+  "taggar": ["paprika", "fetaost", "ugn"],
+  "kalla": "ICA",
+  "kallaUrl": "https://www.ica.se/recept/fyllda-paprikor-med-kornotto-och-fetaost-721972/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1541014741259-de529411b96a?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "kornotto (kokt korngryn)", "mangd": 4, "enhet": "dl" },
+    { "vara": "sma paprikor", "mangd": 4, "enhet": "st" },
+    { "vara": "zucchini", "mangd": 1, "enhet": "st" },
+    { "vara": "fetaost", "mangd": 150, "enhet": "g" },
+    { "vara": "olja", "mangd": 2, "enhet": "msk" },
+    { "vara": "spiskummin", "mangd": 1, "enhet": "tsk" },
+    { "vara": "paprikapulver", "mangd": 1, "enhet": "tsk" },
+    { "vara": "chiliflakes", "mangd": 1, "enhet": "tsk" },
+    { "vara": "salt", "mangd": 0.5, "enhet": "tsk" },
+    { "vara": "sallad", "mangd": 1, "enhet": "st", "grupp": "servering" },
+    { "vara": "tzatziki", "mangd": 2, "enhet": "dl", "grupp": "servering" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Koka kornotton enligt grundrecept om den inte redan ar klar.",
+    "Satt ugnen pa 225 grader. Skar av topparna pa paprikorna och karna ur. Finhacka topparna och stall paprikorna i en ugnsform.",
+    "Tarna zucchinin i cirka 0,5 cm stora bitar och smula fetaosten.",
+    "Stek hackad paprika och zucchini i olja pa hog varme tills de far farg. Tillsatt spiskummin, paprikapulver, chiliflakes och salt och stek ytterligare en minut.",
+    "Blanda de stekta gronsakerna med kornotton och halften av fetaosten. Fyll paprikorna och toppa med resten av fetaosten.",
+    "Grada mitt i ugnen cirka 25 minuter. Servera med gron sallad och tzatziki."
+  ],
+  "servering": ["Gron sallad", "Tzatziki"],
+  "tips": "Forbered paprikorna dagen innan och grada precis fore servering for en smidig vardagsmiddag.",
+  "komplett": true
+}

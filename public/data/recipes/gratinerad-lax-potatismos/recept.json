@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "slug": "gratinerad-lax-potatismos",
+  "nummer": 68,
+  "namn": "Gratinerad lax med potatismos",
+  "tid_min": 40,
+  "portioner": 4,
+  "kategorier": ["fisk", "glutenfri"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["lax", "ugn", "potatismos"],
+  "kalla": "ICA",
+  "kallaUrl": "https://www.ica.se/recept/gratinerad-lax-med-potatismos-722646/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1485921325833-c519f76c4927?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "potatis", "mangd": 900, "enhet": "g", "grupp": "potatismos" },
+    { "vara": "mjölk", "mangd": 2, "enhet": "dl", "grupp": "potatismos" },
+    { "vara": "crème fraiche", "mangd": 1, "enhet": "dl", "grupp": "lax" },
+    { "vara": "sweet chilisås", "mangd": 2, "enhet": "msk", "grupp": "lax" },
+    { "vara": "portionsbitar laxfilé", "mangd": 500, "enhet": "g", "grupp": "lax" },
+    { "vara": "salt", "mangd": 1, "enhet": "krm", "grupp": "lax" },
+    { "vara": "peppar", "mangd": 1, "enhet": "krm", "grupp": "lax" },
+    { "vara": "morötter", "mangd": 3, "enhet": "st", "grupp": "sallad" },
+    { "vara": "huvudsallad", "mangd": 1, "enhet": "st", "grupp": "sallad" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Sätt ugnen på 225°.",
+    "Skala och koka potatisen till moset.",
+    "Blanda crème fraiche och sweet chilisås. Lägg laxen i en liten smord ugnsform och krydda med salt och peppar. Bred crème fraiche-blandningen över fisken och grädda mitt i ugnen cirka 10 minuter.",
+    "Skala morötterna, gör långa strimlor och dela salladen i bitar. Blanda sallad och morot och servera gärna med vinägrett.",
+    "Mosa potatisen och blanda med mjölken. Smaka av med salt och peppar.",
+    "Servera laxen med potatismos och morotssallad."
+  ],
+  "servering": ["potatismos", "morotssallad"],
+  "tips": "Toppa laxen med extra sweet chilisås för dem som vill ha lite sötare smak.",
+  "komplett": true
+}

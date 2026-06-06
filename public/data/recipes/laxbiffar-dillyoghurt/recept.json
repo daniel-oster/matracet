@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "slug": "laxbiffar-dillyoghurt",
+  "nummer": 66,
+  "namn": "Laxbiffar med dillyoghurt",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": ["fisk"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["lax", "biffar", "dill"],
+  "kalla": "ICA",
+  "kallaUrl": "https://www.ica.se/recept/laxbiffar-med-dillyoghurt-725885/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "ströbröd", "mangd": 0.5, "enhet": "dl" },
+    { "vara": "ägg", "mangd": 1, "enhet": "st" },
+    { "vara": "laxfilé", "mangd": 500, "enhet": "g" },
+    { "vara": "salt", "mangd": 0.5, "enhet": "tsk" },
+    { "vara": "olja", "mangd": 1, "enhet": "msk" },
+    { "vara": "färsk dill", "mangd": 20, "enhet": "g", "grupp": "dillyoghurt" },
+    { "vara": "matyoghurt (10%)", "mangd": 2, "enhet": "dl", "grupp": "dillyoghurt" },
+    { "vara": "chilisås", "mangd": 2, "enhet": "msk", "grupp": "dillyoghurt" },
+    { "vara": "salt", "mangd": 1, "enhet": "krm", "grupp": "dillyoghurt" },
+    { "vara": "peppar", "mangd": 1, "enhet": "krm", "grupp": "dillyoghurt" },
+    { "vara": "ris eller annat gryn", "mangd": 4, "enhet": "port", "grupp": "servering" },
+    { "vara": "gurka", "mangd": 1, "enhet": "st", "grupp": "servering" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Tina laxen om fryst används. Koka riset enligt anvisningen på förpackningen.",
+    "Blanda ströbröd och ägg och låt stå en stund. Mixa laxen i matberedare med saltet och blanda med äggblandningen.",
+    "Hacka dillen fint och blanda med yoghurten och chilisåsen. Krydda med salt och peppar.",
+    "Skär gurkan i tärningar eller skivor.",
+    "Forma 4 biffar av laxfärsen och stek dem i oljan i en stekpanna cirka 6 minuter, vänd då och då.",
+    "Servera laxbiffarna med ris, gurka och sås. Toppa med dillvippor."
+  ],
+  "servering": ["ris", "gurka"],
+  "tips": "Mixa inte laxen för länge, lite grov färs ger saftigare biffar.",
+  "komplett": true
+}

@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "slug": "vegotacos-svarta-bonor-majs",
+  "nummer": 107,
+  "namn": "Snabba vegotacos med tomater och majs",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": ["vegansk"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["tex-mex", "tacos", "bönor", "snabb", "fredagsmys"],
+  "kalla": "ICA",
+  "kallaUrl": "https://www.ica.se/recept/snabba-vegotacos-med-tomater-och-majs-724831/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "kokta svarta bönor", "mangd": 760, "enhet": "g" },
+    { "vara": "majskorn", "mangd": 340, "enhet": "g" },
+    { "vara": "gul lök", "mangd": 1, "enhet": "st" },
+    { "vara": "olja", "mangd": 1, "enhet": "msk" },
+    { "vara": "taco kryddmix", "mangd": 28, "enhet": "g" },
+    { "vara": "pastasås med vitlök", "mangd": 390, "enhet": "g" },
+    { "vara": "plommontomat", "mangd": 3, "enhet": "st" },
+    { "vara": "kruksallad", "mangd": 1, "enhet": "st" },
+    { "vara": "tortillabröd", "mangd": 12, "enhet": "st" },
+    { "vara": "växtbaserad gräddfil", "mangd": 3, "enhet": "dl" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Skölj bönorna i kallt vatten och låt dem och majsen rinna av i en sil.",
+    "Skala och hacka löken.",
+    "Fräs löken i oljan i en stekpanna och tillsätt bönor och majs. Krydda med hälften av kryddmixen, häll i pastasåsen och låt bli varmt.",
+    "Skär tomaterna i tärningar och dela salladen.",
+    "Blanda den växtbaserade gräddfilen med resten av kryddmixen.",
+    "Servera bönfräset i tortillabröden med sallad, tomater och sås."
+  ],
+  "servering": ["tortillabröd", "sallad", "kryddad växtgräddfil"],
+  "tips": "Välj en växtbaserad gräddfil så blir hela tacomiddagen vegansk.",
+  "komplett": true
+}
