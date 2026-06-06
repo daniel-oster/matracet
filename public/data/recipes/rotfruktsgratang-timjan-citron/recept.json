@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0",
+  "slug": "rotfruktsgratang-timjan-citron",
+  "nummer": 98,
+  "namn": "Rotfruktsgratang med timjan och citron",
+  "tid_min": 55,
+  "portioner": 4,
+  "kategorier": [
+    "vegetarisk",
+    "glutenfri"
+  ],
+  "sasong": [],
+  "svarighet": "medel",
+  "barnvanlig": "ja",
+  "taggar": [
+    "gratang",
+    "rotfrukter",
+    "ugn"
+  ],
+  "kalla": "ICA",
+  "kallaUrl": "https://www.ica.se/recept/rotfruktsgratang-med-timjan-och-citron-712975/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1541014741259-de529411b96a?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    {
+      "vara": "potatis",
+      "mangd": 8,
+      "enhet": "st"
+    },
+    {
+      "vara": "morotter",
+      "mangd": 3,
+      "enhet": "st"
+    },
+    {
+      "vara": "palsternackor",
+      "mangd": 2,
+      "enhet": "st"
+    },
+    {
+      "vara": "vitloksklyftor",
+      "mangd": 2,
+      "enhet": "klyftor"
+    },
+    {
+      "vara": "mjolk",
+      "mangd": 2,
+      "enhet": "dl"
+    },
+    {
+      "vara": "gradde",
+      "mangd": 3,
+      "enhet": "dl"
+    },
+    {
+      "vara": "salt",
+      "mangd": 1,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "peppar",
+      "mangd": 1,
+      "enhet": "krm"
+    },
+    {
+      "vara": "purjolok",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "citron",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "farsk timjan, hackad",
+      "mangd": 0.5,
+      "enhet": "dl"
+    },
+    {
+      "vara": "riven ost",
+      "mangd": 3,
+      "enhet": "dl"
+    }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Satt ugnen pa 225 grader.",
+    "Skala och skiva potatis, morotter, palsternacka och vitlok tunt.",
+    "Varm mjolk och gradde i en gryta. Tillsatt salt och peppar. Lagg i rotfrukterna och vitloken och lat sjuda pa svag varme tills de mjuknat, ror om da och da.",
+    "Skolj, ansa och skiva purjoloken. Riv citronskalet och hacka timjan.",
+    "Ror ner purjolok, timjan, citronskal och halften av osten.",
+    "Hall upp i en ugnsform, toppa med resten av osten och grada 10-15 minuter tills gratangen far fin farg."
+  ],
+  "servering": [
+    "Gron sallad",
+    "Lingonsylt"
+  ],
+  "tips": "Forkoket i mjolk och gradde gor att rotfrukterna blir mjuka och gratangen sammanhallen.",
+  "komplett": true
+}

@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0",
+  "slug": "flygande-jakob",
+  "nummer": 81,
+  "namn": "Flygande Jakob",
+  "tid_min": 45,
+  "portioner": 4,
+  "kategorier": [
+    "kott",
+    "glutenfri"
+  ],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": [
+    "kyckling",
+    "gratäng",
+    "klassiker",
+    "bacon"
+  ],
+  "kalla": "ICA",
+  "kallaUrl": "https://www.ica.se/recept/flygande-jakob-722383/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    {
+      "vara": "kycklingfiléer",
+      "mangd": 4,
+      "enhet": "st"
+    },
+    {
+      "vara": "olja",
+      "mangd": 1,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "salt",
+      "mangd": 0.5,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "peppar",
+      "mangd": 1,
+      "enhet": "krm"
+    },
+    {
+      "vara": "vispgrädde",
+      "mangd": 2,
+      "enhet": "dl",
+      "grupp": "sås"
+    },
+    {
+      "vara": "chilisås",
+      "mangd": 1,
+      "enhet": "dl",
+      "grupp": "sås"
+    },
+    {
+      "vara": "banan",
+      "mangd": 1,
+      "enhet": "st",
+      "grupp": "sås"
+    },
+    {
+      "vara": "bacon",
+      "mangd": 140,
+      "enhet": "g",
+      "grupp": "sås"
+    },
+    {
+      "vara": "ris",
+      "mangd": 4,
+      "enhet": "port",
+      "grupp": "servering"
+    },
+    {
+      "vara": "salta jordnötter",
+      "mangd": 1,
+      "enhet": "dl",
+      "grupp": "servering"
+    },
+    {
+      "vara": "kruksallad",
+      "mangd": 1,
+      "enhet": "st",
+      "grupp": "servering"
+    },
+    {
+      "vara": "tomater",
+      "mangd": 4,
+      "enhet": "st",
+      "grupp": "servering"
+    }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Sätt ugnen på 225°C.",
+    "Skär kycklingen i strimlor och bryn den i oljan med salt och peppar. Lägg den i en ugnsform.",
+    "Vispa grädden och blanda med chilisåsen. Bred blandningen över kycklingen.",
+    "Skala och skiva bananen och fördela över såsen. Grädda mitt i ugnen cirka 20 minuter.",
+    "Skär baconet i bitar och stek det knaprigt. Koka riset enligt förpackningen.",
+    "Strö jordnötter och bacon över gratängen. Servera med ris och en sallad på kruksallad och tomatklyftor."
+  ],
+  "servering": [
+    "ris",
+    "sallad"
+  ],
+  "tips": "Vispa grädden riktigt fluffig så hålls såsen luftig och lägger sig som ett täcke över kycklingen.",
+  "komplett": true
+}

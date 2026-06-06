@@ -1,0 +1,128 @@
+{
+  "schema_version": "1.0",
+  "slug": "coq-au-vin",
+  "nummer": 74,
+  "namn": "Coq au vin",
+  "tid_min": 60,
+  "portioner": 4,
+  "kategorier": [
+    "kott"
+  ],
+  "sasong": [],
+  "svarighet": "medel",
+  "barnvanlig": "delvis",
+  "taggar": [
+    "kyckling",
+    "franskt",
+    "gryta",
+    "helg"
+  ],
+  "kalla": "ICA",
+  "kallaUrl": "https://www.ica.se/recept/coq-au-vin-722339/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    {
+      "vara": "rökt sidfläsk eller bacon",
+      "mangd": 140,
+      "enhet": "g"
+    },
+    {
+      "vara": "steklök",
+      "mangd": 250,
+      "enhet": "g"
+    },
+    {
+      "vara": "vitlök",
+      "mangd": 2,
+      "enhet": "klyftor"
+    },
+    {
+      "vara": "champinjoner",
+      "mangd": 250,
+      "enhet": "g"
+    },
+    {
+      "vara": "kycklinglår",
+      "mangd": 1000,
+      "enhet": "g"
+    },
+    {
+      "vara": "smör till stekning",
+      "mangd": 2,
+      "enhet": "msk"
+    },
+    {
+      "vara": "salt",
+      "mangd": 0.5,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "svartpeppar",
+      "mangd": 1,
+      "enhet": "krm"
+    },
+    {
+      "vara": "tomatpuré",
+      "mangd": 1,
+      "enhet": "msk"
+    },
+    {
+      "vara": "rött matlagningsvin",
+      "mangd": 5,
+      "enhet": "dl"
+    },
+    {
+      "vara": "vatten",
+      "mangd": 1,
+      "enhet": "dl"
+    },
+    {
+      "vara": "kycklingfond",
+      "mangd": 2,
+      "enhet": "msk"
+    },
+    {
+      "vara": "lagerblad",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "timjan",
+      "mangd": 0.5,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "majsstärkelse",
+      "mangd": 2,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "kokt potatis",
+      "mangd": 4,
+      "enhet": "port",
+      "grupp": "servering"
+    },
+    {
+      "vara": "persilja",
+      "mangd": 0.5,
+      "enhet": "kruka",
+      "grupp": "servering"
+    }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Skär fläsket i bitar. Skala steklök och vitlök. Dela champinjonerna i klyftor eller skiva dem.",
+    "Bryn kycklinglåren runt om i hälften av smöret och krydda med salt och peppar. Lägg dem i en gryta. Bryn svamp och steklök i resten av smöret, pressa i vitlöken och rör i tomatpurén. Lägg över i grytan.",
+    "Häll på vin och vatten. Tillsätt kycklingfond, lagerblad och timjan. Låt grytan sjuda under lock cirka 30 minuter.",
+    "Stek under tiden fläsket knaprigt. Lägg det i grytan och låt sjuda ytterligare 10 minuter utan lock.",
+    "Rör ut majsstärkelsen i lite vatten och vänd ner i grytan. Koka upp under omrörning.",
+    "Servera coq au vin med kokt potatis och hackad persilja."
+  ],
+  "servering": [
+    "kokt potatis",
+    "persilja"
+  ],
+  "tips": "Använd gärna ett rejält rött vin med kropp – den koncentrerade smaken är hela poängen med rätten.",
+  "komplett": true
+}

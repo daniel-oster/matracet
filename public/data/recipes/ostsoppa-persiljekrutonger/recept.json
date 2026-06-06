@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0",
+  "slug": "ostsoppa-persiljekrutonger",
+  "nummer": 100,
+  "namn": "Ostsoppa med persiljekrutonger",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": [
+    "vegetarisk"
+  ],
+  "sasong": [],
+  "svarighet": "medel",
+  "barnvanlig": "ja",
+  "taggar": [
+    "soppa",
+    "ost",
+    "snabb"
+  ],
+  "kalla": "ICA",
+  "kallaUrl": "https://www.ica.se/recept/ostsoppa-med-persiljekrutonger-1362/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    {
+      "vara": "gul lok",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "vitloksklyftor",
+      "mangd": 2,
+      "enhet": "klyftor"
+    },
+    {
+      "vara": "gron paprika",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "apple",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "curry",
+      "mangd": 1,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "smor eller margarin",
+      "mangd": 1,
+      "enhet": "msk"
+    },
+    {
+      "vara": "vetemjol",
+      "mangd": 3,
+      "enhet": "msk"
+    },
+    {
+      "vara": "gronsaksbuljong",
+      "mangd": 5,
+      "enhet": "dl"
+    },
+    {
+      "vara": "mjolk",
+      "mangd": 5,
+      "enhet": "dl"
+    },
+    {
+      "vara": "lagrad ost",
+      "mangd": 200,
+      "enhet": "g"
+    },
+    {
+      "vara": "salt och peppar",
+      "mangd": 1,
+      "enhet": "krm"
+    },
+    {
+      "vara": "vitt brod",
+      "mangd": 4,
+      "enhet": "skivor",
+      "grupp": "krutonger"
+    },
+    {
+      "vara": "farsk persilja",
+      "mangd": 1,
+      "enhet": "kruka",
+      "grupp": "krutonger"
+    }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Skala och hacka loken. Fras den med pressad vitlok, tarnad paprika, finhackat apple och curry i smor eller margarin.",
+    "Strö over mjolet och tillsatt gronsaksbuljong och mjolk. Ror och lat sjuda 3-5 minuter.",
+    "Grovriv osten direkt ner i grytan och ror tills den smalt helt. Smaka av med salt och peppar.",
+    "Skar broddet i tarningar och rosta dem i en torr stekpanna. Hacka rikligt med persilja over krutongerna och servera till soppan."
+  ],
+  "servering": [
+    "Persiljekrutonger",
+    "Brod"
+  ],
+  "tips": "Apple och curry ger soppan en mild sotma som balanserar den lagrade osten fint.",
+  "komplett": true
+}

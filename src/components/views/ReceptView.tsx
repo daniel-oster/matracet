@@ -157,6 +157,15 @@ function RecipeDetail({ slug }: { slug: string }) {
       )}
 
       {recipe.tips && <div className="recipe-tips">💡 {recipe.tips}</div>}
+
+      {recipe.kalla && (
+        <div className="recipe-source">
+          Källa:{' '}
+          {recipe.kallaUrl
+            ? <a href={recipe.kallaUrl} target="_blank" rel="noreferrer noopener">{recipe.kalla}</a>
+            : recipe.kalla}
+        </div>
+      )}
     </div>
   )
 }

@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0",
+  "slug": "chili-con-carne",
+  "nummer": 89,
+  "namn": "Chili con carne",
+  "tid_min": 45,
+  "portioner": 4,
+  "kategorier": [
+    "kott",
+    "glutenfri"
+  ],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "delvis",
+  "taggar": [
+    "köttfärs",
+    "gryta",
+    "bönor",
+    "tex-mex",
+    "glutenfri"
+  ],
+  "kalla": "ICA",
+  "kallaUrl": "https://www.ica.se/recept/chili-con-carne-424/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1611599537845-1c7aca0091c0?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    {
+      "vara": "gul lök",
+      "mangd": 2,
+      "enhet": "st"
+    },
+    {
+      "vara": "nötfärs",
+      "mangd": 350,
+      "enhet": "g"
+    },
+    {
+      "vara": "olja",
+      "mangd": 1,
+      "enhet": "msk"
+    },
+    {
+      "vara": "vitlöksklyftor",
+      "mangd": 2,
+      "enhet": "st"
+    },
+    {
+      "vara": "chilipulver",
+      "mangd": 1,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "paprikapulver",
+      "mangd": 1,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "svartpeppar",
+      "mangd": 0.25,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "salt",
+      "mangd": 0.75,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "japansk soja",
+      "mangd": 1,
+      "enhet": "msk"
+    },
+    {
+      "vara": "hela tomater på burk",
+      "mangd": 400,
+      "enhet": "g"
+    },
+    {
+      "vara": "köttbuljongtärning",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "vita bönor i tomatsås",
+      "mangd": 880,
+      "enhet": "g"
+    }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Skala och hacka löken. Bryn nötfärsen i olja i en gryta, gärna av gjutjärn, tills den fått fin färg.",
+    "Blanda i löken och låt fräsa med en kort stund. Pressa i vitlöken och krydda med chilipulver, paprikapulver, svartpeppar, salt och soja.",
+    "Tillsätt tomaterna och den smulade buljongtärningen. Låt sjuda tills grytan blir smakrik och tjocknar – ju längre koktid desto rundare smak.",
+    "Häll i bönorna och låt allt bli genomvarmt. Smaka av med kryddor."
+  ],
+  "servering": [
+    "ris",
+    "klyftor lime",
+    "grön sallad"
+  ],
+  "tips": "Toppa med en klick gräddfil och hackad färsk koriander om du vill mildra hettan.",
+  "komplett": true
+}

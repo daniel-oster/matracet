@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0",
+  "slug": "korvstroganoff-ris",
+  "nummer": 72,
+  "namn": "Korvstroganoff med ris",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": [
+    "kott"
+  ],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": [
+    "husmanskost",
+    "korv",
+    "snabb",
+    "vardag"
+  ],
+  "kalla": "ICA",
+  "kallaUrl": "https://www.ica.se/recept/korvstroganoff-med-ris-533512/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1611599537845-1c7aca0091c0?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    {
+      "vara": "ris eller annat gryn",
+      "mangd": 4,
+      "enhet": "port"
+    },
+    {
+      "vara": "falukorv eller kycklingstekkorv",
+      "mangd": 550,
+      "enhet": "g"
+    },
+    {
+      "vara": "gul lök",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "olja",
+      "mangd": 1,
+      "enhet": "msk"
+    },
+    {
+      "vara": "tomatpuré",
+      "mangd": 3,
+      "enhet": "msk"
+    },
+    {
+      "vara": "matlagningsgrädde",
+      "mangd": 2.5,
+      "enhet": "dl"
+    },
+    {
+      "vara": "mjölk",
+      "mangd": 1,
+      "enhet": "dl"
+    },
+    {
+      "vara": "japansk soja",
+      "mangd": 1,
+      "enhet": "msk"
+    },
+    {
+      "vara": "dijonsenap",
+      "mangd": 1,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "peppar",
+      "mangd": 1,
+      "enhet": "krm"
+    },
+    {
+      "vara": "salt",
+      "mangd": 1,
+      "enhet": "krm"
+    },
+    {
+      "vara": "grovskuren vitkål med persilja",
+      "mangd": 1,
+      "enhet": "port",
+      "grupp": "servering"
+    }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Koka riset enligt anvisningen på förpackningen.",
+    "Skär korven i stavar samt skala och hacka löken.",
+    "Stek korv och lök i oljan cirka 5 minuter. Tillsätt tomatpurén och fräs någon minut till.",
+    "Rör ner grädde, mjölk, soja och dijonsenap och låt såsen sjuda cirka 5 minuter.",
+    "Smaka av med peppar och eventuellt salt. Servera med riset och gärna en vitkålssallad eller en sallad på tomat och gurka."
+  ],
+  "servering": [
+    "ris",
+    "vitkålssallad"
+  ],
+  "tips": "Byt ut en del av grädden mot mjölk om du vill ha en lättare sås, eller piffa upp med en skvätt kinesisk soja.",
+  "komplett": true
+}

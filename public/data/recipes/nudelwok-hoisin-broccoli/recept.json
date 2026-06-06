@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0",
+  "slug": "nudelwok-hoisin-broccoli",
+  "nummer": 113,
+  "namn": "Nudelwok med hoisin och broccoli",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": [
+    "vegansk"
+  ],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "delvis",
+  "taggar": [
+    "asiatiskt",
+    "wok",
+    "nudlar",
+    "snabb"
+  ],
+  "kalla": "ICA",
+  "kallaUrl": "https://www.ica.se/recept/nudelwok-med-hoisin-och-broccoli-729210/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    {
+      "vara": "risnudlar",
+      "mangd": 4,
+      "enhet": "port"
+    },
+    {
+      "vara": "sojabönor",
+      "mangd": 125,
+      "enhet": "g"
+    },
+    {
+      "vara": "champinjoner",
+      "mangd": 250,
+      "enhet": "g"
+    },
+    {
+      "vara": "salladslök",
+      "mangd": 2,
+      "enhet": "st"
+    },
+    {
+      "vara": "broccoli",
+      "mangd": 250,
+      "enhet": "g"
+    },
+    {
+      "vara": "olja",
+      "mangd": 1,
+      "enhet": "msk"
+    },
+    {
+      "vara": "sesamfrö",
+      "mangd": 1,
+      "enhet": "msk"
+    },
+    {
+      "vara": "hoisinsås",
+      "mangd": 200,
+      "enhet": "ml"
+    },
+    {
+      "vara": "lime",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "rostad lök",
+      "mangd": 1,
+      "enhet": "dl",
+      "grupp": "servering"
+    },
+    {
+      "vara": "solrosskott",
+      "mangd": 100,
+      "enhet": "g",
+      "grupp": "servering"
+    }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Koka nudlarna enligt förpackningen tillsammans med sojabönorna.",
+    "Ansa och skär svamp, salladslök och broccoli i bitar.",
+    "Stek broccoli, salladslök och svamp omväxlande i oljan. Lägg sedan tillbaka allt, strö över sesamfrö, sänk värmen och blanda ner hoisinsåsen tills allt är varmt.",
+    "Skär limen i klyftor.",
+    "Servera woken med nudlar, rostad lök, lime och solrosskott."
+  ],
+  "servering": [
+    "rostad lök",
+    "limeklyftor",
+    "solrosskott"
+  ],
+  "tips": "Vill du ha den glutenfri – välj risnudlar och glutenfri rostad lök.",
+  "komplett": true
+}

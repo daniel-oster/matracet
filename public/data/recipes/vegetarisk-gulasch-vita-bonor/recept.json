@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.0",
+  "slug": "vegetarisk-gulasch-vita-bonor",
+  "nummer": 111,
+  "namn": "Vegansk gulaschsoppa med vita bönor",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": [
+    "vegansk",
+    "glutenfri"
+  ],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": [
+    "soppa",
+    "bönor",
+    "potatis",
+    "snabb",
+    "billig"
+  ],
+  "kalla": "ICA",
+  "kallaUrl": "https://www.ica.se/recept/vegetarisk-gulasch-med-bonor-645166/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1547592180-85f173990554?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    {
+      "vara": "potatis",
+      "mangd": 300,
+      "enhet": "g"
+    },
+    {
+      "vara": "gul lök",
+      "mangd": 2,
+      "enhet": "st"
+    },
+    {
+      "vara": "vitlök",
+      "mangd": 1,
+      "enhet": "klyftor"
+    },
+    {
+      "vara": "röd paprika",
+      "mangd": 2,
+      "enhet": "st"
+    },
+    {
+      "vara": "kummin",
+      "mangd": 2,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "olja",
+      "mangd": 1,
+      "enhet": "msk"
+    },
+    {
+      "vara": "tomatpuré",
+      "mangd": 2,
+      "enhet": "msk"
+    },
+    {
+      "vara": "paprikapulver",
+      "mangd": 2,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "vatten",
+      "mangd": 9,
+      "enhet": "dl"
+    },
+    {
+      "vara": "grönsaksbuljongtärning",
+      "mangd": 2,
+      "enhet": "st"
+    },
+    {
+      "vara": "krossade tomater med chili",
+      "mangd": 400,
+      "enhet": "g"
+    },
+    {
+      "vara": "kokta vita bönor",
+      "mangd": 400,
+      "enhet": "g"
+    },
+    {
+      "vara": "salt",
+      "mangd": 1,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "svartpeppar",
+      "mangd": 2,
+      "enhet": "krm"
+    },
+    {
+      "vara": "hackad persilja",
+      "mangd": 1,
+      "enhet": "kruka",
+      "grupp": "servering"
+    }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Skala potatis, lök och vitlök. Skär potatisen i tärningar och hacka lök och vitlök. Kärna ur paprikorna och skär i tärningar.",
+    "Mortla kumminen.",
+    "Fräs alla grönsaker i oljan i en kastrull. Rör ner tomatpuré och kryddor. Tillsätt vatten, smulade buljongtärningar och krossade tomater och låt soppan koka 10–15 minuter under lock.",
+    "Skölj bönorna och låt rinna av. Blanda ner dem i soppan. Smaka av med salt och peppar och koka upp.",
+    "Servera toppad med persilja och gärna rivet citronskal och bröd."
+  ],
+  "servering": [
+    "persilja",
+    "växtbaserad gräddfil",
+    "bröd"
+  ],
+  "tips": "En klick växtbaserad gräddfil och rivet citronskal lyfter soppan rejält.",
+  "komplett": true
+}

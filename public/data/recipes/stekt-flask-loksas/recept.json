@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "slug": "stekt-flask-loksas",
+  "nummer": 73,
+  "namn": "Stekt fläsk med löksås",
+  "tid_min": 45,
+  "portioner": 4,
+  "kategorier": [
+    "kott"
+  ],
+  "sasong": [],
+  "svarighet": "medel",
+  "barnvanlig": "ja",
+  "taggar": [
+    "husmanskost",
+    "fläsk",
+    "klassiker",
+    "löksås"
+  ],
+  "kalla": "ICA",
+  "kallaUrl": "https://www.ica.se/recept/stekt-flask-med-loksas-740434/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1580476262798-bddd9f4b7369?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    {
+      "vara": "potatis",
+      "mangd": 900,
+      "enhet": "g"
+    },
+    {
+      "vara": "salt",
+      "mangd": 1,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "gul lök",
+      "mangd": 3,
+      "enhet": "st"
+    },
+    {
+      "vara": "smör",
+      "mangd": 25,
+      "enhet": "g"
+    },
+    {
+      "vara": "vetemjöl",
+      "mangd": 2.5,
+      "enhet": "msk"
+    },
+    {
+      "vara": "mjölk",
+      "mangd": 3.5,
+      "enhet": "dl"
+    },
+    {
+      "vara": "vispgrädde",
+      "mangd": 2,
+      "enhet": "dl"
+    },
+    {
+      "vara": "köttbuljongtärning",
+      "mangd": 0.5,
+      "enhet": "st"
+    },
+    {
+      "vara": "rimmat skivat sidfläsk utan svål",
+      "mangd": 500,
+      "enhet": "g"
+    },
+    {
+      "vara": "vitpeppar",
+      "mangd": 1,
+      "enhet": "krm"
+    },
+    {
+      "vara": "persilja",
+      "mangd": 0.5,
+      "enhet": "kruka"
+    }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Skala potatisen och koka den mjuk i lättsaltat vatten. Häll av.",
+    "Skala och skiva löken tunt. Fräs den mjuk och blank i smöret över medelvärme i en rymlig kastrull.",
+    "Strö över mjölet och rör runt. Späd med mjölk och grädde under omrörning och smula i buljongtärningen. Låt såsen sjuda 5–10 minuter på låg värme och rör då och då.",
+    "Stek fläsket knaprigt några skivor i taget i en het panna.",
+    "Rör ner ett par matskedar av stekskyn i såsen och späd med lite mer mjölk om den blir för tjock. Smaka av med salt och vitpeppar.",
+    "Servera fläsket och löksåsen med kokt potatis och strö över hackad persilja."
+  ],
+  "servering": [
+    "kokt potatis",
+    "persilja"
+  ],
+  "tips": "Låt löksåsen puttra länge på svag värme – ju längre löken får sjuda desto rundare och sötare blir smaken.",
+  "komplett": true
+}

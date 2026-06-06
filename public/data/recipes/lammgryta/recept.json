@@ -1,0 +1,106 @@
+{
+  "schema_version": "1.0",
+  "slug": "lammgryta",
+  "nummer": 79,
+  "namn": "Lammgryta med rosmarin",
+  "tid_min": 120,
+  "portioner": 4,
+  "kategorier": [
+    "kott",
+    "glutenfri"
+  ],
+  "sasong": [],
+  "svarighet": "medel",
+  "barnvanlig": "delvis",
+  "taggar": [
+    "lamm",
+    "gryta",
+    "helg",
+    "långkok"
+  ],
+  "kalla": "ICA",
+  "kallaUrl": "https://www.ica.se/recept/lammgryta-713291/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1602470520998-f4a52199a3d6?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    {
+      "vara": "vitlök",
+      "mangd": 3,
+      "enhet": "klyftor"
+    },
+    {
+      "vara": "morötter",
+      "mangd": 3,
+      "enhet": "st"
+    },
+    {
+      "vara": "lammgrytbitar",
+      "mangd": 800,
+      "enhet": "g"
+    },
+    {
+      "vara": "olivolja",
+      "mangd": 2,
+      "enhet": "msk"
+    },
+    {
+      "vara": "torkad rosmarin",
+      "mangd": 1,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "tomatpuré",
+      "mangd": 3,
+      "enhet": "msk"
+    },
+    {
+      "vara": "lagerblad",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "kycklingbuljong",
+      "mangd": 5,
+      "enhet": "dl"
+    },
+    {
+      "vara": "steklök",
+      "mangd": 250,
+      "enhet": "g"
+    },
+    {
+      "vara": "smör",
+      "mangd": 1,
+      "enhet": "msk"
+    },
+    {
+      "vara": "majsstärkelse",
+      "mangd": 2,
+      "enhet": "msk"
+    },
+    {
+      "vara": "salt",
+      "mangd": 1,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "peppar",
+      "mangd": 1,
+      "enhet": "krm"
+    }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Skala vitlök och morötter. Hacka vitlöken och skär morötterna i bitar.",
+    "Bryn lammbitarna i oljan i en gryta, några i taget, och lyft sedan upp köttet.",
+    "Fräs vitlök, morot, rosmarin och tomatpuré en stund. Lägg tillbaka köttet och tillsätt lagerblad och buljong. Koka upp, skumma av och låt sjuda under lock cirka 1,5 timme.",
+    "Skala steklöken och lägg ner i grytan, gärna efter att den brynts i smör. Låt sjuda ytterligare cirka 30 minuter. Red av med majsstärkelse utrörd i lite vatten.",
+    "Smaka av med salt och peppar och servera med potatismos och ett gott bröd."
+  ],
+  "servering": [
+    "potatismos",
+    "bröd"
+  ],
+  "tips": "Vänd gärna ner 250 g gröna ärtor på slutet för färg och sötma.",
+  "komplett": true
+}

@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0",
+  "slug": "sparrispasta-citron-timjan",
+  "nummer": 97,
+  "namn": "Sparrispasta med citron och timjan",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": [
+    "vegetarisk"
+  ],
+  "sasong": [],
+  "svarighet": "medel",
+  "barnvanlig": "delvis",
+  "taggar": [
+    "pasta",
+    "sparris",
+    "kramig"
+  ],
+  "kalla": "ICA",
+  "kallaUrl": "https://www.ica.se/recept/sparrispasta-med-citron-och-timjan-726452/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1551183053-bf91798d576d?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    {
+      "vara": "kokta stora vita bonor",
+      "mangd": 380,
+      "enhet": "g"
+    },
+    {
+      "vara": "vispgradde",
+      "mangd": 2.5,
+      "enhet": "dl"
+    },
+    {
+      "vara": "torkad timjan",
+      "mangd": 1,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "gul lok",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "vitloksklyftor",
+      "mangd": 2,
+      "enhet": "klyftor"
+    },
+    {
+      "vara": "farsk gron sparris",
+      "mangd": 250,
+      "enhet": "g"
+    },
+    {
+      "vara": "sojabonor (edamame)",
+      "mangd": 250,
+      "enhet": "g"
+    },
+    {
+      "vara": "smor",
+      "mangd": 1,
+      "enhet": "msk"
+    },
+    {
+      "vara": "citron",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "salt och peppar",
+      "mangd": 1,
+      "enhet": "krm"
+    },
+    {
+      "vara": "farsk pasta, garna fettuccine",
+      "mangd": 500,
+      "enhet": "g"
+    },
+    {
+      "vara": "ruccola",
+      "mangd": 65,
+      "enhet": "g"
+    }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Tina sojabonorna och koka upp rikligt med vatten till pastan.",
+    "Skolj de vita bonorna i kallt vatten och lat rinna av. Varm gradde med timjan och de vita bonorna och mixa slat med stavmixer.",
+    "Skala och skiva lok och vitlok. Ansa och skar sparrisen i bitar. Stek sparris, lok, vitlok och sojabonor i smor nagra minuter.",
+    "Riv skalet av citronen och pressa ur saften. Ror ner citronskalet i gradsavsen och smaka av med citronsaft, salt och peppar.",
+    "Koka pastan enligt anvisningen pa paketet.",
+    "Servera pastan med sparrissavsen och toppa med ruccola."
+  ],
+  "servering": [
+    "Ruccola",
+    "Riven parmesan"
+  ],
+  "tips": "De mixade vita bonorna gor savsen extra krammig utan att tynga ratten.",
+  "komplett": true
+}

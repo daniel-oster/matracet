@@ -1,0 +1,154 @@
+{
+  "schema_version": "1.0",
+  "slug": "marockansk-fusktagine",
+  "nummer": 112,
+  "namn": "Marockansk fusktagine med kikärtor",
+  "tid_min": 50,
+  "portioner": 4,
+  "kategorier": [
+    "vegansk",
+    "glutenfri"
+  ],
+  "sasong": [],
+  "svarighet": "medel",
+  "barnvanlig": "delvis",
+  "taggar": [
+    "marockanskt",
+    "kikärtor",
+    "gryta",
+    "rotfrukter"
+  ],
+  "kalla": "ICA",
+  "kallaUrl": "https://www.ica.se/recept/marockansk-fusktagine-718556/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    {
+      "vara": "röd lök",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "vitlök",
+      "mangd": 2,
+      "enhet": "klyftor"
+    },
+    {
+      "vara": "morot",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "palsternacka",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "fast potatis",
+      "mangd": 2,
+      "enhet": "st"
+    },
+    {
+      "vara": "zucchini",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "röd paprika",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "tomat",
+      "mangd": 2,
+      "enhet": "st"
+    },
+    {
+      "vara": "citron",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "kokta kikärtor",
+      "mangd": 400,
+      "enhet": "g"
+    },
+    {
+      "vara": "olivolja",
+      "mangd": 2,
+      "enhet": "msk"
+    },
+    {
+      "vara": "kärnfria gröna oliver",
+      "mangd": 1,
+      "enhet": "dl"
+    },
+    {
+      "vara": "malen spiskummin",
+      "mangd": 1,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "malen koriander",
+      "mangd": 1,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "gurkmeja",
+      "mangd": 1,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "grönsaksbuljongtärning",
+      "mangd": 2,
+      "enhet": "st"
+    },
+    {
+      "vara": "vatten",
+      "mangd": 8,
+      "enhet": "dl"
+    },
+    {
+      "vara": "harissa",
+      "mangd": 1,
+      "enhet": "tsk",
+      "grupp": "harissasås"
+    },
+    {
+      "vara": "tomatpuré",
+      "mangd": 1,
+      "enhet": "msk",
+      "grupp": "harissasås"
+    },
+    {
+      "vara": "vatten",
+      "mangd": 3,
+      "enhet": "msk",
+      "grupp": "harissasås"
+    },
+    {
+      "vara": "couscous",
+      "mangd": 4,
+      "enhet": "port",
+      "grupp": "servering"
+    }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Skala lök, vitlök, morot, palsternacka och potatis. Dela löken i klyftor och skiva vitlöken tunt. Skär morot, palsternacka och potatis i centimeterstora bitar. Skär zucchini, paprika och tomat i lika stora bitar.",
+    "Skala av cirka 5 långa strimlor citronskal med en potatisskalare.",
+    "Skölj kikärtorna och låt rinna av.",
+    "Fräs lök, vitlök, morot och palsternacka i oljan i en gryta cirka 5 minuter utan att de tar färg.",
+    "Tillsätt potatis, oliver, kryddor, smulade buljongtärningar, vatten, citronskal och salt. Låt sjuda under lock 10 minuter.",
+    "Lägg i kikärtor, zucchini, paprika och tomat. Sjud under lock ytterligare 10 minuter.",
+    "Rör ihop harissa, tomatpuré och vatten till en sås.",
+    "Smaka av grytan med citronjuice, salt och peppar. Servera med couscous och harissasås."
+  ],
+  "servering": [
+    "couscous",
+    "harissasås",
+    "färsk koriander"
+  ],
+  "tips": "Citronskalet ger grytan en frisk marockansk ton – ta inte med det vita som blir beskt.",
+  "komplett": true
+}

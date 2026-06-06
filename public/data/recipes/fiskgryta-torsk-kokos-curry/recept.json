@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "slug": "fiskgryta-torsk-kokos-curry",
+  "nummer": 67,
+  "namn": "Fiskgryta på torsk med kokos och curry",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": [
+    "fisk",
+    "glutenfri",
+    "laktosfri"
+  ],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "delvis",
+  "taggar": [
+    "torsk",
+    "gryta",
+    "kokos",
+    "curry"
+  ],
+  "kalla": "ICA",
+  "kallaUrl": "https://www.ica.se/recept/fiskgryta-pa-torsk-med-kokos-och-curry-718545/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    {
+      "vara": "färsk torskfilé",
+      "mangd": 800,
+      "enhet": "g"
+    },
+    {
+      "vara": "palsternacka",
+      "mangd": 150,
+      "enhet": "g"
+    },
+    {
+      "vara": "finskuren purjolök",
+      "mangd": 1,
+      "enhet": "dl"
+    },
+    {
+      "vara": "frysta sockerärtor",
+      "mangd": 200,
+      "enhet": "g"
+    },
+    {
+      "vara": "riven färsk ingefära",
+      "mangd": 2,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "garam masala eller stark curry",
+      "mangd": 2,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "olivolja",
+      "mangd": 2,
+      "enhet": "msk"
+    },
+    {
+      "vara": "kokosmjölk",
+      "mangd": 800,
+      "enhet": "ml"
+    },
+    {
+      "vara": "salt",
+      "mangd": 1,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "citron, saft och rivet skal",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "jasminris",
+      "mangd": 4,
+      "enhet": "port"
+    }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Koka jasminriset enligt anvisningen på förpackningen.",
+    "Skär fisken i stora tärningar. Skala och skiva palsternackan tunt. Fräs purjolök, palsternacka, ingefära och garam masala i olivoljan cirka 2 minuter.",
+    "Tillsätt kokosmjölken och låt sjuda 5–8 minuter.",
+    "Lägg i fisken och låt sjuda försiktigt 6–7 minuter tills den är genomkokt. Vänd ner sockerärtorna precis före servering. Smaka av med salt, citronskal och citronsaft.",
+    "Servera grytan med jasminris."
+  ],
+  "servering": [
+    "jasminris"
+  ],
+  "tips": "Stark curry ger mer hetta, garam masala en mildare och rundare smak.",
+  "komplett": true
+}

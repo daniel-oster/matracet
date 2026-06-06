@@ -26,6 +26,7 @@ export interface Recipe {
   barnvanlig: string
   taggar: string[]
   kalla?: string
+  kallaUrl?: string
   dagkedja?: string | null
   bildUrl?: string
   ingredienser: Ingredient[]

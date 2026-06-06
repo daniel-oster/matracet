@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.0",
+  "slug": "kyckling-plat-rotsaker",
+  "nummer": 80,
+  "namn": "Kyckling på plåt med ugnsrostade rotsaker",
+  "tid_min": 45,
+  "portioner": 4,
+  "kategorier": [
+    "kott",
+    "glutenfri"
+  ],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": [
+    "kyckling",
+    "ugn",
+    "allt-på-en-plåt",
+    "rotsaker"
+  ],
+  "kalla": "ICA",
+  "kallaUrl": "https://www.ica.se/recept/allt-pa-en-plat-kyckling-med-ugnsrostade-gronsaker-728061/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    {
+      "vara": "saft av citron",
+      "mangd": 2,
+      "enhet": "st"
+    },
+    {
+      "vara": "färska hackade örter (basilika, rosmarin, persilja)",
+      "mangd": 1,
+      "enhet": "dl"
+    },
+    {
+      "vara": "olivolja",
+      "mangd": 0.5,
+      "enhet": "dl"
+    },
+    {
+      "vara": "salt",
+      "mangd": 1,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "kycklinglårfilé",
+      "mangd": 630,
+      "enhet": "g"
+    },
+    {
+      "vara": "sötpotatis",
+      "mangd": 400,
+      "enhet": "g",
+      "grupp": "rotsaker"
+    },
+    {
+      "vara": "morötter",
+      "mangd": 2,
+      "enhet": "st",
+      "grupp": "rotsaker"
+    },
+    {
+      "vara": "potatis",
+      "mangd": 400,
+      "enhet": "g",
+      "grupp": "rotsaker"
+    },
+    {
+      "vara": "rödlök",
+      "mangd": 2,
+      "enhet": "st",
+      "grupp": "rotsaker"
+    },
+    {
+      "vara": "oliver",
+      "mangd": 100,
+      "enhet": "g",
+      "grupp": "rotsaker"
+    },
+    {
+      "vara": "citron",
+      "mangd": 1,
+      "enhet": "st",
+      "grupp": "rotsaker"
+    },
+    {
+      "vara": "olivolja",
+      "mangd": 1,
+      "enhet": "msk",
+      "grupp": "rotsaker"
+    },
+    {
+      "vara": "blandade hackade färska örter (basilika, persilja)",
+      "mangd": 1,
+      "enhet": "dl",
+      "grupp": "rotsaker"
+    },
+    {
+      "vara": "peppar",
+      "mangd": 1,
+      "enhet": "krm",
+      "grupp": "rotsaker"
+    }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Sätt ugnen på 225°C.",
+    "Pressa citronsaften och hacka örterna grovt. Blanda med olivolja och salt direkt i kycklingförpackningen, vänd runt och låt marinera cirka 10 minuter.",
+    "Skala och skär sötpotatis och morötter i bitar, dela potatisen och skala och dela löken. Häll av oliverna och dela citronen i bitar.",
+    "Lägg rotsakerna i en stor ugnsform tillsammans med kycklingen, ringla över olivolja och strö över örterna.",
+    "Baka mitt i ugnen cirka 30 minuter tills rotsakerna är mjuka och kycklingen når 72°C innertemperatur. Smaka av med salt och peppar och servera med grönsallad."
+  ],
+  "servering": [
+    "grönsallad"
+  ],
+  "tips": "Skär rotsakerna i jämnstora bitar så blir alla färdiga samtidigt – tunnare bitar om du har bråttom.",
+  "komplett": true
+}

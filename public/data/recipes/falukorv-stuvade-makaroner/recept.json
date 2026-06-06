@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0",
+  "slug": "falukorv-stuvade-makaroner",
+  "nummer": 83,
+  "namn": "Falukorv med stuvade makaroner",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": [
+    "kott"
+  ],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": [
+    "korv",
+    "husmanskost",
+    "barnfavorit",
+    "vardag"
+  ],
+  "kalla": "ICA",
+  "kallaUrl": "https://www.ica.se/recept/falukorv-med-stuvade-makaroner-725260/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1611599537845-1c7aca0091c0?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    {
+      "vara": "mjölk",
+      "mangd": 1,
+      "enhet": "l"
+    },
+    {
+      "vara": "makaroner",
+      "mangd": 5,
+      "enhet": "dl"
+    },
+    {
+      "vara": "salt",
+      "mangd": 0.5,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "riven muskotnöt",
+      "mangd": 2,
+      "enhet": "krm"
+    },
+    {
+      "vara": "falukorv",
+      "mangd": 550,
+      "enhet": "g"
+    },
+    {
+      "vara": "olja",
+      "mangd": 0.5,
+      "enhet": "msk"
+    },
+    {
+      "vara": "snackmorötter",
+      "mangd": 150,
+      "enhet": "g"
+    },
+    {
+      "vara": "snackpaprika",
+      "mangd": 150,
+      "enhet": "g"
+    }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Koka upp mjölken i en kastrull med nonstickbeläggning.",
+    "Tillsätt makaroner och salt. Koka under omrörning på svag värme cirka 25 minuter tills makaronerna är mjuka och stuvningen krämig. Smaksätt gärna med riven muskot.",
+    "Skär korven i skivor och stek dem gyllene i oljan.",
+    "Skölj grönsakerna och skär upp dem eller servera dem hela.",
+    "Servera korven med de stuvade makaronerna och grönsakerna."
+  ],
+  "servering": [
+    "snacksgrönsaker"
+  ],
+  "tips": "Rör om ofta i botten medan makaronerna kokar i mjölken så att stuvningen inte bränner fast.",
+  "komplett": true
+}

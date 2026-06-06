@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0",
+  "slug": "kramig-kycklinggryta-soltorkade-tomater",
+  "nummer": 78,
+  "namn": "Krämig kycklinggryta med soltorkade tomater",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": [
+    "kott",
+    "glutenfri"
+  ],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": [
+    "kyckling",
+    "gryta",
+    "krämig",
+    "snabb"
+  ],
+  "kalla": "ICA",
+  "kallaUrl": "https://www.ica.se/recept/kramig-kycklinggryta-med-soltorkade-tomater-723346/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    {
+      "vara": "ris eller couscous",
+      "mangd": 4,
+      "enhet": "port"
+    },
+    {
+      "vara": "kycklingfilé eller kycklinginnerfilé",
+      "mangd": 650,
+      "enhet": "g"
+    },
+    {
+      "vara": "olja",
+      "mangd": 1,
+      "enhet": "msk"
+    },
+    {
+      "vara": "salt",
+      "mangd": 1,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "peppar",
+      "mangd": 1,
+      "enhet": "krm"
+    },
+    {
+      "vara": "vitlök",
+      "mangd": 1,
+      "enhet": "klyfta"
+    },
+    {
+      "vara": "crème fraiche med fetaost och soltorkad tomat",
+      "mangd": 2,
+      "enhet": "dl"
+    },
+    {
+      "vara": "kycklingbuljong",
+      "mangd": 2.5,
+      "enhet": "dl"
+    },
+    {
+      "vara": "soltorkade tomater",
+      "mangd": 200,
+      "enhet": "g"
+    },
+    {
+      "vara": "gröna ärtor eller sockerärtor",
+      "mangd": 250,
+      "enhet": "g"
+    }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Koka riset eller couscousen enligt anvisningen på förpackningen.",
+    "Strimla kycklingen och stek den i oljan med salt och peppar. Pressa i vitlöken och rör ner crème fraiche och buljong.",
+    "Strimla de soltorkade tomaterna, vänd ner dem i grytan och låt sjuda cirka 5 minuter.",
+    "Koka ärtorna i lättsaltat vatten cirka 2 minuter.",
+    "Servera kycklinggrytan med ris och ärtor."
+  ],
+  "servering": [
+    "ris",
+    "gröna ärtor"
+  ],
+  "tips": "Häll gärna i en skvätt av oljan från de soltorkade tomaterna för en rundare och fylligare sås.",
+  "komplett": true
+}

@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0",
+  "slug": "broccoligratang",
+  "nummer": 95,
+  "namn": "Broccoligratang",
+  "tid_min": 45,
+  "portioner": 4,
+  "kategorier": [
+    "vegetarisk",
+    "glutenfri"
+  ],
+  "sasong": [],
+  "svarighet": "medel",
+  "barnvanlig": "ja",
+  "taggar": [
+    "gratang",
+    "broccoli",
+    "ost"
+  ],
+  "kalla": "ICA",
+  "kallaUrl": "https://www.ica.se/recept/broccoligratang-729735/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1541014741259-de529411b96a?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    {
+      "vara": "broccoli, frusen eller farsk",
+      "mangd": 800,
+      "enhet": "g"
+    },
+    {
+      "vara": "gul lok",
+      "mangd": 2,
+      "enhet": "st"
+    },
+    {
+      "vara": "smor eller olja",
+      "mangd": 1,
+      "enhet": "msk"
+    },
+    {
+      "vara": "mjolk",
+      "mangd": 2,
+      "enhet": "dl"
+    },
+    {
+      "vara": "majsstarkelse",
+      "mangd": 1,
+      "enhet": "msk"
+    },
+    {
+      "vara": "creme fraiche",
+      "mangd": 2,
+      "enhet": "dl"
+    },
+    {
+      "vara": "riven lagrad ost",
+      "mangd": 1.5,
+      "enhet": "dl"
+    },
+    {
+      "vara": "agg",
+      "mangd": 2,
+      "enhet": "st"
+    },
+    {
+      "vara": "salt",
+      "mangd": 0.5,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "peppar",
+      "mangd": 1,
+      "enhet": "krm"
+    }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Tina broccolin om den ar frusen och satt ugnen pa 200 grader.",
+    "Om du anvander farsk broccoli: ansa, skala stjalkarna och dela i mindre buketter. Koka 2 minuter i lattsaltat vatten. Frusen broccoli behover ingen forkokning.",
+    "Lat broccolin rinna av i ett durkslag nagra minuter.",
+    "Skala och skiva loken och stek den gyllene i smor. Varva broccoli och lok i en smord ugnsform.",
+    "Vispa ihop mjolk och majsstarkelse i en kastrull. Koka upp under omrorning tills det tjocknar. Ta av varmen och ror i creme fraiche och ost tills slat. Vispa ner aggen och smaka av med salt och peppar.",
+    "Hall savsen over broccolin och grada mitt i ugnen cirka 30 minuter."
+  ],
+  "servering": [
+    "Matig sallad",
+    "Kokt potatis"
+  ],
+  "tips": "Anvand en val lagrad ost sa far gratangen mycket smak utan extra krydda.",
+  "komplett": true
+}

@@ -1,0 +1,114 @@
+{
+  "schema_version": "1.0",
+  "slug": "klassiska-kottbullar",
+  "nummer": 71,
+  "namn": "Klassiska köttbullar med potatismos",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": [
+    "kott"
+  ],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": [
+    "husmanskost",
+    "köttbullar",
+    "klassiker",
+    "vardag"
+  ],
+  "kalla": "ICA",
+  "kallaUrl": "https://www.ica.se/recept/klassiska-kottbullar-712807/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    {
+      "vara": "mjölk",
+      "mangd": 0.5,
+      "enhet": "dl"
+    },
+    {
+      "vara": "vispgrädde",
+      "mangd": 0.5,
+      "enhet": "dl"
+    },
+    {
+      "vara": "ströbröd",
+      "mangd": 0.5,
+      "enhet": "dl"
+    },
+    {
+      "vara": "nöt- eller blandfärs",
+      "mangd": 500,
+      "enhet": "g"
+    },
+    {
+      "vara": "salt",
+      "mangd": 1,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "ägg",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "gul lök",
+      "mangd": 0.5,
+      "enhet": "st"
+    },
+    {
+      "vara": "peppar",
+      "mangd": 1,
+      "enhet": "krm"
+    },
+    {
+      "vara": "socker",
+      "mangd": 0.5,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "smör",
+      "mangd": 3,
+      "enhet": "msk"
+    },
+    {
+      "vara": "olja",
+      "mangd": 1,
+      "enhet": "msk"
+    },
+    {
+      "vara": "kokt potatis eller potatismos",
+      "mangd": 4,
+      "enhet": "port",
+      "grupp": "servering"
+    },
+    {
+      "vara": "lingonsylt",
+      "mangd": 1,
+      "enhet": "dl",
+      "grupp": "servering"
+    },
+    {
+      "vara": "pressgurka",
+      "mangd": 1,
+      "enhet": "port",
+      "grupp": "servering"
+    }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Rör ihop mjölk, grädde och ströbröd och låt blandningen svälla cirka 10 minuter.",
+    "Arbeta färsen med saltet tills den blir fast och seg, gärna med elvisp. Vispa sedan ner ägget.",
+    "Riv ner den skalade löken och blanda i ströbrödsblandningen tillsammans med peppar och socker.",
+    "Fukta händerna i kallt vatten och rulla köttbullar. Stek dem några i taget i smör och olja och skaka pannan så att de rullar runt och håller formen.",
+    "Servera köttbullarna med potatis eller potatismos, lingonsylt och pressgurka."
+  ],
+  "servering": [
+    "potatismos",
+    "lingonsylt",
+    "pressgurka"
+  ],
+  "tips": "Stek en provbulle först och smaka av smeten med mer salt och peppar innan du rullar resten.",
+  "komplett": true
+}
