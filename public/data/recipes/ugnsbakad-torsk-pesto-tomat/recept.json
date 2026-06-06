@@ -5,27 +5,77 @@
   "namn": "Ugnsbakad torsk med pesto och tomat",
   "tid_min": 35,
   "portioner": 4,
-  "kategorier": ["fisk"],
+  "kategorier": [
+    "fisk"
+  ],
   "sasong": [],
   "svarighet": "enkel",
   "barnvanlig": "ja",
-  "taggar": ["torsk", "ugn", "pesto"],
+  "taggar": [
+    "torsk",
+    "ugn",
+    "pesto"
+  ],
   "kalla": "ICA",
   "kallaUrl": "https://www.ica.se/recept/ugnsbakad-torsk-med-pesto-och-tomat-722606/",
   "dagkedja": null,
   "bildUrl": "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=800&auto=format&fit=crop",
   "ingredienser": [
-    { "vara": "fast potatis", "mangd": 900, "enhet": "g" },
-    { "vara": "torskfilé (eller sej- eller koljafilé)", "mangd": 600, "enhet": "g" },
-    { "vara": "majsstärkelse", "mangd": 1, "enhet": "msk" },
-    { "vara": "vispgrädde", "mangd": 2, "enhet": "dl" },
-    { "vara": "mjölk", "mangd": 1, "enhet": "dl" },
-    { "vara": "basilikapesto", "mangd": 2, "enhet": "msk" },
-    { "vara": "salt", "mangd": 1, "enhet": "krm" },
-    { "vara": "peppar", "mangd": 1, "enhet": "krm" },
-    { "vara": "färsk dill", "mangd": 20, "enhet": "g" },
-    { "vara": "salladslök", "mangd": 0.5, "enhet": "förp" },
-    { "vara": "körsbärstomater", "mangd": 250, "enhet": "g" }
+    {
+      "vara": "fast potatis",
+      "mangd": 900,
+      "enhet": "g"
+    },
+    {
+      "vara": "torskfilé (eller sej- eller koljafilé)",
+      "mangd": 600,
+      "enhet": "g"
+    },
+    {
+      "vara": "majsstärkelse",
+      "mangd": 1,
+      "enhet": "msk"
+    },
+    {
+      "vara": "vispgrädde",
+      "mangd": 2,
+      "enhet": "dl"
+    },
+    {
+      "vara": "mjölk",
+      "mangd": 1,
+      "enhet": "dl"
+    },
+    {
+      "vara": "basilikapesto",
+      "mangd": 2,
+      "enhet": "msk"
+    },
+    {
+      "vara": "salt",
+      "mangd": 1,
+      "enhet": "krm"
+    },
+    {
+      "vara": "peppar",
+      "mangd": 1,
+      "enhet": "krm"
+    },
+    {
+      "vara": "färsk dill",
+      "mangd": 20,
+      "enhet": "g"
+    },
+    {
+      "vara": "salladslök",
+      "mangd": 0.5,
+      "enhet": "förp"
+    },
+    {
+      "vara": "körsbärstomater",
+      "mangd": 250,
+      "enhet": "g"
+    }
   ],
   "varianter": {},
   "instruktioner": [
@@ -36,7 +86,9 @@
     "Lägg torsken i en ugnssäker form och häll över den varma såsen. Grädda mitt i ugnen cirka 12 minuter.",
     "Ansa och skiva salladslöken och halvera tomaterna. Toppa fisken med tomater och salladslök och servera med potatisen."
   ],
-  "servering": ["kokt potatis"],
+  "servering": [
+    "kokt potatis"
+  ],
   "tips": "Sej eller kolja fungerar lika bra som torsk i den här rätten.",
   "komplett": true
 }

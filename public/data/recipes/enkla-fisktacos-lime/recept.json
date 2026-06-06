@@ -5,27 +5,78 @@
   "namn": "Enkla fisktacos med lime",
   "tid_min": 30,
   "portioner": 4,
-  "kategorier": ["fisk"],
+  "kategorier": [
+    "fisk"
+  ],
   "sasong": [],
   "svarighet": "enkel",
   "barnvanlig": "ja",
-  "taggar": ["tacos", "fiskpinnar", "lime", "fredagsmys"],
+  "taggar": [
+    "tacos",
+    "fiskpinnar",
+    "lime",
+    "fredagsmys"
+  ],
   "kalla": "ICA",
   "kallaUrl": "https://www.ica.se/recept/enkla-fisktacos-med-lime-727260/",
   "dagkedja": null,
   "bildUrl": "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=800&auto=format&fit=crop",
   "ingredienser": [
-    { "vara": "rödlök", "mangd": 1, "enhet": "st" },
-    { "vara": "lime", "mangd": 1, "enhet": "st" },
-    { "vara": "salt", "mangd": 1, "enhet": "krm" },
-    { "vara": "peppar", "mangd": 1, "enhet": "krm" },
-    { "vara": "gurka", "mangd": 1, "enhet": "st" },
-    { "vara": "plommontomater", "mangd": 250, "enhet": "g" },
-    { "vara": "hjärtsallad", "mangd": 2, "enhet": "st" },
-    { "vara": "fiskpinnar", "mangd": 750, "enhet": "g" },
-    { "vara": "olja", "mangd": 1, "enhet": "msk" },
-    { "vara": "taco tubs", "mangd": 16, "enhet": "st" },
-    { "vara": "gräddfil", "mangd": 3, "enhet": "dl" }
+    {
+      "vara": "rödlök",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "lime",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "salt",
+      "mangd": 1,
+      "enhet": "krm"
+    },
+    {
+      "vara": "peppar",
+      "mangd": 1,
+      "enhet": "krm"
+    },
+    {
+      "vara": "gurka",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "plommontomater",
+      "mangd": 250,
+      "enhet": "g"
+    },
+    {
+      "vara": "hjärtsallad",
+      "mangd": 2,
+      "enhet": "st"
+    },
+    {
+      "vara": "fiskpinnar",
+      "mangd": 750,
+      "enhet": "g"
+    },
+    {
+      "vara": "olja",
+      "mangd": 1,
+      "enhet": "msk"
+    },
+    {
+      "vara": "taco tubs",
+      "mangd": 16,
+      "enhet": "st"
+    },
+    {
+      "vara": "gräddfil",
+      "mangd": 3,
+      "enhet": "dl"
+    }
   ],
   "varianter": {},
   "instruktioner": [
@@ -34,7 +85,11 @@
     "Stek fiskpinnarna i oljan enligt anvisningen på förpackningen. Värm taco tubs enligt anvisningen.",
     "Servera fiskpinnarna i taco tubs med rödlök, tomat, gurka, gräddfil, limeklyftor och sallad."
   ],
-  "servering": ["taco tubs", "gräddfil", "limeklyftor"],
+  "servering": [
+    "taco tubs",
+    "gräddfil",
+    "limeklyftor"
+  ],
   "tips": "Krydda gärna fiskpinnarna med lite spiskummin och paprikapulver.",
   "komplett": true
 }

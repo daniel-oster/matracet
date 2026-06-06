@@ -5,27 +5,79 @@
   "namn": "Fisksoppa med saffran",
   "tid_min": 40,
   "portioner": 4,
-  "kategorier": ["fisk", "laktosfri"],
+  "kategorier": [
+    "fisk",
+    "laktosfri"
+  ],
   "sasong": [],
   "svarighet": "enkel",
   "barnvanlig": "delvis",
-  "taggar": ["soppa", "saffran", "torsk", "lax"],
+  "taggar": [
+    "soppa",
+    "saffran",
+    "torsk",
+    "lax"
+  ],
   "kalla": "ICA",
   "kallaUrl": "https://www.ica.se/recept/fisksoppa-med-saffran-724790/",
   "dagkedja": null,
   "bildUrl": "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800&auto=format&fit=crop",
   "ingredienser": [
-    { "vara": "mörkt lantbröd, gärna bake off", "mangd": 1, "enhet": "st" },
-    { "vara": "bakpotatis", "mangd": 1, "enhet": "st" },
-    { "vara": "morötter", "mangd": 3, "enhet": "st" },
-    { "vara": "rödlök", "mangd": 1, "enhet": "st" },
-    { "vara": "olja", "mangd": 1, "enhet": "msk" },
-    { "vara": "saffran", "mangd": 0.5, "enhet": "g" },
-    { "vara": "passerade tomater", "mangd": 500, "enhet": "g" },
-    { "vara": "fiskbuljong (vatten och tärning eller fond)", "mangd": 5, "enhet": "dl" },
-    { "vara": "peppar", "mangd": 1, "enhet": "krm" },
-    { "vara": "salladsärtor", "mangd": 150, "enhet": "g" },
-    { "vara": "torsk- och laxtärningar", "mangd": 600, "enhet": "g" }
+    {
+      "vara": "mörkt lantbröd, gärna bake off",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "bakpotatis",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "morötter",
+      "mangd": 3,
+      "enhet": "st"
+    },
+    {
+      "vara": "rödlök",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "olja",
+      "mangd": 1,
+      "enhet": "msk"
+    },
+    {
+      "vara": "saffran",
+      "mangd": 0.5,
+      "enhet": "g"
+    },
+    {
+      "vara": "passerade tomater",
+      "mangd": 500,
+      "enhet": "g"
+    },
+    {
+      "vara": "fiskbuljong (vatten och tärning eller fond)",
+      "mangd": 5,
+      "enhet": "dl"
+    },
+    {
+      "vara": "peppar",
+      "mangd": 1,
+      "enhet": "krm"
+    },
+    {
+      "vara": "salladsärtor",
+      "mangd": 150,
+      "enhet": "g"
+    },
+    {
+      "vara": "torsk- och laxtärningar",
+      "mangd": 600,
+      "enhet": "g"
+    }
   ],
   "varianter": {},
   "instruktioner": [
@@ -36,7 +88,9 @@
     "Skär salladsärtorna i bitar. Lägg ner ärtor och fisk i grytan och låt sjuda cirka 5 minuter tills fisken är genomkokt.",
     "Servera soppan med brödet."
   ],
-  "servering": ["mörkt lantbröd"],
+  "servering": [
+    "mörkt lantbröd"
+  ],
   "tips": "En klick crème fraiche i tallriken gör soppan extra fyllig.",
   "komplett": true
 }

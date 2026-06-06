@@ -1,0 +1,122 @@
+{
+  "schema_version": "1.0",
+  "slug": "klassisk-lasagne",
+  "nummer": 87,
+  "namn": "Klassisk lasagne",
+  "tid_min": 75,
+  "portioner": 4,
+  "kategorier": [
+    "kott"
+  ],
+  "sasong": [],
+  "svarighet": "medel",
+  "barnvanlig": "ja",
+  "taggar": [
+    "köttfärs",
+    "ugn",
+    "pasta",
+    "klassiker"
+  ],
+  "kalla": "ICA",
+  "kallaUrl": "https://www.ica.se/recept/klassisk-lasagne-679675/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    {
+      "vara": "gul lök",
+      "mangd": 2,
+      "enhet": "st"
+    },
+    {
+      "vara": "vitlöksklyftor",
+      "mangd": 2,
+      "enhet": "st"
+    },
+    {
+      "vara": "nötfärs eller blandfärs",
+      "mangd": 500,
+      "enhet": "g"
+    },
+    {
+      "vara": "olja",
+      "mangd": 1,
+      "enhet": "msk"
+    },
+    {
+      "vara": "tomatpuré",
+      "mangd": 4,
+      "enhet": "msk"
+    },
+    {
+      "vara": "torkad timjan",
+      "mangd": 1,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "torkad rosmarin",
+      "mangd": 1,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "krossade tomater",
+      "mangd": 390,
+      "enhet": "g"
+    },
+    {
+      "vara": "köttbuljongtärning",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "smör",
+      "mangd": 90,
+      "enhet": "g"
+    },
+    {
+      "vara": "vetemjöl",
+      "mangd": 6,
+      "enhet": "msk"
+    },
+    {
+      "vara": "mjölk",
+      "mangd": 10,
+      "enhet": "dl"
+    },
+    {
+      "vara": "riven parmesan",
+      "mangd": 2,
+      "enhet": "dl"
+    },
+    {
+      "vara": "lasagneplattar",
+      "mangd": 9,
+      "enhet": "st"
+    },
+    {
+      "vara": "salt",
+      "mangd": 1,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "svartpeppar",
+      "mangd": 1,
+      "enhet": "krm"
+    }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Sätt ugnen på 175°C.",
+    "Skala och hacka lök och vitlök. Bryn färsen tillsammans med lök och vitlök i olja.",
+    "Rör ner tomatpurén och fräs en stund. Krydda med timjan och rosmarin.",
+    "Tillsätt krossade tomater och buljongtärning. Låt sjuda i cirka 10 minuter och smaka av med salt och peppar.",
+    "Smält smöret i en kastrull och vispa i mjölet. Späd med mjölken lite i taget under omrörning och låt såsen sjuda i cirka 5 minuter.",
+    "Rör ner parmesanen och smaka av ostsåsen med salt och peppar.",
+    "Varva ostsås, lasagneplattar och köttfärssås i en ugnsform. Avsluta med ostsås.",
+    "Grädda mitt i ugnen i cirka 40 minuter tills lasagnen är genomvarm och fått fin färg."
+  ],
+  "servering": [
+    "grön sallad"
+  ],
+  "tips": "Låt lasagnen vila några minuter efter ugnen så blir den lättare att skära upp.",
+  "komplett": true
+}

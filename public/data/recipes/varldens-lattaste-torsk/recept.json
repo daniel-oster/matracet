@@ -5,23 +5,58 @@
   "namn": "Världens lättaste torsk i ugn",
   "tid_min": 30,
   "portioner": 4,
-  "kategorier": ["fisk"],
+  "kategorier": [
+    "fisk"
+  ],
   "sasong": [],
   "svarighet": "enkel",
   "barnvanlig": "ja",
-  "taggar": ["torsk", "ugn", "snabbt", "pesto"],
+  "taggar": [
+    "torsk",
+    "ugn",
+    "snabbt",
+    "pesto"
+  ],
   "kalla": "ICA",
   "kallaUrl": "https://www.ica.se/recept/varldens-lattaste-torsk-i-ugn-723377/",
   "dagkedja": null,
   "bildUrl": "https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?w=800&auto=format&fit=crop",
   "ingredienser": [
-    { "vara": "potatis", "mangd": 900, "enhet": "g" },
-    { "vara": "torskfilé (eller sej- eller koljafilé)", "mangd": 600, "enhet": "g" },
-    { "vara": "salt", "mangd": 1, "enhet": "krm" },
-    { "vara": "svartpeppar", "mangd": 1, "enhet": "krm" },
-    { "vara": "crème fraiche", "mangd": 2, "enhet": "dl" },
-    { "vara": "basilikapesto", "mangd": 65, "enhet": "g" },
-    { "vara": "körsbärstomater", "mangd": 250, "enhet": "g" }
+    {
+      "vara": "potatis",
+      "mangd": 900,
+      "enhet": "g"
+    },
+    {
+      "vara": "torskfilé (eller sej- eller koljafilé)",
+      "mangd": 600,
+      "enhet": "g"
+    },
+    {
+      "vara": "salt",
+      "mangd": 1,
+      "enhet": "krm"
+    },
+    {
+      "vara": "svartpeppar",
+      "mangd": 1,
+      "enhet": "krm"
+    },
+    {
+      "vara": "crème fraiche",
+      "mangd": 2,
+      "enhet": "dl"
+    },
+    {
+      "vara": "basilikapesto",
+      "mangd": 65,
+      "enhet": "g"
+    },
+    {
+      "vara": "körsbärstomater",
+      "mangd": 250,
+      "enhet": "g"
+    }
   ],
   "varianter": {},
   "instruktioner": [
@@ -32,7 +67,10 @@
     "Sätt in högt upp i ugnen cirka 15 minuter eller tills fiskens innertemperatur är 56°.",
     "Servera potatisen med fisk och tomater."
   ],
-  "servering": ["kokt potatis", "körsbärstomater"],
+  "servering": [
+    "kokt potatis",
+    "körsbärstomater"
+  ],
   "tips": "Röd pesto ger en mustigare smak om du vill variera rätten.",
   "komplett": true
 }

@@ -5,25 +5,69 @@
   "namn": "Ugnsbakad lax med rostade grönsaker",
   "tid_min": 30,
   "portioner": 4,
-  "kategorier": ["fisk", "glutenfri", "laktosfri"],
+  "kategorier": [
+    "fisk",
+    "glutenfri",
+    "laktosfri"
+  ],
   "sasong": [],
   "svarighet": "enkel",
   "barnvanlig": "ja",
-  "taggar": ["lax", "ugn", "grönsaker"],
+  "taggar": [
+    "lax",
+    "ugn",
+    "grönsaker"
+  ],
   "kalla": "ICA",
   "kallaUrl": "https://www.ica.se/recept/ugnsbakad-lax-med-rostade-gronsaker-725975/",
   "dagkedja": null,
   "bildUrl": "https://images.unsplash.com/photo-1485921325833-c519f76c4927?w=800&auto=format&fit=crop",
   "ingredienser": [
-    { "vara": "potatis", "mangd": 600, "enhet": "g" },
-    { "vara": "zucchini", "mangd": 400, "enhet": "g" },
-    { "vara": "rödlök", "mangd": 2, "enhet": "st" },
-    { "vara": "pressad vitlöksklyfta", "mangd": 2, "enhet": "st" },
-    { "vara": "hackad persilja", "mangd": 4, "enhet": "msk" },
-    { "vara": "olivolja", "mangd": 4, "enhet": "msk" },
-    { "vara": "laxfilé utan skinn", "mangd": 600, "enhet": "g" },
-    { "vara": "salt", "mangd": 1, "enhet": "tsk" },
-    { "vara": "svartpeppar", "mangd": 0.5, "enhet": "tsk" }
+    {
+      "vara": "potatis",
+      "mangd": 600,
+      "enhet": "g"
+    },
+    {
+      "vara": "zucchini",
+      "mangd": 400,
+      "enhet": "g"
+    },
+    {
+      "vara": "rödlök",
+      "mangd": 2,
+      "enhet": "st"
+    },
+    {
+      "vara": "pressad vitlöksklyfta",
+      "mangd": 2,
+      "enhet": "st"
+    },
+    {
+      "vara": "hackad persilja",
+      "mangd": 4,
+      "enhet": "msk"
+    },
+    {
+      "vara": "olivolja",
+      "mangd": 4,
+      "enhet": "msk"
+    },
+    {
+      "vara": "laxfilé utan skinn",
+      "mangd": 600,
+      "enhet": "g"
+    },
+    {
+      "vara": "salt",
+      "mangd": 1,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "svartpeppar",
+      "mangd": 0.5,
+      "enhet": "tsk"
+    }
   ],
   "varianter": {},
   "instruktioner": [
@@ -33,7 +77,10 @@
     "Krydda laxen med salt och peppar. Ta ut formen och lägg laxen ovanpå grönsakerna. Grädda cirka 10 minuter till.",
     "Servera med en god sallad och citronklyftor."
   ],
-  "servering": ["sallad", "citronklyftor"],
+  "servering": [
+    "sallad",
+    "citronklyftor"
+  ],
   "tips": "Använd valfria grönsaker efter säsong, till exempel paprika eller fänkål.",
   "komplett": true
 }

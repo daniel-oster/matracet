@@ -1,32 +1,86 @@
 {
   "schema_version": "1.0",
   "slug": "sparrispasta-citron-timjan",
-  "nummer": 93,
+  "nummer": 97,
   "namn": "Sparrispasta med citron och timjan",
   "tid_min": 30,
   "portioner": 4,
-  "kategorier": ["vegetarisk"],
+  "kategorier": [
+    "vegetarisk"
+  ],
   "sasong": [],
   "svarighet": "medel",
   "barnvanlig": "delvis",
-  "taggar": ["pasta", "sparris", "kramig"],
+  "taggar": [
+    "pasta",
+    "sparris",
+    "kramig"
+  ],
   "kalla": "ICA",
   "kallaUrl": "https://www.ica.se/recept/sparrispasta-med-citron-och-timjan-726452/",
   "dagkedja": null,
   "bildUrl": "https://images.unsplash.com/photo-1551183053-bf91798d576d?w=800&auto=format&fit=crop",
   "ingredienser": [
-    { "vara": "kokta stora vita bonor", "mangd": 380, "enhet": "g" },
-    { "vara": "vispgradde", "mangd": 2.5, "enhet": "dl" },
-    { "vara": "torkad timjan", "mangd": 1, "enhet": "tsk" },
-    { "vara": "gul lok", "mangd": 1, "enhet": "st" },
-    { "vara": "vitloksklyftor", "mangd": 2, "enhet": "klyftor" },
-    { "vara": "farsk gron sparris", "mangd": 250, "enhet": "g" },
-    { "vara": "sojabonor (edamame)", "mangd": 250, "enhet": "g" },
-    { "vara": "smor", "mangd": 1, "enhet": "msk" },
-    { "vara": "citron", "mangd": 1, "enhet": "st" },
-    { "vara": "salt och peppar", "mangd": 1, "enhet": "krm" },
-    { "vara": "farsk pasta, garna fettuccine", "mangd": 500, "enhet": "g" },
-    { "vara": "ruccola", "mangd": 65, "enhet": "g" }
+    {
+      "vara": "kokta stora vita bonor",
+      "mangd": 380,
+      "enhet": "g"
+    },
+    {
+      "vara": "vispgradde",
+      "mangd": 2.5,
+      "enhet": "dl"
+    },
+    {
+      "vara": "torkad timjan",
+      "mangd": 1,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "gul lok",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "vitloksklyftor",
+      "mangd": 2,
+      "enhet": "klyftor"
+    },
+    {
+      "vara": "farsk gron sparris",
+      "mangd": 250,
+      "enhet": "g"
+    },
+    {
+      "vara": "sojabonor (edamame)",
+      "mangd": 250,
+      "enhet": "g"
+    },
+    {
+      "vara": "smor",
+      "mangd": 1,
+      "enhet": "msk"
+    },
+    {
+      "vara": "citron",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "salt och peppar",
+      "mangd": 1,
+      "enhet": "krm"
+    },
+    {
+      "vara": "farsk pasta, garna fettuccine",
+      "mangd": 500,
+      "enhet": "g"
+    },
+    {
+      "vara": "ruccola",
+      "mangd": 65,
+      "enhet": "g"
+    }
   ],
   "varianter": {},
   "instruktioner": [
@@ -37,7 +91,10 @@
     "Koka pastan enligt anvisningen pa paketet.",
     "Servera pastan med sparrissavsen och toppa med ruccola."
   ],
-  "servering": ["Ruccola", "Riven parmesan"],
+  "servering": [
+    "Ruccola",
+    "Riven parmesan"
+  ],
   "tips": "De mixade vita bonorna gor savsen extra krammig utan att tynga ratten.",
   "komplett": true
 }

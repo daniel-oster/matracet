@@ -5,21 +5,49 @@
   "namn": "Fläskfilé i ugn",
   "tid_min": 55,
   "portioner": 4,
-  "kategorier": ["kott", "glutenfri"],
+  "kategorier": [
+    "kott",
+    "glutenfri"
+  ],
   "sasong": [],
   "svarighet": "enkel",
   "barnvanlig": "ja",
-  "taggar": ["fläsk", "ugn", "helstekt", "glutenfri"],
+  "taggar": [
+    "fläsk",
+    "ugn",
+    "helstekt",
+    "glutenfri"
+  ],
   "kalla": "ICA",
   "kallaUrl": "https://www.ica.se/recept/flaskfile-i-ugn-729730/",
   "dagkedja": null,
   "bildUrl": "https://images.unsplash.com/photo-1580476262798-bddd9f4b7369?w=800&auto=format&fit=crop",
   "ingredienser": [
-    { "vara": "fläskfilé", "mangd": 600, "enhet": "g" },
-    { "vara": "rapsolja", "mangd": 1, "enhet": "msk" },
-    { "vara": "smör", "mangd": 1, "enhet": "msk" },
-    { "vara": "salt", "mangd": 1, "enhet": "tsk" },
-    { "vara": "svartpeppar", "mangd": 1, "enhet": "krm" }
+    {
+      "vara": "fläskfilé",
+      "mangd": 600,
+      "enhet": "g"
+    },
+    {
+      "vara": "rapsolja",
+      "mangd": 1,
+      "enhet": "msk"
+    },
+    {
+      "vara": "smör",
+      "mangd": 1,
+      "enhet": "msk"
+    },
+    {
+      "vara": "salt",
+      "mangd": 1,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "svartpeppar",
+      "mangd": 1,
+      "enhet": "krm"
+    }
   ],
   "varianter": {},
   "instruktioner": [
@@ -29,7 +57,10 @@
     "Låt köttet vila inslaget i fuktigt smörpapper cirka 5 minuter.",
     "Skiva fläskfilén tunt och servera."
   ],
-  "servering": ["klyftpotatis", "kall sås"],
+  "servering": [
+    "klyftpotatis",
+    "kall sås"
+  ],
   "tips": "Bryn gärna köttet med ett par krossade vitlöksklyftor och några kvistar timjan för extra smak.",
   "komplett": true
 }

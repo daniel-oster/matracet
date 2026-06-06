@@ -5,31 +5,102 @@
   "namn": "Biff Stroganoff",
   "tid_min": 90,
   "portioner": 4,
-  "kategorier": ["kott", "glutenfri"],
+  "kategorier": [
+    "kott",
+    "glutenfri"
+  ],
   "sasong": [],
   "svarighet": "medel",
   "barnvanlig": "delvis",
-  "taggar": ["nötkött", "gryta", "krämig", "långkok"],
+  "taggar": [
+    "nötkött",
+    "gryta",
+    "krämig",
+    "långkok"
+  ],
   "kalla": "ICA",
   "kallaUrl": "https://www.ica.se/recept/biff-stroganoff-713113/",
   "dagkedja": null,
   "bildUrl": "https://images.unsplash.com/photo-1546964124-0cce460f38ef?w=800&auto=format&fit=crop",
   "ingredienser": [
-    { "vara": "gul lök", "mangd": 3, "enhet": "st" },
-    { "vara": "vitlök", "mangd": 2, "enhet": "klyftor" },
-    { "vara": "nötbog", "mangd": 700, "enhet": "g" },
-    { "vara": "smör eller margarin", "mangd": 3, "enhet": "msk" },
-    { "vara": "salt", "mangd": 1, "enhet": "tsk" },
-    { "vara": "peppar", "mangd": 1, "enhet": "krm" },
-    { "vara": "paprikapulver", "mangd": 2, "enhet": "tsk" },
-    { "vara": "tomatpuré", "mangd": 3, "enhet": "msk" },
-    { "vara": "dijonsenap", "mangd": 1, "enhet": "msk" },
-    { "vara": "vatten", "mangd": 5, "enhet": "dl" },
-    { "vara": "köttbuljongtärning", "mangd": 1, "enhet": "st" },
-    { "vara": "crème fraiche", "mangd": 2, "enhet": "dl" },
-    { "vara": "potatispuré", "mangd": 4, "enhet": "port", "grupp": "servering" },
-    { "vara": "saltgurka", "mangd": 1, "enhet": "port", "grupp": "servering" },
-    { "vara": "persilja", "mangd": 0.5, "enhet": "kruka", "grupp": "servering" }
+    {
+      "vara": "gul lök",
+      "mangd": 3,
+      "enhet": "st"
+    },
+    {
+      "vara": "vitlök",
+      "mangd": 2,
+      "enhet": "klyftor"
+    },
+    {
+      "vara": "nötbog",
+      "mangd": 700,
+      "enhet": "g"
+    },
+    {
+      "vara": "smör eller margarin",
+      "mangd": 3,
+      "enhet": "msk"
+    },
+    {
+      "vara": "salt",
+      "mangd": 1,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "peppar",
+      "mangd": 1,
+      "enhet": "krm"
+    },
+    {
+      "vara": "paprikapulver",
+      "mangd": 2,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "tomatpuré",
+      "mangd": 3,
+      "enhet": "msk"
+    },
+    {
+      "vara": "dijonsenap",
+      "mangd": 1,
+      "enhet": "msk"
+    },
+    {
+      "vara": "vatten",
+      "mangd": 5,
+      "enhet": "dl"
+    },
+    {
+      "vara": "köttbuljongtärning",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "crème fraiche",
+      "mangd": 2,
+      "enhet": "dl"
+    },
+    {
+      "vara": "potatispuré",
+      "mangd": 4,
+      "enhet": "port",
+      "grupp": "servering"
+    },
+    {
+      "vara": "saltgurka",
+      "mangd": 1,
+      "enhet": "port",
+      "grupp": "servering"
+    },
+    {
+      "vara": "persilja",
+      "mangd": 0.5,
+      "enhet": "kruka",
+      "grupp": "servering"
+    }
   ],
   "varianter": {},
   "instruktioner": [
@@ -39,7 +110,11 @@
     "Rör ner crème fraiche och låt sjuda utan lock cirka 5 minuter. Smaka av.",
     "Servera med potatispuré, saltgurka och hackad persilja."
   ],
-  "servering": ["potatispuré", "saltgurka", "persilja"],
+  "servering": [
+    "potatispuré",
+    "saltgurka",
+    "persilja"
+  ],
   "tips": "Ta dig tid och låt köttet sjuda riktigt mört – det är den långsamma koket som gör grytan smakrik.",
   "komplett": true
 }

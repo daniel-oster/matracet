@@ -5,24 +5,63 @@
   "namn": "Falukorv med stuvade makaroner",
   "tid_min": 30,
   "portioner": 4,
-  "kategorier": ["kott"],
+  "kategorier": [
+    "kott"
+  ],
   "sasong": [],
   "svarighet": "enkel",
   "barnvanlig": "ja",
-  "taggar": ["korv", "husmanskost", "barnfavorit", "vardag"],
+  "taggar": [
+    "korv",
+    "husmanskost",
+    "barnfavorit",
+    "vardag"
+  ],
   "kalla": "ICA",
   "kallaUrl": "https://www.ica.se/recept/falukorv-med-stuvade-makaroner-725260/",
   "dagkedja": null,
   "bildUrl": "https://images.unsplash.com/photo-1611599537845-1c7aca0091c0?w=800&auto=format&fit=crop",
   "ingredienser": [
-    { "vara": "mjölk", "mangd": 1, "enhet": "l" },
-    { "vara": "makaroner", "mangd": 5, "enhet": "dl" },
-    { "vara": "salt", "mangd": 0.5, "enhet": "tsk" },
-    { "vara": "riven muskotnöt", "mangd": 2, "enhet": "krm" },
-    { "vara": "falukorv", "mangd": 550, "enhet": "g" },
-    { "vara": "olja", "mangd": 0.5, "enhet": "msk" },
-    { "vara": "snackmorötter", "mangd": 150, "enhet": "g" },
-    { "vara": "snackpaprika", "mangd": 150, "enhet": "g" }
+    {
+      "vara": "mjölk",
+      "mangd": 1,
+      "enhet": "l"
+    },
+    {
+      "vara": "makaroner",
+      "mangd": 5,
+      "enhet": "dl"
+    },
+    {
+      "vara": "salt",
+      "mangd": 0.5,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "riven muskotnöt",
+      "mangd": 2,
+      "enhet": "krm"
+    },
+    {
+      "vara": "falukorv",
+      "mangd": 550,
+      "enhet": "g"
+    },
+    {
+      "vara": "olja",
+      "mangd": 0.5,
+      "enhet": "msk"
+    },
+    {
+      "vara": "snackmorötter",
+      "mangd": 150,
+      "enhet": "g"
+    },
+    {
+      "vara": "snackpaprika",
+      "mangd": 150,
+      "enhet": "g"
+    }
   ],
   "varianter": {},
   "instruktioner": [
@@ -32,7 +71,9 @@
     "Skölj grönsakerna och skär upp dem eller servera dem hela.",
     "Servera korven med de stuvade makaronerna och grönsakerna."
   ],
-  "servering": ["snacksgrönsaker"],
+  "servering": [
+    "snacksgrönsaker"
+  ],
   "tips": "Rör om ofta i botten medan makaronerna kokar i mjölken så att stuvningen inte bränner fast.",
   "komplett": true
 }

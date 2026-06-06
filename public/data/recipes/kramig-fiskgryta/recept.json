@@ -5,30 +5,93 @@
   "namn": "Krämig fiskgryta",
   "tid_min": 40,
   "portioner": 4,
-  "kategorier": ["fisk", "glutenfri"],
+  "kategorier": [
+    "fisk",
+    "glutenfri"
+  ],
   "sasong": [],
   "svarighet": "enkel",
   "barnvanlig": "ja",
-  "taggar": ["gryta", "lax", "krämigt"],
+  "taggar": [
+    "gryta",
+    "lax",
+    "krämigt"
+  ],
   "kalla": "ICA",
   "kallaUrl": "https://www.ica.se/recept/kramig-fiskgryta-722195/",
   "dagkedja": null,
   "bildUrl": "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800&auto=format&fit=crop",
   "ingredienser": [
-    { "vara": "fast potatis", "mangd": 900, "enhet": "g" },
-    { "vara": "morötter", "mangd": 2, "enhet": "st" },
-    { "vara": "purjolök", "mangd": 0.5, "enhet": "st" },
-    { "vara": "olja", "mangd": 1, "enhet": "msk" },
-    { "vara": "majsstärkelse", "mangd": 1, "enhet": "msk" },
-    { "vara": "vispgrädde", "mangd": 1.5, "enhet": "dl" },
-    { "vara": "vatten", "mangd": 3, "enhet": "dl" },
-    { "vara": "fiskbuljongtärning", "mangd": 1, "enhet": "st" },
-    { "vara": "mjölk", "mangd": 1, "enhet": "dl" },
-    { "vara": "röd paprika", "mangd": 1, "enhet": "st" },
-    { "vara": "portionsbitar lax à 125 g", "mangd": 4, "enhet": "st" },
-    { "vara": "salt", "mangd": 1, "enhet": "krm" },
-    { "vara": "cayennepeppar", "mangd": 1, "enhet": "krm" },
-    { "vara": "färsk gräslök", "mangd": 20, "enhet": "g" }
+    {
+      "vara": "fast potatis",
+      "mangd": 900,
+      "enhet": "g"
+    },
+    {
+      "vara": "morötter",
+      "mangd": 2,
+      "enhet": "st"
+    },
+    {
+      "vara": "purjolök",
+      "mangd": 0.5,
+      "enhet": "st"
+    },
+    {
+      "vara": "olja",
+      "mangd": 1,
+      "enhet": "msk"
+    },
+    {
+      "vara": "majsstärkelse",
+      "mangd": 1,
+      "enhet": "msk"
+    },
+    {
+      "vara": "vispgrädde",
+      "mangd": 1.5,
+      "enhet": "dl"
+    },
+    {
+      "vara": "vatten",
+      "mangd": 3,
+      "enhet": "dl"
+    },
+    {
+      "vara": "fiskbuljongtärning",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "mjölk",
+      "mangd": 1,
+      "enhet": "dl"
+    },
+    {
+      "vara": "röd paprika",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "portionsbitar lax à 125 g",
+      "mangd": 4,
+      "enhet": "st"
+    },
+    {
+      "vara": "salt",
+      "mangd": 1,
+      "enhet": "krm"
+    },
+    {
+      "vara": "cayennepeppar",
+      "mangd": 1,
+      "enhet": "krm"
+    },
+    {
+      "vara": "färsk gräslök",
+      "mangd": 20,
+      "enhet": "g"
+    }
   ],
   "varianter": {},
   "instruktioner": [
@@ -40,7 +103,9 @@
     "Lägg fisken i grytan och låt sjuda cirka 3 minuter. Smaka av med salt och cayennepeppar. Hacka gräslöken.",
     "Servera grytan med potatis och gräslök."
   ],
-  "servering": ["kokt potatis"],
+  "servering": [
+    "kokt potatis"
+  ],
   "tips": "Toppa med extra gräslök och en skvätt citron för fräschör.",
   "komplett": true
 }

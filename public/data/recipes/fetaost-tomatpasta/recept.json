@@ -1,28 +1,66 @@
 {
   "schema_version": "1.0",
   "slug": "fetaost-tomatpasta",
-  "nummer": 98,
+  "nummer": 102,
   "namn": "Fetaost- och tomatpasta i ugn",
   "tid_min": 30,
   "portioner": 4,
-  "kategorier": ["vegetarisk"],
+  "kategorier": [
+    "vegetarisk"
+  ],
   "sasong": [],
   "svarighet": "enkel",
   "barnvanlig": "ja",
-  "taggar": ["pasta", "fetaost", "ugn"],
+  "taggar": [
+    "pasta",
+    "fetaost",
+    "ugn"
+  ],
   "kalla": "ICA",
   "kallaUrl": "https://www.ica.se/recept/fetaost-och-tomatpasta-727820/",
   "dagkedja": null,
   "bildUrl": "https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?w=800&auto=format&fit=crop",
   "ingredienser": [
-    { "vara": "vitloksklyftor", "mangd": 2, "enhet": "klyftor" },
-    { "vara": "korsbarstomater eller sma plommontomater", "mangd": 500, "enhet": "g" },
-    { "vara": "olivolja", "mangd": 3, "enhet": "msk" },
-    { "vara": "torkad oregano eller basilika", "mangd": 2, "enhet": "tsk" },
-    { "vara": "salt och nymald peppar", "mangd": 1, "enhet": "krm" },
-    { "vara": "fetaost", "mangd": 300, "enhet": "g" },
-    { "vara": "pasta, garna spaghetti", "mangd": 300, "enhet": "g" },
-    { "vara": "farsk basilika", "mangd": 25, "enhet": "g" }
+    {
+      "vara": "vitloksklyftor",
+      "mangd": 2,
+      "enhet": "klyftor"
+    },
+    {
+      "vara": "korsbarstomater eller sma plommontomater",
+      "mangd": 500,
+      "enhet": "g"
+    },
+    {
+      "vara": "olivolja",
+      "mangd": 3,
+      "enhet": "msk"
+    },
+    {
+      "vara": "torkad oregano eller basilika",
+      "mangd": 2,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "salt och nymald peppar",
+      "mangd": 1,
+      "enhet": "krm"
+    },
+    {
+      "vara": "fetaost",
+      "mangd": 300,
+      "enhet": "g"
+    },
+    {
+      "vara": "pasta, garna spaghetti",
+      "mangd": 300,
+      "enhet": "g"
+    },
+    {
+      "vara": "farsk basilika",
+      "mangd": 25,
+      "enhet": "g"
+    }
   ],
   "varianter": {},
   "instruktioner": [
@@ -33,7 +71,10 @@
     "Mosa ihop fetaost och tomater i formen till en sas. Blanda i pastan och spad gradvis med kokvatten tills savsen blir krammig. Smaka av.",
     "Toppa med farsk basilika och servera."
   ],
-  "servering": ["Farsk basilika", "Gron sallad"],
+  "servering": [
+    "Farsk basilika",
+    "Gron sallad"
+  ],
   "tips": "Spara alltid lite av det starkelserika kokvattnet - det binder ihop savsen och gor den slat.",
   "komplett": true
 }

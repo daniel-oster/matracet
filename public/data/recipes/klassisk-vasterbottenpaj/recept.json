@@ -1,30 +1,86 @@
 {
   "schema_version": "1.0",
   "slug": "klassisk-vasterbottenpaj",
-  "nummer": 88,
+  "nummer": 92,
   "namn": "Klassisk vasterbottenpaj",
   "tid_min": 90,
   "portioner": 8,
-  "kategorier": ["vegetarisk"],
+  "kategorier": [
+    "vegetarisk"
+  ],
   "sasong": [],
   "svarighet": "medel",
   "barnvanlig": "ja",
-  "taggar": ["paj", "ost", "klassiker"],
+  "taggar": [
+    "paj",
+    "ost",
+    "klassiker"
+  ],
   "kalla": "ICA",
   "kallaUrl": "https://www.ica.se/recept/klassisk-vasterbottenpaj-725368/",
   "dagkedja": null,
   "bildUrl": "https://images.unsplash.com/photo-1510693206972-df098062cb71?w=800&auto=format&fit=crop",
   "ingredienser": [
-    { "vara": "vetemjol", "mangd": 2, "enhet": "dl", "grupp": "pajdeg" },
-    { "vara": "grahamsmjol", "mangd": 1, "enhet": "dl", "grupp": "pajdeg" },
-    { "vara": "smor", "mangd": 125, "enhet": "g", "grupp": "pajdeg" },
-    { "vara": "agg", "mangd": 1, "enhet": "st", "grupp": "pajdeg" },
-    { "vara": "agg", "mangd": 4, "enhet": "st", "grupp": "fyllning" },
-    { "vara": "vispgradde", "mangd": 2.5, "enhet": "dl", "grupp": "fyllning" },
-    { "vara": "mjolk", "mangd": 1, "enhet": "dl", "grupp": "fyllning" },
-    { "vara": "vasterbottensost", "mangd": 300, "enhet": "g", "grupp": "fyllning" },
-    { "vara": "salt", "mangd": 2, "enhet": "krm", "grupp": "fyllning" },
-    { "vara": "svartpeppar", "mangd": 1, "enhet": "krm", "grupp": "fyllning" }
+    {
+      "vara": "vetemjol",
+      "mangd": 2,
+      "enhet": "dl",
+      "grupp": "pajdeg"
+    },
+    {
+      "vara": "grahamsmjol",
+      "mangd": 1,
+      "enhet": "dl",
+      "grupp": "pajdeg"
+    },
+    {
+      "vara": "smor",
+      "mangd": 125,
+      "enhet": "g",
+      "grupp": "pajdeg"
+    },
+    {
+      "vara": "agg",
+      "mangd": 1,
+      "enhet": "st",
+      "grupp": "pajdeg"
+    },
+    {
+      "vara": "agg",
+      "mangd": 4,
+      "enhet": "st",
+      "grupp": "fyllning"
+    },
+    {
+      "vara": "vispgradde",
+      "mangd": 2.5,
+      "enhet": "dl",
+      "grupp": "fyllning"
+    },
+    {
+      "vara": "mjolk",
+      "mangd": 1,
+      "enhet": "dl",
+      "grupp": "fyllning"
+    },
+    {
+      "vara": "vasterbottensost",
+      "mangd": 300,
+      "enhet": "g",
+      "grupp": "fyllning"
+    },
+    {
+      "vara": "salt",
+      "mangd": 2,
+      "enhet": "krm",
+      "grupp": "fyllning"
+    },
+    {
+      "vara": "svartpeppar",
+      "mangd": 1,
+      "enhet": "krm",
+      "grupp": "fyllning"
+    }
   ],
   "varianter": {},
   "instruktioner": [
@@ -35,7 +91,11 @@
     "Riv osten och blanda ner i aggsmeten tillsammans med salt och peppar.",
     "Hall fyllningen i pajskalet och grada mitt i ugnen cirka 50 minuter tills pajen stannat och fatt fin farg."
   ],
-  "servering": ["Gron sallad", "Lojrom", "Gradfil"],
+  "servering": [
+    "Gron sallad",
+    "Lojrom",
+    "Gradfil"
+  ],
   "tips": "Lat pajen vila nagra minuter efter gradning sa skar den sig fint.",
   "komplett": true
 }

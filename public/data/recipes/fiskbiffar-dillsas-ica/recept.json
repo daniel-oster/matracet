@@ -5,30 +5,99 @@
   "namn": "Fiskbiffar i dillsås",
   "tid_min": 30,
   "portioner": 4,
-  "kategorier": ["fisk"],
+  "kategorier": [
+    "fisk"
+  ],
   "sasong": [],
   "svarighet": "enkel",
   "barnvanlig": "ja",
-  "taggar": ["fiskfärs", "dill", "husmanskost"],
+  "taggar": [
+    "fiskfärs",
+    "dill",
+    "husmanskost"
+  ],
   "kalla": "ICA",
   "kallaUrl": "https://www.ica.se/recept/fiskbiffar-i-dillsas-727905/",
   "dagkedja": null,
   "bildUrl": "https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?w=800&auto=format&fit=crop",
   "ingredienser": [
-    { "vara": "ströbröd", "mangd": 0.5, "enhet": "dl" },
-    { "vara": "ägg", "mangd": 1, "enhet": "st" },
-    { "vara": "fiskfärs", "mangd": 500, "enhet": "g" },
-    { "vara": "salt", "mangd": 1, "enhet": "krm" },
-    { "vara": "peppar", "mangd": 1, "enhet": "krm" },
-    { "vara": "chilipulver", "mangd": 2, "enhet": "krm" },
-    { "vara": "olja", "mangd": 1, "enhet": "msk" },
-    { "vara": "matlagningsgrädde", "mangd": 2.5, "enhet": "dl", "grupp": "dillsås" },
-    { "vara": "mjölk", "mangd": 1.5, "enhet": "dl", "grupp": "dillsås" },
-    { "vara": "majsstärkelse", "mangd": 1.5, "enhet": "tsk", "grupp": "dillsås" },
-    { "vara": "fiskbuljongtärning", "mangd": 1, "enhet": "st", "grupp": "dillsås" },
-    { "vara": "färsk dill", "mangd": 10, "enhet": "g", "grupp": "dillsås" },
-    { "vara": "potatis", "mangd": 900, "enhet": "g", "grupp": "servering" },
-    { "vara": "broccoli", "mangd": 250, "enhet": "g", "grupp": "servering" }
+    {
+      "vara": "ströbröd",
+      "mangd": 0.5,
+      "enhet": "dl"
+    },
+    {
+      "vara": "ägg",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "fiskfärs",
+      "mangd": 500,
+      "enhet": "g"
+    },
+    {
+      "vara": "salt",
+      "mangd": 1,
+      "enhet": "krm"
+    },
+    {
+      "vara": "peppar",
+      "mangd": 1,
+      "enhet": "krm"
+    },
+    {
+      "vara": "chilipulver",
+      "mangd": 2,
+      "enhet": "krm"
+    },
+    {
+      "vara": "olja",
+      "mangd": 1,
+      "enhet": "msk"
+    },
+    {
+      "vara": "matlagningsgrädde",
+      "mangd": 2.5,
+      "enhet": "dl",
+      "grupp": "dillsås"
+    },
+    {
+      "vara": "mjölk",
+      "mangd": 1.5,
+      "enhet": "dl",
+      "grupp": "dillsås"
+    },
+    {
+      "vara": "majsstärkelse",
+      "mangd": 1.5,
+      "enhet": "tsk",
+      "grupp": "dillsås"
+    },
+    {
+      "vara": "fiskbuljongtärning",
+      "mangd": 1,
+      "enhet": "st",
+      "grupp": "dillsås"
+    },
+    {
+      "vara": "färsk dill",
+      "mangd": 10,
+      "enhet": "g",
+      "grupp": "dillsås"
+    },
+    {
+      "vara": "potatis",
+      "mangd": 900,
+      "enhet": "g",
+      "grupp": "servering"
+    },
+    {
+      "vara": "broccoli",
+      "mangd": 250,
+      "enhet": "g",
+      "grupp": "servering"
+    }
   ],
   "varianter": {},
   "instruktioner": [
@@ -39,7 +108,10 @@
     "Forma 8 biffar av färsen och stek dem i oljan i en stekpanna cirka 6 minuter, vänd då och då.",
     "Servera fiskbiffarna med potatis, broccoli och dillsås."
   ],
-  "servering": ["kokt potatis", "broccoli"],
+  "servering": [
+    "kokt potatis",
+    "broccoli"
+  ],
   "tips": "Hoppa över chilipulvret om du lagar till mindre barn.",
   "komplett": true
 }

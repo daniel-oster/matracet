@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "slug": "pyttipanna",
+  "nummer": 88,
+  "namn": "Pyttipanna",
+  "tid_min": 45,
+  "portioner": 4,
+  "kategorier": [
+    "kott",
+    "glutenfri"
+  ],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": [
+    "husmanskost",
+    "potatis",
+    "korv",
+    "klassiker",
+    "glutenfri"
+  ],
+  "kalla": "ICA",
+  "kallaUrl": "https://www.ica.se/recept/pytt-i-panna-722178/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1432139555190-58524dae6a55?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    {
+      "vara": "fast potatis",
+      "mangd": 1,
+      "enhet": "kg"
+    },
+    {
+      "vara": "gul lök",
+      "mangd": 3,
+      "enhet": "st"
+    },
+    {
+      "vara": "korv och/eller kött",
+      "mangd": 600,
+      "enhet": "g"
+    },
+    {
+      "vara": "olja",
+      "mangd": 3,
+      "enhet": "msk"
+    },
+    {
+      "vara": "smör",
+      "mangd": 3,
+      "enhet": "msk"
+    },
+    {
+      "vara": "salt",
+      "mangd": 1,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "svartpeppar",
+      "mangd": 1,
+      "enhet": "krm"
+    },
+    {
+      "vara": "ägg",
+      "mangd": 4,
+      "enhet": "st"
+    },
+    {
+      "vara": "persilja",
+      "mangd": 1,
+      "enhet": "kruka"
+    }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Skala och tärna potatisen i cirka 1x1 cm stora bitar. Lägg dem i en skål med kallt vatten, häll sedan av och låt rinna torrt.",
+    "Skala och hacka löken. Skär korven eller köttet i cirka 1x1 cm stora tärningar.",
+    "Stek potatisen i omgångar i olja och smör tills den är mjuk och fått fin färg. Krydda med salt och peppar. Tillsätt löken och stek med några minuter tills den mjuknat. Lägg upp på ett fat.",
+    "Stek korven i samma panna och blanda sedan ihop allt.",
+    "Stek äggen i smör. Hacka persiljan och strö över."
+  ],
+  "servering": [
+    "stekt ägg",
+    "inlagda rödbetor",
+    "saltgurka"
+  ],
+  "tips": "Använd gärna gårdagens kokta potatis – den blir extra krispig i pannan.",
+  "komplett": true
+}

@@ -5,28 +5,82 @@
   "namn": "Krämig laxpasta",
   "tid_min": 30,
   "portioner": 4,
-  "kategorier": ["fisk"],
+  "kategorier": [
+    "fisk"
+  ],
   "sasong": [],
   "svarighet": "enkel",
   "barnvanlig": "ja",
-  "taggar": ["lax", "pasta", "krämigt"],
+  "taggar": [
+    "lax",
+    "pasta",
+    "krämigt"
+  ],
   "kalla": "ICA",
   "kallaUrl": "https://www.ica.se/recept/kramig-laxpasta-750466/",
   "dagkedja": null,
   "bildUrl": "https://images.unsplash.com/photo-1485921325833-c519f76c4927?w=800&auto=format&fit=crop",
   "ingredienser": [
-    { "vara": "pasta, gärna tagliatelle eller spaghetti", "mangd": 4, "enhet": "port" },
-    { "vara": "bananschalottenlök", "mangd": 1, "enhet": "st" },
-    { "vara": "spenat", "mangd": 130, "enhet": "g" },
-    { "vara": "olja", "mangd": 0.5, "enhet": "msk" },
-    { "vara": "vitlöksklyfta", "mangd": 1, "enhet": "st" },
-    { "vara": "vispgrädde", "mangd": 2.5, "enhet": "dl" },
-    { "vara": "crème fraiche", "mangd": 2, "enhet": "dl" },
-    { "vara": "fiskbuljongtärning", "mangd": 1, "enhet": "st" },
-    { "vara": "laxfilé", "mangd": 500, "enhet": "g" },
-    { "vara": "salt", "mangd": 1, "enhet": "krm" },
-    { "vara": "peppar", "mangd": 1, "enhet": "krm" },
-    { "vara": "färsk eller fryst dill", "mangd": 20, "enhet": "g" }
+    {
+      "vara": "pasta, gärna tagliatelle eller spaghetti",
+      "mangd": 4,
+      "enhet": "port"
+    },
+    {
+      "vara": "bananschalottenlök",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "spenat",
+      "mangd": 130,
+      "enhet": "g"
+    },
+    {
+      "vara": "olja",
+      "mangd": 0.5,
+      "enhet": "msk"
+    },
+    {
+      "vara": "vitlöksklyfta",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "vispgrädde",
+      "mangd": 2.5,
+      "enhet": "dl"
+    },
+    {
+      "vara": "crème fraiche",
+      "mangd": 2,
+      "enhet": "dl"
+    },
+    {
+      "vara": "fiskbuljongtärning",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "laxfilé",
+      "mangd": 500,
+      "enhet": "g"
+    },
+    {
+      "vara": "salt",
+      "mangd": 1,
+      "enhet": "krm"
+    },
+    {
+      "vara": "peppar",
+      "mangd": 1,
+      "enhet": "krm"
+    },
+    {
+      "vara": "färsk eller fryst dill",
+      "mangd": 20,
+      "enhet": "g"
+    }
   ],
   "varianter": {},
   "instruktioner": [
@@ -36,7 +90,9 @@
     "Skär laxen i cirka 2 cm stora bitar och låt dem sjuda i såsen cirka 5 minuter. Späd med lite vatten om såsen blir för tjock. Smaka av med salt och peppar. Hacka dillen och vänd försiktigt ner den.",
     "Servera laxsåsen med pastan."
   ],
-  "servering": ["pasta"],
+  "servering": [
+    "pasta"
+  ],
   "tips": "Rör ner laxen försiktigt så att bitarna håller ihop.",
   "komplett": true
 }

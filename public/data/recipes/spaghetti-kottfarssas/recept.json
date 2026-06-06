@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0",
+  "slug": "spaghetti-kottfarssas",
+  "nummer": 86,
+  "namn": "Spaghetti och köttfärssås",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": [
+    "kott"
+  ],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": [
+    "köttfärs",
+    "pasta",
+    "vardag",
+    "klassiker"
+  ],
+  "kalla": "ICA",
+  "kallaUrl": "https://www.ica.se/recept/spaghetti-och-kottfarssas-712805/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    {
+      "vara": "gul lök",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "vitlöksklyftor",
+      "mangd": 2,
+      "enhet": "st"
+    },
+    {
+      "vara": "morötter",
+      "mangd": 2,
+      "enhet": "st"
+    },
+    {
+      "vara": "nötfärs eller blandfärs",
+      "mangd": 500,
+      "enhet": "g"
+    },
+    {
+      "vara": "matolja",
+      "mangd": 2,
+      "enhet": "msk"
+    },
+    {
+      "vara": "tomatpuré",
+      "mangd": 0.5,
+      "enhet": "dl"
+    },
+    {
+      "vara": "krossade tomater",
+      "mangd": 500,
+      "enhet": "g"
+    },
+    {
+      "vara": "vatten",
+      "mangd": 2.5,
+      "enhet": "dl"
+    },
+    {
+      "vara": "hönsbuljongtärning",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "soja",
+      "mangd": 1,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "salt",
+      "mangd": 1,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "svartpeppar",
+      "mangd": 1,
+      "enhet": "krm"
+    },
+    {
+      "vara": "spaghetti",
+      "mangd": 4,
+      "enhet": "portioner"
+    },
+    {
+      "vara": "parmesan",
+      "mangd": 1,
+      "enhet": "dl",
+      "grupp": "servering"
+    }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Skala och hacka lök och vitlök. Skala och grovriv morötterna.",
+    "Bryn färs och grönsaker i olja i en stor panna eller gryta. Tillsätt tomatpurén och fräs med en kort stund.",
+    "Häll i krossade tomater, vatten, smulad buljongtärning och soja. Låt sjuda i cirka 15 minuter och smaka av med salt och peppar.",
+    "Koka spaghettin enligt anvisningen på paketet medan såsen sjuder."
+  ],
+  "servering": [
+    "riven parmesan",
+    "grön sallad"
+  ],
+  "tips": "Vänd gärna ner en kvist färsk timjan i såsen för extra rundad smak.",
+  "komplett": true
+}

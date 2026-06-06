@@ -5,27 +5,78 @@
   "namn": "Fiskgratäng med lax och torsk",
   "tid_min": 35,
   "portioner": 4,
-  "kategorier": ["fisk"],
+  "kategorier": [
+    "fisk"
+  ],
   "sasong": [],
   "svarighet": "enkel",
   "barnvanlig": "ja",
-  "taggar": ["gratäng", "lax", "torsk", "ugn"],
+  "taggar": [
+    "gratäng",
+    "lax",
+    "torsk",
+    "ugn"
+  ],
   "kalla": "ICA",
   "kallaUrl": "https://www.ica.se/recept/fiskgratang-med-lax-och-torsk-724478/",
   "dagkedja": null,
   "bildUrl": "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=800&auto=format&fit=crop",
   "ingredienser": [
-    { "vara": "frysta sojabönor", "mangd": 125, "enhet": "g" },
-    { "vara": "babyspenat", "mangd": 65, "enhet": "g" },
-    { "vara": "körsbärstomater", "mangd": 250, "enhet": "g" },
-    { "vara": "frysta torsk- och laxtärningar", "mangd": 300, "enhet": "g" },
-    { "vara": "salt", "mangd": 0.5, "enhet": "tsk" },
-    { "vara": "svartpeppar", "mangd": 2, "enhet": "krm" },
-    { "vara": "färdigt stomp av rotfrukter", "mangd": 0.33, "enhet": "sats" },
-    { "vara": "crème fraiche", "mangd": 2, "enhet": "dl" },
-    { "vara": "ajvar relish", "mangd": 1, "enhet": "dl" },
-    { "vara": "finriven parmesan", "mangd": 1, "enhet": "dl" },
-    { "vara": "hackad persilja", "mangd": 2, "enhet": "msk" }
+    {
+      "vara": "frysta sojabönor",
+      "mangd": 125,
+      "enhet": "g"
+    },
+    {
+      "vara": "babyspenat",
+      "mangd": 65,
+      "enhet": "g"
+    },
+    {
+      "vara": "körsbärstomater",
+      "mangd": 250,
+      "enhet": "g"
+    },
+    {
+      "vara": "frysta torsk- och laxtärningar",
+      "mangd": 300,
+      "enhet": "g"
+    },
+    {
+      "vara": "salt",
+      "mangd": 0.5,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "svartpeppar",
+      "mangd": 2,
+      "enhet": "krm"
+    },
+    {
+      "vara": "färdigt stomp av rotfrukter",
+      "mangd": 0.33,
+      "enhet": "sats"
+    },
+    {
+      "vara": "crème fraiche",
+      "mangd": 2,
+      "enhet": "dl"
+    },
+    {
+      "vara": "ajvar relish",
+      "mangd": 1,
+      "enhet": "dl"
+    },
+    {
+      "vara": "finriven parmesan",
+      "mangd": 1,
+      "enhet": "dl"
+    },
+    {
+      "vara": "hackad persilja",
+      "mangd": 2,
+      "enhet": "msk"
+    }
   ],
   "varianter": {},
   "instruktioner": [

@@ -5,29 +5,88 @@
   "namn": "Krämig pasta med räkor och vitlök",
   "tid_min": 30,
   "portioner": 4,
-  "kategorier": ["fisk"],
+  "kategorier": [
+    "fisk"
+  ],
   "sasong": [],
   "svarighet": "enkel",
   "barnvanlig": "delvis",
-  "taggar": ["räkor", "pasta", "skaldjur", "krämigt"],
+  "taggar": [
+    "räkor",
+    "pasta",
+    "skaldjur",
+    "krämigt"
+  ],
   "kalla": "ICA",
   "kallaUrl": "https://www.ica.se/recept/kramig-pasta-med-rakor-och-vitlok-727628/",
   "dagkedja": null,
   "bildUrl": "https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?w=800&auto=format&fit=crop",
   "ingredienser": [
-    { "vara": "räkor i lake", "mangd": 570, "enhet": "g" },
-    { "vara": "röd paprika", "mangd": 1, "enhet": "st" },
-    { "vara": "vitlöksklyfta", "mangd": 1, "enhet": "st" },
-    { "vara": "bananschalottenlök", "mangd": 1, "enhet": "st" },
-    { "vara": "olivolja", "mangd": 1, "enhet": "msk" },
-    { "vara": "vitt matlagningsvin", "mangd": 0.5, "enhet": "dl" },
-    { "vara": "matlagningsgrädde", "mangd": 2.5, "enhet": "dl" },
-    { "vara": "citron, rivet skal", "mangd": 1, "enhet": "st" },
-    { "vara": "persilja", "mangd": 0.5, "enhet": "kruka" },
-    { "vara": "riven parmesan", "mangd": 2, "enhet": "dl" },
-    { "vara": "salt", "mangd": 1, "enhet": "krm" },
-    { "vara": "svartpeppar", "mangd": 1, "enhet": "krm" },
-    { "vara": "färsk pasta, gärna fettuccine", "mangd": 500, "enhet": "g" }
+    {
+      "vara": "räkor i lake",
+      "mangd": 570,
+      "enhet": "g"
+    },
+    {
+      "vara": "röd paprika",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "vitlöksklyfta",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "bananschalottenlök",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "olivolja",
+      "mangd": 1,
+      "enhet": "msk"
+    },
+    {
+      "vara": "vitt matlagningsvin",
+      "mangd": 0.5,
+      "enhet": "dl"
+    },
+    {
+      "vara": "matlagningsgrädde",
+      "mangd": 2.5,
+      "enhet": "dl"
+    },
+    {
+      "vara": "citron, rivet skal",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "persilja",
+      "mangd": 0.5,
+      "enhet": "kruka"
+    },
+    {
+      "vara": "riven parmesan",
+      "mangd": 2,
+      "enhet": "dl"
+    },
+    {
+      "vara": "salt",
+      "mangd": 1,
+      "enhet": "krm"
+    },
+    {
+      "vara": "svartpeppar",
+      "mangd": 1,
+      "enhet": "krm"
+    },
+    {
+      "vara": "färsk pasta, gärna fettuccine",
+      "mangd": 500,
+      "enhet": "g"
+    }
   ],
   "varianter": {},
   "instruktioner": [
@@ -38,7 +97,9 @@
     "Koka pastan enligt anvisningen på förpackningen, häll av och vänd ner i stekpannan.",
     "Ta pannan från värmen och vänd försiktigt ner räkorna tills de blir varma. Toppa med persilja och servera direkt."
   ],
-  "servering": ["riven parmesan"],
+  "servering": [
+    "riven parmesan"
+  ],
   "tips": "Vänd ner räkorna allra sist så att de inte blir sega.",
   "komplett": true
 }

@@ -1,33 +1,94 @@
 {
   "schema_version": "1.0",
   "slug": "garbanzocurry",
-  "nummer": 102,
+  "nummer": 106,
   "namn": "Garbanzocurry med blomkål och broccoli",
   "tid_min": 35,
   "portioner": 4,
-  "kategorier": ["vegansk", "glutenfri"],
+  "kategorier": [
+    "vegansk",
+    "glutenfri"
+  ],
   "sasong": [],
   "svarighet": "enkel",
   "barnvanlig": "delvis",
-  "taggar": ["curry", "kikärtor", "kokos", "gryta"],
+  "taggar": [
+    "curry",
+    "kikärtor",
+    "kokos",
+    "gryta"
+  ],
   "kalla": "ICA",
   "kallaUrl": "https://www.ica.se/recept/garbanzocurry-721553/",
   "dagkedja": null,
   "bildUrl": "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=800&auto=format&fit=crop",
   "ingredienser": [
-    { "vara": "kokta kikärtor", "mangd": 400, "enhet": "g" },
-    { "vara": "gul lök", "mangd": 1, "enhet": "st" },
-    { "vara": "vitlök", "mangd": 1, "enhet": "klyftor" },
-    { "vara": "grön chili", "mangd": 1, "enhet": "st" },
-    { "vara": "matolja", "mangd": 3, "enhet": "msk" },
-    { "vara": "curry", "mangd": 1, "enhet": "msk" },
-    { "vara": "gurkmeja", "mangd": 1, "enhet": "tsk" },
-    { "vara": "kokosmjölk", "mangd": 800, "enhet": "g" },
-    { "vara": "lime", "mangd": 1, "enhet": "st" },
-    { "vara": "morot", "mangd": 2, "enhet": "st" },
-    { "vara": "blomkål", "mangd": 0.5, "enhet": "st" },
-    { "vara": "broccoli", "mangd": 1, "enhet": "st" },
-    { "vara": "färsk koriander", "mangd": 1, "enhet": "kruka", "grupp": "servering" }
+    {
+      "vara": "kokta kikärtor",
+      "mangd": 400,
+      "enhet": "g"
+    },
+    {
+      "vara": "gul lök",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "vitlök",
+      "mangd": 1,
+      "enhet": "klyftor"
+    },
+    {
+      "vara": "grön chili",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "matolja",
+      "mangd": 3,
+      "enhet": "msk"
+    },
+    {
+      "vara": "curry",
+      "mangd": 1,
+      "enhet": "msk"
+    },
+    {
+      "vara": "gurkmeja",
+      "mangd": 1,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "kokosmjölk",
+      "mangd": 800,
+      "enhet": "g"
+    },
+    {
+      "vara": "lime",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "morot",
+      "mangd": 2,
+      "enhet": "st"
+    },
+    {
+      "vara": "blomkål",
+      "mangd": 0.5,
+      "enhet": "st"
+    },
+    {
+      "vara": "broccoli",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "färsk koriander",
+      "mangd": 1,
+      "enhet": "kruka",
+      "grupp": "servering"
+    }
   ],
   "varianter": {},
   "instruktioner": [
@@ -37,7 +98,11 @@
     "Tillsätt kikärtor, skivad morot, blomkålsbuketter och broccoli. Låt sjuda 3–4 minuter.",
     "Smaka av med limejuice och toppa med koriander."
   ],
-  "servering": ["ris", "färsk koriander", "limeklyftor"],
+  "servering": [
+    "ris",
+    "färsk koriander",
+    "limeklyftor"
+  ],
   "tips": "Vill du ha mer hetta, behåll fröna i chilin.",
   "komplett": true
 }

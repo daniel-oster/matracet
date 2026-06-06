@@ -5,24 +5,65 @@
   "namn": "Torsk i folie med tomat, pesto och purjolök",
   "tid_min": 30,
   "portioner": 4,
-  "kategorier": ["fisk", "glutenfri"],
+  "kategorier": [
+    "fisk",
+    "glutenfri"
+  ],
   "sasong": [],
   "svarighet": "enkel",
   "barnvanlig": "ja",
-  "taggar": ["torsk", "folie", "pesto", "ugn"],
+  "taggar": [
+    "torsk",
+    "folie",
+    "pesto",
+    "ugn"
+  ],
   "kalla": "ICA",
   "kallaUrl": "https://www.ica.se/recept/torsk-i-folie-med-tomat-pesto-och-purjolok-723664/",
   "dagkedja": null,
   "bildUrl": "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=800&auto=format&fit=crop",
   "ingredienser": [
-    { "vara": "körsbärstomater", "mangd": 250, "enhet": "g" },
-    { "vara": "liten purjolök", "mangd": 1, "enhet": "st" },
-    { "vara": "bitar torskrygg à ca 150 g", "mangd": 4, "enhet": "st" },
-    { "vara": "dubbla ark grillfolie", "mangd": 4, "enhet": "st" },
-    { "vara": "salt", "mangd": 1, "enhet": "krm" },
-    { "vara": "svartpeppar", "mangd": 1, "enhet": "krm" },
-    { "vara": "pesto", "mangd": 8, "enhet": "msk" },
-    { "vara": "färskpotatis", "mangd": 800, "enhet": "g", "grupp": "servering" }
+    {
+      "vara": "körsbärstomater",
+      "mangd": 250,
+      "enhet": "g"
+    },
+    {
+      "vara": "liten purjolök",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "bitar torskrygg à ca 150 g",
+      "mangd": 4,
+      "enhet": "st"
+    },
+    {
+      "vara": "dubbla ark grillfolie",
+      "mangd": 4,
+      "enhet": "st"
+    },
+    {
+      "vara": "salt",
+      "mangd": 1,
+      "enhet": "krm"
+    },
+    {
+      "vara": "svartpeppar",
+      "mangd": 1,
+      "enhet": "krm"
+    },
+    {
+      "vara": "pesto",
+      "mangd": 8,
+      "enhet": "msk"
+    },
+    {
+      "vara": "färskpotatis",
+      "mangd": 800,
+      "enhet": "g",
+      "grupp": "servering"
+    }
   ],
   "varianter": {},
   "instruktioner": [
@@ -33,7 +74,9 @@
     "Vik ihop folien till paket och tillaga på indirekt värme på grillen, eller i ugnen, tills fiskens innertemperatur är cirka 56°, runt 15 minuter.",
     "Servera med kokt färskpotatis."
   ],
-  "servering": ["kokt färskpotatis"],
+  "servering": [
+    "kokt färskpotatis"
+  ],
   "tips": "Funkar lika bra i ugnen på 225° i cirka 15–20 minuter som på grillen.",
   "komplett": true
 }
