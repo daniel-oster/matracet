@@ -884,6 +884,16 @@ body {
   border-radius: 0 4px 4px 0;
   margin-top: 8px;
 }
+.recipe-source {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--ink-soft);
+  margin-top: 12px;
+  opacity: 0.75;
+}
+.recipe-source a {
+  color: var(--ink-blue);
+}
 .recipe-detail-empty {
   display: flex;
   align-items: center;
@@ -1236,6 +1246,16 @@ body {
   padding: 8px 12px;
   border-radius: 0 4px 4px 0;
   margin-top: 14px;
+}
+.overlay-source {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-soft);
+  margin-top: 12px;
+  opacity: 0.75;
+}
+.overlay-source a {
+  color: var(--ink-blue);
 }
 .overlay-serving {
   font-family: 'Patrick Hand', cursive;
