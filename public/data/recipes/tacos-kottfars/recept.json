@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "slug": "tacos-kottfars",
+  "nummer": 76,
+  "namn": "Tacos med köttfärs",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": ["kott"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["tacofredag", "köttfärs", "mexikanskt", "barnfavorit"],
+  "kalla": "ICA",
+  "kallaUrl": "https://www.ica.se/recept/tacos-722416/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "tomater", "mangd": 2, "enhet": "st" },
+    { "vara": "gurka", "mangd": 1, "enhet": "st" },
+    { "vara": "stor rödlök", "mangd": 1, "enhet": "st" },
+    { "vara": "majskorn", "mangd": 340, "enhet": "g" },
+    { "vara": "isbergssallad", "mangd": 0.25, "enhet": "st" },
+    { "vara": "nötfärs eller hushållsfärs", "mangd": 500, "enhet": "g" },
+    { "vara": "olja", "mangd": 2, "enhet": "msk" },
+    { "vara": "tacokrydda", "mangd": 28, "enhet": "g" },
+    { "vara": "vatten", "mangd": 1.5, "enhet": "dl" },
+    { "vara": "hårda tacoskal", "mangd": 12, "enhet": "st" },
+    { "vara": "riven ost", "mangd": 2, "enhet": "dl" },
+    { "vara": "salsasås", "mangd": 2, "enhet": "dl" },
+    { "vara": "gräddfil", "mangd": 2, "enhet": "dl" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Sätt ugnen på den temperatur som anges på tacoskalens förpackning.",
+    "Tärna tomater och gurka, skala och hacka rödlöken, häll av majsen och strimla salladen.",
+    "Bryn färsen i oljan och krydda med tacokryddan. Rör i vattnet och låt fräsa ihop några minuter.",
+    "Lägg tacoskalen på en plåt och värm dem i ugnen enligt förpackningen.",
+    "Fyll skalen med färs och toppa med ost, grönsaker, salsa och gräddfil."
+  ],
+  "servering": ["gräddfil", "het salsa"],
+  "tips": "Förbered alla tillbehör i små skålar så får var och en bygga sin egen taco vid bordet.",
+  "komplett": true
+}

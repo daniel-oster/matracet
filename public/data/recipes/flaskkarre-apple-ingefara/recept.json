@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "slug": "flaskkarre-apple-ingefara",
+  "nummer": 84,
+  "namn": "Fläskkarré i ugn med äpple och ingefära",
+  "tid_min": 90,
+  "portioner": 4,
+  "kategorier": ["kott", "glutenfri", "laktosfri"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["fläsk", "ugn", "helstekt", "helg"],
+  "kalla": "ICA",
+  "kallaUrl": "https://www.ica.se/recept/flaskkarre-i-ugn-med-apple-och-ingefara-724324/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1580476262798-bddd9f4b7369?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "fläskkarré i bit", "mangd": 600, "enhet": "g" },
+    { "vara": "riven vitlök", "mangd": 1, "enhet": "klyfta" },
+    { "vara": "finriven ingefära", "mangd": 2, "enhet": "tsk" },
+    { "vara": "salt", "mangd": 1, "enhet": "tsk" },
+    { "vara": "svartpeppar", "mangd": 0.5, "enhet": "tsk" },
+    { "vara": "äppeljuice", "mangd": 0.75, "enhet": "dl" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Sätt ugnen på 175°C.",
+    "Putsa köttet. Blanda vitlök, ingefära, salt och peppar och gnid in kryddblandningen runt om köttet. Lägg det i en ugnsform och häll äppeljuicen runt om.",
+    "Stek mitt i ugnen cirka 1–1,5 timme, eller tills innertemperaturen når 80°C.",
+    "Låt köttet vila en stund innan du skär upp det. Servera med ugnsrostad blomkål och broccoli samt en rotsellerislaw med äpple."
+  ],
+  "servering": ["ugnsrostad blomkål och broccoli", "rotsellerislaw"],
+  "tips": "Ös köttet med skyn ett par gånger under tiden i ugnen så håller det sig saftigt.",
+  "komplett": true
+}
