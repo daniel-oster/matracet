@@ -1,0 +1,56 @@
+{
+  "vecka": "2026-W26",
+  "middagar": [
+    {
+      "dag": "mandag",
+      "datum": "2026-06-22",
+      "recept": "Spaghetti med fetaostbollar och tomatsås",
+      "receptSlug": "spaghetti-fetaostbollar",
+      "varianter": { "Annabelle": "vegansk färsröra istället för fetaostbollar" }
+    },
+    {
+      "dag": "tisdag",
+      "datum": "2026-06-23",
+      "recept": "Ugnsbakad lax med soja och ingefära",
+      "receptSlug": "laxfile-soja-ingefara"
+    },
+    {
+      "dag": "onsdag",
+      "datum": "2026-06-24",
+      "recept": "Falafel med yoghurtsås",
+      "receptSlug": "falafel",
+      "kommentar": "Sarah har träning kl 18 — äter tidigt"
+    },
+    {
+      "dag": "torsdag",
+      "datum": "2026-06-25",
+      "recept": "Krämig kycklinggryta med soltorkade tomater",
+      "receptSlug": "kramig-kycklinggryta-soltorkade-tomater",
+      "varianter": { "Annabelle": "halstrad tofu istället för kyckling" }
+    },
+    {
+      "dag": "fredag",
+      "datum": "2026-06-26",
+      "recept": "Ugnsbakad torsk med pesto och tomat",
+      "receptSlug": "ugnsbakad-torsk-pesto-tomat",
+      "kommentar": "Erika-helg — barnen hos mamma"
+    },
+    {
+      "dag": "lordag",
+      "datum": "2026-06-27",
+      "recept": "Coq au vin",
+      "receptSlug": "coq-au-vin",
+      "kommentar": "Daniel & Erika"
+    },
+    {
+      "dag": "sondag",
+      "datum": "2026-06-28",
+      "recept": "Fisksoppa med saffran",
+      "receptSlug": "fisksoppa-saffran"
+    }
+  ],
+  "anteckningar": [
+    { "nar": "Vecka 26", "text": "Mammans helg — barnen borta fredag–söndag, Daniel & Erika hemma." }
+  ],
+  "skapad": "2026-06-13T10:00:00Z"
+}

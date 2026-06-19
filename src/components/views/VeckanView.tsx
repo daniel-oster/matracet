@@ -1,5 +1,8 @@
-import { PageSide, DayMeal } from '../../types'
+import { PageSide, DayMeal, Eater } from '../../types'
 import type { DayPlan } from '../../presence/types'
+import { useFeedback } from '../../hooks/useFeedback'
+import { useWeekPlan, applyOverride } from '../../hooks/useWeekPlan'
+import WeekWarnings from '../week/WeekWarnings'
 
 const DAY_NAMES: Record<string, string> = {
   mandag: 'Måndag', tisdag: 'Tisdag', onsdag: 'Onsdag',
@@ -32,10 +35,14 @@ interface Props {
   side: PageSide
   days: DayMeal[]
   dayPlans: DayPlan[]
+  eaters: Eater[]
   onOpenRecipe?: (slug: string) => void
+  onReplaceDay?: (date: string) => void
 }
 
-export default function VeckanView({ side, days, dayPlans, onOpenRecipe }: Props) {
+export default function VeckanView({ side, days, dayPlans, eaters, onOpenRecipe, onReplaceDay }: Props) {
+  const { getFeedback } = useFeedback()
+  const { getOverride } = useWeekPlan()
   const pageDays = side === 'left' ? days.slice(0, 4) : days.slice(4)
 
   const firstDay = pageDays[0]
@@ -60,10 +67,20 @@ export default function VeckanView({ side, days, dayPlans, onOpenRecipe }: Props
         <div className="sub">{sub}</div>
       </div>
 
-      {pageDays.map((day) => {
+      {pageDays.map((rawDay) => {
+        const day = applyOverride(rawDay, getOverride(rawDay.datum))
         const num = dateNum(day.datum)
         const dayName = DAY_NAMES[day.dag] ?? day.dag
         const plan = dayPlans.find(p => p.date === day.datum)
+
+        const record = day.receptSlug ? getFeedback(day.receptSlug) : null
+        const isExcluded = record?.excludeFromWeekPlan ?? false
+        const presentIds = plan?.presentPersons.map(p => p.id) ?? null
+        const refusers = record
+          ? record.persons.filter(
+              p => p.sentiment === 'refuses' && (!presentIds || presentIds.includes(p.personId)),
+            )
+          : []
 
         return (
           <div className="day-block" key={day.datum}>
@@ -73,7 +90,35 @@ export default function VeckanView({ side, days, dayPlans, onOpenRecipe }: Props
               {plan && plan.portions > 0 && (
                 <span className="day-group">{plan.activeGroup?.name}</span>
               )}
+              {onReplaceDay && (
+                <button
+                  type="button"
+                  className="day-replace-btn"
+                  title="Ersätt måltid"
+                  onClick={() => onReplaceDay(day.datum)}
+                >
+                  ⇄ Ersätt
+                </button>
+              )}
             </div>
+
+            {(isExcluded || refusers.length > 0) && (
+              <div className="day-flags">
+                {isExcluded && <span className="day-flag day-flag--excluded">Utesluten</span>}
+                {refusers.map(p => {
+                  const namn = eaters.find(e => e.id === p.personId)?.namn ?? p.personId
+                  return (
+                    <span
+                      className="day-flag day-flag--refuses"
+                      key={p.personId}
+                      title={`${namn} vägrar äta`}
+                    >
+                      ⚠️ {namn}
+                    </span>
+                  )
+                })}
+              </div>
+            )}
 
             {plan && plan.portions > 0 && plan.windowStatus !== 'OPEN' && (
               <div className="day-window">
@@ -113,6 +158,10 @@ export default function VeckanView({ side, days, dayPlans, onOpenRecipe }: Props
           </div>
         )
       })}
+
+      {side === 'right' && (
+        <WeekWarnings days={days} dayPlans={dayPlans} eaters={eaters} onOpenRecipe={onOpenRecipe} />
+      )}
     </>
   )
 }

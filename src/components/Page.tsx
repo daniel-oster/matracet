@@ -17,11 +17,12 @@ interface Props {
   selectedRecipeSlug: string | null
   onSelectRecipe: (slug: string) => void
   onOpenRecipe?: (slug: string) => void
+  onReplaceDay?: (date: string) => void
   flippedOut?: boolean
   flippedIn?: boolean
 }
 
-export default function Page({ side, activeTab, rollingDays, weekNotes, eaters, recipeIndex, dayPlans, selectedRecipeSlug, onSelectRecipe, onOpenRecipe, flippedOut, flippedIn }: Props) {
+export default function Page({ side, activeTab, rollingDays, weekNotes, eaters, recipeIndex, dayPlans, selectedRecipeSlug, onSelectRecipe, onOpenRecipe, onReplaceDay, flippedOut, flippedIn }: Props) {
   const classes = [
     'page',
     side,
@@ -32,9 +33,9 @@ export default function Page({ side, activeTab, rollingDays, weekNotes, eaters, 
   return (
     <div className={classes}>
       <div className="page-view" key={`${activeTab}-${side}`}>
-        {activeTab === 'veckan'       && <VeckanView       side={side} days={rollingDays} dayPlans={dayPlans} onOpenRecipe={onOpenRecipe} />}
+        {activeTab === 'veckan'       && <VeckanView       side={side} days={rollingDays} dayPlans={dayPlans} eaters={eaters} onOpenRecipe={onOpenRecipe} onReplaceDay={onReplaceDay} />}
         {activeTab === 'handla'       && <HandlaView        side={side} />}
-        {activeTab === 'recept'       && <ReceptView        side={side} recipeIndex={recipeIndex} selectedSlug={selectedRecipeSlug} onSelect={onSelectRecipe} />}
+        {activeTab === 'recept'       && <ReceptView        side={side} recipeIndex={recipeIndex} eaters={eaters} selectedSlug={selectedRecipeSlug} onSelect={onSelectRecipe} />}
         {activeTab === 'familj'       && <FamiljView        side={side} eaters={eaters} dayPlans={dayPlans} />}
         {activeTab === 'anteckningar' && <AnteckningarView  side={side} weekNotes={weekNotes} />}
       </div>
