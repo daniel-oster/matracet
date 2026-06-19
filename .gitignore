@@ -35,3 +35,6 @@ pnpm-debug.log*
 .eslintcache
 .stylelintcache
 *.zip
+
+# TS incremental build cache
+*.tsbuildinfo

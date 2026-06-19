@@ -3,6 +3,8 @@ import { TabName, Eater, RecipeIndexEntry, DayMeal, WeekNote } from '../types'
 import Page from './Page'
 import Tabs from './Tabs'
 import RecipeOverlay from './RecipeOverlay'
+import ReplaceRecipeModal from './week/ReplaceRecipeModal'
+import { useWeekPlan } from '../hooks/useWeekPlan'
 import type { DayPlan } from '../presence/types'
 
 interface Props {
@@ -19,6 +21,11 @@ export default function Binder({ rollingDays, weekNotes, weekLabel, eaters, reci
   const [portraitSide, setPortraitSide] = useState<'left' | 'right'>('left')
   const [selectedRecipeSlug, setSelectedRecipeSlug] = useState<string | null>(null)
   const [overlaySlug, setOverlaySlug] = useState<string | null>(null)
+  const [replaceDate, setReplaceDate] = useState<string | null>(null)
+  const { setMeal } = useWeekPlan()
+
+  const replaceDay = replaceDate ? rollingDays.find(d => d.datum === replaceDate) : undefined
+  const replacePlan = replaceDate ? dayPlans.find(p => p.date === replaceDate) : undefined
 
   function handleTabChange(tab: TabName) {
     setActiveTab(tab)
@@ -46,6 +53,7 @@ export default function Binder({ rollingDays, weekNotes, weekLabel, eaters, reci
             selectedRecipeSlug={selectedRecipeSlug}
             onSelectRecipe={setSelectedRecipeSlug}
             onOpenRecipe={setOverlaySlug}
+            onReplaceDay={setReplaceDate}
             flippedOut={portraitSide === 'right'}
           />
 
@@ -64,6 +72,7 @@ export default function Binder({ rollingDays, weekNotes, weekLabel, eaters, reci
             selectedRecipeSlug={selectedRecipeSlug}
             onSelectRecipe={setSelectedRecipeSlug}
             onOpenRecipe={setOverlaySlug}
+            onReplaceDay={setReplaceDate}
             flippedIn={portraitSide === 'right'}
           />
 
@@ -94,6 +103,32 @@ export default function Binder({ rollingDays, weekNotes, weekLabel, eaters, reci
       {overlaySlug && (
         <RecipeOverlay slug={overlaySlug} onClose={() => setOverlaySlug(null)} />
       )}
+
+      {replaceDate && replaceDay && (
+        <ReplaceRecipeModal
+          dayLabel={formatDayLabel(replaceDay.dag, replaceDay.datum)}
+          recipeIndex={recipeIndex}
+          presentPersonIds={replacePlan?.presentPersons.map(p => p.id) ?? null}
+          eaters={eaters}
+          onSelect={entry => {
+            setMeal(replaceDate, entry.namn, entry.slug)
+            setReplaceDate(null)
+          }}
+          onClose={() => setReplaceDate(null)}
+        />
+      )}
     </>
   )
+}
+
+const DAY_NAMES: Record<string, string> = {
+  mandag: 'Måndag', tisdag: 'Tisdag', onsdag: 'Onsdag',
+  torsdag: 'Torsdag', fredag: 'Fredag', lordag: 'Lördag', sondag: 'Söndag',
+}
+
+function formatDayLabel(dag: string, datum: string): string {
+  const d = new Date(datum + 'T00:00:00Z')
+  const num = d.getUTCDate()
+  const month = d.toLocaleDateString('sv-SE', { month: 'long', timeZone: 'UTC' })
+  return `${DAY_NAMES[dag] ?? dag} ${num} ${month}`
 }

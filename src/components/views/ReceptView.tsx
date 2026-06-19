@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react'
-import { PageSide, RecipeIndexEntry, Recipe } from '../../types'
+import { PageSide, RecipeIndexEntry, Recipe, Eater } from '../../types'
+import { useFeedback } from '../../hooks/useFeedback'
+import RecipeFeedbackBar from '../feedback/RecipeFeedbackBar'
+import { downloadLocalData } from '../../lib/exportData'
 
 interface Props {
   side: PageSide
   recipeIndex: RecipeIndexEntry[]
+  eaters: Eater[]
   selectedSlug: string | null
   onSelect: (slug: string) => void
 }
@@ -30,37 +34,67 @@ function categoryText(kategorier: string[]): string {
 
 // ─── Left page: recipe list ────────────────────────────────────────────────────
 
-function RecipeList({ recipes, selectedSlug, onSelect }: {
+function RecipeList({ recipes, eaters, selectedSlug, onSelect }: {
   recipes: RecipeIndexEntry[]
+  eaters: Eater[]
   selectedSlug: string | null
   onSelect: (slug: string) => void
 }) {
+  const { getFeedback, setExcludeFromWeekPlan } = useFeedback()
+
   return (
     <>
       <div className="page-head">
-        <div className="title">Receptbiblioteket</div>
-        <div className="sub">{recipes.length} recept</div>
+        <div className="recipe-list-head-row">
+          <div>
+            <div className="title">Receptbiblioteket</div>
+            <div className="sub">{recipes.length} recept</div>
+          </div>
+          <button
+            type="button"
+            className="export-btn"
+            onClick={downloadLocalData}
+            title="Ladda ner all lokal feedback- och veckoplansdata som JSON"
+          >
+            ⬇ Exportera data
+          </button>
+        </div>
       </div>
       <div className="recipe-scroll-list">
-        {recipes.map(r => (
-          <button
-            key={r.slug}
-            className={`recipe-card-btn ${selectedSlug === r.slug ? 'active' : ''}`}
-            onClick={() => onSelect(r.slug)}
-          >
-            {r.bildUrl && (
-              <img className="recipe-thumb" src={r.bildUrl} alt={r.namn} loading="lazy" />
-            )}
-            <div className="recipe-card-info">
-              <div className="recipe-card-name">{r.namn}</div>
-              <div className="recipe-card-meta">
-                <span>{r.tid_min} min</span>
-                <span className="recipe-card-dot">·</span>
-                <span>{categoryEmoji(r.kategorier)} {categoryText(r.kategorier)}</span>
+        {recipes.map(r => {
+          const excluded = getFeedback(r.slug)?.excludeFromWeekPlan ?? false
+          return (
+            <div key={r.slug} className={`recipe-card-wrap${excluded ? ' excluded' : ''}`}>
+              <button
+                className={`recipe-card-btn ${selectedSlug === r.slug ? 'active' : ''}`}
+                onClick={() => onSelect(r.slug)}
+              >
+                {r.bildUrl && (
+                  <img className="recipe-thumb" src={r.bildUrl} alt={r.namn} loading="lazy" />
+                )}
+                <div className="recipe-card-info">
+                  <div className="recipe-card-name">{r.namn}</div>
+                  <div className="recipe-card-meta">
+                    <span>{r.tid_min} min</span>
+                    <span className="recipe-card-dot">·</span>
+                    <span>{categoryEmoji(r.kategorier)} {categoryText(r.kategorier)}</span>
+                  </div>
+                </div>
+              </button>
+              <div className="recipe-card-footer">
+                <RecipeFeedbackBar recipeId={r.slug} eaters={eaters} variant="card" />
+                <label className="exclude-toggle">
+                  <input
+                    type="checkbox"
+                    checked={excluded}
+                    onChange={e => setExcludeFromWeekPlan(r.slug, e.target.checked)}
+                  />
+                  <span>Använd inte i veckoplan</span>
+                </label>
               </div>
             </div>
-          </button>
-        ))}
+          )
+        })}
       </div>
     </>
   )
@@ -68,7 +102,7 @@ function RecipeList({ recipes, selectedSlug, onSelect }: {
 
 // ─── Right page: recipe detail ─────────────────────────────────────────────────
 
-function RecipeDetail({ slug }: { slug: string }) {
+function RecipeDetail({ slug, eaters }: { slug: string; eaters: Eater[] }) {
   const [recipe, setRecipe] = useState<Recipe | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -158,6 +192,11 @@ function RecipeDetail({ slug }: { slug: string }) {
 
       {recipe.tips && <div className="recipe-tips">💡 {recipe.tips}</div>}
 
+      <div className="recipe-section">
+        <div className="recipe-section-label">Vad tycker familjen?</div>
+        <RecipeFeedbackBar recipeId={slug} eaters={eaters} variant="detail" />
+      </div>
+
       {recipe.kalla && (
         <div className="recipe-source">
           Källa:{' '}
@@ -185,10 +224,10 @@ function RecipeEmpty() {
 
 // ─── Main ──────────────────────────────────────────────────────────────────────
 
-export default function ReceptView({ side, recipeIndex, selectedSlug, onSelect }: Props) {
+export default function ReceptView({ side, recipeIndex, eaters, selectedSlug, onSelect }: Props) {
   if (side === 'left') {
-    return <RecipeList recipes={recipeIndex} selectedSlug={selectedSlug} onSelect={onSelect} />
+    return <RecipeList recipes={recipeIndex} eaters={eaters} selectedSlug={selectedSlug} onSelect={onSelect} />
   }
   if (!selectedSlug) return <RecipeEmpty />
-  return <RecipeDetail slug={selectedSlug} />
+  return <RecipeDetail slug={selectedSlug} eaters={eaters} />
 }
