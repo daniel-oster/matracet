@@ -1,0 +1,57 @@
+{
+  "vecka": "2026-W25",
+  "middagar": [
+    {
+      "dag": "mandag",
+      "datum": "2026-06-15",
+      "recept": "Tacos med köttfärs",
+      "receptSlug": "tacos-kottfars",
+      "varianter": { "Annabelle": "vegofärs istället för köttfärs" }
+    },
+    {
+      "dag": "tisdag",
+      "datum": "2026-06-16",
+      "recept": "Världens lättaste torsk i ugn",
+      "receptSlug": "varldens-lattaste-torsk",
+      "kommentar": "Barnen hos mamma — bara Daniel"
+    },
+    {
+      "dag": "onsdag",
+      "datum": "2026-06-17",
+      "recept": "Pasta med fetaost och rostad paprika",
+      "receptSlug": "pasta-fetaost-paprika",
+      "varianter": { "Annabelle": "olivolja & rostad paprika utan fetaost" }
+    },
+    {
+      "dag": "torsdag",
+      "datum": "2026-06-18",
+      "recept": "Krämig pasta med räkor och vitlök",
+      "receptSlug": "kramig-rakpasta-vitlok"
+    },
+    {
+      "dag": "fredag",
+      "datum": "2026-06-19",
+      "recept": null,
+      "anteckning": "🌼 Midsommarafton hos mormor — sill, färskpotatis & jordgubbar"
+    },
+    {
+      "dag": "lordag",
+      "datum": "2026-06-20",
+      "recept": "Klassiska köttbullar med potatismos",
+      "receptSlug": "klassiska-kottbullar",
+      "kommentar": "Midsommarhelg — Daniel & barnen",
+      "varianter": { "Annabelle": "vegobullar" }
+    },
+    {
+      "dag": "sondag",
+      "datum": "2026-06-21",
+      "recept": "Morotssoppa med ingefära och kokosmjölk",
+      "receptSlug": "morotssoppa-kokos"
+    }
+  ],
+  "anteckningar": [
+    { "nar": "Vecka 25", "text": "Midsommarhelg — Daniel & barnen fredag–söndag." },
+    { "nar": "Midsommar", "text": "Firar hos mormor på fredagen, hemma resten av helgen." }
+  ],
+  "skapad": "2026-06-13T10:00:00Z"
+}
