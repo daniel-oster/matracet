@@ -24,6 +24,7 @@ export default function Binder({ rollingDays, weekNotes, weekLabel, eaters, reci
   const [replaceDate, setReplaceDate] = useState<string | null>(null)
   const [offerStoreFilter, setOfferStoreFilter] = useState<Record<string, boolean>>({ willys: true, ica: true, hemkop: true })
   const [offerSwedishOnly, setOfferSwedishOnly] = useState(false)
+  const [fyndMode, setFyndMode] = useState<'alla' | 'jamfor'>('alla')
   const { setMeal } = useWeekPlan()
 
   const toggleOfferStore = (store: string) =>
@@ -63,6 +64,8 @@ export default function Binder({ rollingDays, weekNotes, weekLabel, eaters, reci
             onToggleOfferStore={toggleOfferStore}
             offerSwedishOnly={offerSwedishOnly}
             onToggleOfferSwedish={() => setOfferSwedishOnly(v => !v)}
+            fyndMode={fyndMode}
+            onToggleFyndMode={() => setFyndMode(m => m === 'alla' ? 'jamfor' : 'alla')}
             flippedOut={portraitSide === 'right'}
           />
 
@@ -86,6 +89,8 @@ export default function Binder({ rollingDays, weekNotes, weekLabel, eaters, reci
             onToggleOfferStore={toggleOfferStore}
             offerSwedishOnly={offerSwedishOnly}
             onToggleOfferSwedish={() => setOfferSwedishOnly(v => !v)}
+            fyndMode={fyndMode}
+            onToggleFyndMode={() => setFyndMode(m => m === 'alla' ? 'jamfor' : 'alla')}
             flippedIn={portraitSide === 'right'}
           />
 

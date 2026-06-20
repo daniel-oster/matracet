@@ -1068,6 +1068,86 @@ body {
   opacity: 0.7;
 }
 
+/* ============= FYND MODE TOGGLE ============= */
+.fynd-mode-bar {
+  display: flex;
+  gap: 3px;
+  align-self: center;
+}
+.fynd-mode-btn {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 8px;
+  border: 1.5px solid var(--ink-soft);
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.12s, background 0.12s, color 0.12s, border-color 0.12s;
+}
+.fynd-mode-btn.active {
+  opacity: 1;
+  background: var(--t-fynd);
+  border-color: var(--t-fynd);
+  color: #0c2a24;
+}
+
+/* ============= FYND JÄMFÖR (matchup) ============= */
+.match-group {
+  margin-bottom: 10px;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 5px;
+  overflow: hidden;
+}
+.match-label {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  padding: 4px 8px 3px;
+  background: rgba(0,0,0,0.04);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.match-cat-emoji {
+  font-size: 11px;
+  opacity: 0.75;
+}
+.match-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 8px;
+  border-bottom: 1px dashed rgba(0,0,0,0.07);
+}
+.match-row:last-child { border-bottom: none; }
+.match-row.best { background: rgba(108, 171, 156, 0.12); }
+.match-info {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+}
+.match-size {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 9px;
+  color: var(--ink-soft);
+}
+.match-price {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
 /* ============= PAGE VIEW ANIMATION ============= */
 .page-view { animation: pageIn 0.25s ease; }
 @keyframes pageIn {

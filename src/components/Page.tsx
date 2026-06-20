@@ -23,11 +23,13 @@ interface Props {
   onToggleOfferStore: (store: string) => void
   offerSwedishOnly: boolean
   onToggleOfferSwedish: () => void
+  fyndMode: 'alla' | 'jamfor'
+  onToggleFyndMode: () => void
   flippedOut?: boolean
   flippedIn?: boolean
 }
 
-export default function Page({ side, activeTab, rollingDays, weekNotes, eaters, recipeIndex, dayPlans, selectedRecipeSlug, onSelectRecipe, onOpenRecipe, onReplaceDay, offerStoreFilter, onToggleOfferStore, offerSwedishOnly, onToggleOfferSwedish, flippedOut, flippedIn }: Props) {
+export default function Page({ side, activeTab, rollingDays, weekNotes, eaters, recipeIndex, dayPlans, selectedRecipeSlug, onSelectRecipe, onOpenRecipe, onReplaceDay, offerStoreFilter, onToggleOfferStore, offerSwedishOnly, onToggleOfferSwedish, fyndMode, onToggleFyndMode, flippedOut, flippedIn }: Props) {
   const classes = [
     'page',
     side,
@@ -39,7 +41,7 @@ export default function Page({ side, activeTab, rollingDays, weekNotes, eaters, 
     <div className={classes}>
       <div className="page-view" key={`${activeTab}-${side}`}>
         {activeTab === 'veckan'       && <VeckanView       side={side} days={rollingDays} dayPlans={dayPlans} eaters={eaters} onOpenRecipe={onOpenRecipe} onReplaceDay={onReplaceDay} />}
-        {activeTab === 'fynd'         && <FyndView          side={side} storeFilter={offerStoreFilter} onToggleStore={onToggleOfferStore} swedishOnly={offerSwedishOnly} onToggleSwedish={onToggleOfferSwedish} />}
+        {activeTab === 'fynd'         && <FyndView          side={side} storeFilter={offerStoreFilter} onToggleStore={onToggleOfferStore} swedishOnly={offerSwedishOnly} onToggleSwedish={onToggleOfferSwedish} mode={fyndMode} onToggleMode={onToggleFyndMode} />}
         {activeTab === 'handla'       && <HandlaView        side={side} />}
         {activeTab === 'recept'       && <ReceptView        side={side} recipeIndex={recipeIndex} eaters={eaters} selectedSlug={selectedRecipeSlug} onSelect={onSelectRecipe} />}
         {activeTab === 'familj'       && <FamiljView        side={side} eaters={eaters} dayPlans={dayPlans} />}
