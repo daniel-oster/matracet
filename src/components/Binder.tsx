@@ -22,7 +22,12 @@ export default function Binder({ rollingDays, weekNotes, weekLabel, eaters, reci
   const [selectedRecipeSlug, setSelectedRecipeSlug] = useState<string | null>(null)
   const [overlaySlug, setOverlaySlug] = useState<string | null>(null)
   const [replaceDate, setReplaceDate] = useState<string | null>(null)
+  const [offerStoreFilter, setOfferStoreFilter] = useState<Record<string, boolean>>({ willys: true, ica: true, hemkop: true })
+  const [offerSwedishOnly, setOfferSwedishOnly] = useState(false)
   const { setMeal } = useWeekPlan()
+
+  const toggleOfferStore = (store: string) =>
+    setOfferStoreFilter(prev => ({ ...prev, [store]: !prev[store] }))
 
   const replaceDay = replaceDate ? rollingDays.find(d => d.datum === replaceDate) : undefined
   const replacePlan = replaceDate ? dayPlans.find(p => p.date === replaceDate) : undefined
@@ -54,6 +59,10 @@ export default function Binder({ rollingDays, weekNotes, weekLabel, eaters, reci
             onSelectRecipe={setSelectedRecipeSlug}
             onOpenRecipe={setOverlaySlug}
             onReplaceDay={setReplaceDate}
+            offerStoreFilter={offerStoreFilter}
+            onToggleOfferStore={toggleOfferStore}
+            offerSwedishOnly={offerSwedishOnly}
+            onToggleOfferSwedish={() => setOfferSwedishOnly(v => !v)}
             flippedOut={portraitSide === 'right'}
           />
 
@@ -73,6 +82,10 @@ export default function Binder({ rollingDays, weekNotes, weekLabel, eaters, reci
             onSelectRecipe={setSelectedRecipeSlug}
             onOpenRecipe={setOverlaySlug}
             onReplaceDay={setReplaceDate}
+            offerStoreFilter={offerStoreFilter}
+            onToggleOfferStore={toggleOfferStore}
+            offerSwedishOnly={offerSwedishOnly}
+            onToggleOfferSwedish={() => setOfferSwedishOnly(v => !v)}
             flippedIn={portraitSide === 'right'}
           />
 

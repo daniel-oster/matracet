@@ -1,5 +1,46 @@
-export type TabName = 'veckan' | 'handla' | 'recept' | 'familj' | 'anteckningar'
+export type TabName = 'veckan' | 'handla' | 'recept' | 'familj' | 'anteckningar' | 'fynd'
 export type PageSide = 'left' | 'right'
+
+/** One offer from a store's weekly specials (see public/data/erbjudanden/README.md) */
+export interface Offer {
+  namn: string
+  marke: string | null
+  storlek: string | null
+  pris_text: string
+  pris: number | null
+  pris_typ: string
+  jamforpris: string | null
+  ord_pris: string | null
+  pris_30dgr: string | null
+  besparing: string | null
+  klubbpris: boolean
+  max_kop: number | null
+  markeringar: string[]
+  ursprung: string | null
+  notering: string | null
+  kategori: string
+}
+
+/** One store's flyer for a given week */
+export interface StoreOffers {
+  schema_version: number
+  kalla: string
+  butik: string
+  butik_id: string
+  vecka: string
+  giltigt_fran: string
+  giltigt_till: string
+  hamtad: string
+  kalla_url: string | null
+  urval: string
+  antal: number
+  erbjudanden: Offer[]
+}
+
+export interface OffersIndex {
+  butiker: { id: string; kalla: string; namn: string; fullnamn: string }[]
+  veckor: string[]
+}
 
 export interface Ingredient {
   vara: string
