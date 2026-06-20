@@ -8,7 +8,8 @@
     "build": "tsc && vite build && node scripts/prerender.mjs",
     "preview": "vite preview",
     "test": "vitest run",
-    "presence": "tsx scripts/presence-check.ts"
+    "presence": "tsx scripts/presence-check.ts",
+    "brief": "tsx scripts/build-brief.ts"
   },
   "dependencies": {
     "react": "^18.3.1",

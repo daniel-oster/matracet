@@ -1,0 +1,6 @@
+{
+  "_om": "Sentiment och uteslutningar lagras i webbläsarens localStorage. Klicka 'Ladda ner mina data' i appen, klistra in exporten här (eller bara dess feedback-objekt) och committa. build-brief läser den och fyller sentiment + constraints.exclusions. Tom = inget importerat ännu.",
+  "app": "matracet",
+  "version": 1,
+  "feedback": {}
+}

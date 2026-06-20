@@ -10,18 +10,16 @@ function storeWith(overrides: Partial<PresenceStore>): PresenceStore {
   return { ...SEED_STORE, ...overrides }
 }
 
-/** A Monday in a Daniel-week (kids present). */
+/** A Monday — kids present every week. */
 const MON_KIDS = '2026-05-25'
-/** A Monday in an off-week (kids at mom's — but Mon/Wed rule is WEEKLY so kids ARE always here). */
-// (Mon/Wed is WEEKLY, so kids are always present on Mon/Wed regardless of custody week.)
 
-/** A Wednesday with kids present. */
-const WED_KIDS = '2026-05-27'
+/** A Wednesday in a Daniel-week (kids present). On Erika-weeks Wednesday has no kids. */
+const WED_KIDS = '2026-06-03'
 
 /** A Friday in Daniel's custody week. */
 const FRI_DANIEL = '2026-05-22'
 
-/** A Friday in the off-week (kids not present). */
+/** A Friday in the Erika-week (kids not present → Daniel + Erika). */
 const FRI_OFF = '2026-05-29'
 
 /** A Sunday in Daniel's custody week. */
@@ -30,8 +28,8 @@ const SUN_DANIEL = '2026-05-24'
 /** A Saturday in Daniel's custody week. */
 const SAT_DANIEL = '2026-05-23'
 
-/** A Tuesday — no group ever. */
-const TUE_NONE = '2026-05-26'
+/** A Tuesday in a Daniel-week — Daniel eats alone (no kids, no Erika). */
+const TUE_SOLO = '2026-06-02'
 
 // ── 1. Presence gating ────────────────────────────────────────────────────────
 
@@ -204,9 +202,9 @@ describe('OPEN day', () => {
     expect(plan.activitiesToday).toHaveLength(0)
   })
 
-  it('Tuesday (no group) → OPEN regardless of activities', () => {
-    const plan = resolvePresence(TUE_NONE, SEED_STORE)
-    expect(plan.activeGroup).toBeNull()
+  it('Daniel-week Tuesday (Daniel alone) → OPEN regardless of activities', () => {
+    const plan = resolvePresence(TUE_SOLO, SEED_STORE)
+    expect(plan.activeGroup?.id).toBe('daniel')
     expect(plan.windowStatus).toBe('OPEN')
   })
 })
@@ -241,10 +239,10 @@ describe('Multiple activities same day — Sunday', () => {
     expect(jazzNote, 'Jazz should be in windowNotes').toBeDefined()
   })
 
-  it('off-week Sunday (kids not present) → no activities, OPEN', () => {
-    // 2026-05-31 is an off-week Sunday
+  it('Erika-week Sunday (kids not present) → Daniel + Erika, no kid activities, OPEN', () => {
+    // 2026-05-31 is an Erika-week Sunday
     const plan = resolvePresence('2026-05-31', SEED_STORE)
-    expect(plan.activeGroup).toBeNull()
+    expect(plan.activeGroup?.id).toBe('daniel-erika')
     expect(plan.windowStatus).toBe('OPEN')
     expect(plan.activitiesToday).toHaveLength(0)
   })
@@ -252,10 +250,10 @@ describe('Multiple activities same day — Sunday', () => {
 
 // ── 9. Off-week Friday — presence gating ──────────────────────────────────────
 
-describe('Off-week Friday — activities do not appear', () => {
-  it('kids not present on off-week Friday → no activities in plan', () => {
+describe('Erika-week Friday — kid activities do not appear', () => {
+  it('kids not present on Erika-week Friday → Daniel + Erika, no kid activities', () => {
     const plan = resolvePresence(FRI_OFF, SEED_STORE)
-    expect(plan.activeGroup).toBeNull()
+    expect(plan.activeGroup?.id).toBe('daniel-erika')
     expect(plan.activitiesToday).toHaveLength(0)
     expect(plan.windowStatus).toBe('OPEN')
   })

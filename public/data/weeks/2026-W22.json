@@ -19,7 +19,7 @@
       "datum": "2026-05-27",
       "recept": "Kikärtsgryta med saffran",
       "receptSlug": "het-kikärtsgryta",
-      "kommentar": "Sarah på läger — bara Daniel & Annabelle"
+      "kommentar": "Daniel & Erika hemma"
     },
     {
       "dag": "torsdag",
@@ -47,8 +47,8 @@
     }
   ],
   "anteckningar": [
-    { "nar": "Vecka 22", "text": "Sarah på läger onsdag–söndag — lugnar ner vegoplanering lite." },
-    { "nar": "Helgen",   "text": "Varannan helg — Daniel & Erika-helg denna vecka." }
+    { "nar": "Vecka 22", "text": "Erika-vecka — barnen hos mamma tisdag–söndag (hemma måndag)." },
+    { "nar": "Helgen",   "text": "Varannan vecka — Daniel & Erika hemma tisdag–söndag." }
   ],
   "skapad": "2026-05-23T12:00:00Z"
 }

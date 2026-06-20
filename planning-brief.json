@@ -1,0 +1,1417 @@
+{
+  "schemaVersion": "1.1",
+  "week": {
+    "isoWeek": "2026-W26",
+    "year": 2026,
+    "startDate": "2026-06-22"
+  },
+  "days": [
+    {
+      "date": "2026-06-22",
+      "weekday": "mandag",
+      "weekdayIso": 1,
+      "present": [
+        {
+          "id": "daniel",
+          "name": "Daniel"
+        },
+        {
+          "id": "sarah",
+          "name": "Sarah"
+        },
+        {
+          "id": "annabelle",
+          "name": "Annabelle"
+        }
+      ],
+      "portions": 3,
+      "veganRequired": true,
+      "notes": [
+        "Trångt middagsfönster — ät senast 17:15",
+        "Överlämning 19:00",
+        "Sarah: Teater → avgång 18:00 (klar 20:00)",
+        "Annabelle: Modern 10–12 → avgång 17:15 (klar 18:30)"
+      ]
+    },
+    {
+      "date": "2026-06-23",
+      "weekday": "tisdag",
+      "weekdayIso": 2,
+      "present": [
+        {
+          "id": "daniel",
+          "name": "Daniel"
+        },
+        {
+          "id": "erika",
+          "name": "Erika"
+        }
+      ],
+      "portions": 2,
+      "veganRequired": false,
+      "notes": []
+    },
+    {
+      "date": "2026-06-24",
+      "weekday": "onsdag",
+      "weekdayIso": 3,
+      "present": [
+        {
+          "id": "daniel",
+          "name": "Daniel"
+        },
+        {
+          "id": "erika",
+          "name": "Erika"
+        }
+      ],
+      "portions": 2,
+      "veganRequired": false,
+      "notes": []
+    },
+    {
+      "date": "2026-06-25",
+      "weekday": "torsdag",
+      "weekdayIso": 4,
+      "present": [
+        {
+          "id": "daniel",
+          "name": "Daniel"
+        },
+        {
+          "id": "erika",
+          "name": "Erika"
+        }
+      ],
+      "portions": 2,
+      "veganRequired": false,
+      "notes": []
+    },
+    {
+      "date": "2026-06-26",
+      "weekday": "fredag",
+      "weekdayIso": 5,
+      "present": [
+        {
+          "id": "daniel",
+          "name": "Daniel"
+        },
+        {
+          "id": "erika",
+          "name": "Erika"
+        }
+      ],
+      "portions": 2,
+      "veganRequired": false,
+      "notes": []
+    },
+    {
+      "date": "2026-06-27",
+      "weekday": "lordag",
+      "weekdayIso": 6,
+      "present": [
+        {
+          "id": "daniel",
+          "name": "Daniel"
+        },
+        {
+          "id": "erika",
+          "name": "Erika"
+        }
+      ],
+      "portions": 2,
+      "veganRequired": false,
+      "notes": []
+    },
+    {
+      "date": "2026-06-28",
+      "weekday": "sondag",
+      "weekdayIso": 7,
+      "present": [
+        {
+          "id": "daniel",
+          "name": "Daniel"
+        },
+        {
+          "id": "erika",
+          "name": "Erika"
+        }
+      ],
+      "portions": 2,
+      "veganRequired": false,
+      "notes": []
+    }
+  ],
+  "constraints": {
+    "exclusions": [],
+    "maxRepeatProteinPerWeek": null,
+    "spacingByPerson": [
+      {
+        "personId": "daniel",
+        "minRepeatGapDays": 0
+      },
+      {
+        "personId": "sarah",
+        "minRepeatGapDays": 1
+      },
+      {
+        "personId": "annabelle",
+        "minRepeatGapDays": 1
+      },
+      {
+        "personId": "erika",
+        "minRepeatGapDays": 0
+      }
+    ]
+  },
+  "recentHistory": [
+    {
+      "date": "2026-06-15",
+      "recipeId": "tacos-kottfars",
+      "title": "Tacos med köttfärs",
+      "protein": "kott",
+      "cuisine": null,
+      "sentiment": null
+    },
+    {
+      "date": "2026-06-16",
+      "recipeId": "varldens-lattaste-torsk",
+      "title": "Världens lättaste torsk i ugn",
+      "protein": "fisk",
+      "cuisine": null,
+      "sentiment": null
+    },
+    {
+      "date": "2026-06-17",
+      "recipeId": "pasta-fetaost-paprika",
+      "title": "Pasta med fetaost och rostad paprika",
+      "protein": "vegetarisk",
+      "cuisine": null,
+      "sentiment": null
+    },
+    {
+      "date": "2026-06-18",
+      "recipeId": "kramig-rakpasta-vitlok",
+      "title": "Krämig pasta med räkor och vitlök",
+      "protein": "fisk",
+      "cuisine": null,
+      "sentiment": null
+    },
+    {
+      "date": "2026-06-20",
+      "recipeId": "klassiska-kottbullar",
+      "title": "Klassiska köttbullar med potatismos",
+      "protein": "kott",
+      "cuisine": null,
+      "sentiment": null
+    },
+    {
+      "date": "2026-06-21",
+      "recipeId": "morotssoppa-kokos",
+      "title": "Morotssoppa med ingefära och kokosmjölk",
+      "protein": "vegansk",
+      "cuisine": null,
+      "sentiment": null
+    }
+  ],
+  "recipeIndex": [
+    {
+      "id": "het-kikärtsgryta",
+      "title": "Het kikärtsgryta med saffran",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegansk"
+      ]
+    },
+    {
+      "id": "karljohansvamp-risotto",
+      "title": "Karljohansvamp-risotto med grönkålschips",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "tofu-stroganoff",
+      "title": "Tofu Stroganoff",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "frittata-paprika-oliver",
+      "title": "Frittata med paprika- och olivsallad",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "råggmunk-lingon",
+      "title": "Råggmunk med lingon",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "lasagne-soltorkade-tomater",
+      "title": "Lasagne med soltorkade tomater",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "gratinerad-aubergine",
+      "title": "Gratinerad aubergine med tomatsås",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "blomkålssoppa",
+      "title": "Blomkålssoppa med rostad blomkål",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "pasta-zucchini-citron",
+      "title": "Pasta med zucchini och citronsås",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "stekta-ägg-bönsallad",
+      "title": "Stekta ägg med bönsallad",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "linsgryta-kokos-lime",
+      "title": "Linsgryta med kokos och lime",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegansk"
+      ]
+    },
+    {
+      "id": "kikärtsbiffar-tomatsallad",
+      "title": "Kikärtsbiffar med tomatsallad",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegansk"
+      ]
+    },
+    {
+      "id": "risnudelsoppa-ägg",
+      "title": "Risnudelsoppa med ägg",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "asiatisk-ugnspannkaka",
+      "title": "Asiatisk ugnspannkaka med stekt shiitakesvamp",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "quinoa-sötpotatis-chipotle",
+      "title": "Quinoa med rostad sötpotatis och chipotledressing",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegansk"
+      ]
+    },
+    {
+      "id": "spaghetti-fetaostbollar",
+      "title": "Spaghetti med fetaostbollar och tomatsås",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "linsburgare",
+      "title": "Linsburgare",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegansk"
+      ]
+    },
+    {
+      "id": "tomat-mozzarellasallad",
+      "title": "Tomat- och mozzarellasallad med pesto",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "hemgjord-gnocchi",
+      "title": "Hemgjord gnocchi med tomatsås",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "fried-rice-sojabönor",
+      "title": "Fried Rice med sojabönor och cashewnötter",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegansk"
+      ]
+    },
+    {
+      "id": "halloumiplattar-zucchini",
+      "title": "Halloumiplattar med stekt zucchini",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "bönbullar-potatismos",
+      "title": "Bönbullar med potatismos och lingon",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegansk"
+      ]
+    },
+    {
+      "id": "pasta-fetaost-paprika",
+      "title": "Pasta med fetaost och rostad paprika",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "morotssoppa-kokos",
+      "title": "Morotssoppa med ingefära och kokosmjölk",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegansk"
+      ]
+    },
+    {
+      "id": "paj-svamp-spenat",
+      "title": "Paj med svamp och spenat",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "sojabönssallad-sesam",
+      "title": "Sojabönssallad med sesamdressing",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegansk"
+      ]
+    },
+    {
+      "id": "halloumi-sötpotatis-granatäpple",
+      "title": "Halloumi med ugnsrostad sötpotatis och granatäppelsalsa",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "svamp-gratäng",
+      "title": "Svampgratäng",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "vegetarisk-lasagne",
+      "title": "Vegetarisk lasagne",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "potatis-quiche",
+      "title": "Potatis-quiche",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "falafel",
+      "title": "Falafel med yoghurtsås",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegansk"
+      ]
+    },
+    {
+      "id": "bönrösti",
+      "title": "Bönrösti med ägg och sallad",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "böngryta-spenat",
+      "title": "Böngryta med spenat",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegansk"
+      ]
+    },
+    {
+      "id": "bönbullar-pitabröd",
+      "title": "Bönbullar i pitabröd med yoghurtsås",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "indisk-spenatgryta",
+      "title": "Indisk spenatgryta",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegansk"
+      ]
+    },
+    {
+      "id": "wokade-grönsaker-omelett",
+      "title": "Wokade grönsaker med japansk omelett",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "kokosplattar-morot",
+      "title": "Kokosplattar med morot och ingefära",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "lindströmare-kidneybönor",
+      "title": "Lindströmare (kidneybönsbiffar)",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegansk"
+      ]
+    },
+    {
+      "id": "pasta-kantareller",
+      "title": "Pasta med kantareller och örter",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "svampbiffar-gräddsås",
+      "title": "Svampbiffar med gräddsås och lingon",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "sötpotatisgryta-linser-berber",
+      "title": "Sötpotatisgryta med linser och berberkryddor",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegansk"
+      ]
+    },
+    {
+      "id": "rostad-pumpa-blomkål",
+      "title": "Rostad pumpa med blomkål och harissasalsa",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegansk"
+      ]
+    },
+    {
+      "id": "quinoa-sötpotatis-koriander",
+      "title": "Quinoa med sötpotatis och koriander",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegansk"
+      ]
+    },
+    {
+      "id": "minitortillas-svart-bönröra",
+      "title": "Minitortillas med svart bönröra",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegansk"
+      ]
+    },
+    {
+      "id": "huevos-rancheros",
+      "title": "Huevos Rancheros",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "svarta-bönbiffar-tomatsalsa",
+      "title": "Svarta bönbiffar med tomatsalsa",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegansk"
+      ]
+    },
+    {
+      "id": "spaghetti-bönbiffsås",
+      "title": "Spaghetti med linser och tomatbiffsås",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegansk"
+      ]
+    },
+    {
+      "id": "belugabolognese",
+      "title": "Belugabolognese",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegansk"
+      ]
+    },
+    {
+      "id": "cannelloni-belugafyllning",
+      "title": "Cannelloni med belugafyllning",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "bönpastasallad",
+      "title": "Bönpastasallad",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegansk"
+      ]
+    },
+    {
+      "id": "tomatsoppa-bönor",
+      "title": "Tomatsoppa",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegansk"
+      ]
+    },
+    {
+      "id": "rotfruktspytt",
+      "title": "Rotfruktspytt med stekt ägg",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegansk"
+      ]
+    },
+    {
+      "id": "rotfruktssoppa",
+      "title": "Rotfruktssoppa",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "vita-bönbullar-brynt-smör",
+      "title": "Vita bönbullar med brynt smör",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "potatisplattar-lingon",
+      "title": "Potatisplattar med lingon och keso",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "laxfile-soja-ingefara",
+      "title": "Ugnsbakad lax med soja och ingefära",
+      "protein": "fisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "fisk",
+        "laktosfri"
+      ]
+    },
+    {
+      "id": "ugnsbakad-torsk-pesto-tomat",
+      "title": "Ugnsbakad torsk med pesto och tomat",
+      "protein": "fisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "fisk"
+      ]
+    },
+    {
+      "id": "kramig-laxpasta",
+      "title": "Krämig laxpasta",
+      "protein": "fisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "fisk"
+      ]
+    },
+    {
+      "id": "fisksoppa-saffran",
+      "title": "Fisksoppa med saffran",
+      "protein": "fisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "fisk",
+        "laktosfri"
+      ]
+    },
+    {
+      "id": "fiskbiffar-dillsas-ica",
+      "title": "Fiskbiffar i dillsås",
+      "protein": "fisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "fisk"
+      ]
+    },
+    {
+      "id": "enkla-fisktacos-lime",
+      "title": "Enkla fisktacos med lime",
+      "protein": "fisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "fisk"
+      ]
+    },
+    {
+      "id": "kramig-rakpasta-vitlok",
+      "title": "Krämig pasta med räkor och vitlök",
+      "protein": "fisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "fisk"
+      ]
+    },
+    {
+      "id": "fiskgratang-lax-torsk",
+      "title": "Fiskgratäng med lax och torsk",
+      "protein": "fisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "fisk"
+      ]
+    },
+    {
+      "id": "ugnsbakad-lax-rostade-gronsaker",
+      "title": "Ugnsbakad lax med rostade grönsaker",
+      "protein": "fisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "fisk",
+        "glutenfri",
+        "laktosfri"
+      ]
+    },
+    {
+      "id": "kramig-fiskgryta",
+      "title": "Krämig fiskgryta",
+      "protein": "fisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "fisk",
+        "glutenfri"
+      ]
+    },
+    {
+      "id": "laxbiffar-dillyoghurt",
+      "title": "Laxbiffar med dillyoghurt",
+      "protein": "fisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "fisk"
+      ]
+    },
+    {
+      "id": "fiskgryta-torsk-kokos-curry",
+      "title": "Fiskgryta på torsk med kokos och curry",
+      "protein": "fisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "fisk",
+        "glutenfri",
+        "laktosfri"
+      ]
+    },
+    {
+      "id": "gratinerad-lax-potatismos",
+      "title": "Gratinerad lax med potatismos",
+      "protein": "fisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "fisk",
+        "glutenfri"
+      ]
+    },
+    {
+      "id": "varldens-lattaste-torsk",
+      "title": "Världens lättaste torsk i ugn",
+      "protein": "fisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "fisk"
+      ]
+    },
+    {
+      "id": "torsk-folie-tomat-pesto",
+      "title": "Torsk i folie med tomat, pesto och purjolök",
+      "protein": "fisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "fisk",
+        "glutenfri"
+      ]
+    },
+    {
+      "id": "klassiska-kottbullar",
+      "title": "Klassiska köttbullar med potatismos",
+      "protein": "kott",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "kott"
+      ]
+    },
+    {
+      "id": "korvstroganoff-ris",
+      "title": "Korvstroganoff med ris",
+      "protein": "kott",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "kott"
+      ]
+    },
+    {
+      "id": "stekt-flask-loksas",
+      "title": "Stekt fläsk med löksås",
+      "protein": "kott",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "kott"
+      ]
+    },
+    {
+      "id": "coq-au-vin",
+      "title": "Coq au vin",
+      "protein": "kott",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "kott"
+      ]
+    },
+    {
+      "id": "pannbiff-loksas",
+      "title": "Pannbiff med löksås",
+      "protein": "kott",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "kott"
+      ]
+    },
+    {
+      "id": "tacos-kottfars",
+      "title": "Tacos med köttfärs",
+      "protein": "kott",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "kott"
+      ]
+    },
+    {
+      "id": "flaskfile-ugn",
+      "title": "Fläskfilé i ugn",
+      "protein": "kott",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "kott",
+        "glutenfri"
+      ]
+    },
+    {
+      "id": "kramig-kycklinggryta-soltorkade-tomater",
+      "title": "Krämig kycklinggryta med soltorkade tomater",
+      "protein": "kott",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "kott",
+        "glutenfri"
+      ]
+    },
+    {
+      "id": "lammgryta",
+      "title": "Lammgryta med rosmarin",
+      "protein": "kott",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "kott",
+        "glutenfri"
+      ]
+    },
+    {
+      "id": "kyckling-plat-rotsaker",
+      "title": "Kyckling på plåt med ugnsrostade rotsaker",
+      "protein": "kott",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "kott",
+        "glutenfri"
+      ]
+    },
+    {
+      "id": "flygande-jakob",
+      "title": "Flygande Jakob",
+      "protein": "kott",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "kott",
+        "glutenfri"
+      ]
+    },
+    {
+      "id": "biff-stroganoff",
+      "title": "Biff Stroganoff",
+      "protein": "kott",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "kott",
+        "glutenfri"
+      ]
+    },
+    {
+      "id": "falukorv-stuvade-makaroner",
+      "title": "Falukorv med stuvade makaroner",
+      "protein": "kott",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "kott"
+      ]
+    },
+    {
+      "id": "flaskkarre-apple-ingefara",
+      "title": "Fläskkarré i ugn med äpple och ingefära",
+      "protein": "kott",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "kott",
+        "glutenfri",
+        "laktosfri"
+      ]
+    },
+    {
+      "id": "asiatiska-kycklingkottbullar",
+      "title": "Asiatiska kycklingköttbullar i röd curry med kokosris",
+      "protein": "kott",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "kott"
+      ]
+    },
+    {
+      "id": "spaghetti-kottfarssas",
+      "title": "Spaghetti och köttfärssås",
+      "protein": "kott",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "kott"
+      ]
+    },
+    {
+      "id": "klassisk-lasagne",
+      "title": "Klassisk lasagne",
+      "protein": "kott",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "kott"
+      ]
+    },
+    {
+      "id": "pyttipanna",
+      "title": "Pyttipanna",
+      "protein": "kott",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "kott",
+        "glutenfri"
+      ]
+    },
+    {
+      "id": "chili-con-carne",
+      "title": "Chili con carne",
+      "protein": "kott",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "kott",
+        "glutenfri"
+      ]
+    },
+    {
+      "id": "vegetarisk-chili",
+      "title": "Vegetarisk chili",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "shakshuka-paprika",
+      "title": "Shakshuka med tre sorters paprika",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk",
+        "glutenfri"
+      ]
+    },
+    {
+      "id": "klassisk-vasterbottenpaj",
+      "title": "Klassisk vasterbottenpaj",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "ratatouille",
+      "title": "Ratatouille",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk",
+        "vegansk",
+        "glutenfri"
+      ]
+    },
+    {
+      "id": "fyllda-paprikor-kornotto",
+      "title": "Fyllda paprikor med kornotto och fetaost",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "broccoligratang",
+      "title": "Broccoligratang",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk",
+        "glutenfri"
+      ]
+    },
+    {
+      "id": "halloumitacos-avokadokram",
+      "title": "Halloumitacos med avokadokram",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "sparrispasta-citron-timjan",
+      "title": "Sparrispasta med citron och timjan",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "rotfruktsgratang-timjan-citron",
+      "title": "Rotfruktsgratang med timjan och citron",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk",
+        "glutenfri"
+      ]
+    },
+    {
+      "id": "vego-currygryta-halloumi",
+      "title": "Vego currygryta med halloumi",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk",
+        "glutenfri"
+      ]
+    },
+    {
+      "id": "ostsoppa-persiljekrutonger",
+      "title": "Ostsoppa med persiljekrutonger",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "gronkalspaj-fetaost",
+      "title": "Gronkalspaj med fetaost",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "fetaost-tomatpasta",
+      "title": "Fetaost- och tomatpasta i ugn",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "kramig-daal",
+      "title": "Krämig daal med kokos och spenat",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegansk",
+        "glutenfri"
+      ]
+    },
+    {
+      "id": "chili-sin-carne",
+      "title": "Chili sin carne",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegansk",
+        "glutenfri"
+      ]
+    },
+    {
+      "id": "tofuwok-sojavinager",
+      "title": "Tofuwok med soja och sesam",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegansk"
+      ]
+    },
+    {
+      "id": "garbanzocurry",
+      "title": "Garbanzocurry med blomkål och broccoli",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegansk",
+        "glutenfri"
+      ]
+    },
+    {
+      "id": "vegansk-thaigryta-gron-curry",
+      "title": "Thaigryta med grön curry och kokosmjölk",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegansk"
+      ]
+    },
+    {
+      "id": "gron-bowl-tofu-cashewdressing",
+      "title": "Grön bowl med tofu och cashewdressing",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegansk"
+      ]
+    },
+    {
+      "id": "rod-linssoppa-kokos-tomat",
+      "title": "Röd linssoppa med kokos och tomat",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegansk"
+      ]
+    },
+    {
+      "id": "vegotacos-svarta-bonor-majs",
+      "title": "Snabba vegotacos med tomater och majs",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegansk"
+      ]
+    },
+    {
+      "id": "vegetarisk-gulasch-vita-bonor",
+      "title": "Vegansk gulaschsoppa med vita bönor",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegansk",
+        "glutenfri"
+      ]
+    },
+    {
+      "id": "marockansk-fusktagine",
+      "title": "Marockansk fusktagine med kikärtor",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegansk",
+        "glutenfri"
+      ]
+    },
+    {
+      "id": "nudelwok-hoisin-broccoli",
+      "title": "Nudelwok med hoisin och broccoli",
+      "protein": "vegansk",
+      "vegan": true,
+      "sentiment": null,
+      "tags": [
+        "vegansk"
+      ]
+    }
+  ],
+  "pantryStaples": [
+    "salt",
+    "peppar",
+    "olivolja",
+    "vitlök",
+    "gul lök",
+    "smör",
+    "grönsaksbuljong",
+    "köttbuljong",
+    "tomatpuré",
+    "vetemjöl",
+    "ägg"
+  ],
+  "meta": {
+    "referenceDate": "2026-06-20",
+    "generatedBy": "scripts/build-brief.ts",
+    "sources": [
+      "public/data/recipes/_index.json",
+      "public/data/weeks/*.json",
+      "public/data/pantry.json",
+      "public/data/feedback.json (sentiment + uteslutningar)",
+      "src/presence/seed.ts + activities.ts (närvaro/vårdnadsschema)",
+      "src/meals/seed.ts (preferenser: REQUIRE_VEGAN)"
+    ],
+    "externalInputs": [
+      "feedback.json är tom — exportera \"Ladda ner mina data\" i appen och committa för att fylla sentiment + exclusions."
+    ],
+    "assumptions": [
+      "present[] och portioner härleds helt ur vårdnadsschemat (src/presence/seed.ts): barn=3, Daniel+Erika=2, Daniel ensam=1. Varje dag har en bestämd uppsättning — inga okända dagar.",
+      "protein härleds ur recept-kategorier (kott>fisk>vegansk>vegetarisk); inget eget proteinfält finns.",
+      "veganRequired = sant när en person med HARD REQUIRE_VEGAN är hemma (presence-gated).",
+      "recipeIndex.tags = kategorier (slimmade indexet bär inte de fria taggarna).",
+      "maxRepeatProteinPerWeek = null (ingen gräns, per användarens val)."
+    ],
+    "notTracked": [
+      "cuisine: det finns inget kök-/cuisine-fält i datamodellen → null. Säg till om du vill att jag lägger till det per recept."
+    ]
+  }
+}
