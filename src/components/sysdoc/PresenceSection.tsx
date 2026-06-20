@@ -103,19 +103,42 @@ export default function PresenceSection() {
         <thead><tr><th>Regel-id</th><th>Cadence</th><th>Veckodagar</th><th>handoverByWeekday</th></tr></thead>
         <tbody>
           <tr>
-            <td><span className="field-name">mon-wed-weekly</span></td>
+            <td><span className="field-name">mon-weekly</span></td>
             <td>WEEKLY</td>
-            <td>Mån, Ons</td>
-            <td>{'{'} 1: "19:00", 3: "19:00" {'}'}</td>
+            <td>Mån</td>
+            <td>{'{'} 1: "19:00" {'}'}</td>
+          </tr>
+          <tr>
+            <td><span className="field-name">wed-biweekly</span></td>
+            <td>BIWEEKLY</td>
+            <td>Ons (Daniels veckor)</td>
+            <td>{'{'} 3: "19:00" {'}'}</td>
           </tr>
           <tr>
             <td><span className="field-name">weekend-biweekly</span></td>
             <td>BIWEEKLY</td>
-            <td>Fre, Lör, Sön</td>
+            <td>Fre, Lör, Sön (Daniels veckor)</td>
             <td>— (fredag­byte varierar; använd Override)</td>
+          </tr>
+          <tr>
+            <td><span className="field-name">erika-week-biweekly</span></td>
+            <td>BIWEEKLY</td>
+            <td>Tis–Sön (Erika-veckor)</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td><span className="field-name">daniel-solo</span></td>
+            <td>WEEKLY</td>
+            <td>Alla dagar (baslinje, lägst prioritet)</td>
+            <td>—</td>
           </tr>
         </tbody>
       </table>
+      <p style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 20 }}>
+        Prioritet: barn-reglerna (2) slår Erika-veckoregeln (1) som slår{' '}
+        <code>daniel-solo</code>-baslinjen (0). Varje dag landar därför i en bestämd
+        grupp — inga "okända" dagar.
+      </p>
 
       <h4 style={{ marginTop: 16, marginBottom: 4 }}>Override</h4>
       <table className="field-table" style={{ marginBottom: 24 }}>
@@ -309,17 +332,17 @@ export default function PresenceSection() {
       <h3>Verkligt mönster — kanonisk 14-dagarscykel</h3>
       <table className="field-table" style={{ marginBottom: 24 }}>
         <thead>
-          <tr><th>Dag</th><th>Daniels vecka</th><th>Frisvecka</th><th>Matfönster (Daniels v.)</th></tr>
+          <tr><th>Dag</th><th>Daniels vecka</th><th>Erika-vecka</th><th>Matfönster (Daniels v.)</th></tr>
         </thead>
         <tbody>
           {([
             ['Mån', 'Daniel + barn', 'Daniel + barn', 'CONFLICT — ät senast 17:15 (Modern + Teater + överlämn. 19:00)'],
-            ['Tis', '(mamman)', '(mamman)', '—'],
-            ['Ons', 'Daniel + barn', 'Daniel + barn', 'CONFLICT — ät senast 18:30 (Twerk + överlämn. 19:00)'],
-            ['Tor', '(mamman)', '(mamman)', '—'],
-            ['Fre', 'Daniel + barn', '(mamman)', 'BOUNDED — senast 15:30 (Ridning)'],
-            ['Lör', 'Daniel + barn', '(mamman)', 'OPEN'],
-            ['Sön', 'Daniel + barn', '(mamman)', 'BOUNDED — senast 17:30 (Jazz)'],
+            ['Tis', 'Daniel (ensam)', 'Daniel + Erika', '—'],
+            ['Ons', 'Daniel + barn', 'Daniel + Erika', 'CONFLICT — ät senast 18:30 (Twerk + överlämn. 19:00)'],
+            ['Tor', 'Daniel (ensam)', 'Daniel + Erika', '—'],
+            ['Fre', 'Daniel + barn', 'Daniel + Erika', 'BOUNDED — senast 15:30 (Ridning)'],
+            ['Lör', 'Daniel + barn', 'Daniel + Erika', 'OPEN'],
+            ['Sön', 'Daniel + barn', 'Daniel + Erika', 'BOUNDED — senast 17:30 (Jazz)'],
           ] as [string, string, string, string][]).map(([day, danielWeek, offWeek, window]) => (
             <tr key={day}>
               <td><strong>{day}</strong></td>
@@ -354,8 +377,7 @@ export default function PresenceSection() {
         <div className="callout-body">
           <strong>Planeras i Prompt 3 (Side B — Måltider):</strong>{' '}
           måltidslogik, koklogik, rester, preferenser (inkl. Annabelles vegankost som funktionell
-          regel), Erikas alternerande ons→fre-rytm, och "ät sent"-alternativet baserat på
-          aktiviteternas <code>endTime</code>.
+          regel), och "ät sent"-alternativet baserat på aktiviteternas <code>endTime</code>.
         </div>
       </div>
     </div>

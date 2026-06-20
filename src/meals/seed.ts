@@ -32,6 +32,13 @@ export const SEED_PREFERENCES: MealPreference[] = [
 
 /**
  * Illustrative plan for the 28-day acceptance window (2026-05-22 – 2026-06-18).
+ *
+ * NOTE: written against the original custody schedule. The schedule was later
+ * revised (Wed is now kids only on Daniel-weeks; Erika-weeks are Daniel + Erika
+ * Tue–Sun), so some per-slot comments below no longer match what the resolver
+ * returns. This is a Side-B demo scenario only — it does not drive the planning
+ * brief and is not covered by tests.
+ *
  * Deliberately includes:
  *   - A Saturday big cook (vegansk, 6 person-meals)
  *   - Mon+Wed leftovers from that cook — deliberately over-capacity (3+3+3=9 > 6) → warns

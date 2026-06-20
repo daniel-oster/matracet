@@ -17,14 +17,14 @@ import { SEED_STORE, PERSONS } from '../src/presence/seed.ts'
 import { SEED_PREFERENCES } from '../src/meals/seed.ts'
 import { getRecipeVegan } from '../src/meals/checks.ts'
 
-// ── Konfigurerade antaganden (inte härledda ur data) ────────────────────────────
+// ── Konfiguration ───────────────────────────────────────────────────────────────
 
-/** Standardtak som planeringssteget kan respektera. Det finns INGEN sådan siffra
- *  i datan — den närmaste verkliga regeln är per-person `minRepeatGapDays`. Värdet
- *  exponeras som en justerbar knapp och listas under meta.assumptions. */
-const MAX_REPEAT_PROTEIN_PER_WEEK = 2
+/** Tak för hur många middagar per vecka som får dela proteinkategori. null = ingen
+ *  gräns (planeraren bryr sig inte om proteinupprepning). Den verkliga, datadrivna
+ *  variationsregeln är per-person `minRepeatGapDays` (se constraints.spacingByPerson). */
+const MAX_REPEAT_PROTEIN_PER_WEEK: number | null = null
 
-const SCHEMA_VERSION = '1.0'
+const SCHEMA_VERSION = '1.1'
 
 // ── Datum-helpers (UTC, ISO-vecka) ──────────────────────────────────────────────
 
@@ -107,6 +107,42 @@ const pantry = readJson<Pantry>('public/data/pantry.json')
 
 const indexBySlug = new Map(recipeIndex.map(r => [r.slug, r]))
 
+// ── Feedback (sentiment + uteslutningar) ────────────────────────────────────────
+// Detta är den enda datakällan som lever utanför git: appens localStorage. Den
+// exporteras via "Ladda ner mina data" och committas som public/data/feedback.json.
+// Filen är antingen hela export-payloaden ({ feedback: {...} }) eller en bar store.
+
+interface PersonSentiment {
+  personId: string
+  sentiment: 'likes' | 'dislikes' | 'refuses'
+  note?: string
+}
+interface FeedbackRecord {
+  persons?: PersonSentiment[]
+  excludeFromWeekPlan?: boolean
+}
+type FeedbackStore = Record<string, FeedbackRecord>
+
+const feedbackRaw = readJson<{ feedback?: FeedbackStore } & FeedbackStore>('public/data/feedback.json')
+const feedbackStore: FeedbackStore = feedbackRaw?.feedback ?? (feedbackRaw as FeedbackStore) ?? {}
+// Drop the export wrapper keys if a bare-ish payload slipped through.
+const feedbackRecords: FeedbackStore = Object.fromEntries(
+  Object.entries(feedbackStore).filter(([, v]) => v && typeof v === 'object' && !Array.isArray(v)),
+)
+const feedbackCount = Object.keys(feedbackRecords).length
+
+/** Per-recipe sentiment as recorded per person, or null when nobody has rated it. */
+function sentimentFor(slug: string): PersonSentiment[] | null {
+  const persons = feedbackRecords[slug]?.persons
+  return persons && persons.length > 0
+    ? persons.map(p => ({ personId: p.personId, sentiment: p.sentiment, ...(p.note ? { note: p.note } : {}) }))
+    : null
+}
+
+const exclusions = Object.entries(feedbackRecords)
+  .filter(([, r]) => r.excludeFromWeekPlan === true)
+  .map(([slug]) => slug)
+
 // ── Härledning ──────────────────────────────────────────────────────────────────
 
 /** Härled "protein"-klass ur kategorier — det finns inget eget proteinfält.
@@ -146,19 +182,12 @@ const days = Array.from({ length: 7 }, (_, i) => {
   const presentIds = new Set(plan.presentPersons.map(p => p.id))
 
   const notes: string[] = []
-  if (plan.presentPersons.length === 0) {
-    notes.push(
-      'Ingen vårdnadsregel träffar denna dag — närvaro ej modellerad i presence-datan ' +
-        '(t.ex. Erika-helger saknas). Sätt en Override eller fyll i manuellt.',
-    )
-  } else {
-    if (plan.windowStatus === 'BOUNDED' && plan.windowEndsBy) {
-      notes.push(`Middag senast ${plan.windowEndsBy}`)
-    } else if (plan.windowStatus === 'CONFLICT' && plan.eatEarlyBy) {
-      notes.push(`Trångt middagsfönster — ät senast ${plan.eatEarlyBy}`)
-    }
-    notes.push(...plan.windowNotes)
+  if (plan.windowStatus === 'BOUNDED' && plan.windowEndsBy) {
+    notes.push(`Middag senast ${plan.windowEndsBy}`)
+  } else if (plan.windowStatus === 'CONFLICT' && plan.eatEarlyBy) {
+    notes.push(`Trångt middagsfönster — ät senast ${plan.eatEarlyBy}`)
   }
+  notes.push(...plan.windowNotes)
 
   return {
     date,
@@ -179,7 +208,7 @@ interface HistoryEntry {
   title: string
   protein: string
   cuisine: null
-  sentiment: null
+  sentiment: PersonSentiment[] | null
 }
 
 const recentHistory: HistoryEntry[] = []
@@ -196,8 +225,8 @@ for (const back of [2, 1]) {
       recipeId: m.receptSlug,
       title: m.recept ?? idx?.namn ?? m.receptSlug,
       protein: idx ? deriveProtein(idx.kategorier) : 'okant',
-      cuisine: null, // finns inte i datan
-      sentiment: null, // finns bara i localStorage (matracet:feedback:v1), ej committad
+      cuisine: null, // spåras inte i datamodellen
+      sentiment: sentimentFor(m.receptSlug),
     })
   }
 }
@@ -210,7 +239,7 @@ const recipeIndexSlim = recipeIndex.map(r => ({
   title: r.namn,
   protein: deriveProtein(r.kategorier),
   vegan: getRecipeVegan(r.kategorier) === true,
-  sentiment: null, // finns bara i localStorage, ej committad
+  sentiment: sentimentFor(r.slug),
   tags: r.kategorier, // _index.json bär bara kategorier; fria `taggar` finns i fulla receptfiler
 }))
 
@@ -225,9 +254,9 @@ const brief = {
   },
   days,
   constraints: {
-    // Recept som ska uteslutas ur planen. Källan (excludeFromWeekPlan) lever bara
-    // i localStorage och är inte committad → tom här. Se meta.dataGaps.
-    exclusions: [] as string[],
+    // Recept som ska uteslutas ur planen — härlett ur feedback.json (excludeFromWeekPlan).
+    exclusions,
+    // null = ingen proteinupprepningsgräns (per användarens val).
     maxRepeatProteinPerWeek: MAX_REPEAT_PROTEIN_PER_WEEK,
     // Verklig, datadriven spacing-regel per person (Person.minRepeatGapDays).
     spacingByPerson: PERSONS.map(p => ({
@@ -245,20 +274,26 @@ const brief = {
       'public/data/recipes/_index.json',
       'public/data/weeks/*.json',
       'public/data/pantry.json',
+      'public/data/feedback.json (sentiment + uteslutningar)',
       'src/presence/seed.ts + activities.ts (närvaro/vårdnadsschema)',
       'src/meals/seed.ts (preferenser: REQUIRE_VEGAN)',
     ],
+    // Den enda inmatningen som inte lever i git: appens localStorage, exporterad och committad.
+    externalInputs: [
+      feedbackCount > 0
+        ? `feedback.json: ${feedbackCount} recept importerade → sentiment och exclusions ifyllda.`
+        : 'feedback.json är tom — exportera "Ladda ner mina data" i appen och committa för att fylla sentiment + exclusions.',
+    ],
     assumptions: [
-      `maxRepeatProteinPerWeek=${MAX_REPEAT_PROTEIN_PER_WEEK} är en konfigurerad standard, inte härledd ur data.`,
+      'present[] och portioner härleds helt ur vårdnadsschemat (src/presence/seed.ts): barn=3, Daniel+Erika=2, Daniel ensam=1. Varje dag har en bestämd uppsättning — inga okända dagar.',
       'protein härleds ur recept-kategorier (kott>fisk>vegansk>vegetarisk); inget eget proteinfält finns.',
       'veganRequired = sant när en person med HARD REQUIRE_VEGAN är hemma (presence-gated).',
       'recipeIndex.tags = kategorier (slimmade indexet bär inte de fria taggarna).',
+      'maxRepeatProteinPerWeek = null (ingen gräns, per användarens val).',
     ],
-    dataGaps: [
-      'sentiment: finns endast i localStorage (matracet:feedback:v1) — inte committad, satt till null.',
-      'constraints.exclusions: excludeFromWeekPlan finns bara i localStorage — inte committad, tom lista.',
-      'cuisine: inget kök-/cuisine-fält finns i datamodellen — satt till null.',
-      'närvaro icke-vårdnadsdagar (t.ex. Erika-helger): presence-modellen saknar regler, dagar utan träff får tom present[].',
+    // Fält som varken finns i git-datan eller i localStorage-exporten.
+    notTracked: [
+      'cuisine: det finns inget kök-/cuisine-fält i datamodellen → null. Säg till om du vill att jag lägger till det per recept.',
     ],
   },
 }

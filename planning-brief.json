@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "1.0",
+  "schemaVersion": "1.1",
   "week": {
     "isoWeek": "2026-W26",
     "year": 2026,
@@ -37,12 +37,19 @@
       "date": "2026-06-23",
       "weekday": "tisdag",
       "weekdayIso": 2,
-      "present": [],
-      "portions": 0,
+      "present": [
+        {
+          "id": "daniel",
+          "name": "Daniel"
+        },
+        {
+          "id": "erika",
+          "name": "Erika"
+        }
+      ],
+      "portions": 2,
       "veganRequired": false,
-      "notes": [
-        "Ingen vårdnadsregel träffar denna dag — närvaro ej modellerad i presence-datan (t.ex. Erika-helger saknas). Sätt en Override eller fyll i manuellt."
-      ]
+      "notes": []
     },
     {
       "date": "2026-06-24",
@@ -54,70 +61,90 @@
           "name": "Daniel"
         },
         {
-          "id": "sarah",
-          "name": "Sarah"
-        },
-        {
-          "id": "annabelle",
-          "name": "Annabelle"
+          "id": "erika",
+          "name": "Erika"
         }
       ],
-      "portions": 3,
-      "veganRequired": true,
-      "notes": [
-        "Trångt middagsfönster — ät senast 18:30",
-        "Överlämning 19:00",
-        "Sarah: Girly Twerk/Dancehall → avgång 18:30 (klar 20:15)"
-      ]
+      "portions": 2,
+      "veganRequired": false,
+      "notes": []
     },
     {
       "date": "2026-06-25",
       "weekday": "torsdag",
       "weekdayIso": 4,
-      "present": [],
-      "portions": 0,
+      "present": [
+        {
+          "id": "daniel",
+          "name": "Daniel"
+        },
+        {
+          "id": "erika",
+          "name": "Erika"
+        }
+      ],
+      "portions": 2,
       "veganRequired": false,
-      "notes": [
-        "Ingen vårdnadsregel träffar denna dag — närvaro ej modellerad i presence-datan (t.ex. Erika-helger saknas). Sätt en Override eller fyll i manuellt."
-      ]
+      "notes": []
     },
     {
       "date": "2026-06-26",
       "weekday": "fredag",
       "weekdayIso": 5,
-      "present": [],
-      "portions": 0,
+      "present": [
+        {
+          "id": "daniel",
+          "name": "Daniel"
+        },
+        {
+          "id": "erika",
+          "name": "Erika"
+        }
+      ],
+      "portions": 2,
       "veganRequired": false,
-      "notes": [
-        "Ingen vårdnadsregel träffar denna dag — närvaro ej modellerad i presence-datan (t.ex. Erika-helger saknas). Sätt en Override eller fyll i manuellt."
-      ]
+      "notes": []
     },
     {
       "date": "2026-06-27",
       "weekday": "lordag",
       "weekdayIso": 6,
-      "present": [],
-      "portions": 0,
+      "present": [
+        {
+          "id": "daniel",
+          "name": "Daniel"
+        },
+        {
+          "id": "erika",
+          "name": "Erika"
+        }
+      ],
+      "portions": 2,
       "veganRequired": false,
-      "notes": [
-        "Ingen vårdnadsregel träffar denna dag — närvaro ej modellerad i presence-datan (t.ex. Erika-helger saknas). Sätt en Override eller fyll i manuellt."
-      ]
+      "notes": []
     },
     {
       "date": "2026-06-28",
       "weekday": "sondag",
       "weekdayIso": 7,
-      "present": [],
-      "portions": 0,
+      "present": [
+        {
+          "id": "daniel",
+          "name": "Daniel"
+        },
+        {
+          "id": "erika",
+          "name": "Erika"
+        }
+      ],
+      "portions": 2,
       "veganRequired": false,
-      "notes": [
-        "Ingen vårdnadsregel träffar denna dag — närvaro ej modellerad i presence-datan (t.ex. Erika-helger saknas). Sätt en Override eller fyll i manuellt."
-      ]
+      "notes": []
     }
   ],
   "constraints": {
     "exclusions": [],
-    "maxRepeatProteinPerWeek": 2,
+    "maxRepeatProteinPerWeek": null,
     "spacingByPerson": [
       {
         "personId": "daniel",
@@ -1363,26 +1390,28 @@
     "ägg"
   ],
   "meta": {
-    "referenceDate": "2026-06-19",
+    "referenceDate": "2026-06-20",
     "generatedBy": "scripts/build-brief.ts",
     "sources": [
       "public/data/recipes/_index.json",
       "public/data/weeks/*.json",
       "public/data/pantry.json",
+      "public/data/feedback.json (sentiment + uteslutningar)",
       "src/presence/seed.ts + activities.ts (närvaro/vårdnadsschema)",
       "src/meals/seed.ts (preferenser: REQUIRE_VEGAN)"
     ],
+    "externalInputs": [
+      "feedback.json är tom — exportera \"Ladda ner mina data\" i appen och committa för att fylla sentiment + exclusions."
+    ],
     "assumptions": [
-      "maxRepeatProteinPerWeek=2 är en konfigurerad standard, inte härledd ur data.",
+      "present[] och portioner härleds helt ur vårdnadsschemat (src/presence/seed.ts): barn=3, Daniel+Erika=2, Daniel ensam=1. Varje dag har en bestämd uppsättning — inga okända dagar.",
       "protein härleds ur recept-kategorier (kott>fisk>vegansk>vegetarisk); inget eget proteinfält finns.",
       "veganRequired = sant när en person med HARD REQUIRE_VEGAN är hemma (presence-gated).",
-      "recipeIndex.tags = kategorier (slimmade indexet bär inte de fria taggarna)."
+      "recipeIndex.tags = kategorier (slimmade indexet bär inte de fria taggarna).",
+      "maxRepeatProteinPerWeek = null (ingen gräns, per användarens val)."
     ],
-    "dataGaps": [
-      "sentiment: finns endast i localStorage (matracet:feedback:v1) — inte committad, satt till null.",
-      "constraints.exclusions: excludeFromWeekPlan finns bara i localStorage — inte committad, tom lista.",
-      "cuisine: inget kök-/cuisine-fält finns i datamodellen — satt till null.",
-      "närvaro icke-vårdnadsdagar (t.ex. Erika-helger): presence-modellen saknar regler, dagar utan träff får tom present[]."
+    "notTracked": [
+      "cuisine: det finns inget kök-/cuisine-fält i datamodellen → null. Säg till om du vill att jag lägger till det per recept."
     ]
   }
 }
