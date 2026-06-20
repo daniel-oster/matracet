@@ -81,6 +81,24 @@ Supersättning — varje butik fyller i det den exponerar, resten är `null`.
 - Personliga kuponger (Hemköps "Bara för dig", kräver aktivering och har ofta
   längre giltighet) markeras i `notering` och har `klubbpris: false`.
 
+### Ursprung & märkningar (viktigt för beslut)
+
+Vid små prisskillnader är ursprung/märkning ofta det som avgör. Därför:
+
+- **Ursprung samlas alltid i `ursprung`** (t.ex. `Sverige`, `Irland/UK`,
+  `Nya Zeeland`), oavsett hur butiken angav det. Willys uttrycker svenskt
+  ursprung som märkningar (`svensk`, `kott_sverige`, `fagel_sverige`) — dessa
+  speglas även in i `ursprung` så att fältet går att jämföra mellan butiker.
+- `markeringar` håller certifieringar/märken som **står som text** i källan
+  (Willys reklamblad är textrikt). I ICAs och Hemköps PDF-exporter är många
+  märken (Nyckelhålet, MSC, KRAV m.fl.) **bildikoner** och går inte att läsa
+  maskinellt — där fångas bara det som skrivs i klartext (`Ursprung X`, `ASC`/
+  `Eko`/`Svensk` i produktnamnet). Komplett märkningsdata kräver butikens
+  API/strukturerade källa eller manuell taggning.
+- För Hemköp lönar det sig att läsa **båda** filerna: den strukturerade listan
+  för priser, det grafiska bladet för extra ursprungsrader (t.ex. Färskpotatis
+  → Sverige) som saknas i listan.
+
 ## Bevakningslista (stående)
 
 `bevakningslista.json` håller varor man gärna bunkrar när de är på extrapris
