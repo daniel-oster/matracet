@@ -12,21 +12,22 @@
       "dag": "tisdag",
       "datum": "2026-06-23",
       "recept": "Ugnsbakad lax med soja och ingefära",
-      "receptSlug": "laxfile-soja-ingefara"
+      "receptSlug": "laxfile-soja-ingefara",
+      "kommentar": "Daniel & Erika hemma — barnen hos mamma"
     },
     {
       "dag": "onsdag",
       "datum": "2026-06-24",
       "recept": "Falafel med yoghurtsås",
       "receptSlug": "falafel",
-      "kommentar": "Sarah har träning kl 18 — äter tidigt"
+      "kommentar": "Daniel & Erika hemma"
     },
     {
       "dag": "torsdag",
       "datum": "2026-06-25",
       "recept": "Krämig kycklinggryta med soltorkade tomater",
       "receptSlug": "kramig-kycklinggryta-soltorkade-tomater",
-      "varianter": { "Annabelle": "halstrad tofu istället för kyckling" }
+      "kommentar": "Daniel & Erika hemma"
     },
     {
       "dag": "fredag",
@@ -50,7 +51,7 @@
     }
   ],
   "anteckningar": [
-    { "nar": "Vecka 26", "text": "Mammans helg — barnen borta fredag–söndag, Daniel & Erika hemma." }
+    { "nar": "Vecka 26", "text": "Erika-vecka — barnen hos mamma tisdag–söndag (hemma måndag). Daniel & Erika resten av veckan." }
   ],
   "skapad": "2026-06-13T10:00:00Z"
 }

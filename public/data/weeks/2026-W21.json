@@ -6,14 +6,14 @@
       "datum": "2026-05-18",
       "recept": "Krämig svamprisotto",
       "receptSlug": "karljohansvamp-risotto",
-      "varianter": { "Sarah": "parmesan blir näringsjäst" }
+      "varianter": { "Annabelle": "näringsjäst istället för parmesan" }
     },
     {
       "dag": "tisdag",
       "datum": "2026-05-19",
       "recept": "Snabb linsgryta & ris",
       "receptSlug": "linsgryta-kokos-lime",
-      "kommentar": "Sarah har träning kl 18!"
+      "kommentar": "Barnen hos mamma — bara Daniel"
     },
     {
       "dag": "onsdag",
@@ -25,7 +25,7 @@
       "dag": "torsdag",
       "datum": "2026-05-21",
       "recept": "Ugnsbakad lax & rotsaker",
-      "varianter": { "Sarah": "tofu istället för lax" }
+      "kommentar": "Barnen hos mamma — bara Daniel"
     },
     {
       "dag": "fredag",
@@ -47,7 +47,7 @@
   ],
   "anteckningar": [
     { "nar": "Den här veckan", "text": "Mormor & morfar kommer på lördag — fixa något lite festligt!" },
-    { "nar": "Vecka 22", "text": "Sarah åker på lägret onsdag–söndag. Mindre vegoplanering." }
+    { "nar": "Vecka 22", "text": "Erika-vecka — barnen hos mamma tisdag–söndag, Daniel & Erika hemma." }
   ],
   "skapad": "2026-05-17T18:30:00Z"
 }
