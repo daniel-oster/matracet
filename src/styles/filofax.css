@@ -16,6 +16,7 @@
   --line-margin: rgba(184, 53, 10, 0.4);
 
   --t-veckan: #f0c060;
+  --t-fynd: #6cab9c;
   --t-handla: #d4956a;
   --t-recept: #a8b86a;
   --t-familj: #c478a0;
@@ -246,6 +247,7 @@ body {
 .tabs-right .tab.active { transform: translateX(6px); filter: brightness(1.12); box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 2px 2px 4px rgba(0,0,0,0.35); }
 
 .tab[data-tab="veckan"]       { background: var(--t-veckan); }
+.tab[data-tab="fynd"]         { background: var(--t-fynd); color: #0c2a24; }
 .tab[data-tab="handla"]       { background: var(--t-handla); color: #2a1810; }
 .tab[data-tab="recept"]       { background: var(--t-recept); }
 .tab[data-tab="familj"]       { background: var(--t-familj); color: #fff0f4; }
@@ -904,6 +906,166 @@ body {
   color: var(--ink-soft);
   text-align: center;
   padding: 20px;
+}
+
+/* ============= FYND (erbjudanden) ============= */
+.fynd-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+.fynd-chip {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 3px 9px;
+  border-radius: 10px;
+  border: 1.5px solid var(--ink-soft);
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+  opacity: 0.45;
+  transition: opacity 0.12s, background 0.12s, color 0.12s;
+}
+.fynd-chip.on { opacity: 1; }
+.fynd-chip.willys.on { background: #2b2b2b; border-color: #2b2b2b; color: #fff; }
+.fynd-chip.ica.on    { background: #cd1719; border-color: #cd1719; color: #fff; }
+.fynd-chip.hemkop.on { background: #5b8a2b; border-color: #5b8a2b; color: #fff; }
+.fynd-chip.flag.on   { background: #1f5fa6; border-color: #1f5fa6; color: #fff; }
+
+.fynd-scroll {
+  overflow-y: auto;
+  max-height: calc(100% - 92px);
+  margin: 0 -4px;
+  padding: 0 4px 8px;
+}
+.fynd-empty {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 13px;
+  color: var(--ink-soft);
+  padding: 16px 4px;
+  text-align: center;
+}
+.fynd-cat { margin-bottom: 12px; }
+.fynd-cat-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-red);
+  margin: 0 0 4px;
+  padding-bottom: 2px;
+  border-bottom: 1px solid rgba(0,0,0,0.12);
+}
+.fynd-cat-count {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: var(--ink-soft);
+  opacity: 0.7;
+}
+.fynd-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  padding: 5px 4px;
+  border-bottom: 1px dashed rgba(0,0,0,0.1);
+}
+.fynd-row.best { background: rgba(108, 171, 156, 0.13); border-radius: 4px; }
+.fynd-store {
+  flex-shrink: 0;
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #fff;
+  padding: 2px 5px;
+  border-radius: 3px;
+  margin-top: 1px;
+  min-width: 38px;
+  text-align: center;
+}
+.fynd-store.willys { background: #2b2b2b; }
+.fynd-store.ica    { background: #cd1719; }
+.fynd-store.hemkop { background: #5b8a2b; }
+.fynd-info { flex: 1; min-width: 0; }
+.fynd-name {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 14px;
+  color: var(--ink);
+  line-height: 1.15;
+}
+.fynd-flag { margin-left: 4px; font-size: 11px; }
+.fynd-meta {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 10px;
+  color: var(--ink-soft);
+  line-height: 1.3;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  margin-top: 1px;
+}
+.fynd-jmf {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: var(--ink-blue);
+}
+.fynd-best {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 8px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #2c7a68;
+  background: rgba(108, 171, 156, 0.25);
+  padding: 1px 5px;
+  border-radius: 8px;
+}
+.fynd-tag {
+  font-size: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--ink-soft);
+  background: rgba(0,0,0,0.07);
+  padding: 1px 5px;
+  border-radius: 8px;
+}
+.fynd-tag.club { color: #7a4a00; background: rgba(240, 192, 96, 0.3); }
+.fynd-price {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+}
+.fynd-pris {
+  font-family: 'Caveat', cursive;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink-red);
+  line-height: 1;
+  white-space: nowrap;
+}
+.fynd-save {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  color: #2c7a68;
+}
+.fynd-ord {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  color: var(--ink-soft);
+  text-decoration: line-through;
+  opacity: 0.7;
 }
 
 /* ============= PAGE VIEW ANIMATION ============= */
