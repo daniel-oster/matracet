@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { OffersIndex, StoreOffers } from '../types'
+import { OffersIndex, OffersLatest, StoreOffers } from '../types'
 
 const BASE = '/matracet/data/erbjudanden'
 
@@ -8,18 +8,19 @@ let cache: Promise<StoreOffers[]> | null = null
 
 function loadOffers(): Promise<StoreOffers[]> {
   if (cache) return cache
-  cache = fetch(`${BASE}/_index.json`)
-    .then(r => r.json() as Promise<OffersIndex>)
-    .then(idx => {
-      const week = idx.veckor[idx.veckor.length - 1]
-      return Promise.all(
+  cache = Promise.all([
+    fetch(`${BASE}/_index.json`).then(r => r.json() as Promise<OffersIndex>),
+    fetch(`${BASE}/_latest.json`).then(r => r.json() as Promise<OffersLatest>),
+  ])
+    .then(([idx, latest]) =>
+      Promise.all(
         idx.butiker.map(b =>
-          fetch(`${BASE}/${b.id}/${week}.json`)
+          fetch(`${BASE}/${b.id}/${latest.vecka}.json`)
             .then(r => (r.ok ? (r.json() as Promise<StoreOffers>) : null))
             .catch(() => null),
         ),
-      )
-    })
+      ),
+    )
     .then(list => list.filter((x): x is StoreOffers => x !== null))
     .catch(() => [])
   return cache

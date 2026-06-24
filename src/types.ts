@@ -39,7 +39,10 @@ export interface StoreOffers {
 
 export interface OffersIndex {
   butiker: { id: string; kalla: string; namn: string; fullnamn: string }[]
-  veckor: string[]
+}
+
+export interface OffersLatest {
+  vecka: string
 }
 
 export interface Ingredient {
