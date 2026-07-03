@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "presence": "tsx scripts/presence-check.ts",
-    "brief": "tsx scripts/build-brief.ts"
+    "brief": "tsx scripts/build-brief.ts",
+    "screenshot": "node scripts/screenshot.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",
@@ -19,6 +20,7 @@
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.1",
+    "playwright": "^1.61.1",
     "tsx": "^4.22.3",
     "typescript": "^5.5.4",
     "vite": "^5.4.1",

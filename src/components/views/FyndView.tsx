@@ -123,10 +123,12 @@ interface Props {
   onToggleSwedish: () => void
   mode: 'alla' | 'jamfor'
   onToggleMode: () => void
+  week: string | null
+  onSelectWeek: (week: string | null) => void
 }
 
-export default function FyndView({ side, storeFilter, onToggleStore, swedishOnly, onToggleSwedish, mode, onToggleMode }: Props) {
-  const stores = useOffers()
+export default function FyndView({ side, storeFilter, onToggleStore, swedishOnly, onToggleSwedish, mode, onToggleMode, week, onSelectWeek }: Props) {
+  const { stores, availableWeeks, latestWeek } = useOffers(week)
 
   if (!stores) {
     return (
@@ -139,8 +141,9 @@ export default function FyndView({ side, storeFilter, onToggleStore, swedishOnly
     )
   }
 
-  const week = stores[0]?.vecka.split('-W')[1] ?? ''
+  const shownWeek = stores[0]?.vecka.split('-W')[1] ?? ''
   const range = stores[0] ? `${dm(stores[0].giltigt_fran)}–${dm(stores[0].giltigt_till)}` : ''
+  const otherWeeks = availableWeeks.filter(w => w !== latestWeek).slice().reverse()
 
   const all: TaggedOffer[] = stores.flatMap((s: StoreOffers) =>
     s.erbjudanden.map(o => ({ ...o, store: s.kalla })),
@@ -161,7 +164,7 @@ export default function FyndView({ side, storeFilter, onToggleStore, swedishOnly
           <div className="title">
             {mode === 'jamfor' ? (side === 'left' ? 'Jämför' : 'Jämför · forts.') : (side === 'left' ? 'Fynd' : 'Fynd · forts.')}
           </div>
-          <div className="sub">{`v.${week} · ${range} · ${stores.length} butiker`}</div>
+          <div className="sub">{`v.${shownWeek} · ${range} · ${stores.length} butiker`}</div>
         </div>
         <div className="fynd-mode-bar">
           <button
@@ -182,6 +185,19 @@ export default function FyndView({ side, storeFilter, onToggleStore, swedishOnly
       </div>
 
       <div className="fynd-filters">
+        {(otherWeeks.length > 0 || week) && (
+          <select
+            className="fynd-week-select"
+            value={week ?? ''}
+            onChange={e => onSelectWeek(e.target.value || null)}
+            title="Välj vecka"
+          >
+            {latestWeek && <option value="">Senaste · v.{latestWeek.split('-W')[1]}</option>}
+            {otherWeeks.map(w => (
+              <option key={w} value={w}>{weekLabel(w)}</option>
+            ))}
+          </select>
+        )}
         {Object.keys(STORES).map(key => (
           <button
             key={key}
@@ -352,4 +368,10 @@ function JamforView({ all, catIds, visible }: {
 function dm(iso: string): string {
   const d = new Date(iso + 'T00:00:00Z')
   return `${d.getUTCDate()}/${d.getUTCMonth() + 1}`
+}
+
+/** "2026-W25" → "v.25 · 2026" */
+function weekLabel(vecka: string): string {
+  const [year, wk] = vecka.split('-W')
+  return `v.${wk} · ${year}`
 }
