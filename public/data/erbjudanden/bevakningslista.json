@@ -6,7 +6,7 @@
       "vara": "Kaffe",
       "kategori": "torrvaror",
       "sok": ["kaffe"],
-      "undvik_marken": ["Gevalia"],
+      "undvik_marken": ["Gevalia", "Löfbergs Lila"],
       "onskat_marke": null,
       "storlek_hint": null,
       "troskel_kr": null,
@@ -18,8 +18,8 @@
       "kategori": "hygien_hushall",
       "sok": ["toalettpapper", "toapapper"],
       "undvik_marken": [],
-      "onskat_marke": null,
-      "storlek_hint": "Stor familjeförpackning (storpack), vanlig sort",
+      "onskat_marke": "Serla",
+      "storlek_hint": "18-pack (eller motsvarande storpack)",
       "troskel_kr": null,
       "anteckning": null
     },
@@ -29,10 +29,10 @@
       "kategori": "hygien_hushall",
       "sok": ["tandkräm"],
       "undvik_marken": [],
-      "onskat_marke": null,
+      "onskat_marke": "Sensodyne",
       "storlek_hint": null,
       "troskel_kr": null,
-      "anteckning": "Specifikt märke – komplettera \"onskat_marke\" med vilket när det är bestämt."
+      "anteckning": null
     },
     {
       "id": "diskmaskinstabletter",
@@ -51,21 +51,43 @@
       "kategori": "hygien_hushall",
       "sok": ["schampo"],
       "undvik_marken": [],
-      "onskat_marke": null,
-      "storlek_hint": null,
+      "onskat_marke": "Head & Shoulders",
+      "storlek_hint": "Apple Fresh, 1000 ml",
       "troskel_kr": null,
       "anteckning": null
     },
     {
-      "id": "laktosfritt",
-      "vara": "Laktosfritt",
-      "kategori": "mejeri",
-      "sok": ["laktosfri"],
+      "id": "tvattmedel",
+      "vara": "Tvättmedel",
+      "kategori": "hygien_hushall",
+      "sok": ["tvättmedel", "kulörtvätt"],
       "undvik_marken": [],
-      "onskat_marke": null,
+      "onskat_marke": "Grumme",
       "storlek_hint": null,
       "troskel_kr": null,
-      "anteckning": "Ospecificerat vilken laktosfri vara (mjölk, grädde, ost m.m.) – komplettera."
+      "anteckning": "Parfymfri (Kulörtvätt)."
+    },
+    {
+      "id": "skoljmedel",
+      "vara": "Sköljmedel",
+      "kategori": "hygien_hushall",
+      "sok": ["sköljmedel"],
+      "undvik_marken": [],
+      "onskat_marke": "Grumme",
+      "storlek_hint": null,
+      "troskel_kr": null,
+      "anteckning": "Parfymfri, växtbaserad."
+    },
+    {
+      "id": "lactacyd",
+      "vara": "Duschcreme",
+      "kategori": "hygien_hushall",
+      "sok": ["lactacyd"],
+      "undvik_marken": [],
+      "onskat_marke": "Lactacyd",
+      "storlek_hint": null,
+      "troskel_kr": null,
+      "anteckning": "Duschcreme, utan parfym."
     }
   ]
 }
