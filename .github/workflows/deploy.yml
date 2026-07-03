@@ -33,9 +33,36 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url || steps.deployment_retry1.outputs.page_url || steps.deployment_retry2.outputs.page_url }}
     steps:
+      # actions/deploy-pages occasionally returns a hard "Deployment failed, try
+      # again later" from GitHub's Pages API — a transient backend hiccup, not a
+      # build problem. error_count/reporting_interval only govern polling errors
+      # once a deployment is in progress, not this initial failure, so retry the
+      # whole step a couple of times with a short backoff before giving up.
       - id: deployment
+        uses: actions/deploy-pages@v4
+        continue-on-error: true
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+
+      - name: Wait before retry 1
+        if: steps.deployment.outcome == 'failure'
+        run: sleep 15
+
+      - id: deployment_retry1
+        if: steps.deployment.outcome == 'failure'
+        uses: actions/deploy-pages@v4
+        continue-on-error: true
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+
+      - name: Wait before retry 2
+        if: steps.deployment.outcome == 'failure' && steps.deployment_retry1.outcome == 'failure'
+        run: sleep 30
+
+      - id: deployment_retry2
+        if: steps.deployment.outcome == 'failure' && steps.deployment_retry1.outcome == 'failure'
         uses: actions/deploy-pages@v4
         env:
           FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
