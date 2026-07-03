@@ -14,12 +14,14 @@
       "dag": "lordag",
       "datum": "2026-07-04",
       "recept": "Pasta pomodoro med avokado",
+      "receptSlug": "pasta-pomodoro-avokado",
       "kommentar": "Daniel, Sarah & Annabelle — grillkorv som tillval för Daniel/Sarah, Annabelle kör tomatsåsen rak av"
     },
     {
       "dag": "sondag",
       "datum": "2026-07-05",
       "recept": "Ägg & avokado på rostat bröd",
+      "receptSlug": "agg-avokado-rostat-brod",
       "kommentar": "Bara Daniel & Sarah"
     }
   ],
