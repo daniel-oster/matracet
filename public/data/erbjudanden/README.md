@@ -176,6 +176,28 @@ Vid små prisskillnader är ursprung/märkning ofta det som avgör. Därför:
 ## Bevakningslista (stående)
 
 `bevakningslista.json` håller varor man gärna bunkrar när de är på extrapris
-(t.ex. kaffe i rätt märke, toapapper, maskindiskmedel). Tanken är att kunna
-flagga automatiskt när en bevakad vara dyker upp i något reklamblad — och helst
-sätta ett tröskelpris (kr eller jämförpris) som räknas som "ett bra köp".
+(t.ex. kaffe i rätt märke, toapapper, maskindiskmedel). Visas i UI:t under
+fliken **Bevaka** (`BevakaView.tsx`): vänster sida listar hela bevakningslistan
+med en 🔔 på varor som har en träff just nu, höger sida visar själva träffarna
+(butik, pris, storlek) grupperat per bevakad vara.
+
+Schema per post (`BevakningItem` i `src/types.ts`):
+
+| Fält | Beskrivning |
+|---|---|
+| `id` | Unik nyckel (slug) |
+| `vara` | Visningsnamn |
+| `kategori` | Samma kategori-id som erbjudanden, styr emoji/gruppering |
+| `sok` | Lista med gemener-substrängar som matchas mot erbjudandets `namn`/`marke`. **Tom lista** = bevaka hela `kategori` istället för enskilda sökord (t.ex. all frukt & grönt, alla snacks) |
+| `undvik_marken` | Varumärkes-substrängar som diskvalificerar en annars matchande träff (t.ex. inte Gevalia) |
+| `onskat_marke` | Ev. specifikt märke man vill ha (`null` om inte bestämt) |
+| `storlek_hint` | Fritext om önskad storlek/förpackning (`null` annars) |
+| `troskel_kr` | Ev. priströskel i kr för "bra köp" (`null` = ingen automatisk gräns, bara manuell bedömning) |
+| `anteckning` | Fritext-anteckning |
+
+Matchningen är enkel substrängsmatchning (case-insensitive), inte samma
+normalisering som `FyndView`s jämför-läge — bra nog för en handfull stående
+varor, men kan ge falska positiva för korta sökord. Det finns inget
+in-app-formulär för att lägga till varor (appen har ingen backend) — nya
+poster eller kompletteringar (t.ex. fylla i `onskat_marke` när märket är
+bestämt) läggs till direkt i filen.

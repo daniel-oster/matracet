@@ -1,4 +1,4 @@
-export type TabName = 'veckan' | 'handla' | 'recept' | 'familj' | 'anteckningar' | 'fynd'
+export type TabName = 'veckan' | 'handla' | 'recept' | 'familj' | 'anteckningar' | 'fynd' | 'bevaka'
 export type PageSide = 'left' | 'right'
 
 /** One offer from a store's weekly specials (see public/data/erbjudanden/README.md) */
@@ -44,6 +44,26 @@ export interface OffersIndex {
 
 export interface OffersLatest {
   vecka: string
+}
+
+/** One standing watch-list entry — a product to buy in bulk whenever it's a genuine bargain. */
+export interface BevakningItem {
+  id: string
+  vara: string
+  kategori: string
+  /** Lowercase substrings matched against an offer's namn/marke to detect a hit. Empty = watch the whole `kategori` instead. */
+  sok: string[]
+  /** Brand substrings that disqualify an otherwise-matching offer. */
+  undvik_marken: string[]
+  onskat_marke: string | null
+  storlek_hint: string | null
+  troskel_kr: number | null
+  anteckning: string | null
+}
+
+export interface Bevakningslista {
+  schema_version: number
+  varor: BevakningItem[]
 }
 
 export interface Ingredient {

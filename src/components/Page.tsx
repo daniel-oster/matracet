@@ -5,6 +5,7 @@ import ReceptView from './views/ReceptView'
 import FamiljView from './views/FamiljView'
 import AnteckningarView from './views/AnteckningarView'
 import FyndView from './views/FyndView'
+import BevakaView from './views/BevakaView'
 import type { DayPlan } from '../presence/types'
 
 interface Props {
@@ -45,6 +46,7 @@ export default function Page({ side, activeTab, rollingDays, rollingLunches, wee
       <div className="page-view" key={`${activeTab}-${side}`}>
         {activeTab === 'veckan'       && <VeckanView       side={side} days={rollingDays} lunches={rollingLunches} dayPlans={dayPlans} eaters={eaters} onOpenRecipe={onOpenRecipe} onReplaceDay={onReplaceDay} />}
         {activeTab === 'fynd'         && <FyndView          side={side} storeFilter={offerStoreFilter} onToggleStore={onToggleOfferStore} swedishOnly={offerSwedishOnly} onToggleSwedish={onToggleOfferSwedish} mode={fyndMode} onToggleMode={onToggleFyndMode} week={fyndWeek} onSelectWeek={onSelectFyndWeek} />}
+        {activeTab === 'bevaka'       && <BevakaView        side={side} />}
         {activeTab === 'handla'       && <HandlaView        side={side} />}
         {activeTab === 'recept'       && <ReceptView        side={side} recipeIndex={recipeIndex} eaters={eaters} selectedSlug={selectedRecipeSlug} onSelect={onSelectRecipe} />}
         {activeTab === 'familj'       && <FamiljView        side={side} eaters={eaters} dayPlans={dayPlans} />}

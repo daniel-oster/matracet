@@ -17,6 +17,7 @@
 
   --t-veckan: #f0c060;
   --t-fynd: #6cab9c;
+  --t-bevaka: #b8860b;
   --t-handla: #d4956a;
   --t-recept: #a8b86a;
   --t-familj: #c478a0;
@@ -248,6 +249,7 @@ body {
 
 .tab[data-tab="veckan"]       { background: var(--t-veckan); }
 .tab[data-tab="fynd"]         { background: var(--t-fynd); color: #0c2a24; }
+.tab[data-tab="bevaka"]       { background: var(--t-bevaka); color: #2e2000; }
 .tab[data-tab="handla"]       { background: var(--t-handla); color: #2a1810; }
 .tab[data-tab="recept"]       { background: var(--t-recept); }
 .tab[data-tab="familj"]       { background: var(--t-familj); color: #fff0f4; }
@@ -1187,6 +1189,36 @@ body {
   align-items: center;
   gap: 4px;
 }
+
+/* ============= BEVAKA (watch-list) ============= */
+.bevaka-list {
+  display: flex;
+  flex-direction: column;
+}
+.bevaka-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 6px 4px;
+  border-bottom: 1px dashed rgba(0,0,0,0.1);
+}
+.bevaka-item.hit { background: rgba(108, 171, 156, 0.13); border-radius: 4px; }
+.bevaka-item-emoji { flex-shrink: 0; font-size: 14px; margin-top: 1px; }
+.bevaka-item-body { flex: 1; min-width: 0; }
+.bevaka-item-name {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 16px;
+  color: var(--ink);
+  line-height: 1.2;
+}
+.bevaka-item-note {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 10px;
+  color: var(--ink-soft);
+  line-height: 1.35;
+  margin-top: 1px;
+}
+.bevaka-bell { flex-shrink: 0; font-size: 14px; margin-top: 2px; }
 
 /* ============= PAGE VIEW ANIMATION ============= */
 .page-view { animation: pageIn 0.25s ease; }

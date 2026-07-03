@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "varor": [
+    {
+      "id": "kaffe",
+      "vara": "Kaffe",
+      "kategori": "torrvaror",
+      "sok": ["kaffe"],
+      "undvik_marken": ["Gevalia", "Löfbergs Lila"],
+      "onskat_marke": null,
+      "storlek_hint": null,
+      "troskel_kr": null,
+      "anteckning": "Köp gärna på flera paket när det är riktigt billigt."
+    },
+    {
+      "id": "toalettpapper",
+      "vara": "Toalettpapper",
+      "kategori": "hygien_hushall",
+      "sok": ["toalettpapper", "toapapper"],
+      "undvik_marken": [],
+      "onskat_marke": "Serla",
+      "storlek_hint": "18-pack (eller motsvarande storpack)",
+      "troskel_kr": null,
+      "anteckning": null
+    },
+    {
+      "id": "tandkram",
+      "vara": "Tandkräm",
+      "kategori": "hygien_hushall",
+      "sok": ["tandkräm"],
+      "undvik_marken": [],
+      "onskat_marke": "Sensodyne",
+      "storlek_hint": null,
+      "troskel_kr": null,
+      "anteckning": null
+    },
+    {
+      "id": "diskmaskinstabletter",
+      "vara": "Diskmaskinstabletter",
+      "kategori": "hygien_hushall",
+      "sok": ["diskmaskinstabletter", "maskindiskmedel"],
+      "undvik_marken": [],
+      "onskat_marke": "Yes",
+      "storlek_hint": null,
+      "troskel_kr": null,
+      "anteckning": null
+    },
+    {
+      "id": "schampo",
+      "vara": "Schampo",
+      "kategori": "hygien_hushall",
+      "sok": ["schampo"],
+      "undvik_marken": [],
+      "onskat_marke": "Head & Shoulders",
+      "storlek_hint": null,
+      "troskel_kr": null,
+      "anteckning": "Doft och storlek spelar ingen roll."
+    },
+    {
+      "id": "tvattmedel",
+      "vara": "Tvättmedel",
+      "kategori": "hygien_hushall",
+      "sok": ["tvättmedel", "kulörtvätt"],
+      "undvik_marken": [],
+      "onskat_marke": "Grumme",
+      "storlek_hint": null,
+      "troskel_kr": null,
+      "anteckning": "Parfymfri (Kulörtvätt)."
+    },
+    {
+      "id": "skoljmedel",
+      "vara": "Sköljmedel",
+      "kategori": "hygien_hushall",
+      "sok": ["sköljmedel"],
+      "undvik_marken": [],
+      "onskat_marke": "Grumme",
+      "storlek_hint": null,
+      "troskel_kr": null,
+      "anteckning": "Parfymfri, växtbaserad."
+    },
+    {
+      "id": "lactacyd",
+      "vara": "Duschcreme",
+      "kategori": "hygien_hushall",
+      "sok": ["lactacyd"],
+      "undvik_marken": [],
+      "onskat_marke": "Lactacyd",
+      "storlek_hint": null,
+      "troskel_kr": null,
+      "anteckning": "Duschcreme, utan parfym."
+    },
+    {
+      "id": "snacks_godis",
+      "vara": "Snacks & godis",
+      "kategori": "snacks_godis",
+      "sok": [],
+      "undvik_marken": [],
+      "onskat_marke": null,
+      "storlek_hint": null,
+      "troskel_kr": null,
+      "anteckning": "Chips, godis, snacks – hela kategorin, inget särskilt märke."
+    },
+    {
+      "id": "frukt_gront",
+      "vara": "Frukt & grönt",
+      "kategori": "frukt_gront",
+      "sok": [],
+      "undvik_marken": [],
+      "onskat_marke": null,
+      "storlek_hint": null,
+      "troskel_kr": null,
+      "anteckning": "Allt – morötter, vattenmelon, jordgubbar m.m. – hela kategorin på extrapris."
+    }
+  ]
+}
