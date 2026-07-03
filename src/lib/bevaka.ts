@@ -1,0 +1,53 @@
+import { BevakningItem, Offer, StoreOffers } from '../types'
+
+export interface StoreMeta {
+  namn: string
+  klass: string
+}
+
+export const STORES: Record<string, StoreMeta> = {
+  willys: { namn: 'Willys', klass: 'willys' },
+  ica: { namn: 'ICA', klass: 'ica' },
+  hemkop: { namn: 'Hemköp', klass: 'hemkop' },
+}
+
+export const CATEGORY_EMOJI: Record<string, string> = {
+  kott_fagel: '🥩',
+  fisk_skaldjur: '🐟',
+  frukt_gront: '🥦',
+  mejeri: '🧀',
+  brod_bakverk: '🍞',
+  torrvaror: '🥫',
+  frys: '🧊',
+  dryck: '🧃',
+  snacks_godis: '🍫',
+  hygien_hushall: '🧻',
+  ovrigt: '📦',
+}
+
+export interface TaggedOffer extends Offer {
+  store: string
+}
+
+export interface BevakaHit {
+  item: BevakningItem
+  offers: TaggedOffer[]
+}
+
+export function tagOffers(stores: StoreOffers[]): TaggedOffer[] {
+  return stores.flatMap(s => s.erbjudanden.map(o => ({ ...o, store: s.kalla })))
+}
+
+/** Empty `sok` means "watch the whole category" instead of matching specific keywords. */
+export function matchesBevakning(item: BevakningItem, o: TaggedOffer): boolean {
+  const hay = `${o.namn} ${o.marke ?? ''}`.toLowerCase()
+  if (item.undvik_marken.some(b => hay.includes(b.toLowerCase()))) return false
+  if (item.sok.length === 0) return o.kategori === item.kategori
+  return item.sok.some(k => hay.includes(k.toLowerCase()))
+}
+
+export function findBevakaHits(items: BevakningItem[], all: TaggedOffer[]): BevakaHit[] {
+  return items
+    .map(item => ({ item, offers: all.filter(o => matchesBevakning(item, o)) }))
+    .filter(h => h.offers.length > 0)
+}

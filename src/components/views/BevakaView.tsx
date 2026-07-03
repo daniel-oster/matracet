@@ -1,53 +1,7 @@
-import { PageSide, Offer, StoreOffers, BevakningItem } from '../../types'
+import { PageSide, StoreOffers } from '../../types'
 import { useOffers } from '../../hooks/useOffers'
 import { useBevakningslista } from '../../hooks/useBevakningslista'
-
-interface StoreMeta {
-  namn: string
-  klass: string
-}
-const STORES: Record<string, StoreMeta> = {
-  willys: { namn: 'Willys', klass: 'willys' },
-  ica: { namn: 'ICA', klass: 'ica' },
-  hemkop: { namn: 'Hemköp', klass: 'hemkop' },
-}
-
-const CATEGORY_EMOJI: Record<string, string> = {
-  kott_fagel: '🥩',
-  fisk_skaldjur: '🐟',
-  frukt_gront: '🥦',
-  mejeri: '🧀',
-  brod_bakverk: '🍞',
-  torrvaror: '🥫',
-  frys: '🧊',
-  dryck: '🧃',
-  snacks_godis: '🍫',
-  hygien_hushall: '🧻',
-  ovrigt: '📦',
-}
-
-interface TaggedOffer extends Offer {
-  store: string
-}
-
-interface Hit {
-  item: BevakningItem
-  offers: TaggedOffer[]
-}
-
-/** Empty `sok` means "watch the whole category" instead of matching specific keywords. */
-function matches(item: BevakningItem, o: TaggedOffer): boolean {
-  const hay = `${o.namn} ${o.marke ?? ''}`.toLowerCase()
-  if (item.undvik_marken.some(b => hay.includes(b.toLowerCase()))) return false
-  if (item.sok.length === 0) return o.kategori === item.kategori
-  return item.sok.some(k => hay.includes(k.toLowerCase()))
-}
-
-function findHits(items: BevakningItem[], all: TaggedOffer[]): Hit[] {
-  return items
-    .map(item => ({ item, offers: all.filter(o => matches(item, o)) }))
-    .filter(h => h.offers.length > 0)
-}
+import { STORES, CATEGORY_EMOJI, TaggedOffer, findBevakaHits } from '../../lib/bevaka'
 
 interface Props {
   side: PageSide
@@ -71,7 +25,7 @@ export default function BevakaView({ side }: Props) {
   const all: TaggedOffer[] = stores.flatMap((s: StoreOffers) =>
     s.erbjudanden.map(o => ({ ...o, store: s.kalla })),
   )
-  const hits = findHits(items, all)
+  const hits = findBevakaHits(items, all)
   const hitIds = new Set(hits.map(h => h.item.id))
 
   return side === 'left' ? (

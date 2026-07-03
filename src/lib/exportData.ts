@@ -1,5 +1,6 @@
 import { feedbackStore } from '../hooks/useFeedback'
 import { weekPlanStore } from '../hooks/useWeekPlan'
+import { shoppingListStore } from '../hooks/useShoppingList'
 
 // Matracet keeps all user feedback local (no backend). This bundles every
 // `matracet:*` store into one JSON payload so it can be downloaded and later
@@ -11,6 +12,7 @@ export interface ExportPayload {
   exportedAt: string
   feedback: ReturnType<typeof feedbackStore.get>
   weekplan: ReturnType<typeof weekPlanStore.get>
+  shoppingList: ReturnType<typeof shoppingListStore.get>
 }
 
 export function buildExportPayload(): ExportPayload {
@@ -20,6 +22,7 @@ export function buildExportPayload(): ExportPayload {
     exportedAt: new Date().toISOString(),
     feedback: feedbackStore.get(),
     weekplan: weekPlanStore.get(),
+    shoppingList: shoppingListStore.get(),
   }
 }
 
