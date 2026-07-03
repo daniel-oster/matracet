@@ -34,6 +34,73 @@ förval men låter dig bläddra till valfri sparad vecka i `_index.json.veckor`.
 
 `<vecka>` följer samma ISO-format som veckomenyerna, t.ex. `2026-W25`.
 
+## Importverktyg (PDF → JSON)
+
+När en ny veckas reklamblad kommer in som uppladdade PDF:er (t.ex. utskrivna
+från butikens webbsida), använd `scripts/erbjudanden-*` istället för att läsa
+PDF-sidorna som bilder — sidorna har en text-lager som `pdftotext` kan läsa
+rakt av, vilket är mycket billigare än bild-tolkning av 30–200 sidor per butik.
+
+```bash
+# 1. Installera poppler-utils om det saknas (ofta redan installerat):
+apt-get install -y poppler-utils
+
+# 2. Extrahera text (bevarar layout så kolumner hamnar på samma rad):
+pdftotext -layout willys.pdf willys.txt
+
+# 3a. Willys och Hemköps strukturerade lista renderas som två kolumner
+#     (2 varor per rad) — dela upp i två enkla textflöden först:
+node scripts/erbjudanden-split-columns.mjs willys.txt
+#     → willys.left.txt, willys.right.txt
+
+# 3b. Kör butikens parser på varje kolumn (Willys/Hemköp) eller hela
+#     filen direkt (ICA, som redan är en kolumn):
+node scripts/erbjudanden-parse-willys.mjs willys.left.txt > left.json
+node scripts/erbjudanden-parse-willys.mjs willys.right.txt > right.json
+node scripts/erbjudanden-parse-ica.mjs ica.txt > ica-draft.json
+node scripts/erbjudanden-parse-hemkop.mjs hemkop.left.txt > left.json
+```
+
+Varje parser skriver ut ett **utkast** (draft) — inte den färdiga filen.
+Stämmer alltid av mot källtexten innan utkastet vävs in i veckans JSON:
+- **ICA**: blandar in icke-livsmedel (kläder, elektronik, leksaker, böcker,
+  kosmetik) i samma lista — filtrera bort dem manuellt (se `urval`-fältet).
+- **Willys**: `kategori`-gissningen är en enkel nyckelordslista
+  (`erbjudanden-lib.mjs`) och missar egennamn (t.ex. ostmärken) — "ovrigt"
+  är en godkänd reserv, inte ett fel.
+- **Hemköp**: parsern täcker bara den strukturerade prislistan. Ursprungsland
+  för frukt/grönt/kött finns bara i det grafiska reklambladet (samma
+  butik, andra PDF:en) — dela upp den filen med samma
+  `erbjudanden-split-columns.mjs`-skript och slå upp ursprung per
+  produktnamn manuellt (siffrorna i det bladet är trasiga p.g.a.
+  teckensnittskodning, men löptexten går att läsa).
+- Sidbrytningar i källans PDF-export upprepar ibland sista raden på nästa
+  sida, eller delar ett erbjudande mitt i (namnet hamnar före priset istället
+  för efter) — parsern hanterar de vanligaste fallen men enstaka poster kan
+  behöva handpatchas (sök på produktnamnet i källtexten, `pdftotext`-filen).
+- **Kolumndelningen (`erbjudanden-split-columns.mjs`) lär sig var kolumnerna
+  börjar från dokumentets egna rader** (median-indrag för rader med en synlig
+  lucka), och använder det lokalt (närmsta rad med lucka) för rader utan
+  egen lucka — t.ex. en lös "Visa fler sorter", "Max N köp" eller ett pris
+  utan enhet. Detta är en riktig förbättring över att alltid gissa "vänster":
+  den första versionen läckte högerkolumnens fält (max-köp, "Välj &
+  blanda") in i vänsterkolumnens post och gav fel produkt fel data. **Kvarvarande
+  känd lucka**: ett pris som renderas som två separata textkörningar av
+  olika typsnittsstorlek (kronor + upphöjda ören, t.ex. "28    00" för
+  "28,00") ser identiskt ut som en kolumn-lucka och kan inte skiljas åt
+  automatiskt — hittills sett en gång (Willys), handpatchad efter att ha
+  läst källraden. Om ett pris ser orimligt ut (0 kr, eller en 1–2-siffrig
+  "kronor"-del), sök upp produktnamnet i `pdftotext`-filen och kontrollera.
+- Willys markerar slutsålda varor med **"Slut i lager"** istället för den
+  vanliga `N st`-räknaren som annars avslutar varje post — parsern känner
+  igen båda som postavslut (annars sväljer den slutsålda varans post in
+  nästa varas fält).
+
+Formatet växlar lite mellan veckor/källor (special-erbjudanden, nya etiketter
+som "HANDLA FÖR 300 KR"), så vänta dig att behöva justera en parser något
+varje gång — men grundstrukturen (kolumndelning → radvis tillståndsmaskin)
+håller över tid.
+
 ## Schema (per fil)
 
 | Fält | Beskrivning |
