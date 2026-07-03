@@ -61,6 +61,7 @@ function parseChunk(rawChunkLines) {
 
   let multiN = null;
   let priceRaw = null;
+  let priceUnit = 'st';
   let pris_typ = 'st';
   let namn = null;
   let percentVal = null;
@@ -103,8 +104,9 @@ function parseChunk(rawChunkLines) {
       // — the öre digits are a separate, smaller text run in the source
       // that pdftotext just concatenates; last two digits are always öre.
       priceRaw = `${line.slice(0, -2)}:${line.slice(-2)}`;
-    } else if (namn === null && /^\/(st|kg|l)$/.test(line)) {
+    } else if (namn === null && (m = line.match(/^\/(st|kg|l)$/))) {
       // unit-only line following a lone price line, no name yet
+      priceUnit = m[1];
     } else if (namn === null) {
       namn = line.trim();
     } else {
@@ -156,7 +158,7 @@ function parseChunk(rawChunkLines) {
   let pris_text;
   if (pris_typ === 'multi') pris_text = `${multiN} för ${swedishAmount(priceRaw)}`;
   else if (pris_typ === 'rabatt') pris_text = percentVal ? `${percentVal}% rabatt` : 'rabatt';
-  else pris_text = `${swedishAmount(priceRaw)}/st`;
+  else pris_text = `${swedishAmount(priceRaw)}/${priceUnit}`;
 
   return {
     namn,
