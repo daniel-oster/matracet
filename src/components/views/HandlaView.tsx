@@ -137,10 +137,12 @@ function IngredientsPage({
         {ingredients.map(i => (
           <div className="shop-row" key={i.id} onClick={() => onRemove(i)}>
             <span className="box" />
-            {formatAmount(i.mangd, i.enhet)} {i.vara}
-            {i.meals.length > 0 && (
-              <em className="shop-meta">för {i.meals.join(', ')}</em>
-            )}
+            <span>
+              {formatAmount(i.mangd, i.enhet)} {i.vara}
+              {i.meals.length > 0 && (
+                <span className="shop-meal-tag"> ({i.meals.join(', ')})</span>
+              )}
+            </span>
           </div>
         ))}
       </div>
