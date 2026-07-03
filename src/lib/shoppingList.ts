@@ -1,5 +1,5 @@
 import { DayMeal, Recipe, Pantry } from '../types'
-import type { BevakaHit } from './bevaka'
+import { describeOffer, type BevakaHit } from './bevaka'
 import type { ManualShoppingItem } from '../hooks/useShoppingList'
 
 export interface AggregatedIngredient {
@@ -80,7 +80,7 @@ export function buildShoppingListText({
     lines.push('Fynd på bevakningslistan')
     for (const h of bevakaHits) {
       const best = h.offers[0]
-      lines.push(`- ${h.item.vara}${best ? ` (${best.pris_text})` : ''}`)
+      lines.push(`- ${h.item.vara}${best ? ` — ${describeOffer(best)}, ${best.pris_text}` : ''}`)
     }
     lines.push('')
   }

@@ -79,7 +79,7 @@ body {
 
 /* ============= BINDER ============= */
 .binder {
-  max-width: 1400px;
+  max-width: 1500px;
   margin: 0 auto;
   position: relative;
   border-radius: 8px;
@@ -108,7 +108,7 @@ body {
 .spread {
   position: relative;
   display: grid;
-  grid-template-columns: 1fr 50px 1fr;
+  grid-template-columns: 1fr 50px 1fr 92px;
   min-height: calc(100vh - 120px);
   z-index: 1;
 }
@@ -213,13 +213,17 @@ body {
 }
 
 /* ============= TABS ============= */
+/* A real grid column (not an overlay) so tabs never sit on top of page content —
+   they used to be position:absolute and cover the page's right edge, including
+   right-aligned content like Bevaka/Fynd prices. overflow-y is a safety net in
+   case the tab list ever grows taller than the page. */
 .tabs-right {
-  position: absolute;
-  right: -8px;
-  top: 50px;
   display: flex;
   flex-direction: column;
   gap: 4px;
+  padding-top: 50px;
+  padding-left: 10px;
+  overflow-y: auto;
   z-index: 4;
 }
 .tab {
@@ -1390,7 +1394,10 @@ body {
     letter-spacing: 0.18em;
   }
 
-  .tabs-right { top: 30px; right: -8px; gap: 4px; }
+  /* Portrait shows one page at a time with little width to spare, so keep the
+     original overlay behavior here — only the desktop two-page spread got a
+     dedicated column. */
+  .tabs-right { position: absolute; top: 30px; right: -8px; gap: 4px; padding: 0; overflow: visible; }
   .tab { font-size: 10px; padding: 6px 10px; min-width: 60px; }
   .tabs-right .tab { padding-left: 12px; }
 

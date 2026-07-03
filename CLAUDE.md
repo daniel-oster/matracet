@@ -106,6 +106,8 @@ Typography is Google Fonts loaded in `index.html`:
 
 Portrait/mobile layout is handled entirely via `@media (orientation: portrait), (max-width: 700px)` — one page at a time with flip buttons.
 
+`.tabs-right` (the vertical tab strip) is a real 4th column of `.spread`'s CSS grid on desktop, sized via `.binder`'s `max-width` + `.spread`'s `grid-template-columns` — it used to be `position: absolute`, overlapping the page's right edge as a stick-out index-tab effect, but that meant it covered real content (e.g. Bevaka/Fynd prices, which are right-aligned). Portrait mode still uses the old `position: absolute` overlay (restored explicitly in the media query) since there's no width to spare for a dedicated column on a single narrow page.
+
 ## Data conventions
 
 ### Recipe files

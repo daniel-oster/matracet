@@ -51,3 +51,10 @@ export function findBevakaHits(items: BevakningItem[], all: TaggedOffer[]): Beva
     .map(item => ({ item, offers: all.filter(o => matchesBevakning(item, o)) }))
     .filter(h => h.offers.length > 0)
 }
+
+/** "ICA · Zoégas · 500g" — store plus the actual product label, not just a price. */
+export function describeOffer(o: TaggedOffer): string {
+  const store = STORES[o.store]?.namn ?? o.store
+  const label = [o.marke, o.storlek].filter(Boolean).join(' · ')
+  return [store, label].filter(Boolean).join(' · ')
+}
