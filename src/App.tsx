@@ -20,6 +20,7 @@ function dagFromDate(isoDate: string): string {
 
 export default function App() {
   const [rollingDays, setRollingDays] = useState<DayMeal[]>([])
+  const [rollingLunches, setRollingLunches] = useState<DayMeal[]>([])
   const [weekNotes, setWeekNotes] = useState<WeekNote[]>([])
   const [weekLabel, setWeekLabel] = useState('')
   const [eaters, setEaters] = useState<EatersData | null>(null)
@@ -46,9 +47,11 @@ export default function App() {
       setRecipeIndex(indexData.recipes)
 
       const dayMap = new Map<string, DayMeal>()
+      const lunchMap = new Map<string, DayMeal>()
       for (const weekData of weekResults) {
         if (weekData) {
           for (const day of weekData.middagar) dayMap.set(day.datum, day)
+          for (const lunch of weekData.luncher ?? []) lunchMap.set(lunch.datum, lunch)
         }
       }
 
@@ -56,6 +59,11 @@ export default function App() {
         dayMap.get(date) ?? { dag: dagFromDate(date), datum: date, recept: null },
       )
       setRollingDays(days)
+
+      const lunches = windowDates.map(date =>
+        lunchMap.get(date) ?? { dag: dagFromDate(date), datum: date, recept: null },
+      )
+      setRollingLunches(lunches)
 
       const primaryWeek = weekResults[0]
       setWeekNotes(primaryWeek?.anteckningar ?? [])
@@ -81,6 +89,7 @@ export default function App() {
   return (
     <Binder
       rollingDays={rollingDays}
+      rollingLunches={rollingLunches}
       weekNotes={weekNotes}
       weekLabel={weekLabel}
       eaters={eaters.eaters}

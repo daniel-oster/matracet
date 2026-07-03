@@ -127,6 +127,8 @@ Category values: `vegansk`, `vegetarisk`, `fisk`, `kott`, `glutenfri`, `laktosfr
 
 `public/data/weeks/YYYY-Www.json` — one file per week. The `recept` field in each day entry contains the **display name** of the meal (free text), not the recipe slug. Set `recept: null` and use `anteckning` for nights out.
 
+Lunches use the same `DayMeal` shape as dinners, in a sibling `luncher` array (optional field on `WeekMenu`) instead of `middagar`. Only include the days that are actually planned — `App.tsx` falls back to `recept: null` for any day/meal not present. `VeckanView` renders a lunch line above the dinner dish when a matching entry exists for that date.
+
 ### Currently hardcoded data
 
 `HandlaView` and `AnteckningarView` have their content hardcoded as constants inside the component. These are MVP placeholders — they are not yet driven by JSON files.

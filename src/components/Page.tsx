@@ -11,6 +11,7 @@ interface Props {
   side: PageSide
   activeTab: TabName
   rollingDays: DayMeal[]
+  rollingLunches: DayMeal[]
   weekNotes: WeekNote[]
   eaters: Eater[]
   recipeIndex: RecipeIndexEntry[]
@@ -31,7 +32,7 @@ interface Props {
   flippedIn?: boolean
 }
 
-export default function Page({ side, activeTab, rollingDays, weekNotes, eaters, recipeIndex, dayPlans, selectedRecipeSlug, onSelectRecipe, onOpenRecipe, onReplaceDay, offerStoreFilter, onToggleOfferStore, offerSwedishOnly, onToggleOfferSwedish, fyndMode, onToggleFyndMode, fyndWeek, onSelectFyndWeek, flippedOut, flippedIn }: Props) {
+export default function Page({ side, activeTab, rollingDays, rollingLunches, weekNotes, eaters, recipeIndex, dayPlans, selectedRecipeSlug, onSelectRecipe, onOpenRecipe, onReplaceDay, offerStoreFilter, onToggleOfferStore, offerSwedishOnly, onToggleOfferSwedish, fyndMode, onToggleFyndMode, fyndWeek, onSelectFyndWeek, flippedOut, flippedIn }: Props) {
   const classes = [
     'page',
     side,
@@ -42,7 +43,7 @@ export default function Page({ side, activeTab, rollingDays, weekNotes, eaters, 
   return (
     <div className={classes}>
       <div className="page-view" key={`${activeTab}-${side}`}>
-        {activeTab === 'veckan'       && <VeckanView       side={side} days={rollingDays} dayPlans={dayPlans} eaters={eaters} onOpenRecipe={onOpenRecipe} onReplaceDay={onReplaceDay} />}
+        {activeTab === 'veckan'       && <VeckanView       side={side} days={rollingDays} lunches={rollingLunches} dayPlans={dayPlans} eaters={eaters} onOpenRecipe={onOpenRecipe} onReplaceDay={onReplaceDay} />}
         {activeTab === 'fynd'         && <FyndView          side={side} storeFilter={offerStoreFilter} onToggleStore={onToggleOfferStore} swedishOnly={offerSwedishOnly} onToggleSwedish={onToggleOfferSwedish} mode={fyndMode} onToggleMode={onToggleFyndMode} week={fyndWeek} onSelectWeek={onSelectFyndWeek} />}
         {activeTab === 'handla'       && <HandlaView        side={side} />}
         {activeTab === 'recept'       && <ReceptView        side={side} recipeIndex={recipeIndex} eaters={eaters} selectedSlug={selectedRecipeSlug} onSelect={onSelectRecipe} />}

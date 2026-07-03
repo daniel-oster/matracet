@@ -114,6 +114,7 @@ export interface WeekNote {
 export interface WeekMenu {
   vecka: string
   middagar: DayMeal[]
+  luncher?: DayMeal[]
   anteckningar: WeekNote[]
   skapad: string
 }

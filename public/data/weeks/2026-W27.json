@@ -1,0 +1,30 @@
+{
+  "vecka": "2026-W27",
+  "middagar": [
+    {
+      "dag": "sondag",
+      "datum": "2026-07-05",
+      "recept": "Teriyakikyckling i riskokare",
+      "receptSlug": "teriyakikyckling-riskokare",
+      "kommentar": "Bara Daniel & Sarah"
+    }
+  ],
+  "luncher": [
+    {
+      "dag": "lordag",
+      "datum": "2026-07-04",
+      "recept": "Pasta pomodoro med avokado",
+      "kommentar": "Daniel, Sarah & Annabelle — grillkorv som tillval för Daniel/Sarah, Annabelle kör tomatsåsen rak av"
+    },
+    {
+      "dag": "sondag",
+      "datum": "2026-07-05",
+      "recept": "Ägg & avokado på rostat bröd",
+      "kommentar": "Bara Daniel & Sarah"
+    }
+  ],
+  "anteckningar": [
+    { "nar": "Vecka 27", "text": "Helgplanering byggd på veckans extrapriser (Willys). Söndag: bara Daniel & Sarah — kyckling köpt i 2kg-paket, resten fryses in." }
+  ],
+  "skapad": "2026-07-03T00:00:00Z"
+}

@@ -112,6 +112,7 @@
     {"slug":"vegotacos-svarta-bonor-majs","nummer":110,"namn":"Snabba vegotacos med tomater och majs","tid_min":30,"kategorier":["vegansk"],"bildUrl":"https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=400&auto=format&fit=crop"},
     {"slug":"vegetarisk-gulasch-vita-bonor","nummer":111,"namn":"Vegansk gulaschsoppa med vita bönor","tid_min":30,"kategorier":["vegansk","glutenfri"],"bildUrl":"https://images.unsplash.com/photo-1547592180-85f173990554?w=400&auto=format&fit=crop"},
     {"slug":"marockansk-fusktagine","nummer":112,"namn":"Marockansk fusktagine med kikärtor","tid_min":50,"kategorier":["vegansk","glutenfri"],"bildUrl":"https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=400&auto=format&fit=crop"},
-    {"slug":"nudelwok-hoisin-broccoli","nummer":113,"namn":"Nudelwok med hoisin och broccoli","tid_min":30,"kategorier":["vegansk"],"bildUrl":"https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400&auto=format&fit=crop"}
+    {"slug":"nudelwok-hoisin-broccoli","nummer":113,"namn":"Nudelwok med hoisin och broccoli","tid_min":30,"kategorier":["vegansk"],"bildUrl":"https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400&auto=format&fit=crop"},
+    {"slug":"teriyakikyckling-riskokare","nummer":114,"namn":"Teriyakikyckling i riskokare","tid_min":40,"kategorier":["kott"],"bildUrl":"https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=400&auto=format&fit=crop"}
   ]
 }
