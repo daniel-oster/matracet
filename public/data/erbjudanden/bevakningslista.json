@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "varor": [
+    {
+      "id": "kaffe",
+      "vara": "Kaffe",
+      "kategori": "torrvaror",
+      "sok": ["kaffe"],
+      "undvik_marken": ["Gevalia"],
+      "onskat_marke": null,
+      "storlek_hint": null,
+      "troskel_kr": null,
+      "anteckning": "Köp gärna på flera paket när det är riktigt billigt."
+    },
+    {
+      "id": "toalettpapper",
+      "vara": "Toalettpapper",
+      "kategori": "hygien_hushall",
+      "sok": ["toalettpapper", "toapapper"],
+      "undvik_marken": [],
+      "onskat_marke": null,
+      "storlek_hint": "Stor familjeförpackning (storpack), vanlig sort",
+      "troskel_kr": null,
+      "anteckning": null
+    },
+    {
+      "id": "tandkram",
+      "vara": "Tandkräm",
+      "kategori": "hygien_hushall",
+      "sok": ["tandkräm"],
+      "undvik_marken": [],
+      "onskat_marke": null,
+      "storlek_hint": null,
+      "troskel_kr": null,
+      "anteckning": "Specifikt märke – komplettera \"onskat_marke\" med vilket när det är bestämt."
+    },
+    {
+      "id": "diskmaskinstabletter",
+      "vara": "Diskmaskinstabletter",
+      "kategori": "hygien_hushall",
+      "sok": ["diskmaskinstabletter", "maskindiskmedel"],
+      "undvik_marken": [],
+      "onskat_marke": null,
+      "storlek_hint": null,
+      "troskel_kr": null,
+      "anteckning": null
+    },
+    {
+      "id": "schampo",
+      "vara": "Schampo",
+      "kategori": "hygien_hushall",
+      "sok": ["schampo"],
+      "undvik_marken": [],
+      "onskat_marke": null,
+      "storlek_hint": null,
+      "troskel_kr": null,
+      "anteckning": null
+    },
+    {
+      "id": "laktosfritt",
+      "vara": "Laktosfritt",
+      "kategori": "mejeri",
+      "sok": ["laktosfri"],
+      "undvik_marken": [],
+      "onskat_marke": null,
+      "storlek_hint": null,
+      "troskel_kr": null,
+      "anteckning": "Ospecificerat vilken laktosfri vara (mjölk, grädde, ost m.m.) – komplettera."
+    }
+  ]
+}

@@ -3,6 +3,7 @@ import { TabName } from '../types'
 const TABS: { id: TabName; label: string }[] = [
   { id: 'veckan',       label: 'Veckan'  },
   { id: 'fynd',         label: 'Fynd'    },
+  { id: 'bevaka',       label: 'Bevaka'  },
   { id: 'handla',       label: 'Handla'  },
   { id: 'recept',       label: 'Recept'  },
   { id: 'familj',       label: 'Familj'  },
