@@ -13,6 +13,7 @@ const FIELDS = [
   { name: 'middagar[].kommentar', type: 'string',     req: false, desc: 'Fri text, t.ex. "Mormor & morfar kommer".' },
   { name: 'middagar[].varianter', type: 'object',     req: false, desc: <>Map <code>{'{ "<eater-id>": "<variant-name>" }'}</code> för per-person-anpassningar.</> },
   { name: 'middagar[].anteckning',type: 'string',     req: false, desc: 'Används när recept är null, t.ex. "Pizza-utflykt".' },
+  { name: 'luncher',              type: 'DayMeal[]',  req: false, desc: 'Samma form som middagar, men för lunch. Bara de dagar som faktiskt är planerade behöver vara med.' },
   { name: 'anteckningar',         type: 'WeekNote[]', req: false, desc: 'Fritextlappar kopplade till veckan.' },
   { name: 'anteckningar[].nar',   type: 'string',     req: true,  desc: <><code>denna-vecka</code> · <code>vecka-NN</code> · <code>ide</code></> },
   { name: 'anteckningar[].text',  type: 'string',     req: true,  desc: 'Innehållet i anteckningen.' },
@@ -45,6 +46,13 @@ function ExampleJson() {
       <span className="ind3"><span className="ck">"datum"</span><span className="cp">: </span><span className="cp">"</span><span className="cs">2026-05-22</span><span className="cp">",</span></span>
       <span className="ind3"><span className="ck">"recept"</span><span className="cp">: </span><span className="cnl">null</span><span className="cp">,</span></span>
       <span className="ind3"><span className="ck">"anteckning"</span><span className="cp">: </span><span className="cp">"</span><span className="cs">Pizza-utflykt på Roma</span><span className="cp">"</span></span>
+      <span className="ind2"><span className="cp">{'}'}</span></span>
+      <span className="ind1"><span className="cp">],</span></span>
+      <span className="ind1"><span className="ck">"luncher"</span><span className="cp">: [</span></span>
+      <span className="ind2"><span className="cp">{'{'}</span></span>
+      <span className="ind3"><span className="ck">"dag"</span><span className="cp">: </span><span className="cp">"</span><span className="cs">lordag</span><span className="cp">",</span></span>
+      <span className="ind3"><span className="ck">"datum"</span><span className="cp">: </span><span className="cp">"</span><span className="cs">2026-05-23</span><span className="cp">",</span></span>
+      <span className="ind3"><span className="ck">"recept"</span><span className="cp">: </span><span className="cp">"</span><span className="cs">Pasta pomodoro med avokado</span><span className="cp">"</span></span>
       <span className="ind2"><span className="cp">{'}'}</span></span>
       <span className="ind1"><span className="cp">],</span></span>
       <span className="ind1"><span className="ck">"anteckningar"</span><span className="cp">: [</span></span>

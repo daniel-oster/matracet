@@ -34,13 +34,14 @@ function monthShort(isoDate: string): string {
 interface Props {
   side: PageSide
   days: DayMeal[]
+  lunches?: DayMeal[]
   dayPlans: DayPlan[]
   eaters: Eater[]
   onOpenRecipe?: (slug: string) => void
   onReplaceDay?: (date: string) => void
 }
 
-export default function VeckanView({ side, days, dayPlans, eaters, onOpenRecipe, onReplaceDay }: Props) {
+export default function VeckanView({ side, days, lunches, dayPlans, eaters, onOpenRecipe, onReplaceDay }: Props) {
   const { getFeedback } = useFeedback()
   const { getOverride } = useWeekPlan()
   const pageDays = side === 'left' ? days.slice(0, 4) : days.slice(4)
@@ -72,6 +73,7 @@ export default function VeckanView({ side, days, dayPlans, eaters, onOpenRecipe,
         const num = dateNum(day.datum)
         const dayName = DAY_NAMES[day.dag] ?? day.dag
         const plan = dayPlans.find(p => p.date === day.datum)
+        const lunch = lunches?.find(l => l.datum === day.datum)
 
         const record = day.receptSlug ? getFeedback(day.receptSlug) : null
         const isExcluded = record?.excludeFromWeekPlan ?? false
@@ -127,6 +129,19 @@ export default function VeckanView({ side, days, dayPlans, eaters, onOpenRecipe,
                 )}
                 {plan.windowStatus === 'BOUNDED' && (
                   <span className="day-window-bounded">↓ senast {plan.windowEndsBy}</span>
+                )}
+              </div>
+            )}
+
+            {lunch && (lunch.recept || lunch.anteckning) && (
+              <div className="day-lunch">
+                <span className="day-lunch-label">Lunch</span>
+                {lunch.receptSlug && onOpenRecipe ? (
+                  <button className="day-lunch-link" onClick={() => onOpenRecipe(lunch.receptSlug!)}>
+                    {lunch.recept}
+                  </button>
+                ) : (
+                  lunch.recept ?? lunch.anteckning
                 )}
               </div>
             )}

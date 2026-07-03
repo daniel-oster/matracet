@@ -9,6 +9,7 @@ import type { DayPlan } from '../presence/types'
 
 interface Props {
   rollingDays: DayMeal[]
+  rollingLunches: DayMeal[]
   weekNotes: WeekNote[]
   weekLabel: string
   eaters: Eater[]
@@ -16,7 +17,7 @@ interface Props {
   dayPlans: DayPlan[]
 }
 
-export default function Binder({ rollingDays, weekNotes, weekLabel, eaters, recipeIndex, dayPlans }: Props) {
+export default function Binder({ rollingDays, rollingLunches, weekNotes, weekLabel, eaters, recipeIndex, dayPlans }: Props) {
   const [activeTab, setActiveTab] = useState<TabName>('veckan')
   const [portraitSide, setPortraitSide] = useState<'left' | 'right'>('left')
   const [selectedRecipeSlug, setSelectedRecipeSlug] = useState<string | null>(null)
@@ -53,6 +54,7 @@ export default function Binder({ rollingDays, weekNotes, weekLabel, eaters, reci
             side="left"
             activeTab={activeTab}
             rollingDays={rollingDays}
+            rollingLunches={rollingLunches}
             weekNotes={weekNotes}
             eaters={eaters}
             recipeIndex={recipeIndex}
@@ -80,6 +82,7 @@ export default function Binder({ rollingDays, weekNotes, weekLabel, eaters, reci
             side="right"
             activeTab={activeTab}
             rollingDays={rollingDays}
+            rollingLunches={rollingLunches}
             weekNotes={weekNotes}
             eaters={eaters}
             recipeIndex={recipeIndex}
