@@ -132,7 +132,13 @@ Lunches use the same `DayMeal` shape as dinners, in a sibling `luncher` array (o
 
 ### Currently hardcoded data
 
-`HandlaView` and `AnteckningarView` have their content hardcoded as constants inside the component. These are MVP placeholders — they are not yet driven by JSON files.
+`AnteckningarView` has its content hardcoded as constants inside the component. This is an MVP placeholder — it is not yet driven by JSON files.
+
+### Shopping list ("Handla" tab)
+
+`HandlaView` is fully derived, not hardcoded. The left page aggregates ingredients from this week's `rollingDays` (dinners only, after `weekPlanStore` overrides are applied) by fetching each planned recipe (`useRecipes`) and summing `vara`+`enhet` across dishes (`aggregateIngredients` in `src/lib/shoppingList.ts`); items listed in `public/data/pantry.json` (`always_have` / `current_stock`) are skipped since the household already has them. The right page shows current watch-list bargains (`findBevakaHits`, shared with `BevakaView` via `src/lib/bevaka.ts`) plus manually added items.
+
+All user edits are local-only (no backend, per this app's design): checking a row's checkbox means "I already have this / don't need it" and removes it from the visible list (not "bought"); this uses `useShoppingList` (`src/hooks/useShoppingList.ts`, a `matracet:shopping:v1` local store) to persist removed computed-item ids, manually added items, and a small change history. There's no in-app way to permanently edit the underlying recipe/pantry/watch-list data from this view — the **"⧉ Kopiera lista"** button copies a plain-text snapshot of the current list (grouped, with a "Bortmarkerat" section listing recently removed items) to the clipboard via a hidden `<textarea>` fallback, meant to be pasted into a Claude Code prompt so a future session can act on it (e.g. update `pantry.json`, tweak a recipe's ingredients, or refine `bevakningslista.json`).
 
 ### Store offers ("Fynd" tab)
 
