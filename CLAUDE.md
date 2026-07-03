@@ -2,20 +2,45 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Working on this repo: cost discipline
+
+This runs on a low-tier/personal account — token usage matters. Optimize for it:
+- Read only the files you need, and only the parts you need (use offsets/limits on large files instead of reading everything).
+- Don't spawn subagents for work you can do directly with a few tool calls — subagents re-derive context from scratch, which costs more than doing it inline.
+- Batch independent tool calls (reads, greps) into one turn instead of one-at-a-time round trips.
+- Reuse tooling already documented below instead of re-discovering it (see "Tooling" and "Lessons learned").
+- Skip re-reading files you just wrote/edited — the tool result already confirms the change landed.
+
+**Always be learning:** when a session uncovers a reusable trick, workaround, or gotcha (a working tool invocation, an environment quirk, a naming/terminology trap), add it to this file and/or commit the tool as a script under `scripts/`, so future sessions don't have to re-derive it. Treat this file as a living memory of the project, not a one-time writeup.
+
 ## Project overview
 
-Matracet is a personal meal-planning web app for one Swedish family. It is intentionally minimal: no backend, no auth, no state manager, no router, no tests. All data lives as JSON files in Git. The app is a static React build hosted on GitHub Pages at `/matracet/`.
+Matracet is a personal meal-planning web app for one Swedish family. It is intentionally minimal: no backend, no auth, no state manager, no router. All data lives as JSON files in Git. The app is a static React build hosted on GitHub Pages at `/matracet/`. A small `vitest` suite covers pure logic (`src/meals`, `src/presence`) — see Commands.
 
 ## Commands
 
 ```bash
-npm install      # install dependencies
-npm run dev      # start dev server (Vite)
-npm run build    # tsc + vite build → dist/
-npm run preview  # serve the production build locally
+npm install      # install dependencies (required first — a fresh clone has no node_modules,
+                  # and `npm run build` fails with "vite: not found" until this has run)
+npm run dev       # start dev server (Vite)
+npm run build     # tsc + vite build → dist/
+npm run preview   # serve the production build locally
+npm run test      # vitest run (unit tests exist for src/meals, src/presence)
+npm run screenshot -- <url> <output.png> [click-selector]  # visual verification, see below
 ```
 
-There is no lint or test script configured.
+There is no lint script configured.
+
+### Visual verification (`scripts/screenshot.mjs`)
+
+For UI changes, don't just eyeball the diff — actually render it. `playwright` is a devDependency purely for this; it's dev/agent tooling, not shipped to users.
+
+```bash
+npm run preview -- --port 4321 &        # or `npm run dev` for HMR while iterating
+npm run screenshot -- http://localhost:4321/matracet/ /tmp/out.png "text=Fynd"
+```
+
+The third argument is an optional selector to click before capturing (e.g. to switch tabs). See the script's header comment for why it needs an explicit Chromium `executablePath` in the Claude Code remote sandbox (the sandbox's pre-installed browser build doesn't match what a freshly-installed `playwright` version expects by default — the script handles this with a fallback, no manual workaround needed).
 
 ## Architecture
 
@@ -105,6 +130,20 @@ Category values: `vegansk`, `vegetarisk`, `fisk`, `kott`, `glutenfri`, `laktosfr
 ### Currently hardcoded data
 
 `HandlaView` and `AnteckningarView` have their content hardcoded as constants inside the component. These are MVP placeholders — they are not yet driven by JSON files.
+
+### Store offers ("Fynd" tab)
+
+`public/data/erbjudanden/<butik-id>/<vecka>.json` holds weekly store-offer flyers, one file per store per week (see `public/data/erbjudanden/README.md` for the full schema). `_index.json` lists all stores and all saved weeks (`veckor`); `_latest.json` points at the default week shown in the UI. **When adding a new week's offers, add the week to `_index.json.veckor` and repoint `_latest.json`, per store.**
+
+The UI tab is called **Fynd** (`FyndView.tsx`, "finds/bargains" in Swedish) — a voice-transcribed request for "weekly fines" turned out to mean this feature ("fynd" → mis-heard as "fines"). If a request mentions store deals, discounts, offers, or savings and doesn't obviously match an existing tab, check `public/data/erbjudanden/` and `FyndView.tsx` before assuming the feature doesn't exist yet.
+
+## Lessons learned
+
+Durable gotchas discovered while working in this repo. Add to this list rather than rediscovering the same thing in a future session.
+
+- **Fresh clone build failure**: `npm run build` fails with `vite: not found` until `npm install` has run — there's no lockfile-committed `node_modules`.
+- **Playwright in the Claude Code remote sandbox**: the sandbox pre-installs Chromium at `/opt/pw-browsers/chromium` (a symlink to the real binary) and sets `PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1`, but a `playwright` version installed via `npm install` in this repo may not match the pre-installed browser revision, so the default `chromium.launch()` (no `executablePath`) can fail with "Executable doesn't exist". `scripts/screenshot.mjs` handles this: try the default resolution first (works on non-sandbox machines), fall back to the sandbox path. Don't run `playwright install` — it's disabled by design and will just fail/no-op.
+- **Swedish terminology traps**: this app's data and UI use Swedish terms throughout (`erbjudanden`/fynd = offers, `vecka` = week, `butik` = store, `recept` = recipe). Voice-to-text requests about the app can mangle these into unrelated-sounding English words (see the Fynd/"fines" case above) — when a request doesn't map cleanly to a known tab/feature, grep `public/data/` and `src/components/views/` for near-matches before concluding it's a new feature.
 
 ## Deploy
 
