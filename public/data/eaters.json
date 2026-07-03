@@ -13,7 +13,7 @@
       "namn": "Sarah",
       "roll": "Dotter · 15 år",
       "gillar": ["pasta", "curry", "avokado"],
-      "undviker": ["svamp", "bittert"]
+      "undviker": ["svamp", "bittert", "lax"]
     },
     {
       "id": "annabelle",
