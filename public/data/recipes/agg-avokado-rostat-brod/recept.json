@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "slug": "agg-avokado-rostat-brod",
+  "nummer": 116,
+  "namn": "Ägg & avokado på rostat bröd",
+  "tid_min": 15,
+  "portioner": 2,
+  "kategorier": ["vegetarisk"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["ägg", "avokado", "bröd", "lunch", "snabb"],
+  "kalla": "Eget recept",
+  "dagkedja": null,
+  "ingredienser": [
+    { "vara": "bröd", "mangd": 4, "enhet": "skivor" },
+    { "vara": "ägg", "mangd": 4, "enhet": "st" },
+    { "vara": "avokado", "mangd": 2, "enhet": "st" },
+    { "vara": "smör", "mangd": 1, "enhet": "msk" },
+    { "vara": "citron", "mangd": 0.5, "enhet": "st" },
+    { "vara": "salt och peppar", "mangd": 1, "enhet": "tsk" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Rosta brödskivorna och bred på smör.",
+    "Koka eller stek äggen efter smak (t.ex. löskokta 6 minuter eller som solägg).",
+    "Mosa avokadon med en gaffel, pressa i citron och smaka av med salt och peppar.",
+    "Bred avokadomoset på det rostade brödet och toppa med ägget."
+  ],
+  "komplett": true
+}

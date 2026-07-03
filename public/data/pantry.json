@@ -1,7 +1,7 @@
 {
   "always_have": [
     "salt", "peppar", "olivolja", "vitlök", "gul lök", "smör",
-    "grönsaksbuljong", "köttbuljong", "tomatpuré", "vetemjöl", "ägg"
+    "grönsaksbuljong", "köttbuljong", "tomatpuré", "vetemjöl"
   ],
   "current_stock": [
     { "vara": "parmesan", "exp": "2026-06-01" },

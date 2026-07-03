@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "slug": "pasta-pomodoro-avokado",
+  "nummer": 115,
+  "namn": "Pasta pomodoro med avokado",
+  "tid_min": 20,
+  "portioner": 3,
+  "kategorier": ["vegetarisk"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["pasta", "tomat", "avokado", "lunch", "snabb"],
+  "kalla": "Eget recept",
+  "dagkedja": null,
+  "ingredienser": [
+    { "vara": "pasta", "mangd": 300, "enhet": "g" },
+    { "vara": "krossade tomater", "mangd": 400, "enhet": "g" },
+    { "vara": "vitlök", "mangd": 2, "enhet": "klyftor" },
+    { "vara": "olivolja", "mangd": 2, "enhet": "msk" },
+    { "vara": "färsk basilika", "mangd": 1, "enhet": "kruka" },
+    { "vara": "salt och peppar", "mangd": 1, "enhet": "tsk" },
+    { "vara": "avokado", "mangd": 2, "enhet": "st", "grupp": "Tillval: Daniel & Sarah" },
+    { "vara": "grillkorv", "mangd": 4, "enhet": "st", "grupp": "Tillval: Daniel & Sarah" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Koka pastan enligt anvisning på paketet.",
+    "Fräs finhackad vitlök i olivolja på medelvärme någon minut. Häll i krossade tomater, salta och peppra, låt puttra 10 minuter.",
+    "Grilla eller stek grillkorven samtidigt och skiva upp den, om den ska användas.",
+    "Blanda den varma pastan med tomatsåsen.",
+    "Toppa Daniels och Sarahs portioner med skivad avokado och grillkorv — Annabelle kör tomatsåsen rak av."
+  ],
+  "servering": ["färsk basilika"],
+  "komplett": true
+}
