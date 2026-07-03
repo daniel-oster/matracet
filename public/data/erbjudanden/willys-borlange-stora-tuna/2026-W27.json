@@ -9,7 +9,7 @@
   "hamtad": "2026-07-03",
   "kalla_url": "https://www.willys.se/erbjudanden/butik",
   "urval": "samtliga erbjudanden i e-handelns reklamblad",
-  "antal": 259,
+  "antal": 260,
   "erbjudanden": [
     {
       "namn": "Persikor Paraguayos Klass 1",
@@ -80,7 +80,7 @@
       "max_kop": 2,
       "markeringar": [],
       "ursprung": null,
-      "notering": "Välj & blanda",
+      "notering": null,
       "kategori": "ovrigt"
     },
     {
@@ -108,8 +108,8 @@
       "pris_text": "2 FÖR 25.00",
       "pris": 12.5,
       "pris_typ": "multi",
-      "jamforpris": "31.94/kg",
-      "ord_pris": "14.90",
+      "jamforpris": "12.50/kg",
+      "ord_pris": null,
       "pris_30dgr": null,
       "besparing": null,
       "klubbpris": false,
@@ -162,7 +162,7 @@
       "pris_text": "2 FÖR 50.00",
       "pris": 25,
       "pris_typ": "multi",
-      "jamforpris": "19.90/l",
+      "jamforpris": "125.00/kg",
       "ord_pris": "28.29",
       "pris_30dgr": null,
       "besparing": null,
@@ -180,7 +180,7 @@
       "pris_text": "22.90/st",
       "pris": 22.9,
       "pris_typ": "st",
-      "jamforpris": "9.00/l",
+      "jamforpris": "54.52/kg",
       "ord_pris": "26.50",
       "pris_30dgr": null,
       "besparing": "3.60kr",
@@ -188,7 +188,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": "Välj & blanda",
+      "notering": null,
       "kategori": "ovrigt"
     },
     {
@@ -224,7 +224,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": "EKOLOGISK",
+      "notering": "Välj & blanda",
       "kategori": "mejeri"
     },
     {
@@ -318,7 +318,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": "Tillfälligt parti",
+      "notering": null,
       "kategori": "ovrigt"
     },
     {
@@ -367,7 +367,7 @@
       "jamforpris": "298.75/kg",
       "ord_pris": "28.29",
       "pris_30dgr": "24.90kr/st",
-      "besparing": "3.49kr",
+      "besparing": null,
       "klubbpris": false,
       "max_kop": null,
       "markeringar": [],
@@ -385,7 +385,7 @@
       "jamforpris": "55.60/kg",
       "ord_pris": "18.83",
       "pris_30dgr": "14.80kr/st",
-      "besparing": "2.60kr",
+      "besparing": null,
       "klubbpris": false,
       "max_kop": null,
       "markeringar": [],
@@ -498,7 +498,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": "EKOLOGISK",
+      "notering": "Välj & blanda",
       "kategori": "dryck"
     },
     {
@@ -534,7 +534,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": "Välj & blanda",
+      "notering": null,
       "kategori": "mejeri"
     },
     {
@@ -588,22 +588,22 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": "Välj & blanda",
+      "notering": null,
       "kategori": "mejeri"
     },
     {
       "namn": "Rosor Ros 10- Pack Korta",
       "marke": null,
-      "storlek": "100G",
+      "storlek": null,
       "pris_text": "29.90/st",
       "pris": 29.9,
       "pris_typ": "st",
-      "jamforpris": "99.00/kg",
-      "ord_pris": "14.90",
+      "jamforpris": null,
+      "ord_pris": "49.90",
       "pris_30dgr": null,
       "besparing": "20.00kr",
       "klubbpris": false,
-      "max_kop": 5,
+      "max_kop": null,
       "markeringar": [],
       "ursprung": null,
       "notering": null,
@@ -637,7 +637,7 @@
       "jamforpris": "79.47/kg",
       "ord_pris": "39.90",
       "pris_30dgr": "29.90kr/st",
-      "besparing": "2.77kr",
+      "besparing": null,
       "klubbpris": false,
       "max_kop": null,
       "markeringar": [],
@@ -652,7 +652,7 @@
       "pris_text": "14.90/st",
       "pris": 14.9,
       "pris_typ": "st",
-      "jamforpris": "26.90/l",
+      "jamforpris": "14.90/kg",
       "ord_pris": "18.50",
       "pris_30dgr": null,
       "besparing": "3.60kr",
@@ -660,7 +660,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": "EKOLOGISK",
+      "notering": null,
       "kategori": "ovrigt"
     },
     {
@@ -706,12 +706,12 @@
       "pris_text": "9.90/st",
       "pris": 9.9,
       "pris_typ": "st",
-      "jamforpris": "30.00/l",
-      "ord_pris": "16.94",
+      "jamforpris": null,
+      "ord_pris": "13.90",
       "pris_30dgr": null,
       "besparing": "4.00kr",
       "klubbpris": false,
-      "max_kop": 3,
+      "max_kop": null,
       "markeringar": [],
       "ursprung": null,
       "notering": null,
@@ -742,7 +742,7 @@
       "pris_text": "249.00/kg",
       "pris": 249,
       "pris_typ": "st",
-      "jamforpris": "106.67/kg",
+      "jamforpris": "249.00/kg",
       "ord_pris": "269.00",
       "pris_30dgr": null,
       "besparing": "20.00kr",
@@ -906,8 +906,8 @@
       "pris_text": "119.00/st",
       "pris": 119,
       "pris_typ": "st",
-      "jamforpris": "61.73/kg",
-      "ord_pris": "18.83",
+      "jamforpris": "59.50/kg",
+      "ord_pris": null,
       "pris_30dgr": null,
       "besparing": "22.01kr",
       "klubbpris": false,
@@ -950,7 +950,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": "Välj & blanda",
+      "notering": null,
       "kategori": "torrvaror"
     },
     {
@@ -968,7 +968,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": "Välj & blanda",
+      "notering": null,
       "kategori": "torrvaror"
     },
     {
@@ -986,7 +986,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": "Välj & blanda",
+      "notering": null,
       "kategori": "ovrigt"
     },
     {
@@ -1004,7 +1004,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": "Välj & blanda",
+      "notering": null,
       "kategori": "torrvaror"
     },
     {
@@ -1040,7 +1040,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": "Välj & blanda",
+      "notering": null,
       "kategori": "ovrigt"
     },
     {
@@ -1065,11 +1065,11 @@
       "namn": "Valnötter Naturella",
       "marke": "EXOTIC SNACKS",
       "storlek": "250G",
-      "pris_text": "2 FÖR 29.90",
-      "pris": 14.95,
-      "pris_typ": "multi",
-      "jamforpris": "17.80/kg",
-      "ord_pris": "54.90",
+      "pris_text": "29.90/st",
+      "pris": 29.9,
+      "pris_typ": "st",
+      "jamforpris": "119.60/kg",
+      "ord_pris": null,
       "pris_30dgr": null,
       "besparing": null,
       "klubbpris": false,
@@ -1116,10 +1116,10 @@
       "kategori": "snacks_godis"
     },
     {
-      "namn": "+pant",
-      "marke": "Ultra Zero Sugar Energidryck Burk MONSTER ENERGY",
+      "namn": "Ultra Zero Sugar Energidryck Burk",
+      "marke": "MONSTER ENERGY",
       "storlek": "50CL",
-      "pris_text": "2 FÖR 26.00",
+      "pris_text": "2 FÖR 26.00 +pant",
       "pris": 13,
       "pris_typ": "multi",
       "jamforpris": "26.00/l",
@@ -1161,7 +1161,7 @@
       "jamforpris": "1.69/st",
       "ord_pris": "149.00",
       "pris_30dgr": "129.00kr/st",
-      "besparing": "19.10kr",
+      "besparing": null,
       "klubbpris": false,
       "max_kop": null,
       "markeringar": [],
@@ -1238,7 +1238,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": "Välj & blanda",
+      "notering": null,
       "kategori": "fisk_skaldjur"
     },
     {
@@ -1292,7 +1292,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": "Välj & blanda",
+      "notering": null,
       "kategori": "ovrigt"
     },
     {
@@ -1328,16 +1328,16 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": "Välj & blanda",
+      "notering": null,
       "kategori": "ovrigt"
     },
     {
       "namn": "Twin Lady Engångshyvel",
       "marke": "BIC",
       "storlek": "10P",
-      "pris_text": "2 FÖR 18.90",
-      "pris": 9.45,
-      "pris_typ": "multi",
+      "pris_text": "18.90/st",
+      "pris": 18.9,
+      "pris_typ": "st",
       "jamforpris": "1.89/st",
       "ord_pris": "28.90",
       "pris_30dgr": "19.90kr/st",
@@ -1346,7 +1346,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": "Välj & blanda",
+      "notering": null,
       "kategori": "ovrigt"
     },
     {
@@ -1443,8 +1443,8 @@
       "namn": "Brago Original",
       "marke": "BRAGO",
       "storlek": "225G",
-      "pris_text": "2 FÖR 25.00",
-      "pris": 12.5,
+      "pris_text": "2 FÖR 28.00",
+      "pris": 14.0,
       "pris_typ": "multi",
       "jamforpris": "62.22/kg",
       "ord_pris": "16.90",
@@ -1454,7 +1454,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": "Välj & blanda",
+      "notering": null,
       "kategori": "ovrigt"
     },
     {
@@ -1472,7 +1472,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": "Välj & blanda",
+      "notering": null,
       "kategori": "brod_bakverk"
     },
     {
@@ -1494,10 +1494,10 @@
       "kategori": "dryck"
     },
     {
-      "namn": "+pant",
-      "marke": "Coca-cola Zero Läsk Pet COCA-COLA ZERO",
+      "namn": "Coca-cola Zero Läsk Pet",
+      "marke": "COCA-COLA ZERO",
       "storlek": "50CL",
-      "pris_text": "2 FÖR 26.00",
+      "pris_text": "2 FÖR 26.00 +pant",
       "pris": 13,
       "pris_typ": "multi",
       "jamforpris": "26.00/l",
@@ -1554,7 +1554,7 @@
       "pris_text": "2 FÖR 30.00",
       "pris": 15,
       "pris_typ": "multi",
-      "jamforpris": "115.00/kg",
+      "jamforpris": "30.00/kg",
       "ord_pris": "18.83",
       "pris_30dgr": null,
       "besparing": null,
@@ -1652,7 +1652,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": "Välj & blanda",
+      "notering": null,
       "kategori": "torrvaror"
     },
     {
@@ -1724,7 +1724,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": "Välj & blanda",
+      "notering": null,
       "kategori": "dryck"
     },
     {
@@ -1737,7 +1737,7 @@
       "jamforpris": "102.29/kg",
       "ord_pris": "21.50",
       "pris_30dgr": "20.72kr/st",
-      "besparing": "6.00kr",
+      "besparing": null,
       "klubbpris": false,
       "max_kop": null,
       "markeringar": [],
@@ -1748,7 +1748,7 @@
     {
       "namn": "Mikropopcorn Extra Stora Smör 3-pack",
       "marke": "GARANT",
-      "storlek": "270G PREMIER 3P/25CL",
+      "storlek": "270G",
       "pris_text": "16.90/st",
       "pris": 16.9,
       "pris_typ": "st",
@@ -1778,7 +1778,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": "Välj & blanda",
+      "notering": null,
       "kategori": "torrvaror"
     },
     {
@@ -1820,7 +1820,7 @@
     {
       "namn": "Snabbkaffe Mellanrost Refill",
       "marke": "ELDORADO",
-      "storlek": "150G LATZ 1,02KG",
+      "storlek": "150G",
       "pris_text": "2 FÖR 49.00",
       "pris": 24.5,
       "pris_typ": "multi",
@@ -1940,19 +1940,19 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": "Välj & blanda",
+      "notering": null,
       "kategori": "kott_fagel"
     },
     {
       "namn": "Kex Maria",
       "marke": "KLIM",
       "storlek": "160G",
-      "pris_text": "3 FÖR 10.00",
-      "pris": 3.33,
+      "pris_text": "2 FÖR 10.00",
+      "pris": 5,
       "pris_typ": "multi",
-      "jamforpris": "199.60/kg",
-      "ord_pris": "55.74",
-      "pris_30dgr": "8.42kr/st",
+      "jamforpris": "31.25/kg",
+      "ord_pris": null,
+      "pris_30dgr": null,
       "besparing": null,
       "klubbpris": false,
       "max_kop": null,
@@ -1962,10 +1962,28 @@
       "kategori": "snacks_godis"
     },
     {
-      "namn": "+pant",
-      "marke": "Hallonsoda Zero Läsk,burk PREMIER",
+      "namn": "Ice Tea Peach Add To 1l",
+      "marke": "LIPTON",
+      "storlek": "50G",
+      "pris_text": "3 FÖR 22.00",
+      "pris": 7.33,
+      "pris_typ": "multi",
+      "jamforpris": "146.67/kg",
+      "ord_pris": "8.42",
+      "pris_30dgr": "8.42kr/st",
+      "besparing": null,
+      "klubbpris": false,
+      "max_kop": null,
+      "markeringar": [],
+      "ursprung": null,
+      "notering": "Välj & blanda",
+      "kategori": "ovrigt"
+    },
+    {
+      "namn": "Hallonsoda Zero Läsk,burk",
+      "marke": "PREMIER",
       "storlek": "33CL",
-      "pris_text": "4 FÖR 20.00",
+      "pris_text": "4 FÖR 20.00 +pant",
       "pris": 5,
       "pris_typ": "multi",
       "jamforpris": "15.15/l",
@@ -2053,7 +2071,7 @@
     },
     {
       "namn": "Visa flerChoklad",
-      "marke": "Glassås  sorter Limpafler sorter Stor DAZZLEY",
+      "marke": "Glassås  sorter DAZZLEY",
       "storlek": "300G",
       "pris_text": "2 FÖR 42.00",
       "pris": 21,
@@ -2067,7 +2085,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod_bakverk"
+      "kategori": "frys"
     },
     {
       "namn": "Color Flytande Tvättmedel",
@@ -2079,7 +2097,7 @@
       "jamforpris": null,
       "ord_pris": "64.90",
       "pris_30dgr": "64.90kr/st",
-      "besparing": "7.00kr",
+      "besparing": null,
       "klubbpris": false,
       "max_kop": null,
       "markeringar": [],
@@ -2126,7 +2144,7 @@
     {
       "namn": "Jordgubbssylt Squeezy",
       "marke": "GARANT",
-      "storlek": "400G NEUTROGENA 200ML",
+      "storlek": "400G",
       "pris_text": "19.90/st",
       "pris": 19.9,
       "pris_typ": "st",
@@ -2162,7 +2180,7 @@
     {
       "namn": "Saltade Chips",
       "marke": "ESTRELLA",
-      "storlek": "40G GARANT EKO 10P",
+      "storlek": "40G",
       "pris_text": "5 FÖR 40.00",
       "pris": 8,
       "pris_typ": "multi",
@@ -2174,16 +2192,16 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": "EKOLOGISK",
+      "notering": "Välj & blanda",
       "kategori": "snacks_godis"
     },
     {
       "namn": "Click Soleil 5 Rakblad",
       "marke": "BIC",
       "storlek": "4P",
-      "pris_text": "2 FÖR 58.90",
-      "pris": 29.45,
-      "pris_typ": "multi",
+      "pris_text": "58.90/st",
+      "pris": 58.9,
+      "pris_typ": "st",
       "jamforpris": "14.73/st",
       "ord_pris": "69.90",
       "pris_30dgr": "59.90kr/st",
@@ -2205,7 +2223,7 @@
       "jamforpris": "53.90/st",
       "ord_pris": "64.90",
       "pris_30dgr": "54.90kr/st",
-      "besparing": "8.00kr",
+      "besparing": null,
       "klubbpris": false,
       "max_kop": null,
       "markeringar": [],
@@ -2264,7 +2282,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": "Välj & blanda",
+      "notering": null,
       "kategori": "mejeri"
     },
     {
@@ -2426,7 +2444,7 @@
       "max_kop": 3,
       "markeringar": [],
       "ursprung": null,
-      "notering": null,
+      "notering": "Välj & blanda",
       "kategori": "mejeri"
     },
     {
@@ -2454,12 +2472,12 @@
       "pris_text": "9.90/st",
       "pris": 9.9,
       "pris_typ": "st",
-      "jamforpris": "48.06/kg",
-      "ord_pris": null,
+      "jamforpris": "31.94/kg",
+      "ord_pris": "14.90",
       "pris_30dgr": null,
       "besparing": "5.00kr",
       "klubbpris": false,
-      "max_kop": null,
+      "max_kop": 5,
       "markeringar": [
         "svensk"
       ],
@@ -2510,7 +2528,7 @@
       "pris_text": "19.90/st",
       "pris": 19.9,
       "pris_typ": "st",
-      "jamforpris": "24.51/l",
+      "jamforpris": "19.90/l",
       "ord_pris": "24.51",
       "pris_30dgr": "24.51kr/st",
       "besparing": "4.61kr",
@@ -2528,7 +2546,7 @@
       "pris_text": "2 FÖR 36.00",
       "pris": 18,
       "pris_typ": "multi",
-      "jamforpris": "10.17/l",
+      "jamforpris": "9.00/l",
       "ord_pris": "20.34",
       "pris_30dgr": "20.34kr/st",
       "besparing": null,
@@ -2536,7 +2554,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": null,
+      "notering": "Välj & blanda",
       "kategori": "ovrigt"
     },
     {
@@ -2572,7 +2590,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": null,
+      "notering": "EKOLOGISK",
       "kategori": "torrvaror"
     },
     {
@@ -2662,7 +2680,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": null,
+      "notering": "Tillfälligt parti",
       "kategori": "ovrigt"
     },
     {
@@ -2711,7 +2729,7 @@
       "jamforpris": "70.86/kg",
       "ord_pris": "28.29",
       "pris_30dgr": "28.29kr/st",
-      "besparing": null,
+      "besparing": "3.49kr",
       "klubbpris": false,
       "max_kop": null,
       "markeringar": [],
@@ -2729,7 +2747,7 @@
       "jamforpris": "83.60/kg",
       "ord_pris": "23.50",
       "pris_30dgr": "23.50kr/st",
-      "besparing": null,
+      "besparing": "2.60kr",
       "klubbpris": false,
       "max_kop": null,
       "markeringar": [],
@@ -2824,7 +2842,7 @@
       "max_kop": 5,
       "markeringar": [],
       "ursprung": null,
-      "notering": null,
+      "notering": "EKOLOGISK",
       "kategori": "frukt_gront"
     },
     {
@@ -2860,7 +2878,7 @@
       "max_kop": 5,
       "markeringar": [],
       "ursprung": null,
-      "notering": null,
+      "notering": "Välj & blanda",
       "kategori": "frukt_gront"
     },
     {
@@ -2914,22 +2932,22 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": null,
+      "notering": "Välj & blanda",
       "kategori": "dryck"
     },
     {
       "namn": "Salladslök Knippe",
       "marke": null,
-      "storlek": null,
+      "storlek": "100G",
       "pris_text": "9.90/st",
       "pris": 9.9,
       "pris_typ": "st",
-      "jamforpris": "149.00/kg",
-      "ord_pris": null,
+      "jamforpris": "99.00/kg",
+      "ord_pris": "14.90",
       "pris_30dgr": null,
       "besparing": "5.00kr",
       "klubbpris": false,
-      "max_kop": null,
+      "max_kop": 5,
       "markeringar": [],
       "ursprung": null,
       "notering": null,
@@ -2963,7 +2981,7 @@
       "jamforpris": "37.80/l",
       "ord_pris": "21.67",
       "pris_30dgr": "21.67kr/st",
-      "besparing": null,
+      "besparing": "2.77kr",
       "klubbpris": false,
       "max_kop": null,
       "markeringar": [],
@@ -2978,7 +2996,7 @@
       "pris_text": "26.90/st",
       "pris": 26.9,
       "pris_typ": "st",
-      "jamforpris": "31.13/l",
+      "jamforpris": "26.90/l",
       "ord_pris": "31.13",
       "pris_30dgr": "31.13kr/st",
       "besparing": "4.23kr",
@@ -2986,7 +3004,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": null,
+      "notering": "EKOLOGISK",
       "kategori": "frukt_gront"
     },
     {
@@ -3032,12 +3050,12 @@
       "pris_text": "9.90/st +pant",
       "pris": 9.9,
       "pris_typ": "st",
-      "jamforpris": null,
-      "ord_pris": null,
+      "jamforpris": "30.00/l",
+      "ord_pris": "16.94",
       "pris_30dgr": "16.94kr/st",
       "besparing": "7.04kr",
       "klubbpris": false,
-      "max_kop": null,
+      "max_kop": 3,
       "markeringar": [],
       "ursprung": null,
       "notering": null,
@@ -3068,7 +3086,7 @@
       "pris_text": "2 FÖR 32.00",
       "pris": 16,
       "pris_typ": "multi",
-      "jamforpris": "119.33/kg",
+      "jamforpris": "106.67/kg",
       "ord_pris": "17.90",
       "pris_30dgr": "17.90kr/st",
       "besparing": null,
@@ -3076,7 +3094,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": null,
+      "notering": "Välj & blanda",
       "kategori": "mejeri"
     },
     {
@@ -3230,15 +3248,15 @@
       "pris_text": "2 FÖR 30.00",
       "pris": 15,
       "pris_typ": "multi",
-      "jamforpris": "77.49/kg",
-      "ord_pris": null,
+      "jamforpris": "61.73/kg",
+      "ord_pris": "18.83",
       "pris_30dgr": null,
       "besparing": null,
       "klubbpris": false,
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": null,
+      "notering": "Välj & blanda",
       "kategori": "kott_fagel"
     },
     {
@@ -3274,7 +3292,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": null,
+      "notering": "Välj & blanda",
       "kategori": "frukt_gront"
     },
     {
@@ -3292,7 +3310,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": null,
+      "notering": "Välj & blanda",
       "kategori": "frukt_gront"
     },
     {
@@ -3310,7 +3328,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": null,
+      "notering": "Välj & blanda",
       "kategori": "brod_bakverk"
     },
     {
@@ -3328,7 +3346,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": null,
+      "notering": "Välj & blanda",
       "kategori": "kott_fagel"
     },
     {
@@ -3364,7 +3382,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": null,
+      "notering": "Välj & blanda",
       "kategori": "frukt_gront"
     },
     {
@@ -3389,18 +3407,18 @@
       "namn": "Grillbriketter",
       "marke": "FIXA",
       "storlek": "2,5KG",
-      "pris_text": "89.00/st",
-      "pris": 89,
-      "pris_typ": "st",
-      "jamforpris": null,
-      "ord_pris": null,
+      "pris_text": "2 FÖR 89.00",
+      "pris": 44.5,
+      "pris_typ": "multi",
+      "jamforpris": "17.80/kg",
+      "ord_pris": "54.90",
       "pris_30dgr": "54.90kr/st",
       "besparing": null,
       "klubbpris": false,
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": null,
+      "notering": "Välj & blanda",
       "kategori": "ovrigt"
     },
     {
@@ -3485,7 +3503,7 @@
       "jamforpris": "89.90/kg",
       "ord_pris": "109.00",
       "pris_30dgr": "109.00kr/kg",
-      "besparing": null,
+      "besparing": "19.10kr",
       "klubbpris": false,
       "max_kop": null,
       "markeringar": [],
@@ -3562,7 +3580,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": null,
+      "notering": "Välj & blanda",
       "kategori": "frukt_gront"
     },
     {
@@ -3616,7 +3634,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": null,
+      "notering": "Välj & blanda",
       "kategori": "ovrigt"
     },
     {
@@ -3634,7 +3652,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": null,
+      "notering": "Välj & blanda",
       "kategori": "kott_fagel"
     },
     {
@@ -3652,16 +3670,16 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": null,
+      "notering": "Välj & blanda",
       "kategori": "kott_fagel"
     },
     {
       "namn": "Pure Arctic For Men Deodorant Roll-on",
       "marke": "PALMOLIVE",
       "storlek": "50ML",
-      "pris_text": "34.00/st",
-      "pris": 34,
-      "pris_typ": "st",
+      "pris_text": "2 FÖR 34.00",
+      "pris": 17,
+      "pris_typ": "multi",
       "jamforpris": "340.00/l",
       "ord_pris": "18.90",
       "pris_30dgr": "18.90kr/st",
@@ -3670,7 +3688,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": null,
+      "notering": "Välj & blanda",
       "kategori": "hygien_hushall"
     },
     {
@@ -3767,8 +3785,8 @@
       "namn": "Daim Dubbel",
       "marke": "MARABOU",
       "storlek": "56G",
-      "pris_text": "3 FÖR 0.00",
-      "pris": 0,
+      "pris_text": "3 FÖR 25.00",
+      "pris": 8.33,
       "pris_typ": "multi",
       "jamforpris": "148.81/kg",
       "ord_pris": "10.50",
@@ -3778,7 +3796,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": null,
+      "notering": "Välj & blanda",
       "kategori": "ovrigt"
     },
     {
@@ -3796,7 +3814,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": null,
+      "notering": "Välj & blanda",
       "kategori": "ovrigt"
     },
     {
@@ -3878,7 +3896,7 @@
       "pris_text": "2 FÖR 46.00",
       "pris": 23,
       "pris_typ": "multi",
-      "jamforpris": "132.00/kg",
+      "jamforpris": "115.00/kg",
       "ord_pris": "26.40",
       "pris_30dgr": "26.40kr/st",
       "besparing": null,
@@ -3976,7 +3994,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": null,
+      "notering": "Välj & blanda",
       "kategori": "ovrigt"
     },
     {
@@ -4048,7 +4066,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": null,
+      "notering": "Välj & blanda",
       "kategori": "frukt_gront"
     },
     {
@@ -4061,7 +4079,7 @@
       "jamforpris": "224.50/kg",
       "ord_pris": "50.90",
       "pris_30dgr": "50.90kr/st",
-      "besparing": null,
+      "besparing": "6.00kr",
       "klubbpris": false,
       "max_kop": null,
       "markeringar": [],
@@ -4071,8 +4089,8 @@
     },
     {
       "namn": "Pärondryck Mindre Socker Fruktdryck",
-      "marke": "Tetra",
-      "storlek": null,
+      "marke": "Tetra PREMIER",
+      "storlek": "3P/25CL",
       "pris_text": "10.90/st",
       "pris": 10.9,
       "pris_typ": "st",
@@ -4102,7 +4120,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": null,
+      "notering": "Välj & blanda",
       "kategori": "ovrigt"
     },
     {
@@ -4143,8 +4161,8 @@
     },
     {
       "namn": "Countryside Selection Kattmat Gelé 12-",
-      "marke": "pack",
-      "storlek": null,
+      "marke": "pack LATZ",
+      "storlek": "1,02KG",
       "pris_text": "44.90/st",
       "pris": 44.9,
       "pris_typ": "st",
@@ -4264,7 +4282,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": null,
+      "notering": "Välj & blanda",
       "kategori": "frukt_gront"
     },
     {
@@ -4274,8 +4292,8 @@
       "pris_text": "49.90/st",
       "pris": 49.9,
       "pris_typ": "st",
-      "jamforpris": null,
-      "ord_pris": null,
+      "jamforpris": "199.60/kg",
+      "ord_pris": "55.74",
       "pris_30dgr": "55.74kr/st",
       "besparing": "5.84kr",
       "klubbpris": false,
@@ -4395,7 +4413,7 @@
     },
     {
       "namn": "Visa",
-      "marke": "GARANT",
+      "marke": "Limpafler sorter Stor GARANT",
       "storlek": "900G",
       "pris_text": "2 FÖR 42.00",
       "pris": 21,
@@ -4409,7 +4427,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "brod_bakverk"
     },
     {
       "namn": "Hushållspapper Classic Decor",
@@ -4421,7 +4439,7 @@
       "jamforpris": "61.78/kg",
       "ord_pris": "36.90",
       "pris_30dgr": "36.90kr/st",
-      "besparing": null,
+      "besparing": "7.00kr",
       "klubbpris": false,
       "max_kop": null,
       "markeringar": [],
@@ -4467,8 +4485,8 @@
     },
     {
       "namn": "0,5% Salicylic Acid Cleansing Acid",
-      "marke": "Ansiktstvätt",
-      "storlek": null,
+      "marke": "Ansiktstvätt NEUTROGENA",
+      "storlek": "200ML",
       "pris_text": "29.90/st",
       "pris": 29.9,
       "pris_typ": "st",
@@ -4503,8 +4521,8 @@
     },
     {
       "namn": "Ägg 10p Eko Ekologisk Produktion",
-      "marke": "Medium/large",
-      "storlek": null,
+      "marke": "Medium/large GARANT EKO",
+      "storlek": "10P",
       "pris_text": "34.90/st",
       "pris": 34.9,
       "pris_typ": "st",
@@ -4516,16 +4534,16 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": null,
+      "notering": "EKOLOGISK",
       "kategori": "mejeri"
     },
     {
       "namn": "Hundbajspåsar",
       "marke": "FIRST PRICE",
       "storlek": "50P",
-      "pris_text": "15.00/st",
-      "pris": 15,
-      "pris_typ": "st",
+      "pris_text": "2 FÖR 15.00",
+      "pris": 7.5,
+      "pris_typ": "multi",
       "jamforpris": "0.15/st",
       "ord_pris": "9.90",
       "pris_30dgr": null,
@@ -4547,7 +4565,7 @@
       "jamforpris": "232.67/l",
       "ord_pris": "42.90",
       "pris_30dgr": "42.90kr/st",
-      "besparing": null,
+      "besparing": "8.00kr",
       "klubbpris": false,
       "max_kop": null,
       "markeringar": [],
@@ -4606,7 +4624,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": null,
+      "notering": "Välj & blanda",
       "kategori": "dryck"
     },
     {
@@ -4642,7 +4660,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": null,
+      "notering": "Välj & blanda",
       "kategori": "torrvaror"
     },
     {

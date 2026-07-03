@@ -46,11 +46,15 @@ const priceLineRe = /^\d+\s*\/(st|kg|l)$/i;
 const firstItemIdx = lines.findIndex((l) => headerLineRe.test(l) || priceLineRe.test(l));
 const contentLines = lines.slice(Math.max(firstItemIdx, 0));
 
-// Split into per-item blocks: each item ends with a "N st" quantity-stepper line.
+// Split into per-item blocks: each item ends with a "N st" quantity-stepper
+// line, or "Slut i lager" ("out of stock") in place of that stepper when
+// the item can't be added to cart. Missing the latter previously let an
+// out-of-stock item's block swallow the *next* item's header/fields too.
+const blockEndRe = /^(\d+ st|Slut i lager)$/;
 const blocks = [];
 let cur = [];
 for (const line of contentLines) {
-  if (/^\d+ st$/.test(line)) {
+  if (blockEndRe.test(line)) {
     if (cur.length) blocks.push(cur);
     cur = [];
   } else {
@@ -89,6 +93,10 @@ function parseBlock(block) {
       // deals, which show a flat total rather than a per-kg/per-st price).
       priceValue = glued(line);
       priceUnit = priceUnit || 'st';
+    } else if (line === '+pant') {
+      // Deposit flag rendered on its own line — never part of the name,
+      // regardless of whether the price/name have been captured yet.
+      pant = true;
     } else if (line === 'Visa fler sorter') {
       // multi-variant card — the name below is representative, not exhaustive
     } else if (namn === null && (BANNER_LABELS.has(line) || /^HANDLA FÖR \d+ KR$/.test(line))) {

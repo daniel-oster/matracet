@@ -78,6 +78,23 @@ Stämmer alltid av mot källtexten innan utkastet vävs in i veckans JSON:
   sida, eller delar ett erbjudande mitt i (namnet hamnar före priset istället
   för efter) — parsern hanterar de vanligaste fallen men enstaka poster kan
   behöva handpatchas (sök på produktnamnet i källtexten, `pdftotext`-filen).
+- **Kolumndelningen (`erbjudanden-split-columns.mjs`) lär sig var kolumnerna
+  börjar från dokumentets egna rader** (median-indrag för rader med en synlig
+  lucka), och använder det lokalt (närmsta rad med lucka) för rader utan
+  egen lucka — t.ex. en lös "Visa fler sorter", "Max N köp" eller ett pris
+  utan enhet. Detta är en riktig förbättring över att alltid gissa "vänster":
+  den första versionen läckte högerkolumnens fält (max-köp, "Välj &
+  blanda") in i vänsterkolumnens post och gav fel produkt fel data. **Kvarvarande
+  känd lucka**: ett pris som renderas som två separata textkörningar av
+  olika typsnittsstorlek (kronor + upphöjda ören, t.ex. "28    00" för
+  "28,00") ser identiskt ut som en kolumn-lucka och kan inte skiljas åt
+  automatiskt — hittills sett en gång (Willys), handpatchad efter att ha
+  läst källraden. Om ett pris ser orimligt ut (0 kr, eller en 1–2-siffrig
+  "kronor"-del), sök upp produktnamnet i `pdftotext`-filen och kontrollera.
+- Willys markerar slutsålda varor med **"Slut i lager"** istället för den
+  vanliga `N st`-räknaren som annars avslutar varje post — parsern känner
+  igen båda som postavslut (annars sväljer den slutsålda varans post in
+  nästa varas fält).
 
 Formatet växlar lite mellan veckor/källor (special-erbjudanden, nya etiketter
 som "HANDLA FÖR 300 KR"), så vänta dig att behöva justera en parser något
