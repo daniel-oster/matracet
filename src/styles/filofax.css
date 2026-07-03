@@ -935,6 +935,19 @@ body {
 .fynd-chip.hemkop.on { background: #5b8a2b; border-color: #5b8a2b; color: #fff; }
 .fynd-chip.flag.on   { background: #1f5fa6; border-color: #1f5fa6; color: #fff; }
 
+.fynd-week-select {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 3px 6px;
+  border-radius: 10px;
+  border: 1.5px solid var(--ink-soft);
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
 .fynd-scroll {
   overflow-y: auto;
   max-height: calc(100% - 92px);

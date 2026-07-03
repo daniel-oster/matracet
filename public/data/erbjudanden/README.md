@@ -9,6 +9,8 @@ historiskt. Målet: planera en runda mellan butikerna och laga billigare middaga
 ```
 erbjudanden/
   <butik-id>/<vecka>.json     ett reklamblad per butik och vecka
+  _index.json                 lista över butiker + alla veckor som finns sparade
+  _latest.json                pekare till senaste veckan (UI:ts default)
   README.md                   detta dokument
   bevakningslista.json        stående bevakningslista (kaffe, toapapper m.m.)
 ```
@@ -17,6 +19,11 @@ Butiker hittills:
 - `willys-borlange-stora-tuna` — Willys Borlänge Stora Tuna
 - `maxi-ica-stormarknad-borlange` — Maxi ICA Stormarknad Borlänge
 - `hemkop-borlange-sodra-backa` — Hemköp Borlänge Södra Backa
+
+**När en ny vecka läggs till:** lägg till `<butik-id>/<vecka>.json` för varje
+butik, lägg till veckan i `_index.json` → `veckor`, och peka `_latest.json` →
+`vecka` på den nya veckan. UI:t (fliken *Fynd*) visar `_latest.json` som
+förval men låter dig bläddra till valfri sparad vecka i `_index.json.veckor`.
 
 > **Tips om källor:** spara alltid den *strukturerade* listan / e-handelsexporten,
 > inte det grafiska reklambladet. Det grafiska bladet renderar ofta priser med
