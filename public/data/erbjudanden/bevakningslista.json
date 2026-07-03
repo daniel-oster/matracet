@@ -40,7 +40,7 @@
       "kategori": "hygien_hushall",
       "sok": ["diskmaskinstabletter", "maskindiskmedel"],
       "undvik_marken": [],
-      "onskat_marke": null,
+      "onskat_marke": "Yes",
       "storlek_hint": null,
       "troskel_kr": null,
       "anteckning": null
