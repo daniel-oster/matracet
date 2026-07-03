@@ -1319,7 +1319,7 @@ body {
   .binder::before { inset: 6px; border-radius: 3px; }
 
   .spread {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 74px;
     min-height: calc(100vh - 120px);
   }
   .spread::before { display: none; }
@@ -1394,15 +1394,17 @@ body {
     letter-spacing: 0.18em;
   }
 
-  /* Portrait shows one page at a time with little width to spare, so keep the
-     original overlay behavior here — only the desktop two-page spread got a
-     dedicated column. */
-  .tabs-right { position: absolute; top: 30px; right: -8px; gap: 4px; padding: 0; overflow: visible; }
-  .tab { font-size: 10px; padding: 6px 10px; min-width: 60px; }
-  .tabs-right .tab { padding-left: 12px; }
+  /* Portrait also gets a real grid column (added to .spread above) instead of
+     an overlay — the previous position:absolute version covered several rows
+     of content on a narrow screen, which is worse than on desktop since tabs
+     take up a much bigger fraction of the width. */
+  .tabs-right { padding: 26px 0 0 4px; gap: 4px; }
+  .tab { font-size: 10px; padding: 6px 8px; min-width: 0; }
+  .tabs-right .tab { padding-left: 8px; }
 
-  .page-head { margin-bottom: 10px; padding-bottom: 6px; }
+  .page-head { margin-bottom: 10px; padding-bottom: 6px; flex-wrap: wrap; row-gap: 2px; }
   .page-head .title { font-size: 14px; }
+  .page-head .sub { flex-basis: 100%; }
 
   .day-num { font-size: 30px; min-width: 36px; }
   .day-name { font-size: 10px; }
