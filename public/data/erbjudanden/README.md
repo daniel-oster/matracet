@@ -188,7 +188,7 @@ Schema per post (`BevakningItem` i `src/types.ts`):
 | `id` | Unik nyckel (slug) |
 | `vara` | Visningsnamn |
 | `kategori` | Samma kategori-id som erbjudanden, styr emoji/gruppering |
-| `sok` | Lista med gemener-substrängar som matchas mot erbjudandets `namn`/`marke` |
+| `sok` | Lista med gemener-substrängar som matchas mot erbjudandets `namn`/`marke`. **Tom lista** = bevaka hela `kategori` istället för enskilda sökord (t.ex. all frukt & grönt, alla snacks) |
 | `undvik_marken` | Varumärkes-substrängar som diskvalificerar en annars matchande träff (t.ex. inte Gevalia) |
 | `onskat_marke` | Ev. specifikt märke man vill ha (`null` om inte bestämt) |
 | `storlek_hint` | Fritext om önskad storlek/förpackning (`null` annars) |

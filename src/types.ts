@@ -51,7 +51,7 @@ export interface BevakningItem {
   id: string
   vara: string
   kategori: string
-  /** Lowercase substrings matched against an offer's namn/marke to detect a hit. */
+  /** Lowercase substrings matched against an offer's namn/marke to detect a hit. Empty = watch the whole `kategori` instead. */
   sok: string[]
   /** Brand substrings that disqualify an otherwise-matching offer. */
   undvik_marken: string[]

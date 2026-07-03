@@ -88,6 +88,28 @@
       "storlek_hint": null,
       "troskel_kr": null,
       "anteckning": "Duschcreme, utan parfym."
+    },
+    {
+      "id": "snacks_godis",
+      "vara": "Snacks & godis",
+      "kategori": "snacks_godis",
+      "sok": [],
+      "undvik_marken": [],
+      "onskat_marke": null,
+      "storlek_hint": null,
+      "troskel_kr": null,
+      "anteckning": "Chips, godis, snacks – hela kategorin, inget särskilt märke."
+    },
+    {
+      "id": "frukt_gront",
+      "vara": "Frukt & grönt",
+      "kategori": "frukt_gront",
+      "sok": [],
+      "undvik_marken": [],
+      "onskat_marke": null,
+      "storlek_hint": null,
+      "troskel_kr": null,
+      "anteckning": "Allt – morötter, vattenmelon, jordgubbar m.m. – hela kategorin på extrapris."
     }
   ]
 }

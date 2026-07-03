@@ -35,11 +35,12 @@ interface Hit {
   offers: TaggedOffer[]
 }
 
+/** Empty `sok` means "watch the whole category" instead of matching specific keywords. */
 function matches(item: BevakningItem, o: TaggedOffer): boolean {
   const hay = `${o.namn} ${o.marke ?? ''}`.toLowerCase()
-  if (!item.sok.some(k => hay.includes(k.toLowerCase()))) return false
   if (item.undvik_marken.some(b => hay.includes(b.toLowerCase()))) return false
-  return true
+  if (item.sok.length === 0) return o.kategori === item.kategori
+  return item.sok.some(k => hay.includes(k.toLowerCase()))
 }
 
 function findHits(items: BevakningItem[], all: TaggedOffer[]): Hit[] {
