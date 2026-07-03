@@ -47,7 +47,7 @@ export default function Page({ side, activeTab, rollingDays, rollingLunches, wee
         {activeTab === 'veckan'       && <VeckanView       side={side} days={rollingDays} lunches={rollingLunches} dayPlans={dayPlans} eaters={eaters} onOpenRecipe={onOpenRecipe} onReplaceDay={onReplaceDay} />}
         {activeTab === 'fynd'         && <FyndView          side={side} storeFilter={offerStoreFilter} onToggleStore={onToggleOfferStore} swedishOnly={offerSwedishOnly} onToggleSwedish={onToggleOfferSwedish} mode={fyndMode} onToggleMode={onToggleFyndMode} week={fyndWeek} onSelectWeek={onSelectFyndWeek} />}
         {activeTab === 'bevaka'       && <BevakaView        side={side} />}
-        {activeTab === 'handla'       && <HandlaView        side={side} rollingDays={rollingDays} />}
+        {activeTab === 'handla'       && <HandlaView        side={side} rollingDays={rollingDays} rollingLunches={rollingLunches} />}
         {activeTab === 'recept'       && <ReceptView        side={side} recipeIndex={recipeIndex} eaters={eaters} selectedSlug={selectedRecipeSlug} onSelect={onSelectRecipe} />}
         {activeTab === 'familj'       && <FamiljView        side={side} eaters={eaters} dayPlans={dayPlans} />}
         {activeTab === 'anteckningar' && <AnteckningarView  side={side} weekNotes={weekNotes} />}

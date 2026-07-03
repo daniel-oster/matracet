@@ -6,7 +6,7 @@ import { usePantry } from '../../hooks/usePantry'
 import { useOffers } from '../../hooks/useOffers'
 import { useBevakningslista } from '../../hooks/useBevakningslista'
 import { useShoppingList } from '../../hooks/useShoppingList'
-import { tagOffers, findBevakaHits, CATEGORY_EMOJI } from '../../lib/bevaka'
+import { tagOffers, findBevakaHits, CATEGORY_EMOJI, BevakaHit } from '../../lib/bevaka'
 import { aggregateIngredients, buildShoppingListText, formatAmount, AggregatedIngredient } from '../../lib/shoppingList'
 
 function monthShort(isoDate: string): string {
@@ -26,23 +26,26 @@ function weekLabelFor(days: DayMeal[]): string {
 interface Props {
   side: PageSide
   rollingDays: DayMeal[]
+  rollingLunches: DayMeal[]
 }
 
-export default function HandlaView({ side, rollingDays }: Props) {
+export default function HandlaView({ side, rollingDays, rollingLunches }: Props) {
   const { getOverride } = useWeekPlan()
+  // Only dinners can be swapped via the "Ersätt" flow — lunches have no such override.
   const overriddenDays = useMemo(
     () => rollingDays.map(d => applyOverride(d, getOverride(d.datum))),
     [rollingDays, getOverride],
   )
+  const allMeals = useMemo(() => [...overriddenDays, ...rollingLunches], [overriddenDays, rollingLunches])
   const slugs = useMemo(
-    () => overriddenDays.map(d => d.receptSlug).filter((s): s is string => !!s),
-    [overriddenDays],
+    () => allMeals.map(m => m.receptSlug).filter((s): s is string => !!s),
+    [allMeals],
   )
   const recipes = useRecipes(slugs)
   const pantry = usePantry()
   const ingredients = useMemo(
-    () => aggregateIngredients(overriddenDays, recipes, pantry),
-    [overriddenDays, recipes, pantry],
+    () => aggregateIngredients(allMeals, recipes, pantry),
+    [allMeals, recipes, pantry],
   )
 
   const bevakningslista = useBevakningslista()
@@ -52,18 +55,27 @@ export default function HandlaView({ side, rollingDays }: Props) {
     return findBevakaHits(bevakningslista, tagOffers(stores))
   }, [bevakningslista, stores])
 
-  const { removedIds, manualItems, history, markRemoved, addManualItem, removeManualItem } = useShoppingList()
+  const { removedIds, manualItems, markRemoved, restore, addManualItem } = useShoppingList()
 
-  const visibleIngredients = ingredients.filter(i => !removedIds.has(i.id))
-  const visibleHits = bevakaHits.filter(h => !removedIds.has(`bevaka:${h.item.id}`))
-  const removedLabels = [...new Set(history.filter(h => h.action === 'removed').map(h => h.vara))].slice(0, 20)
+  const activeIngredients = ingredients.filter(i => !removedIds.has(i.id))
+  const removedIngredients = ingredients.filter(i => removedIds.has(i.id))
+  const activeHits = bevakaHits.filter(h => !removedIds.has(`bevaka:${h.item.id}`))
+  const removedHits = bevakaHits.filter(h => removedIds.has(`bevaka:${h.item.id}`))
+  const activeManual = manualItems.filter(m => !removedIds.has(m.id))
+  const removedManual = manualItems.filter(m => removedIds.has(m.id))
+
+  const removedLabels = [
+    ...removedIngredients.map(i => `${formatAmount(i.mangd, i.enhet)} ${i.vara}`),
+    ...removedHits.map(h => h.item.vara),
+    ...removedManual.map(m => m.vara),
+  ]
 
   const weekLabel = weekLabelFor(rollingDays)
   const fullText = buildShoppingListText({
     weekLabel,
-    ingredients: visibleIngredients,
-    bevakaHits: visibleHits,
-    manualItems,
+    ingredients: activeIngredients,
+    bevakaHits: activeHits,
+    manualItems: activeManual,
     removedLabels,
   })
 
@@ -71,39 +83,49 @@ export default function HandlaView({ side, rollingDays }: Props) {
     <IngredientsPage
       weekLabel={weekLabel}
       loading={slugs.length > 0 && Object.keys(recipes).length === 0}
-      ingredients={visibleIngredients}
-      onRemove={i => markRemoved(i.id, `${formatAmount(i.mangd, i.enhet)} ${i.vara}`)}
+      ingredients={activeIngredients}
+      removedIngredients={removedIngredients}
+      onRemove={i => markRemoved(i.id)}
+      onRestore={i => restore(i.id)}
     />
   ) : (
     <ExtrasPage
-      hits={visibleHits}
-      manualItems={manualItems}
-      onRemoveHit={h => markRemoved(`bevaka:${h.item.id}`, h.item.vara)}
+      hits={activeHits}
+      removedHits={removedHits}
+      manualItems={activeManual}
+      removedManual={removedManual}
+      onRemoveHit={h => markRemoved(`bevaka:${h.item.id}`)}
+      onRestoreHit={h => restore(`bevaka:${h.item.id}`)}
       onAddManual={addManualItem}
-      onRemoveManual={removeManualItem}
+      onRemoveManual={id => markRemoved(id)}
+      onRestoreManual={id => restore(id)}
       fullText={fullText}
     />
   )
 }
 
-// ─── Left page: aggregated dinner ingredients ──────────────────────────────────
+// ─── Left page: aggregated ingredients from this week's meals ─────────────────
 
 function IngredientsPage({
   weekLabel,
   loading,
   ingredients,
+  removedIngredients,
   onRemove,
+  onRestore,
 }: {
   weekLabel: string
   loading: boolean
   ingredients: AggregatedIngredient[]
+  removedIngredients: AggregatedIngredient[]
   onRemove: (i: AggregatedIngredient) => void
+  onRestore: (i: AggregatedIngredient) => void
 }) {
   return (
     <>
       <div className="page-head">
         <div className="title">Inköpslista</div>
-        <div className="sub">Från veckans middagar · {weekLabel}</div>
+        <div className="sub">Från veckans måltider · {weekLabel}</div>
       </div>
 
       {loading && <div className="fynd-empty">Laddar recept…</div>}
@@ -122,6 +144,18 @@ function IngredientsPage({
           </div>
         ))}
       </div>
+
+      {removedIngredients.length > 0 && (
+        <div className="shop-group shop-removed">
+          <h3 className="shop-group-title">Bortmarkerat</h3>
+          {removedIngredients.map(i => (
+            <div className="shop-row done" key={i.id} onClick={() => onRestore(i)}>
+              <span className="box" />
+              {formatAmount(i.mangd, i.enhet)} {i.vara}
+            </div>
+          ))}
+        </div>
+      )}
     </>
   )
 }
@@ -130,17 +164,25 @@ function IngredientsPage({
 
 function ExtrasPage({
   hits,
+  removedHits,
   manualItems,
+  removedManual,
   onRemoveHit,
+  onRestoreHit,
   onAddManual,
   onRemoveManual,
+  onRestoreManual,
   fullText,
 }: {
-  hits: ReturnType<typeof findBevakaHits>
+  hits: BevakaHit[]
+  removedHits: BevakaHit[]
   manualItems: ReturnType<typeof useShoppingList>['manualItems']
-  onRemoveHit: (h: ReturnType<typeof findBevakaHits>[number]) => void
+  removedManual: ReturnType<typeof useShoppingList>['manualItems']
+  onRemoveHit: (h: BevakaHit) => void
+  onRestoreHit: (h: BevakaHit) => void
   onAddManual: (vara: string) => void
   onRemoveManual: (id: string) => void
+  onRestoreManual: (id: string) => void
   fullText: string
 }) {
   const [newItem, setNewItem] = useState('')
@@ -220,6 +262,24 @@ function ExtrasPage({
           <button type="submit" className="shop-add-btn">+ Lägg till</button>
         </form>
       </div>
+
+      {(removedHits.length > 0 || removedManual.length > 0) && (
+        <div className="shop-group shop-removed">
+          <h3 className="shop-group-title">Bortmarkerat</h3>
+          {removedHits.map(h => (
+            <div className="shop-row done" key={h.item.id} onClick={() => onRestoreHit(h)}>
+              <span className="box" />
+              {CATEGORY_EMOJI[h.item.kategori] ?? '📦'} {h.item.vara}
+            </div>
+          ))}
+          {removedManual.map(m => (
+            <div className="shop-row done" key={m.id} onClick={() => onRestoreManual(m.id)}>
+              <span className="box" />
+              {m.vara}
+            </div>
+          ))}
+        </div>
+      )}
 
       <textarea
         ref={textareaRef}

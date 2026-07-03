@@ -11,9 +11,9 @@ export interface AggregatedIngredient {
   meals: string[]
 }
 
-/** Sums ingredients across this week's planned dinners, skipping pantry staples. */
+/** Sums ingredients across this week's planned meals (dinners + lunches), skipping pantry staples. */
 export function aggregateIngredients(
-  days: DayMeal[],
+  meals: DayMeal[],
   recipes: Record<string, Recipe>,
   pantry: Pantry | null,
 ): AggregatedIngredient[] {
@@ -24,7 +24,7 @@ export function aggregateIngredients(
   )
   const map = new Map<string, AggregatedIngredient>()
 
-  for (const day of days) {
+  for (const day of meals) {
     if (!day.receptSlug) continue
     const recipe = recipes[day.receptSlug]
     if (!recipe) continue
@@ -71,7 +71,7 @@ export function buildShoppingListText({
   const lines: string[] = [`Inköpslista – ${weekLabel}`, '']
 
   if (ingredients.length > 0) {
-    lines.push('Från veckans middagar')
+    lines.push('Från veckans måltider')
     for (const i of ingredients) lines.push(`- ${formatAmount(i.mangd, i.enhet)} ${i.vara}`)
     lines.push('')
   }

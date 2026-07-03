@@ -7,74 +7,46 @@ export interface ManualShoppingItem {
   addedAt: string
 }
 
-export interface ShoppingHistoryEntry {
-  vara: string
-  action: 'removed' | 'added'
-  at: string
-}
-
 export interface ShoppingListState {
-  /** Ids of computed (recipe/bevaka) items the user has checked off — "already have, don't need". */
+  /** Ids of items (recipe ingredient, bevaka hit, or manual) the user has checked off — "already have, don't need". Kept (not deleted) so they can be restored. */
   removedIds: string[]
   manualItems: ManualShoppingItem[]
-  /** Recent changes, newest first — surfaced in the copy-to-clipboard text. */
-  history: ShoppingHistoryEntry[]
 }
 
-const EMPTY: ShoppingListState = { removedIds: [], manualItems: [], history: [] }
-const MAX_HISTORY = 40
+const EMPTY: ShoppingListState = { removedIds: [], manualItems: [] }
 
 export const shoppingListStore = createLocalStore<ShoppingListState>('matracet:shopping:v1', EMPTY)
 
-function pushHistory(state: ShoppingListState, entry: ShoppingHistoryEntry): ShoppingHistoryEntry[] {
-  return [entry, ...state.history].slice(0, MAX_HISTORY)
-}
-
-function markRemoved(id: string, vara: string): void {
+function markRemoved(id: string): void {
   const state = shoppingListStore.get()
   if (state.removedIds.includes(id)) return
-  shoppingListStore.set({
-    ...state,
-    removedIds: [...state.removedIds, id],
-    history: pushHistory(state, { vara, action: 'removed', at: new Date().toISOString() }),
-  })
+  shoppingListStore.set({ ...state, removedIds: [...state.removedIds, id] })
+}
+
+function restore(id: string): void {
+  const state = shoppingListStore.get()
+  if (!state.removedIds.includes(id)) return
+  shoppingListStore.set({ ...state, removedIds: state.removedIds.filter(x => x !== id) })
 }
 
 function addManualItem(vara: string): void {
   const trimmed = vara.trim()
   if (!trimmed) return
   const state = shoppingListStore.get()
-  const now = new Date().toISOString()
   const item: ManualShoppingItem = {
     id: `manual:${Date.now()}:${Math.random().toString(36).slice(2, 7)}`,
     vara: trimmed,
-    addedAt: now,
+    addedAt: new Date().toISOString(),
   }
-  shoppingListStore.set({
-    ...state,
-    manualItems: [...state.manualItems, item],
-    history: pushHistory(state, { vara: trimmed, action: 'added', at: now }),
-  })
-}
-
-function removeManualItem(id: string): void {
-  const state = shoppingListStore.get()
-  const item = state.manualItems.find(m => m.id === id)
-  if (!item) return
-  shoppingListStore.set({
-    ...state,
-    manualItems: state.manualItems.filter(m => m.id !== id),
-    history: pushHistory(state, { vara: item.vara, action: 'removed', at: new Date().toISOString() }),
-  })
+  shoppingListStore.set({ ...state, manualItems: [...state.manualItems, item] })
 }
 
 export interface UseShoppingList {
   removedIds: Set<string>
   manualItems: ManualShoppingItem[]
-  history: ShoppingHistoryEntry[]
-  markRemoved: (id: string, vara: string) => void
+  markRemoved: (id: string) => void
+  restore: (id: string) => void
   addManualItem: (vara: string) => void
-  removeManualItem: (id: string) => void
 }
 
 export function useShoppingList(): UseShoppingList {
@@ -82,9 +54,8 @@ export function useShoppingList(): UseShoppingList {
   return {
     removedIds: new Set(data.removedIds),
     manualItems: data.manualItems,
-    history: data.history,
     markRemoved,
+    restore,
     addManualItem,
-    removeManualItem,
   }
 }
