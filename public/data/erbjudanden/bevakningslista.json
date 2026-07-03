@@ -52,9 +52,9 @@
       "sok": ["schampo"],
       "undvik_marken": [],
       "onskat_marke": "Head & Shoulders",
-      "storlek_hint": "Apple Fresh, 1000 ml",
+      "storlek_hint": null,
       "troskel_kr": null,
-      "anteckning": null
+      "anteckning": "Doft och storlek spelar ingen roll."
     },
     {
       "id": "tvattmedel",
