@@ -6,7 +6,7 @@ import { usePantry } from '../../hooks/usePantry'
 import { useOffers } from '../../hooks/useOffers'
 import { useBevakningslista } from '../../hooks/useBevakningslista'
 import { useShoppingList } from '../../hooks/useShoppingList'
-import { tagOffers, findBevakaHits, CATEGORY_EMOJI, BevakaHit } from '../../lib/bevaka'
+import { tagOffers, findBevakaHits, describeOffer, CATEGORY_EMOJI, BevakaHit } from '../../lib/bevaka'
 import { aggregateIngredients, buildShoppingListText, formatAmount, AggregatedIngredient } from '../../lib/shoppingList'
 
 function monthShort(isoDate: string): string {
@@ -231,7 +231,10 @@ function ExtrasPage({
           return (
             <div className="shop-row" key={h.item.id} onClick={() => onRemoveHit(h)}>
               <span className="box" />
-              <span>{CATEGORY_EMOJI[h.item.kategori] ?? '📦'} {h.item.vara}</span>
+              <span>
+                {CATEGORY_EMOJI[h.item.kategori] ?? '📦'} {h.item.vara}
+                {best && <span className="shop-meal-tag"> ({describeOffer(best)})</span>}
+              </span>
               {best && <em className="shop-meta">{best.pris_text}</em>}
             </div>
           )

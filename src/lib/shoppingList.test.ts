@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { aggregateIngredients, buildShoppingListText } from './shoppingList'
+import type { BevakaHit, TaggedOffer } from './bevaka'
 import type { DayMeal, Recipe, Pantry } from '../types'
 
 function makeRecipe(slug: string, namn: string, ingredienser: Recipe['ingredienser']): Recipe {
@@ -79,6 +80,27 @@ describe('buildShoppingListText', () => {
     expect(text).not.toContain('Fynd på bevakningslistan')
     expect(text).toContain('Bortmarkerat')
     expect(text).toContain('- Vitlök')
+  })
+
+  it('includes the store and product label for bevaka hits, not just the price', () => {
+    const offer: TaggedOffer = {
+      namn: 'Kaffe Zoégas', marke: 'Zoégas', storlek: '500g', pris_text: '39:90/st',
+      pris: 39.9, pris_typ: 'st', jamforpris: null, ord_pris: null, pris_30dgr: null,
+      besparing: null, klubbpris: false, max_kop: null, markeringar: [], ursprung: null,
+      notering: null, kategori: 'torrvaror', store: 'ica',
+    }
+    const hit: BevakaHit = {
+      item: { id: 'kaffe', vara: 'Kaffe', kategori: 'torrvaror', sok: ['kaffe'], undvik_marken: [], onskat_marke: null, storlek_hint: null, troskel_kr: null, anteckning: null },
+      offers: [offer],
+    }
+    const text = buildShoppingListText({
+      weekLabel: 'v.27',
+      ingredients: [],
+      bevakaHits: [hit],
+      manualItems: [],
+      removedLabels: [],
+    })
+    expect(text).toContain('- Kaffe — ICA · Zoégas · 500g, 39:90/st')
   })
 
   it('shows an empty-list marker when nothing is left', () => {

@@ -106,6 +106,8 @@ Typography is Google Fonts loaded in `index.html`:
 
 Portrait/mobile layout is handled entirely via `@media (orientation: portrait), (max-width: 700px)` — one page at a time with flip buttons.
 
+`.tabs-right` (the vertical tab strip) is a real grid column of `.spread` in both desktop (4th column, alongside the two pages + rings) and portrait (2nd column, alongside the single visible page) — it used to be `position: absolute` in both layouts, overlapping the page's right edge as a stick-out index-tab effect, but that meant it covered real content (e.g. Bevaka/Fynd prices, which are right-aligned) — worse in portrait since the tab strip is a much bigger fraction of a narrow screen's width. `display: none` elements (the hidden page/rings in portrait, e.g. `.page.right` when not flipped to) are fully removed from grid flow, so CSS grid auto-placement naturally assigns the remaining visible children (page, then tabs) into the explicit columns without any JSX changes needed. `.page-head` has `flex-wrap: wrap` in portrait so the title/sub line still breaks cleanly now that the page column is narrower.
+
 ## Data conventions
 
 ### Recipe files
