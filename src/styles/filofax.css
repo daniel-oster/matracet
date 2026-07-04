@@ -108,7 +108,7 @@ body {
 .spread {
   position: relative;
   display: grid;
-  grid-template-columns: 1fr 50px 1fr 92px;
+  grid-template-columns: 1fr 50px 1fr 40px;
   min-height: calc(100vh - 120px);
   z-index: 1;
 }
@@ -244,9 +244,14 @@ body {
   text-align: center;
 }
 .tabs-right .tab {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
   border-radius: 0 4px 4px 0;
-  text-align: left;
-  padding-left: 12px;
+  text-align: center;
+  padding: 10px 6px;
+  min-width: 0;
+  width: auto;
+  letter-spacing: 0.08em;
 }
 .tabs-right .tab:hover { transform: translateX(3px); filter: brightness(1.08); }
 .tabs-right .tab.active { transform: translateX(6px); filter: brightness(1.12); box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 2px 2px 4px rgba(0,0,0,0.35); }
@@ -1319,7 +1324,7 @@ body {
   .binder::before { inset: 6px; border-radius: 3px; }
 
   .spread {
-    grid-template-columns: 1fr 74px;
+    grid-template-columns: 1fr 36px;
     min-height: calc(100vh - 120px);
   }
   .spread::before { display: none; }
@@ -1399,8 +1404,8 @@ body {
      of content on a narrow screen, which is worse than on desktop since tabs
      take up a much bigger fraction of the width. */
   .tabs-right { padding: 26px 0 0 4px; gap: 4px; }
-  .tab { font-size: 10px; padding: 6px 8px; min-width: 0; }
-  .tabs-right .tab { padding-left: 8px; }
+  .tab { font-size: 10px; min-width: 0; }
+  .tabs-right .tab { padding: 8px 4px; }
 
   .page-head { margin-bottom: 10px; padding-bottom: 6px; flex-wrap: wrap; row-gap: 2px; }
   .page-head .title { font-size: 14px; }
