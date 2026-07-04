@@ -220,9 +220,9 @@ body {
 .tabs-right {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
   padding-top: 50px;
-  padding-left: 10px;
+  padding-left: 2px;
   overflow-y: auto;
   z-index: 4;
 }
@@ -252,6 +252,10 @@ body {
   min-width: 0;
   width: auto;
   letter-spacing: 0.08em;
+  box-shadow:
+    inset 3px 0 5px -3px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.4),
+    1px 1px 2px rgba(0,0,0,0.25);
 }
 .tabs-right .tab:hover { transform: translateX(3px); filter: brightness(1.08); }
 .tabs-right .tab.active { transform: translateX(6px); filter: brightness(1.12); box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 2px 2px 4px rgba(0,0,0,0.35); }
@@ -1403,7 +1407,7 @@ body {
      an overlay — the previous position:absolute version covered several rows
      of content on a narrow screen, which is worse than on desktop since tabs
      take up a much bigger fraction of the width. */
-  .tabs-right { padding: 26px 0 0 4px; gap: 4px; }
+  .tabs-right { padding: 26px 0 0 1px; gap: 2px; }
   .tab { font-size: 10px; min-width: 0; }
   .tabs-right .tab { padding: 8px 4px; }
 
