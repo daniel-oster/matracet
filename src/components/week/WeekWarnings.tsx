@@ -1,11 +1,12 @@
 import { useState } from 'react'
-import type { DayMeal, Eater } from '../../types'
+import type { DayMeal, Eater, MealKind } from '../../types'
 import type { DayPlan } from '../../presence/types'
 import { useFeedback } from '../../hooks/useFeedback'
 import { useWeekPlan, applyOverride } from '../../hooks/useWeekPlan'
 
 interface Props {
   days: DayMeal[]
+  lunches?: DayMeal[]
   dayPlans: DayPlan[]
   eaters: Eater[]
   onOpenRecipe?: (slug: string) => void
@@ -13,7 +14,6 @@ interface Props {
 
 interface Warning {
   key: string
-  date: string
   dateLabel: string
   text: string
   slug?: string
@@ -29,7 +29,7 @@ function dateLabel(day: DayMeal): string {
   return `${DAY_SHORT[day.dag] ?? day.dag} ${num}`
 }
 
-export default function WeekWarnings({ days, dayPlans, eaters, onOpenRecipe }: Props) {
+export default function WeekWarnings({ days, lunches, dayPlans, eaters, onOpenRecipe }: Props) {
   const [open, setOpen] = useState(true)
   const { getFeedback } = useFeedback()
   const { getOverride } = useWeekPlan()
@@ -37,17 +37,16 @@ export default function WeekWarnings({ days, dayPlans, eaters, onOpenRecipe }: P
   const eaterName = new Map(eaters.map(e => [e.id, e.namn]))
   const warnings: Warning[] = []
 
-  for (const raw of days) {
-    const day = applyOverride(raw, getOverride(raw.datum))
+  function collect(raw: DayMeal, kind: MealKind) {
+    const day = applyOverride(raw, getOverride(raw.datum, kind))
     const slug = day.receptSlug
-    if (!slug) continue
+    if (!slug) return
     const record = getFeedback(slug)
-    if (!record) continue
+    if (!record) return
 
     if (record.excludeFromWeekPlan) {
       warnings.push({
-        key: `${day.datum}-excluded`,
-        date: day.datum,
+        key: `${day.datum}-${kind}-excluded`,
         dateLabel: dateLabel(day),
         text: `”${day.recept}” är utesluten ur veckoplanen men ändå planerad`,
         slug,
@@ -60,14 +59,16 @@ export default function WeekWarnings({ days, dayPlans, eaters, onOpenRecipe }: P
       if (p.sentiment !== 'refuses') continue
       if (presentIds && !presentIds.includes(p.personId)) continue
       warnings.push({
-        key: `${day.datum}-refuses-${p.personId}`,
-        date: day.datum,
+        key: `${day.datum}-${kind}-refuses-${p.personId}`,
         dateLabel: dateLabel(day),
         text: `${eaterName.get(p.personId) ?? p.personId} vägrar äta ”${day.recept}”`,
         slug,
       })
     }
   }
+
+  for (const raw of days) collect(raw, 'dinner')
+  for (const raw of lunches ?? []) collect(raw, 'lunch')
 
   if (warnings.length === 0) return null
 

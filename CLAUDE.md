@@ -52,38 +52,67 @@ Vite is configured with two HTML entry points (`vite.config.ts`):
 
 ### Component hierarchy
 
+As of the 2026 "paper" redesign, the app dropped its old binder/two-page-spread/side-tabs
+metaphor entirely in favor of a single-column phone-app layout with a home screen:
+
 ```
-App           – fetches initial data (week, eaters, recipe index)
-└── Binder    – manages active tab and portrait-mode side flip
-    ├── Page (left)  – renders the left half of the spread
-    ├── rings        – decorative binder rings
-    ├── Page (right) – renders the right half of the spread
-    └── Tabs         – navigation tabs along the right edge
+App          – fetches all data (rolling 7-day window, eaters, recipe index, presence)
+├── Hub      – landing screen: tonight glance card, "Veckan" primary button, tool tile grid
+├── VeckanView       – Vecka (read) / Planera (edit) mode toggle
+│   ├── VeckanOverview – 7-day list, tap a day to jump into Planera
+│   └── VeckanPlanner  – day cards (lunch|middag halves) + bottom/docked suggestion tray
+├── HandlaView, ReceptView, FamiljView, AnteckningarView, FyndView, BevakaView
+│                      – each a full single-column screen (own TopBar), no left/right split
+├── RecipeOverlay      – full-screen recipe reader modal (unchanged by the redesign)
+└── TopBar             – shared header (back button, eyebrow, title, optional right slot/progress)
 ```
 
-Each `Page` renders one view based on `activeTab`. Every view component receives `side: PageSide` (`'left' | 'right'`) and is responsible for splitting its own content between the two sides. For example, `VeckanView` shows Mon–Wed on the left and Thu–Sun on the right.
+There is no `Page`/`Tabs`/`Binder`/`PageSide` anymore — each screen owns its full content and
+decides its own responsive layout (see "Styling" below for the wide/landscape breakpoint).
+Navigation is a simple `screen: ScreenName` state in `App.tsx` (`'hub' | TabName`), not a router.
 
-### Tabs and views
+### Screens
 
-| Tab (`TabName`) | Left page | Right page |
-|---|---|---|
-| `veckan` | Mon–Wed meals | Thu–Sun meals |
-| `handla` | Shopping groups A | Shopping groups B |
-| `recept` | Recipe list (scrollable) | Recipe detail (loaded on demand) |
-| `familj` | First 2 eater profiles | Remaining eaters + weekly routine |
-| `anteckningar` | Current notes | Long-term ideas |
-| `bevaka` | Standing watch-list | Current bargain matches |
+| Screen (`ScreenName`) | Content |
+|---|---|
+| `hub` | Landing: tonight's dinner, "Veckan" shortcut, tiles for the rest |
+| `veckan` | Vecka: 7-day overview. Planera: suggestion tray, tap/drag a recipe onto a day's lunch or middag slot |
+| `handla` | Shopping list — ingredients column + bevaka/manual column (2-col on wide) |
+| `recept` | Recipe list + detail, master-detail (stacked on mobile, side-by-side on wide) |
+| `familj` | Presence schedule + eater profiles/rules (2-col on wide) |
+| `anteckningar` | Current notes + long-term ideas (2-col on wide) |
+| `bevaka` | Standing watch-list + current bargain matches (2-col on wide) |
+| `fynd` | Store offers, all categories in one scroll (2-col grid on wide) |
+
+### Week planning: suggestion tray
+
+`VeckanPlanner` (`src/components/week/VeckanPlanner.tsx`) replaced the old "⇄ Ersätt" modal
+(`ReplaceRecipeModal`, deleted). It renders a horizontally-scrollable tray of ranked recipe
+suggestions (`src/lib/suggestions.ts::rankSuggestions`, scored by current store-offer match,
+prep time, vegan filter, and per-person feedback) — drag one onto a day's lunch/middag half,
+or tap a suggestion then tap a slot (tap-to-place; both use the same pointer-event pattern:
+`onPointerDown` on the card records a start point, a window `pointermove`/`pointerup` pair
+added only while dragging resolves the drop target via `elementFromPoint` + `data-date`/
+`data-kind` attributes on the slot). On wide/landscape viewports (`min-width: 860px`) the tray
+docks as a fixed right-hand sidebar instead of a bottom sheet — this is the app's one deliberate
+use of extra landscape width, done in `paper.css` only, no JS layout branching.
+
+Swaps for **both** lunch and dinner now persist through `useWeekPlan` (`matracet:weekplan:v2`,
+`Record<date, { dinner?: WeekPlanOverride; lunch?: WeekPlanOverride }>` — bumped from `v1`,
+which only tracked dinners). Every place that displays a day's meal must call
+`applyOverride(rawMeal, getOverride(date, 'dinner' | 'lunch'))`.
 
 ### Data loading
 
-`App.tsx` fetches three resources on mount using `Promise.all`:
-- `/matracet/data/weeks/<CURRENT_WEEK>.json`
+`App.tsx` computes a rolling 7-day window starting today (not a hardcoded week constant) and
+fetches, in one `Promise.all`:
 - `/matracet/data/eaters.json`
 - `/matracet/data/recipes/_index.json`
+- `/matracet/data/weeks/<w>.json` for every distinct ISO week (`YYYY-Www`) the 7-day window touches
 
-The active week is hardcoded at the top of `App.tsx` as `const CURRENT_WEEK = '2026-W21'`. **Update this string when adding a new week.**
-
-`ReceptView` fetches individual recipes lazily: `/matracet/data/recipes/<slug>/recept.json` when the user selects a recipe.
+It also resolves the custody/presence schedule for the same window via
+`resolvePresenceRange` (`src/presence/resolver.ts`). Both `ReceptView` and `RecipeOverlay`
+fetch individual recipes lazily: `/matracet/data/recipes/<slug>/recept.json`.
 
 ### URL base path
 
@@ -91,22 +120,26 @@ All fetch URLs and internal links must use the `/matracet/` prefix (Vite `base` 
 
 ### Styling
 
-A single vanilla CSS file `src/styles/filofax.css` covers the entire app. There is no Tailwind. Design tokens live in `:root` CSS variables at the top of the file:
-- `--leather-*`: binder cover colours
-- `--paper`, `--paper-edge`, `--line`, `--line-margin`: page colours and ruled lines
-- `--t-veckan`, `--t-handla`, etc.: tab accent colours
-- `--ink`, `--ink-soft`, `--ink-blue`, `--ink-red`: text colours
+A single vanilla CSS file `src/styles/paper.css` covers the entire app (replaced the old
+`filofax.css` binder skin in the 2026 redesign — cream paper, near-black chrome, gold accent,
+"paper" design language). There is no Tailwind. Design tokens live in `:root`:
+- `--cream`, `--paper`, `--ink`: page background, card background, primary text/chrome
+- `--gold`, `--gold2`: accent (active states, links, highlights)
+- `--green`/`--green-d`/`--green-bg`, `--red`/`--red-bg`, `--blue`/`--blue-bg`: status colours (done/vegan, warning/refuses, info)
+- `--muted`, `--muted2`, `--sub`, `--line`, `--line2`, `--checked`: secondary text and hairlines
 
-Typography is Google Fonts loaded in `index.html`:
-- **Fraunces** (serif) — page titles, day numbers
-- **Caveat** (cursive) — meal names, prominent handwritten text
-- **Patrick Hand** (cursive) — ingredients, notes, body copy
-- **Inter Tight** (sans-serif) — labels, UI chrome
-- **JetBrains Mono** (monospace) — dates, codes, metadata
+Typography is plain Georgia/serif system stack (`font-family: Georgia, 'Times New Roman', serif`
+on `body`) — no Google Fonts, no `<link>` tags in `index.html`. This is a deliberate simplification
+from the old 5-webfont setup; don't re-add webfonts without discussing it, since the whole visual
+language is built around the plainness of a system serif.
 
-Portrait/mobile layout is handled entirely via `@media (orientation: portrait), (max-width: 700px)` — one page at a time with flip buttons.
-
-`.tabs-right` (the vertical tab strip) is a real grid column of `.spread` in both desktop (4th column, alongside the two pages + rings) and portrait (2nd column, alongside the single visible page) — it used to be `position: absolute` in both layouts, overlapping the page's right edge as a stick-out index-tab effect, but that meant it covered real content (e.g. Bevaka/Fynd prices, which are right-aligned) — worse in portrait since the tab strip is a much bigger fraction of a narrow screen's width. `display: none` elements (the hidden page/rings in portrait, e.g. `.page.right` when not flipped to) are fully removed from grid flow, so CSS grid auto-placement naturally assigns the remaining visible children (page, then tabs) into the explicit columns without any JSX changes needed. `.page-head` has `flex-wrap: wrap` in portrait so the title/sub line still breaks cleanly now that the page column is narrower.
+**Mobile-first, one shared wide/landscape breakpoint**: every screen renders single-column by
+default; `@media (min-width: 860px)` is the one breakpoint used throughout to opportunistically
+use extra width — multi-column tile grids (`.hub-grid`), 2-column screen bodies
+(`.handla-grid`, `.familj-grid`, `.bevaka-grid`, `.note-grid`, `.fynd-scroll--wide`), a
+list+detail split (`.recept-grid`), and the Planera suggestion tray docking to a sidebar instead
+of a bottom sheet. This is CSS-only — no JS layout branching, no more per-side `PageSide` prop
+threaded through every view.
 
 ## Data conventions
 
@@ -138,7 +171,7 @@ Lunches use the same `DayMeal` shape as dinners, in a sibling `luncher` array (o
 
 ### Shopping list ("Handla" tab)
 
-`HandlaView` is fully derived, not hardcoded. The left page aggregates ingredients from this week's `rollingDays` **and** `rollingLunches` (both, not dinners only — a meal doesn't cook itself just because it's lunch; only `rollingDays` goes through `weekPlanStore` overrides since only dinners have a swap/"Ersätt" flow) by fetching each planned recipe (`useRecipes`) and summing `vara`+`enhet` across dishes (`aggregateIngredients` in `src/lib/shoppingList.ts`); items listed in `public/data/pantry.json` (`always_have` / `current_stock`) are skipped since the household already has them. The right page shows current watch-list bargains (`findBevakaHits`, shared with `BevakaView` via `src/lib/bevaka.ts`) plus manually added items.
+`HandlaView` is fully derived, not hardcoded. It aggregates ingredients from this week's `rollingDays` **and** `rollingLunches` (both — a meal doesn't cook itself just because it's lunch; both go through `weekPlanStore` overrides now, since the Planera suggestion tray can swap either meal, not just dinner) by fetching each planned recipe (`useRecipes`) and summing `vara`+`enhet` across dishes (`aggregateIngredients` in `src/lib/shoppingList.ts`); items listed in `public/data/pantry.json` (`always_have` / `current_stock`) are skipped since the household already has them. A second section shows current watch-list bargains (`findBevakaHits`, shared with `BevakaView` via `src/lib/bevaka.ts`) plus manually added items.
 
 All user edits are local-only (no backend, per this app's design), via `useShoppingList` (`src/hooks/useShoppingList.ts`, a `matracet:shopping:v1` local store): checking a row's checkbox means "I already have this / don't need it" — it moves the row into a "Bortmarkerat" section below the list (not deleted), where unchecking it moves it straight back to the active list above. This applies uniformly to computed ingredients, bevaka hits, and manually added items. There's no in-app way to permanently edit the underlying recipe/pantry/watch-list data from this view — the **"⧉ Kopiera lista"** button copies a plain-text snapshot of the current (active) list, grouped by section, plus a "Bortmarkerat" footer of currently-removed items, to the clipboard via a hidden `<textarea>` fallback, meant to be pasted into a Claude Code prompt so a future session can act on it (e.g. update `pantry.json`, tweak a recipe's ingredients, or refine `bevakningslista.json`).
 
@@ -164,6 +197,7 @@ Durable gotchas discovered while working in this repo. Add to this list rather t
 - **Swedish terminology traps**: this app's data and UI use Swedish terms throughout (`erbjudanden`/fynd = offers, `vecka` = week, `butik` = store, `recept` = recipe). Voice-to-text requests about the app can mangle these into unrelated-sounding English words (see the Fynd/"fines" case above) — when a request doesn't map cleanly to a known tab/feature, grep `public/data/` and `src/components/views/` for near-matches before concluding it's a new feature.
 - **Store-offer PDF imports are cheap if you avoid reading them as images**: the uploaded flyer PDFs (Willys/ICA/Hemköp, often 30–200 pages) have a real text layer — `pdftotext -layout` (poppler-utils; `apt-get install -y poppler-utils` if missing) extracts it almost for free, vs. paying vision-token costs to read each page as an image. Willys and Hemköp's structured list render as a 2-column grid that `-layout` squashes onto shared lines with a ragged (non-fixed) column boundary — `scripts/erbjudanden-split-columns.mjs` splits each line at its widest whitespace run to recover two clean single-column text streams. From there `scripts/erbjudanden-parse-{ica,willys,hemkop}.mjs` turn the text into draft offer JSON (see `public/data/erbjudanden/README.md` for the full workflow and known gaps). Treat parser output as a draft: ICA's export mixes in non-food items that need manual filtering, Hemköp's origin/country data only exists in the separate graphic reklamblad (not the structured list), and page-break artifacts occasionally scramble one or two items that need hand-fixing.
 - **Some uploaded "flyer" PDFs are graphic-only screenshots of a store's web page (no usable text layer at all)** — `pdftotext` returns empty output (check `pdfinfo`/page count first; the upload UI's page count can differ from `pdfinfo`'s, e.g. it reported 39/224 pages for PDFs that were actually 10/12 real pages — trust `pdfinfo`). For these, skip straight to the `Read` tool's multimodal PDF paging (`pages: "N-M"`, ≤20 pages/call) and transcribe the visible price tags/labels by eye. This also **sidesteps Hemköp's known font-substitution trick** (README's "det grafiska bladet är oläsligt" warning is about the *text layer*, where digits are remapped to wrong Unicode codepoints for scraping-resistance) — the glyphs still *render* correctly as pixels, so a vision read gets the real numbers even when `pdftotext` on the same PDF would return garbage digits. Watch for numbers genuinely obscured by decorative page elements (e.g. a black cutout shape or a UI overlay bar in the screenshot) — those are actually unreadable and should become `null` rather than a guess; re-`Read` just that one page at a smaller range if a price looks cut off before giving up on it.
+- **CSS flex-shrink trap: `overflow: hidden` on a flex item makes its automatic minimum size 0.** A scrollable list built as `display: flex; flex-direction: column` (for the `gap` shorthand) nested inside a height-constrained ancestor (`max-height` + `overflow-y: auto`) will, once its content's natural height exceeds that max-height, shrink every flex item down toward its minimum size to try to fit — and because each item (`.recipe-card-wrap`, in this case) had `overflow: hidden` for rounded corners, the spec's "automatic minimum size is 0 for non-visible overflow" kicked in and every card collapsed to ~2px instead of the list just overflowing into the scrollbar as intended. Symptom: Playwright reports a click "intercepted" by the parent wrapper div even though the button inside looks normal-sized in a screenshot at a *narrower* viewport where the collapse doesn't trigger (it only shows up once real content overflows the constrained container, e.g. `ReceptView`'s recipe list at the `min-width: 860px` two-column layout with 100+ recipes). Fix: don't use `display: flex` on a list purely for the `gap` property if any ancestor constrains its height with `overflow: auto` — use `display: block` and `margin-bottom` on items instead, or add `flex-shrink: 0` / `min-height` explicitly to every item.
 - **Schema gotcha when hand-authoring `erbjudanden[]` entries** (as opposed to running them through the `erbjudanden-parse-*.mjs` scripts, which already get this right): `ord_pris`, `pris_30dgr`, and `besparing` are `string | null` in `src/types.ts`, not numbers — a plain float there passes JSON validity but breaks `FyndView`/`BevakaView` at runtime (`c.ord_pris.includes is not a function`) since the UI calls `.includes()`/string methods on them expecting a string like `"49.85-52.95"`. Only `pris` is numeric. If writing a one-off Python/JS builder script for a manually-transcribed week, wrap those three fields in `str(...)` (or template-literal) unconditionally rather than passing the raw number, and smoke-test with the `run`/screenshot workflow before considering the data done — `npm run build`/`tsc` won't catch this since the JSON has no compile-time type checking.
 
 ## Deploy

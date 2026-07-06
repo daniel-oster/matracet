@@ -1,5 +1,6 @@
 export type TabName = 'veckan' | 'handla' | 'recept' | 'familj' | 'anteckningar' | 'fynd' | 'bevaka'
-export type PageSide = 'left' | 'right'
+export type ScreenName = 'hub' | TabName
+export type MealKind = 'lunch' | 'dinner'
 
 /** One offer from a store's weekly specials (see public/data/erbjudanden/README.md) */
 export interface Offer {

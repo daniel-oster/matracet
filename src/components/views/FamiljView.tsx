@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { PageSide, Eater } from '../../types'
+import { Eater } from '../../types'
 import type { DayPlan, Activity } from '../../presence/types'
 import { GROUPS, RULES } from '../../presence/seed'
 import { ACTIVITIES } from '../../presence/activities'
+import TopBar from '../TopBar'
 
 const DAY_SHORT: Record<number, string> = {
   1: 'Mån', 2: 'Tis', 3: 'Ons', 4: 'Tor', 5: 'Fre', 6: 'Lör', 7: 'Sön',
@@ -27,30 +28,45 @@ function effectiveTime(act: Activity): string | null {
 type Section = 'profiler' | 'regler'
 
 interface Props {
-  side: PageSide
+  onBack: () => void
   eaters: Eater[]
   dayPlans: DayPlan[]
 }
 
-export default function FamiljView({ side, eaters, dayPlans }: Props) {
+export default function FamiljView({ onBack, eaters, dayPlans }: Props) {
   const [section, setSection] = useState<Section>('profiler')
 
-  if (side === 'left') {
-    return <SchedulePage dayPlans={dayPlans} />
-  }
-  return <FamiljPage section={section} onSection={setSection} eaters={eaters} />
+  return (
+    <div className="screen">
+      <TopBar onBack={onBack} eyebrow="Vem äter vad" title="Familj" />
+      <div className="screen-body familj-grid">
+        <SchedulePane dayPlans={dayPlans} />
+        <div className="familj-pane">
+          <div className="familj-toggle">
+            <button
+              className={`familj-toggle-btn${section === 'profiler' ? ' familj-toggle-btn--active' : ''}`}
+              onClick={() => setSection('profiler')}
+            >
+              Profiler
+            </button>
+            <button
+              className={`familj-toggle-btn${section === 'regler' ? ' familj-toggle-btn--active' : ''}`}
+              onClick={() => setSection('regler')}
+            >
+              Regler
+            </button>
+          </div>
+          {section === 'profiler' ? <ProfilerSection eaters={eaters} /> : <ReglerSection />}
+        </div>
+      </div>
+    </div>
+  )
 }
 
-// ── Left page: 7-day rolling schedule ──────────────────────────────────────
-
-function SchedulePage({ dayPlans }: { dayPlans: DayPlan[] }) {
+function SchedulePane({ dayPlans }: { dayPlans: DayPlan[] }) {
   return (
-    <>
-      <div className="page-head">
-        <div className="title">Schema</div>
-        <div className="sub">närvaro · aktiviteter · matfönster</div>
-      </div>
-
+    <div className="sched-pane">
+      <h3 className="shop-group-title">Schema · närvaro, aktiviteter, matfönster</h3>
       <div className="sched-days">
         {dayPlans.map(plan => {
           const hasGroup = plan.portions > 0
@@ -90,53 +106,9 @@ function SchedulePage({ dayPlans }: { dayPlans: DayPlan[] }) {
           )
         })}
       </div>
-    </>
+    </div>
   )
 }
-
-// ── Right page: toggle between Profiler and Regler ─────────────────────────
-
-function FamiljPage({
-  section,
-  onSection,
-  eaters,
-}: {
-  section: Section
-  onSection: (s: Section) => void
-  eaters: Eater[]
-}) {
-  return (
-    <>
-      <div className="page-head">
-        <div className="familj-page-head-row">
-          <div className="title">Familjen</div>
-          <div className="familj-toggle">
-            <button
-              className={`familj-toggle-btn${section === 'profiler' ? ' familj-toggle-btn--active' : ''}`}
-              onClick={() => onSection('profiler')}
-            >
-              Profiler
-            </button>
-            <button
-              className={`familj-toggle-btn${section === 'regler' ? ' familj-toggle-btn--active' : ''}`}
-              onClick={() => onSection('regler')}
-            >
-              Regler
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {section === 'profiler' ? (
-        <ProfilerSection eaters={eaters} />
-      ) : (
-        <ReglerSection />
-      )}
-    </>
-  )
-}
-
-// ── Profiler ───────────────────────────────────────────────────────────────
 
 function ProfilerSection({ eaters }: { eaters: Eater[] }) {
   return (
@@ -164,8 +136,6 @@ function ProfilerSection({ eaters }: { eaters: Eater[] }) {
     </div>
   )
 }
-
-// ── Regler ─────────────────────────────────────────────────────────────────
 
 function ReglerSection() {
   const byPerson: Record<string, Activity[]> = {}
