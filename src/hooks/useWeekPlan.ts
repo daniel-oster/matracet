@@ -8,9 +8,25 @@ export interface WeekPlanOverride {
   updatedAt: string
 }
 
+/** Per-meal override of who's actually eating, independent of the recipe itself. */
+export interface MealAttendance {
+  /** Explicit list of eater ids for this meal. null = derive from the day's presence plan. */
+  presentIds: string[] | null
+  /** True = this slot needs no meal at all (e.g. eating out) — the dish is cleared too. */
+  skip: boolean
+  updatedAt: string
+}
+
+type AttendanceKey = 'lunchAttendance' | 'dinnerAttendance'
+function attendanceKey(kind: MealKind): AttendanceKey {
+  return kind === 'lunch' ? 'lunchAttendance' : 'dinnerAttendance'
+}
+
 export interface DayOverride {
   dinner?: WeekPlanOverride
   lunch?: WeekPlanOverride
+  dinnerAttendance?: MealAttendance
+  lunchAttendance?: MealAttendance
 }
 
 export type WeekPlanStore = Record<string, DayOverride>  // nyckel = datum (ISO)
@@ -19,8 +35,24 @@ const EMPTY: WeekPlanStore = {}
 
 export const weekPlanStore = createLocalStore<WeekPlanStore>('matracet:weekplan:v2', EMPTY)
 
-/** Merge a local replacement onto a day from the static week JSON. */
-export function applyOverride(day: DayMeal, override: WeekPlanOverride | undefined): DayMeal {
+/** Effective attendee ids for a meal: an explicit attendance override wins, else the day's presence plan. */
+export function effectivePresentIds(
+  planPresentIds: string[] | null,
+  attendance: MealAttendance | undefined,
+): string[] | null {
+  if (attendance?.presentIds) return attendance.presentIds
+  return planPresentIds
+}
+
+/** Merge a local replacement (recipe swap and/or skip) onto a day from the static week JSON. */
+export function applyOverride(
+  day: DayMeal,
+  override: WeekPlanOverride | undefined,
+  attendance?: MealAttendance,
+): DayMeal {
+  if (attendance?.skip) {
+    return { ...day, recept: null, receptSlug: undefined, anteckning: 'Ingen måltid behövs', varianter: undefined }
+  }
   if (!override) return day
   return {
     ...day,
@@ -36,9 +68,16 @@ export function applyOverride(day: DayMeal, override: WeekPlanOverride | undefin
 function setMeal(date: string, kind: MealKind, recept: string, receptSlug: string | null): void {
   const all = weekPlanStore.get()
   const day = all[date] ?? {}
+  const attKey = attendanceKey(kind)
+  const att = day[attKey]
   weekPlanStore.set({
     ...all,
-    [date]: { ...day, [kind]: { recept, receptSlug, updatedAt: new Date().toISOString() } },
+    [date]: {
+      ...day,
+      [kind]: { recept, receptSlug, updatedAt: new Date().toISOString() },
+      // Assigning a dish means the meal is needed again.
+      ...(att?.skip ? { [attKey]: { ...att, skip: false, updatedAt: new Date().toISOString() } } : {}),
+    },
   })
 }
 
@@ -49,7 +88,29 @@ function clearOverride(date: string, kind: MealKind): void {
   const nextDay = { ...day }
   delete nextDay[kind]
   const next = { ...all }
-  if (nextDay.dinner || nextDay.lunch) next[date] = nextDay
+  if (Object.keys(nextDay).length > 0) next[date] = nextDay
+  else delete next[date]
+  weekPlanStore.set(next)
+}
+
+function setAttendance(date: string, kind: MealKind, attendance: MealAttendance): void {
+  const all = weekPlanStore.get()
+  const day = all[date] ?? {}
+  weekPlanStore.set({
+    ...all,
+    [date]: { ...day, [attendanceKey(kind)]: attendance },
+  })
+}
+
+function clearAttendance(date: string, kind: MealKind): void {
+  const all = weekPlanStore.get()
+  const day = all[date]
+  const key = attendanceKey(kind)
+  if (!day?.[key]) return
+  const nextDay = { ...day }
+  delete nextDay[key]
+  const next = { ...all }
+  if (Object.keys(nextDay).length > 0) next[date] = nextDay
   else delete next[date]
   weekPlanStore.set(next)
 }
@@ -57,8 +118,11 @@ function clearOverride(date: string, kind: MealKind): void {
 export interface UseWeekPlan {
   data: WeekPlanStore
   getOverride: (date: string, kind: MealKind) => WeekPlanOverride | undefined
+  getAttendance: (date: string, kind: MealKind) => MealAttendance | undefined
   setMeal: (date: string, kind: MealKind, recept: string, receptSlug: string | null) => void
   clearOverride: (date: string, kind: MealKind) => void
+  setAttendance: (date: string, kind: MealKind, attendance: MealAttendance) => void
+  clearAttendance: (date: string, kind: MealKind) => void
 }
 
 export function useWeekPlan(): UseWeekPlan {
@@ -70,7 +134,10 @@ export function useWeekPlan(): UseWeekPlan {
   return {
     data,
     getOverride: (date: string, kind: MealKind) => data[date]?.[kind],
+    getAttendance: (date: string, kind: MealKind) => data[date]?.[attendanceKey(kind)],
     setMeal,
     clearOverride,
+    setAttendance,
+    clearAttendance,
   }
 }

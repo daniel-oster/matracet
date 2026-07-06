@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { DayMeal, Eater, MealKind, RecipeIndexEntry } from '../../types'
 import type { DayPlan } from '../../presence/types'
-import { useWeekPlan, applyOverride } from '../../hooks/useWeekPlan'
+import { useWeekPlan, applyOverride, effectivePresentIds, MealAttendance } from '../../hooks/useWeekPlan'
 import { useFeedback } from '../../hooks/useFeedback'
 import { useRecipes } from '../../hooks/useRecipes'
 import { useOffers } from '../../hooks/useOffers'
@@ -45,7 +45,7 @@ interface Props {
 }
 
 export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeIndex, onOpenRecipe }: Props) {
-  const { getOverride, setMeal, clearOverride } = useWeekPlan()
+  const { getOverride, setMeal, clearOverride, getAttendance, setAttendance, clearAttendance } = useWeekPlan()
   const { getFeedback } = useFeedback()
   const allSlugs = useMemo(() => recipeIndex.map(r => r.slug), [recipeIndex])
   const fullRecipes = useRecipes(allSlugs)
@@ -53,9 +53,11 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
   const offers = useMemo(() => (stores ? tagOffers(stores) : []), [stores])
 
   const enrichedDays = useMemo(() => days.map(rawDay => {
-    const dinner = applyOverride(rawDay, getOverride(rawDay.datum, 'dinner'))
+    const dinnerAttendance = getAttendance(rawDay.datum, 'dinner')
+    const lunchAttendance = getAttendance(rawDay.datum, 'lunch')
+    const dinner = applyOverride(rawDay, getOverride(rawDay.datum, 'dinner'), dinnerAttendance)
     const rawLunch = lunches.find(l => l.datum === rawDay.datum)
-    const lunch = rawLunch ? applyOverride(rawLunch, getOverride(rawDay.datum, 'lunch')) : undefined
+    const lunch = rawLunch ? applyOverride(rawLunch, getOverride(rawDay.datum, 'lunch'), lunchAttendance) : undefined
     return {
       datum: rawDay.datum,
       dag: rawDay.dag,
@@ -66,9 +68,11 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
       lunchSlug: lunch?.receptSlug ?? null,
       dinnerOverride: getOverride(rawDay.datum, 'dinner'),
       lunchOverride: getOverride(rawDay.datum, 'lunch'),
+      dinnerAttendance,
+      lunchAttendance,
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }), [days, lunches, dayPlans, getOverride])
+  }), [days, lunches, dayPlans, getOverride, getAttendance])
 
   const [activeDate, setActiveDate] = useState(() => {
     const firstEmpty = enrichedDays.find(d => !d.lunchLabel || !d.dinnerLabel)
@@ -77,18 +81,48 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
   const [query, setQuery] = useState('')
   const [filter, setFilter] = useState<SuggestionFilter>('alla')
   const [sort, setSort] = useState<SuggestionSort>('match')
+  const [attendanceOpen, setAttendanceOpen] = useState<MealKind | null>(null)
 
   const active = enrichedDays.find(d => d.datum === activeDate) ?? enrichedDays[0]
+  const activePlanIds = useMemo(() => active?.plan?.presentPersons.map(p => p.id) ?? [], [active])
 
   const suggestions = rankSuggestions({
     recipeIndex, fullRecipes, query, filter, sort, eaters,
-    presentPersonIds: active?.plan?.presentPersons.map(p => p.id) ?? null,
+    presentPersonIds: effectivePresentIds(active?.plan?.presentPersons.map(p => p.id) ?? null, active?.dinnerAttendance),
     offers, getFeedback,
   })
 
   function assign(kind: MealKind, entry: { namn: string; slug: string }) {
     if (!active) return
     setMeal(active.datum, kind, entry.namn, entry.slug)
+  }
+
+  function attendanceFor(kind: MealKind): MealAttendance | undefined {
+    return kind === 'lunch' ? active?.lunchAttendance : active?.dinnerAttendance
+  }
+
+  function toggleAttendee(kind: MealKind, eaterId: string) {
+    if (!active) return
+    const attendance = attendanceFor(kind)
+    const base = attendance?.presentIds ?? activePlanIds
+    const nextIds = base.includes(eaterId) ? base.filter(id => id !== eaterId) : [...base, eaterId]
+    setAttendance(active.datum, kind, { presentIds: nextIds, skip: false, updatedAt: new Date().toISOString() })
+  }
+
+  function toggleSkip(kind: MealKind) {
+    if (!active) return
+    const attendance = attendanceFor(kind)
+    if (attendance?.skip) {
+      clearAttendance(active.datum, kind)
+    } else {
+      setAttendance(active.datum, kind, { presentIds: attendance?.presentIds ?? null, skip: true, updatedAt: new Date().toISOString() })
+    }
+  }
+
+  function resetAttendance(kind: MealKind) {
+    if (!active) return
+    clearAttendance(active.datum, kind)
+    setAttendanceOpen(null)
   }
 
   return (
@@ -99,7 +133,7 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
             key={d.datum}
             type="button"
             className={`day-pill${d.datum === active?.datum ? ' on' : ''}`}
-            onClick={() => setActiveDate(d.datum)}
+            onClick={() => { setActiveDate(d.datum); setAttendanceOpen(null) }}
           >
             <span className="day-pill-w">{DAY_SHORT[d.dag] ?? d.dag}</span>
             <span className="day-pill-n">{dateNum(d.datum)}</span>
@@ -119,20 +153,83 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
               const label = kind === 'lunch' ? active.lunchLabel : active.dinnerLabel
               const slug = kind === 'lunch' ? active.lunchSlug : active.dinnerSlug
               const override = kind === 'lunch' ? active.lunchOverride : active.dinnerOverride
+              const attendance = attendanceFor(kind)
+              const away = attendance?.presentIds
+                ? activePlanIds.filter(id => !attendance.presentIds!.includes(id))
+                : []
+              const extra = attendance?.presentIds
+                ? attendance.presentIds.filter(id => !activePlanIds.includes(id))
+                : []
               return (
-                <div key={kind} className="active-slot">
-                  <span className="active-slot-ic">{kind === 'lunch' ? '☼' : '☾'}</span>
-                  <span className={`active-slot-dish${label ? '' : ' empty'}`}>{label ?? 'ledig'}</span>
-                  {slug && (
-                    <button type="button" className="active-slot-open" onClick={() => onOpenRecipe(slug)}>Recept ›</button>
-                  )}
-                  {override && (
+                <div key={kind} className="active-slot-group">
+                  <div className="active-slot">
+                    <span className="active-slot-ic">{kind === 'lunch' ? '☼' : '☾'}</span>
+                    <span className={`active-slot-dish${label ? '' : ' empty'}`}>{label ?? 'ledig'}</span>
+                    {slug && (
+                      <button type="button" className="active-slot-open" onClick={() => onOpenRecipe(slug)}>Recept ›</button>
+                    )}
+                    {override && (
+                      <button
+                        type="button"
+                        className="active-slot-clear"
+                        onClick={() => clearOverride(active.datum, kind)}
+                        title="Återställ till ursprunglig plan"
+                      >✕</button>
+                    )}
                     <button
                       type="button"
-                      className="active-slot-clear"
-                      onClick={() => clearOverride(active.datum, kind)}
-                      title="Återställ till ursprunglig plan"
-                    >✕</button>
+                      className={`active-slot-people${attendance ? ' edited' : ''}${attendanceOpen === kind ? ' on' : ''}`}
+                      onClick={() => setAttendanceOpen(o => (o === kind ? null : kind))}
+                      title="Vem äter?"
+                    >
+                      👪
+                    </button>
+                  </div>
+                  {!attendance?.skip && (away.length > 0 || extra.length > 0) && (
+                    <div className="active-slot-attendance">
+                      {away.map(id => (
+                        <span key={`away-${id}`} className="day-flag day-flag--away">− {eaters.find(e => e.id === id)?.namn ?? id}</span>
+                      ))}
+                      {extra.map(id => (
+                        <span key={`extra-${id}`} className="day-flag day-flag--extra">+ {eaters.find(e => e.id === id)?.namn ?? id}</span>
+                      ))}
+                    </div>
+                  )}
+                  {attendanceOpen === kind && (
+                    <div className="attendance-editor">
+                      <div className="attendance-eaters">
+                        {eaters.map(e => {
+                          const ids = attendance?.presentIds ?? activePlanIds
+                          const on = ids.includes(e.id)
+                          return (
+                            <button
+                              key={e.id}
+                              type="button"
+                              disabled={attendance?.skip}
+                              className={`attendance-chip${on ? ' on' : ''}`}
+                              onClick={() => toggleAttendee(kind, e.id)}
+                            >
+                              {on ? '✓ ' : '— '}{e.namn}
+                            </button>
+                          )
+                        })}
+                      </div>
+                      <div className="attendance-actions">
+                        <button
+                          type="button"
+                          className={`attendance-skip${attendance?.skip ? ' on' : ''}`}
+                          onClick={() => toggleSkip(kind)}
+                        >
+                          {attendance?.skip ? '✓ Ingen måltid behövs' : 'Ingen måltid behövs'}
+                        </button>
+                        {attendance && (
+                          <button type="button" className="attendance-reset" onClick={() => resetAttendance(kind)}>
+                            Återställ till schema
+                          </button>
+                        )}
+                        <button type="button" className="attendance-close" onClick={() => setAttendanceOpen(null)}>Klar</button>
+                      </div>
+                    </div>
                   )}
                 </div>
               )

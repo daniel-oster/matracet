@@ -197,6 +197,8 @@ input, select, textarea { font-family: inherit; }
 }
 .day-flag--excluded { background: var(--checked); color: var(--sub); }
 .day-flag--refuses { background: var(--red-bg); color: var(--red); }
+.day-flag--away { background: var(--checked); color: var(--sub); }
+.day-flag--extra { background: var(--blue-bg); color: var(--blue); }
 
 /* ─── Veckan: planner ──────────────────────────────────────────────────── */
 
@@ -225,6 +227,7 @@ input, select, textarea { font-family: inherit; }
 }
 .active-day-name { font-size: 11px; color: var(--muted); margin-bottom: 6px; }
 .active-day-slots { display: flex; flex-direction: column; gap: 5px; }
+.active-slot-group { display: flex; flex-direction: column; gap: 4px; }
 .active-slot { display: flex; align-items: center; gap: 7px; font-size: 13.5px; }
 .active-slot-ic { color: var(--muted2); font-size: 12px; flex: none; width: 14px; }
 .active-slot-dish { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -234,6 +237,36 @@ input, select, textarea { font-family: inherit; }
   cursor: pointer; color: var(--gold2);
 }
 .active-slot-clear { color: var(--muted); }
+.active-slot-people {
+  flex: none; font-family: inherit; font-size: 13px; background: none; border: 1px solid transparent;
+  border-radius: 6px; padding: 1px 4px; cursor: pointer; line-height: 1; opacity: 0.55;
+}
+.active-slot-people.edited { opacity: 1; }
+.active-slot-people.on { background: var(--checked); border-color: var(--line2); opacity: 1; }
+.active-slot-attendance { display: flex; flex-wrap: wrap; gap: 5px; padding-left: 21px; }
+
+/* Per-meal attendance editor: who's eating, or skip the meal entirely. */
+.attendance-editor {
+  margin: 2px 0 4px 21px; padding: 8px; border: 1px solid var(--line2); border-radius: 8px;
+  background: var(--cream); display: flex; flex-direction: column; gap: 8px;
+}
+.attendance-eaters { display: flex; flex-wrap: wrap; gap: 6px; }
+.attendance-chip {
+  font-family: inherit; font-size: 12px; padding: 4px 10px; border-radius: 99px;
+  border: 1px solid var(--line2); background: var(--paper); color: var(--muted); cursor: pointer;
+}
+.attendance-chip.on { background: var(--green-bg); border-color: var(--green); color: var(--green-d); }
+.attendance-chip:disabled { opacity: 0.45; cursor: default; }
+.attendance-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.attendance-skip {
+  font-family: inherit; font-size: 12px; padding: 4px 10px; border-radius: 99px;
+  border: 1px solid var(--line2); background: var(--paper); color: var(--sub); cursor: pointer;
+}
+.attendance-skip.on { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+.attendance-reset, .attendance-close {
+  font-family: inherit; font-size: 11px; background: none; border: none; cursor: pointer; color: var(--gold2);
+}
+.attendance-close { margin-left: auto; color: var(--muted); }
 
 /* Suggestion controls: filter chips, sort, search — all first-class, "discover" feel. */
 .sugg-controls { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }

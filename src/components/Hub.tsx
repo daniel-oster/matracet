@@ -31,9 +31,11 @@ interface Props {
 }
 
 export default function Hub({ weekLabel, rollingDays, recipeIndex, dayPlans, onNavigate, onOpenRecipe }: Props) {
-  const { getOverride } = useWeekPlan()
+  const { getOverride, getAttendance } = useWeekPlan()
   const rawTonight = rollingDays[0]
-  const tonight = rawTonight ? applyOverride(rawTonight, getOverride(rawTonight.datum, 'dinner')) : undefined
+  const tonight = rawTonight
+    ? applyOverride(rawTonight, getOverride(rawTonight.datum, 'dinner'), getAttendance(rawTonight.datum, 'dinner'))
+    : undefined
   const tonightRecipe = tonight?.receptSlug ? recipeIndex.find(r => r.slug === tonight.receptSlug) : undefined
   const tonightPlan = tonight ? dayPlans.find(p => p.date === tonight.datum) : undefined
 

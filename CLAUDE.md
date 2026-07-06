@@ -110,9 +110,27 @@ existing filter chips (`Alla`/`🏷 Fynd`/`⚡ Snabbt`/`🌱 Vegansk`): `Suggest
 the intended "discover" feel of browsing ~30 ranked options many ways rather than one funnel.
 
 Swaps for **both** lunch and dinner now persist through `useWeekPlan` (`matracet:weekplan:v2`,
-`Record<date, { dinner?: WeekPlanOverride; lunch?: WeekPlanOverride }>` — bumped from `v1`,
-which only tracked dinners). Every place that displays a day's meal must call
-`applyOverride(rawMeal, getOverride(date, 'dinner' | 'lunch'))`.
+`Record<date, { dinner?: WeekPlanOverride; lunch?: WeekPlanOverride; dinnerAttendance?: MealAttendance;
+lunchAttendance?: MealAttendance }>` — bumped from `v1`, which only tracked dinners). Every place
+that displays a day's meal must call
+`applyOverride(rawMeal, getOverride(date, 'dinner' | 'lunch'), getAttendance(date, 'dinner' | 'lunch'))`.
+
+Each active-day slot in `VeckanPlanner` also has a 👪 button opening a per-meal attendance editor:
+toggle chips for every eater (defaulting to that day's presence-schedule group, from `DayPlan.presentPersons`)
+let you mark someone normally home as away for just this one meal, or add someone not normally home
+(e.g. a visiting guest) — stored as `MealAttendance.presentIds` (`null` = derive from the day's
+presence plan; a non-null array is an explicit override). A separate "Ingen måltid behövs" toggle
+(`MealAttendance.skip`) clears the meal slot entirely (dish and all) for nights/days no meal is
+needed at all, e.g. eating out — `applyOverride` turns this into `recept: null` +
+`anteckning: 'Ingen måltid behövs'`, so it also drops out of the `HandlaView` shopping-list
+aggregation like any other note-only day. Assigning a new dish via `setMeal` automatically un-skips
+the slot. `effectivePresentIds(planPresentIds, attendance)` is the shared helper for "who's actually
+eating" — an explicit attendance override wins, otherwise it falls back to the day's presence-plan
+group — used by `VeckanPlanner`'s suggestion ranking, `VeckanOverview`'s refusal-warning badges,
+and `WeekWarnings`. Note this only affects meal-level display/aggregation, not `DayPlan.portions` or
+the custody presence schedule itself — the presence resolver (Side A) remains the single source of
+truth for custody; per-meal attendance is a lightweight, meal-scoped override on top of it, not a
+way to edit the underlying schedule.
 
 ### Data loading
 
