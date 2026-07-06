@@ -1,5 +1,7 @@
-import { PageSide, Offer, StoreOffers } from '../../types'
+import { useState } from 'react'
+import { Offer, StoreOffers } from '../../types'
 import { useOffers } from '../../hooks/useOffers'
+import TopBar from '../TopBar'
 
 interface StoreMeta {
   namn: string
@@ -29,8 +31,6 @@ const CATS: CatMeta[] = [
   { id: 'hygien_hushall', label: 'Hygien & hushåll', emoji: '🧻' },
   { id: 'ovrigt', label: 'Övrigt', emoji: '📦' },
 ]
-const LEFT_CATS = ['kott_fagel', 'fisk_skaldjur', 'frukt_gront', 'mejeri']
-const RIGHT_CATS = ['brod_bakverk', 'torrvaror', 'frys', 'dryck', 'snacks_godis', 'hygien_hushall', 'ovrigt']
 
 const FLAGS: Record<string, string> = {
   Sverige: '🇸🇪',
@@ -116,28 +116,24 @@ function buildMatchGroups(all: TaggedOffer[]): MatchGroup[] {
 }
 
 interface Props {
-  side: PageSide
-  storeFilter: Record<string, boolean>
-  onToggleStore: (store: string) => void
-  swedishOnly: boolean
-  onToggleSwedish: () => void
-  mode: 'alla' | 'jamfor'
-  onToggleMode: () => void
-  week: string | null
-  onSelectWeek: (week: string | null) => void
+  onBack: () => void
 }
 
-export default function FyndView({ side, storeFilter, onToggleStore, swedishOnly, onToggleSwedish, mode, onToggleMode, week, onSelectWeek }: Props) {
+export default function FyndView({ onBack }: Props) {
+  const [storeFilter, setStoreFilter] = useState<Record<string, boolean>>({ willys: true, ica: true, hemkop: true })
+  const [swedishOnly, setSwedishOnly] = useState(false)
+  const [mode, setMode] = useState<'alla' | 'jamfor'>('alla')
+  const [week, setWeek] = useState<string | null>(null)
   const { stores, availableWeeks, latestWeek } = useOffers(week)
+
+  const toggleStore = (store: string) => setStoreFilter(prev => ({ ...prev, [store]: !prev[store] }))
 
   if (!stores) {
     return (
-      <>
-        <div className="page-head">
-          <div className="title">Fynd</div>
-        </div>
-        <div className="fynd-empty">Laddar erbjudanden…</div>
-      </>
+      <div className="screen">
+        <TopBar onBack={onBack} title="Fynd" />
+        <div className="screen-body"><div className="fynd-empty">Laddar erbjudanden…</div></div>
+      </div>
     )
   }
 
@@ -149,8 +145,6 @@ export default function FyndView({ side, storeFilter, onToggleStore, swedishOnly
     s.erbjudanden.map(o => ({ ...o, store: s.kalla })),
   )
 
-  const catIds = side === 'left' ? LEFT_CATS : RIGHT_CATS
-
   function visible(o: TaggedOffer): boolean {
     if (!storeFilter[o.store]) return false
     if (swedishOnly && !isSwedish(o)) return false
@@ -158,85 +152,84 @@ export default function FyndView({ side, storeFilter, onToggleStore, swedishOnly
   }
 
   return (
-    <>
-      <div className="page-head">
-        <div>
-          <div className="title">
-            {mode === 'jamfor' ? (side === 'left' ? 'Jämför' : 'Jämför · forts.') : (side === 'left' ? 'Fynd' : 'Fynd · forts.')}
+    <div className="screen">
+      <TopBar
+        onBack={onBack}
+        eyebrow={`v.${shownWeek} · ${range} · ${stores.length} butiker`}
+        title={mode === 'jamfor' ? 'Jämför' : 'Fynd'}
+        right={
+          <div className="fynd-mode-bar">
+            <button
+              type="button"
+              className={`fynd-mode-btn${mode === 'alla' ? ' active' : ''}`}
+              onClick={() => setMode('alla')}
+            >
+              Alla
+            </button>
+            <button
+              type="button"
+              className={`fynd-mode-btn${mode === 'jamfor' ? ' active' : ''}`}
+              onClick={() => setMode('jamfor')}
+            >
+              Jämför
+            </button>
           </div>
-          <div className="sub">{`v.${shownWeek} · ${range} · ${stores.length} butiker`}</div>
-        </div>
-        <div className="fynd-mode-bar">
-          <button
-            type="button"
-            className={`fynd-mode-btn${mode === 'alla' ? ' active' : ''}`}
-            onClick={() => mode !== 'alla' && onToggleMode()}
-          >
-            Alla
-          </button>
-          <button
-            type="button"
-            className={`fynd-mode-btn${mode === 'jamfor' ? ' active' : ''}`}
-            onClick={() => mode !== 'jamfor' && onToggleMode()}
-          >
-            Jämför
-          </button>
-        </div>
-      </div>
+        }
+      />
 
-      <div className="fynd-filters">
-        {(otherWeeks.length > 0 || week) && (
-          <select
-            className="fynd-week-select"
-            value={week ?? ''}
-            onChange={e => onSelectWeek(e.target.value || null)}
-            title="Välj vecka"
+      <div className="screen-body">
+        <div className="fynd-filters">
+          {(otherWeeks.length > 0 || week) && (
+            <select
+              className="fynd-week-select"
+              value={week ?? ''}
+              onChange={e => setWeek(e.target.value || null)}
+              title="Välj vecka"
+            >
+              {latestWeek && <option value="">Senaste · v.{latestWeek.split('-W')[1]}</option>}
+              {otherWeeks.map(w => (
+                <option key={w} value={w}>{weekLabel(w)}</option>
+              ))}
+            </select>
+          )}
+          {Object.keys(STORES).map(key => (
+            <button
+              key={key}
+              type="button"
+              className={`fynd-chip ${STORES[key].klass}${storeFilter[key] ? ' on' : ''}`}
+              onClick={() => toggleStore(key)}
+            >
+              {STORES[key].namn}
+            </button>
+          ))}
+          <button
+            type="button"
+            className={`fynd-chip flag${swedishOnly ? ' on' : ''}`}
+            onClick={() => setSwedishOnly(v => !v)}
+            title="Visa bara varor med svenskt ursprung"
           >
-            {latestWeek && <option value="">Senaste · v.{latestWeek.split('-W')[1]}</option>}
-            {otherWeeks.map(w => (
-              <option key={w} value={w}>{weekLabel(w)}</option>
-            ))}
-          </select>
+            🇸🇪 Svenskt
+          </button>
+        </div>
+
+        {mode === 'alla' ? (
+          <AllView all={all} visible={visible} />
+        ) : (
+          <JamforView all={all} visible={visible} />
         )}
-        {Object.keys(STORES).map(key => (
-          <button
-            key={key}
-            type="button"
-            className={`fynd-chip ${STORES[key].klass}${storeFilter[key] ? ' on' : ''}`}
-            onClick={() => onToggleStore(key)}
-          >
-            {STORES[key].namn}
-          </button>
-        ))}
-        <button
-          type="button"
-          className={`fynd-chip flag${swedishOnly ? ' on' : ''}`}
-          onClick={onToggleSwedish}
-          title="Visa bara varor med svenskt ursprung"
-        >
-          🇸🇪 Svenskt
-        </button>
       </div>
-
-      {mode === 'alla' ? (
-        <AllView all={all} catIds={catIds} visible={visible} />
-      ) : (
-        <JamforView all={all} catIds={catIds} visible={visible} />
-      )}
-    </>
+    </div>
   )
 }
 
-function AllView({ all, catIds, visible }: {
+function AllView({ all, visible }: {
   all: TaggedOffer[]
-  catIds: string[]
   visible: (o: TaggedOffer) => boolean
 }) {
   return (
-    <div className="fynd-scroll">
-      {catIds.map(catId => {
-        const meta = CATS.find(c => c.id === catId)!
-        const offers = all.filter(o => o.kategori === catId && visible(o)).sort((a, b) => sortKey(a) - sortKey(b))
+    <div className="fynd-scroll fynd-scroll--wide">
+      {CATS.map(meta => {
+        const offers = all.filter(o => o.kategori === meta.id && visible(o)).sort((a, b) => sortKey(a) - sortKey(b))
         if (offers.length === 0) return null
 
         const minByUnit: Record<string, number> = {}
@@ -249,7 +242,7 @@ function AllView({ all, catIds, visible }: {
         }
 
         return (
-          <div className="fynd-cat" key={catId}>
+          <div className="fynd-cat" key={meta.id}>
             <h3 className="fynd-cat-title">
               <span>{meta.emoji} {meta.label}</span>
               <span className="fynd-cat-count">{offers.length}</span>
@@ -288,31 +281,30 @@ function AllView({ all, catIds, visible }: {
           </div>
         )
       })}
-      {catIds.every(catId => all.filter(o => o.kategori === catId && visible(o)).length === 0) && (
+      {CATS.every(meta => all.filter(o => o.kategori === meta.id && visible(o)).length === 0) && (
         <div className="fynd-empty">Inga erbjudanden matchar filtret.</div>
       )}
     </div>
   )
 }
 
-function JamforView({ all, catIds, visible }: {
+function JamforView({ all, visible }: {
   all: TaggedOffer[]
-  catIds: string[]
   visible: (o: TaggedOffer) => boolean
 }) {
   const filtered = all.filter(visible)
-  const groups = buildMatchGroups(filtered).filter(g => catIds.includes(g.kategori))
+  const groups = buildMatchGroups(filtered)
 
   if (groups.length === 0) {
     return (
-      <div className="fynd-scroll">
+      <div className="fynd-scroll fynd-scroll--wide">
         <div className="fynd-empty">Inga jämförbara produkter med aktuellt filter.</div>
       </div>
     )
   }
 
   return (
-    <div className="fynd-scroll">
+    <div className="fynd-scroll fynd-scroll--wide">
       {groups.map(group => {
         const jmfEntries = group.entries.map(e => parseJmf(e.jamforpris)).filter((j): j is NonNullable<typeof j> => j != null)
         const unitCount: Record<string, number> = {}

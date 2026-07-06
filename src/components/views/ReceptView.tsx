@@ -1,15 +1,14 @@
 import { useState, useEffect } from 'react'
-import { PageSide, RecipeIndexEntry, Recipe, Eater } from '../../types'
+import { RecipeIndexEntry, Recipe, Eater } from '../../types'
 import { useFeedback } from '../../hooks/useFeedback'
 import RecipeFeedbackBar from '../feedback/RecipeFeedbackBar'
 import { downloadLocalData } from '../../lib/exportData'
+import TopBar from '../TopBar'
 
 interface Props {
-  side: PageSide
+  onBack: () => void
   recipeIndex: RecipeIndexEntry[]
   eaters: Eater[]
-  selectedSlug: string | null
-  onSelect: (slug: string) => void
 }
 
 function categoryEmoji(kategorier: string[]): string {
@@ -32,7 +31,21 @@ function categoryText(kategorier: string[]): string {
   return kategorier[0] ?? ''
 }
 
-// ─── Left page: recipe list ────────────────────────────────────────────────────
+export default function ReceptView({ onBack, recipeIndex, eaters }: Props) {
+  const [selectedSlug, setSelectedSlug] = useState<string | null>(null)
+
+  return (
+    <div className="screen screen--recept">
+      <TopBar onBack={onBack} eyebrow={`${recipeIndex.length} recept`} title="Receptbiblioteket" />
+      <div className="screen-body recept-grid">
+        <RecipeList recipes={recipeIndex} eaters={eaters} selectedSlug={selectedSlug} onSelect={setSelectedSlug} />
+        <div className="recipe-detail-pane">
+          {selectedSlug ? <RecipeDetail slug={selectedSlug} eaters={eaters} /> : <RecipeEmpty />}
+        </div>
+      </div>
+    </div>
+  )
+}
 
 function RecipeList({ recipes, eaters, selectedSlug, onSelect }: {
   recipes: RecipeIndexEntry[]
@@ -43,64 +56,52 @@ function RecipeList({ recipes, eaters, selectedSlug, onSelect }: {
   const { getFeedback, setExcludeFromWeekPlan } = useFeedback()
 
   return (
-    <>
-      <div className="page-head">
-        <div className="recipe-list-head-row">
-          <div>
-            <div className="title">Receptbiblioteket</div>
-            <div className="sub">{recipes.length} recept</div>
-          </div>
-          <button
-            type="button"
-            className="export-btn"
-            onClick={downloadLocalData}
-            title="Ladda ner all lokal feedback- och veckoplansdata som JSON"
-          >
-            ⬇ Exportera data
-          </button>
-        </div>
-      </div>
-      <div className="recipe-scroll-list">
-        {recipes.map(r => {
-          const excluded = getFeedback(r.slug)?.excludeFromWeekPlan ?? false
-          return (
-            <div key={r.slug} className={`recipe-card-wrap${excluded ? ' excluded' : ''}`}>
-              <button
-                className={`recipe-card-btn ${selectedSlug === r.slug ? 'active' : ''}`}
-                onClick={() => onSelect(r.slug)}
-              >
-                {r.bildUrl && (
-                  <img className="recipe-thumb" src={r.bildUrl} alt={r.namn} loading="lazy" />
-                )}
-                <div className="recipe-card-info">
-                  <div className="recipe-card-name">{r.namn}</div>
-                  <div className="recipe-card-meta">
-                    <span>{r.tid_min} min</span>
-                    <span className="recipe-card-dot">·</span>
-                    <span>{categoryEmoji(r.kategorier)} {categoryText(r.kategorier)}</span>
-                  </div>
+    <div className="recipe-scroll-list">
+      <button
+        type="button"
+        className="export-btn recipe-export-btn"
+        onClick={downloadLocalData}
+        title="Ladda ner all lokal feedback- och veckoplansdata som JSON"
+      >
+        ⬇ Exportera data
+      </button>
+      {recipes.map(r => {
+        const excluded = getFeedback(r.slug)?.excludeFromWeekPlan ?? false
+        return (
+          <div key={r.slug} className={`recipe-card-wrap${excluded ? ' excluded' : ''}`}>
+            <button
+              className={`recipe-card-btn ${selectedSlug === r.slug ? 'active' : ''}`}
+              onClick={() => onSelect(r.slug)}
+            >
+              {r.bildUrl && (
+                <img className="recipe-thumb" src={r.bildUrl} alt={r.namn} loading="lazy" />
+              )}
+              <div className="recipe-card-info">
+                <div className="recipe-card-name">{r.namn}</div>
+                <div className="recipe-card-meta">
+                  <span>{r.tid_min} min</span>
+                  <span className="recipe-card-dot">·</span>
+                  <span>{categoryEmoji(r.kategorier)} {categoryText(r.kategorier)}</span>
                 </div>
-              </button>
-              <div className="recipe-card-footer">
-                <RecipeFeedbackBar recipeId={r.slug} eaters={eaters} variant="card" />
-                <label className="exclude-toggle">
-                  <input
-                    type="checkbox"
-                    checked={excluded}
-                    onChange={e => setExcludeFromWeekPlan(r.slug, e.target.checked)}
-                  />
-                  <span>Använd inte i veckoplan</span>
-                </label>
               </div>
+            </button>
+            <div className="recipe-card-footer">
+              <RecipeFeedbackBar recipeId={r.slug} eaters={eaters} variant="card" />
+              <label className="exclude-toggle">
+                <input
+                  type="checkbox"
+                  checked={excluded}
+                  onChange={e => setExcludeFromWeekPlan(r.slug, e.target.checked)}
+                />
+                <span>Använd inte i veckoplan</span>
+              </label>
             </div>
-          )
-        })}
-      </div>
-    </>
+          </div>
+        )
+      })}
+    </div>
   )
 }
-
-// ─── Right page: recipe detail ─────────────────────────────────────────────────
 
 function RecipeDetail({ slug, eaters }: { slug: string; eaters: Eater[] }) {
   const [recipe, setRecipe] = useState<Recipe | null>(null)
@@ -209,25 +210,13 @@ function RecipeDetail({ slug, eaters }: { slug: string; eaters: Eater[] }) {
   )
 }
 
-// ─── Right page: empty state ───────────────────────────────────────────────────
-
 function RecipeEmpty() {
   return (
     <div className="recipe-detail-empty">
       <div>← Välj ett recept</div>
       <div style={{ fontSize: '12px', marginTop: '8px', opacity: 0.6 }}>
-        <a href="/matracet/sysdoc/" style={{ color: 'inherit' }}>Datamodell & schema →</a>
+        <a href="/matracet/sysdoc/" style={{ color: 'inherit' }}>Datamodell &amp; schema →</a>
       </div>
     </div>
   )
-}
-
-// ─── Main ──────────────────────────────────────────────────────────────────────
-
-export default function ReceptView({ side, recipeIndex, eaters, selectedSlug, onSelect }: Props) {
-  if (side === 'left') {
-    return <RecipeList recipes={recipeIndex} eaters={eaters} selectedSlug={selectedSlug} onSelect={onSelect} />
-  }
-  if (!selectedSlug) return <RecipeEmpty />
-  return <RecipeDetail slug={selectedSlug} eaters={eaters} />
 }

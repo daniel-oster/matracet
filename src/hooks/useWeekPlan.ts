@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from 'react'
 import { createLocalStore } from '../lib/localStore'
-import type { DayMeal } from '../types'
+import type { DayMeal, MealKind } from '../types'
 
 export interface WeekPlanOverride {
   recept: string            // visningsnamn på måltiden
@@ -8,11 +8,16 @@ export interface WeekPlanOverride {
   updatedAt: string
 }
 
-export type WeekPlanStore = Record<string, WeekPlanOverride>  // nyckel = datum (ISO)
+export interface DayOverride {
+  dinner?: WeekPlanOverride
+  lunch?: WeekPlanOverride
+}
+
+export type WeekPlanStore = Record<string, DayOverride>  // nyckel = datum (ISO)
 
 const EMPTY: WeekPlanStore = {}
 
-export const weekPlanStore = createLocalStore<WeekPlanStore>('matracet:weekplan:v1', EMPTY)
+export const weekPlanStore = createLocalStore<WeekPlanStore>('matracet:weekplan:v2', EMPTY)
 
 /** Merge a local replacement onto a day from the static week JSON. */
 export function applyOverride(day: DayMeal, override: WeekPlanOverride | undefined): DayMeal {
@@ -28,27 +33,32 @@ export function applyOverride(day: DayMeal, override: WeekPlanOverride | undefin
   }
 }
 
-function setMeal(date: string, recept: string, receptSlug: string | null): void {
+function setMeal(date: string, kind: MealKind, recept: string, receptSlug: string | null): void {
   const all = weekPlanStore.get()
+  const day = all[date] ?? {}
   weekPlanStore.set({
     ...all,
-    [date]: { recept, receptSlug, updatedAt: new Date().toISOString() },
+    [date]: { ...day, [kind]: { recept, receptSlug, updatedAt: new Date().toISOString() } },
   })
 }
 
-function clearOverride(date: string): void {
+function clearOverride(date: string, kind: MealKind): void {
   const all = weekPlanStore.get()
-  if (!all[date]) return
+  const day = all[date]
+  if (!day?.[kind]) return
+  const nextDay = { ...day }
+  delete nextDay[kind]
   const next = { ...all }
-  delete next[date]
+  if (nextDay.dinner || nextDay.lunch) next[date] = nextDay
+  else delete next[date]
   weekPlanStore.set(next)
 }
 
 export interface UseWeekPlan {
   data: WeekPlanStore
-  getOverride: (date: string) => WeekPlanOverride | undefined
-  setMeal: (date: string, recept: string, receptSlug: string | null) => void
-  clearOverride: (date: string) => void
+  getOverride: (date: string, kind: MealKind) => WeekPlanOverride | undefined
+  setMeal: (date: string, kind: MealKind, recept: string, receptSlug: string | null) => void
+  clearOverride: (date: string, kind: MealKind) => void
 }
 
 export function useWeekPlan(): UseWeekPlan {
@@ -59,7 +69,7 @@ export function useWeekPlan(): UseWeekPlan {
   )
   return {
     data,
-    getOverride: (date: string) => data[date],
+    getOverride: (date: string, kind: MealKind) => data[date]?.[kind],
     setMeal,
     clearOverride,
   }

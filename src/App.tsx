@@ -1,6 +1,14 @@
 import { useState, useEffect } from 'react'
-import { WeekMenu, EatersData, RecipeIndex, RecipeIndexEntry, DayMeal, WeekNote } from './types'
-import Binder from './components/Binder'
+import { WeekMenu, EatersData, RecipeIndex, RecipeIndexEntry, DayMeal, WeekNote, ScreenName } from './types'
+import Hub from './components/Hub'
+import VeckanView from './components/views/VeckanView'
+import HandlaView from './components/views/HandlaView'
+import ReceptView from './components/views/ReceptView'
+import FamiljView from './components/views/FamiljView'
+import AnteckningarView from './components/views/AnteckningarView'
+import FyndView from './components/views/FyndView'
+import BevakaView from './components/views/BevakaView'
+import RecipeOverlay from './components/RecipeOverlay'
 import { resolvePresenceRange, addDays } from './presence/resolver'
 import { SEED_STORE } from './presence/seed'
 import type { DayPlan } from './presence/types'
@@ -26,6 +34,8 @@ export default function App() {
   const [eaters, setEaters] = useState<EatersData | null>(null)
   const [recipeIndex, setRecipeIndex] = useState<RecipeIndexEntry[]>([])
   const [dayPlans, setDayPlans] = useState<DayPlan[]>([])
+  const [screen, setScreen] = useState<ScreenName>('hub')
+  const [overlaySlug, setOverlaySlug] = useState<string | null>(null)
 
   useEffect(() => {
     const today = new Date().toISOString().slice(0, 10)
@@ -79,22 +89,53 @@ export default function App() {
   }, [])
 
   if (!eaters || rollingDays.length === 0) {
-    return (
-      <div style={{ color: '#e0d4b8', fontFamily: 'Inter Tight, sans-serif', textAlign: 'center', paddingTop: '80px' }}>
-        Laddar…
-      </div>
-    )
+    return <div className="app-loading">Laddar…</div>
   }
 
+  const toHub = () => setScreen('hub')
+
   return (
-    <Binder
-      rollingDays={rollingDays}
-      rollingLunches={rollingLunches}
-      weekNotes={weekNotes}
-      weekLabel={weekLabel}
-      eaters={eaters.eaters}
-      recipeIndex={recipeIndex}
-      dayPlans={dayPlans}
-    />
+    <div className="app-shell">
+      {screen === 'hub' && (
+        <Hub
+          weekLabel={weekLabel}
+          rollingDays={rollingDays}
+          recipeIndex={recipeIndex}
+          dayPlans={dayPlans}
+          onNavigate={setScreen}
+          onOpenRecipe={setOverlaySlug}
+        />
+      )}
+      {screen === 'veckan' && (
+        <VeckanView
+          onBack={toHub}
+          weekLabel={weekLabel}
+          rollingDays={rollingDays}
+          rollingLunches={rollingLunches}
+          dayPlans={dayPlans}
+          eaters={eaters.eaters}
+          recipeIndex={recipeIndex}
+          onOpenRecipe={setOverlaySlug}
+        />
+      )}
+      {screen === 'handla' && (
+        <HandlaView onBack={toHub} rollingDays={rollingDays} rollingLunches={rollingLunches} />
+      )}
+      {screen === 'recept' && (
+        <ReceptView onBack={toHub} recipeIndex={recipeIndex} eaters={eaters.eaters} />
+      )}
+      {screen === 'familj' && (
+        <FamiljView onBack={toHub} eaters={eaters.eaters} dayPlans={dayPlans} />
+      )}
+      {screen === 'anteckningar' && (
+        <AnteckningarView onBack={toHub} weekNotes={weekNotes} />
+      )}
+      {screen === 'fynd' && <FyndView onBack={toHub} />}
+      {screen === 'bevaka' && <BevakaView onBack={toHub} />}
+
+      {overlaySlug && (
+        <RecipeOverlay slug={overlaySlug} onClose={() => setOverlaySlug(null)} />
+      )}
+    </div>
   )
 }
