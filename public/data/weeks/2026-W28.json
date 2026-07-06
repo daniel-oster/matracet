@@ -1,16 +1,29 @@
 {
   "vecka": "2026-W28",
-  "middagar": [],
+  "middagar": [
+    {
+      "dag": "torsdag",
+      "datum": "2026-07-09",
+      "recept": null,
+      "anteckning": "🚄 Resa till Stockholm (heldag) — ingen middag hemma"
+    }
+  ],
   "luncher": [
     {
       "dag": "mandag",
       "datum": "2026-07-06",
       "recept": "Fylld pasta (tortellini/ravioli) med smörsås och parmesan",
       "kommentar": "Snabb lunch, köpt färsk fylld pasta — koka, smörsås eller bara smör/salvia + riven parmesan/riven ost (extrapris hos Willys, 14.90/st)"
+    },
+    {
+      "dag": "torsdag",
+      "datum": "2026-07-09",
+      "recept": null,
+      "anteckning": "🚄 Resa till Stockholm (heldag) — ingen lunch hemma"
     }
   ],
   "anteckningar": [
-    { "nar": "Vecka 28", "text": "Semestervecka — hålls öppen med flit, ingen middag förplanerad. Barnen hos Daniel hela veckan (fre 3/7–tors 9/7), lämnas till mamma fredag morgon 10/7 — plocka och kasta om fritt via Planera efter vad som känns rätt/finns i kylen, torsdag gärna utan mat inbokad. Se chatten för en lista med förslag rankade efter veckans extrapriser (Willys/ICA/Hemköp) att bläddra bland i Planera." }
+    { "nar": "Vecka 28", "text": "Semestervecka — hålls öppen med flit, ingen middag förplanerad. Barnen hos Daniel hela veckan (fre 3/7–tors 9/7), lämnas till mamma fredag morgon 10/7 — plocka och kasta om fritt via Planera efter vad som känns rätt/finns i kylen, torsdag resa till Stockholm hela dagen (ingen lunch eller middag hemma). Se chatten för en lista med förslag rankade efter veckans extrapriser (Willys/ICA/Hemköp) att bläddra bland i Planera." }
   ],
   "skapad": "2026-07-06T00:00:00Z"
 }
