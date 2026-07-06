@@ -7,6 +7,12 @@ const DAY_NAMES: Record<string, string> = {
   torsdag: 'Torsdag', fredag: 'Fredag', lordag: 'Lördag', sondag: 'Söndag',
 }
 
+function hardRefresh() {
+  const url = new URL(window.location.href)
+  url.searchParams.set('_r', Date.now().toString())
+  window.location.href = url.toString()
+}
+
 function categoryEmoji(kategorier: string[]): string {
   if (kategorier.includes('vegansk')) return '🌱'
   if (kategorier.includes('vegetarisk')) return '🥚'
@@ -38,7 +44,16 @@ export default function Hub({ weekLabel, rollingDays, recipeIndex, dayPlans, onN
           <div className="hub-hello">Veckans matsedel</div>
           <div className="hub-title">Matracet</div>
         </div>
-        <div className="hub-week-label">{weekLabel}</div>
+        <div className="hub-topbar-right">
+          <div className="hub-week-label">{weekLabel}</div>
+          <button
+            className="hub-refresh-btn"
+            onClick={hardRefresh}
+            title="Hämta senaste versionen av appen (rensar inte dina sparade val)"
+          >
+            ⟳
+          </button>
+        </div>
       </div>
 
       <div className="hub-pad">
