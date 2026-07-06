@@ -31,14 +31,14 @@ interface Props {
 }
 
 export default function HandlaView({ onBack, rollingDays, rollingLunches }: Props) {
-  const { getOverride } = useWeekPlan()
+  const { getOverride, getAttendance } = useWeekPlan()
   const overriddenDays = useMemo(
-    () => rollingDays.map(d => applyOverride(d, getOverride(d.datum, 'dinner'))),
-    [rollingDays, getOverride],
+    () => rollingDays.map(d => applyOverride(d, getOverride(d.datum, 'dinner'), getAttendance(d.datum, 'dinner'))),
+    [rollingDays, getOverride, getAttendance],
   )
   const overriddenLunches = useMemo(
-    () => rollingLunches.map(d => applyOverride(d, getOverride(d.datum, 'lunch'))),
-    [rollingLunches, getOverride],
+    () => rollingLunches.map(d => applyOverride(d, getOverride(d.datum, 'lunch'), getAttendance(d.datum, 'lunch'))),
+    [rollingLunches, getOverride, getAttendance],
   )
   const allMeals = useMemo(() => [...overriddenDays, ...overriddenLunches], [overriddenDays, overriddenLunches])
   const slugs = useMemo(

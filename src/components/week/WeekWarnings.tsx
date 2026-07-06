@@ -2,7 +2,7 @@ import { useState } from 'react'
 import type { DayMeal, Eater, MealKind } from '../../types'
 import type { DayPlan } from '../../presence/types'
 import { useFeedback } from '../../hooks/useFeedback'
-import { useWeekPlan, applyOverride } from '../../hooks/useWeekPlan'
+import { useWeekPlan, applyOverride, effectivePresentIds } from '../../hooks/useWeekPlan'
 
 interface Props {
   days: DayMeal[]
@@ -32,13 +32,14 @@ function dateLabel(day: DayMeal): string {
 export default function WeekWarnings({ days, lunches, dayPlans, eaters, onOpenRecipe }: Props) {
   const [open, setOpen] = useState(true)
   const { getFeedback } = useFeedback()
-  const { getOverride } = useWeekPlan()
+  const { getOverride, getAttendance } = useWeekPlan()
 
   const eaterName = new Map(eaters.map(e => [e.id, e.namn]))
   const warnings: Warning[] = []
 
   function collect(raw: DayMeal, kind: MealKind) {
-    const day = applyOverride(raw, getOverride(raw.datum, kind))
+    const attendance = getAttendance(raw.datum, kind)
+    const day = applyOverride(raw, getOverride(raw.datum, kind), attendance)
     const slug = day.receptSlug
     if (!slug) return
     const record = getFeedback(slug)
@@ -54,7 +55,7 @@ export default function WeekWarnings({ days, lunches, dayPlans, eaters, onOpenRe
     }
 
     const plan = dayPlans.find(p => p.date === day.datum)
-    const presentIds = plan?.presentPersons.map(p => p.id) ?? null
+    const presentIds = effectivePresentIds(plan?.presentPersons.map(p => p.id) ?? null, attendance)
     for (const p of record.persons) {
       if (p.sentiment !== 'refuses') continue
       if (presentIds && !presentIds.includes(p.personId)) continue

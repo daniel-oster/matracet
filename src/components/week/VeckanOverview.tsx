@@ -1,6 +1,6 @@
 import { DayMeal, Eater, RecipeIndexEntry } from '../../types'
 import type { DayPlan } from '../../presence/types'
-import { useWeekPlan, applyOverride } from '../../hooks/useWeekPlan'
+import { useWeekPlan, applyOverride, effectivePresentIds, diffAttendance } from '../../hooks/useWeekPlan'
 import { useFeedback } from '../../hooks/useFeedback'
 import WeekWarnings from './WeekWarnings'
 
@@ -28,25 +28,29 @@ interface Props {
 }
 
 export default function VeckanOverview({ days, lunches, dayPlans, eaters, recipeIndex, onOpenRecipe, onEdit }: Props) {
-  const { getOverride } = useWeekPlan()
+  const { getOverride, getAttendance } = useWeekPlan()
   const { getFeedback } = useFeedback()
   const todayDatum = days[0]?.datum
 
   return (
     <div className="vecka-list">
       {days.map(rawDay => {
-        const day = applyOverride(rawDay, getOverride(rawDay.datum, 'dinner'))
+        const dinnerAttendance = getAttendance(rawDay.datum, 'dinner')
+        const day = applyOverride(rawDay, getOverride(rawDay.datum, 'dinner'), dinnerAttendance)
         const rawLunch = lunches.find(l => l.datum === rawDay.datum)
-        const lunch = rawLunch ? applyOverride(rawLunch, getOverride(rawDay.datum, 'lunch')) : undefined
+        const lunchAttendance = getAttendance(rawDay.datum, 'lunch')
+        const lunch = rawLunch ? applyOverride(rawLunch, getOverride(rawDay.datum, 'lunch'), lunchAttendance) : undefined
         const plan = dayPlans.find(p => p.date === day.datum)
         const dishRecipe = day.receptSlug ? recipeIndex.find(r => r.slug === day.receptSlug) : undefined
 
         const record = day.receptSlug ? getFeedback(day.receptSlug) : null
         const isExcluded = record?.excludeFromWeekPlan ?? false
-        const presentIds = plan?.presentPersons.map(p => p.id) ?? null
+        const planPresentIds = plan?.presentPersons.map(p => p.id) ?? null
+        const presentIds = effectivePresentIds(planPresentIds, dinnerAttendance)
         const refusers = record
           ? record.persons.filter(p => p.sentiment === 'refuses' && (!presentIds || presentIds.includes(p.personId)))
           : []
+        const { away: dinnerAway, extra: dinnerExtra } = diffAttendance(planPresentIds, dinnerAttendance)
 
         const lunchLabel = lunch?.recept ?? lunch?.anteckning ?? null
         const dishLabel = day.recept ?? day.anteckning ?? null
@@ -67,12 +71,22 @@ export default function VeckanOverview({ days, lunches, dayPlans, eaters, recipe
                 <span className="vline-ic">☾</span>
                 <span className="vline-nm">{dishLabel ?? 'middag ledig'}</span>
               </div>
-              {(isExcluded || refusers.length > 0) && (
+              {(isExcluded || refusers.length > 0 || dinnerAway.length > 0 || dinnerExtra.length > 0) && (
                 <div className="day-flags">
                   {isExcluded && <span className="day-flag day-flag--excluded">Utesluten</span>}
                   {refusers.map(p => (
                     <span className="day-flag day-flag--refuses" key={p.personId}>
                       ⚠️ {eaters.find(e => e.id === p.personId)?.namn ?? p.personId}
+                    </span>
+                  ))}
+                  {dinnerAway.map(id => (
+                    <span className="day-flag day-flag--away" key={`away-${id}`}>
+                      − {eaters.find(e => e.id === id)?.namn ?? id}
+                    </span>
+                  ))}
+                  {dinnerExtra.map(id => (
+                    <span className="day-flag day-flag--extra" key={`extra-${id}`}>
+                      + {eaters.find(e => e.id === id)?.namn ?? id}
                     </span>
                   ))}
                 </div>
