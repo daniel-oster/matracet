@@ -327,8 +327,8 @@ describe('EAT_OUT / NO_MEAL assignments', () => {
 // ─────────────────────────────────────────────────────────────────────────────
 
 describe('NO_MEAL on an OPEN low-key day', () => {
-  it('Erika-week Tuesday (Daniel + Erika, OPEN) with NO_MEAL assignment → valid slot, no warnings', () => {
-    const plan = makePlan('2026-05-26')  // Erika-week Tuesday — Daniel + Erika
+  it('Mother-week Tuesday, summer (Daniel + Erika, OPEN) with NO_MEAL assignment → valid slot, no warnings', () => {
+    const plan = makePlan('2026-06-16')  // Mother-week Tuesday, summer — Daniel + Erika
     expect(plan.activeGroup?.id).toBe('daniel-erika')
     expect(plan.windowStatus).toBe('OPEN')
 
@@ -340,12 +340,12 @@ describe('NO_MEAL on an OPEN low-key day', () => {
   })
 
   it('buildMealSlots gives a slot for every day', () => {
-    const days = ['2026-05-25', '2026-05-26', '2026-05-27']
+    const days = ['2026-06-15', '2026-06-16', '2026-06-17']
     const plans = days.map(d => makePlan(d))
     const planData: MealPlanData = { cookingEvents: [], assignments: [] }
     const slots = buildMealSlots(plans, planData)
     expect(slots).toHaveLength(3)
-    expect(slots[1].dayPlan.activeGroup?.id).toBe('daniel-erika')  // Erika-week Tuesday
+    expect(slots[1].dayPlan.activeGroup?.id).toBe('daniel-erika')  // Mother-week Tuesday, summer
     expect(slots[1].assignment).toBeNull()
   })
 })
