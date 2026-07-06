@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { DayMeal, Eater, MealKind, RecipeIndexEntry } from '../../types'
 import type { DayPlan } from '../../presence/types'
 import { useWeekPlan, applyOverride } from '../../hooks/useWeekPlan'
@@ -6,11 +6,15 @@ import { useFeedback } from '../../hooks/useFeedback'
 import { useRecipes } from '../../hooks/useRecipes'
 import { useOffers } from '../../hooks/useOffers'
 import { tagOffers } from '../../lib/bevaka'
-import { rankSuggestions, RankedSuggestion, SuggestionFilter } from '../../lib/suggestions'
+import { rankSuggestions, SuggestionFilter, SuggestionSort } from '../../lib/suggestions'
 
 const DAY_SHORT: Record<string, string> = {
   mandag: 'Mån', tisdag: 'Tis', onsdag: 'Ons',
   torsdag: 'Tor', fredag: 'Fre', lordag: 'Lör', sondag: 'Sön',
+}
+const DAY_NAMES: Record<string, string> = {
+  mandag: 'Måndag', tisdag: 'Tisdag', onsdag: 'Onsdag',
+  torsdag: 'Torsdag', fredag: 'Fredag', lordag: 'Lördag', sondag: 'Söndag',
 }
 
 function dateNum(iso: string): number {
@@ -22,6 +26,13 @@ const FILTERS: { id: SuggestionFilter; label: string }[] = [
   { id: 'fynd', label: '🏷 Fynd' },
   { id: 'snabbt', label: '⚡ Snabbt' },
   { id: 'vegansk', label: '🌱 Vegansk' },
+]
+
+const SORTS: { id: SuggestionSort; label: string }[] = [
+  { id: 'match', label: 'Bäst' },
+  { id: 'savings', label: '💰 Besparing' },
+  { id: 'favorites', label: '❤ Favoriter' },
+  { id: 'fastest', label: '⚡ Snabbast' },
 ]
 
 interface Props {
@@ -41,151 +52,97 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
   const { stores } = useOffers()
   const offers = useMemo(() => (stores ? tagOffers(stores) : []), [stores])
 
+  const enrichedDays = useMemo(() => days.map(rawDay => {
+    const dinner = applyOverride(rawDay, getOverride(rawDay.datum, 'dinner'))
+    const rawLunch = lunches.find(l => l.datum === rawDay.datum)
+    const lunch = rawLunch ? applyOverride(rawLunch, getOverride(rawDay.datum, 'lunch')) : undefined
+    return {
+      datum: rawDay.datum,
+      dag: rawDay.dag,
+      plan: dayPlans.find(p => p.date === rawDay.datum),
+      dinnerLabel: dinner.recept ?? dinner.anteckning ?? null,
+      dinnerSlug: dinner.receptSlug ?? null,
+      lunchLabel: lunch?.recept ?? lunch?.anteckning ?? null,
+      lunchSlug: lunch?.receptSlug ?? null,
+      dinnerOverride: getOverride(rawDay.datum, 'dinner'),
+      lunchOverride: getOverride(rawDay.datum, 'lunch'),
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }), [days, lunches, dayPlans, getOverride])
+
+  const [activeDate, setActiveDate] = useState(() => {
+    const firstEmpty = enrichedDays.find(d => !d.lunchLabel || !d.dinnerLabel)
+    return (firstEmpty ?? enrichedDays[0])?.datum
+  })
   const [query, setQuery] = useState('')
   const [filter, setFilter] = useState<SuggestionFilter>('alla')
-  const [picked, setPicked] = useState<RankedSuggestion | null>(null)
-  const [drag, setDrag] = useState<{ entry: RecipeIndexEntry; x: number; y: number } | null>(null)
-  const [hover, setHover] = useState<{ date: string; kind: MealKind } | null>(null)
-  const startRef = useRef<{ x: number; y: number; entry: RecipeIndexEntry; moved: boolean } | null>(null)
+  const [sort, setSort] = useState<SuggestionSort>('match')
+
+  const active = enrichedDays.find(d => d.datum === activeDate) ?? enrichedDays[0]
 
   const suggestions = rankSuggestions({
-    recipeIndex, fullRecipes, query, filter, eaters,
-    presentPersonIds: null,
+    recipeIndex, fullRecipes, query, filter, sort, eaters,
+    presentPersonIds: active?.plan?.presentPersons.map(p => p.id) ?? null,
     offers, getFeedback,
   })
 
-  function assign(date: string, kind: MealKind, entry: RecipeIndexEntry) {
-    setMeal(date, kind, entry.namn, entry.slug)
-    setPicked(null)
-  }
-
-  function onMove(e: PointerEvent) {
-    const st = startRef.current
-    if (!st) return
-    if (!st.moved && Math.hypot(e.clientX - st.x, e.clientY - st.y) < 8) return
-    st.moved = true
-    setDrag({ entry: st.entry, x: e.clientX, y: e.clientY })
-    const el = document.elementFromPoint(e.clientX, e.clientY)
-    const slot = el && el.closest ? (el.closest('[data-date]') as HTMLElement | null) : null
-    setHover(slot ? { date: slot.dataset.date!, kind: slot.dataset.kind as MealKind } : null)
-  }
-
-  function onUp() {
-    const st = startRef.current
-    if (st) {
-      if (st.moved && hover) {
-        assign(hover.date, hover.kind, st.entry)
-      } else if (!st.moved) {
-        setPicked(prev => (prev?.entry.slug === st.entry.slug ? null : suggestions.find(s => s.entry.slug === st.entry.slug) ?? null))
-      }
-    }
-    startRef.current = null
-    setDrag(null)
-    setHover(null)
-  }
-
-  useEffect(() => {
-    if (!drag) return
-    window.addEventListener('pointermove', onMove, { passive: true })
-    window.addEventListener('pointerup', onUp)
-    return () => {
-      window.removeEventListener('pointermove', onMove)
-      window.removeEventListener('pointerup', onUp)
-    }
-  })
-
-  function onSugPointerDown(e: React.PointerEvent, entry: RecipeIndexEntry) {
-    startRef.current = { x: e.clientX, y: e.clientY, entry, moved: false }
-    try { (e.target as Element).setPointerCapture(e.pointerId) } catch { /* touch devices without pointer capture */ }
-  }
-
-  function clickSlot(date: string, kind: MealKind) {
-    if (picked) assign(date, kind, picked.entry)
+  function assign(kind: MealKind, entry: { namn: string; slug: string }) {
+    if (!active) return
+    setMeal(active.datum, kind, entry.namn, entry.slug)
   }
 
   return (
-    <div className="planner" onPointerMove={drag ? undefined : onMove} onPointerUp={onUp}>
-      <div className="hint">
-        {picked
-          ? <>Vald: <b>{picked.entry.namn}</b> — tryck en lunch- eller middagsruta.</>
-          : <>Dra ett förslag till en dag, eller tryck en rätt och sedan en ruta.</>}
+    <div className="planner">
+      <div className="day-strip">
+        {enrichedDays.map(d => (
+          <button
+            key={d.datum}
+            type="button"
+            className={`day-pill${d.datum === active?.datum ? ' on' : ''}`}
+            onClick={() => setActiveDate(d.datum)}
+          >
+            <span className="day-pill-w">{DAY_SHORT[d.dag] ?? d.dag}</span>
+            <span className="day-pill-n">{dateNum(d.datum)}</span>
+            <span className="day-pill-dots">
+              <span className={`day-dot${d.lunchLabel ? ' filled' : ''}`} title="Lunch" />
+              <span className={`day-dot${d.dinnerLabel ? ' filled' : ''}`} title="Middag" />
+            </span>
+          </button>
+        ))}
       </div>
 
-      <div className="day-plan-list">
-        {days.map(rawDay => {
-          const day = applyOverride(rawDay, getOverride(rawDay.datum, 'dinner'))
-          const rawLunch = lunches.find(l => l.datum === rawDay.datum)
-          const lunch = rawLunch ? applyOverride(rawLunch, getOverride(rawDay.datum, 'lunch')) : undefined
-          const plan = dayPlans.find(p => p.date === day.datum)
-
-          return (
-            <div key={day.datum} className="dplan-card">
-              <div className="dplan-date">
-                <span className="w">{DAY_SHORT[day.dag] ?? day.dag}</span>
-                <span className="n">{dateNum(day.datum)}</span>
-              </div>
-              <div className="dplan-halves">
-                {(['lunch', 'dinner'] as MealKind[]).map(kind => {
-                  const meal = kind === 'lunch' ? lunch : day
-                  const hot = hover?.date === day.datum && hover?.kind === kind
-                  const label = meal?.recept ?? meal?.anteckning ?? null
-                  const slug = meal?.receptSlug
-                  const override = getOverride(day.datum, kind)
-                  return (
-                    <div
-                      key={kind}
-                      data-date={day.datum}
-                      data-kind={kind}
-                      className={`dplan-half dplan-half--${kind}${hot ? ' hot' : ''}${picked ? ' pickable' : ''}`}
-                      onClick={() => clickSlot(day.datum, kind)}
-                    >
-                      <span className="dplan-half-label">{kind === 'lunch' ? '☼ Lunch' : '☾ Middag'}</span>
-                      <span className={`dplan-half-dish${label ? '' : ' empty'}`}>
-                        {label ?? (picked ? 'lägg här' : 'ledig')}
-                      </span>
-                      {hot && <span className="dplan-drop-lbl">släpp</span>}
-                      {slug && !hot && (
-                        <button
-                          type="button"
-                          className="dplan-half-open"
-                          onClick={e => { e.stopPropagation(); onOpenRecipe(slug) }}
-                        >
-                          Recept ›
-                        </button>
-                      )}
-                      {override && !hot && (
-                        <button
-                          type="button"
-                          className="dplan-half-clear"
-                          onClick={e => { e.stopPropagation(); clearOverride(day.datum, kind) }}
-                          title="Återställ till ursprunglig plan"
-                        >
-                          ✕
-                        </button>
-                      )}
-                    </div>
-                  )
-                })}
-              </div>
-              {plan && plan.portions > 0 && plan.windowStatus !== 'OPEN' && (
-                <div className="dplan-window">
-                  {plan.windowStatus === 'CONFLICT' ? `⚠ mat senast ${plan.eatEarlyBy}` : `↓ senast ${plan.windowEndsBy}`}
+      {active && (
+        <div className="active-day">
+          <div className="active-day-name">{DAY_NAMES[active.dag] ?? active.dag}, väljer plats för:</div>
+          <div className="active-day-slots">
+            {(['lunch', 'dinner'] as MealKind[]).map(kind => {
+              const label = kind === 'lunch' ? active.lunchLabel : active.dinnerLabel
+              const slug = kind === 'lunch' ? active.lunchSlug : active.dinnerSlug
+              const override = kind === 'lunch' ? active.lunchOverride : active.dinnerOverride
+              return (
+                <div key={kind} className="active-slot">
+                  <span className="active-slot-ic">{kind === 'lunch' ? '☼' : '☾'}</span>
+                  <span className={`active-slot-dish${label ? '' : ' empty'}`}>{label ?? 'ledig'}</span>
+                  {slug && (
+                    <button type="button" className="active-slot-open" onClick={() => onOpenRecipe(slug)}>Recept ›</button>
+                  )}
+                  {override && (
+                    <button
+                      type="button"
+                      className="active-slot-clear"
+                      onClick={() => clearOverride(active.datum, kind)}
+                      title="Återställ till ursprunglig plan"
+                    >✕</button>
+                  )}
                 </div>
-              )}
-            </div>
-          )
-        })}
-      </div>
-
-      <div className="tray">
-        <div className="tray-grip" />
-        <div className="tray-head">
-          <div className="tray-title">Förslag</div>
-          <div className="tray-sub">
-            {picked ? `vald: ${picked.entry.namn}` : `${suggestions.length} rätter`}
+              )
+            })}
           </div>
         </div>
-        <div className="tray-filters">
+      )}
+
+      <div className="sugg-controls">
+        <div className="sugg-filters">
           {FILTERS.map(f => (
             <button
               key={f.id}
@@ -196,38 +153,58 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
               {f.label}
             </button>
           ))}
-          <input
-            className="tray-search"
-            type="search"
-            placeholder="Sök…"
-            value={query}
-            onChange={e => setQuery(e.target.value)}
-          />
         </div>
-        <div className="tray-row">
-          {suggestions.map(s => (
-            <div
-              key={s.entry.slug}
-              className={`tray-card${picked?.entry.slug === s.entry.slug ? ' picked' : ''}${s.excluded ? ' excluded' : ''}`}
-              onPointerDown={e => onSugPointerDown(e, s.entry)}
+        <div className="sugg-sorts">
+          {SORTS.map(s => (
+            <button
+              key={s.id}
+              type="button"
+              className={`sugg-sortbtn${sort === s.id ? ' on' : ''}`}
+              onClick={() => setSort(s.id)}
             >
-              {s.entry.bildUrl && <img src={s.entry.bildUrl} alt="" draggable={false} />}
-              <div className="tray-card-name">{s.entry.namn}</div>
-              <div className="tray-card-tags">
-                {s.tags.map((t, i) => <span key={i} className={`tray-tag tray-tag--${t.kind}`}>{t.text}</span>)}
-              </div>
-            </div>
+              {s.label}
+            </button>
           ))}
-          {suggestions.length === 0 && <div className="tray-empty">Inga recept matchar.</div>}
         </div>
+        <input
+          className="tray-search"
+          type="search"
+          placeholder="Sök recept…"
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+        />
       </div>
 
-      {drag && (
-        <div className="drag-ghost" style={{ left: drag.x, top: drag.y }}>
-          {drag.entry.bildUrl && <img src={drag.entry.bildUrl} alt="" />}
-          <div className="drag-ghost-name">{drag.entry.namn}</div>
-        </div>
-      )}
+      <div className="sugg-list">
+        {suggestions.map(s => {
+          const isLunch = active?.lunchSlug === s.entry.slug
+          const isDinner = active?.dinnerSlug === s.entry.slug
+          return (
+            <div key={s.entry.slug} className={`sugg-card${s.excluded ? ' excluded' : ''}`}>
+              {s.entry.bildUrl
+                ? <img className="sugg-card-img" src={s.entry.bildUrl} alt="" />
+                : <div className="sugg-card-img sugg-card-img--empty" />}
+              <div className="sugg-card-body">
+                <button type="button" className="sugg-card-name" onClick={() => onOpenRecipe(s.entry.slug)}>
+                  {s.entry.namn}
+                </button>
+                <div className="sugg-card-tags">
+                  {s.tags.map((t, i) => <span key={i} className={`tray-tag tray-tag--${t.kind}`}>{t.text}</span>)}
+                </div>
+              </div>
+              <div className="sugg-card-assign">
+                <button type="button" className={`sugg-assign${isLunch ? ' on' : ''}`} onClick={() => assign('lunch', s.entry)}>
+                  {isLunch ? '✓ Lunch' : '☼ Lunch'}
+                </button>
+                <button type="button" className={`sugg-assign${isDinner ? ' on' : ''}`} onClick={() => assign('dinner', s.entry)}>
+                  {isDinner ? '✓ Middag' : '☾ Middag'}
+                </button>
+              </div>
+            </div>
+          )
+        })}
+        {suggestions.length === 0 && <div className="tray-empty">Inga recept matchar.</div>}
+      </div>
     </div>
   )
 }
