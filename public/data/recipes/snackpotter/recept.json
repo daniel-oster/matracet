@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "slug": "snackpotter",
+  "nummer": 118,
+  "namn": "Snackpotter (köpta, 3 st)",
+  "tid_min": 5,
+  "portioner": 3,
+  "kategorier": [],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["snacks", "snabbmat", "nudlar", "japansk", "koreansk", "köpt"],
+  "kalla": "Köpt / snabblösning",
+  "dagkedja": null,
+  "ingredienser": [
+    { "vara": "färdiga snackpotter (japansk/koreansk stil, t.ex. kimchi, teriyaki eller yakisoba)", "mangd": 3, "enhet": "st" },
+    { "vara": "vatten (kokande, enligt förpackning)", "mangd": 3, "enhet": "dl" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Köp 3 snackpotter, gärna japansk/koreansk stil (t.ex. kimchi-nudlar, teriyaki-ris eller yakisoba).",
+    "Koka upp vatten och häll i enligt förpackningens anvisning.",
+    "Sätt på locket och låt stå ca 3–5 minuter.",
+    "Rör om ordentligt och servera direkt i potten."
+  ],
+  "komplett": true
+}
