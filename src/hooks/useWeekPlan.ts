@@ -44,6 +44,23 @@ export function effectivePresentIds(
   return planPresentIds
 }
 
+export interface AttendanceDiff {
+  /** Ids normally present per the schedule but marked away for this one meal. */
+  away: string[]
+  /** Ids not normally present per the schedule but added for this one meal. */
+  extra: string[]
+}
+
+/** How an explicit attendance override differs from the day's default presence plan. Empty when there's no override. */
+export function diffAttendance(planPresentIds: string[] | null, attendance: MealAttendance | undefined): AttendanceDiff {
+  if (!attendance?.presentIds) return { away: [], extra: [] }
+  const plan = planPresentIds ?? []
+  return {
+    away: plan.filter(id => !attendance.presentIds!.includes(id)),
+    extra: attendance.presentIds.filter(id => !plan.includes(id)),
+  }
+}
+
 /** Merge a local replacement (recipe swap and/or skip) onto a day from the static week JSON. */
 export function applyOverride(
   day: DayMeal,

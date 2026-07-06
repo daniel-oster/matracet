@@ -1,6 +1,6 @@
 import { DayMeal, Eater, RecipeIndexEntry } from '../../types'
 import type { DayPlan } from '../../presence/types'
-import { useWeekPlan, applyOverride, effectivePresentIds } from '../../hooks/useWeekPlan'
+import { useWeekPlan, applyOverride, effectivePresentIds, diffAttendance } from '../../hooks/useWeekPlan'
 import { useFeedback } from '../../hooks/useFeedback'
 import WeekWarnings from './WeekWarnings'
 
@@ -50,12 +50,7 @@ export default function VeckanOverview({ days, lunches, dayPlans, eaters, recipe
         const refusers = record
           ? record.persons.filter(p => p.sentiment === 'refuses' && (!presentIds || presentIds.includes(p.personId)))
           : []
-        const dinnerAway = dinnerAttendance?.presentIds && planPresentIds
-          ? planPresentIds.filter(id => !dinnerAttendance.presentIds!.includes(id))
-          : []
-        const dinnerExtra = dinnerAttendance?.presentIds
-          ? dinnerAttendance.presentIds.filter(id => !planPresentIds?.includes(id))
-          : []
+        const { away: dinnerAway, extra: dinnerExtra } = diffAttendance(planPresentIds, dinnerAttendance)
 
         const lunchLabel = lunch?.recept ?? lunch?.anteckning ?? null
         const dishLabel = day.recept ?? day.anteckning ?? null

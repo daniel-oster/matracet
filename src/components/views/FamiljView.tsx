@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { Eater } from '../../types'
+import { DayMeal, Eater, MealKind } from '../../types'
 import type { DayPlan, Activity } from '../../presence/types'
 import { GROUPS, RULES } from '../../presence/seed'
 import { ACTIVITIES } from '../../presence/activities'
+import { useWeekPlan, applyOverride, diffAttendance } from '../../hooks/useWeekPlan'
 import TopBar from '../TopBar'
 
 const DAY_SHORT: Record<number, string> = {
@@ -31,16 +32,18 @@ interface Props {
   onBack: () => void
   eaters: Eater[]
   dayPlans: DayPlan[]
+  rollingDays: DayMeal[]
+  rollingLunches: DayMeal[]
 }
 
-export default function FamiljView({ onBack, eaters, dayPlans }: Props) {
+export default function FamiljView({ onBack, eaters, dayPlans, rollingDays, rollingLunches }: Props) {
   const [section, setSection] = useState<Section>('profiler')
 
   return (
     <div className="screen">
       <TopBar onBack={onBack} eyebrow="Vem äter vad" title="Familj" />
       <div className="screen-body familj-grid">
-        <SchedulePane dayPlans={dayPlans} />
+        <SchedulePane dayPlans={dayPlans} days={rollingDays} lunches={rollingLunches} eaters={eaters} />
         <div className="familj-pane">
           <div className="familj-toggle">
             <button
@@ -63,7 +66,67 @@ export default function FamiljView({ onBack, eaters, dayPlans }: Props) {
   )
 }
 
-function SchedulePane({ dayPlans }: { dayPlans: DayPlan[] }) {
+interface SchedulePaneProps {
+  dayPlans: DayPlan[]
+  days: DayMeal[]
+  lunches: DayMeal[]
+  eaters: Eater[]
+}
+
+interface AttendanceException {
+  key: string
+  dateLabel: string
+  kind: MealKind
+  text: string
+}
+
+function collectAttendanceExceptions(
+  days: DayMeal[],
+  lunches: DayMeal[],
+  dayPlans: DayPlan[],
+  eaters: Eater[],
+  getAttendance: ReturnType<typeof useWeekPlan>['getAttendance'],
+  getOverride: ReturnType<typeof useWeekPlan>['getOverride'],
+): AttendanceException[] {
+  const eaterName = (id: string) => eaters.find(e => e.id === id)?.namn ?? id
+  const exceptions: AttendanceException[] = []
+
+  function collect(raw: DayMeal, kind: MealKind) {
+    const attendance = getAttendance(raw.datum, kind)
+    if (!attendance) return
+    const plan = dayPlans.find(p => p.date === raw.datum)
+    const planPresentIds = plan?.presentPersons.map(p => p.id) ?? null
+    const day = applyOverride(raw, getOverride(raw.datum, kind), attendance)
+    const dish = day.recept
+    const dateLabel = shortDayLabel(raw.datum)
+
+    if (attendance.skip) {
+      exceptions.push({ key: `${raw.datum}-${kind}`, dateLabel, kind, text: 'Ingen måltid behövs' })
+      return
+    }
+    const { away, extra } = diffAttendance(planPresentIds, attendance)
+    if (away.length === 0 && extra.length === 0) return
+    const parts = [
+      ...away.map(id => `− ${eaterName(id)}`),
+      ...extra.map(id => `+ ${eaterName(id)}`),
+    ]
+    exceptions.push({
+      key: `${raw.datum}-${kind}`,
+      dateLabel,
+      kind,
+      text: `${dish ?? (kind === 'lunch' ? 'Lunch' : 'Middag')}: ${parts.join(', ')}`,
+    })
+  }
+
+  for (const raw of days) collect(raw, 'dinner')
+  for (const raw of lunches) collect(raw, 'lunch')
+  return exceptions
+}
+
+function SchedulePane({ dayPlans, days, lunches, eaters }: SchedulePaneProps) {
+  const { getAttendance, getOverride } = useWeekPlan()
+  const exceptions = collectAttendanceExceptions(days, lunches, dayPlans, eaters, getAttendance, getOverride)
+
   return (
     <div className="sched-pane">
       <h3 className="shop-group-title">Schema · närvaro, aktiviteter, matfönster</h3>
@@ -106,6 +169,20 @@ function SchedulePane({ dayPlans }: { dayPlans: DayPlan[] }) {
           )
         })}
       </div>
+      {exceptions.length > 0 && (
+        <>
+          <h3 className="shop-group-title">Undantag denna vecka</h3>
+          <div className="sched-exceptions">
+            {exceptions.map(ex => (
+              <div key={ex.key} className="sched-exception">
+                <span className="sched-exception-date">{ex.dateLabel}</span>
+                <span className="sched-exception-ic">{ex.kind === 'lunch' ? '☼' : '☾'}</span>
+                <span className="sched-exception-text">{ex.text}</span>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { DayMeal, Eater, MealKind, RecipeIndexEntry } from '../../types'
 import type { DayPlan } from '../../presence/types'
-import { useWeekPlan, applyOverride, effectivePresentIds, MealAttendance } from '../../hooks/useWeekPlan'
+import { useWeekPlan, applyOverride, effectivePresentIds, diffAttendance, MealAttendance } from '../../hooks/useWeekPlan'
 import { useFeedback } from '../../hooks/useFeedback'
 import { useRecipes } from '../../hooks/useRecipes'
 import { useOffers } from '../../hooks/useOffers'
@@ -154,12 +154,7 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
               const slug = kind === 'lunch' ? active.lunchSlug : active.dinnerSlug
               const override = kind === 'lunch' ? active.lunchOverride : active.dinnerOverride
               const attendance = attendanceFor(kind)
-              const away = attendance?.presentIds
-                ? activePlanIds.filter(id => !attendance.presentIds!.includes(id))
-                : []
-              const extra = attendance?.presentIds
-                ? attendance.presentIds.filter(id => !activePlanIds.includes(id))
-                : []
+              const { away, extra } = diffAttendance(activePlanIds, attendance)
               return (
                 <div key={kind} className="active-slot-group">
                   <div className="active-slot">

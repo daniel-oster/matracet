@@ -130,7 +130,13 @@ group — used by `VeckanPlanner`'s suggestion ranking, `VeckanOverview`'s refus
 and `WeekWarnings`. Note this only affects meal-level display/aggregation, not `DayPlan.portions` or
 the custody presence schedule itself — the presence resolver (Side A) remains the single source of
 truth for custody; per-meal attendance is a lightweight, meal-scoped override on top of it, not a
-way to edit the underlying schedule.
+way to edit the underlying schedule. `diffAttendance(planPresentIds, attendance)` (also in
+`useWeekPlan.ts`) computes the away/extra id lists an override adds relative to the schedule
+default — shared by `VeckanOverview` and `VeckanPlanner`'s own badge rendering. `FamiljView`'s
+schedule pane (`SchedulePane`) additionally surfaces every active override for the rolling window
+as an "Undantag denna vecka" list (via `collectAttendanceExceptions`, using the same
+`getAttendance`/`diffAttendance`/`applyOverride` calls), so exceptions made while planning meals
+are visible from the family/presence view too, not just inside Planera itself.
 
 ### Data loading
 

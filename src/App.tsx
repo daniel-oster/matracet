@@ -125,7 +125,13 @@ export default function App() {
         <ReceptView onBack={toHub} recipeIndex={recipeIndex} eaters={eaters.eaters} />
       )}
       {screen === 'familj' && (
-        <FamiljView onBack={toHub} eaters={eaters.eaters} dayPlans={dayPlans} />
+        <FamiljView
+          onBack={toHub}
+          eaters={eaters.eaters}
+          dayPlans={dayPlans}
+          rollingDays={rollingDays}
+          rollingLunches={rollingLunches}
+        />
       )}
       {screen === 'anteckningar' && (
         <AnteckningarView onBack={toHub} weekNotes={weekNotes} />

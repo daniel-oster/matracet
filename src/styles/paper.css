@@ -493,6 +493,14 @@ input, select, textarea { font-family: inherit; }
   .familj-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
 }
 .sched-days { display: flex; flex-direction: column; gap: 6px; }
+.sched-exceptions { display: flex; flex-direction: column; gap: 6px; }
+.sched-exception {
+  display: flex; align-items: center; gap: 8px; font-size: 12.5px;
+  background: var(--paper); border: 1px solid var(--line2); border-radius: 8px; padding: 7px 12px;
+}
+.sched-exception-date { flex: none; width: 46px; color: var(--muted); }
+.sched-exception-ic { flex: none; color: var(--muted2); font-size: 11px; }
+.sched-exception-text { flex: 1; }
 .sched-day { background: var(--paper); border: 1px solid var(--line2); border-radius: 8px; padding: 9px 12px; }
 .sched-day--away { opacity: 0.6; }
 .sched-day-header { display: flex; align-items: center; gap: 8px; font-size: 13.5px; }
