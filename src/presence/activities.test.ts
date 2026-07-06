@@ -13,8 +13,8 @@ function storeWith(overrides: Partial<PresenceStore>): PresenceStore {
 /** A Monday — kids present every week. */
 const MON_KIDS = '2026-05-25'
 
-/** A Wednesday in a Daniel-week (kids present). On Erika-weeks Wednesday has no kids. */
-const WED_KIDS = '2026-06-03'
+/** A Wednesday in a mother-week, term-time exception still active (kids present). */
+const WED_KIDS = '2026-05-20'
 
 /** A Friday in Daniel's custody week. */
 const FRI_DANIEL = '2026-05-22'
@@ -28,8 +28,8 @@ const SUN_DANIEL = '2026-05-24'
 /** A Saturday in Daniel's custody week. */
 const SAT_DANIEL = '2026-05-23'
 
-/** A Tuesday in a Daniel-week — Daniel eats alone (no kids, no Erika). */
-const TUE_SOLO = '2026-06-02'
+/** A Tuesday in a mother-week, summer (past the school-term exception) — no kids, Daniel + Erika. */
+const TUE_MOTHER = '2026-06-02'
 
 // ── 1. Presence gating ────────────────────────────────────────────────────────
 
@@ -202,9 +202,9 @@ describe('OPEN day', () => {
     expect(plan.activitiesToday).toHaveLength(0)
   })
 
-  it('Daniel-week Tuesday (Daniel alone) → OPEN regardless of activities', () => {
-    const plan = resolvePresence(TUE_SOLO, SEED_STORE)
-    expect(plan.activeGroup?.id).toBe('daniel')
+  it('Mother-week Tuesday, summer (no kids) → Daniel + Erika, OPEN regardless of activities', () => {
+    const plan = resolvePresence(TUE_MOTHER, SEED_STORE)
+    expect(plan.activeGroup?.id).toBe('daniel-erika')
     expect(plan.windowStatus).toBe('OPEN')
   })
 })

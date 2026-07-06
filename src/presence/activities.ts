@@ -1,7 +1,9 @@
 import type { Activity } from './types'
 
 /** This term's activity schedule. validFrom/validUntil scope the entries so the
- *  model survives term changes without rewriting logic. */
+ *  model survives term changes without rewriting logic. Spring term ended
+ *  2026-06-01 (validUntil below) — bump validFrom on each entry (or add new ones)
+ *  once the autumn term's schedule is known. */
 export const ACTIVITIES: Activity[] = [
 
   // ── Sarah ──────────────────────────────────────────────────────────────────
@@ -17,7 +19,7 @@ export const ACTIVITIES: Activity[] = [
     endTime: null,
     affectsWindow: false,
     validFrom: '2026-01-01',
-    validUntil: null,
+    validUntil: '2026-06-01',
     notes: 'dagtid',
   },
   {
@@ -31,7 +33,7 @@ export const ACTIVITIES: Activity[] = [
     endTime: '18:45',
     affectsWindow: true,
     validFrom: '2026-01-01',
-    validUntil: null,
+    validUntil: '2026-06-01',
     notes: null,
   },
   {
@@ -45,7 +47,7 @@ export const ACTIVITIES: Activity[] = [
     endTime: '13:30',
     affectsWindow: true,
     validFrom: '2026-01-01',
-    validUntil: null,
+    validUntil: '2026-06-01',
     notes: 'middag',
   },
   {
@@ -59,7 +61,7 @@ export const ACTIVITIES: Activity[] = [
     endTime: '19:15',
     affectsWindow: true,
     validFrom: '2026-01-01',
-    validUntil: null,
+    validUntil: '2026-06-01',
     notes: null,
   },
   {
@@ -73,7 +75,7 @@ export const ACTIVITIES: Activity[] = [
     endTime: null,
     affectsWindow: false,
     validFrom: '2026-01-01',
-    validUntil: null,
+    validUntil: '2026-06-01',
     notes: 'dagtid',
   },
   {
@@ -87,7 +89,7 @@ export const ACTIVITIES: Activity[] = [
     endTime: '20:00',
     affectsWindow: true,
     validFrom: '2026-01-01',
-    validUntil: null,
+    validUntil: '2026-06-01',
     notes: 'preliminärt; ingen arrive/leave → startTime gäller som cutoff',
   },
   {
@@ -101,7 +103,7 @@ export const ACTIVITIES: Activity[] = [
     endTime: '20:15',
     affectsWindow: true,
     validFrom: '2026-01-01',
-    validUntil: null,
+    validUntil: '2026-06-01',
     notes: null,
   },
 
@@ -118,7 +120,7 @@ export const ACTIVITIES: Activity[] = [
     endTime: null,
     affectsWindow: false,
     validFrom: '2026-01-01',
-    validUntil: null,
+    validUntil: '2026-06-01',
     notes: 'dagtid',
   },
   {
@@ -132,7 +134,7 @@ export const ACTIVITIES: Activity[] = [
     endTime: '17:00',
     affectsWindow: true,
     validFrom: '2026-01-01',
-    validUntil: null,
+    validUntil: '2026-06-01',
     notes: 'senast 15:30',
   },
   {
@@ -146,7 +148,7 @@ export const ACTIVITIES: Activity[] = [
     endTime: '16:15',
     affectsWindow: true,
     validFrom: '2026-01-01',
-    validUntil: null,
+    validUntil: '2026-06-01',
     notes: 'middag/eftermiddag',
   },
   {
@@ -160,7 +162,7 @@ export const ACTIVITIES: Activity[] = [
     endTime: null,
     affectsWindow: false,
     validFrom: '2026-01-01',
-    validUntil: null,
+    validUntil: '2026-06-01',
     notes: 'dagtid',
   },
   {
@@ -174,7 +176,7 @@ export const ACTIVITIES: Activity[] = [
     endTime: null,
     affectsWindow: false,
     validFrom: '2026-01-01',
-    validUntil: null,
+    validUntil: '2026-06-01',
     notes: 'dagtid',
   },
   {
@@ -188,7 +190,7 @@ export const ACTIVITIES: Activity[] = [
     endTime: '18:30',
     affectsWindow: true,
     validFrom: '2026-01-01',
-    validUntil: null,
+    validUntil: '2026-06-01',
     notes: null,
   },
 ]

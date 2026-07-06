@@ -1,0 +1,44 @@
+{
+  "vecka": "2026-W28",
+  "middagar": [
+    {
+      "dag": "mandag",
+      "datum": "2026-07-06",
+      "recept": "Falukorv med stuvade makaroner",
+      "receptSlug": "falukorv-stuvade-makaroner",
+      "kommentar": "Snabbt & enkelt. Falukorv 2 för 65:- (ICA) + makaroner på extrapris (ICA/Hemköp/Willys) denna vecka. Annabelle: byt falukorven mot Vegokorv (ICA, 22:90/st, samma vecka)"
+    },
+    {
+      "dag": "tisdag",
+      "datum": "2026-07-07",
+      "recept": "Kyckling på plåt med ugnsrostade rotsaker",
+      "receptSlug": "kyckling-plat-rotsaker",
+      "kommentar": "Tar lite längre tid (ugn ~45 min) men mest passivt. Kycklingfilé på extrapris hos både Willys (109-119kr/kg) och Hemköp (149kr/kg). Annabelle: rosta halloumi istället för kyckling på samma plåt"
+    },
+    {
+      "dag": "onsdag",
+      "datum": "2026-07-08",
+      "recept": "Tofuwok med soja och sesam",
+      "receptSlug": "tofuwok-sojavinager",
+      "kommentar": "Snabbt (30 min), vegansk — funkar för alla. Tofu på extrapris hos Hemköp (24:-/st, veckans vego)"
+    },
+    {
+      "dag": "torsdag",
+      "datum": "2026-07-09",
+      "recept": null,
+      "anteckning": "Ingen middag planerad — väntar och ser hur veckan blir (semestertider, lös planering)"
+    }
+  ],
+  "luncher": [
+    {
+      "dag": "mandag",
+      "datum": "2026-07-06",
+      "recept": "Fylld pasta (tortellini/ravioli) med smörsås och parmesan",
+      "kommentar": "Snabb lunch, köpt färsk fylld pasta — koka, smörsås eller bara smör/salvia + riven parmesan/riven ost (extrapris hos Willys, 14.90/st)"
+    }
+  ],
+  "anteckningar": [
+    { "nar": "Vecka 28", "text": "Semestervecka — lösare planering än vanligt. Barnen hos Daniel hela veckan (fre 3/7–tors 9/7), lämnas till mamma fredag morgon 10/7. Torsdag medvetet utan middag inplanerad; måndag–onsdag valda utifrån veckans extrapriser (Willys/ICA/Hemköp/Maxi ICA) och enkelhet så det går att kasta om efter hand. Extra reservval om något behöver bytas ut: Klassiska köttbullar, Spaghetti och köttfärssås, Halloumitacos med avokadokram (avokado 10:-/st hos Hemköp denna vecka), Pasta med fetaost och rostad paprika — alla snabba (≤30 min) och barnvänliga." }
+  ],
+  "skapad": "2026-07-06T00:00:00Z"
+}
