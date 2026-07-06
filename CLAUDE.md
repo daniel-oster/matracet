@@ -84,18 +84,30 @@ Navigation is a simple `screen: ScreenName` state in `App.tsx` (`'hub' | TabName
 | `bevaka` | Standing watch-list + current bargain matches (2-col on wide) |
 | `fynd` | Store offers, all categories in one scroll (2-col grid on wide) |
 
-### Week planning: suggestion tray
+### Week planning: discover-style suggestion list
 
-`VeckanPlanner` (`src/components/week/VeckanPlanner.tsx`) replaced the old "⇄ Ersätt" modal
-(`ReplaceRecipeModal`, deleted). It renders a horizontally-scrollable tray of ranked recipe
-suggestions (`src/lib/suggestions.ts::rankSuggestions`, scored by current store-offer match,
-prep time, vegan filter, and per-person feedback) — drag one onto a day's lunch/middag half,
-or tap a suggestion then tap a slot (tap-to-place; both use the same pointer-event pattern:
-`onPointerDown` on the card records a start point, a window `pointermove`/`pointerup` pair
-added only while dragging resolves the drop target via `elementFromPoint` + `data-date`/
-`data-kind` attributes on the slot). On wide/landscape viewports (`min-width: 860px`) the tray
-docks as a fixed right-hand sidebar instead of a bottom sheet — this is the app's one deliberate
-use of extra landscape width, done in `paper.css` only, no JS layout branching.
+`VeckanPlanner` (`src/components/week/VeckanPlanner.tsx`) went through two redesigns: first
+replaced the old "⇄ Ersätt" modal with a horizontally-scrollable drag-to-day tray, then (2026-07)
+that tray itself was replaced by a "select day, then tap a suggestion" flow, because the tray
+made the day cards the main event when the actual job was to browse options. The day list now
+collapses to a thin scrollable strip of pills at top (`.day-strip`/`.day-pill`, one per day in
+the rolling window, each with two small dots showing whether lunch/middag are filled) — tapping
+a pill sets `activeDate`, defaulting on mount to the first day with an empty slot. Below it,
+`.active-day` shows the selected day's current lunch/middag (with "Recept ›" and "✕ clear"
+actions), and everything under that is the suggestion list — now the tall, primary,
+vertically-scrolling element (2-column grid at `min-width: 860px`), not a docked sidebar.
+
+Each suggestion card (`src/lib/suggestions.ts::rankSuggestions`) shows *why* it's ranked — tags
+render a matched offer's savings (`🏷 spara Xkr`, parsed from the offer's `besparing` string via
+`parseSavings`, taking the max figure out of a range like `"10.80-14.58kr"`), prep time, vegan
+status, and which present eaters like/refuse it (`❤ name` / `⚠️ name vägrar`) — and ends in two
+always-visible assign buttons, `☼ Lunch` / `☾ Middag`, that write straight to `activeDate` via
+`useWeekPlan.setMeal` (no drag, no intermediate "picked" state). A button shows `✓` instead of the
+icon when that slug is already in that slot for the active day. Sort is a separate axis from the
+existing filter chips (`Alla`/`🏷 Fynd`/`⚡ Snabbt`/`🌱 Vegansk`): `SuggestionSort` in
+`suggestions.ts` — `match` (default score) / `savings` / `favorites` (like-count) / `fastest`
+(tid_min) — deliberately kept as independent controls rather than one combined "smart" order, per
+the intended "discover" feel of browsing ~30 ranked options many ways rather than one funnel.
 
 Swaps for **both** lunch and dinner now persist through `useWeekPlan` (`matracet:weekplan:v2`,
 `Record<date, { dinner?: WeekPlanOverride; lunch?: WeekPlanOverride }>` — bumped from `v1`,

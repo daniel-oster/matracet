@@ -26,7 +26,7 @@ export default function VeckanView({ onBack, weekLabel, rollingDays, rollingLunc
         <button className={mode === 'view' ? 'on' : ''} onClick={() => setMode('view')}>Vecka</button>
         <button className={mode === 'plan' ? 'on' : ''} onClick={() => setMode('plan')}>Planera</button>
       </div>
-      <div className={`screen-body${mode === 'plan' ? ' screen-body--tray' : ''}`}>
+      <div className="screen-body">
         {mode === 'view' ? (
           <VeckanOverview
             days={rollingDays}
