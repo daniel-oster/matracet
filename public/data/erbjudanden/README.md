@@ -142,8 +142,22 @@ Supersättning — varje butik fyller i det den exponerar, resten är `null`.
 
 ### Kategorier
 
-`mejeri`, `kott_fagel`, `fisk_skaldjur`, `frukt_gront`, `torrvaror`,
-`brod_bakverk`, `dryck`, `frys`, `snacks_godis`, `hygien_hushall`, `ovrigt`.
+Grupperat efter "vad lagar jag med", inte butikens hyllplacering:
+
+`protein_farsk`, `protein_fryst`, `gront_farsk`, `gront_fryst`, `frukt`,
+`snacks_godis`, `ovrigt`.
+
+`protein_*` täcker kött, fågel, fisk, skaldjur, ägg och vegetariska/veganska
+proteinkällor (tofu, quorn, bönor, linser …), delat i färskt/fryst. `gront_*`
+är grönsaker, samma färskt/fryst-delning. `frukt` är frukt & bär (ingen
+färskt/fryst-delning). `ovrigt` är allt annat på ett reklamblad — mejeri,
+bröd, dryck, skafferivaror, hygien/hushåll, färdigrätter, glass — snarare än
+en egen kategori vardera, eftersom UI:t (`FyndView`) numera grupperar just
+efter protein/grönt/frukt/snacks/resten. Se `scripts/erbjudanden-lib.mjs`
+(`guessKategori`) för nyckelordsgissningen och `scripts/erbjudanden-recategorize.mjs`
+för engångsmigreringen från den gamla 11-kategori-listan (kott_fagel,
+fisk_skaldjur, frukt_gront, mejeri, brod_bakverk, torrvaror, frys, dryck,
+snacks_godis, hygien_hushall, ovrigt) till denna.
 
 ### Noteringar
 

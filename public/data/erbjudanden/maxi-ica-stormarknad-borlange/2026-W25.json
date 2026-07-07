@@ -16,7 +16,7 @@
       "marke": "Valio",
       "storlek": "5 dl",
       "pris_text": "25:-/st",
-      "pris": 25.0,
+      "pris": 25,
       "pris_typ": "st",
       "jamforpris": "50.00/liter",
       "ord_pris": "34.02",
@@ -27,7 +27,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Snack pot",
@@ -81,14 +81,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Papperstallrik",
       "marke": "ICA",
       "storlek": "20-pack",
       "pris_text": "20:-/st",
-      "pris": 20.0,
+      "pris": 20,
       "pris_typ": "st",
       "jamforpris": "1.00/st",
       "ord_pris": "31.90",
@@ -99,14 +99,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Grevé®, Präst®, Herrgård®, Morfars",
       "marke": "Falbygdens",
       "storlek": "Ca 500-720 g",
       "pris_text": "119:-/kg",
-      "pris": 119.0,
+      "pris": 119,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": "169.40-207.26",
@@ -117,7 +117,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Skagenröra, räksallad",
@@ -135,7 +135,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "fisk_skaldjur"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Sill i glas",
@@ -153,7 +153,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "fisk_skaldjur"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Frysta räkor med skal 70/90",
@@ -171,7 +171,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "fisk_skaldjur"
+      "kategori": "protein_fryst"
     },
     {
       "namn": "Kalkonköttbullar, kalkoncevapcici",
@@ -189,7 +189,7 @@
       "markeringar": [],
       "ursprung": "Sverige",
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Maskindiskmedel",
@@ -207,14 +207,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Mjukt tunnbröd",
       "marke": "Polarbröd",
       "storlek": "360 g, 375 g",
       "pris_text": "2 för 36:-",
-      "pris": 18.0,
+      "pris": 18,
       "pris_typ": "multi",
       "jamforpris": "48.00-50.00/kg",
       "ord_pris": "19.50-23.61",
@@ -225,7 +225,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod_bakverk"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Köttbullar",
@@ -243,7 +243,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Digestive",
@@ -268,7 +268,7 @@
       "marke": "President",
       "storlek": "170-200 g, 250 g",
       "pris_text": "2 för 60:-",
-      "pris": 30.0,
+      "pris": 30,
       "pris_typ": "multi",
       "jamforpris": "120.00-176.47/kg",
       "ord_pris": "32.90- 44.50",
@@ -279,14 +279,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Dessertost",
       "marke": "Castello",
       "storlek": "150 g",
       "pris_text": "2 för 50:-",
-      "pris": 25.0,
+      "pris": 25,
       "pris_typ": "multi",
       "jamforpris": "166.67/kg",
       "ord_pris": "30.23-33.50",
@@ -297,14 +297,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Glass flerpack",
       "marke": "Triumf Glass",
       "storlek": "8-21 pack",
       "pris_text": "2 för 60:-",
-      "pris": 30.0,
+      "pris": 30,
       "pris_typ": "multi",
       "jamforpris": "1.43-3.75/st",
       "ord_pris": "37.80-38.75",
@@ -315,14 +315,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "frys"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Chokladkaka Excellence",
       "marke": "Lindt",
       "storlek": "100 g",
       "pris_text": "2 för 62:-",
-      "pris": 31.0,
+      "pris": 31,
       "pris_typ": "multi",
       "jamforpris": "310.00/kg",
       "ord_pris": "39.00-40.64",
@@ -358,7 +358,7 @@
       "marke": "Ahlgrens bilar, Malaco",
       "storlek": "130-210 g",
       "pris_text": "3 för 39:-",
-      "pris": 13.0,
+      "pris": 13,
       "pris_typ": "multi",
       "jamforpris": "61.90-100.00/kg",
       "ord_pris": "15.50- 17.93",
@@ -387,14 +387,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod_bakverk"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Noblesse",
       "marke": "Marabou",
       "storlek": "150 g",
       "pris_text": "2 för 70:-",
-      "pris": 35.0,
+      "pris": 35,
       "pris_typ": "multi",
       "jamforpris": "233.33/kg",
       "ord_pris": "48.21",
@@ -441,14 +441,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Flytande tvättmedel, sköljmedel, fläckborttagning",
       "marke": "Grumme",
       "storlek": "350-750 ml",
       "pris_text": "2 för 56:-",
-      "pris": 28.0,
+      "pris": 28,
       "pris_typ": "multi",
       "jamforpris": "80.00/liter, 0.64-1.33/tvätt",
       "ord_pris": "32.95- 40.95",
@@ -459,7 +459,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Alkoholfri öl",
@@ -477,7 +477,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Deo roll on",
@@ -495,7 +495,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Läsk mixers",
@@ -513,14 +513,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Ginger beer",
       "marke": "Ginger Joe",
       "storlek": "33 cl",
       "pris_text": "4 för 52:-",
-      "pris": 13.0,
+      "pris": 13,
       "pris_typ": "multi",
       "jamforpris": "39.39/liter",
       "ord_pris": "15.66",
@@ -531,7 +531,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Korv-, Hamburgerbröd Potato",
@@ -549,7 +549,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod_bakverk"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Helgprinskorv",
@@ -567,7 +567,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Potatisgratäng, rotfruktsgratäng",
@@ -585,7 +585,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "frys"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Frysta delikatessköttbullar",
@@ -603,14 +603,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "protein_fryst"
     },
     {
       "namn": "Grillolja, BBQ-Sås",
       "marke": "Santa Maria",
       "storlek": "400 ml, 320-350 g",
       "pris_text": "2 för 50:-",
-      "pris": 25.0,
+      "pris": 25,
       "pris_typ": "multi",
       "jamforpris": "62.50/liter, 71.43-78.12/kg",
       "ord_pris": "32.08-33.07",
@@ -621,14 +621,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Gräddfil",
       "marke": "Arla Ko",
       "storlek": "300 g",
       "pris_text": "2 för 22:-",
-      "pris": 11.0,
+      "pris": 11,
       "pris_typ": "multi",
       "jamforpris": "36.67/liter",
       "ord_pris": "12.00-16.90",
@@ -639,7 +639,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Feta, Getost",
@@ -657,7 +657,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Matjessill",
@@ -675,7 +675,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "fisk_skaldjur"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Italienska delikatesser",
@@ -693,7 +693,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Potatissallad",
@@ -711,7 +711,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror"
+      "kategori": "gront_farsk"
     },
     {
       "namn": "Kaviar",
@@ -729,14 +729,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "fisk_skaldjur"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Oliver",
       "marke": "Zeta",
       "storlek": "250-370 g",
       "pris_text": "2 för 50:-",
-      "pris": 25.0,
+      "pris": 25,
       "pris_typ": "multi",
       "jamforpris": "131.58-166.67/kg utan spad",
       "ord_pris": "30.23- 48.22",
@@ -747,14 +747,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Majonnäs",
       "marke": "Kavli",
       "storlek": "275 g",
       "pris_text": "2 för 30:-",
-      "pris": 15.0,
+      "pris": 15,
       "pris_typ": "multi",
       "jamforpris": "54.55/kg",
       "ord_pris": "17.93-18.88",
@@ -765,14 +765,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Minivattenmeloner",
       "marke": "Spanien/Italien",
       "storlek": null,
       "pris_text": "15:-/kg",
-      "pris": 15.0,
+      "pris": 15,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": "24.90",
@@ -783,14 +783,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "frukt_gront"
+      "kategori": "frukt"
     },
     {
       "namn": "Paraguayos i ask",
       "marke": "ICA",
       "storlek": "Spanien; 500 g",
       "pris_text": "25:-/st",
-      "pris": 25.0,
+      "pris": 25,
       "pris_typ": "st",
       "jamforpris": "50.00/kg",
       "ord_pris": "35.90",
@@ -801,14 +801,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "frukt_gront"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Körsbär i ask",
       "marke": "ICA",
       "storlek": "Turkiet/Grekland; 500 g",
       "pris_text": "40:-/st",
-      "pris": 40.0,
+      "pris": 40,
       "pris_typ": "st",
       "jamforpris": "80.00/kg",
       "ord_pris": "58.90",
@@ -819,14 +819,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "frukt_gront"
+      "kategori": "frukt"
     },
     {
       "namn": "Rädisor i knippe",
       "marke": "Nederländerna",
       "storlek": "180 g",
       "pris_text": "2 för 18:-",
-      "pris": 9.0,
+      "pris": 9,
       "pris_typ": "multi",
       "jamforpris": "27.03/kg",
       "ord_pris": "12.50",
@@ -837,14 +837,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "frukt_gront"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Kronärtskocka",
       "marke": "Frankrike",
       "storlek": null,
       "pris_text": "12:-/st",
-      "pris": 12.0,
+      "pris": 12,
       "pris_typ": "st",
       "jamforpris": "40.00/kg",
       "ord_pris": "24.00",
@@ -855,14 +855,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "frukt_gront"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Äpplen Royal Gala",
       "marke": "ICA",
       "storlek": "Chile/Sydafrika",
       "pris_text": "23:-/kg",
-      "pris": 23.0,
+      "pris": 23,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": "26.90",
@@ -873,14 +873,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "frukt_gront"
+      "kategori": "frukt"
     },
     {
       "namn": "Champinjoner i ask",
       "marke": "ICA",
       "storlek": "Polen/Litauen; 400 g",
       "pris_text": "24:-/st",
-      "pris": 24.0,
+      "pris": 24,
       "pris_typ": "st",
       "jamforpris": "60.00/kg",
       "ord_pris": "29.90",
@@ -891,7 +891,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "frukt_gront"
+      "kategori": "gront_farsk"
     },
     {
       "namn": "Färska kryddor i kruka",
@@ -909,14 +909,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "frukt_gront"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Nyskördad svensk vitkål",
       "marke": null,
       "storlek": null,
       "pris_text": "15:-/kg",
-      "pris": 15.0,
+      "pris": 15,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": "24.90",
@@ -927,14 +927,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "frukt_gront"
+      "kategori": "gront_farsk"
     },
     {
       "namn": "Benfri karré",
       "marke": null,
       "storlek": null,
       "pris_text": "79:-/kg",
-      "pris": 79.0,
+      "pris": 79,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": "103.00",
@@ -945,14 +945,14 @@
       "markeringar": [],
       "ursprung": "Sverige",
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Entrecôtekärna",
       "marke": "ICA",
       "storlek": null,
       "pris_text": "239:-/kg",
-      "pris": 239.0,
+      "pris": 239,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": "273.50",
@@ -963,14 +963,14 @@
       "markeringar": [],
       "ursprung": "Sverige",
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Flintastek",
       "marke": "Scan",
       "storlek": null,
       "pris_text": "55:-/kg",
-      "pris": 55.0,
+      "pris": 55,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": "72.50",
@@ -981,14 +981,14 @@
       "markeringar": [],
       "ursprung": "Sverige",
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Grillmarinerad pluma",
       "marke": "Dalsjöfors",
       "storlek": null,
       "pris_text": "95:-/kg",
-      "pris": 95.0,
+      "pris": 95,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": "114.50",
@@ -999,14 +999,14 @@
       "markeringar": [],
       "ursprung": "Sverige",
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Lammracks",
       "marke": "Naturkött",
       "storlek": null,
       "pris_text": "419:-/kg",
-      "pris": 419.0,
+      "pris": 419,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": "446.70",
@@ -1017,14 +1017,14 @@
       "markeringar": [],
       "ursprung": "Nya Zeeland",
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Tomahawk steak",
       "marke": "Fine cuts Hacksta köttdisk",
       "storlek": null,
       "pris_text": "199:-/kg",
-      "pris": 199.0,
+      "pris": 199,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": "226.00- 231.86",
@@ -1035,14 +1035,14 @@
       "markeringar": [],
       "ursprung": "Irland",
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Grillkorv Hots",
       "marke": "Lithells",
       "storlek": "400 g",
       "pris_text": "2 för 28:-",
-      "pris": 14.0,
+      "pris": 14,
       "pris_typ": "multi",
       "jamforpris": "35.00/kg",
       "ord_pris": "18.42",
@@ -1053,7 +1053,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Tonfisk",
@@ -1071,14 +1071,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "fisk_skaldjur"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Cheddar",
       "marke": "Kvibille",
       "storlek": "Ca 500-1400 g",
       "pris_text": "109:-/kg",
-      "pris": 109.0,
+      "pris": 109,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": "159.94-178.86",
@@ -1089,14 +1089,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Mild yoghurt naturell, vanilj",
       "marke": "Arla Ko",
       "storlek": "1 kg",
       "pris_text": "2 för 30:-",
-      "pris": 15.0,
+      "pris": 15,
       "pris_typ": "multi",
       "jamforpris": "15.00/kg",
       "ord_pris": "16.50-20.00",
@@ -1107,14 +1107,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Färskost",
       "marke": "Philadelphia",
       "storlek": "145-200 g",
       "pris_text": "2 för 38:-",
-      "pris": 19.0,
+      "pris": 19,
       "pris_typ": "multi",
       "jamforpris": "95.00-131.03/kg",
       "ord_pris": "21.50-28.34",
@@ -1125,14 +1125,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Salami",
       "marke": "Grilstad",
       "storlek": "80-100 g",
       "pris_text": "2 för 38:-",
-      "pris": 19.0,
+      "pris": 19,
       "pris_typ": "multi",
       "jamforpris": "190.00-237.50/kg",
       "ord_pris": "23.61",
@@ -1143,7 +1143,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Kaffe hela bönor",
@@ -1161,14 +1161,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Juice, smoothie",
       "marke": "Brämhults",
       "storlek": "850 ml",
       "pris_text": "2 för 70:-",
-      "pris": 35.0,
+      "pris": 35,
       "pris_typ": "multi",
       "jamforpris": "41.18/liter + pant",
       "ord_pris": "43.48-47.27",
@@ -1179,14 +1179,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Pastej",
       "marke": "Argeta",
       "storlek": "95 g",
       "pris_text": "2 för 20:-",
-      "pris": 10.0,
+      "pris": 10,
       "pris_typ": "multi",
       "jamforpris": "105.26/kg",
       "ord_pris": "12.50",
@@ -1197,14 +1197,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Roast'n toast",
       "marke": "Pågen",
       "storlek": "800 g",
       "pris_text": "20:-/st",
-      "pris": 20.0,
+      "pris": 20,
       "pris_typ": "st",
       "jamforpris": "25.00/kg",
       "ord_pris": "30.23",
@@ -1215,14 +1215,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod_bakverk"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Vispgrädde",
       "marke": "Skånemejerier",
       "storlek": "5 dl",
       "pris_text": "2 för 50:-",
-      "pris": 25.0,
+      "pris": 25,
       "pris_typ": "multi",
       "jamforpris": "50.00/liter",
       "ord_pris": "27.50",
@@ -1233,7 +1233,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Gravad, kallrökt, najad lax",
@@ -1251,14 +1251,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "fisk_skaldjur"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Romanticatomater i ask",
       "marke": "ICA",
       "storlek": "Nederländerna/Spanien; 400 g",
       "pris_text": "25:-/st",
-      "pris": 25.0,
+      "pris": 25,
       "pris_typ": "st",
       "jamforpris": "62.50/kg",
       "ord_pris": "31.50",
@@ -1269,14 +1269,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "frukt_gront"
+      "kategori": "gront_farsk"
     },
     {
       "namn": "Fäbodknäcke",
       "marke": "Leksandsbröd",
       "storlek": "365 g, 415 g",
       "pris_text": "25:-/st",
-      "pris": 25.0,
+      "pris": 25,
       "pris_typ": "st",
       "jamforpris": "60.24-68.49/kg",
       "ord_pris": "29.90",
@@ -1287,7 +1287,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod_bakverk"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Öl 3,5%",
@@ -1305,7 +1305,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Kolsyrat vatten",
@@ -1323,7 +1323,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Gräddglass",
@@ -1341,7 +1341,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "frys"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Kyld sås, dressing",
@@ -1359,14 +1359,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Kryddkorv",
       "marke": "Scan",
       "storlek": "180-300 g",
       "pris_text": "2 för 50:-",
-      "pris": 25.0,
+      "pris": 25,
       "pris_typ": "multi",
       "jamforpris": "83.33-138.89/kg",
       "ord_pris": "31.18-33.07",
@@ -1377,14 +1377,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Färsk kycklingfilé",
       "marke": "Kronfågel",
       "storlek": null,
       "pris_text": "109:-/kg",
-      "pris": 109.0,
+      "pris": 109,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": "149.50",
@@ -1395,14 +1395,14 @@
       "markeringar": [],
       "ursprung": "Sverige",
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Västerbottensost",
       "marke": "Norrmejerier",
       "storlek": "450 g",
       "pris_text": "85:-/st",
-      "pris": 85.0,
+      "pris": 85,
       "pris_typ": "st",
       "jamforpris": "188.89/kg",
       "ord_pris": "103.15",
@@ -1413,14 +1413,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Tandborstrefill 6-pack",
       "marke": "Oral-B",
       "storlek": null,
       "pris_text": "199:-/st",
-      "pris": 199.0,
+      "pris": 199,
       "pris_typ": "st",
       "jamforpris": "33.17/st",
       "ord_pris": "319.00",
@@ -1431,14 +1431,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Myggspray/Mygglotion",
       "marke": "Salubrin",
       "storlek": "100 ml",
       "pris_text": "75:-/st",
-      "pris": 75.0,
+      "pris": 75,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": "94.90",
@@ -1449,14 +1449,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Tandborstrefill iO 4-pack",
       "marke": "Oral-B",
       "storlek": null,
       "pris_text": "299:-/st",
-      "pris": 299.0,
+      "pris": 299,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": "399.00",
@@ -1467,7 +1467,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Grillkol, Briketter",
@@ -1492,7 +1492,7 @@
       "marke": "Fine cuts Hacksta köttdisk",
       "storlek": null,
       "pris_text": "279:-/kg",
-      "pris": 279.0,
+      "pris": 279,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": "389.44",
@@ -1503,7 +1503,7 @@
       "markeringar": [],
       "ursprung": "Irland/UK",
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Avfallspåse",
@@ -1521,14 +1521,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Byxblöjor storpack",
       "marke": "Pampers",
       "storlek": "54-78 pack",
       "pris_text": "169:-/st",
-      "pris": 169.0,
+      "pris": 169,
       "pris_typ": "st",
       "jamforpris": "1.80-3.13/st",
       "ord_pris": "205.00-245.00",
@@ -1539,7 +1539,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     }
   ]
 }

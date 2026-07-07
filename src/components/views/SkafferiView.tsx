@@ -4,6 +4,7 @@ import { useFeedback } from '../../hooks/useFeedback'
 import { useRecipes } from '../../hooks/useRecipes'
 import { useOffers } from '../../hooks/useOffers'
 import { useStash, StashKind } from '../../hooks/useStash'
+import { useShoppingList } from '../../hooks/useShoppingList'
 import { describeOffer, tagOffers, TaggedOffer } from '../../lib/bevaka'
 import { matchPantryRecipes } from '../../lib/pantryMatch'
 import { rankSuggestions, parseSavings, SuggestionFilter, SuggestionSort } from '../../lib/suggestions'
@@ -39,6 +40,7 @@ interface Props {
 
 export default function SkafferiView({ onBack, recipeIndex, eaters, onOpenRecipe }: Props) {
   const { items, addItem, toggleDone, remove } = useStash()
+  const { addOrRestoreByName, removeOrMarkByName, manualItems, removedIds, markRemoved, restore } = useShoppingList()
   const { getFeedback } = useFeedback()
   const allSlugs = useMemo(() => recipeIndex.map(r => r.slug), [recipeIndex])
   const fullRecipes = useRecipes(allSlugs)
@@ -57,6 +59,8 @@ export default function SkafferiView({ onBack, recipeIndex, eaters, onOpenRecipe
 
   const activeItems = items.filter(i => !i.done)
   const doneItems = items.filter(i => i.done)
+  const activeManualItems = manualItems.filter(m => !removedIds.has(m.id))
+  const removedManualItems = manualItems.filter(m => removedIds.has(m.id))
   const stashedSlugs = new Set(activeItems.map(i => i.receptSlug).filter((s): s is string => !!s))
   const stashedOfferNames = new Set(activeItems.filter(i => i.kind === 'stock').map(i => i.namn.toLowerCase()))
   const stockNames = activeItems.filter(i => i.kind === 'stock').map(i => i.namn)
@@ -108,9 +112,11 @@ export default function SkafferiView({ onBack, recipeIndex, eaters, onOpenRecipe
     if (stashedOfferNames.has(key)) {
       const existing = activeItems.find(i => i.kind === 'stock' && i.namn.toLowerCase() === key)
       if (existing) remove(existing.id)
+      removeOrMarkByName(o.namn)
     } else {
       const savings = parseSavings(o.besparing)
       addItem(o.namn, 'stock', null, [savings > 0 ? `🏷 spara ${savings}kr` : '🏷 fynd'], `${describeOffer(o)} · ${o.pris_text}`)
+      addOrRestoreByName(o.namn)
     }
   }
 
@@ -199,6 +205,31 @@ export default function SkafferiView({ onBack, recipeIndex, eaters, onOpenRecipe
               </div>
             ))}
           </div>
+        </section>
+
+        <section className="stash-shoplist">
+          <h3 className="shop-group-title">Inköpslistan</h3>
+          {activeManualItems.length === 0 && (
+            <div className="fynd-empty">Inget på inköpslistan än — plocka fynd nedan eller lägg till för hand.</div>
+          )}
+          <div className="shop-group shop-group--compact">
+            {activeManualItems.map(m => (
+              <div className="shop-row shop-row--compact" key={m.id} onClick={() => markRemoved(m.id)}>
+                <span className="box" />
+                {m.vara}
+              </div>
+            ))}
+          </div>
+          {removedManualItems.length > 0 && (
+            <div className="shop-group shop-group--compact">
+              {removedManualItems.map(m => (
+                <div className="shop-row shop-row--compact done" key={m.id} onClick={() => restore(m.id)}>
+                  <span className="box" />
+                  {m.vara}
+                </div>
+              ))}
+            </div>
+          )}
         </section>
 
         <section className="stash-offers">

@@ -4,7 +4,7 @@
     {
       "id": "kaffe",
       "vara": "Kaffe",
-      "kategori": "torrvaror",
+      "kategori": "ovrigt",
       "sok": ["kaffe"],
       "undvik_marken": ["Gevalia", "Löfbergs Lila"],
       "onskat_marke": null,
@@ -15,7 +15,7 @@
     {
       "id": "toalettpapper",
       "vara": "Toalettpapper",
-      "kategori": "hygien_hushall",
+      "kategori": "ovrigt",
       "sok": ["toalettpapper", "toapapper"],
       "undvik_marken": [],
       "onskat_marke": "Serla",
@@ -26,7 +26,7 @@
     {
       "id": "tandkram",
       "vara": "Tandkräm",
-      "kategori": "hygien_hushall",
+      "kategori": "ovrigt",
       "sok": ["tandkräm"],
       "undvik_marken": [],
       "onskat_marke": "Sensodyne",
@@ -37,7 +37,7 @@
     {
       "id": "diskmaskinstabletter",
       "vara": "Diskmaskinstabletter",
-      "kategori": "hygien_hushall",
+      "kategori": "ovrigt",
       "sok": ["diskmaskinstabletter", "maskindiskmedel"],
       "undvik_marken": [],
       "onskat_marke": "Yes",
@@ -48,7 +48,7 @@
     {
       "id": "schampo",
       "vara": "Schampo",
-      "kategori": "hygien_hushall",
+      "kategori": "ovrigt",
       "sok": ["schampo"],
       "undvik_marken": [],
       "onskat_marke": "Head & Shoulders",
@@ -59,7 +59,7 @@
     {
       "id": "tvattmedel",
       "vara": "Tvättmedel",
-      "kategori": "hygien_hushall",
+      "kategori": "ovrigt",
       "sok": ["tvättmedel", "kulörtvätt"],
       "undvik_marken": [],
       "onskat_marke": "Grumme",
@@ -70,7 +70,7 @@
     {
       "id": "skoljmedel",
       "vara": "Sköljmedel",
-      "kategori": "hygien_hushall",
+      "kategori": "ovrigt",
       "sok": ["sköljmedel"],
       "undvik_marken": [],
       "onskat_marke": "Grumme",
@@ -81,7 +81,7 @@
     {
       "id": "lactacyd",
       "vara": "Duschcreme",
-      "kategori": "hygien_hushall",
+      "kategori": "ovrigt",
       "sok": ["lactacyd"],
       "undvik_marken": [],
       "onskat_marke": "Lactacyd",
@@ -101,15 +101,37 @@
       "anteckning": "Chips, godis, snacks – hela kategorin, inget särskilt märke."
     },
     {
-      "id": "frukt_gront",
-      "vara": "Frukt & grönt",
-      "kategori": "frukt_gront",
+      "id": "gront_farskt",
+      "vara": "Grönt (färskt)",
+      "kategori": "gront_farsk",
       "sok": [],
       "undvik_marken": [],
       "onskat_marke": null,
       "storlek_hint": null,
       "troskel_kr": null,
-      "anteckning": "Allt – morötter, vattenmelon, jordgubbar m.m. – hela kategorin på extrapris."
+      "anteckning": "Allt – morötter, tomater m.m. – hela kategorin på extrapris."
+    },
+    {
+      "id": "gront_fryst",
+      "vara": "Grönt (fryst)",
+      "kategori": "gront_fryst",
+      "sok": [],
+      "undvik_marken": [],
+      "onskat_marke": null,
+      "storlek_hint": null,
+      "troskel_kr": null,
+      "anteckning": "Fryst grönsaksmix, ärtor m.m. – hela kategorin på extrapris."
+    },
+    {
+      "id": "frukt",
+      "vara": "Frukt",
+      "kategori": "frukt",
+      "sok": [],
+      "undvik_marken": [],
+      "onskat_marke": null,
+      "storlek_hint": null,
+      "troskel_kr": null,
+      "anteckning": "Vattenmelon, jordgubbar m.m. – hela kategorin på extrapris."
     }
   ]
 }

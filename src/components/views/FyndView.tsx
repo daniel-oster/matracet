@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Offer, StoreOffers } from '../../types'
 import { useOffers } from '../../hooks/useOffers'
+import { useShoppingList } from '../../hooks/useShoppingList'
 import TopBar from '../TopBar'
 
 interface StoreMeta {
@@ -15,22 +16,23 @@ const STORES: Record<string, StoreMeta> = {
 
 interface CatMeta {
   id: string
+  groupId: string
   label: string
+  sub?: string
   emoji: string
 }
+/** Grouped by "what do I cook with" rather than store-shelf placement — protein and
+ * vegetables each split into a fresh/frozen sub-section within one group heading. */
 const CATS: CatMeta[] = [
-  { id: 'kott_fagel', label: 'Kött & fågel', emoji: '🥩' },
-  { id: 'fisk_skaldjur', label: 'Fisk & skaldjur', emoji: '🐟' },
-  { id: 'frukt_gront', label: 'Frukt & grönt', emoji: '🥦' },
-  { id: 'mejeri', label: 'Mejeri', emoji: '🧀' },
-  { id: 'brod_bakverk', label: 'Bröd & bak', emoji: '🍞' },
-  { id: 'torrvaror', label: 'Skafferi', emoji: '🥫' },
-  { id: 'frys', label: 'Frys', emoji: '🧊' },
-  { id: 'dryck', label: 'Dryck', emoji: '🧃' },
-  { id: 'snacks_godis', label: 'Snacks & godis', emoji: '🍫' },
-  { id: 'hygien_hushall', label: 'Hygien & hushåll', emoji: '🧻' },
-  { id: 'ovrigt', label: 'Övrigt', emoji: '📦' },
+  { id: 'protein_farsk', groupId: 'protein', label: 'Protein', sub: 'Färskt', emoji: '🥩' },
+  { id: 'protein_fryst', groupId: 'protein', label: 'Protein', sub: 'Fryst', emoji: '🥩' },
+  { id: 'gront_farsk', groupId: 'gront', label: 'Grönt', sub: 'Färskt', emoji: '🥦' },
+  { id: 'gront_fryst', groupId: 'gront', label: 'Grönt', sub: 'Fryst', emoji: '🥦' },
+  { id: 'frukt', groupId: 'frukt', label: 'Frukt', emoji: '🍎' },
+  { id: 'snacks_godis', groupId: 'snacks_godis', label: 'Snacks & godis', emoji: '🍫' },
+  { id: 'ovrigt', groupId: 'ovrigt', label: 'Övrigt', emoji: '📦' },
 ]
+const GROUP_ORDER = ['protein', 'gront', 'frukt', 'snacks_godis', 'ovrigt']
 
 const FLAGS: Record<string, string> = {
   Sverige: '🇸🇪',
@@ -125,6 +127,12 @@ export default function FyndView({ onBack }: Props) {
   const [mode, setMode] = useState<'alla' | 'jamfor'>('alla')
   const [week, setWeek] = useState<string | null>(null)
   const { stores, availableWeeks, latestWeek } = useOffers(week)
+  const { isActiveByName, addOrRestoreByName, removeOrMarkByName } = useShoppingList()
+
+  function toggleShoppingList(o: TaggedOffer) {
+    if (isActiveByName(o.namn)) removeOrMarkByName(o.namn)
+    else addOrRestoreByName(o.namn)
+  }
 
   const toggleStore = (store: string) => setStoreFilter(prev => ({ ...prev, [store]: !prev[store] }))
 
@@ -211,84 +219,121 @@ export default function FyndView({ onBack }: Props) {
             🇸🇪 Svenskt
           </button>
         </div>
+        <p className="fynd-hint">🛒 Dubbelklicka en vara för att lägga den i inköpslistan.</p>
 
         {mode === 'alla' ? (
-          <AllView all={all} visible={visible} />
+          <AllView all={all} visible={visible} isActiveByName={isActiveByName} onToggleShoppingList={toggleShoppingList} />
         ) : (
-          <JamforView all={all} visible={visible} />
+          <JamforView all={all} visible={visible} isActiveByName={isActiveByName} onToggleShoppingList={toggleShoppingList} />
         )}
       </div>
     </div>
   )
 }
 
-function AllView({ all, visible }: {
-  all: TaggedOffer[]
-  visible: (o: TaggedOffer) => boolean
-}) {
+interface RowProps {
+  isActiveByName: (namn: string) => boolean
+  onToggleShoppingList: (o: TaggedOffer) => void
+}
+
+function OfferRows({ offers, isActiveByName, onToggleShoppingList }: RowProps & { offers: TaggedOffer[] }) {
+  const sorted = [...offers].sort((a, b) => sortKey(a) - sortKey(b))
+  const minByUnit: Record<string, number> = {}
+  const unitCount: Record<string, number> = {}
+  for (const o of sorted) {
+    const j = parseJmf(o.jamforpris)
+    if (!j) continue
+    unitCount[j.unit] = (unitCount[j.unit] ?? 0) + 1
+    minByUnit[j.unit] = minByUnit[j.unit] == null ? j.val : Math.min(minByUnit[j.unit], j.val)
+  }
+
   return (
-    <div className="fynd-scroll fynd-scroll--wide">
-      {CATS.map(meta => {
-        const offers = all.filter(o => o.kategori === meta.id && visible(o)).sort((a, b) => sortKey(a) - sortKey(b))
-        if (offers.length === 0) return null
-
-        const minByUnit: Record<string, number> = {}
-        const unitCount: Record<string, number> = {}
-        for (const o of offers) {
-          const j = parseJmf(o.jamforpris)
-          if (!j) continue
-          unitCount[j.unit] = (unitCount[j.unit] ?? 0) + 1
-          minByUnit[j.unit] = minByUnit[j.unit] == null ? j.val : Math.min(minByUnit[j.unit], j.val)
-        }
-
+    <>
+      {sorted.map((o, i) => {
+        const j = parseJmf(o.jamforpris)
+        const best = j != null && unitCount[j.unit] >= 2 && j.val === minByUnit[j.unit]
+        const flag = o.ursprung ? FLAGS[o.ursprung] ?? '🌍' : isSwedish(o) ? '🇸🇪' : ''
+        const inList = isActiveByName(o.namn)
         return (
-          <div className="fynd-cat" key={meta.id}>
-            <h3 className="fynd-cat-title">
-              <span>{meta.emoji} {meta.label}</span>
-              <span className="fynd-cat-count">{offers.length}</span>
-            </h3>
-            {offers.map((o, i) => {
-              const j = parseJmf(o.jamforpris)
-              const best = j != null && unitCount[j.unit] >= 2 && j.val === minByUnit[j.unit]
-              const flag = o.ursprung ? FLAGS[o.ursprung] ?? '🌍' : isSwedish(o) ? '🇸🇪' : ''
-              return (
-                <div className={`fynd-row${best ? ' best' : ''}`} key={`${o.store}-${o.namn}-${i}`}>
-                  <span className={`fynd-store ${STORES[o.store]?.klass}`}>{STORES[o.store]?.namn}</span>
-                  <div className="fynd-info">
-                    <div className="fynd-name">
-                      {o.namn}
-                      {flag && <span className="fynd-flag" title={o.ursprung ?? 'Svenskt'}>{flag}</span>}
-                    </div>
-                    <div className="fynd-meta">
-                      {[o.marke, o.storlek].filter(Boolean).join(' · ')}
-                      {o.jamforpris && <span className="fynd-jmf">{o.jamforpris}</span>}
-                      {best && <span className="fynd-best">lägst</span>}
-                      {o.klubbpris && <span className="fynd-tag club">klubb</span>}
-                      {o.max_kop != null && <span className="fynd-tag">max {o.max_kop}</span>}
-                    </div>
-                  </div>
-                  <div className="fynd-price">
-                    <span className="fynd-pris">{o.pris_text}</span>
-                    {o.besparing ? (
-                      <span className="fynd-save">−{o.besparing}</span>
-                    ) : o.ord_pris && !o.ord_pris.includes('-') ? (
-                      <span className="fynd-ord">ord {o.ord_pris}</span>
-                    ) : null}
-                  </div>
-                </div>
-              )
-            })}
+          <div
+            className={`fynd-row${best ? ' best' : ''}${inList ? ' in-list' : ''}`}
+            key={`${o.store}-${o.namn}-${i}`}
+            onDoubleClick={() => onToggleShoppingList(o)}
+            title={inList ? 'I inköpslistan — dubbelklicka för att ta bort' : 'Dubbelklicka för att lägga i inköpslistan'}
+          >
+            <span className={`fynd-store ${STORES[o.store]?.klass}`}>{STORES[o.store]?.namn}</span>
+            <div className="fynd-info">
+              <div className="fynd-name">
+                {inList && <span className="fynd-cart" title="I inköpslistan">🛒</span>}
+                {o.namn}
+                {flag && <span className="fynd-flag" title={o.ursprung ?? 'Svenskt'}>{flag}</span>}
+              </div>
+              <div className="fynd-meta">
+                {[o.marke, o.storlek].filter(Boolean).join(' · ')}
+                {o.jamforpris && <span className="fynd-jmf">{o.jamforpris}</span>}
+                {best && <span className="fynd-best">lägst</span>}
+                {o.klubbpris && <span className="fynd-tag club">klubb</span>}
+                {o.max_kop != null && <span className="fynd-tag">max {o.max_kop}</span>}
+              </div>
+            </div>
+            <div className="fynd-price">
+              <span className="fynd-pris">{o.pris_text}</span>
+              {o.besparing ? (
+                <span className="fynd-save">−{o.besparing}</span>
+              ) : o.ord_pris && !o.ord_pris.includes('-') ? (
+                <span className="fynd-ord">ord {o.ord_pris}</span>
+              ) : null}
+            </div>
           </div>
         )
       })}
-      {CATS.every(meta => all.filter(o => o.kategori === meta.id && visible(o)).length === 0) && (
+    </>
+  )
+}
+
+function AllView({ all, visible, isActiveByName, onToggleShoppingList }: RowProps & {
+  all: TaggedOffer[]
+  visible: (o: TaggedOffer) => boolean
+}) {
+  const anyVisible = all.some(visible)
+
+  return (
+    <div className="fynd-scroll fynd-scroll--wide">
+      {GROUP_ORDER.map(groupId => {
+        const members = CATS.filter(c => c.groupId === groupId)
+        const groupOffers = all.filter(o => visible(o) && members.some(m => m.id === o.kategori))
+        if (groupOffers.length === 0) return null
+        const first = members[0]
+
+        return (
+          <div className="fynd-cat" key={groupId}>
+            <h3 className="fynd-cat-title">
+              <span>{first.emoji} {first.label}</span>
+              <span className="fynd-cat-count">{groupOffers.length}</span>
+            </h3>
+            {members.length > 1
+              ? members.map(m => {
+                  const offers = groupOffers.filter(o => o.kategori === m.id)
+                  if (offers.length === 0) return null
+                  return (
+                    <div key={m.id}>
+                      <h4 className="fynd-subcat-title">{m.sub}</h4>
+                      <OfferRows offers={offers} isActiveByName={isActiveByName} onToggleShoppingList={onToggleShoppingList} />
+                    </div>
+                  )
+                })
+              : <OfferRows offers={groupOffers} isActiveByName={isActiveByName} onToggleShoppingList={onToggleShoppingList} />}
+          </div>
+        )
+      })}
+      {!anyVisible && (
         <div className="fynd-empty">Inga erbjudanden matchar filtret.</div>
       )}
     </div>
   )
 }
 
-function JamforView({ all, visible }: {
+function JamforView({ all, visible, isActiveByName, onToggleShoppingList }: RowProps & {
   all: TaggedOffer[]
   visible: (o: TaggedOffer) => boolean
 }) {
@@ -333,10 +378,17 @@ function JamforView({ all, visible }: {
               const j = parseJmf(e.jamforpris)
               const best = j != null && unitCount[j.unit] >= 2 && j.val === minJmf[j.unit]
               const flag = e.ursprung ? FLAGS[e.ursprung] ?? '🌍' : isSwedish(e) ? '🇸🇪' : ''
+              const inList = isActiveByName(e.namn)
               return (
-                <div className={`match-row${best ? ' best' : ''}`} key={e.store}>
+                <div
+                  className={`match-row${best ? ' best' : ''}${inList ? ' in-list' : ''}`}
+                  key={e.store}
+                  onDoubleClick={() => onToggleShoppingList(e)}
+                  title={inList ? 'I inköpslistan — dubbelklicka för att ta bort' : 'Dubbelklicka för att lägga i inköpslistan'}
+                >
                   <span className={`fynd-store ${STORES[e.store]?.klass}`}>{STORES[e.store]?.namn}</span>
                   <div className="match-info">
+                    {inList && <span className="fynd-cart" title="I inköpslistan">🛒</span>}
                     {e.storlek && <span className="match-size">{e.storlek}</span>}
                     {e.jamforpris && <span className="fynd-jmf">{e.jamforpris}</span>}
                     {best && <span className="fynd-best">lägst</span>}

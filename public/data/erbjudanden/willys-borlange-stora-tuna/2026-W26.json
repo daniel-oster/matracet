@@ -27,7 +27,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "dryck"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Läsk 6-pack",
@@ -45,7 +45,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "dryck"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Präst®, herrgård®, greve®",
@@ -63,14 +63,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Produkter från gräddhyllan",
       "marke": "Flora • Flora by Milda",
       "storlek": "2,5dl",
       "pris_text": "50.00/st",
-      "pris": 50.0,
+      "pris": 50,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": null,
@@ -81,7 +81,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Nötfärs",
@@ -99,7 +99,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Tillfälligt parti",
-      "kategori": "kott_fagel"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Vildfångad pinklax 4-pack",
@@ -117,7 +117,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "fisk_skaldjur"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Cocktailtomater 250g",
@@ -135,14 +135,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "frukt_gront"
+      "kategori": "gront_farsk"
     },
     {
       "namn": "Brioche hamburgerbröd 4-pack",
       "marke": "Garant",
       "storlek": "200g",
       "pris_text": "35.00/st",
-      "pris": 35.0,
+      "pris": 35,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": null,
@@ -153,7 +153,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Pommes",
@@ -171,14 +171,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "frys"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Iste",
       "marke": "Pfanner",
       "storlek": "2l",
       "pris_text": "2 FÖR 36.00",
-      "pris": 18.0,
+      "pris": 18,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -189,14 +189,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "dryck"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Salladsost",
       "marke": "Eldorado",
       "storlek": "200g",
       "pris_text": "2 FÖR 30.00",
-      "pris": 15.0,
+      "pris": 15,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -207,7 +207,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "mejeri"
+      "kategori": "gront_farsk"
     },
     {
       "namn": "Färska hamburgare 4-pack",
@@ -225,7 +225,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Kycklingbröstfilé",
@@ -243,7 +243,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Salsicciafärs",
@@ -261,7 +261,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Hamburgerost",
@@ -279,7 +279,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Hamburgerdressing",
@@ -297,7 +297,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Jubileumsbröd",
@@ -315,7 +315,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod_bakverk"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Mumspannkakor",
@@ -333,7 +333,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod_bakverk"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Juice, fruktdryck",
@@ -351,14 +351,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "frukt_gront"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Croissant",
       "marke": "Dafgårds",
       "storlek": "55g",
       "pris_text": "18.00/st",
-      "pris": 18.0,
+      "pris": 18,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": null,
@@ -369,14 +369,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod_bakverk"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Bredbar pastej",
       "marke": "Garant",
       "storlek": "200g",
       "pris_text": "2 FÖR 18.00",
-      "pris": 9.0,
+      "pris": 9,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -387,7 +387,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "kott_fagel"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Skivat smörgåspålägg",
@@ -405,7 +405,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Flingor",
@@ -423,7 +423,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Smaksatt crème fraiche",
@@ -441,7 +441,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Vispgrädde",
@@ -459,7 +459,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Laktosfri yoghurt",
@@ -477,7 +477,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Laktosfri matgrädde",
@@ -495,7 +495,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Laktosfri crème fraiche",
@@ -513,7 +513,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Mjölk",
@@ -531,7 +531,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Mild naturell yoghurt",
@@ -549,14 +549,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Barista havredryck",
       "marke": "Garant",
       "storlek": "1l",
       "pris_text": "2 FÖR 28.00",
-      "pris": 14.0,
+      "pris": 14,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -567,7 +567,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Laktosfri mjölk",
@@ -585,7 +585,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Burrata",
@@ -603,7 +603,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Barnens grillkorv",
@@ -621,7 +621,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Wienerkorv",
@@ -639,7 +639,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Bearnaise, aioli",
@@ -657,14 +657,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Prosciutto crudo",
       "marke": "Garant",
       "storlek": "80g",
       "pris_text": "2 FÖR 50.00",
-      "pris": 25.0,
+      "pris": 25,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -675,7 +675,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Färskost",
@@ -693,14 +693,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Chips, ostsnacks",
       "marke": "OLW",
       "storlek": "200-275g",
       "pris_text": "2 FÖR 42.00 +pant",
-      "pris": 21.0,
+      "pris": 21,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -711,7 +711,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "mejeri"
+      "kategori": "snacks_godis"
     },
     {
       "namn": "Kolsyrat vatten 12-pack",
@@ -729,7 +729,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Pucko",
@@ -747,14 +747,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "dryck"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Proteinpudding, shake",
       "marke": "Valio 150-180g •",
       "storlek": "250ml",
       "pris_text": "28.00/st",
-      "pris": 28.0,
+      "pris": 28,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": null,
@@ -783,7 +783,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Falukorv",
@@ -801,7 +801,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Glass",
@@ -819,14 +819,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "frys"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Gammaldags idealmakaroner",
       "marke": "Kungsörnen",
       "storlek": "750g",
       "pris_text": "22.00/st",
-      "pris": 22.0,
+      "pris": 22,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": null,
@@ -837,7 +837,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Skivat bacon 3-pack",
@@ -855,7 +855,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Tillfälligt parti",
-      "kategori": "kott_fagel"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Torskfilé i bitar",
@@ -873,7 +873,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "fisk_skaldjur"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Mjukost",
@@ -891,7 +891,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Skivat stekfläsk",
@@ -909,7 +909,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Blöjor",
@@ -927,7 +927,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Tvättmedel",
@@ -945,7 +945,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Nektariner, persikor",
@@ -963,7 +963,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "frukt_gront"
+      "kategori": "frukt"
     },
     {
       "namn": "Delad honungsmelon",
@@ -981,7 +981,7 @@
       "markeringar": [],
       "ursprung": "Spanien",
       "notering": null,
-      "kategori": "frukt_gront"
+      "kategori": "frukt"
     },
     {
       "namn": "Hel honungsmelon",
@@ -999,14 +999,14 @@
       "markeringar": [],
       "ursprung": "Spanien",
       "notering": null,
-      "kategori": "frukt_gront"
+      "kategori": "frukt"
     },
     {
       "namn": "Citroner",
       "marke": "Klass 1",
       "storlek": "ca 150g",
       "pris_text": "10.00/kg",
-      "pris": 10.0,
+      "pris": 10,
       "pris_typ": "kg",
       "jamforpris": null,
       "ord_pris": null,
@@ -1017,7 +1017,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "frukt_gront"
+      "kategori": "frukt"
     },
     {
       "namn": "Gröna druvor 500g",
@@ -1035,7 +1035,7 @@
       "markeringar": [],
       "ursprung": "Egypten",
       "notering": null,
-      "kategori": "frukt_gront"
+      "kategori": "frukt"
     },
     {
       "namn": "Röd spetspaprika 200g",
@@ -1053,7 +1053,7 @@
       "markeringar": [],
       "ursprung": "Nederländerna",
       "notering": null,
-      "kategori": "frukt_gront"
+      "kategori": "gront_farsk"
     },
     {
       "namn": "Svensk bladpersilja 250g",
@@ -1071,7 +1071,7 @@
       "markeringar": [],
       "ursprung": "Sverige",
       "notering": null,
-      "kategori": "frukt_gront"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Svensk romansallad 200g",
@@ -1089,7 +1089,7 @@
       "markeringar": [],
       "ursprung": "Sverige",
       "notering": null,
-      "kategori": "fisk_skaldjur"
+      "kategori": "gront_farsk"
     },
     {
       "namn": "Raps- & smörolja",
@@ -1107,7 +1107,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Cultura",
@@ -1125,7 +1125,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Blåbärsdryck",
@@ -1143,7 +1143,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "EKOLOGISK",
-      "kategori": "dryck"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Sallad",
@@ -1161,7 +1161,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "frukt_gront"
+      "kategori": "gront_farsk"
     },
     {
       "namn": "Pasta korta former",
@@ -1179,7 +1179,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "GÄLLER TILL ONS 24/6",
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Hamburgergurka",
@@ -1197,7 +1197,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "gront_farsk"
     },
     {
       "namn": "Angusburgare 4-pack",
@@ -1215,7 +1215,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Laxburgare 2-pack",
@@ -1233,14 +1233,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "fisk_skaldjur"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Hummus",
       "marke": "Zeinas",
       "storlek": "170-210g",
       "pris_text": "2 FÖR 44.00",
-      "pris": 22.0,
+      "pris": 22,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -1251,7 +1251,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Majo, dressing",
@@ -1269,14 +1269,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Grillost",
       "marke": "Eldorado",
       "storlek": "150g",
       "pris_text": "2 FÖR 32.00",
-      "pris": 16.0,
+      "pris": 16,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -1287,7 +1287,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Kycklingburgare 10-pack",
@@ -1305,7 +1305,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Fiskburgare",
@@ -1323,7 +1323,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "fisk_skaldjur"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Grillkarré",
@@ -1341,7 +1341,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Fläskytterfilé",
@@ -1359,7 +1359,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Kycklingben",
@@ -1377,7 +1377,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Gyros",
@@ -1395,7 +1395,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Spareribs",
@@ -1413,7 +1413,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Kebab",
@@ -1431,7 +1431,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Bâtard campagne",
@@ -1449,7 +1449,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod_bakverk"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Skivad ost",
@@ -1467,7 +1467,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Cognacsmedwurst",
@@ -1485,7 +1485,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Kaviar",
@@ -1503,14 +1503,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "torrvaror"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Potatissallad",
       "marke": "Färsksallad",
       "storlek": "243g",
       "pris_text": "30.00/st",
-      "pris": 30.0,
+      "pris": 30,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": null,
@@ -1521,7 +1521,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "frukt_gront"
+      "kategori": "gront_farsk"
     },
     {
       "namn": "Vitost",
@@ -1539,14 +1539,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda, Tillfälligt parti",
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Marinader, rub",
       "marke": "Santa Maria",
       "storlek": "22-75g",
       "pris_text": "18.00/st",
-      "pris": 18.0,
+      "pris": 18,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": null,
@@ -1557,7 +1557,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Grillkrydda",
@@ -1575,14 +1575,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Rapsolja",
       "marke": "Eldorado",
       "storlek": "1l",
       "pris_text": "40.00/st",
-      "pris": 40.0,
+      "pris": 40,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": null,
@@ -1593,7 +1593,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Bbq sås",
@@ -1611,7 +1611,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Grillolja",
@@ -1629,7 +1629,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Antipasti",
@@ -1647,7 +1647,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Balsamvinäger",
@@ -1665,14 +1665,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Olivolja",
       "marke": "De Cecco",
       "storlek": "750ml",
       "pris_text": "89.00/st",
-      "pris": 89.0,
+      "pris": 89,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": null,
@@ -1683,7 +1683,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Tillfälligt parti",
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Ölkorv 2-pack",
@@ -1701,7 +1701,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Lufttorkad skinka",
@@ -1719,14 +1719,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "kott_fagel"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Naturella pinjenötter",
       "marke": "Garant Eko • Garant",
       "storlek": "40-50g",
       "pris_text": "40.00/st",
-      "pris": 40.0,
+      "pris": 40,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": null,
@@ -1755,14 +1755,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Schampo, balsam",
       "marke": "Elvital",
       "storlek": "200-250ml",
       "pris_text": "59.00/st",
-      "pris": 59.0,
+      "pris": 59,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": null,
@@ -1773,7 +1773,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Duschkräm",
@@ -1791,7 +1791,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Tamponger",
@@ -1809,7 +1809,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Tandkräm",
@@ -1827,7 +1827,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda, Tillfälligt parti",
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Handtvål refill",
@@ -1845,7 +1845,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Papptallrikar",
@@ -1863,7 +1863,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Flergångsdricksglas 6-pack",
@@ -1881,14 +1881,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Flergångsbestick 12-pack",
       "marke": "Fixa",
       "storlek": "12p",
       "pris_text": "2 FÖR 30.00",
-      "pris": 15.0,
+      "pris": 15,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -1899,7 +1899,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda, Tillfälligt parti",
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Naturella valnötter",
@@ -1935,14 +1935,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "dryck"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Jätten",
       "marke": "Jätten",
       "storlek": "250g",
       "pris_text": "2 FÖR 36.00",
-      "pris": 18.0,
+      "pris": 18,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -1960,7 +1960,7 @@
       "marke": "Monster Energy • Reign Storm",
       "storlek": "35,5-50cl",
       "pris_text": "2 FÖR 26.00 +pant",
-      "pris": 13.0,
+      "pris": 13,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -1971,14 +1971,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "dryck"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Pasta",
       "marke": "Garofalo",
       "storlek": "500g",
       "pris_text": "3 FÖR 42.00",
-      "pris": 14.0,
+      "pris": 14,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -1989,7 +1989,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Gräddost",
@@ -2007,14 +2007,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Husmans enportionsrätter",
       "marke": "Findus",
       "storlek": "340-400g",
       "pris_text": "85.00/kg",
-      "pris": 85.0,
+      "pris": 85,
       "pris_typ": "kg",
       "jamforpris": null,
       "ord_pris": null,
@@ -2025,7 +2025,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Syltsocker",
@@ -2043,7 +2043,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Riven ost",
@@ -2061,7 +2061,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Snabbnudlar",
@@ -2079,14 +2079,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Tortillachips",
       "marke": "Garant",
       "storlek": "200g",
       "pris_text": "3 FÖR 30.00",
-      "pris": 10.0,
+      "pris": 10,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -2115,14 +2115,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "fisk_skaldjur"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Krossade, passerade tomater",
       "marke": "Eldorado",
       "storlek": "500g",
       "pris_text": "38.00/st",
-      "pris": 38.0,
+      "pris": 38,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": null,
@@ -2133,14 +2133,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "frukt_gront"
+      "kategori": "gront_farsk"
     },
     {
       "namn": "Chokladkakor",
       "marke": "Marabou",
       "storlek": "87-100g",
       "pris_text": "2 FÖR 30.00",
-      "pris": 15.0,
+      "pris": 15,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -2187,7 +2187,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Choko crunch, smash",
@@ -2223,14 +2223,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Hundmat",
       "marke": "Doggy Professional",
       "storlek": "370g",
       "pris_text": "32.00/st",
-      "pris": 32.0,
+      "pris": 32,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": null,
@@ -2259,14 +2259,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda, Tillfälligt parti, EKOLOGISK",
-      "kategori": "torrvaror"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Hundmat",
       "marke": "Doggy Delikatess",
       "storlek": "150g",
       "pris_text": "3 FÖR 36.00",
-      "pris": 12.0,
+      "pris": 12,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -2295,14 +2295,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Hundmat",
       "marke": "Vov",
       "storlek": "550g",
       "pris_text": "40.00/st",
-      "pris": 40.0,
+      "pris": 40,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": null,
@@ -2331,14 +2331,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "snacks_godis"
+      "kategori": "gront_farsk"
     },
     {
       "namn": "Maskindiskmedel",
       "marke": "YES Platinum 51p • Original",
       "storlek": "70p",
       "pris_text": "99.00/st",
-      "pris": 99.0,
+      "pris": 99,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": null,
@@ -2349,7 +2349,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Blöjpåse 50-pack",
@@ -2367,7 +2367,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Sköljmedel",
@@ -2385,7 +2385,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Handdiskmedel",
@@ -2403,7 +2403,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Engångsrakhyvel 10-pack",
@@ -2421,14 +2421,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Duschcream, handtvål, deo roll-on",
       "marke": "Palmolive",
       "storlek": "50-300ml",
       "pris_text": "2 FÖR 34.00",
-      "pris": 17.0,
+      "pris": 17,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -2439,7 +2439,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Bindor, trosskydd, tamponger",
@@ -2457,7 +2457,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Deo roll-on",
@@ -2475,7 +2475,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Kronärtskocka",
@@ -2493,7 +2493,7 @@
       "markeringar": [],
       "ursprung": "Frankrike",
       "notering": null,
-      "kategori": "frukt_gront"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Monstera",
@@ -2511,14 +2511,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Tillfälligt parti",
-      "kategori": "brod_bakverk"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Tannour bröd",
       "marke": null,
       "storlek": null,
       "pris_text": "22.00/st",
-      "pris": 22.0,
+      "pris": 22,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": null,
@@ -2529,7 +2529,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod_bakverk"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Corn torillas",
@@ -2547,7 +2547,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod_bakverk"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Solskydd",
@@ -2565,7 +2565,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Myggmedel, kylbalsam",
@@ -2583,7 +2583,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Fluorskölj",
@@ -2601,7 +2601,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Tandborstar",
@@ -2619,7 +2619,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Barntandkräm",
@@ -2637,7 +2637,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Schampo",
@@ -2655,7 +2655,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Schampo, balsam, inpackning",
@@ -2673,7 +2673,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Duschcream",
@@ -2691,7 +2691,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Tillfälligt parti",
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Grillkorv",
@@ -2709,7 +2709,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Jarlsberg",
@@ -2727,14 +2727,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Brago",
       "marke": "Brago",
       "storlek": "225g",
       "pris_text": "28.00/kg",
-      "pris": 28.0,
+      "pris": 28,
       "pris_typ": "kg",
       "jamforpris": null,
       "ord_pris": null,
@@ -2745,7 +2745,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Dubbla stycksaker",
@@ -2763,7 +2763,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "kott_fagel"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Mörk choklad",
@@ -2788,7 +2788,7 @@
       "marke": "Fazer",
       "storlek": "150-180g",
       "pris_text": "2 FÖR 28.00",
-      "pris": 14.0,
+      "pris": 14,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -2806,7 +2806,7 @@
       "marke": "Bonaqua",
       "storlek": "50cl",
       "pris_text": "2 FÖR 18.00",
-      "pris": 9.0,
+      "pris": 9,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -2817,7 +2817,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "dryck"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Bönor, linser",
@@ -2835,14 +2835,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "torrvaror"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Läsk",
       "marke": "Coca-cola • Sprite • Fanta",
       "storlek": "50cl",
       "pris_text": "2 FÖR 26.00 +pant",
-      "pris": 13.0,
+      "pris": 13,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -2853,14 +2853,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "dryck"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Amerikansk dressing",
       "marke": "Kavli",
       "storlek": "230-240g",
       "pris_text": "2 FÖR 30.00 +pant",
-      "pris": 15.0,
+      "pris": 15,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -2871,14 +2871,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Trosskydd, bindor",
       "marke": "Libresse",
       "storlek": "18-60p",
       "pris_text": "3 FÖR 99.00",
-      "pris": 33.0,
+      "pris": 33,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -2889,7 +2889,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Toffifee",
@@ -2925,7 +2925,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Hundben",
@@ -2961,7 +2961,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Diskduk 4-pack",
@@ -2979,7 +2979,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Schampo refill",
@@ -2997,14 +2997,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Ekologisk matvete",
       "marke": "Frebaco Kvarn",
       "storlek": "500g",
       "pris_text": "2 FÖR 20.00",
-      "pris": 10.0,
+      "pris": 10,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -3015,14 +3015,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda, EKOLOGISK",
-      "kategori": "brod_bakverk"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Vital, limpan, lingon",
       "marke": "Garant",
       "storlek": "500g",
       "pris_text": "2 FÖR 30.00",
-      "pris": 15.0,
+      "pris": 15,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -3033,14 +3033,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod_bakverk"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Pesto",
       "marke": "Garant",
       "storlek": "200g",
       "pris_text": "2 FÖR 46.00",
-      "pris": 23.0,
+      "pris": 23,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -3051,7 +3051,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Vätskeersättning",
@@ -3069,7 +3069,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Bullar 10-pack",
@@ -3123,14 +3123,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Fruktklämmisar",
       "marke": "Nestlé",
       "storlek": "90g",
       "pris_text": "79.00/st",
-      "pris": 79.0,
+      "pris": 79,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": null,
@@ -3141,14 +3141,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "frukt_gront"
+      "kategori": "snacks_godis"
     },
     {
       "namn": "Pulversås",
       "marke": "Blå Band 3p/6dl-3p/9dl",
       "storlek": null,
       "pris_text": "2 FÖR 22.00",
-      "pris": 11.0,
+      "pris": 11,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -3159,7 +3159,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Cappucino",
@@ -3177,7 +3177,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Jordnötssmör",
@@ -3195,7 +3195,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "snacks_godis"
     },
     {
       "namn": "Ketchup",
@@ -3213,7 +3213,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Blöjor",
@@ -3231,14 +3231,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Singoalla",
       "marke": "Singoalla",
       "storlek": "190g",
       "pris_text": "33.00/st",
-      "pris": 33.0,
+      "pris": 33,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": null,
@@ -3249,14 +3249,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod_bakverk"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Fryspåsar",
       "marke": "Fixa",
       "storlek": "30-70p",
       "pris_text": "2 FÖR 28.00",
-      "pris": 14.0,
+      "pris": 14,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -3267,14 +3267,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Plastpåsar",
       "marke": "Fixa",
       "storlek": "50-70p",
       "pris_text": "25.00/st",
-      "pris": 25.0,
+      "pris": 25,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": null,
@@ -3285,14 +3285,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Chips, nötter",
       "marke": "Gårdschips • Gårdsnötter",
       "storlek": "140-150g",
       "pris_text": "2 FÖR 40.00",
-      "pris": 20.0,
+      "pris": 20,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -3339,14 +3339,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Müslibar 6-pack",
       "marke": "Eldorado",
       "storlek": "138-150g",
       "pris_text": "28.00/st",
-      "pris": 28.0,
+      "pris": 28,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": null,
@@ -3357,7 +3357,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Saft",
@@ -3375,14 +3375,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "dryck"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Fruktstång",
       "marke": "Nestlé",
       "storlek": "25g",
       "pris_text": "35.00/st",
-      "pris": 35.0,
+      "pris": 35,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": null,
@@ -3393,7 +3393,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "frukt_gront"
+      "kategori": "snacks_godis"
     },
     {
       "namn": "Krämiga sallader",
@@ -3411,7 +3411,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "frukt_gront"
+      "kategori": "gront_farsk"
     },
     {
       "namn": "Kattgodis",
@@ -3465,7 +3465,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Classico olivolja",
@@ -3483,14 +3483,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Doftblock",
       "marke": "Glade",
       "storlek": "150g",
       "pris_text": "24.00/st",
-      "pris": 24.0,
+      "pris": 24,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": null,
@@ -3501,7 +3501,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Ugnsfolie",
@@ -3519,7 +3519,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Havregott",
@@ -3537,14 +3537,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Ballerina",
       "marke": "Ballerina",
       "storlek": "205g",
       "pris_text": "2 FÖR 30.00",
-      "pris": 15.0,
+      "pris": 15,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -3555,7 +3555,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Tillfälligt parti",
-      "kategori": "brod_bakverk"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Gifflar",
@@ -3573,7 +3573,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod_bakverk"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Snabbkaffe",
@@ -3591,7 +3591,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Kattmat",
@@ -3616,7 +3616,7 @@
       "marke": "El Taco Truck",
       "storlek": "200ml",
       "pris_text": "2 FÖR 48.00",
-      "pris": 24.0,
+      "pris": 24,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -3627,7 +3627,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Finkrossade tomater 3-pack",
@@ -3645,14 +3645,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "frukt_gront"
+      "kategori": "gront_farsk"
     },
     {
       "namn": "Babytvätt",
       "marke": "Minstingen",
       "storlek": "250ml",
       "pris_text": "2 FÖR 40.00",
-      "pris": 20.0,
+      "pris": 20,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -3663,7 +3663,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Kyld sås",
@@ -3681,7 +3681,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Toalettpapper",
@@ -3699,7 +3699,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Äggnudlar",
@@ -3717,7 +3717,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Godis",
@@ -3742,7 +3742,7 @@
       "marke": "Dogman",
       "storlek": "63g",
       "pris_text": "38.00/st",
-      "pris": 38.0,
+      "pris": 38,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": null,
@@ -3778,7 +3778,7 @@
       "marke": "Starbucks",
       "storlek": "10p",
       "pris_text": "76.00/st",
-      "pris": 76.0,
+      "pris": 76,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": null,
@@ -3789,7 +3789,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Marshmallows",
@@ -3814,7 +3814,7 @@
       "marke": "Spicefield",
       "storlek": "1,5kg",
       "pris_text": "199.00/st",
-      "pris": 199.0,
+      "pris": 199,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": null,
@@ -3825,14 +3825,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Städservetter 70-pack",
       "marke": "Eldorado",
       "storlek": "70p",
       "pris_text": "2 FÖR 28.00",
-      "pris": 14.0,
+      "pris": 14,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -3843,14 +3843,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda, Tillfälligt parti",
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Mariakex",
       "marke": "Klim",
       "storlek": "160g",
       "pris_text": "2 FÖR 10.00",
-      "pris": 5.0,
+      "pris": 5,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -3861,7 +3861,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod_bakverk"
+      "kategori": "snacks_godis"
     },
     {
       "namn": "Cashewnötter",
@@ -3886,7 +3886,7 @@
       "marke": "Lipton",
       "storlek": "50-52g",
       "pris_text": "22.00/st",
-      "pris": 22.0,
+      "pris": 22,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": null,
@@ -3897,7 +3897,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Hund torrfoder",
@@ -3922,7 +3922,7 @@
       "marke": "Premier",
       "storlek": "33cl",
       "pris_text": "20.00/st",
-      "pris": 20.0,
+      "pris": 20,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": null,
@@ -3933,7 +3933,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Pastasås",
@@ -3951,14 +3951,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda, Tillfälligt parti",
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Champinjoner",
       "marke": "Garant",
       "storlek": "380g",
       "pris_text": "34.00/st",
-      "pris": 34.0,
+      "pris": 34,
       "pris_typ": "st",
       "jamforpris": null,
       "ord_pris": null,
@@ -3969,7 +3969,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "frukt_gront"
+      "kategori": "gront_farsk"
     },
     {
       "namn": "Müsli",
@@ -3987,7 +3987,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Senap",
@@ -4005,14 +4005,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Avfallspåse",
       "marke": "Fixa",
       "storlek": "25p",
       "pris_text": "3 FÖR 45.00",
-      "pris": 15.0,
+      "pris": 15,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -4023,7 +4023,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Ice coffee",
@@ -4041,7 +4041,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Nudlar",
@@ -4059,14 +4059,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Kokosmjölk",
       "marke": "Garant",
       "storlek": "250ml",
       "pris_text": "3 FÖR 36.00",
-      "pris": 12.0,
+      "pris": 12,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -4077,7 +4077,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Kokosmjölk",
@@ -4095,7 +4095,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Risnudlar",
@@ -4113,14 +4113,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Glassås",
       "marke": "Dazzley",
       "storlek": "300g",
       "pris_text": "2 FÖR 42.00",
-      "pris": 21.0,
+      "pris": 21,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -4131,14 +4131,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "frys"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Limpa, frölimpa",
       "marke": "Garant",
       "storlek": "570-900g",
       "pris_text": "2 FÖR 42.00",
-      "pris": 21.0,
+      "pris": 21,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -4149,7 +4149,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "brod_bakverk"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Flytande tvättmedel",
@@ -4167,7 +4167,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Tillfälligt parti",
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Hushållspapper 4-pack",
@@ -4185,7 +4185,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Cheddar",
@@ -4203,7 +4203,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Kolsyrat, stilla vatten 6-pack",
@@ -4221,14 +4221,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Kina snacks",
       "marke": "Fazer",
       "storlek": "150g",
       "pris_text": "2 FÖR 50.00",
-      "pris": 25.0,
+      "pris": 25,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -4239,14 +4239,14 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "torrvaror"
+      "kategori": "snacks_godis"
     },
     {
       "namn": "Våtservetter 120-pack",
       "marke": "Minstingen",
       "storlek": "120p",
       "pris_text": "2 FÖR 38.00",
-      "pris": 19.0,
+      "pris": 19,
       "pris_typ": "multi",
       "jamforpris": null,
       "ord_pris": null,
@@ -4257,7 +4257,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Squeezy sylt",
@@ -4275,7 +4275,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Dryck 14-pack",
@@ -4293,7 +4293,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "ovrigt"
     }
   ]
 }

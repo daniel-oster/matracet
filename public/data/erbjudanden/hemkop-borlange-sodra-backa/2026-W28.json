@@ -29,7 +29,7 @@
       ],
       "ursprung": "Sverige",
       "notering": "Färsk, benfri, i bit",
-      "kategori": "kott_fagel"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Bregott",
@@ -47,7 +47,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Flera sorter, fetthalt 40-82%, gäller ej ekologisk, laktosfri",
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Drickyoghurt",
@@ -65,7 +65,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Flera sorter. Veckans klipp",
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Vattenmelon",
@@ -83,7 +83,7 @@
       "markeringar": [],
       "ursprung": "Spanien",
       "notering": "Klass 1, hel, kärnfri. Gäller ej gul, orange, mini, ekologisk. Veckans klipp",
-      "kategori": "frukt_gront"
+      "kategori": "frukt"
     },
     {
       "namn": "Toalettpapper 18-pack",
@@ -101,7 +101,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Gravad, Kallrökt lax",
@@ -119,7 +119,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Skivad",
-      "kategori": "fisk_skaldjur"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Präst, Herrgård, Grevé",
@@ -137,7 +137,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Fetthalt 17-31%, gäller även Gouda, Maasdamer",
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Svensk gurka",
@@ -155,7 +155,7 @@
       "markeringar": [],
       "ursprung": "Sverige",
       "notering": "Klass 1",
-      "kategori": "frukt_gront"
+      "kategori": "gront_farsk"
     },
     {
       "namn": "Gårdschips",
@@ -191,7 +191,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "gront_farsk"
     },
     {
       "namn": "Skärgårdskaka, Grötbröd",
@@ -209,7 +209,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Flera sorter",
-      "kategori": "brod_bakverk"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Makaroner, Fullkornspasta, Fiberpasta",
@@ -227,7 +227,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Flera sorter",
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Ekologisk vispgrädde",
@@ -247,7 +247,7 @@
       ],
       "ursprung": null,
       "notering": "Fetthalt 40%. Klubb Hemköp dubbla poäng",
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Svensk fläskfärs",
@@ -267,7 +267,7 @@
       ],
       "ursprung": "Sverige",
       "notering": "Färsk, fetthalt max 20%",
-      "kategori": "kott_fagel"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Laxfilé 4-pack",
@@ -285,7 +285,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Djupfryst. Tillfälligt klipp i butik",
-      "kategori": "fisk_skaldjur"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Hushållspapper 4-pack",
@@ -303,7 +303,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Original",
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Tvättkapslar 16-pack",
@@ -321,7 +321,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Flera sorter",
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Svensk kycklingfärs",
@@ -341,7 +341,7 @@
       ],
       "ursprung": "Sverige",
       "notering": "Färsk",
-      "kategori": "kott_fagel"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Tofu",
@@ -359,7 +359,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Flera sorter. Klubb Hemköp veckans vego",
-      "kategori": "ovrigt"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Skinka",
@@ -377,7 +377,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Flera sorter, tunna skivor",
-      "kategori": "kott_fagel"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Avokado",
@@ -395,7 +395,7 @@
       "markeringar": [],
       "ursprung": "Peru/Colombia/Sydafrika/Brasilien/Costa Rica",
       "notering": "Klass 1",
-      "kategori": "frukt_gront"
+      "kategori": "frukt"
     },
     {
       "namn": "Tomater San Marzano",
@@ -413,7 +413,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Land se förpackning. Klass 1, i tråg",
-      "kategori": "frukt_gront"
+      "kategori": "gront_farsk"
     },
     {
       "namn": "Förkokt majs 2-pack",
@@ -431,7 +431,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Land se förpackning",
-      "kategori": "frukt_gront"
+      "kategori": "gront_farsk"
     },
     {
       "namn": "Äpple Pink Lady",
@@ -449,7 +449,7 @@
       "markeringar": [],
       "ursprung": "Italien",
       "notering": "Klass 1",
-      "kategori": "frukt_gront"
+      "kategori": "frukt"
     },
     {
       "namn": "Grillade kamben",
@@ -467,7 +467,7 @@
       "markeringar": [],
       "ursprung": "Tyskland",
       "notering": "Nygrillade i butik",
-      "kategori": "kott_fagel"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Svensk majskycklingbröstfilé",
@@ -487,7 +487,7 @@
       ],
       "ursprung": "Sverige",
       "notering": "Färsk",
-      "kategori": "kott_fagel"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Sås",
@@ -505,7 +505,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Béarnaise Original. Flera sorter. Bra pris",
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Svensk nötfärs",
@@ -525,7 +525,7 @@
       ],
       "ursprung": "Sverige",
       "notering": "Färsk, fetthalt max 12%",
-      "kategori": "kott_fagel"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Lakrits",
@@ -561,7 +561,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Flera sorter, djupfryst. Bra pris",
-      "kategori": "brod_bakverk"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Fish & Crisp",
@@ -579,7 +579,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Flera sorter, djupfryst",
-      "kategori": "fisk_skaldjur"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Hots grillkorv",
@@ -597,7 +597,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott_fagel"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Cornichons",
@@ -615,7 +615,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Majonnäs",
@@ -633,7 +633,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Majskorn 3-pack",
@@ -651,7 +651,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror"
+      "kategori": "gront_farsk"
     },
     {
       "namn": "Hamburgerost",
@@ -669,7 +669,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Cinelle",
@@ -687,7 +687,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Nygräddat i butik",
-      "kategori": "brod_bakverk"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Juice",
@@ -705,7 +705,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Flera sorter",
-      "kategori": "dryck"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Glass",
@@ -723,7 +723,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Flera sorter",
-      "kategori": "frys"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Salami Chips, Snacks, Sticks",
@@ -741,7 +741,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Flera sorter, gäller ej strings",
-      "kategori": "kott_fagel"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Alkoholfri öl 6-pack",
@@ -759,7 +759,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "+ pant",
-      "kategori": "dryck"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Skogaholmslimpa",
@@ -777,7 +777,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod_bakverk"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Ekologisk fil",
@@ -798,7 +798,7 @@
       ],
       "ursprung": null,
       "notering": "Flera sorter, fetthalt 3%. Klubb Hemköp dubbla poäng",
-      "kategori": "mejeri"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Ekologiskt nötkött",
@@ -820,7 +820,7 @@
       ],
       "ursprung": "Sverige",
       "notering": "Klubb Hemköp dubbla poäng",
-      "kategori": "kott_fagel"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Ekologisk Rapsolja",
@@ -841,7 +841,7 @@
       ],
       "ursprung": null,
       "notering": "Klubb Hemköp dubbla poäng",
-      "kategori": "torrvaror"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Bindor, Trosskydd",
@@ -859,7 +859,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Flera sorter",
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Diskduk 4-pack",
@@ -877,7 +877,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Classic",
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Deodorant Roll-on",
@@ -895,7 +895,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Flera sorter",
-      "kategori": "hygien_hushall"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Strimlad kycklingbröstfilé",
@@ -915,7 +915,7 @@
       ],
       "ursprung": "Sverige",
       "notering": "Färsk. Gäller torsdag-söndag (Helgens klipp)",
-      "kategori": "kott_fagel"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Salame Milano, Salame Ventricina",
@@ -933,7 +933,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Gäller torsdag-söndag (Helgens klipp)",
-      "kategori": "kott_fagel"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Halvbaguette",
@@ -951,7 +951,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Nygräddat i butik",
-      "kategori": "brod_bakverk"
+      "kategori": "ovrigt"
     },
     {
       "namn": "Mango",
@@ -969,7 +969,7 @@
       "markeringar": [],
       "ursprung": "Brasilien/Peru/Dominikanska republiken/Senegal",
       "notering": "Gäller torsdag-söndag (Helgens klipp)",
-      "kategori": "frukt_gront"
+      "kategori": "frukt"
     }
   ]
 }
