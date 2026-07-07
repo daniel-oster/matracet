@@ -83,6 +83,51 @@ Navigation is a simple `screen: ScreenName` state in `App.tsx` (`'hub' | TabName
 | `anteckningar` | Current notes + long-term ideas (2-col on wide) |
 | `bevaka` | Standing watch-list + current bargain matches (2-col on wide) |
 | `fynd` | Store offers, all categories in one scroll (2-col grid on wide) |
+| `skafferi` | Semesterläge: pantry-match cooking ideas, the stash pool, this week's offer cloud, manual add, recipe browser |
+
+### Semesterläge: the Skafferi stash pool (2026-07)
+
+A second, deliberately *not*-calendar planning mode for chaotic stretches (summer vacation,
+"we don't know where we'll be or what we'll have") where planning specific days doesn't work,
+but you still want to walk into the kitchen/freezer with real options. Added alongside — not
+instead of — the existing Veckan calendar; nothing about Veckan/VeckanPlanner changed.
+
+- **`usePlanMode`** (`matracet:planmode:v1`, `'normal' | 'semester'`) — one household-wide local
+  flag, flipped by the pill button in `Hub`'s top bar (`.planmode-toggle`). It only changes what
+  `Hub` leads with: `'normal'` shows the usual tonight-glance card, `'semester'` replaces it with
+  a compact picker over the active stash pool (`.semester-card`). The `hub-primary` "Veckan"
+  button and the rest of the tile grid are unaffected by the mode — the calendar stays one tap
+  away either way. The **`skafferi`** hub tile is always visible, in both modes.
+- **`useStash`** (`matracet:stash:v1`) — a flat (not date-keyed) pool of `StashItem`s, each either
+  `kind: 'dish'` (a recipe-linked or freeform meal idea, e.g. "Grillburgare" with no recipe file
+  behind it — there's no new recipe schema for this; per `komplett: false`'s existing precedent,
+  a stub idea that proves to be a keeper should graduate into a real recipe file later, not grow
+  its own parallel schema) or `kind: 'stock'` (a raw ingredient/offer pickup, e.g. "Fläskfärs
+  500g"). `done: true` moves an item into an "Avklarat" section (kept, not deleted — same
+  restore-don't-delete pattern as `useShoppingList`'s `removedIds`), consistent with this app's
+  local-only-override convention (same tier as `useWeekPlan`/`useShoppingList`, not a git-tracked
+  data file — this pool is meant to be disposable/reset-per-stretch, not durable).
+- **`SkafferiView`** ties these together in one screen, funnel-shaped:
+  1. *"Veckans fynd"* — every current offer (`useOffers`/`tagOffers`) as a tappable chip cloud
+     (`.offer-cloud`), colored red when it carries real savings (`parseSavings`, now exported
+     from `suggestions.ts`). Tapping pulls it into the pool as a `kind: 'stock'` item.
+  2. *"Din pool"* — the current active stash items (both kinds), each removable/markable-done.
+  3. *"Lägg till för hand"* — freeform add, with a `dish`/`stock` kind toggle, covering both
+     "an idea to build a meal around" and "something we already have" (the latter is also where
+     you'd note something bought last week that isn't from this week's offers at all).
+  4. *"Vad kan vi laga?"* (`src/lib/pantryMatch.ts::matchPantryRecipes`) — recipes whose
+     ingredients loosely match (same substring-either-direction heuristic as
+     `suggestions.ts::findOfferMatch`) a **current `kind: 'stock'` pool item's name** specifically
+     — deliberately a narrower/different question than `rankSuggestions`' "any offer matches any
+     ingredient this week," since this is meant to answer "what can I actually cook from what
+     I've already decided to buy/have," not "what's cheap in general." Kept as its own pure,
+     tested function (`pantryMatch.test.ts`) rather than folded into `rankSuggestions`.
+  5. *"Fler förslag"* — the same recipe-browser engine as `VeckanPlanner` (`rankSuggestions`,
+     filter/sort chips), reused as-is, for open-ended browsing beyond what the pantry match found.
+- Scope choice: a literal drag-and-drop "product cloud" (as originally described) was simplified
+  to tap-to-toggle chips/buttons — same functional outcome ("pull this into the pantry"), far less
+  fragile than drag physics on a mobile-first single-column layout, and consistent with this
+  app's no-drag-in-Planera-anymore precedent (see the Planera history above).
 
 ### Week planning: discover-style suggestion list
 
@@ -228,6 +273,8 @@ The UI tab is called **Fynd** (`FyndView.tsx`, "finds/bargains" in Swedish) — 
 Durable gotchas discovered while working in this repo. Add to this list rather than rediscovering the same thing in a future session.
 
 - **Fresh clone build failure**: `npm run build` fails with `vite: not found` until `npm install` has run — there's no lockfile-committed `node_modules`.
+- **Playwright `text=` locators are substring matches, not exact**: `page.locator('text=Skafferi').first()` silently grabbed a "→ Öppna Skafferiet" button instead of the "Skafferi" hub tile once both existed on the same screen (semester mode), because both contain "Skafferi" as a substring and `.first()` just took whichever came first in DOM order — no error, the click just did nothing useful. When a screen might have more than one element containing your target word (increasingly likely as tabs/tiles/buttons accumulate), target a specific class/structure instead, e.g. `'.hub-tile:has-text("Skafferi")'`, or `page.locator('text=Skafferi').count()` first to check for ambiguity.
+- **Offer/recipe data loads async in two extra hops beyond the page's own `networkidle`**: `useOffers` chains `_index.json` → `_latest.json` → the actual week file, and `useRecipes` fetches per-slug on mount — neither is done by the time `scripts/screenshot.mjs`'s fixed 400ms post-click wait fires. For a screen that renders from these hooks (anything using `useOffers`/`useRecipes`, e.g. `SkafferiView`, `VeckanPlanner`), write a one-off multi-step script (see the pattern already noted below) and `page.waitForSelector` on something only present once data has actually arrived (e.g. `.offer-chip`), rather than trusting a fixed timeout.
 - **Playwright in the Claude Code remote sandbox**: the sandbox pre-installs Chromium at `/opt/pw-browsers/chromium` (a symlink to the real binary) and sets `PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1`, but a `playwright` version installed via `npm install` in this repo may not match the pre-installed browser revision, so the default `chromium.launch()` (no `executablePath`) can fail with "Executable doesn't exist". `scripts/screenshot.mjs` handles this: try the default resolution first (works on non-sandbox machines), fall back to the sandbox path. Don't run `playwright install` — it's disabled by design and will just fail/no-op.
 - **Playwright multi-step interaction scripts** (clicking through several UI steps, not just one screenshot) should mirror `scripts/screenshot.mjs`'s launch pattern exactly: `chromium.launch()` in a try/catch falling back to `executablePath: '/opt/pw-browsers/chromium'`, and `page.goto(url, { waitUntil: 'networkidle' })`. A bare `chromium.launch()` + default `waitUntil: 'load'` intermittently hung/timed out against a local `vite preview` server in this sandbox even though `curl` reached it fine — switching to that exact pattern fixed it immediately. Also: `vite preview`'s dev server has no persistent profile across separate script runs, so multi-step interactions (e.g. click → screenshot → click again) need to happen within one script/one browser session, not chained separate `node script.mjs` invocations.
 - **Swedish terminology traps**: this app's data and UI use Swedish terms throughout (`erbjudanden`/fynd = offers, `vecka` = week, `butik` = store, `recept` = recipe). Voice-to-text requests about the app can mangle these into unrelated-sounding English words (see the Fynd/"fines" case above) — when a request doesn't map cleanly to a known tab/feature, grep `public/data/` and `src/components/views/` for near-matches before concluding it's a new feature.

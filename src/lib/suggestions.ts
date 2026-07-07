@@ -47,7 +47,7 @@ function findOfferMatch(recipe: Recipe | undefined, offers: TaggedOffer[]): Tagg
 }
 
 /** "10.80-14.58kr" / "1.30kr" → the largest kr figure in the string, or 0 if unparseable. */
-function parseSavings(besparing: string | null | undefined): number {
+export function parseSavings(besparing: string | null | undefined): number {
   if (!besparing) return 0
   const matches = besparing.match(/[\d.]+/g)
   if (!matches) return 0
