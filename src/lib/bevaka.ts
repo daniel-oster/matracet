@@ -12,16 +12,12 @@ export const STORES: Record<string, StoreMeta> = {
 }
 
 export const CATEGORY_EMOJI: Record<string, string> = {
-  kott_fagel: '🥩',
-  fisk_skaldjur: '🐟',
-  frukt_gront: '🥦',
-  mejeri: '🧀',
-  brod_bakverk: '🍞',
-  torrvaror: '🥫',
-  frys: '🧊',
-  dryck: '🧃',
+  protein_farsk: '🥩',
+  protein_fryst: '🥩',
+  gront_farsk: '🥦',
+  gront_fryst: '🥦',
+  frukt: '🍎',
   snacks_godis: '🍫',
-  hygien_hushall: '🧻',
   ovrigt: '📦',
 }
 

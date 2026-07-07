@@ -33,25 +33,37 @@ export function markeringarFromUrsprung(ursprung, existing = []) {
   return [...set];
 }
 
-// Rough keyword -> kategori classifier. Not authoritative — spot-check the
-// output, especially for "ovrigt" and ambiguous multi-word product names.
+// Rough keyword -> kategori classifier, grouped by "what do I cook with" rather
+// than store-shelf placement (see public/data/erbjudanden/README.md). Not
+// authoritative — spot-check the output, especially "ovrigt" and the
+// fresh/frozen split, same as the pre-existing caveat for this classifier.
+const FROZEN_HINT = /glass|djupfryst|\bfryst\b/i;
+// Note: only kött/nötkött-style compounds are matched for beef, never a bare "nöt"
+// (peanuts, hazelnuts etc. would false-positive as protein — this classifier
+// migrated away from that exact bug, see erbjudanden-recategorize.mjs's header).
+const PROTEIN_RE = /kyckling|fläsk|nötkött|nötfärs|nötstek|nötgrytbitar|grytbitar|köttbullar|köttfärs|korv|bacon|skinka|färs|entrecote|karré|filé|file|biff|gyros|kebab|revben|spareribs|chark|salami|prosciutto|lax|fisk|torsk|räk|skaldjur|skagenröra|sill(?!i)|makrill|tonfisk|surimi|musslor|ägg\b|tofu|quorn|sojafärs|vegofärs|veggofärs|seitan|kikärt|böna|bönor|lins|linser|halloumi/i;
+const FRUIT_RE = /frukt|äpple|banan|apelsin|citron|avokado|melon|druv|bär|persika|nektarin|mango|ananas|päron|kiwi|plommon|aprikos|fikon|granatäpple/i;
+const VEG_RE = /sallad|tomat|gurka|potatis|lök|paprika|morot|broccoli|zucchini|svamp|vitkål|purjolök|blomkål|spenat|majs|ärtor|ärter|rödbeta|selleri|rädisa|vitlök/i;
+const SNACKS_RE = /chips|godis|snacks|choklad|kex|nöt|nötter|proteinbar|kola|lakrits|popcorn/i;
+const READY_MEAL_RE = /pizza|bakverk|bulle|bröd|glass|efterrätt|tårta|paj\b|gratäng|nudlar/i;
+// Fruit-flavored drinks/dairy/snack bars are drinks/dairy/snacks, not produce.
+const FRUIT_NON_PRODUCE_RE = /dryck|smoothie|klämmis|stång|juice|saft|yoghurt|kvarg|\bfil\b|grädde/i;
 const CATEGORY_KEYWORDS = [
-  [/mjölk|fil|yoghurt|grädde|ost(?!ron)|smör|margarin|crème fraiche|creme fraiche|kvarg|messmör|ägg\b/i, 'mejeri'],
-  [/kyckling|fläsk|nöt|köttbullar|korv|bacon|skinka|färs|entrecote|karré|filé|file|biff|gyros|kebab|revben|spareribs|chark|salami|prosciutto|chark/i, 'kott_fagel'],
-  [/lax|fisk|torsk|räkor|skaldjur|sill|makrill|tonfisk|surimi|musslor/i, 'fisk_skaldjur'],
-  [/sallad|tomat|gurka|potatis|lök|frukt|äpple|banan|apelsin|citron|paprika|avokado|melon|druv|bär|persika|nektarin|morot|broccoli|zucchini|svamp|vitkål|purjolök|mango|ananas/i, 'frukt_gront'],
-  [/bröd|limpa|fralla|croissant|bulle|kaka|bakverk|baguette/i, 'brod_bakverk'],
-  [/läsk|juice|dryck|vatten|kaffe|te\b|öl\b|cider|iste|saft/i, 'dryck'],
-  [/glass|djupfryst|fryst|pommes/i, 'frys'],
-  [/chips|godis|snacks|choklad|kex|nötter|proteinbar/i, 'snacks_godis'],
-  [/tvål|schampo|balsam|tandkräm|blöj|toapapper|diskmedel|tvättmedel|rengöring|hushållspapper|tampong|binda|rakhyvel|deo/i, 'hygien_hushall'],
-  [/pasta|ris\b|mjöl|socker|olja|vinäger|krydda|konserv|soppa|sås|majonnäs|majo|ketchup|senap|müsli|flingor|gryn|hummus/i, 'torrvaror'],
+  [PROTEIN_RE, (h) => (FROZEN_HINT.test(h) ? 'protein_fryst' : 'protein_farsk')],
+  [FRUIT_RE, (h) => {
+    if (!FRUIT_NON_PRODUCE_RE.test(h)) return 'frukt';
+    return /klämmis|stång/i.test(h) ? 'snacks_godis' : 'ovrigt';
+  }],
+  [VEG_RE, (h) => (FROZEN_HINT.test(h) ? 'gront_fryst' : 'gront_farsk')],
+  [SNACKS_RE, () => 'snacks_godis'],
 ];
 
 export function guessKategori(name, details) {
-  const haystack = `${name} ${details}`;
+  // "pålägg" (generic "sandwich topping/spread", any kind) hides "ägg" inside it.
+  const haystack = `${name} ${details}`.replace(/pålägg/gi, '');
+  if (READY_MEAL_RE.test(haystack)) return 'ovrigt';
   for (const [re, kat] of CATEGORY_KEYWORDS) {
-    if (re.test(haystack)) return kat;
+    if (re.test(haystack)) return kat(haystack);
   }
   return 'ovrigt';
 }

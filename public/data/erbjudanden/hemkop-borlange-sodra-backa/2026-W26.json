@@ -16,7 +16,7 @@
       "marke": "Garant",
       "storlek": "250g",
       "pris_text": "15,00/st",
-      "pris": 15.0,
+      "pris": 15,
       "pris_typ": "st",
       "jamforpris": "60.00/kg",
       "ord_pris": null,
@@ -26,7 +26,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror",
+      "kategori": "ovrigt",
       "klubbpris": false
     },
     {
@@ -34,17 +34,19 @@
       "marke": "Garant",
       "storlek": "500g",
       "pris_text": "33,00/st",
-      "pris": 33.0,
+      "pris": 33,
       "pris_typ": "st",
       "jamforpris": "66.00/kg",
       "ord_pris": "47.27",
       "pris_30dgr": null,
       "besparing": null,
       "max_kop": 2,
-      "markeringar": ["kott_sverige"],
+      "markeringar": [
+        "kott_sverige"
+      ],
       "ursprung": "Sverige",
       "notering": null,
-      "kategori": "kott_fagel",
+      "kategori": "protein_farsk",
       "klubbpris": true
     },
     {
@@ -62,7 +64,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror",
+      "kategori": "ovrigt",
       "klubbpris": true
     },
     {
@@ -70,7 +72,7 @@
       "marke": "Löfbergs",
       "storlek": "450g",
       "pris_text": "2 för 110 kr",
-      "pris": 55.0,
+      "pris": 55,
       "pris_typ": "multi",
       "jamforpris": "122.22/kg",
       "ord_pris": null,
@@ -80,7 +82,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj och blanda",
-      "kategori": "dryck",
+      "kategori": "ovrigt",
       "klubbpris": false
     },
     {
@@ -88,7 +90,7 @@
       "marke": "Santa Maria",
       "storlek": "200-320g",
       "pris_text": "12,00/st",
-      "pris": 12.0,
+      "pris": 12,
       "pris_typ": "st",
       "jamforpris": "37.50-60.00/kg",
       "ord_pris": "17.50",
@@ -98,7 +100,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod_bakverk",
+      "kategori": "ovrigt",
       "klubbpris": true
     },
     {
@@ -124,7 +126,7 @@
       "marke": "Garant",
       "storlek": "450g",
       "pris_text": "15,00/st",
-      "pris": 15.0,
+      "pris": 15,
       "pris_typ": "st",
       "jamforpris": "33.33/kg",
       "ord_pris": "25.50",
@@ -134,7 +136,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "frukt_gront",
+      "kategori": "gront_farsk",
       "klubbpris": true
     },
     {
@@ -152,7 +154,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj och blanda",
-      "kategori": "hygien_hushall",
+      "kategori": "ovrigt",
       "klubbpris": false
     },
     {
@@ -160,7 +162,7 @@
       "marke": "Östras",
       "storlek": "1kg",
       "pris_text": "25,00/st",
-      "pris": 25.0,
+      "pris": 25,
       "pris_typ": "st",
       "jamforpris": "25.00/kg",
       "ord_pris": "34.97",
@@ -170,7 +172,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod_bakverk",
+      "kategori": "ovrigt",
       "klubbpris": true
     },
     {
@@ -178,7 +180,7 @@
       "marke": "Picadeli",
       "storlek": null,
       "pris_text": "109,00/kg",
-      "pris": 109.0,
+      "pris": 109,
       "pris_typ": "st",
       "jamforpris": "109.00/kg",
       "ord_pris": "150.95",
@@ -188,7 +190,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "frukt_gront",
+      "kategori": "gront_farsk",
       "klubbpris": true
     },
     {
@@ -206,7 +208,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "frys",
+      "kategori": "ovrigt",
       "klubbpris": true
     },
     {
@@ -214,17 +216,19 @@
       "marke": "Garant",
       "storlek": "4x125g",
       "pris_text": "89,00/st",
-      "pris": 89.0,
+      "pris": 89,
       "pris_typ": "st",
       "jamforpris": "178.00/kg",
       "ord_pris": "112.60",
       "pris_30dgr": "112.60-122.00",
       "besparing": null,
       "max_kop": null,
-      "markeringar": ["asc"],
+      "markeringar": [
+        "asc"
+      ],
       "ursprung": null,
       "notering": null,
-      "kategori": "fisk_skaldjur",
+      "kategori": "protein_farsk",
       "klubbpris": true
     },
     {
@@ -232,7 +236,7 @@
       "marke": "Schysst Käk",
       "storlek": "250ml",
       "pris_text": "22,00/st",
-      "pris": 22.0,
+      "pris": 22,
       "pris_typ": "st",
       "jamforpris": "88.00/l",
       "ord_pris": "28.34",
@@ -242,7 +246,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror",
+      "kategori": "ovrigt",
       "klubbpris": true
     },
     {
@@ -250,7 +254,7 @@
       "marke": "Zeta",
       "storlek": "70g",
       "pris_text": "25,00/st",
-      "pris": 25.0,
+      "pris": 25,
       "pris_typ": "st",
       "jamforpris": "357.14/kg",
       "ord_pris": "43.04",
@@ -260,7 +264,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott_fagel",
+      "kategori": "ovrigt",
       "klubbpris": true
     },
     {
@@ -268,7 +272,7 @@
       "marke": "Libero",
       "storlek": "64-pack",
       "pris_text": "20,00/st",
-      "pris": 20.0,
+      "pris": 20,
       "pris_typ": "st",
       "jamforpris": "0.31/st",
       "ord_pris": "31.95",
@@ -278,7 +282,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall",
+      "kategori": "ovrigt",
       "klubbpris": true
     },
     {
@@ -286,7 +290,7 @@
       "marke": "Arla",
       "storlek": "1kg",
       "pris_text": "20,00/st",
-      "pris": 20.0,
+      "pris": 20,
       "pris_typ": "st",
       "jamforpris": "20.00/kg",
       "ord_pris": "26.50",
@@ -296,7 +300,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri",
+      "kategori": "ovrigt",
       "klubbpris": true
     },
     {
@@ -304,7 +308,7 @@
       "marke": "Garofalo",
       "storlek": "500g",
       "pris_text": "15,00/st",
-      "pris": 15.0,
+      "pris": 15,
       "pris_typ": "st",
       "jamforpris": "30.00/kg",
       "ord_pris": "21.72",
@@ -314,7 +318,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror",
+      "kategori": "ovrigt",
       "klubbpris": true
     },
     {
@@ -322,17 +326,19 @@
       "marke": "Garant Eko",
       "storlek": "2kg",
       "pris_text": "20,00/st",
-      "pris": 20.0,
+      "pris": 20,
       "pris_typ": "st",
       "jamforpris": "10.00/kg",
       "ord_pris": "28.34",
       "pris_30dgr": "28.34",
       "besparing": null,
       "max_kop": null,
-      "markeringar": ["eko"],
+      "markeringar": [
+        "eko"
+      ],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror",
+      "kategori": "ovrigt",
       "klubbpris": true
     },
     {
@@ -347,10 +353,12 @@
       "pris_30dgr": null,
       "besparing": null,
       "max_kop": null,
-      "markeringar": ["asc"],
+      "markeringar": [
+        "asc"
+      ],
       "ursprung": null,
       "notering": null,
-      "kategori": "fisk_skaldjur",
+      "kategori": "protein_farsk",
       "klubbpris": true
     },
     {
@@ -358,7 +366,7 @@
       "marke": "Garant",
       "storlek": "200-220ml",
       "pris_text": "12,00/st",
-      "pris": 12.0,
+      "pris": 12,
       "pris_typ": "st",
       "jamforpris": "54.55-60.00/l",
       "ord_pris": "19.82",
@@ -368,7 +376,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror",
+      "kategori": "ovrigt",
       "klubbpris": true
     },
     {
@@ -376,7 +384,7 @@
       "marke": "Garant",
       "storlek": "2x175g",
       "pris_text": "20,00/st",
-      "pris": 20.0,
+      "pris": 20,
       "pris_typ": "st",
       "jamforpris": "57.14/kg",
       "ord_pris": "25.50",
@@ -386,7 +394,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "frys",
+      "kategori": "gront_fryst",
       "klubbpris": true
     },
     {
@@ -394,7 +402,7 @@
       "marke": "Oatly",
       "storlek": "1l",
       "pris_text": "15,00/st",
-      "pris": 15.0,
+      "pris": 15,
       "pris_typ": "st",
       "jamforpris": "15.00/l",
       "ord_pris": "19.82",
@@ -404,7 +412,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck",
+      "kategori": "ovrigt",
       "klubbpris": true
     },
     {
@@ -412,7 +420,7 @@
       "marke": "Billys",
       "storlek": "9x170g / 10x140g",
       "pris_text": "89,00/st",
-      "pris": 89.0,
+      "pris": 89,
       "pris_typ": "st",
       "jamforpris": "58.17-63.57/kg",
       "ord_pris": "108.80",
@@ -422,7 +430,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "frys",
+      "kategori": "ovrigt",
       "klubbpris": true
     },
     {
@@ -440,7 +448,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall",
+      "kategori": "ovrigt",
       "klubbpris": true
     },
     {
@@ -448,7 +456,7 @@
       "marke": "Libresse",
       "storlek": "9-50-pack, 200ml",
       "pris_text": "20,00/st",
-      "pris": 20.0,
+      "pris": 20,
       "pris_typ": "st",
       "jamforpris": "100.00/l",
       "ord_pris": "27.50",
@@ -458,7 +466,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall",
+      "kategori": "ovrigt",
       "klubbpris": true
     },
     {
@@ -466,7 +474,7 @@
       "marke": "Arla",
       "storlek": "ca 670g",
       "pris_text": "85,00/kg",
-      "pris": 85.0,
+      "pris": 85,
       "pris_typ": "st",
       "jamforpris": "85.00/kg",
       "ord_pris": "121.00",
@@ -476,7 +484,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri",
+      "kategori": "ovrigt",
       "klubbpris": true
     },
     {
@@ -484,17 +492,19 @@
       "marke": "Garant Eko",
       "storlek": "500g",
       "pris_text": "25,00/st",
-      "pris": 25.0,
+      "pris": 25,
       "pris_typ": "st",
       "jamforpris": "50.00/kg",
       "ord_pris": "31.18",
       "pris_30dgr": "31.18-42.54",
       "besparing": null,
       "max_kop": null,
-      "markeringar": ["eko"],
+      "markeringar": [
+        "eko"
+      ],
       "ursprung": null,
       "notering": null,
-      "kategori": "torrvaror",
+      "kategori": "protein_farsk",
       "klubbpris": true
     },
     {
@@ -512,7 +522,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod_bakverk",
+      "kategori": "ovrigt",
       "klubbpris": false
     },
     {
@@ -520,7 +530,7 @@
       "marke": "Dafgårds",
       "storlek": "600g",
       "pris_text": "25,00/st",
-      "pris": 25.0,
+      "pris": 25,
       "pris_typ": "st",
       "jamforpris": "41.67/kg",
       "ord_pris": null,
@@ -530,7 +540,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod_bakverk",
+      "kategori": "ovrigt",
       "klubbpris": false
     },
     {
@@ -545,10 +555,12 @@
       "pris_30dgr": null,
       "besparing": null,
       "max_kop": null,
-      "markeringar": ["svensk"],
+      "markeringar": [
+        "svensk"
+      ],
       "ursprung": "Sverige",
       "notering": null,
-      "kategori": "frukt_gront",
+      "kategori": "frukt",
       "klubbpris": false
     },
     {
@@ -566,7 +578,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Bara för dig (aktiveras) · gäller t.o.m. 2026-06-30",
-      "kategori": "torrvaror",
+      "kategori": "ovrigt",
       "klubbpris": false
     },
     {
@@ -584,7 +596,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Bara för dig (aktiveras) · gäller t.o.m. 2026-06-30",
-      "kategori": "torrvaror",
+      "kategori": "ovrigt",
       "klubbpris": false
     }
   ]
