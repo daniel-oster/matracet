@@ -673,25 +673,24 @@ input, select, textarea { font-family: inherit; }
 
 .stash-cook, .stash-pool, .stash-offers, .stash-add, .stash-suggest, .stash-done-section { margin-bottom: 22px; }
 
-.stash-list { display: flex; flex-direction: column; gap: 8px; }
-.stash-item {
-  display: flex; align-items: flex-start; gap: 9px; background: var(--paper); border: 1px solid var(--line2);
-  border-radius: 8px; padding: 10px 12px;
+.stash-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+.stash-chip {
+  font-size: 12.5px; padding: 6px 6px 6px 11px; border-radius: 999px;
+  border: 1px solid var(--line2); background: var(--paper); color: var(--ink);
+  display: inline-flex; align-items: center; gap: 5px;
 }
-.stash-item--done { opacity: 0.55; }
-.stash-item-kind { font-size: 15px; flex: none; margin-top: 1px; }
-.stash-item-body { flex: 1; min-width: 0; }
-.stash-item-name { font-size: 14.5px; }
-.stash-item-name--link { font-family: inherit; border: none; background: none; padding: 0; color: var(--ink); cursor: pointer; text-decoration: underline dotted var(--muted2); }
-.stash-item-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; margin-top: 4px; }
-.stash-item-note { font-size: 11px; color: var(--muted); }
-.stash-item-actions { display: flex; flex-direction: column; gap: 5px; flex: none; }
-.stash-done, .stash-remove, .stash-restore {
-  font-family: inherit; font-size: 12px; width: 26px; height: 26px; border-radius: 999px;
-  border: 1px solid var(--line2); background: var(--cream); cursor: pointer;
+.stash-chip--done { opacity: 0.55; }
+.stash-chip-kind { font-size: 13px; }
+.stash-chip-name { font-family: inherit; font-size: inherit; color: inherit; border: none; background: none; padding: 0; }
+.stash-chip-name--link { cursor: pointer; text-decoration: underline dotted var(--muted2); }
+.stash-chip-tag { font-size: 10.5px; color: var(--red); }
+.stash-chip-btn {
+  font-family: inherit; font-size: 11px; width: 20px; height: 20px; border-radius: 999px;
+  border: 1px solid var(--line2); background: var(--cream); cursor: pointer; flex: none;
+  display: inline-flex; align-items: center; justify-content: center; padding: 0;
 }
-.stash-done { color: var(--green-d); }
-.stash-remove { color: var(--red); }
+.stash-chip-done, .stash-chip-restore { color: var(--green-d); }
+.stash-chip-remove { color: var(--red); }
 
 .offer-cloud { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 10px; }
 .offer-chip {

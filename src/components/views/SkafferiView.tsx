@@ -171,37 +171,26 @@ export default function SkafferiView({ onBack, recipeIndex, eaters, onOpenRecipe
               Skafferiet är tomt — plocka fynd eller lägg till en egen idé nedan.
             </div>
           )}
-          <div className="stash-list">
+          <div className="stash-chips">
             {activeItems.map(item => (
-              <div className="stash-item" key={item.id}>
-                <span className="stash-item-kind" title={item.kind === 'stock' ? 'Råvara' : 'Rätt/idé'}>
+              <div className="stash-chip" key={item.id} title={item.anteckning ?? undefined}>
+                <span className="stash-chip-kind" title={item.kind === 'stock' ? 'Råvara' : 'Rätt/idé'}>
                   {KIND_ICON[item.kind]}
                 </span>
-                <div className="stash-item-body">
-                  {item.receptSlug ? (
-                    <button
-                      type="button"
-                      className="stash-item-name stash-item-name--link"
-                      onClick={() => onOpenRecipe(item.receptSlug!)}
-                    >
-                      {item.namn}
-                    </button>
-                  ) : (
-                    <div className="stash-item-name">{item.namn}</div>
-                  )}
-                  {(item.taggar.length > 0 || item.anteckning) && (
-                    <div className="stash-item-meta">
-                      {item.taggar.map(t => (
-                        <span key={t} className="tray-tag tray-tag--offer">{t}</span>
-                      ))}
-                      {item.anteckning && <span className="stash-item-note">{item.anteckning}</span>}
-                    </div>
-                  )}
-                </div>
-                <div className="stash-item-actions">
-                  <button type="button" className="stash-done" onClick={() => toggleDone(item.id)} title="Åt/använt detta">✓</button>
-                  <button type="button" className="stash-remove" onClick={() => remove(item.id)} title="Ta bort">✕</button>
-                </div>
+                {item.receptSlug ? (
+                  <button
+                    type="button"
+                    className="stash-chip-name stash-chip-name--link"
+                    onClick={() => onOpenRecipe(item.receptSlug!)}
+                  >
+                    {item.namn}
+                  </button>
+                ) : (
+                  <span className="stash-chip-name">{item.namn}</span>
+                )}
+                {item.taggar[0] && <span className="stash-chip-tag">{item.taggar[0]}</span>}
+                <button type="button" className="stash-chip-btn stash-chip-done" onClick={() => toggleDone(item.id)} title="Åt/använt detta">✓</button>
+                <button type="button" className="stash-chip-btn stash-chip-remove" onClick={() => remove(item.id)} title="Ta bort">✕</button>
               </div>
             ))}
           </div>
@@ -375,17 +364,13 @@ export default function SkafferiView({ onBack, recipeIndex, eaters, onOpenRecipe
         {doneItems.length > 0 && (
           <section className="stash-done-section">
             <h3 className="shop-group-title">Avklarat</h3>
-            <div className="stash-list">
+            <div className="stash-chips">
               {doneItems.map(item => (
-                <div className="stash-item stash-item--done" key={item.id}>
-                  <span className="stash-item-kind">{KIND_ICON[item.kind]}</span>
-                  <div className="stash-item-body">
-                    <div className="stash-item-name">{item.namn}</div>
-                  </div>
-                  <div className="stash-item-actions">
-                    <button type="button" className="stash-restore" onClick={() => toggleDone(item.id)} title="Tillbaka till poolen">↺</button>
-                    <button type="button" className="stash-remove" onClick={() => remove(item.id)} title="Ta bort">✕</button>
-                  </div>
+                <div className="stash-chip stash-chip--done" key={item.id}>
+                  <span className="stash-chip-kind">{KIND_ICON[item.kind]}</span>
+                  <span className="stash-chip-name">{item.namn}</span>
+                  <button type="button" className="stash-chip-btn stash-chip-restore" onClick={() => toggleDone(item.id)} title="Tillbaka till poolen">↺</button>
+                  <button type="button" className="stash-chip-btn stash-chip-remove" onClick={() => remove(item.id)} title="Ta bort">✕</button>
                 </div>
               ))}
             </div>
