@@ -8,6 +8,7 @@ import FamiljView from './components/views/FamiljView'
 import AnteckningarView from './components/views/AnteckningarView'
 import FyndView from './components/views/FyndView'
 import BevakaView from './components/views/BevakaView'
+import SkafferiView from './components/views/SkafferiView'
 import RecipeOverlay from './components/RecipeOverlay'
 import { resolvePresenceRange, addDays } from './presence/resolver'
 import { SEED_STORE } from './presence/seed'
@@ -138,6 +139,9 @@ export default function App() {
       )}
       {screen === 'fynd' && <FyndView onBack={toHub} />}
       {screen === 'bevaka' && <BevakaView onBack={toHub} />}
+      {screen === 'skafferi' && (
+        <SkafferiView onBack={toHub} recipeIndex={recipeIndex} eaters={eaters.eaters} onOpenRecipe={setOverlaySlug} />
+      )}
 
       {overlaySlug && (
         <RecipeOverlay slug={overlaySlug} onClose={() => setOverlaySlug(null)} />
