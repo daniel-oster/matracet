@@ -444,6 +444,12 @@ input, select, textarea { font-family: inherit; }
   .recept-grid { display: grid; grid-template-columns: 340px 1fr; gap: 24px; align-items: start; }
 }
 
+.recipe-search {
+  display: block; width: 100%; box-sizing: border-box; font-size: 13px; padding: 8px 12px;
+  border-radius: 99px; border: 1px solid var(--line); background: var(--cream); color: var(--ink);
+  margin-bottom: 10px; font-family: inherit;
+}
+.recipe-search-empty { color: var(--muted); font-size: 13px; padding: 10px 2px; }
 .recipe-export-btn { margin-bottom: 10px; }
 .recipe-scroll-list { display: block; }
 @media (min-width: 860px) { .recipe-scroll-list { max-height: calc(100vh - 140px); overflow-y: auto; } }
