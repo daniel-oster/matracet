@@ -33,12 +33,25 @@ function categoryText(kategorier: string[]): string {
 
 export default function ReceptView({ onBack, recipeIndex, eaters }: Props) {
   const [selectedSlug, setSelectedSlug] = useState<string | null>(null)
+  const [query, setQuery] = useState('')
+
+  const q = query.trim().toLowerCase()
+  const filtered = q
+    ? recipeIndex.filter(r => r.namn.toLowerCase().includes(q))
+    : recipeIndex
 
   return (
     <div className="screen screen--recept">
       <TopBar onBack={onBack} eyebrow={`${recipeIndex.length} recept`} title="Receptbiblioteket" />
       <div className="screen-body recept-grid">
-        <RecipeList recipes={recipeIndex} eaters={eaters} selectedSlug={selectedSlug} onSelect={setSelectedSlug} />
+        <RecipeList
+          recipes={filtered}
+          eaters={eaters}
+          selectedSlug={selectedSlug}
+          onSelect={setSelectedSlug}
+          query={query}
+          onQueryChange={setQuery}
+        />
         <div className="recipe-detail-pane">
           {selectedSlug ? <RecipeDetail slug={selectedSlug} eaters={eaters} /> : <RecipeEmpty />}
         </div>
@@ -47,16 +60,25 @@ export default function ReceptView({ onBack, recipeIndex, eaters }: Props) {
   )
 }
 
-function RecipeList({ recipes, eaters, selectedSlug, onSelect }: {
+function RecipeList({ recipes, eaters, selectedSlug, onSelect, query, onQueryChange }: {
   recipes: RecipeIndexEntry[]
   eaters: Eater[]
   selectedSlug: string | null
   onSelect: (slug: string) => void
+  query: string
+  onQueryChange: (q: string) => void
 }) {
   const { getFeedback, setExcludeFromWeekPlan } = useFeedback()
 
   return (
     <div className="recipe-scroll-list">
+      <input
+        className="recipe-search"
+        type="search"
+        placeholder="Sök recept…"
+        value={query}
+        onChange={e => onQueryChange(e.target.value)}
+      />
       <button
         type="button"
         className="export-btn recipe-export-btn"
@@ -65,6 +87,9 @@ function RecipeList({ recipes, eaters, selectedSlug, onSelect }: {
       >
         ⬇ Exportera data
       </button>
+      {recipes.length === 0 && (
+        <div className="recipe-search-empty">Inga recept matchar "{query}".</div>
+      )}
       {recipes.map(r => {
         const excluded = getFeedback(r.slug)?.excludeFromWeekPlan ?? false
         return (

@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0",
+  "slug": "pastagratang-okokt-pasta",
+  "nummer": 119,
+  "namn": "Vego-pastagratäng på okokt pasta",
+  "tid_min": 45,
+  "portioner": 4,
+  "kategorier": [
+    "vegetarisk"
+  ],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": [
+    "gratäng",
+    "pasta",
+    "vego",
+    "ugn"
+  ],
+  "kalla": "ICA",
+  "kallaUrl": "https://www.ica.se/recept/vego-pastagratang-pa-okokt-pasta-724829/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    {
+      "vara": "vatten",
+      "mangd": 6,
+      "enhet": "dl"
+    },
+    {
+      "vara": "kokta stora vita bönor",
+      "mangd": 390,
+      "enhet": "g"
+    },
+    {
+      "vara": "grönsaksbuljongtärning",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "chilisås",
+      "mangd": 0.5,
+      "enhet": "dl"
+    },
+    {
+      "vara": "oregano",
+      "mangd": 1,
+      "enhet": "tsk"
+    },
+    {
+      "vara": "vispgrädde",
+      "mangd": 2.5,
+      "enhet": "dl"
+    },
+    {
+      "vara": "penne, okokt",
+      "mangd": 7,
+      "enhet": "dl"
+    },
+    {
+      "vara": "mozzarella",
+      "mangd": 250,
+      "enhet": "g"
+    },
+    {
+      "vara": "frysta haricots verts",
+      "mangd": 200,
+      "enhet": "g"
+    }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Sätt ugnen på 200°.",
+    "Koka upp vattnet i en kastrull.",
+    "Häll bönorna i ett durkslag, skölj med kallt vatten och låt rinna av.",
+    "Smula ner buljongtärningen i en ugnsform, tillsätt chilisås och oregano. Vispa i det varma vattnet tills tärningen löst sig.",
+    "Häll i grädden, den okokta pastan och bönorna. Riv över mozzarellan och grädda mitt i ugnen i 20 minuter.",
+    "Lägg i haricots verts och grädda ytterligare 15 minuter.",
+    "Servera."
+  ],
+  "servering": [],
+  "tips": "Pastan kokar i formen tillsammans med grädde och buljong, så det blir knappt någon disk.",
+  "komplett": true
+}

@@ -117,6 +117,7 @@
     {"slug":"pasta-pomodoro-avokado","nummer":115,"namn":"Pasta pomodoro med avokado","tid_min":20,"kategorier":["vegetarisk"]},
     {"slug":"agg-avokado-rostat-brod","nummer":116,"namn":"Ägg & avokado på rostat bröd","tid_min":15,"kategorier":["vegetarisk"]},
     {"slug":"zucchiniplattar-majs-fetaost","nummer":117,"namn":"Zucchiniplattar med majs och fetaost","tid_min":30,"kategorier":["vegetarisk"],"bildUrl":"https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?w=400&auto=format&fit=crop"},
-    {"slug":"snackpotter","nummer":118,"namn":"Snackpotter (köpta, 3 st)","tid_min":5,"kategorier":[],"bildUrl":"https://images.unsplash.com/photo-1766871139455-e71da53674fb?w=400&auto=format&fit=crop"}
+    {"slug":"snackpotter","nummer":118,"namn":"Snackpotter (köpta, 3 st)","tid_min":5,"kategorier":[],"bildUrl":"https://images.unsplash.com/photo-1766871139455-e71da53674fb?w=400&auto=format&fit=crop"},
+    {"slug":"pastagratang-okokt-pasta","nummer":119,"namn":"Vego-pastagratäng på okokt pasta","tid_min":45,"kategorier":["vegetarisk"],"bildUrl":"https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?w=400&auto=format&fit=crop"}
   ]
 }
