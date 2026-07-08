@@ -23,6 +23,7 @@ function initials(namn: string): string {
 export default function RecipeFeedbackBar({ recipeId, eaters, variant }: Props) {
   const { getFeedback, setPersonSentiment } = useFeedback()
   const [openPersonId, setOpenPersonId] = useState<string | null>(null)
+  const [anchorRect, setAnchorRect] = useState<DOMRect | null>(null)
 
   const record = getFeedback(recipeId)
   const byPerson = new Map(record?.persons.map(p => [p.personId, p]) ?? [])
@@ -39,7 +40,10 @@ export default function RecipeFeedbackBar({ recipeId, eaters, variant }: Props) 
               className={`feedback-avatar${sentiment ? ` feedback-avatar--${sentiment}` : ''}`}
               title={`${eater.namn}${sentiment ? ` — ${SENTIMENT_LABEL[sentiment]}` : ''}`}
               aria-label={`${eater.namn}${sentiment ? ` — ${SENTIMENT_LABEL[sentiment]}` : ', ingen åsikt'}`}
-              onClick={() => setOpenPersonId(openPersonId === eater.id ? null : eater.id)}
+              onClick={e => {
+                setAnchorRect(e.currentTarget.getBoundingClientRect())
+                setOpenPersonId(openPersonId === eater.id ? null : eater.id)
+              }}
             >
               {initials(eater.namn)}
             </button>
@@ -56,10 +60,11 @@ export default function RecipeFeedbackBar({ recipeId, eaters, variant }: Props) 
               </div>
             )}
 
-            {openPersonId === eater.id && (
+            {openPersonId === eater.id && anchorRect && (
               <PersonSentimentPopover
                 eater={eater}
                 current={fb}
+                anchorRect={anchorRect}
                 onSet={(s, note) => setPersonSentiment(recipeId, eater.id, s, note)}
                 onClose={() => setOpenPersonId(null)}
               />

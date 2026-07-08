@@ -8,14 +8,18 @@ const SENTIMENT_OPTIONS: { value: FeedbackSentiment; label: string; emoji: strin
   { value: 'refuses', label: 'Vägrar äta', emoji: '🔴' },
 ]
 
+const POPOVER_WIDTH = 220
+const VIEWPORT_MARGIN = 12
+
 interface Props {
   eater: Eater
   current: PersonRecipeFeedback | undefined
+  anchorRect: DOMRect
   onSet: (sentiment: FeedbackSentiment | null, note?: string) => void
   onClose: () => void
 }
 
-export default function PersonSentimentPopover({ eater, current, onSet, onClose }: Props) {
+export default function PersonSentimentPopover({ eater, current, anchorRect, onSet, onClose }: Props) {
   const ref = useRef<HTMLDivElement>(null)
   const [note, setNote] = useState(current?.note ?? '')
   const sentiment = current?.sentiment ?? null
@@ -42,8 +46,16 @@ export default function PersonSentimentPopover({ eater, current, onSet, onClose 
     else onSet(value, note)
   }
 
+  // Anchored to the viewport (not the triggering avatar's container) so it's never
+  // clipped by an ancestor's `overflow: hidden` (e.g. `.recipe-detail`'s rounded corners).
+  const left = Math.min(
+    Math.max(anchorRect.left, VIEWPORT_MARGIN),
+    window.innerWidth - POPOVER_WIDTH - VIEWPORT_MARGIN
+  )
+  const style = { position: 'fixed' as const, top: anchorRect.bottom + 6, left }
+
   return (
-    <div className="sentiment-popover" ref={ref} role="dialog" aria-label={`Åsikt för ${eater.namn}`}>
+    <div className="sentiment-popover" style={style} ref={ref} role="dialog" aria-label={`Åsikt för ${eater.namn}`}>
       <div className="sentiment-popover-name">{eater.namn}</div>
       <div className="sentiment-popover-options">
         {SENTIMENT_OPTIONS.map(opt => (
