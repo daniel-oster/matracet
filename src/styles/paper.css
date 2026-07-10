@@ -679,25 +679,25 @@ input, select, textarea { font-family: inherit; }
 
 .stash-cook, .stash-pool, .stash-offers, .stash-add, .stash-suggest, .stash-done-section { margin-bottom: 22px; }
 
-.stash-list { display: flex; flex-direction: column; gap: 8px; }
-.stash-item {
-  display: flex; align-items: flex-start; gap: 9px; background: var(--paper); border: 1px solid var(--line2);
-  border-radius: 8px; padding: 10px 12px;
+.stash-list { display: flex; flex-wrap: wrap; gap: 7px; }
+.stash-chip {
+  display: inline-flex; align-items: center; gap: 5px; max-width: 100%;
+  background: var(--paper); border: 1px solid var(--line2); border-radius: 999px;
+  padding: 5px 6px 5px 11px; font-size: 12.5px; color: var(--ink);
 }
-.stash-item--done { opacity: 0.55; }
-.stash-item-kind { font-size: 15px; flex: none; margin-top: 1px; }
-.stash-item-body { flex: 1; min-width: 0; }
-.stash-item-name { font-size: 14.5px; }
-.stash-item-name--link { font-family: inherit; border: none; background: none; padding: 0; color: var(--ink); cursor: pointer; text-decoration: underline dotted var(--muted2); }
-.stash-item-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; margin-top: 4px; }
-.stash-item-note { font-size: 11px; color: var(--muted); }
-.stash-item-actions { display: flex; flex-direction: column; gap: 5px; flex: none; }
-.stash-done, .stash-remove, .stash-restore {
-  font-family: inherit; font-size: 12px; width: 26px; height: 26px; border-radius: 999px;
+.stash-chip--done { opacity: 0.55; }
+.stash-chip-kind { font-size: 13px; flex: none; }
+.stash-chip-name { max-width: 42vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.stash-chip-name--link { font-family: inherit; border: none; background: none; padding: 0; color: var(--ink); cursor: pointer; text-decoration: underline dotted var(--muted2); }
+.stash-chip-tag { font-size: 10px; color: var(--red); background: var(--red-bg); padding: 2px 7px; border-radius: 999px; flex: none; }
+.stash-chip-btn {
+  font-family: inherit; font-size: 11px; width: 20px; height: 20px; border-radius: 999px; flex: none; padding: 0;
   border: 1px solid var(--line2); background: var(--cream); cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
 }
-.stash-done { color: var(--green-d); }
-.stash-remove { color: var(--red); }
+.stash-chip-btn--done { color: var(--green-d); }
+.stash-chip-btn--remove { color: var(--red); }
+.stash-chip-btn--restore { color: var(--muted); }
 
 .offer-cloud { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 10px; }
 .offer-chip {
