@@ -84,6 +84,8 @@ Navigation is a simple `screen: ScreenName` state in `App.tsx` (`'hub' | TabName
 | `bevaka` | Standing watch-list + current bargain matches (2-col on wide) |
 | `fynd` | Store offers, all categories in one scroll (2-col grid on wide) |
 | `skafferi` | Semesterläge: pantry-match cooking ideas, the stash pool, this week's offer cloud, manual add, recipe browser |
+| `historik` | Read-only log of meals actually eaten (`public/data/history.json`), newest first |
+| `synka` | Export this device's local ratings/changes as a file to paste into a Claude Code chat for backend sync |
 
 ### Recipe viewing: converged on the shared full-screen overlay (2026-07)
 
@@ -252,11 +254,80 @@ are visible from the family/presence view too, not just inside Planera itself.
 fetches, in one `Promise.all`:
 - `/matracet/data/eaters.json`
 - `/matracet/data/recipes/_index.json`
+- `/matracet/data/history.json` (see "Eating history..." below)
+- `/matracet/data/feedback.json` (git baseline, merged into local feedback — see below)
 - `/matracet/data/weeks/<w>.json` for every distinct ISO week (`YYYY-Www`) the 7-day window touches
 
 It also resolves the custody/presence schedule for the same window via
 `resolvePresenceRange` (`src/presence/resolver.ts`). `RecipeOverlay` fetches individual recipes
 lazily: `/matracet/data/recipes/<slug>/recept.json`.
+
+### Eating history, feedback sync, and the planning brief (2026-07)
+
+Three pieces work together to get real household data — which is otherwise local-only, since
+there's no backend — into git where it's durable, shared across devices, and usable for planning:
+
+1. **`scripts/build-brief.ts`** (`npm run brief`) is a pre-existing, deterministic (no LLM, no
+   network) script that resolves the *upcoming* ISO week and writes `planning-brief.json`: per-day
+   presence/portions/vegan-requirement, the recipe index with derived protein + sentiment, pantry
+   staples, and `recentHistory` (what was eaten in each of the last two ISO weeks). It's meant to be
+   hand-fed to an LLM planning session as one deterministic snapshot — see the file's own header
+   comment. This already existed before the eating-history feature below; it just wasn't documented
+   here yet.
+2. **`src/lib/exportData.ts`**'s `downloadLocalData()` (wired to the **Synka** screen, reached via
+   the Hub's 🔄 tile — previously a small button buried in `ReceptView`, moved out for
+   discoverability) downloads **every** `matracet:*` localStorage key on this device as one JSON
+   file (`ExportPayload.stores`, a generic `Record<string, unknown>` built by iterating
+   `localStorage` directly — see "Local storage export" below). The user pastes that into a Claude
+   Code chat; the **`sync-local-storage`** skill (`.claude/skills/sync-local-storage/SKILL.md`)
+   merges only the `matracet:feedback:v1` entry into `public/data/feedback.json` **per (recipe,
+   person)** — never a wholesale overwrite, since the git file already holds ratings merged in from
+   other devices/sessions. Every other store (weekplan, shopping list, stash, chaos-mode,
+   irrelevant-offers, ...) stays local-only; syncing them is explicitly out of scope for that skill.
+   `build-brief.ts` already reads `feedback.json` for sentiment + exclusions
+   (`excludeFromWeekPlan`) — this is the git file's only consumer besides the app itself.
+3. **`public/data/history.json`** (`HistoryEntry`/`HistoryFile` in `src/types/history.ts`) fills a
+   gap neither of the above covers: meals that were **never planned at all**, most often during
+   Skafferi/chaos-mode stretches where there's no day-slot to swap in the first place. There's no
+   in-app way to add an entry — it's written entirely by the **`log-meal`** skill
+   (`.claude/skills/log-meal/SKILL.md`), which the user talks to conversationally ("we grilled
+   burgers Tuesday"); the skill can also offer to save a good spontaneous dish as a real recipe stub
+   (`komplett: false`, same precedent as the Skafferi stash pool's dish stubs) and record per-person
+   ratings using the exact same `likes`/`dislikes`/`refuses` values the app's UI uses — deliberately
+   not a new rating scale. `HistorikView` (Hub → 📜 Historik) is a read-only viewer, newest first.
+   `build-brief.ts` folds `history.json` entries from the last two weeks into the same
+   `recentHistory` list the weeks-derived entries go into (tagged `source: 'planerat' | 'spontant'`)
+   — so a spontaneous meal actually feeds the next week's planning, not just the log. Bumped the
+   brief's `schemaVersion` to `1.2` for this additive field.
+
+`useFeedback.ts`'s `mergeFeedbackBaseline(baseline)` is the app-side half of point 2: called once
+from `App.tsx` after `feedback.json` loads, it seeds any `(recipe, person)` rating present in the
+git file but missing from this device's local storage — local edits always win on conflict, this
+only fills gaps. Kept as a plain exported function (not a new hook API) specifically so none of
+`useFeedback()`'s existing call sites (`RecipeFeedbackBar`, `WeekWarnings`, `VeckanOverview`,
+`FamiljView`, `suggestions.ts`) needed to change.
+
+#### Local storage export — new stores need no export code, but check whether they need a sync rule
+
+`src/lib/exportData.ts`'s `buildExportPayload()` iterates `localStorage` directly for every key
+prefixed `matracet:` and dumps it into `ExportPayload.stores` — it does **not** hand-pick stores by
+name. This means adding a new `createLocalStore('matracet:whatever:v1', ...)` anywhere in the app
+(see `src/lib/localStore.ts`) is automatically included in every future export with **zero**
+changes needed here — this was previously a hand-maintained list (`feedback`/`weekplan`/
+`shoppingList` only) that had already drifted out of date by the time `stash`, `chaos-mode`, and
+`irrelevant-offers` stores were added, so don't reintroduce that pattern by switching back to named
+fields.
+
+Being *in the export* is not the same as being *synced to git*, though — that's a second, deliberate
+step. The `sync-local-storage` skill only merges the `matracet:feedback:v1` entry into
+`public/data/feedback.json`; every other key is intentionally left local-only (see the skill file
+for the exact reasoning per store). If a new store's data should also become durable/shared across
+devices the way feedback ratings are, that requires **both**:
+1. Nothing — the export already includes it.
+2. An explicit update to `.claude/skills/sync-local-storage/SKILL.md` describing the merge rule for
+   that specific key (and probably a new `public/data/<whatever>.json` backend file, following the
+   `feedback.json` precedent: a stable named shape, read tolerantly, never wholesale-overwritten by
+   a sync).
 
 ### URL base path
 
@@ -284,6 +355,25 @@ use extra width — multi-column tile grids (`.hub-grid`), 2-column screen bodie
 list+detail split (`.recept-grid`), and the Planera suggestion tray docking to a sidebar instead
 of a bottom sheet. This is CSS-only — no JS layout branching, no more per-side `PageSide` prop
 threaded through every view.
+
+**Phone-landscape gets the same wide layout as desktop, everywhere (2026-07 sweep)**: `RecipeOverlay`
+was originally the only screen that also triggered its wide 2-column CSS for a phone physically
+rotated to landscape (narrow but short viewport) via `(orientation: landscape) and (max-height: 600px)`
+alongside `(min-width: 860px)` — every other `@media (min-width: 860px)` block in `paper.css` fired
+only on desktop-width viewports, so a landscape phone (e.g. 844×390) got stuck in single-column
+mobile layout despite having the same "extra horizontal room, scarce vertical room" shape the overlay
+was built for. Audited every view and appended the same `, (orientation: landscape) and
+(max-height: 600px)` clause to every wide-layout breakpoint: `.app-shell` max-width, `.hub-grid`
+(3 cols), `.vecka-list` (was single-column at *any* width before this — now 2 cols in landscape/wide,
+closing the one screen that had no wide treatment at all), `.sugg-list` (Planera + Skafferi),
+`.handla-grid`, `.fynd-scroll--wide`, `.bevaka-grid`, `.familj-grid`, `.note-grid`,
+`.recipe-scroll-list`. Also shrank the sticky `.topbar-row`/`.hub-topbar` padding and title size
+under `(orientation: landscape) and (max-height: 600px)` alone (not combined with desktop-width,
+which isn't short on vertical space) — same "reclaim scarce height" move the overlay toolbar made,
+since a phone in landscape is only ~375–430px tall total and the original full-size sticky header
+alone ate a disproportionate chunk of that. Verified via `scripts/screenshot.mjs`-style Playwright
+checks at an 844×390 viewport (Hub, Veckan/Vecka, Handla, Familj, Fynd) — all switched to their
+multi-column layouts as expected.
 
 ## Data conventions
 

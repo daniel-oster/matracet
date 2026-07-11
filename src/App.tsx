@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import { WeekMenu, EatersData, RecipeIndex, RecipeIndexEntry, DayMeal, WeekNote, ScreenName } from './types'
+import type { HistoryEntry, HistoryFile } from './types/history'
+import type { FeedbackFile, FeedbackStore } from './types/feedback'
 import Hub from './components/Hub'
 import VeckanView from './components/views/VeckanView'
 import HandlaView from './components/views/HandlaView'
@@ -9,10 +11,13 @@ import AnteckningarView from './components/views/AnteckningarView'
 import FyndView from './components/views/FyndView'
 import BevakaView from './components/views/BevakaView'
 import SkafferiView from './components/views/SkafferiView'
+import HistorikView from './components/views/HistorikView'
+import SynkaView from './components/views/SynkaView'
 import RecipeOverlay from './components/RecipeOverlay'
 import { resolvePresenceRange, addDays } from './presence/resolver'
 import { SEED_STORE } from './presence/seed'
 import type { DayPlan } from './presence/types'
+import { mergeFeedbackBaseline } from './hooks/useFeedback'
 
 function getISOWeekString(isoDate: string): string {
   const d = new Date(isoDate + 'T00:00:00Z')
@@ -35,6 +40,7 @@ export default function App() {
   const [eaters, setEaters] = useState<EatersData | null>(null)
   const [recipeIndex, setRecipeIndex] = useState<RecipeIndexEntry[]>([])
   const [dayPlans, setDayPlans] = useState<DayPlan[]>([])
+  const [historyEntries, setHistoryEntries] = useState<HistoryEntry[]>([])
   const [screen, setScreen] = useState<ScreenName>('hub')
   const [overlaySlug, setOverlaySlug] = useState<string | null>(null)
 
@@ -52,10 +58,17 @@ export default function App() {
     Promise.all([
       fetch('/matracet/data/eaters.json').then(r => r.json()),
       fetch('/matracet/data/recipes/_index.json').then(r => r.json()),
+      fetch('/matracet/data/history.json').then(r => r.ok ? r.json() as Promise<HistoryFile> : null).catch(() => null),
+      fetch('/matracet/data/feedback.json').then(r => r.ok ? r.json() as Promise<FeedbackFile> : null).catch(() => null),
       ...weekFetches,
-    ]).then(([eatersData, indexData, ...weekResults]: [EatersData, RecipeIndex, ...(WeekMenu | null)[]]) => {
+    ]).then(([eatersData, indexData, historyData, feedbackData, ...weekResults]: [EatersData, RecipeIndex, HistoryFile | null, FeedbackFile | null, ...(WeekMenu | null)[]]) => {
       setEaters(eatersData)
       setRecipeIndex(indexData.recipes)
+      setHistoryEntries(historyData?.entries ?? [])
+      // Tolerant unwrap — mirrors scripts/build-brief.ts's handling of this same file,
+      // in case it's ever a bare feedback map instead of the { feedback: {...} } wrapper.
+      const feedbackBaseline = feedbackData?.feedback ?? (feedbackData as unknown as FeedbackStore | null)
+      if (feedbackBaseline) mergeFeedbackBaseline(feedbackBaseline)
 
       const dayMap = new Map<string, DayMeal>()
       const lunchMap = new Map<string, DayMeal>()
@@ -142,6 +155,16 @@ export default function App() {
       {screen === 'skafferi' && (
         <SkafferiView onBack={toHub} recipeIndex={recipeIndex} eaters={eaters.eaters} onOpenRecipe={setOverlaySlug} />
       )}
+      {screen === 'historik' && (
+        <HistorikView
+          onBack={toHub}
+          entries={historyEntries}
+          eaters={eaters.eaters}
+          recipeIndex={recipeIndex}
+          onOpenRecipe={setOverlaySlug}
+        />
+      )}
+      {screen === 'synka' && <SynkaView onBack={toHub} />}
 
       {overlaySlug && (
         <RecipeOverlay slug={overlaySlug} onClose={() => setOverlaySlug(null)} />

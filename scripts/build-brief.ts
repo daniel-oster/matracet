@@ -24,7 +24,7 @@ import { getRecipeVegan } from '../src/meals/checks.ts'
  *  variationsregeln är per-person `minRepeatGapDays` (se constraints.spacingByPerson). */
 const MAX_REPEAT_PROTEIN_PER_WEEK: number | null = null
 
-const SCHEMA_VERSION = '1.1'
+const SCHEMA_VERSION = '1.2'
 
 // ── Datum-helpers (UTC, ISO-vecka) ──────────────────────────────────────────────
 
@@ -200,7 +200,10 @@ const days = Array.from({ length: 7 }, (_, i) => {
   }
 })
 
-// ── Senaste historik (1–2 föregående ISO-veckor) ────────────────────────────────
+// ── Senaste historik (1–2 föregående ISO-veckor + matdagbok.json) ──────────────
+// Två källor: de planerade veckofilerna (vad som stod i matsedeln) och
+// history.json (vad som faktiskt loggats som ätet — särskilt spontana/oplanerade
+// måltider under t.ex. kaosveckor, som aldrig syns i weeks/*.json alls).
 
 interface HistoryEntry {
   date: string
@@ -209,6 +212,16 @@ interface HistoryEntry {
   protein: string
   cuisine: null
   sentiment: PersonSentiment[] | null
+  source: 'planerat' | 'spontant'
+}
+
+interface HistoryFile {
+  entries: {
+    datum: string
+    recipeSlug: string | null
+    beskrivning: string
+    kalla: 'planerat' | 'spontant'
+  }[]
 }
 
 const recentHistory: HistoryEntry[] = []
@@ -227,9 +240,29 @@ for (const back of [2, 1]) {
       protein: idx ? deriveProtein(idx.kategorier) : 'okant',
       cuisine: null, // spåras inte i datamodellen
       sentiment: sentimentFor(m.receptSlug),
+      source: 'planerat',
     })
   }
 }
+
+// history.json — bara loggade måltider inom samma tvåveckorsfönster, och bara
+// de som länkats till ett riktigt recept (annars finns inget att härleda protein/sentiment ur).
+const historyWindowStart = addDays(upcomingMonday, -14)
+const historyFile = readJson<HistoryFile>('public/data/history.json')
+for (const e of historyFile?.entries ?? []) {
+  if (!e.recipeSlug || e.datum < historyWindowStart || e.datum >= upcomingMonday) continue
+  const idx = indexBySlug.get(e.recipeSlug)
+  recentHistory.push({
+    date: e.datum,
+    recipeId: e.recipeSlug,
+    title: e.beskrivning || idx?.namn || e.recipeSlug,
+    protein: idx ? deriveProtein(idx.kategorier) : 'okant',
+    cuisine: null,
+    sentiment: sentimentFor(e.recipeSlug),
+    source: e.kalla,
+  })
+}
+
 recentHistory.sort((a, b) => (a.date < b.date ? -1 : 1))
 
 // ── Slimmat receptregister ──────────────────────────────────────────────────────
@@ -273,6 +306,7 @@ const brief = {
     sources: [
       'public/data/recipes/_index.json',
       'public/data/weeks/*.json',
+      'public/data/history.json (spontana/oplanerade måltider, senaste 2 veckorna)',
       'public/data/pantry.json',
       'public/data/feedback.json (sentiment + uteslutningar)',
       'src/presence/seed.ts + activities.ts (närvaro/vårdnadsschema)',

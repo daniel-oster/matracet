@@ -99,6 +99,8 @@ export default function Hub({ weekLabel, rollingDays, recipeIndex, dayPlans, onN
           <Tile em="👨‍👧‍👧" tn="Familj" ts="schema & profiler" onClick={() => onNavigate('familj')} />
           <Tile em="🔔" tn="Bevaka" ts="bulk-fynd" onClick={() => onNavigate('bevaka')} />
           <Tile em="📝" tn="Anteckningar" ts="idéer & noteringar" onClick={() => onNavigate('anteckningar')} />
+          <Tile em="📜" tn="Historik" ts="vad vi ätit" onClick={() => onNavigate('historik')} />
+          <Tile em="🔄" tn="Synka" ts="betyg → backend" onClick={() => onNavigate('synka')} />
         </div>
       </div>
     </div>

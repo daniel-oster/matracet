@@ -1,28 +1,36 @@
-import { feedbackStore } from '../hooks/useFeedback'
-import { weekPlanStore } from '../hooks/useWeekPlan'
-import { shoppingListStore } from '../hooks/useShoppingList'
-
-// Matracet keeps all user feedback local (no backend). This bundles every
-// `matracet:*` store into one JSON payload so it can be downloaded and later
-// fed to a backend.
+// Matracet keeps all user data local (no backend). This bundles EVERY
+// `matracet:*` localStorage key into one JSON payload so it can be downloaded
+// and later fed to a backend — by reading localStorage directly rather than
+// importing each store, a brand-new `createLocalStore(...)` call anywhere in
+// the app is picked up automatically, with no edit needed here. See the
+// "Local storage export" note in CLAUDE.md before adding a new store.
 
 export interface ExportPayload {
   app: 'matracet'
-  version: 1
+  version: 2
   exportedAt: string
-  feedback: ReturnType<typeof feedbackStore.get>
-  weekplan: ReturnType<typeof weekPlanStore.get>
-  shoppingList: ReturnType<typeof shoppingListStore.get>
+  /** Every localStorage key prefixed `matracet:`, keyed by its full storage key, parsed. */
+  stores: Record<string, unknown>
 }
 
 export function buildExportPayload(): ExportPayload {
+  const stores: Record<string, unknown> = {}
+  if (typeof localStorage !== 'undefined') {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i)
+      if (!key || !key.startsWith('matracet:')) continue
+      try {
+        stores[key] = JSON.parse(localStorage.getItem(key) ?? 'null')
+      } catch {
+        // skip a value that somehow isn't valid JSON
+      }
+    }
+  }
   return {
     app: 'matracet',
-    version: 1,
+    version: 2,
     exportedAt: new Date().toISOString(),
-    feedback: feedbackStore.get(),
-    weekplan: weekPlanStore.get(),
-    shoppingList: shoppingListStore.get(),
+    stores,
   }
 }
 

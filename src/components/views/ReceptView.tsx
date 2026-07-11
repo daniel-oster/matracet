@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { RecipeIndexEntry, Eater } from '../../types'
 import { useFeedback } from '../../hooks/useFeedback'
 import RecipeFeedbackBar from '../feedback/RecipeFeedbackBar'
-import { downloadLocalData } from '../../lib/exportData'
 import TopBar from '../TopBar'
 
 interface Props {
@@ -47,14 +46,6 @@ export default function ReceptView({ onBack, recipeIndex, eaters, onOpenRecipe }
             value={query}
             onChange={e => setQuery(e.target.value)}
           />
-          <button
-            type="button"
-            className="export-btn recipe-export-btn"
-            onClick={downloadLocalData}
-            title="Ladda ner all lokal feedback- och veckoplansdata som JSON"
-          >
-            ⬇ Exportera data
-          </button>
           {filtered.length === 0 && (
             <div className="recipe-search-empty">Inga recept matchar "{query}".</div>
           )}
