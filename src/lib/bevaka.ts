@@ -38,6 +38,7 @@ export function tagOffers(stores: StoreOffers[]): TaggedOffer[] {
 export function matchesBevakning(item: BevakningItem, o: TaggedOffer): boolean {
   const hay = `${o.namn} ${o.marke ?? ''}`.toLowerCase()
   if (item.undvik_marken.some(b => hay.includes(b.toLowerCase()))) return false
+  if (item.onskat_marke && !hay.includes(item.onskat_marke.toLowerCase())) return false
   if (item.sok.length === 0) return o.kategori === item.kategori
   return item.sok.some(k => hay.includes(k.toLowerCase()))
 }
