@@ -121,19 +121,19 @@ clickable. The recipe title is hidden in this mode (no room, and the column head
 /"Tillagning" already say what you're looking at). Portrait/mobile mode keeps the original solid
 sticky toolbar unchanged — plenty of headroom there, not worth touching.
 
-### Semesterläge: the Skafferi stash pool (2026-07)
+### Skafferi: the stash pool
 
-A second, deliberately *not*-calendar planning mode for chaotic stretches (summer vacation,
-"we don't know where we'll be or what we'll have") where planning specific days doesn't work,
-but you still want to walk into the kitchen/freezer with real options. Added alongside — not
-instead of — the existing Veckan calendar; nothing about Veckan/VeckanPlanner changed.
+A deliberately *not*-calendar planning tool for chaotic stretches (summer vacation, "we don't
+know where we'll be or what we'll have") where planning specific days doesn't work, but you
+still want to walk into the kitchen/freezer with real options. It's a screen alongside — not
+instead of — the existing Veckan calendar, reached via the **`skafferi`** hub tile; nothing about
+Veckan/VeckanPlanner changed.
 
-- **`usePlanMode`** (`matracet:planmode:v1`, `'normal' | 'semester'`) — one household-wide local
-  flag, flipped by the pill button in `Hub`'s top bar (`.planmode-toggle`). It only changes what
-  `Hub` leads with: `'normal'` shows the usual tonight-glance card, `'semester'` replaces it with
-  a compact picker over the active stash pool (`.semester-card`). The `hub-primary` "Veckan"
-  button and the rest of the tile grid are unaffected by the mode — the calendar stays one tap
-  away either way. The **`skafferi`** hub tile is always visible, in both modes.
+There used to also be a household-wide `usePlanMode` toggle (a pill button in `Hub`'s top bar)
+that swapped the Hub's tonight-glance card for a compact stash-pool picker when flipped to
+"semester" mode. It was removed (2026-07) — the Hub always shows the normal tonight-glance card
+now; the stash pool is reached only via the `skafferi` tile, same as any other screen.
+
 - **`useStash`** (`matracet:stash:v1`) — a flat (not date-keyed) pool of `StashItem`s, each either
   `kind: 'dish'` (a recipe-linked or freeform meal idea, e.g. "Grillburgare" with no recipe file
   behind it — there's no new recipe schema for this; per `komplett: false`'s existing precedent,
