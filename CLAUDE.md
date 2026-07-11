@@ -111,6 +111,16 @@ that mode (`overflow-y: auto; height: 100%`, with the shared `.overlay-panel` sw
 hero image is hidden in two-column mode — on a landscape phone (~375–430px of height total) it
 would otherwise eat the vertical space the ingredient/instruction columns need.
 
+A follow-up pass replaced the sticky `.overlay-toolbar` (a full-width dark bar reserving ~56px)
+with small floating circular controls in two-column mode specifically, since that's exactly where
+vertical space is scarcest (a landscape phone) — the close button and wake-lock toggle become
+`position: fixed`, `background: transparent` on the row itself (with `pointer-events: none` so the
+now-invisible full-width row doesn't block clicks/scroll-drag on the ingredient/instruction text
+underneath it) and `pointer-events: auto` restored on the two buttons themselves so they stay
+clickable. The recipe title is hidden in this mode (no room, and the column headers "Ingredienser"
+/"Tillagning" already say what you're looking at). Portrait/mobile mode keeps the original solid
+sticky toolbar unchanged — plenty of headroom there, not worth touching.
+
 ### Semesterläge: the Skafferi stash pool (2026-07)
 
 A second, deliberately *not*-calendar planning mode for chaotic stretches (summer vacation,
