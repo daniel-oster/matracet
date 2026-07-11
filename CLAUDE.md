@@ -63,7 +63,7 @@ App          – fetches all data (rolling 7-day window, eaters, recipe index, p
 │   └── VeckanPlanner  – day cards (lunch|middag halves) + bottom/docked suggestion tray
 ├── HandlaView, ReceptView, FamiljView, AnteckningarView, FyndView, BevakaView
 │                      – each a full single-column screen (own TopBar), no left/right split
-├── RecipeOverlay      – full-screen recipe reader modal (unchanged by the redesign)
+├── RecipeOverlay      – full-screen recipe reader modal, opened from every screen via `onOpenRecipe`
 └── TopBar             – shared header (back button, eyebrow, title, optional right slot/progress)
 ```
 
@@ -78,12 +78,38 @@ Navigation is a simple `screen: ScreenName` state in `App.tsx` (`'hub' | TabName
 | `hub` | Landing: tonight's dinner, "Veckan" shortcut, tiles for the rest |
 | `veckan` | Vecka: 7-day overview. Planera: suggestion tray, tap/drag a recipe onto a day's lunch or middag slot |
 | `handla` | Shopping list — ingredients column + bevaka/manual column (2-col on wide) |
-| `recept` | Recipe list + detail, master-detail (stacked on mobile, side-by-side on wide) |
+| `recept` | Recipe list; tap a card to open it in the shared full-screen `RecipeOverlay` |
 | `familj` | Presence schedule + eater profiles/rules (2-col on wide) |
 | `anteckningar` | Current notes + long-term ideas (2-col on wide) |
 | `bevaka` | Standing watch-list + current bargain matches (2-col on wide) |
 | `fynd` | Store offers, all categories in one scroll (2-col grid on wide) |
 | `skafferi` | Semesterläge: pantry-match cooking ideas, the stash pool, this week's offer cloud, manual add, recipe browser |
+
+### Recipe viewing: converged on the shared full-screen overlay (2026-07)
+
+`ReceptView` ("Receptbiblioteket") used to be the one screen in the app that didn't open recipes
+through `RecipeOverlay` — it had its own inline master-detail split (`RecipeDetail`, rendered in
+a `.recipe-detail-pane` next to the list) predating the "paper" redesign, left over even though
+the Component hierarchy doc already (incorrectly) described it as a plain single-column screen.
+On mobile that detail pane rendered *below* the full recipe list rather than popping up, so
+opening a recipe from the library felt broken/inconsistent with every other entry point (Hub,
+Veckan, Skafferi), which all pass `onOpenRecipe` straight to `App.tsx`'s `overlaySlug` state.
+Fixed by deleting `RecipeDetail`/`RecipeEmpty` entirely and wiring `ReceptView`'s cards to the
+same `onOpenRecipe` prop — tapping any recipe, from anywhere in the app, now always opens the
+same full-screen `RecipeOverlay`. Also fixed while touching this: `RecipeOverlay` was a centered
+dialog/bottom-sheet (`max-width: 720px`, rounded corners, dimmed backdrop) that only switched to
+a 2-column ingredients|instructions layout at `min-width: 860px` — a *desktop-width* breakpoint
+that most phones never reach even rotated to landscape, so "flip the phone for two columns"
+silently never triggered on a real device. The overlay is now always full-bleed (`100dvh`, no
+backdrop, no rounded corners — recipes are primary content here), and the two-column layout
+triggers on `(min-width: 860px), (orientation: landscape) and (max-height: 600px)` — the second
+clause specifically catches a phone in landscape (short viewport height) regardless of its width.
+Each column (`.overlay-ingredients-col`/`.overlay-instructions-col`) scrolls independently in
+that mode (`overflow-y: auto; height: 100%`, with the shared `.overlay-panel` switching to
+`overflow-y: hidden` so it isn't a second competing scroll container), and the ratio is `1fr 2fr`
+(ingredients ≈ a third of the width, instructions the rest) rather than the old `1fr 1.3fr`. The
+hero image is hidden in two-column mode — on a landscape phone (~375–430px of height total) it
+would otherwise eat the vertical space the ingredient/instruction columns need.
 
 ### Semesterläge: the Skafferi stash pool (2026-07)
 
@@ -192,8 +218,8 @@ fetches, in one `Promise.all`:
 - `/matracet/data/weeks/<w>.json` for every distinct ISO week (`YYYY-Www`) the 7-day window touches
 
 It also resolves the custody/presence schedule for the same window via
-`resolvePresenceRange` (`src/presence/resolver.ts`). Both `ReceptView` and `RecipeOverlay`
-fetch individual recipes lazily: `/matracet/data/recipes/<slug>/recept.json`.
+`resolvePresenceRange` (`src/presence/resolver.ts`). `RecipeOverlay` fetches individual recipes
+lazily: `/matracet/data/recipes/<slug>/recept.json`.
 
 ### URL base path
 

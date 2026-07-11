@@ -123,7 +123,7 @@ export default function App() {
         <HandlaView onBack={toHub} rollingDays={rollingDays} rollingLunches={rollingLunches} />
       )}
       {screen === 'recept' && (
-        <ReceptView onBack={toHub} recipeIndex={recipeIndex} eaters={eaters.eaters} />
+        <ReceptView onBack={toHub} recipeIndex={recipeIndex} eaters={eaters.eaters} onOpenRecipe={setOverlaySlug} />
       )}
       {screen === 'familj' && (
         <FamiljView
