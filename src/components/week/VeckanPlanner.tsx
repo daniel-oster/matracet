@@ -5,8 +5,14 @@ import { useWeekPlan, applyOverride, effectivePresentIds, diffAttendance, MealAt
 import { useFeedback } from '../../hooks/useFeedback'
 import { useRecipes } from '../../hooks/useRecipes'
 import { useOffers } from '../../hooks/useOffers'
+import { usePantry } from '../../hooks/usePantry'
+import { useStash } from '../../hooks/useStash'
+import { useShoppingList } from '../../hooks/useShoppingList'
+import { useChaosMode } from '../../hooks/useChaosMode'
 import { tagOffers } from '../../lib/bevaka'
 import { rankSuggestions, SuggestionFilter, SuggestionSort } from '../../lib/suggestions'
+import { findUnlockOpportunities } from '../../lib/unlockMatch'
+import StashPantryPanel from '../StashPantryPanel'
 
 const DAY_SHORT: Record<string, string> = {
   mandag: 'Mån', tisdag: 'Tis', onsdag: 'Ons',
@@ -51,6 +57,22 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
   const fullRecipes = useRecipes(allSlugs)
   const { stores } = useOffers()
   const offers = useMemo(() => (stores ? tagOffers(stores) : []), [stores])
+  const chaos = useChaosMode()
+  const pantry = usePantry()
+  const { items: stashItems } = useStash()
+  const { addOrRestoreByName, isActiveByName } = useShoppingList()
+
+  const haveNames = useMemo(() => [
+    ...(pantry?.always_have ?? []),
+    ...(pantry?.current_stock.map(i => i.vara) ?? []),
+    ...stashItems.filter(i => !i.done && i.kind === 'stock').map(i => i.namn),
+  ], [pantry, stashItems])
+
+  const unlockOpportunities = useMemo(
+    () => findUnlockOpportunities(recipeIndex, fullRecipes, haveNames),
+    [recipeIndex, fullRecipes, haveNames],
+  )
+  const [expandedUnlock, setExpandedUnlock] = useState<string | null>(null)
 
   const enrichedDays = useMemo(() => days.map(rawDay => {
     const dinnerAttendance = getAttendance(rawDay.datum, 'dinner')
@@ -127,6 +149,19 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
 
   return (
     <div className="planner">
+      <button
+        type="button"
+        className={`planmode-toggle${chaos.enabled ? ' on' : ''}`}
+        onClick={chaos.toggle}
+        title="Växla mellan dag-för-dag-planering och skafferi-läge för kaotiska sträckor"
+      >
+        {chaos.enabled ? '🏖️ Kaosläge' : '🗓️ Dag för dag'}
+      </button>
+
+      {chaos.enabled ? (
+        <StashPantryPanel recipeIndex={recipeIndex} fullRecipes={fullRecipes} onOpenRecipe={onOpenRecipe} />
+      ) : (
+        <>
       <div className="day-strip">
         {enrichedDays.map(d => (
           <button
@@ -267,6 +302,44 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
         />
       </div>
 
+      {unlockOpportunities.length > 0 && (
+        <section className="unlock-section">
+          <h3 className="shop-group-title">🔓 Ett köp bort</h3>
+          <div className="unlock-list">
+            {unlockOpportunities.slice(0, 6).map(o => (
+              <div className="unlock-chip" key={o.ingredient}>
+                <button
+                  type="button"
+                  className="unlock-chip-main"
+                  onClick={() => setExpandedUnlock(x => (x === o.ingredient ? null : o.ingredient))}
+                >
+                  <span className="unlock-chip-name">{o.ingredient}</span>
+                  <span className="unlock-chip-count">→ {o.recipes.length} rätter</span>
+                </button>
+                <button
+                  type="button"
+                  className="unlock-chip-add"
+                  onClick={() => addOrRestoreByName(o.ingredient)}
+                  title="Lägg till på inköpslistan"
+                  disabled={isActiveByName(o.ingredient)}
+                >
+                  {isActiveByName(o.ingredient) ? '✓' : '+ handla'}
+                </button>
+              </div>
+            ))}
+          </div>
+          {expandedUnlock && (
+            <div className="unlock-recipes">
+              {unlockOpportunities.find(o => o.ingredient === expandedUnlock)?.recipes.map(r => (
+                <button key={r.slug} type="button" className="unlock-recipe-link" onClick={() => onOpenRecipe(r.slug)}>
+                  {r.namn}
+                </button>
+              ))}
+            </div>
+          )}
+        </section>
+      )}
+
       <div className="sugg-list">
         {suggestions.map(s => {
           const isLunch = active?.lunchSlug === s.entry.slug
@@ -297,6 +370,8 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
         })}
         {suggestions.length === 0 && <div className="tray-empty">Inga recept matchar.</div>}
       </div>
+        </>
+      )}
     </div>
   )
 }

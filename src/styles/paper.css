@@ -204,6 +204,36 @@ input, select, textarea { font-family: inherit; }
 
 .planner { position: relative; }
 
+.planmode-toggle {
+  font-family: inherit; font-size: 12px; padding: 6px 11px; border-radius: 999px; margin-bottom: 10px;
+  border: 1px solid var(--line2); background: var(--paper); color: var(--sub); cursor: pointer;
+}
+.planmode-toggle.on { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+
+/* "Buy X, unlock N dishes" — recipes one missing ingredient away from cookable. */
+.unlock-section { margin: 14px 0; }
+.unlock-list { display: flex; flex-direction: column; gap: 6px; }
+.unlock-chip {
+  display: flex; align-items: center; gap: 8px; background: var(--paper); border: 1px solid var(--line2);
+  border-radius: 8px; padding: 7px 9px;
+}
+.unlock-chip-main {
+  flex: 1; min-width: 0; display: flex; align-items: baseline; gap: 7px; text-align: left;
+  font-family: inherit; border: none; background: none; color: var(--ink); cursor: pointer;
+}
+.unlock-chip-name { font-size: 13.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.unlock-chip-count { font-size: 11.5px; color: var(--muted); flex: none; }
+.unlock-chip-add {
+  flex: none; font-family: inherit; font-size: 11.5px; padding: 5px 9px; border-radius: 7px;
+  border: 1px solid var(--line2); background: var(--cream); cursor: pointer;
+}
+.unlock-chip-add:disabled { opacity: 0.55; cursor: default; }
+.unlock-recipes { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.unlock-recipe-link {
+  font-family: inherit; font-size: 12.5px; padding: 5px 10px; border-radius: 999px;
+  border: 1px solid var(--line2); background: var(--cream); color: var(--ink); cursor: pointer;
+}
+
 /* Thin week strip: pick which day suggestions get assigned to. */
 .day-strip { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
 .day-pill {
@@ -628,37 +658,6 @@ input, select, textarea { font-family: inherit; }
   background: var(--cream); cursor: pointer;
 }
 .sentiment-done { margin-left: auto; background: var(--ink); color: var(--cream); border-color: var(--ink); }
-
-/* ─── Semesterläge (Hub toggle + pool card) ────────────────────────────── */
-
-.planmode-toggle {
-  font-family: inherit; font-size: 12px; padding: 6px 11px; border-radius: 999px; flex: none;
-  border: 1px solid rgba(255, 255, 255, 0.25); background: transparent; color: var(--cream); cursor: pointer;
-}
-.planmode-toggle.on { background: var(--gold); border-color: var(--gold); color: var(--ink); }
-
-.semester-card {
-  background: var(--paper); border: 1px solid var(--gold); border-radius: 9px; padding: 13px 15px;
-}
-.semester-card-title { font-size: 14px; }
-.semester-card-empty { font-size: 12.5px; color: var(--muted); margin-top: 8px; }
-.semester-card-list { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
-.semester-row {
-  display: flex; align-items: center; gap: 8px; background: var(--cream); border: 1px solid var(--line2);
-  border-radius: 7px; padding: 7px 9px;
-}
-.semester-row-name {
-  flex: 1; min-width: 0; text-align: left; font-family: inherit; font-size: 13.5px; border: none;
-  background: none; color: var(--ink); cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-}
-.semester-row-done {
-  font-family: inherit; font-size: 13px; width: 26px; height: 26px; border-radius: 999px; flex: none;
-  border: 1px solid var(--line2); background: var(--paper); cursor: pointer;
-}
-.semester-card-link {
-  margin-top: 10px; width: 100%; font-family: inherit; font-size: 13px; padding: 9px; border-radius: 7px;
-  border: none; background: var(--ink); color: var(--cream); cursor: pointer;
-}
 
 /* ─── Skafferi (semester stash pool) ───────────────────────────────────── */
 
