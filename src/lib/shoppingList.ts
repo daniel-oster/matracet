@@ -1,7 +1,5 @@
 import { DayMeal, Recipe, Pantry } from '../types'
-import { describeOffer, type BevakaHit } from './bevaka'
 import { sortByAisle } from './storeOrder'
-import type { ManualShoppingItem } from '../hooks/useShoppingList'
 
 export interface AggregatedIngredient {
   id: string
@@ -54,55 +52,40 @@ export function formatAmount(mangd: number, enhet: string): string {
   return enhet ? `${n} ${enhet}` : `${n}`
 }
 
+/** One shopping-list line: the item, optionally why it's there (a meal name, a matched
+ * bargain's store/brand), and optionally its price — same shape on screen and in the
+ * copy-to-clipboard text. */
+export function formatShopLine(main: string, why?: string | null, price?: string | null): string {
+  let line = main
+  if (why) line += ` (${why})`
+  if (price) line += ` — ${price}`
+  return line
+}
+
 export interface ShoppingListTextInput {
   weekLabel: string
-  ingredients: AggregatedIngredient[]
-  bevakaHits: BevakaHit[]
-  manualItems: ManualShoppingItem[]
+  /** Already-formatted lines, one per item, in the same (aisle-walk) order shown on screen. */
+  lines: string[]
   removedLabels: string[]
 }
 
 /** Plain-text snapshot of the current list, meant to be copied and pasted back as a prompt. */
-export function buildShoppingListText({
-  weekLabel,
-  ingredients,
-  bevakaHits,
-  manualItems,
-  removedLabels,
-}: ShoppingListTextInput): string {
-  const lines: string[] = [`Inköpslista – ${weekLabel}`, '']
+export function buildShoppingListText({ weekLabel, lines, removedLabels }: ShoppingListTextInput): string {
+  const out: string[] = [`Inköpslista – ${weekLabel}`, '']
 
-  if (ingredients.length > 0) {
-    lines.push('Från veckans måltider')
-    for (const i of ingredients) lines.push(`- ${formatAmount(i.mangd, i.enhet)} ${i.vara}`)
-    lines.push('')
-  }
-
-  if (bevakaHits.length > 0) {
-    lines.push('Fynd på bevakningslistan')
-    for (const h of bevakaHits) {
-      const best = h.offers[0]
-      lines.push(`- ${h.item.vara}${best ? ` — ${describeOffer(best)}, ${best.pris_text}` : ''}`)
-    }
-    lines.push('')
-  }
-
-  if (manualItems.length > 0) {
-    lines.push('Eget tillägg')
-    for (const m of manualItems) lines.push(`- ${m.vara}`)
-    lines.push('')
-  }
-
-  if (ingredients.length === 0 && bevakaHits.length === 0 && manualItems.length === 0) {
-    lines.push('(Listan är tom.)')
-    lines.push('')
+  if (lines.length > 0) {
+    for (const l of lines) out.push(`- ${l}`)
+    out.push('')
+  } else {
+    out.push('(Listan är tom.)')
+    out.push('')
   }
 
   if (removedLabels.length > 0) {
-    lines.push('—')
-    lines.push('Bortmarkerat (redan hemma / inte längre aktuellt)')
-    for (const r of removedLabels) lines.push(`- ${r}`)
+    out.push('—')
+    out.push('Bortmarkerat (redan hemma / inte längre aktuellt)')
+    for (const r of removedLabels) out.push(`- ${r}`)
   }
 
-  return lines.join('\n').trim()
+  return out.join('\n').trim()
 }
