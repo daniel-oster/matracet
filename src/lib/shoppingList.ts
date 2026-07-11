@@ -1,5 +1,6 @@
 import { DayMeal, Recipe, Pantry } from '../types'
 import { describeOffer, type BevakaHit } from './bevaka'
+import { sortByAisle } from './storeOrder'
 import type { ManualShoppingItem } from '../hooks/useShoppingList'
 
 export interface AggregatedIngredient {
@@ -44,7 +45,8 @@ export function aggregateIngredients(
     }
   }
 
-  return [...map.values()].sort((a, b) => a.vara.localeCompare(b.vara, 'sv'))
+  // "Normal order" placeholder (see storeOrder.ts) until real per-store aisle order exists.
+  return sortByAisle([...map.values()], i => i.vara)
 }
 
 export function formatAmount(mangd: number, enhet: string): string {

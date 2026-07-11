@@ -380,6 +380,8 @@ input, select, textarea { font-family: inherit; }
 
 .shop-group-title { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--sub); margin: 0 0 8px; padding-bottom: 6px; border-bottom: 1px solid var(--line); }
 .shop-group { margin-bottom: 6px; }
+.shop-aisle-header { font-size: 10.5px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted2); margin: 10px 0 4px; }
+.shop-group:first-child .shop-aisle-header { margin-top: 0; }
 .shop-row {
   display: flex; align-items: center; gap: 13px; padding: 11px 12px; border-radius: 7px;
   background: var(--paper); cursor: pointer; user-select: none; margin-bottom: 2px; transition: background 0.2s, opacity 0.2s;
