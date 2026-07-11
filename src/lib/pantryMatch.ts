@@ -6,7 +6,7 @@ export interface PantryMatch {
 }
 
 /** Same loose substring-either-direction heuristic as suggestions.ts's offer matching. */
-function looselyMatches(a: string, b: string): boolean {
+export function looselyMatches(a: string, b: string): boolean {
   const x = a.trim().toLowerCase()
   const y = b.trim().toLowerCase()
   if (!x || !y) return false
@@ -14,23 +14,23 @@ function looselyMatches(a: string, b: string): boolean {
 }
 
 /**
- * Recipes buildable from what's actually in the stash pool's stock items (raw offer
- * pickups or hand-noted "things we have"), ranked by how many pantry items they use.
- * This is deliberately a different question from suggestions.ts's rankSuggestions,
- * which scores against *any* current offer — this only counts what's been pulled
- * into the pool for this stretch.
+ * Recipes buildable from what's actually on hand — the caller decides what "on hand"
+ * means (household pantry staples, the stash pool's stock items, or both combined) by
+ * what it passes as `haveNames` — ranked by how many of those items they use. This is
+ * deliberately a different question from suggestions.ts's rankSuggestions, which scores
+ * against *any* current offer.
  */
 export function matchPantryRecipes(
   recipeIndex: RecipeIndexEntry[],
   fullRecipes: Record<string, Recipe>,
-  stockNames: string[],
+  haveNames: string[],
 ): PantryMatch[] {
   const matches = recipeIndex
     .map((entry): PantryMatch | null => {
       const recipe = fullRecipes[entry.slug]
       if (!recipe) return null
-      const matchedNames = stockNames.filter(stock =>
-        recipe.ingredienser.some(i => looselyMatches(i.vara, stock)),
+      const matchedNames = haveNames.filter(have =>
+        recipe.ingredienser.some(i => looselyMatches(i.vara, have)),
       )
       return matchedNames.length > 0 ? { entry, matchedNames } : null
     })

@@ -204,6 +204,36 @@ input, select, textarea { font-family: inherit; }
 
 .planner { position: relative; }
 
+.planmode-toggle {
+  font-family: inherit; font-size: 12px; padding: 6px 11px; border-radius: 999px; margin-bottom: 10px;
+  border: 1px solid var(--line2); background: var(--paper); color: var(--sub); cursor: pointer;
+}
+.planmode-toggle.on { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+
+/* "Buy X, unlock N dishes" — recipes one missing ingredient away from cookable. */
+.unlock-section { margin: 14px 0; }
+.unlock-list { display: flex; flex-direction: column; gap: 6px; }
+.unlock-chip {
+  display: flex; align-items: center; gap: 8px; background: var(--paper); border: 1px solid var(--line2);
+  border-radius: 8px; padding: 7px 9px;
+}
+.unlock-chip-main {
+  flex: 1; min-width: 0; display: flex; align-items: baseline; gap: 7px; text-align: left;
+  font-family: inherit; border: none; background: none; color: var(--ink); cursor: pointer;
+}
+.unlock-chip-name { font-size: 13.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.unlock-chip-count { font-size: 11.5px; color: var(--muted); flex: none; }
+.unlock-chip-add {
+  flex: none; font-family: inherit; font-size: 11.5px; padding: 5px 9px; border-radius: 7px;
+  border: 1px solid var(--line2); background: var(--cream); cursor: pointer;
+}
+.unlock-chip-add:disabled { opacity: 0.55; cursor: default; }
+.unlock-recipes { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.unlock-recipe-link {
+  font-family: inherit; font-size: 12.5px; padding: 5px 10px; border-radius: 999px;
+  border: 1px solid var(--line2); background: var(--cream); color: var(--ink); cursor: pointer;
+}
+
 /* Thin week strip: pick which day suggestions get assigned to. */
 .day-strip { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
 .day-pill {

@@ -121,18 +121,11 @@ clickable. The recipe title is hidden in this mode (no room, and the column head
 /"Tillagning" already say what you're looking at). Portrait/mobile mode keeps the original solid
 sticky toolbar unchanged — plenty of headroom there, not worth touching.
 
-### Skafferi: the stash pool
+### Skafferi & chaos mode: the stash pool
 
 A deliberately *not*-calendar planning tool for chaotic stretches (summer vacation, "we don't
 know where we'll be or what we'll have") where planning specific days doesn't work, but you
-still want to walk into the kitchen/freezer with real options. It's a screen alongside — not
-instead of — the existing Veckan calendar, reached via the **`skafferi`** hub tile; nothing about
-Veckan/VeckanPlanner changed.
-
-There used to also be a household-wide `usePlanMode` toggle (a pill button in `Hub`'s top bar)
-that swapped the Hub's tonight-glance card for a compact stash-pool picker when flipped to
-"semester" mode. It was removed (2026-07) — the Hub always shows the normal tonight-glance card
-now; the stash pool is reached only via the `skafferi` tile, same as any other screen.
+still want to walk into the kitchen/freezer with real options.
 
 - **`useStash`** (`matracet:stash:v1`) — a flat (not date-keyed) pool of `StashItem`s, each either
   `kind: 'dish'` (a recipe-linked or freeform meal idea, e.g. "Grillburgare" with no recipe file
@@ -143,27 +136,61 @@ now; the stash pool is reached only via the `skafferi` tile, same as any other s
   restore-don't-delete pattern as `useShoppingList`'s `removedIds`), consistent with this app's
   local-only-override convention (same tier as `useWeekPlan`/`useShoppingList`, not a git-tracked
   data file — this pool is meant to be disposable/reset-per-stretch, not durable).
-- **`SkafferiView`** ties these together in one screen, funnel-shaped:
-  1. *"Veckans fynd"* — every current offer (`useOffers`/`tagOffers`) as a tappable chip cloud
-     (`.offer-cloud`), colored red when it carries real savings (`parseSavings`, now exported
-     from `suggestions.ts`). Tapping pulls it into the pool as a `kind: 'stock'` item.
-  2. *"Din pool"* — the current active stash items (both kinds), each removable/markable-done.
-  3. *"Lägg till för hand"* — freeform add, with a `dish`/`stock` kind toggle, covering both
+- **`StashPantryPanel`** (`src/components/StashPantryPanel.tsx`) is the reusable "what do we have,
+  what can we cook with it" panel — self-contained (owns its own `useStash`/`usePantry`/`useOffers`/
+  `useShoppingList` calls), used in two places:
+  1. *"Vad kan vi laga?"* (`src/lib/pantryMatch.ts::matchPantryRecipes`) — recipes whose
+     ingredients loosely match (same substring-either-direction heuristic as
+     `suggestions.ts::findOfferMatch`) something on hand, where "on hand" (`haveNames`) is
+     `pantry.json`'s `always_have`/`current_stock` **plus** the active stash pool's `kind: 'stock'`
+     items combined — deliberately a narrower/different question than `rankSuggestions`' "any
+     offer matches any ingredient this week," since this answers "what can I actually cook from
+     what I already have or decided to buy," not "what's cheap in general." Kept as its own pure,
+     tested function (`pantryMatch.test.ts`) rather than folded into `rankSuggestions`.
+  2. *"I ditt skafferi"* — the current active stash items (both kinds), each removable/markable-done.
+  3. *"Veckans fynd"* — every current offer (`useOffers`/`tagOffers`) as a tappable chip cloud
+     (`.offer-cloud`), colored red when it carries real savings (`parseSavings`, exported from
+     `suggestions.ts`). Tapping pulls it into the pool as a `kind: 'stock'` item.
+  4. *"Lägg till för hand"* — freeform add, with a `dish`/`stock` kind toggle, covering both
      "an idea to build a meal around" and "something we already have" (the latter is also where
      you'd note something bought last week that isn't from this week's offers at all).
-  4. *"Vad kan vi laga?"* (`src/lib/pantryMatch.ts::matchPantryRecipes`) — recipes whose
-     ingredients loosely match (same substring-either-direction heuristic as
-     `suggestions.ts::findOfferMatch`) a **current `kind: 'stock'` pool item's name** specifically
-     — deliberately a narrower/different question than `rankSuggestions`' "any offer matches any
-     ingredient this week," since this is meant to answer "what can I actually cook from what
-     I've already decided to buy/have," not "what's cheap in general." Kept as its own pure,
-     tested function (`pantryMatch.test.ts`) rather than folded into `rankSuggestions`.
-  5. *"Fler förslag"* — the same recipe-browser engine as `VeckanPlanner` (`rankSuggestions`,
-     filter/sort chips), reused as-is, for open-ended browsing beyond what the pantry match found.
+- **`SkafferiView`** wraps `StashPantryPanel` with two more sections of its own: a compact
+  "Inköpslistan" mirror of the manual shopping list, and "Fler förslag" — the same recipe-browser
+  engine as `VeckanPlanner` (`rankSuggestions`, filter/sort chips) for open-ended browsing beyond
+  what the pantry match found — plus the "Avklarat" done-items list. Reached via the **`skafferi`**
+  hub tile.
+- **`VeckanPlanner`** (Planera) embeds the *same* `StashPantryPanel` when **chaos mode** is on —
+  see below — instead of duplicating the pantry-match/stash-pool logic a second time.
 - Scope choice: a literal drag-and-drop "product cloud" (as originally described) was simplified
   to tap-to-toggle chips/buttons — same functional outcome ("pull this into the pantry"), far less
   fragile than drag physics on a mobile-first single-column layout, and consistent with this
   app's no-drag-in-Planera-anymore precedent (see the Planera history above).
+
+**Chaos mode** (`useChaosMode`, `matracet:chaosmode:v1`) is a household-wide local on/off flag,
+flipped by a pill button (`.planmode-toggle`) inside `VeckanPlanner` itself — a second attempt at
+the "vacation mode" idea after the first one (a Hub-level toggle that swapped Hub's tonight-glance
+card for a stash preview) was removed for being the wrong altitude: swapping a glance card on the
+*landing screen* didn't change how you actually plan, and the pantry-match logic lived in a
+separate screen (Skafferi) you had to remember to go tap. This version scopes the flag to Planera
+specifically and changes what Planera *is*, not just what Hub shows:
+- **Off (default)**: the original day-strip → pick a day → browse/assign-to-day-and-meal flow,
+  unchanged. Below the suggestion filters, a **"🔓 Ett köp bort"** section
+  (`src/lib/unlockMatch.ts::findUnlockOpportunities`) surfaces which single missing ingredient
+  would unlock the most additional dishes — recipes missing *exactly one* ingredient from
+  `haveNames` (same pantry+stash combination as above), grouped by that ingredient and ranked by
+  how many recipes it unlocks (only surfaced when it'd unlock more than one dish — unlocking a
+  single dish isn't an interesting "efficient purchase" signal). Tapping an ingredient chip
+  expands the list of dishes it unlocks (tap through to open one); a "+ handla" button adds the
+  ingredient straight to the shopping list via `useShoppingList.addOrRestoreByName`. This is
+  deliberately the opposite question from pantry-match's "what can we cook *right now*" — during
+  normal-mode planning, "what we can already cook" is table stakes (you're shopping for the week
+  anyway); "what one purchase would open up the most options" is the actually-useful signal, so it
+  gets the unlock framing instead.
+- **On**: Planera's whole day-slotting flow (day-strip, active-day slot editor, suggestion list)
+  is replaced by `StashPantryPanel` — day-by-day slotting isn't the point when you don't know what
+  day is going to look like; the point is walking into the kitchen with real options. Switching
+  chaos mode back off returns to day-by-day planning exactly as it was; nothing about `useWeekPlan`
+  or day assignment changed, chaos mode only changes which UI gets shown.
 
 ### Week planning: discover-style suggestion list
 
