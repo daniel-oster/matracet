@@ -385,19 +385,18 @@ input, select, textarea { font-family: inherit; }
 
 /* ─── Handla ───────────────────────────────────────────────────────────── */
 
-.handla-grid { display: block; }
-.handla-col + .handla-col { margin-top: 22px; }
-.handla-removed { margin-top: 22px; }
 .handla-storebar-wrap { padding: 16px 16px 0; }
 .handla-storebar { display: flex; gap: 6px; flex-wrap: wrap; }
+/* Single column always — this list reads in walk-through-the-store order, so splitting it
+   into two columns at the wide breakpoint (like most other screens) would break that order. */
+.handla-list { max-width: 640px; }
 @media (min-width: 860px), (orientation: landscape) and (max-height: 600px) {
-  .handla-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
-  .handla-col + .handla-col { margin-top: 0; }
-  .handla-removed { grid-column: 1 / -1; margin-top: 0; }
+  .handla-list { margin: 0 auto; }
 }
 
 .shop-group-title { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--sub); margin: 0 0 8px; padding-bottom: 6px; border-bottom: 1px solid var(--line); }
 .shop-group { margin-bottom: 6px; }
+.shop-group.shop-removed { margin-top: 22px; }
 .shop-aisle-header { font-size: 10.5px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted2); margin: 10px 0 4px; }
 .shop-group:first-child .shop-aisle-header { margin-top: 0; }
 .shop-row {

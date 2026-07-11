@@ -6,12 +6,22 @@ import { usePantry } from '../../hooks/usePantry'
 import { useOffers } from '../../hooks/useOffers'
 import { useBevakningslista } from '../../hooks/useBevakningslista'
 import { useShoppingList } from '../../hooks/useShoppingList'
-import { tagOffers, findBevakaHits, hitsForStore, describeOffer, CATEGORY_EMOJI, STORES, BevakaHit } from '../../lib/bevaka'
-import { aggregateIngredients, buildShoppingListText, formatAmount, AggregatedIngredient } from '../../lib/shoppingList'
+import { tagOffers, findBevakaHits, hitsForStore, CATEGORY_EMOJI, STORES } from '../../lib/bevaka'
+import { aggregateIngredients, buildShoppingListText, formatAmount, formatShopLine } from '../../lib/shoppingList'
 import { groupByAisle } from '../../lib/storeOrder'
 import TopBar from '../TopBar'
 
 const STORE_KEYS = Object.keys(STORES)
+
+interface ShopRow {
+  id: string
+  vara: string
+  main: string
+  why?: string
+  price?: string
+  storeKey: string | null
+  taggable: boolean
+}
 
 function monthShort(isoDate: string): string {
   return new Date(isoDate + 'T00:00:00Z').toLocaleDateString('sv-SE', { month: 'short' })
@@ -64,9 +74,10 @@ export default function HandlaView({ onBack, rollingDays, rollingLunches }: Prop
 
   const { removedIds, manualItems, storeAssignments, markRemoved, restore, addManualItem, cycleStore } = useShoppingList()
 
-  // "Show one store at a time" (null = "Alla"). Ingredients aren't tied to a store in the
-  // data model, so they stay visible in every view — only bevaka hits (which know their real
-  // offer store) and manually store-tagged items get filtered out.
+  // "Show one store at a time" (null = "Alla"). Bevaka hits carry a real store from their
+  // matched offer, so those filter exactly. Ingredients/manual items have no store in the
+  // data model — they can optionally be tagged (see `taggable` below); untagged ones stay
+  // visible in every store's view rather than disappearing.
   const [storeFilter, setStoreFilter] = useState<string | null>(null)
   const storeLabel = storeFilter ? STORES[storeFilter]?.namn : null
 
@@ -77,30 +88,59 @@ export default function HandlaView({ onBack, rollingDays, rollingLunches }: Prop
   const activeManual = manualItems.filter(m => !removedIds.has(m.id))
   const removedManual = manualItems.filter(m => removedIds.has(m.id))
 
-  const visibleHits = storeFilter ? hitsForStore(activeHits, storeFilter) : activeHits
-  const visibleManual = storeFilter
-    ? activeManual.filter(m => !storeAssignments[m.id] || storeAssignments[m.id] === storeFilter)
-    : activeManual
+  const hitsToShow = storeFilter ? hitsForStore(activeHits, storeFilter) : activeHits
 
-  // "Normal order" aisle grouping (see storeOrder.ts) — a store-walk order placeholder
-  // until real per-store aisle order is configured.
-  const ingredientGroups = groupByAisle(activeIngredients, i => i.vara)
-  const hitGroups = groupByAisle(visibleHits, h => h.item.vara)
-  const manualGroups = groupByAisle(visibleManual, m => m.vara)
+  const rows: ShopRow[] = [
+    ...activeIngredients.map(i => ({
+      id: i.id,
+      vara: i.vara,
+      main: `${formatAmount(i.mangd, i.enhet)} ${i.vara}`,
+      why: i.meals.length > 0 ? i.meals.join(', ') : undefined,
+      storeKey: storeAssignments[i.id] ?? null,
+      taggable: true,
+    })),
+    ...hitsToShow.map(h => {
+      const best = h.offers[0]
+      return {
+        id: `bevaka:${h.item.id}`,
+        vara: h.item.vara,
+        main: `${CATEGORY_EMOJI[h.item.kategori] ?? '📦'} ${h.item.vara}`,
+        why: best ? `${STORES[best.store]?.namn ?? best.store} · ${[best.marke, best.storlek].filter(Boolean).join(' · ')}` : undefined,
+        price: best?.pris_text,
+        storeKey: best?.store ?? null,
+        taggable: false,
+      }
+    }),
+    ...activeManual.map(m => ({
+      id: m.id,
+      vara: m.vara,
+      main: m.vara,
+      storeKey: storeAssignments[m.id] ?? null,
+      taggable: true,
+    })),
+  ]
 
-  const removedLabels = [
-    ...removedIngredients.map(i => `${formatAmount(i.mangd, i.enhet)} ${i.vara}`),
-    ...removedHits.map(h => h.item.vara),
-    ...removedManual.map(m => m.vara),
+  // Bevaka rows are already narrowed to the selected store above; ingredients/manual items
+  // only get filtered out once *tagged* to a different store — untagged ones show everywhere.
+  const visibleRows = storeFilter
+    ? rows.filter(r => !r.taggable || !r.storeKey || r.storeKey === storeFilter)
+    : rows
+
+  // "Normal order" aisle grouping (see storeOrder.ts) — a per-store walk order placeholder
+  // (every store shares the same sequence today) until real per-store aisle order is configured.
+  const rowGroups = groupByAisle(visibleRows, r => r.vara, storeFilter)
+
+  const removedRows: { id: string; main: string; restoreId: string }[] = [
+    ...removedIngredients.map(i => ({ id: i.id, restoreId: i.id, main: `${formatAmount(i.mangd, i.enhet)} ${i.vara}` })),
+    ...removedHits.map(h => ({ id: `bevaka:${h.item.id}`, restoreId: `bevaka:${h.item.id}`, main: `${CATEGORY_EMOJI[h.item.kategori] ?? '📦'} ${h.item.vara}` })),
+    ...removedManual.map(m => ({ id: m.id, restoreId: m.id, main: m.vara })),
   ]
 
   const weekLabel = weekLabelFor(rollingDays)
   const fullText = buildShoppingListText({
     weekLabel: storeLabel ? `${weekLabel} · ${storeLabel}` : weekLabel,
-    ingredients: activeIngredients,
-    bevakaHits: hitGroups.flatMap(g => g.items),
-    manualItems: manualGroups.flatMap(g => g.items),
-    removedLabels,
+    lines: rowGroups.flatMap(g => g.items).map(r => formatShopLine(r.main, r.why, r.price)),
+    removedLabels: removedRows.map(r => r.main),
   })
 
   const loading = slugs.length > 0 && Object.keys(recipes).length === 0
@@ -162,117 +202,62 @@ export default function HandlaView({ onBack, rollingDays, rollingLunches }: Prop
           ))}
         </div>
       </div>
-      <div className="screen-body handla-grid">
-        <div className="handla-col">
-          <h3 className="shop-group-title">Ingredienser</h3>
-          {loading && <div className="fynd-empty">Laddar recept…</div>}
-          {!loading && ingredients.length === 0 && (
-            <div className="fynd-empty">Inga ingredienser att handla — allt är avbockat eller redan hemma.</div>
-          )}
-          {ingredientGroups.map(g => (
-            <div className="shop-group" key={g.id}>
-              <h4 className="shop-aisle-header">{g.label}</h4>
-              {g.items.map(i => (
-                <div className="shop-row" key={i.id} onClick={() => markRemoved(i.id)}>
-                  <span className="box" />
-                  <span>
-                    {formatAmount(i.mangd, i.enhet)} {i.vara}
-                    {i.meals.length > 0 && <span className="shop-meal-tag"> ({i.meals.join(', ')})</span>}
-                  </span>
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-
-        <div className="handla-col">
-          <h3 className="shop-group-title">Fynd på bevakningslistan</h3>
-          {visibleHits.length === 0 && (
-            <div className="fynd-empty">Inga bevakningsfynd{storeLabel ? ` på ${storeLabel}` : ''} just nu.</div>
-          )}
-          {hitGroups.map(g => (
-            <div className="shop-group" key={g.id}>
-              <h4 className="shop-aisle-header">{g.label}</h4>
-              {g.items.map(h => {
-                const best = h.offers[0]
-                return (
-                  <div className="shop-row" key={h.item.id} onClick={() => markRemoved(`bevaka:${h.item.id}`)}>
-                    <span className="box" />
-                    <span>
-                      {CATEGORY_EMOJI[h.item.kategori] ?? '📦'} {h.item.vara}
-                      {best && <span className="shop-meal-tag"> ({describeOffer(best)})</span>}
-                    </span>
-                    {best && <em className="shop-meta">{best.pris_text}</em>}
-                  </div>
-                )
-              })}
-            </div>
-          ))}
-
-          <h3 className="shop-group-title">Eget tillägg</h3>
-          {visibleManual.length === 0 && (
-            <div className="fynd-empty">
-              {storeLabel ? `Inget eget tillagt för ${storeLabel} just nu.` : 'Inget eget tillagt än.'}
-            </div>
-          )}
-          {manualGroups.map(g => (
-            <div className="shop-group" key={g.id}>
-              <h4 className="shop-aisle-header">{g.label}</h4>
-              {g.items.map(m => {
-                const store = storeAssignments[m.id]
-                return (
-                  <div className="shop-row" key={m.id} onClick={() => markRemoved(m.id)}>
-                    <span className="box" />
-                    <span>{m.vara}</span>
-                    <button
-                      type="button"
-                      className={`shop-store-tag${store ? ` ${STORES[store]?.klass}` : ''}`}
-                      onClick={e => { e.stopPropagation(); cycleStore(m.id, STORE_KEYS) }}
-                      title="Koppla till en specifik butik"
-                    >
-                      {store ? STORES[store]?.namn : '+ Butik'}
-                    </button>
-                  </div>
-                )
-              })}
-            </div>
-          ))}
-          <div className="shop-group">
-            <form
-              className="shop-add-form"
-              onSubmit={e => { e.preventDefault(); submitAdd() }}
-            >
-              <input
-                type="text"
-                className="shop-add-input"
-                placeholder="Lägg till vara…"
-                value={newItem}
-                onChange={e => setNewItem(e.target.value)}
-              />
-              <button type="submit" className="shop-add-btn">+ Lägg till</button>
-            </form>
+      <div className="screen-body handla-list">
+        {loading && <div className="fynd-empty">Laddar recept…</div>}
+        {!loading && visibleRows.length === 0 && (
+          <div className="fynd-empty">
+            {storeLabel ? `Inget att handla på ${storeLabel} just nu.` : 'Listan är tom — allt är avbockat eller redan hemma.'}
           </div>
+        )}
+        {rowGroups.map(g => (
+          <div className="shop-group" key={g.id}>
+            <h4 className="shop-aisle-header">{g.label}</h4>
+            {g.items.map(row => (
+              <div className="shop-row" key={row.id} onClick={() => markRemoved(row.id)}>
+                <span className="box" />
+                <span>
+                  {row.main}
+                  {row.why && <span className="shop-meal-tag"> ({row.why})</span>}
+                </span>
+                {row.price && <em className="shop-meta">{row.price}</em>}
+                {row.taggable && (
+                  <button
+                    type="button"
+                    className={`shop-store-tag${row.storeKey ? ` ${STORES[row.storeKey]?.klass}` : ''}`}
+                    onClick={e => { e.stopPropagation(); cycleStore(row.id, STORE_KEYS) }}
+                    title="Koppla till en specifik butik"
+                  >
+                    {row.storeKey ? STORES[row.storeKey]?.namn : '+ Butik'}
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+        ))}
+
+        <div className="shop-group">
+          <form
+            className="shop-add-form"
+            onSubmit={e => { e.preventDefault(); submitAdd() }}
+          >
+            <input
+              type="text"
+              className="shop-add-input"
+              placeholder="Lägg till vara…"
+              value={newItem}
+              onChange={e => setNewItem(e.target.value)}
+            />
+            <button type="submit" className="shop-add-btn">+ Lägg till</button>
+          </form>
         </div>
 
-        {(removedIngredients.length > 0 || removedHits.length > 0 || removedManual.length > 0) && (
-          <div className="shop-group shop-removed handla-removed">
+        {removedRows.length > 0 && (
+          <div className="shop-group shop-removed">
             <h3 className="shop-group-title">Bortmarkerat</h3>
-            {removedIngredients.map(i => (
-              <div className="shop-row done" key={i.id} onClick={() => restore(i.id)}>
+            {removedRows.map(r => (
+              <div className="shop-row done" key={r.id} onClick={() => restore(r.restoreId)}>
                 <span className="box" />
-                {formatAmount(i.mangd, i.enhet)} {i.vara}
-              </div>
-            ))}
-            {removedHits.map(h => (
-              <div className="shop-row done" key={h.item.id} onClick={() => restore(`bevaka:${h.item.id}`)}>
-                <span className="box" />
-                {CATEGORY_EMOJI[h.item.kategori] ?? '📦'} {h.item.vara}
-              </div>
-            ))}
-            {removedManual.map(m => (
-              <div className="shop-row done" key={m.id} onClick={() => restore(m.id)}>
-                <span className="box" />
-                {m.vara}
+                {r.main}
               </div>
             ))}
           </div>

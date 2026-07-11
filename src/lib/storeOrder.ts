@@ -8,7 +8,7 @@ export interface AisleCategory {
   label: string
 }
 
-export const AISLE_ORDER: AisleCategory[] = [
+export const AISLE_CATEGORIES: AisleCategory[] = [
   { id: 'frukt_gront', label: 'Frukt & Grönt' },
   { id: 'brod', label: 'Bröd' },
   { id: 'kott_fisk', label: 'Kött & Fisk' },
@@ -21,8 +21,21 @@ export const AISLE_ORDER: AisleCategory[] = [
   { id: 'ovrigt', label: 'Övrigt' },
 ]
 
-const AISLE_RANK = new Map(AISLE_ORDER.map((c, i) => [c.id, i]))
-const AISLE_LABEL = new Map(AISLE_ORDER.map(c => [c.id, c.label]))
+const AISLE_LABEL = new Map(AISLE_CATEGORIES.map(c => [c.id, c.label]))
+const DEFAULT_SEQUENCE = AISLE_CATEGORIES.map(c => c.id)
+
+/** Per-store walk order — every store uses the same placeholder sequence today
+ * (`DEFAULT_SEQUENCE`), but each store gets its own array so a real, distinct aisle
+ * order can be dropped in per store later without touching the categorizer at all. */
+const AISLE_SEQUENCES: Record<string, string[]> = {
+  willys: DEFAULT_SEQUENCE,
+  ica: DEFAULT_SEQUENCE,
+  hemkop: DEFAULT_SEQUENCE,
+}
+
+function sequenceFor(store?: string | null): string[] {
+  return (store && AISLE_SEQUENCES[store]) || DEFAULT_SEQUENCE
+}
 
 function includesAny(hay: string, words: string[]): boolean {
   return words.some(w => hay.includes(w))
@@ -97,18 +110,22 @@ export function guessAisleCategory(name: string): string {
   return 'ovrigt'
 }
 
-export function aisleRank(name: string): number {
-  return AISLE_RANK.get(guessAisleCategory(name)) ?? AISLE_RANK.size
+/** Rank within one store's walk order (or the shared placeholder order if `store` is
+ * unset/unknown) — lower sorts first. */
+export function aisleRank(name: string, store?: string | null): number {
+  const seq = sequenceFor(store)
+  const idx = seq.indexOf(guessAisleCategory(name))
+  return idx === -1 ? seq.length : idx
 }
 
 export function aisleLabel(id: string): string {
   return AISLE_LABEL.get(id) ?? 'Övrigt'
 }
 
-/** Sorts by aisle order, then alphabetically within each aisle. */
-export function sortByAisle<T>(items: T[], getName: (item: T) => string): T[] {
+/** Sorts by one store's aisle order (see `aisleRank`), then alphabetically within each aisle. */
+export function sortByAisle<T>(items: T[], getName: (item: T) => string, store?: string | null): T[] {
   return [...items].sort((a, b) => {
-    const diff = aisleRank(getName(a)) - aisleRank(getName(b))
+    const diff = aisleRank(getName(a), store) - aisleRank(getName(b), store)
     if (diff !== 0) return diff
     return getName(a).localeCompare(getName(b), 'sv')
   })
@@ -121,8 +138,8 @@ export interface AisleGroup<T> {
 }
 
 /** Groups already-aisle-sorted items into consecutive runs per aisle, for section headers. */
-export function groupByAisle<T>(items: T[], getName: (item: T) => string): AisleGroup<T>[] {
-  const sorted = sortByAisle(items, getName)
+export function groupByAisle<T>(items: T[], getName: (item: T) => string, store?: string | null): AisleGroup<T>[] {
+  const sorted = sortByAisle(items, getName, store)
   const groups: AisleGroup<T>[] = []
   for (const item of sorted) {
     const id = guessAisleCategory(getName(item))

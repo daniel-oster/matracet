@@ -1,6 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { aggregateIngredients, buildShoppingListText } from './shoppingList'
-import type { BevakaHit, TaggedOffer } from './bevaka'
+import { aggregateIngredients, buildShoppingListText, formatShopLine } from './shoppingList'
 import type { DayMeal, Recipe, Pantry } from '../types'
 
 function makeRecipe(slug: string, namn: string, ingredienser: Recipe['ingredienser']): Recipe {
@@ -63,54 +62,30 @@ describe('aggregateIngredients', () => {
   })
 })
 
+describe('formatShopLine', () => {
+  it('appends why and price only when given', () => {
+    expect(formatShopLine('400 g Laxfilé')).toBe('400 g Laxfilé')
+    expect(formatShopLine('400 g Laxfilé', 'Ugnsbakad lax')).toBe('400 g Laxfilé (Ugnsbakad lax)')
+    expect(formatShopLine('Kaffe', 'ICA · Zoégas · 500g', '39:90/st')).toBe('Kaffe (ICA · Zoégas · 500g) — 39:90/st')
+  })
+})
+
 describe('buildShoppingListText', () => {
-  it('renders grouped sections and omits empty ones', () => {
+  it('lists every line as one flat list and includes removed items', () => {
     const text = buildShoppingListText({
       weekLabel: 'v.27',
-      ingredients: [{ id: 'ing:laxfilé|g', vara: 'Laxfilé', mangd: 400, enhet: 'g', meals: ['Ugnsbakad lax'] }],
-      bevakaHits: [],
-      manualItems: [{ id: 'manual:1', vara: 'Tandkräm', addedAt: '2026-07-03T00:00:00Z' }],
+      lines: ['400 g Laxfilé (Ugnsbakad lax)', 'Tandkräm'],
       removedLabels: ['Vitlök'],
     })
     expect(text).toContain('Inköpslista – v.27')
-    expect(text).toContain('Från veckans måltider')
-    expect(text).toContain('- 400 g Laxfilé')
-    expect(text).toContain('Eget tillägg')
+    expect(text).toContain('- 400 g Laxfilé (Ugnsbakad lax)')
     expect(text).toContain('- Tandkräm')
-    expect(text).not.toContain('Fynd på bevakningslistan')
     expect(text).toContain('Bortmarkerat')
     expect(text).toContain('- Vitlök')
   })
 
-  it('includes the store and product label for bevaka hits, not just the price', () => {
-    const offer: TaggedOffer = {
-      namn: 'Kaffe Zoégas', marke: 'Zoégas', storlek: '500g', pris_text: '39:90/st',
-      pris: 39.9, pris_typ: 'st', jamforpris: null, ord_pris: null, pris_30dgr: null,
-      besparing: null, klubbpris: false, max_kop: null, markeringar: [], ursprung: null,
-      notering: null, kategori: 'torrvaror', store: 'ica',
-    }
-    const hit: BevakaHit = {
-      item: { id: 'kaffe', vara: 'Kaffe', kategori: 'torrvaror', sok: ['kaffe'], undvik_marken: [], onskat_marke: null, storlek_hint: null, troskel_kr: null, anteckning: null },
-      offers: [offer],
-    }
-    const text = buildShoppingListText({
-      weekLabel: 'v.27',
-      ingredients: [],
-      bevakaHits: [hit],
-      manualItems: [],
-      removedLabels: [],
-    })
-    expect(text).toContain('- Kaffe — ICA · Zoégas · 500g, 39:90/st')
-  })
-
   it('shows an empty-list marker when nothing is left', () => {
-    const text = buildShoppingListText({
-      weekLabel: 'v.27',
-      ingredients: [],
-      bevakaHits: [],
-      manualItems: [],
-      removedLabels: [],
-    })
+    const text = buildShoppingListText({ weekLabel: 'v.27', lines: [], removedLabels: [] })
     expect(text).toContain('Listan är tom')
   })
 })
