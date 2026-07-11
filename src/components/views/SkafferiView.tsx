@@ -5,6 +5,7 @@ import { useRecipes } from '../../hooks/useRecipes'
 import { useOffers } from '../../hooks/useOffers'
 import { useStash, StashKind } from '../../hooks/useStash'
 import { useShoppingList } from '../../hooks/useShoppingList'
+import { useIrrelevantOffers } from '../../hooks/useIrrelevantOffers'
 import { tagOffers } from '../../lib/bevaka'
 import { rankSuggestions, SuggestionFilter, SuggestionSort } from '../../lib/suggestions'
 import StashPantryPanel from '../StashPantryPanel'
@@ -37,10 +38,12 @@ export default function SkafferiView({ onBack, recipeIndex, eaters, onOpenRecipe
   const { items, addItem, toggleDone, remove } = useStash()
   const { manualItems, removedIds, markRemoved, restore } = useShoppingList()
   const { getFeedback } = useFeedback()
+  const { isIrrelevant } = useIrrelevantOffers()
   const allSlugs = useMemo(() => recipeIndex.map(r => r.slug), [recipeIndex])
   const fullRecipes = useRecipes(allSlugs)
   const { stores } = useOffers()
-  const offers = useMemo(() => (stores ? tagOffers(stores) : []), [stores])
+  const taggedOffers = useMemo(() => (stores ? tagOffers(stores) : []), [stores])
+  const offers = useMemo(() => taggedOffers.filter(o => !isIrrelevant(o.namn)), [taggedOffers, isIrrelevant])
 
   const [query, setQuery] = useState('')
   const [filter, setFilter] = useState<SuggestionFilter>('fynd')

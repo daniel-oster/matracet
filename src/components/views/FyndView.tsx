@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { Offer, StoreOffers } from '../../types'
 import { useOffers } from '../../hooks/useOffers'
 import { useShoppingList } from '../../hooks/useShoppingList'
+import { useIrrelevantOffers } from '../../hooks/useIrrelevantOffers'
+import SwipeRow from '../SwipeRow'
 import TopBar from '../TopBar'
 
 interface StoreMeta {
@@ -128,6 +130,7 @@ export default function FyndView({ onBack }: Props) {
   const [week, setWeek] = useState<string | null>(null)
   const { stores, availableWeeks, latestWeek } = useOffers(week)
   const { isActiveByName, addOrRestoreByName, removeOrMarkByName } = useShoppingList()
+  const { isIrrelevant, markIrrelevant, restore: restoreIrrelevant } = useIrrelevantOffers()
 
   function toggleShoppingList(o: TaggedOffer) {
     if (isActiveByName(o.namn)) removeOrMarkByName(o.namn)
@@ -219,10 +222,18 @@ export default function FyndView({ onBack }: Props) {
             🇸🇪 Svenskt
           </button>
         </div>
-        <p className="fynd-hint">🛒 Dubbelklicka en vara för att lägga den i inköpslistan.</p>
+        <p className="fynd-hint">🛒 Dubbelklicka en vara för att lägga den i inköpslistan. ← Svep vänster för att markera som irrelevant.</p>
 
         {mode === 'alla' ? (
-          <AllView all={all} visible={visible} isActiveByName={isActiveByName} onToggleShoppingList={toggleShoppingList} />
+          <AllView
+            all={all}
+            visible={visible}
+            isActiveByName={isActiveByName}
+            onToggleShoppingList={toggleShoppingList}
+            isIrrelevant={isIrrelevant}
+            onMarkIrrelevant={markIrrelevant}
+            onRestoreIrrelevant={restoreIrrelevant}
+          />
         ) : (
           <JamforView all={all} visible={visible} isActiveByName={isActiveByName} onToggleShoppingList={toggleShoppingList} />
         )}
@@ -236,7 +247,46 @@ interface RowProps {
   onToggleShoppingList: (o: TaggedOffer) => void
 }
 
-function OfferRows({ offers, isActiveByName, onToggleShoppingList }: RowProps & { offers: TaggedOffer[] }) {
+function OfferRow({ o, best, isActiveByName, onToggleShoppingList }: RowProps & { o: TaggedOffer; best: boolean }) {
+  const flag = o.ursprung ? FLAGS[o.ursprung] ?? '🌍' : isSwedish(o) ? '🇸🇪' : ''
+  const inList = isActiveByName(o.namn)
+  return (
+    <div
+      className={`fynd-row${best ? ' best' : ''}${inList ? ' in-list' : ''}`}
+      onDoubleClick={() => onToggleShoppingList(o)}
+      title={inList ? 'I inköpslistan — dubbelklicka för att ta bort' : 'Dubbelklicka för att lägga i inköpslistan'}
+    >
+      <span className={`fynd-store ${STORES[o.store]?.klass}`}>{STORES[o.store]?.namn}</span>
+      <div className="fynd-info">
+        <div className="fynd-name">
+          {inList && <span className="fynd-cart" title="I inköpslistan">🛒</span>}
+          {o.namn}
+          {flag && <span className="fynd-flag" title={o.ursprung ?? 'Svenskt'}>{flag}</span>}
+        </div>
+        <div className="fynd-meta">
+          {[o.marke, o.storlek].filter(Boolean).join(' · ')}
+          {o.jamforpris && <span className="fynd-jmf">{o.jamforpris}</span>}
+          {best && <span className="fynd-best">lägst</span>}
+          {o.klubbpris && <span className="fynd-tag club">klubb</span>}
+          {o.max_kop != null && <span className="fynd-tag">max {o.max_kop}</span>}
+        </div>
+      </div>
+      <div className="fynd-price">
+        <span className="fynd-pris">{o.pris_text}</span>
+        {o.besparing ? (
+          <span className="fynd-save">−{o.besparing}</span>
+        ) : o.ord_pris && !o.ord_pris.includes('-') ? (
+          <span className="fynd-ord">ord {o.ord_pris}</span>
+        ) : null}
+      </div>
+    </div>
+  )
+}
+
+function OfferRows({ offers, isActiveByName, onToggleShoppingList, onMarkIrrelevant }: RowProps & {
+  offers: TaggedOffer[]
+  onMarkIrrelevant: (namn: string) => void
+}) {
   const sorted = [...offers].sort((a, b) => sortKey(a) - sortKey(b))
   const minByUnit: Record<string, number> = {}
   const unitCount: Record<string, number> = {}
@@ -252,56 +302,32 @@ function OfferRows({ offers, isActiveByName, onToggleShoppingList }: RowProps & 
       {sorted.map((o, i) => {
         const j = parseJmf(o.jamforpris)
         const best = j != null && unitCount[j.unit] >= 2 && j.val === minByUnit[j.unit]
-        const flag = o.ursprung ? FLAGS[o.ursprung] ?? '🌍' : isSwedish(o) ? '🇸🇪' : ''
-        const inList = isActiveByName(o.namn)
         return (
-          <div
-            className={`fynd-row${best ? ' best' : ''}${inList ? ' in-list' : ''}`}
-            key={`${o.store}-${o.namn}-${i}`}
-            onDoubleClick={() => onToggleShoppingList(o)}
-            title={inList ? 'I inköpslistan — dubbelklicka för att ta bort' : 'Dubbelklicka för att lägga i inköpslistan'}
-          >
-            <span className={`fynd-store ${STORES[o.store]?.klass}`}>{STORES[o.store]?.namn}</span>
-            <div className="fynd-info">
-              <div className="fynd-name">
-                {inList && <span className="fynd-cart" title="I inköpslistan">🛒</span>}
-                {o.namn}
-                {flag && <span className="fynd-flag" title={o.ursprung ?? 'Svenskt'}>{flag}</span>}
-              </div>
-              <div className="fynd-meta">
-                {[o.marke, o.storlek].filter(Boolean).join(' · ')}
-                {o.jamforpris && <span className="fynd-jmf">{o.jamforpris}</span>}
-                {best && <span className="fynd-best">lägst</span>}
-                {o.klubbpris && <span className="fynd-tag club">klubb</span>}
-                {o.max_kop != null && <span className="fynd-tag">max {o.max_kop}</span>}
-              </div>
-            </div>
-            <div className="fynd-price">
-              <span className="fynd-pris">{o.pris_text}</span>
-              {o.besparing ? (
-                <span className="fynd-save">−{o.besparing}</span>
-              ) : o.ord_pris && !o.ord_pris.includes('-') ? (
-                <span className="fynd-ord">ord {o.ord_pris}</span>
-              ) : null}
-            </div>
-          </div>
+          <SwipeRow key={`${o.store}-${o.namn}-${i}`} onSwipeLeft={() => onMarkIrrelevant(o.namn)}>
+            <OfferRow o={o} best={best} isActiveByName={isActiveByName} onToggleShoppingList={onToggleShoppingList} />
+          </SwipeRow>
         )
       })}
     </>
   )
 }
 
-function AllView({ all, visible, isActiveByName, onToggleShoppingList }: RowProps & {
+function AllView({ all, visible, isActiveByName, onToggleShoppingList, isIrrelevant, onMarkIrrelevant, onRestoreIrrelevant }: RowProps & {
   all: TaggedOffer[]
   visible: (o: TaggedOffer) => boolean
+  isIrrelevant: (namn: string) => boolean
+  onMarkIrrelevant: (namn: string) => void
+  onRestoreIrrelevant: (namn: string) => void
 }) {
-  const anyVisible = all.some(visible)
+  const relevant = (o: TaggedOffer) => visible(o) && !isIrrelevant(o.namn)
+  const anyVisible = all.some(relevant)
+  const irrelevantOffers = all.filter(o => visible(o) && isIrrelevant(o.namn))
 
   return (
     <div className="fynd-scroll fynd-scroll--wide">
       {GROUP_ORDER.map(groupId => {
         const members = CATS.filter(c => c.groupId === groupId)
-        const groupOffers = all.filter(o => visible(o) && members.some(m => m.id === o.kategori))
+        const groupOffers = all.filter(o => relevant(o) && members.some(m => m.id === o.kategori))
         if (groupOffers.length === 0) return null
         const first = members[0]
 
@@ -318,16 +344,39 @@ function AllView({ all, visible, isActiveByName, onToggleShoppingList }: RowProp
                   return (
                     <div key={m.id}>
                       <h4 className="fynd-subcat-title">{m.sub}</h4>
-                      <OfferRows offers={offers} isActiveByName={isActiveByName} onToggleShoppingList={onToggleShoppingList} />
+                      <OfferRows offers={offers} isActiveByName={isActiveByName} onToggleShoppingList={onToggleShoppingList} onMarkIrrelevant={onMarkIrrelevant} />
                     </div>
                   )
                 })
-              : <OfferRows offers={groupOffers} isActiveByName={isActiveByName} onToggleShoppingList={onToggleShoppingList} />}
+              : <OfferRows offers={groupOffers} isActiveByName={isActiveByName} onToggleShoppingList={onToggleShoppingList} onMarkIrrelevant={onMarkIrrelevant} />}
           </div>
         )
       })}
       {!anyVisible && (
         <div className="fynd-empty">Inga erbjudanden matchar filtret.</div>
+      )}
+      {irrelevantOffers.length > 0 && (
+        <div className="fynd-cat">
+          <h3 className="fynd-cat-title fynd-irrelevant-title">
+            <span>🙈 Irrelevant</span>
+            <span className="fynd-cat-count">{irrelevantOffers.length}</span>
+          </h3>
+          {irrelevantOffers.map((o, i) => (
+            <div
+              className="fynd-row done"
+              key={`irr-${o.store}-${o.namn}-${i}`}
+              onClick={() => onRestoreIrrelevant(o.namn)}
+              title="Återställ"
+            >
+              <span className={`fynd-store ${STORES[o.store]?.klass}`}>{STORES[o.store]?.namn}</span>
+              <div className="fynd-info">
+                <div className="fynd-name">{o.namn}</div>
+                <div className="fynd-meta">{[o.marke, o.storlek].filter(Boolean).join(' · ')}</div>
+              </div>
+              <span className="fynd-ord">↺ återställ</span>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   )

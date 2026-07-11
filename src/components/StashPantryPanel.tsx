@@ -4,9 +4,11 @@ import { usePantry } from '../hooks/usePantry'
 import { useOffers } from '../hooks/useOffers'
 import { useStash, StashKind } from '../hooks/useStash'
 import { useShoppingList } from '../hooks/useShoppingList'
+import { useIrrelevantOffers } from '../hooks/useIrrelevantOffers'
 import { describeOffer, tagOffers, TaggedOffer } from '../lib/bevaka'
 import { matchPantryRecipes } from '../lib/pantryMatch'
 import { parseSavings } from '../lib/suggestions'
+import SwipeRow from './SwipeRow'
 
 const IDEA_TAGS = ['🏷 Fynd', '⚡ Snabbt', '🧊 Fryst', '🌱 Vegan', '🔥 Grill']
 const KIND_ICON: Record<StashKind, string> = { dish: '🍽️', stock: '🧺' }
@@ -30,8 +32,10 @@ export default function StashPantryPanel({ recipeIndex, fullRecipes, onOpenRecip
   const { items, addItem, toggleDone, remove } = useStash()
   const pantry = usePantry()
   const { addOrRestoreByName, removeOrMarkByName } = useShoppingList()
+  const { isIrrelevant, markIrrelevant } = useIrrelevantOffers()
   const { stores } = useOffers()
-  const offers = useMemo(() => (stores ? tagOffers(stores) : []), [stores])
+  const taggedOffers = useMemo(() => (stores ? tagOffers(stores) : []), [stores])
+  const offers = useMemo(() => taggedOffers.filter(o => !isIrrelevant(o.namn)), [taggedOffers, isIrrelevant])
 
   const [pantryExpanded, setPantryExpanded] = useState(false)
   const [offerQuery, setOfferQuery] = useState('')
@@ -185,21 +189,23 @@ export default function StashPantryPanel({ recipeIndex, fullRecipes, onOpenRecip
           value={offerQuery}
           onChange={e => setOfferQuery(e.target.value)}
         />
+        <p className="fynd-hint">← Svep en pill vänster för att markera den som irrelevant.</p>
         <div className="offer-cloud">
           {rankedOffers.map((o, i) => {
             const savings = parseSavings(o.besparing)
             const inPool = stashedOfferNames.has(o.namn.toLowerCase())
             return (
-              <button
-                key={offerKey(o, i)}
-                type="button"
-                className={`offer-chip${savings > 0 ? ' offer-chip--fynd' : ''}${inPool ? ' on' : ''}`}
-                onClick={() => toggleOfferInPool(o)}
-                title={`${describeOffer(o)} · ${o.pris_text}`}
-              >
-                {inPool ? '✓ ' : ''}{o.namn}
-                {savings > 0 && <span className="offer-chip-save">−{savings}kr</span>}
-              </button>
+              <SwipeRow key={offerKey(o, i)} variant="chip" onSwipeLeft={() => markIrrelevant(o.namn)}>
+                <button
+                  type="button"
+                  className={`offer-chip${savings > 0 ? ' offer-chip--fynd' : ''}${inPool ? ' on' : ''}`}
+                  onClick={() => toggleOfferInPool(o)}
+                  title={`${describeOffer(o)} · ${o.pris_text}`}
+                >
+                  {inPool ? '✓ ' : ''}{o.namn}
+                  {savings > 0 && <span className="offer-chip-save">−{savings}kr</span>}
+                </button>
+              </SwipeRow>
             )
           })}
           {rankedOffers.length === 0 && <div className="tray-empty">Inga fynd matchar.</div>}
