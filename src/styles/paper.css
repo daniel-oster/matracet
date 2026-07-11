@@ -420,6 +420,19 @@ input, select, textarea { font-family: inherit; }
 .match-group { margin-bottom: 16px; }
 .match-label { font-size: 13.5px; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
 
+.fynd-row.done { opacity: 0.5; }
+.fynd-irrelevant-title { color: var(--muted); }
+
+/* ─── Swipe-to-mark-irrelevant ────────────────────────────────────────── */
+.swipe-row { position: relative; touch-action: pan-y; }
+.swipe-row--row { overflow: hidden; border-radius: 7px; margin-bottom: 5px; }
+.swipe-row--chip { display: inline-block; overflow: hidden; border-radius: 999px; }
+.swipe-row-bg {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: flex-end;
+  padding-right: 16px; background: var(--red); color: #fff; font-size: 12.5px; border-radius: 7px;
+}
+.swipe-row-fg { position: relative; touch-action: pan-y; }
+
 /* ─── Bevaka ───────────────────────────────────────────────────────────── */
 
 .bevaka-grid { display: block; }
