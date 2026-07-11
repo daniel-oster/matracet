@@ -356,6 +356,25 @@ list+detail split (`.recept-grid`), and the Planera suggestion tray docking to a
 of a bottom sheet. This is CSS-only — no JS layout branching, no more per-side `PageSide` prop
 threaded through every view.
 
+**Phone-landscape gets the same wide layout as desktop, everywhere (2026-07 sweep)**: `RecipeOverlay`
+was originally the only screen that also triggered its wide 2-column CSS for a phone physically
+rotated to landscape (narrow but short viewport) via `(orientation: landscape) and (max-height: 600px)`
+alongside `(min-width: 860px)` — every other `@media (min-width: 860px)` block in `paper.css` fired
+only on desktop-width viewports, so a landscape phone (e.g. 844×390) got stuck in single-column
+mobile layout despite having the same "extra horizontal room, scarce vertical room" shape the overlay
+was built for. Audited every view and appended the same `, (orientation: landscape) and
+(max-height: 600px)` clause to every wide-layout breakpoint: `.app-shell` max-width, `.hub-grid`
+(3 cols), `.vecka-list` (was single-column at *any* width before this — now 2 cols in landscape/wide,
+closing the one screen that had no wide treatment at all), `.sugg-list` (Planera + Skafferi),
+`.handla-grid`, `.fynd-scroll--wide`, `.bevaka-grid`, `.familj-grid`, `.note-grid`,
+`.recipe-scroll-list`. Also shrank the sticky `.topbar-row`/`.hub-topbar` padding and title size
+under `(orientation: landscape) and (max-height: 600px)` alone (not combined with desktop-width,
+which isn't short on vertical space) — same "reclaim scarce height" move the overlay toolbar made,
+since a phone in landscape is only ~375–430px tall total and the original full-size sticky header
+alone ate a disproportionate chunk of that. Verified via `scripts/screenshot.mjs`-style Playwright
+checks at an 844×390 viewport (Hub, Veckan/Vecka, Handla, Familj, Fynd) — all switched to their
+multi-column layouts as expected.
+
 ## Data conventions
 
 ### Recipe files
