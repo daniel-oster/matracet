@@ -63,7 +63,7 @@ App          – fetches all data (rolling 7-day window, eaters, recipe index, p
 │   └── VeckanPlanner  – day cards (lunch|middag halves) + bottom/docked suggestion tray
 ├── HandlaView, ReceptView, FamiljView, AnteckningarView, FyndView, BevakaView
 │                      – each a full single-column screen (own TopBar), no left/right split
-├── RecipeOverlay      – full-screen recipe reader modal (unchanged by the redesign)
+├── RecipeOverlay      – full-screen recipe reader modal, opened from every screen via `onOpenRecipe`
 └── TopBar             – shared header (back button, eyebrow, title, optional right slot/progress)
 ```
 
@@ -78,12 +78,38 @@ Navigation is a simple `screen: ScreenName` state in `App.tsx` (`'hub' | TabName
 | `hub` | Landing: tonight's dinner, "Veckan" shortcut, tiles for the rest |
 | `veckan` | Vecka: 7-day overview. Planera: suggestion tray, tap/drag a recipe onto a day's lunch or middag slot |
 | `handla` | Shopping list — ingredients column + bevaka/manual column (2-col on wide) |
-| `recept` | Recipe list + detail, master-detail (stacked on mobile, side-by-side on wide) |
+| `recept` | Recipe list; tap a card to open it in the shared full-screen `RecipeOverlay` |
 | `familj` | Presence schedule + eater profiles/rules (2-col on wide) |
 | `anteckningar` | Current notes + long-term ideas (2-col on wide) |
 | `bevaka` | Standing watch-list + current bargain matches (2-col on wide) |
 | `fynd` | Store offers, all categories in one scroll (2-col grid on wide) |
 | `skafferi` | Semesterläge: pantry-match cooking ideas, the stash pool, this week's offer cloud, manual add, recipe browser |
+
+### Recipe viewing: converged on the shared full-screen overlay (2026-07)
+
+`ReceptView` ("Receptbiblioteket") used to be the one screen in the app that didn't open recipes
+through `RecipeOverlay` — it had its own inline master-detail split (`RecipeDetail`, rendered in
+a `.recipe-detail-pane` next to the list) predating the "paper" redesign, left over even though
+the Component hierarchy doc already (incorrectly) described it as a plain single-column screen.
+On mobile that detail pane rendered *below* the full recipe list rather than popping up, so
+opening a recipe from the library felt broken/inconsistent with every other entry point (Hub,
+Veckan, Skafferi), which all pass `onOpenRecipe` straight to `App.tsx`'s `overlaySlug` state.
+Fixed by deleting `RecipeDetail`/`RecipeEmpty` entirely and wiring `ReceptView`'s cards to the
+same `onOpenRecipe` prop — tapping any recipe, from anywhere in the app, now always opens the
+same full-screen `RecipeOverlay`. Also fixed while touching this: `RecipeOverlay` was a centered
+dialog/bottom-sheet (`max-width: 720px`, rounded corners, dimmed backdrop) that only switched to
+a 2-column ingredients|instructions layout at `min-width: 860px` — a *desktop-width* breakpoint
+that most phones never reach even rotated to landscape, so "flip the phone for two columns"
+silently never triggered on a real device. The overlay is now always full-bleed (`100dvh`, no
+backdrop, no rounded corners — recipes are primary content here), and the two-column layout
+triggers on `(min-width: 860px), (orientation: landscape) and (max-height: 600px)` — the second
+clause specifically catches a phone in landscape (short viewport height) regardless of its width.
+Each column (`.overlay-ingredients-col`/`.overlay-instructions-col`) scrolls independently in
+that mode (`overflow-y: auto; height: 100%`, with the shared `.overlay-panel` switching to
+`overflow-y: hidden` so it isn't a second competing scroll container), and the ratio is `1fr 2fr`
+(ingredients ≈ a third of the width, instructions the rest) rather than the old `1fr 1.3fr`. The
+hero image is hidden in two-column mode — on a landscape phone (~375–430px of height total) it
+would otherwise eat the vertical space the ingredient/instruction columns need.
 
 ### Semesterläge: the Skafferi stash pool (2026-07)
 
@@ -192,8 +218,8 @@ fetches, in one `Promise.all`:
 - `/matracet/data/weeks/<w>.json` for every distinct ISO week (`YYYY-Www`) the 7-day window touches
 
 It also resolves the custody/presence schedule for the same window via
-`resolvePresenceRange` (`src/presence/resolver.ts`). Both `ReceptView` and `RecipeOverlay`
-fetch individual recipes lazily: `/matracet/data/recipes/<slug>/recept.json`.
+`resolvePresenceRange` (`src/presence/resolver.ts`). `RecipeOverlay` fetches individual recipes
+lazily: `/matracet/data/recipes/<slug>/recept.json`.
 
 ### URL base path
 
@@ -292,6 +318,9 @@ Durable gotchas discovered while working in this repo. Add to this list rather t
 - **Don't trust an old miscategorized field as a migration fallback — it just launders the bug forward.** The 2026-07 `erbjudanden[].kategori` retaxonomy (`scripts/erbjudanden-recategorize.mjs`) first tried "reclassify by keyword on `namn`, else fall back to the *old* `kategori`" for items the new keyword lists didn't match. That silently propagated the old parser's own mistakes — e.g. "Salta jordnötter" (peanuts) and "Naturella pinjenötter" had originally been keyword-guessed as `kott_fagel` (meat) by the PDF-import parser, so the fallback re-emitted them as `protein_farsk`, reproducing the exact "vegetables/nuts filed under meat" complaint the retaxonomy was meant to fix. Fix was to make the *old* category untrusted for anything except the one bucket spot-checked as clean (`snacks_godis`, real candy brand names) and let everything else genuinely unmatched fall to `ovrigt`. Lesson: when re-deriving a field that was itself heuristically guessed, verify new-vs-old mismatches by re-deriving from the *original source signal* (here: product name) — don't use the old derived value as a safety net, since a wrong guess and "no guess" look identical from that fallback's point of view.
 - **Same trap, different shape: short Swedish keywords substring-match inside unrelated compound words.** Bare `'nöt'` (meant for `nötkött`/beef) matches inside `jordnötsringar` (peanut rings); `'sill'` (herring) matches inside `fusilli` (pasta); `'böna'`/`'bönor'` (beans) matches inside `kaffebönor` (coffee beans); `'ägg'` (egg) matches inside `pålägg` (generic "sandwich topping", any kind) and `äggnudlar`/`äggpasta` (egg noodles, a starch not a protein dish). None of these are word-boundary-fixable in general because Swedish compounding *requires* substring-anywhere matching for the intended cases (`nötfärs`, `fläskfilé`, `kycklingfärs` all rely on the keyword appearing mid-compound) — so the fix is a small explicit strip-list of the *specific* colliding words (see `sanitize()`/`FRUIT_NON_PRODUCE_RE` in `scripts/erbjudanden-recategorize.mjs` and `scripts/erbjudanden-lib.mjs`), not a blanket boundary regex. When adding a new keyword to either script's classifier, grep the existing offer `namn` fields for the keyword as a substring first to catch this before it ships.
 - **A CSS-anchored popover inside any ancestor with `overflow: hidden` gets hard-clipped, not pushed into scroll.** `.recipe-detail`'s `overflow: hidden` (there for the header image's rounded corners) silently clipped `PersonSentimentPopover` (the "Vad tycker familjen?" sentiment picker in `ReceptView`'s detail pane) whenever it opened from an avatar far enough right (Annabelle/Erika) that the fixed-width 220px box ran past the card's edge — this looked in a screenshot like a hard-cut box edge, not an off-screen overflow, because the clip boundary was the ancestor card, not the viewport. Fixed by anchoring the popover with `position: fixed` computed from the trigger button's `getBoundingClientRect()` (captured on click, passed down as an `anchorRect` prop) and clamping `left` to `[12px, innerWidth - 220 - 12]` — this escapes *any* ancestor's overflow clipping and viewport edges in one fix, vs. the CSS-only `left`/`right` flip class I tried first, which only fixed the viewport-edge case and left the ancestor-clip bug untouched. **Trap while building this**: don't add a `window.addEventListener('scroll', onClose, { capture: true })` to auto-close a fixed-position popover on scroll — in this sandbox, some scroll-adjacent event fired immediately after the click that opened it (plausibly Playwright's own scroll-into-view as part of `.click()`, but unconfirmed), closing the popover the instant it opened with zero visible error. Diagnosed by dumping `outerHTML` of the popover's parent right after the click — it was simply absent — and bisecting by removing the scroll/resize listeners, which fixed it immediately. Landed without scroll-to-close: outside-click and Escape are enough, and a `position: fixed` popover just stays put on-screen if the page scrolls under it (acceptable tradeoff, not attempted to fix further).
+
+- **Non-food products can borrow a food word as scent/shape/brand and false-positive into produce/protein categories** — a third variant of the substring-collision trap above, but the collision is with an entire non-food *product*, not another food word. `"Allrengöringssvamp"` (all-purpose cleaning sponge) hit the `VEG_RE` keyword `svamp` (mushroom) and landed in `gront_farsk`; an apple-scented `"Allrengöring Städservett"` (cleaning wipe) hit `FRUIT_RE`'s `äpple` and landed in `frukt`. Unlike the compound-word trap, this isn't fixable by stripping a specific colliding *word* (any food word could in principle appear in a cleaning/hygiene product's name/scent) — the fix is a `NON_FOOD_RE` keyword list (`rengör`, `städ`, `disk(medel|borste|svamp|trasa)`, `tvättmedel`, `toalettpapper`, `hushållspapper`, …) checked and bailed to `ovrigt` *before* any produce/protein keyword, same "bail first" shape as `READY_MEAL_RE` (see `guessKategori` in `scripts/erbjudanden-lib.mjs`, mirrored in `erbjudanden-recategorize.mjs`). Also found in the same pass: `erbjudanden-lib.mjs`'s `VEG_RE` was missing `champinjon` entirely (present in `erbjudanden-recategorize.mjs`'s equivalent list but not the live parser's), so plain "Champinjoner" fell through to `ovrigt` with zero non-food indication — a reminder that the two classifiers' keyword lists can silently drift apart since nothing enforces they stay in sync.
+- **The full PDF-import → classify → save workflow is now a Skill**, not just README prose: `.claude/skills/import-erbjudanden/SKILL.md` walks pdftotext → column-split → parse-* → `guessKategori` → `_index.json`/`_latest.json` wiring, and calls out the non-food classification trap above explicitly so it gets checked on every import, not just when someone happens to remember this file. Update that Skill (not just this section) when the import pipeline itself changes; update this section when a *new* classification gotcha is discovered, since the Skill should stay a procedure, not grow into a running list of every historical bug.
 
 ## Deploy
 
