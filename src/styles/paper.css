@@ -462,6 +462,7 @@ input, select, textarea { font-family: inherit; }
   padding-right: 16px; background: var(--red); color: #fff; font-size: 12.5px; border-radius: 7px;
 }
 .swipe-row-fg { position: relative; touch-action: pan-y; }
+.swipe-row-fg > * { margin-bottom: 0; }
 
 /* ─── Bevaka ───────────────────────────────────────────────────────────── */
 
