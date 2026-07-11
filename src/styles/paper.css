@@ -489,9 +489,33 @@ input, select, textarea { font-family: inherit; }
   margin-bottom: 10px; font-family: inherit;
 }
 .recipe-search-empty { color: var(--muted); font-size: 13px; padding: 10px 2px; }
-.recipe-export-btn { margin-bottom: 10px; }
 .recipe-scroll-list { display: block; }
 @media (min-width: 860px) { .recipe-scroll-list { max-width: 640px; margin: 0 auto; } }
+
+/* ─── Historik ─────────────────────────────────────────────────────────── */
+
+.historik-row { cursor: default; align-items: flex-start; }
+.historik-row--clickable { cursor: pointer; }
+.historik-row-main { display: flex; flex-direction: column; gap: 3px; width: 100%; }
+.historik-row-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.historik-date { font-size: 12px; color: var(--sub); text-transform: capitalize; }
+.historik-meal { font-size: 12px; color: var(--muted2); }
+.historik-badge {
+  font-size: 10.5px; letter-spacing: 0.5px; text-transform: uppercase; padding: 2px 7px;
+  border-radius: 999px; margin-left: auto;
+}
+.historik-badge--planerat { background: var(--blue-bg); color: var(--blue); }
+.historik-badge--spontant { background: var(--gold); color: var(--ink); }
+.historik-dish { font-size: 15px; }
+.historik-present { font-size: 12px; color: var(--muted); }
+.historik-note { font-size: 12.5px; color: var(--sub); font-style: italic; }
+
+/* ─── Synka ────────────────────────────────────────────────────────────── */
+
+.synka-stats { display: flex; flex-direction: column; gap: 6px; margin: 14px 0; }
+.synka-stat { font-size: 13.5px; color: var(--muted2); }
+.synka-download-btn { padding: 11px 16px; font-size: 14px; }
+.synka-downloaded { margin-top: 10px; font-size: 13px; color: var(--green-d); }
 
 .recipe-card-wrap { background: var(--paper); border: 1px solid var(--line2); border-radius: 9px; overflow: hidden; margin-bottom: 10px; }
 .recipe-card-wrap.excluded { opacity: 0.55; }
