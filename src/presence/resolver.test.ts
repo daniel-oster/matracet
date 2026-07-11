@@ -112,6 +112,29 @@ describe('July 2026 — kids present Mon–Thu, gone Friday morning', () => {
   })
 })
 
+// ── 4b. Summer → autumn 2026 transition ──────────────────────────────────────
+
+describe('Summer → autumn 2026 transition (2026-08-16/17 boundary)', () => {
+  it('Mon 17 Aug / Wed 19 Aug are already a Daniel-custody week regardless of the Mon/Wed rule', () => {
+    // Fri 14 Aug – Thu 20 Aug 2026 is a Daniel block, confirmed against the real
+    // custody calendar on 2026-07-11 — so the exact summer/autumn boundary date
+    // doesn't change the outcome for these two specific days.
+    for (const date of ['2026-08-17', '2026-08-19']) {
+      const plan = resolvePresence(date, SEED_STORE)
+      expect(plan.activeGroup?.id, `${date} Daniel block regardless`).toBe('daniel-barn')
+    }
+  })
+
+  it('Mon 24 Aug / Wed 26 Aug (first mother-week Mon/Wed after the boundary) resolve to Daniel + barn with the 19:00 autumn handover', () => {
+    for (const date of ['2026-08-24', '2026-08-26']) {
+      const plan = resolvePresence(date, SEED_STORE)
+      expect(plan.activeGroup?.id, `${date} autumn Mon/Wed exception`).toBe('daniel-barn')
+      expect(plan.portions).toBe(3)
+      expect(plan.windowNotes.some(n => n.startsWith('Överlämning 19:00')), `${date} has the autumn 19:00 handover`).toBe(true)
+    }
+  })
+})
+
 // ── 5. Override SET_GROUP ────────────────────────────────────────────────────
 
 describe('Override: SET_GROUP', () => {
