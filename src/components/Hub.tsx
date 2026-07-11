@@ -1,7 +1,5 @@
 import { DayMeal, RecipeIndexEntry, ScreenName } from '../types'
 import { useWeekPlan, applyOverride } from '../hooks/useWeekPlan'
-import { usePlanMode } from '../hooks/usePlanMode'
-import { useStash } from '../hooks/useStash'
 import type { DayPlan } from '../presence/types'
 
 const DAY_NAMES: Record<string, string> = {
@@ -34,15 +32,12 @@ interface Props {
 
 export default function Hub({ weekLabel, rollingDays, recipeIndex, dayPlans, onNavigate, onOpenRecipe }: Props) {
   const { getOverride, getAttendance } = useWeekPlan()
-  const { mode, toggle: toggleMode } = usePlanMode()
-  const { items, toggleDone } = useStash()
   const rawTonight = rollingDays[0]
   const tonight = rawTonight
     ? applyOverride(rawTonight, getOverride(rawTonight.datum, 'dinner'), getAttendance(rawTonight.datum, 'dinner'))
     : undefined
   const tonightRecipe = tonight?.receptSlug ? recipeIndex.find(r => r.slug === tonight.receptSlug) : undefined
   const tonightPlan = tonight ? dayPlans.find(p => p.date === tonight.datum) : undefined
-  const poolItems = items.filter(i => !i.done)
 
   return (
     <div className="hub">
@@ -54,13 +49,6 @@ export default function Hub({ weekLabel, rollingDays, recipeIndex, dayPlans, onN
         <div className="hub-topbar-right">
           <div className="hub-week-label">{weekLabel}</div>
           <button
-            className={`planmode-toggle${mode === 'semester' ? ' on' : ''}`}
-            onClick={toggleMode}
-            title="Växla mellan normalt läge och semesterläge"
-          >
-            {mode === 'semester' ? '🏖️ Semester' : '🗓️ Normalt'}
-          </button>
-          <button
             className="hub-refresh-btn"
             onClick={hardRefresh}
             title="Hämta senaste versionen av appen (rensar inte dina sparade val)"
@@ -71,56 +59,27 @@ export default function Hub({ weekLabel, rollingDays, recipeIndex, dayPlans, onN
       </div>
 
       <div className="hub-pad">
-        {mode === 'semester' ? (
-          <div className="semester-card">
-            <div className="semester-card-title">🏖️ Semesterläge · vad känns bra nu?</div>
-            {poolItems.length === 0 ? (
-              <div className="semester-card-empty">
-                Skafferiet är tomt än. Öppna det för att fylla på med fynd, råvaror och idéer.
-              </div>
+        {tonight && (
+          <div
+            className="glance"
+            onClick={() => (tonight.receptSlug ? onOpenRecipe(tonight.receptSlug) : onNavigate('veckan'))}
+          >
+            {tonightRecipe?.bildUrl ? (
+              <img src={tonightRecipe.bildUrl} alt="" />
             ) : (
-              <div className="semester-card-list">
-                {poolItems.slice(0, 4).map(item => (
-                  <div className="semester-row" key={item.id}>
-                    <button
-                      type="button"
-                      className="semester-row-name"
-                      onClick={() => (item.receptSlug ? onOpenRecipe(item.receptSlug) : onNavigate('skafferi'))}
-                    >
-                      {item.namn}
-                    </button>
-                    <button type="button" className="semester-row-done" onClick={() => toggleDone(item.id)} title="Åt/använt detta">✓</button>
-                  </div>
-                ))}
-              </div>
+              <div className="glance-ph">{tonight.recept ? categoryEmoji(tonightRecipe?.kategorier ?? []) : '🍽️'}</div>
             )}
-            <button type="button" className="semester-card-link" onClick={() => onNavigate('skafferi')}>
-              → Öppna Skafferiet
-            </button>
-          </div>
-        ) : (
-          tonight && (
-            <div
-              className="glance"
-              onClick={() => (tonight.receptSlug ? onOpenRecipe(tonight.receptSlug) : onNavigate('veckan'))}
-            >
-              {tonightRecipe?.bildUrl ? (
-                <img src={tonightRecipe.bildUrl} alt="" />
-              ) : (
-                <div className="glance-ph">{tonight.recept ? categoryEmoji(tonightRecipe?.kategorier ?? []) : '🍽️'}</div>
+            <div className="glance-body">
+              <div className="glance-eye">Ikväll · {DAY_NAMES[tonight.dag] ?? tonight.dag}</div>
+              <div className="glance-dish">{tonight.recept ?? tonight.anteckning ?? 'Inget planerat'}</div>
+              {tonightRecipe && (
+                <div className="glance-meta">
+                  {categoryEmoji(tonightRecipe.kategorier)} {tonightRecipe.tid_min} min
+                  {tonightPlan && ` · ${tonightPlan.portions} port.`}
+                </div>
               )}
-              <div className="glance-body">
-                <div className="glance-eye">Ikväll · {DAY_NAMES[tonight.dag] ?? tonight.dag}</div>
-                <div className="glance-dish">{tonight.recept ?? tonight.anteckning ?? 'Inget planerat'}</div>
-                {tonightRecipe && (
-                  <div className="glance-meta">
-                    {categoryEmoji(tonightRecipe.kategorier)} {tonightRecipe.tid_min} min
-                    {tonightPlan && ` · ${tonightPlan.portions} port.`}
-                  </div>
-                )}
-              </div>
             </div>
-          )
+          </div>
         )}
 
         <button className="hub-primary" onClick={() => onNavigate('veckan')}>
