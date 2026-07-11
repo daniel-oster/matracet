@@ -276,14 +276,16 @@ there's no backend — into git where it's durable, shared across devices, and u
    here yet.
 2. **`src/lib/exportData.ts`**'s `downloadLocalData()` (wired to the **Synka** screen, reached via
    the Hub's 🔄 tile — previously a small button buried in `ReceptView`, moved out for
-   discoverability) downloads this device's `feedback`/`weekplan`/`shoppingList` local stores as one
-   JSON file. The user pastes that into a Claude Code chat; the **`sync-local-storage`** skill
-   (`.claude/skills/sync-local-storage/SKILL.md`) merges only the `feedback` part into
-   `public/data/feedback.json` **per (recipe, person)** — never a wholesale overwrite, since the git
-   file already holds ratings merged in from other devices/sessions. `weekplan`/`shoppingList` stay
-   local-only; syncing them is explicitly out of scope. `build-brief.ts` already reads
-   `feedback.json` for sentiment + exclusions (`excludeFromWeekPlan`) — this is the git file's only
-   consumer besides the app itself.
+   discoverability) downloads **every** `matracet:*` localStorage key on this device as one JSON
+   file (`ExportPayload.stores`, a generic `Record<string, unknown>` built by iterating
+   `localStorage` directly — see "Local storage export" below). The user pastes that into a Claude
+   Code chat; the **`sync-local-storage`** skill (`.claude/skills/sync-local-storage/SKILL.md`)
+   merges only the `matracet:feedback:v1` entry into `public/data/feedback.json` **per (recipe,
+   person)** — never a wholesale overwrite, since the git file already holds ratings merged in from
+   other devices/sessions. Every other store (weekplan, shopping list, stash, chaos-mode,
+   irrelevant-offers, ...) stays local-only; syncing them is explicitly out of scope for that skill.
+   `build-brief.ts` already reads `feedback.json` for sentiment + exclusions
+   (`excludeFromWeekPlan`) — this is the git file's only consumer besides the app itself.
 3. **`public/data/history.json`** (`HistoryEntry`/`HistoryFile` in `src/types/history.ts`) fills a
    gap neither of the above covers: meals that were **never planned at all**, most often during
    Skafferi/chaos-mode stretches where there's no day-slot to swap in the first place. There's no
@@ -304,6 +306,28 @@ git file but missing from this device's local storage — local edits always win
 only fills gaps. Kept as a plain exported function (not a new hook API) specifically so none of
 `useFeedback()`'s existing call sites (`RecipeFeedbackBar`, `WeekWarnings`, `VeckanOverview`,
 `FamiljView`, `suggestions.ts`) needed to change.
+
+#### Local storage export — new stores need no export code, but check whether they need a sync rule
+
+`src/lib/exportData.ts`'s `buildExportPayload()` iterates `localStorage` directly for every key
+prefixed `matracet:` and dumps it into `ExportPayload.stores` — it does **not** hand-pick stores by
+name. This means adding a new `createLocalStore('matracet:whatever:v1', ...)` anywhere in the app
+(see `src/lib/localStore.ts`) is automatically included in every future export with **zero**
+changes needed here — this was previously a hand-maintained list (`feedback`/`weekplan`/
+`shoppingList` only) that had already drifted out of date by the time `stash`, `chaos-mode`, and
+`irrelevant-offers` stores were added, so don't reintroduce that pattern by switching back to named
+fields.
+
+Being *in the export* is not the same as being *synced to git*, though — that's a second, deliberate
+step. The `sync-local-storage` skill only merges the `matracet:feedback:v1` entry into
+`public/data/feedback.json`; every other key is intentionally left local-only (see the skill file
+for the exact reasoning per store). If a new store's data should also become durable/shared across
+devices the way feedback ratings are, that requires **both**:
+1. Nothing — the export already includes it.
+2. An explicit update to `.claude/skills/sync-local-storage/SKILL.md` describing the merge rule for
+   that specific key (and probably a new `public/data/<whatever>.json` backend file, following the
+   `feedback.json` precedent: a stable named shape, read tolerantly, never wholesale-overwritten by
+   a sync).
 
 ### URL base path
 

@@ -17,10 +17,10 @@ export interface RecipeFeedbackRecord {
 export type FeedbackStore = Record<string, RecipeFeedbackRecord>
 
 /**
- * Shape of the git-tracked public/data/feedback.json backend snapshot — the
- * committed output of exportData.ts's ExportPayload (or a bare FeedbackStore,
- * which older/manual edits may use). Mirrors the tolerant unwrap already done
- * in scripts/build-brief.ts.
+ * Shape of the git-tracked public/data/feedback.json backend snapshot — built by
+ * the sync-local-storage skill from the `matracet:feedback:v1` entry of an
+ * exportData.ts export (or a bare FeedbackStore, which older/manual edits may
+ * use). Mirrors the tolerant unwrap already done in scripts/build-brief.ts.
  */
 export interface FeedbackFile {
   app?: 'matracet'
