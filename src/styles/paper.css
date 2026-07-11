@@ -53,8 +53,21 @@ body {
   overflow-x: hidden;
 }
 
-@media (min-width: 860px) {
+@media (min-width: 860px), (orientation: landscape) and (max-height: 600px) {
   .app-shell { max-width: 1040px; }
+}
+
+/* Phone flipped to landscape: height is the scarce dimension, not width — shrink the
+   sticky top bars (same "reclaim vertical space" move as the recipe overlay's toolbar)
+   so the wide/2-column layouts below actually have room to breathe. Left untouched at
+   desktop widths, where height isn't scarce. */
+@media (orientation: landscape) and (max-height: 600px) {
+  .topbar-row { padding: 10px 16px 8px; gap: 10px; }
+  .topbar-title { font-size: 17px; }
+  .topbar-eyebrow { margin-bottom: 1px; }
+  .hub-topbar { padding: 12px 18px 10px; }
+  .hub-title { font-size: 19px; }
+  .hub-hello { margin-bottom: 2px; }
 }
 
 button { font-family: inherit; }
@@ -140,7 +153,7 @@ input, select, textarea { font-family: inherit; }
 .hub-primary-icon { font-size: 20px; }
 
 .hub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; margin-top: 11px; }
-@media (min-width: 860px) { .hub-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 860px), (orientation: landscape) and (max-height: 600px) { .hub-grid { grid-template-columns: repeat(3, 1fr); } }
 
 .hub-tile {
   background: var(--paper); border: 1px solid var(--line2); border-radius: 9px;
@@ -167,6 +180,9 @@ input, select, textarea { font-family: inherit; }
 /* ─── Veckan: overview ─────────────────────────────────────────────────── */
 
 .vecka-list { display: flex; flex-direction: column; gap: 8px; }
+@media (min-width: 860px), (orientation: landscape) and (max-height: 600px) {
+  .vecka-list { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+}
 .vcard {
   display: flex; gap: 12px; background: var(--paper); border: 1px solid var(--line2);
   border-radius: 9px; padding: 12px 13px; align-items: center; cursor: pointer;
@@ -345,7 +361,7 @@ input, select, textarea { font-family: inherit; }
 }
 .sugg-assign.on { background: var(--green-bg); border-color: var(--green); color: var(--green-d); }
 
-@media (min-width: 860px) {
+@media (min-width: 860px), (orientation: landscape) and (max-height: 600px) {
   .sugg-list { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
   .sugg-card { align-items: flex-start; }
 }
@@ -372,7 +388,7 @@ input, select, textarea { font-family: inherit; }
 .handla-grid { display: block; }
 .handla-col + .handla-col { margin-top: 22px; }
 .handla-removed { margin-top: 22px; }
-@media (min-width: 860px) {
+@media (min-width: 860px), (orientation: landscape) and (max-height: 600px) {
   .handla-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
   .handla-col + .handla-col { margin-top: 0; }
   .handla-removed { grid-column: 1 / -1; margin-top: 0; }
@@ -414,7 +430,7 @@ input, select, textarea { font-family: inherit; }
 .fynd-mode-btn.active { background: var(--gold); color: #201a0d; border-color: var(--gold); }
 
 .fynd-scroll { display: flex; flex-direction: column; gap: 18px; }
-@media (min-width: 860px) {
+@media (min-width: 860px), (orientation: landscape) and (max-height: 600px) {
   .fynd-scroll--wide { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 24px; align-content: start; }
 }
 .fynd-cat-title { display: flex; justify-content: space-between; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; color: var(--sub); margin: 0 0 8px; padding-bottom: 6px; border-bottom: 1px solid var(--line); }
@@ -468,7 +484,7 @@ input, select, textarea { font-family: inherit; }
 
 .bevaka-grid { display: block; }
 .bevaka-col + .bevaka-col { margin-top: 22px; }
-@media (min-width: 860px) {
+@media (min-width: 860px), (orientation: landscape) and (max-height: 600px) {
   .bevaka-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
   .bevaka-col + .bevaka-col { margin-top: 0; }
 }
@@ -490,7 +506,7 @@ input, select, textarea { font-family: inherit; }
 }
 .recipe-search-empty { color: var(--muted); font-size: 13px; padding: 10px 2px; }
 .recipe-scroll-list { display: block; }
-@media (min-width: 860px) { .recipe-scroll-list { max-width: 640px; margin: 0 auto; } }
+@media (min-width: 860px), (orientation: landscape) and (max-height: 600px) { .recipe-scroll-list { max-width: 640px; margin: 0 auto; } }
 
 /* ─── Historik ─────────────────────────────────────────────────────────── */
 
@@ -534,7 +550,7 @@ input, select, textarea { font-family: inherit; }
 /* ─── Familj ────────────────────────────────────────────────────────────  */
 
 .familj-grid { display: flex; flex-direction: column; gap: 22px; }
-@media (min-width: 860px) {
+@media (min-width: 860px), (orientation: landscape) and (max-height: 600px) {
   .familj-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
 }
 .sched-days { display: flex; flex-direction: column; gap: 6px; }
@@ -587,7 +603,7 @@ input, select, textarea { font-family: inherit; }
 /* ─── Anteckningar ─────────────────────────────────────────────────────── */
 
 .note-grid { display: flex; flex-direction: column; gap: 22px; }
-@media (min-width: 860px) {
+@media (min-width: 860px), (orientation: landscape) and (max-height: 600px) {
   .note-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
 }
 .note-col { display: flex; flex-direction: column; gap: 8px; }
@@ -747,7 +763,7 @@ input, select, textarea { font-family: inherit; }
 }
 .stash-expand-btn:hover { color: var(--ink); border-color: var(--ink); }
 
-@media (min-width: 860px) {
+@media (min-width: 860px), (orientation: landscape) and (max-height: 600px) {
   .stash-cook .sugg-list, .stash-suggest .sugg-list { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
 }
 
