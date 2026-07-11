@@ -63,6 +63,10 @@ const SNACKS = [
   'chips', 'godis', 'snacks', 'choklad', 'kex', 'nöt', 'nötter', 'proteinbar', 'kola',
   'lakrits', 'popcorn', 'bilar', 'kulor', 'praliner', 'tuggummi',
 ]
+// Household/cleaning products whose name borrows a food word (a scent, a shape) —
+// e.g. "Allrengöringssvamp" (cleaning sponge, "svamp" also means mushroom) or an
+// apple-scented "Städservett" (wipe). Checked before any produce/protein keyword.
+const NON_FOOD_RE = /rengör|städ|disk(?:medel|borste|svamp|trasa)|tvättmedel|tvättsvamp|badsvamp|toalettpapper|hushållspapper|mjukmedel/
 
 // Known false-positive collisions where a keyword hides inside an unrelated word
 // (e.g. "sill" inside pasta "fusilli", "ägg" inside "äggnudlar", "böna" inside
@@ -92,7 +96,9 @@ function classify(o) {
   // Fruit-derived drinks/snack bars are drinks/snacks, not produce.
   // Fruit-flavored drinks/dairy/snack bars are drinks/dairy/snacks, not produce.
   const isFruitDrinkOrSnack = /dryck|smoothie|klämmis|stång|juice|saft|yoghurt|kvarg|\bfil\b|grädde/.test(namn)
+  const isNonFood = NON_FOOD_RE.test(namn)
 
+  if (isNonFood) return 'ovrigt'
   if (!isReadyMeal && hasAny(namn, PROTEIN)) {
     return frozen ? 'protein_fryst' : 'protein_farsk'
   }
