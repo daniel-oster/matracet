@@ -128,7 +128,7 @@ export default function SkafferiView({ onBack, recipeIndex, eaters, onOpenRecipe
         onBack={onBack}
         eyebrow="Semesterläge"
         title="Skafferi"
-        right={activeItems.length > 0 ? `${activeItems.length} i poolen` : undefined}
+        right={activeItems.length > 0 ? `${activeItems.length} i skafferiet` : undefined}
       />
       <div className="screen-body">
         <section className="stash-cook">
@@ -164,7 +164,7 @@ export default function SkafferiView({ onBack, recipeIndex, eaters, onOpenRecipe
                       className={`sugg-assign${stashedSlugs.has(m.entry.slug) ? ' on' : ''}`}
                       onClick={() => toggleRecipeInPool(m.entry)}
                     >
-                      {stashedSlugs.has(m.entry.slug) ? '✓ I poolen' : '+ Skafferi'}
+                      {stashedSlugs.has(m.entry.slug) ? '✓ I skafferiet' : '+ Skafferi'}
                     </button>
                   </div>
                 </div>
@@ -379,7 +379,7 @@ export default function SkafferiView({ onBack, recipeIndex, eaters, onOpenRecipe
                 <div className="stash-chip stash-chip--done" key={item.id}>
                   <span className="stash-chip-kind">{KIND_ICON[item.kind]}</span>
                   <span className="stash-chip-name">{item.namn}</span>
-                  <button type="button" className="stash-chip-btn stash-chip-btn--restore" onClick={() => toggleDone(item.id)} title="Tillbaka till poolen">↺</button>
+                  <button type="button" className="stash-chip-btn stash-chip-btn--restore" onClick={() => toggleDone(item.id)} title="Tillbaka till skafferiet">↺</button>
                   <button type="button" className="stash-chip-btn stash-chip-btn--remove" onClick={() => remove(item.id)} title="Ta bort">✕</button>
                 </div>
               ))}

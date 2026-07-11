@@ -133,7 +133,7 @@ export default function Hub({ weekLabel, rollingDays, recipeIndex, dayPlans, onN
         </button>
 
         <div className="hub-grid">
-          <Tile em="🧺" tn="Skafferi" ts="semesterpool" onClick={() => onNavigate('skafferi')} />
+          <Tile em="🧺" tn="Skafferi" ts="råvaror & idéer" onClick={() => onNavigate('skafferi')} />
           <Tile em="🏷️" tn="Fynd" ts="veckans erbjudanden" onClick={() => onNavigate('fynd')} />
           <Tile em="🛒" tn="Handla" ts="inköpslista" onClick={() => onNavigate('handla')} />
           <Tile em="📖" tn="Recept" ts={`${recipeIndex.length} st`} onClick={() => onNavigate('recept')} />
