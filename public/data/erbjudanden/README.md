@@ -204,7 +204,7 @@ Schema per post (`BevakningItem` i `src/types.ts`):
 | `kategori` | Samma kategori-id som erbjudanden, styr emoji/gruppering |
 | `sok` | Lista med gemener-substrängar som matchas mot erbjudandets `namn`/`marke`. **Tom lista** = bevaka hela `kategori` istället för enskilda sökord (t.ex. all frukt & grönt, alla snacks) |
 | `undvik_marken` | Varumärkes-substrängar som diskvalificerar en annars matchande träff (t.ex. inte Gevalia) |
-| `onskat_marke` | Ev. specifikt märke man vill ha (`null` om inte bestämt) |
+| `onskat_marke` | Ev. specifikt märke man vill ha (`null` om inte bestämt). **Hård filter**, inte bara info — om satt måste erbjudandets `namn`/`marke` innehålla det, annars räknas det inte som en träff (`matchesBevakning` i `src/lib/bevaka.ts`), samma nivå som `undvik_marken`. Behövs eftersom `sok` ofta är generiskt (t.ex. `"tandkräm"`) och annars skulle flagga alla märken i kategorin |
 | `storlek_hint` | Fritext om önskad storlek/förpackning (`null` annars) |
 | `troskel_kr` | Ev. priströskel i kr för "bra köp" (`null` = ingen automatisk gräns, bara manuell bedömning) |
 | `anteckning` | Fritext-anteckning |

@@ -91,8 +91,12 @@ bug. A *food* category on a cleaning/hygiene product is the bug.
 
 - `ord_pris`, `pris_30dgr`, `besparing` are `string | null` in `src/types.ts` — always
   quote them (`"49.85-52.95"`), even if hand-transcribing a single number. A bare
-  number is valid JSON but breaks `FyndView`/`BevakaView` at runtime (`.includes is not
-  a function`) since nothing at compile time catches this (JSON has no type checking).
+  number is valid JSON but breaks things at runtime since nothing at compile time
+  catches this (JSON has no type checking) — and the two crash sites are in different
+  screens, so testing only one won't catch both: `FyndView` calls `ord_pris.includes('-')`
+  directly; `besparing` instead breaks later, in `parseSavings` (`src/lib/suggestions.ts`,
+  used by `VeckanPlanner`'s suggestion tags and `SkafferiView`'s savings-highlighted offer
+  chips) — `BevakaView` doesn't touch either field, so it won't reveal this class of bug.
 - Amounts use decimal **points**, not Swedish commas: `34.02`, not `34,02`.
 - `jamforpris` (kr/kg or kr/l) is the cross-store comparison key — fill it whenever the
   source exposes it.
@@ -106,8 +110,24 @@ bug. A *food* category on a cleaning/hygiene product is the bug.
 
 ## 6. Verify
 
+Four screens read this data, each exercising a different code path — checking only Fynd
+does not exercise the other three, and each has broken silently on bad data before:
+
 - `npm run test` (existing classification/logic unit tests must still pass).
-- Load the app and check the **Fynd** tab (`npm run screenshot` or `npm run dev` +
-  manual look) — confirm the new week's offers render under the expected category
-  groupings (Protein/Grönt Färskt-Fryst/Frukt/Snacks/Övrigt), not just that the JSON
-  parses.
+- **Fynd** tab (`npm run screenshot` or `npm run dev` + manual look) — confirm the new
+  week's offers render under the expected category groupings (Protein/Grönt
+  Färskt-Fryst/Frukt/Snacks/Övrigt), not just that the JSON parses.
+- **Bevaka** tab — spot-check the matched-offers side against
+  `public/data/erbjudanden/bevakningslista.json`. Most `sok` keywords are generic
+  (`"tandkräm"`, `"schampo"`, `"toalettpapper"` match every brand in that category), so
+  for any watch-list item with `onskat_marke` set, confirm the offers it actually
+  matched are that brand — `matchesBevakning` (`src/lib/bevaka.ts`) enforces
+  `onskat_marke` as a hard filter, but a brand-name typo in either the watch-list entry
+  or a freshly-imported offer's `marke`/`namn` field silently produces zero matches
+  instead of an error. `HandlaView`'s bevaka column reads the same
+  `findBevakaHits`/`matchesBevakning` path, so the Bevaka tab check covers it too — no
+  need to check both.
+- **Veckan → Planera** (or **Skafferi**) — open the suggestion list briefly. This is the
+  only check that exercises `findOfferMatch`/`parseSavings` (`src/lib/suggestions.ts`)
+  against the new week's data; a malformed `besparing` field (see the schema-gotchas
+  note above) crashes here, not in Fynd or Bevaka.
