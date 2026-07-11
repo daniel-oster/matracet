@@ -20,8 +20,10 @@ function storeWith(overrides: Override[]): PresenceStore {
 // Daniel block:  Fri  5 Jun – Thu 11 Jun 2026
 // Mother block:  Fri 12 Jun – Thu 18 Jun 2026
 //
-// School-term-only Monday/Wednesday exception (kids visit even on a mother
-// week) is active through 2026-06-01 inclusive, then suspended for summer.
+// Monday/Wednesday exception (kids visit even on a mother week) runs two back
+// to back: school-term version (with a 19:00 structural handover) through
+// 2026-06-01 inclusive, then a summer version (mon-weekly-summer /
+// wed-biweekly-summer, no structural handover) from 2026-06-02 onward.
 
 // ── 1. Daniel-week block: Fri–Thu, kids present throughout ──────────────────
 
@@ -45,14 +47,21 @@ describe('Daniel-week block (Fri–Thu) — kids present every day', () => {
   })
 })
 
-// ── 2. Mother-week block, summer (no term-time exception) ───────────────────
+// ── 2. Mother-week block, summer — Monday/Wednesday exception continues ─────
 
-describe('Mother-week block (Fri–Thu), summer — no kids at all, incl. Monday/Wednesday', () => {
-  it('resolves to Daniel + Erika for the whole Fri 12 Jun – Thu 18 Jun block', () => {
-    const block = ['2026-06-12', '2026-06-13', '2026-06-14', '2026-06-15', '2026-06-16', '2026-06-17', '2026-06-18']
-    for (const date of block) {
+describe('Mother-week block (Fri–Thu), summer — Monday/Wednesday exception continues', () => {
+  it('Monday and Wednesday still resolve to Daniel + barn, other days Daniel + Erika, for Fri 12 Jun – Thu 18 Jun', () => {
+    const monWed = ['2026-06-15', '2026-06-17']
+    for (const date of monWed) {
       const plan = resolvePresence(date, SEED_STORE)
-      expect(plan.activeGroup?.id, `${date} should be Daniel + Erika`).toBe('daniel-erika')
+      expect(plan.activeGroup?.id, `${date} summer Mon/Wed exception`).toBe('daniel-barn')
+      expect(plan.portions).toBe(3)
+      expect(plan.windowNotes.some(n => n.startsWith('Överlämning')), `${date} has no structural handover in summer`).toBe(false)
+    }
+    const rest = ['2026-06-12', '2026-06-13', '2026-06-14', '2026-06-16', '2026-06-18']
+    for (const date of rest) {
+      const plan = resolvePresence(date, SEED_STORE)
+      expect(plan.activeGroup?.id, `${date} no exception`).toBe('daniel-erika')
       expect(plan.portions).toBe(2)
     }
   })
@@ -69,6 +78,7 @@ describe('Mother-week block (Fri–Thu), term-time — Monday/Wednesday exceptio
       const plan = resolvePresence(date, SEED_STORE)
       expect(plan.activeGroup?.id, `${date} Mon/Wed exception`).toBe('daniel-barn')
       expect(plan.portions).toBe(3)
+      expect(plan.windowNotes.some(n => n.startsWith('Överlämning 19:00')), `${date} has the term-time 19:00 handover`).toBe(true)
     }
     const rest = ['2026-05-15', '2026-05-16', '2026-05-19', '2026-05-21']
     for (const date of rest) {
@@ -89,10 +99,15 @@ describe('July 2026 — kids present Mon–Thu, gone Friday morning', () => {
     }
   })
 
-  it('Fri 10 Jul – Thu 16 Jul (the following mother block) → Daniel + Erika', () => {
-    for (const date of ['2026-07-10', '2026-07-11', '2026-07-12', '2026-07-13', '2026-07-14', '2026-07-15', '2026-07-16']) {
+  it('Fri 10 Jul – Thu 16 Jul (the following mother block) → Daniel + Erika, except the Mon/Wed summer exception', () => {
+    for (const date of ['2026-07-10', '2026-07-11', '2026-07-12', '2026-07-14', '2026-07-16']) {
       const plan = resolvePresence(date, SEED_STORE)
       expect(plan.activeGroup?.id, `${date} should be Daniel + Erika`).toBe('daniel-erika')
+    }
+    // Mon 13 Jul / Wed 15 Jul: summer Mon/Wed exception → Daniel + barn
+    for (const date of ['2026-07-13', '2026-07-15']) {
+      const plan = resolvePresence(date, SEED_STORE)
+      expect(plan.activeGroup?.id, `${date} summer Mon/Wed exception`).toBe('daniel-barn')
     }
   })
 })
@@ -133,11 +148,11 @@ describe('Override: CLEAR', () => {
     }
     const store = storeWith([override])
 
-    const dayBefore = resolvePresence('2026-06-15', store)  // Mother-week Monday
+    const dayBefore = resolvePresence('2026-06-15', store)  // Mother-week Monday — summer Mon exception fires
     const clearDay  = resolvePresence('2026-06-16', store)  // cleared
     const dayAfter  = resolvePresence('2026-06-08', store)  // Daniel-week Monday
 
-    expect(dayBefore.activeGroup?.id).toBe('daniel-erika')
+    expect(dayBefore.activeGroup?.id).toBe('daniel-barn')
     expect(clearDay.activeGroup).toBeNull()
     expect(clearDay.portions).toBe(0)
     expect(dayAfter.activeGroup?.id).toBe('daniel-barn')
@@ -247,8 +262,8 @@ describe('Acceptance: 28-day table from 2026-05-22', () => {
     expect(groupAt('2026-05-30'), '2026-05-30 mother weekend').toBe('daniel-erika')
     expect(groupAt('2026-05-31'), '2026-05-31 mother weekend').toBe('daniel-erika')
     expect(groupAt('2026-06-01'), '2026-06-01 Monday exception (term-time, boundary day)').toBe('daniel-barn')
-    expect(groupAt('2026-06-02'), '2026-06-02 no exception').toBe('daniel-erika')
-    expect(groupAt('2026-06-03'), '2026-06-03 no Wednesday exception (past summer cutoff)').toBe('daniel-erika')
+    expect(groupAt('2026-06-02'), '2026-06-02 no exception (Tuesday)').toBe('daniel-erika')
+    expect(groupAt('2026-06-03'), '2026-06-03 Wednesday exception (summer version)').toBe('daniel-barn')
     expect(groupAt('2026-06-04'), '2026-06-04 no exception').toBe('daniel-erika')
 
     // Daniel block: Fri 5 Jun – Thu 11 Jun
@@ -256,9 +271,12 @@ describe('Acceptance: 28-day table from 2026-05-22', () => {
       expect(groupAt(date), `${date} Daniel block`).toBe('daniel-barn')
     }
 
-    // Mother block, summer: Fri 12 Jun – Thu 18 Jun — no exception anywhere
-    for (const date of ['2026-06-12', '2026-06-13', '2026-06-14', '2026-06-15', '2026-06-16', '2026-06-17', '2026-06-18']) {
+    // Mother block, summer: Fri 12 Jun – Thu 18 Jun — Mon/Wed exception still fires
+    for (const date of ['2026-06-12', '2026-06-13', '2026-06-14', '2026-06-16', '2026-06-18']) {
       expect(groupAt(date), `${date} mother block, summer`).toBe('daniel-erika')
+    }
+    for (const date of ['2026-06-15', '2026-06-17']) {
+      expect(groupAt(date), `${date} mother block, summer Mon/Wed exception`).toBe('daniel-barn')
     }
   })
 })

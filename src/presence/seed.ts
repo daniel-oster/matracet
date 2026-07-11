@@ -39,17 +39,20 @@ export const GROUPS: Group[] = [
 //   Mån–Tor  Daniel + barn                Daniel + Erika
 //   Fre–Sön  Daniel + barn                Daniel + Erika
 //
-// (school-term only, on top of the above — see mon-weekly/wed-biweekly below):
-//   Mån/Ons på mor-vecka: barnen ändå hos Daniel (skolans logistik), lämn 19:00.
-//   Suspenderat för sommaren (validUntil 2026-06-01) tills terminen börjar igen.
+// (on top of the above — see mon-weekly(-summer)/wed-biweekly(-summer) below):
+//   Mån/Ons på mor-vecka: barnen ändå hos Daniel.
+//   School term (through 2026-06-01): skolans logistik, lämn 19:00 (mon-weekly/wed-biweekly).
+//   Summer (from 2026-06-02): samma undantag, men ingen strukturerad lämningstid
+//   (mon-weekly-summer/wed-biweekly-summer, validUntil open until autumn term date is known).
 //
 // Priority: kids rules (2) win over the Erika-week rules (1), which win over the
 // daniel-solo baseline (0). At most one rule of each priority fires on a day.
 export const RULES: PresenceRule[] = [
   {
     // School-term only: Monday always has kids, even on a mother-week, because of
-    // school pickup logistics. Suspended for summer (validUntil) — bump validFrom
-    // when term resumes to re-enable for the next school year.
+    // school pickup logistics — includes a 19:00 structural handover tied to that
+    // logistics. Ended 2026-06-01 when spring term ended; superseded by
+    // mon-weekly-summer below. Re-enable (new validFrom) when autumn term starts.
     id: 'mon-weekly',
     groupId: 'daniel-barn',
     cadence: 'WEEKLY',
@@ -64,7 +67,7 @@ export const RULES: PresenceRule[] = [
     // School-term only: same Wednesday exception on mother-week Wednesdays.
     // Anchor 2026-05-22 puts this on the Wednesday of the ISO week that also
     // contains the May 29 mother-weekend (see comment above on ISO-week offsets).
-    // Suspended for summer — see mon-weekly.
+    // Ended 2026-06-01 — see mon-weekly.
     id: 'wed-biweekly',
     groupId: 'daniel-barn',
     cadence: 'BIWEEKLY',
@@ -74,6 +77,34 @@ export const RULES: PresenceRule[] = [
     validUntil: '2026-06-01',
     priority: 2,
     handoverByWeekday: { 3: '19:00' },
+  },
+  {
+    // Summer-long replacement for mon-weekly: same "kids with Daniel every Monday
+    // regardless of custody week" override, but with NO structural handover time —
+    // unlike school term, there's no fixed pickup logistics driving a cutoff over
+    // summer. TODO: tighten validUntil to the actual autumn term start date once
+    // known (currently open-ended from agreement on 2026-07-11).
+    id: 'mon-weekly-summer',
+    groupId: 'daniel-barn',
+    cadence: 'WEEKLY',
+    weekdays: [1],
+    anchorDate: null,
+    validFrom: '2026-06-02',
+    validUntil: null,
+    priority: 2,
+  },
+  {
+    // Summer-long replacement for wed-biweekly — same mother-week-Wednesday
+    // exception, same anchor (so the biweekly parity lines up identically with the
+    // custody rotation), no structural handover. See mon-weekly-summer.
+    id: 'wed-biweekly-summer',
+    groupId: 'daniel-barn',
+    cadence: 'BIWEEKLY',
+    weekdays: [3],
+    anchorDate: '2026-05-22',
+    validFrom: '2026-06-02',
+    validUntil: null,
+    priority: 2,
   },
   {
     // Fri–Sun of a Daniel custody block. Anchor: 2026-05-22 is a known instance.
