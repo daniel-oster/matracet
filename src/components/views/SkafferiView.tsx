@@ -172,7 +172,7 @@ export default function SkafferiView({ onBack, recipeIndex, eaters, onOpenRecipe
         </section>
 
         <section className="stash-pool">
-          <h3 className="shop-group-title">Din pool</h3>
+          <h3 className="shop-group-title">I ditt skafferi</h3>
           {activeItems.length === 0 && (
             <div className="fynd-empty">
               Skafferiet är tomt — plocka fynd eller lägg till en egen idé nedan.
