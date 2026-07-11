@@ -372,6 +372,8 @@ input, select, textarea { font-family: inherit; }
 .handla-grid { display: block; }
 .handla-col + .handla-col { margin-top: 22px; }
 .handla-removed { margin-top: 22px; }
+.handla-storebar-wrap { padding: 16px 16px 0; }
+.handla-storebar { display: flex; gap: 6px; flex-wrap: wrap; }
 @media (min-width: 860px) {
   .handla-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
   .handla-col + .handla-col { margin-top: 0; }
@@ -396,6 +398,13 @@ input, select, textarea { font-family: inherit; }
 .shop-row--compact .box { width: 14px; height: 14px; border-radius: 4px; }
 .shop-meal-tag { color: var(--muted2); font-size: 12px; }
 .shop-meta { margin-left: auto; color: var(--red); font-style: normal; font-size: 13px; }
+.shop-store-tag {
+  margin-left: auto; flex: none; font-family: inherit; font-size: 10.5px; padding: 3px 9px;
+  border-radius: 999px; border: 1px solid var(--line); background: var(--cream); color: var(--muted2); cursor: pointer;
+}
+.shop-store-tag.willys { background: #3f7d3f; color: #fff; border-color: #3f7d3f; }
+.shop-store-tag.ica { background: #c23b3b; color: #fff; border-color: #c23b3b; }
+.shop-store-tag.hemkop { background: #d99a1f; color: #fff; border-color: #d99a1f; }
 .shop-add-form { display: flex; gap: 8px; margin-top: 6px; }
 .shop-add-input { flex: 1; font-size: 14px; padding: 9px 11px; border-radius: 7px; border: 1px solid var(--line); background: var(--cream); }
 .shop-add-btn { font-family: inherit; font-size: 13px; padding: 9px 13px; border-radius: 7px; border: 1px solid var(--line); background: var(--paper); cursor: pointer; }
@@ -406,6 +415,7 @@ input, select, textarea { font-family: inherit; }
 .fynd-filters { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
 .fynd-week-select { font-family: inherit; font-size: 12px; padding: 5px 9px; border-radius: 99px; border: 1px solid var(--line); background: var(--cream); }
 .fynd-chip { font-family: inherit; font-size: 12px; padding: 5px 12px; border-radius: 99px; border: 1px solid var(--line); background: var(--cream); color: var(--sub); cursor: pointer; }
+.fynd-chip.on { background: var(--ink); color: var(--cream); border-color: var(--ink); }
 .fynd-chip.on.willys { background: #3f7d3f; color: #fff; border-color: #3f7d3f; }
 .fynd-chip.on.ica { background: #c23b3b; color: #fff; border-color: #c23b3b; }
 .fynd-chip.on.hemkop { background: #d99a1f; color: #fff; border-color: #d99a1f; }

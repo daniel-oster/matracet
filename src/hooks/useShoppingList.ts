@@ -11,9 +11,13 @@ export interface ShoppingListState {
   /** Ids of items (recipe ingredient, bevaka hit, or manual) the user has checked off — "already have, don't need". Kept (not deleted) so they can be restored. */
   removedIds: string[]
   manualItems: ManualShoppingItem[]
+  /** Manual item id -> store key ('willys'/'ica'/'hemkop'), for the few manual adds that are
+   * tied to one specific store (e.g. "toilet paper, the big Willys pack"). Unset = shown in
+   * every store's filtered view — see HandlaView's "show one store at a time" mode. */
+  storeAssignments: Record<string, string>
 }
 
-const EMPTY: ShoppingListState = { removedIds: [], manualItems: [] }
+const EMPTY: ShoppingListState = { removedIds: [], manualItems: [], storeAssignments: {} }
 
 export const shoppingListStore = createLocalStore<ShoppingListState>('matracet:shopping:v1', EMPTY)
 
@@ -67,15 +71,28 @@ function removeOrMarkByName(vara: string): void {
   if (existing) markRemoved(existing.id)
 }
 
+/** Cycles a manual item's store tag through willys -> ica -> hemkop -> (unset). */
+function cycleStore(id: string, order: string[]): void {
+  const state = shoppingListStore.get()
+  const assignments = { ...(state.storeAssignments ?? {}) }
+  const idx = assignments[id] ? order.indexOf(assignments[id]) : -1
+  const next = idx + 1 < order.length ? order[idx + 1] : null
+  if (next) assignments[id] = next
+  else delete assignments[id]
+  shoppingListStore.set({ ...state, storeAssignments: assignments })
+}
+
 export interface UseShoppingList {
   removedIds: Set<string>
   manualItems: ManualShoppingItem[]
+  storeAssignments: Record<string, string>
   markRemoved: (id: string) => void
   restore: (id: string) => void
   addManualItem: (vara: string) => void
   addOrRestoreByName: (vara: string) => void
   removeOrMarkByName: (vara: string) => void
   isActiveByName: (vara: string) => boolean
+  cycleStore: (id: string, order: string[]) => void
 }
 
 export function useShoppingList(): UseShoppingList {
@@ -84,6 +101,7 @@ export function useShoppingList(): UseShoppingList {
   return {
     removedIds,
     manualItems: data.manualItems,
+    storeAssignments: data.storeAssignments ?? {},
     markRemoved,
     restore,
     addManualItem,
@@ -94,5 +112,6 @@ export function useShoppingList(): UseShoppingList {
       const item = data.manualItems.find(m => m.vara.toLowerCase() === needle)
       return !!item && !removedIds.has(item.id)
     },
+    cycleStore,
   }
 }
