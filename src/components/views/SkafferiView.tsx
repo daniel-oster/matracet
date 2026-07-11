@@ -47,6 +47,8 @@ export default function SkafferiView({ onBack, recipeIndex, eaters, onOpenRecipe
   const { stores } = useOffers()
   const offers = useMemo(() => (stores ? tagOffers(stores) : []), [stores])
 
+  const [pantryExpanded, setPantryExpanded] = useState(false)
+
   const [query, setQuery] = useState('')
   const [filter, setFilter] = useState<SuggestionFilter>('fynd')
   const [sort, setSort] = useState<SuggestionSort>('savings')
@@ -137,7 +139,7 @@ export default function SkafferiView({ onBack, recipeIndex, eaters, onOpenRecipe
             </div>
           )}
           <div className="sugg-list">
-            {pantryMatches.slice(0, 12).map(m => (
+            {pantryMatches.slice(0, pantryExpanded ? 12 : 3).map(m => (
               <div key={m.entry.slug} className="sugg-card">
                 {m.entry.bildUrl
                   ? <img className="sugg-card-img" src={m.entry.bildUrl} alt="" />
@@ -162,6 +164,11 @@ export default function SkafferiView({ onBack, recipeIndex, eaters, onOpenRecipe
               </div>
             ))}
           </div>
+          {pantryMatches.length > 3 && (
+            <button type="button" className="stash-expand-btn" onClick={() => setPantryExpanded(e => !e)}>
+              {pantryExpanded ? '▲ Visa färre' : `▼ Visa fler (${Math.min(pantryMatches.length, 12) - 3})`}
+            </button>
+          )}
         </section>
 
         <section className="stash-pool">
