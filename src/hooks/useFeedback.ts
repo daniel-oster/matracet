@@ -79,6 +79,32 @@ function clearFeedback(recipeId: string): void {
   feedbackStore.set(next)
 }
 
+/**
+ * Seed any (recipe, person) rating present in the git-tracked backend snapshot
+ * but missing locally — e.g. a rating entered on another device and synced via
+ * the sync-local-storage skill. Local edits always win: an existing local entry
+ * for that recipe+person is never overwritten. Safe to call on every app load.
+ */
+export function mergeFeedbackBaseline(baseline: FeedbackStore): void {
+  const all = feedbackStore.get()
+  let changed = false
+  const next: FeedbackStore = { ...all }
+  for (const [recipeId, record] of Object.entries(baseline)) {
+    const local = next[recipeId]
+    const localPersonIds = new Set((local?.persons ?? []).map(p => p.personId))
+    const missing = record.persons.filter(p => !localPersonIds.has(p.personId))
+    if (missing.length === 0) continue
+    changed = true
+    next[recipeId] = {
+      recipeId,
+      excludeFromWeekPlan: local?.excludeFromWeekPlan ?? record.excludeFromWeekPlan,
+      updatedAt: now(),
+      persons: [...(local?.persons ?? []), ...missing],
+    }
+  }
+  if (changed) feedbackStore.set(next)
+}
+
 export interface UseFeedback {
   data: FeedbackStore
   getFeedback: (recipeId: string) => RecipeFeedbackRecord | null

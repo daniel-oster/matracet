@@ -1,4 +1,4 @@
-export type TabName = 'veckan' | 'handla' | 'recept' | 'familj' | 'anteckningar' | 'fynd' | 'bevaka' | 'skafferi'
+export type TabName = 'veckan' | 'handla' | 'recept' | 'familj' | 'anteckningar' | 'fynd' | 'bevaka' | 'skafferi' | 'historik' | 'synka'
 export type ScreenName = 'hub' | TabName
 export type MealKind = 'lunch' | 'dinner'
 

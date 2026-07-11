@@ -1,13 +1,13 @@
 {
-  "schemaVersion": "1.1",
+  "schemaVersion": "1.2",
   "week": {
-    "isoWeek": "2026-W26",
+    "isoWeek": "2026-W29",
     "year": 2026,
-    "startDate": "2026-06-22"
+    "startDate": "2026-07-13"
   },
   "days": [
     {
-      "date": "2026-06-22",
+      "date": "2026-07-13",
       "weekday": "mandag",
       "weekdayIso": 1,
       "present": [
@@ -26,15 +26,10 @@
       ],
       "portions": 3,
       "veganRequired": true,
-      "notes": [
-        "Trångt middagsfönster — ät senast 17:15",
-        "Överlämning 19:00",
-        "Sarah: Teater → avgång 18:00 (klar 20:00)",
-        "Annabelle: Modern 10–12 → avgång 17:15 (klar 18:30)"
-      ]
+      "notes": []
     },
     {
-      "date": "2026-06-23",
+      "date": "2026-07-14",
       "weekday": "tisdag",
       "weekdayIso": 2,
       "present": [
@@ -52,7 +47,7 @@
       "notes": []
     },
     {
-      "date": "2026-06-24",
+      "date": "2026-07-15",
       "weekday": "onsdag",
       "weekdayIso": 3,
       "present": [
@@ -61,16 +56,20 @@
           "name": "Daniel"
         },
         {
-          "id": "erika",
-          "name": "Erika"
+          "id": "sarah",
+          "name": "Sarah"
+        },
+        {
+          "id": "annabelle",
+          "name": "Annabelle"
         }
       ],
-      "portions": 2,
-      "veganRequired": false,
+      "portions": 3,
+      "veganRequired": true,
       "notes": []
     },
     {
-      "date": "2026-06-25",
+      "date": "2026-07-16",
       "weekday": "torsdag",
       "weekdayIso": 4,
       "present": [
@@ -88,7 +87,7 @@
       "notes": []
     },
     {
-      "date": "2026-06-26",
+      "date": "2026-07-17",
       "weekday": "fredag",
       "weekdayIso": 5,
       "present": [
@@ -97,16 +96,20 @@
           "name": "Daniel"
         },
         {
-          "id": "erika",
-          "name": "Erika"
+          "id": "sarah",
+          "name": "Sarah"
+        },
+        {
+          "id": "annabelle",
+          "name": "Annabelle"
         }
       ],
-      "portions": 2,
-      "veganRequired": false,
+      "portions": 3,
+      "veganRequired": true,
       "notes": []
     },
     {
-      "date": "2026-06-27",
+      "date": "2026-07-18",
       "weekday": "lordag",
       "weekdayIso": 6,
       "present": [
@@ -115,16 +118,20 @@
           "name": "Daniel"
         },
         {
-          "id": "erika",
-          "name": "Erika"
+          "id": "sarah",
+          "name": "Sarah"
+        },
+        {
+          "id": "annabelle",
+          "name": "Annabelle"
         }
       ],
-      "portions": 2,
-      "veganRequired": false,
+      "portions": 3,
+      "veganRequired": true,
       "notes": []
     },
     {
-      "date": "2026-06-28",
+      "date": "2026-07-19",
       "weekday": "sondag",
       "weekdayIso": 7,
       "present": [
@@ -133,12 +140,16 @@
           "name": "Daniel"
         },
         {
-          "id": "erika",
-          "name": "Erika"
+          "id": "sarah",
+          "name": "Sarah"
+        },
+        {
+          "id": "annabelle",
+          "name": "Annabelle"
         }
       ],
-      "portions": 2,
-      "veganRequired": false,
+      "portions": 3,
+      "veganRequired": true,
       "notes": []
     }
   ],
@@ -166,52 +177,13 @@
   },
   "recentHistory": [
     {
-      "date": "2026-06-15",
-      "recipeId": "tacos-kottfars",
-      "title": "Tacos med köttfärs",
+      "date": "2026-07-05",
+      "recipeId": "teriyakikyckling-riskokare",
+      "title": "Teriyakikyckling i riskokare",
       "protein": "kott",
       "cuisine": null,
-      "sentiment": null
-    },
-    {
-      "date": "2026-06-16",
-      "recipeId": "varldens-lattaste-torsk",
-      "title": "Världens lättaste torsk i ugn",
-      "protein": "fisk",
-      "cuisine": null,
-      "sentiment": null
-    },
-    {
-      "date": "2026-06-17",
-      "recipeId": "pasta-fetaost-paprika",
-      "title": "Pasta med fetaost och rostad paprika",
-      "protein": "vegetarisk",
-      "cuisine": null,
-      "sentiment": null
-    },
-    {
-      "date": "2026-06-18",
-      "recipeId": "kramig-rakpasta-vitlok",
-      "title": "Krämig pasta med räkor och vitlök",
-      "protein": "fisk",
-      "cuisine": null,
-      "sentiment": null
-    },
-    {
-      "date": "2026-06-20",
-      "recipeId": "klassiska-kottbullar",
-      "title": "Klassiska köttbullar med potatismos",
-      "protein": "kott",
-      "cuisine": null,
-      "sentiment": null
-    },
-    {
-      "date": "2026-06-21",
-      "recipeId": "morotssoppa-kokos",
-      "title": "Morotssoppa med ingefära och kokosmjölk",
-      "protein": "vegansk",
-      "cuisine": null,
-      "sentiment": null
+      "sentiment": null,
+      "source": "planerat"
     }
   ],
   "recipeIndex": [
@@ -1374,6 +1346,64 @@
       "tags": [
         "vegansk"
       ]
+    },
+    {
+      "id": "teriyakikyckling-riskokare",
+      "title": "Teriyakikyckling i riskokare",
+      "protein": "kott",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "kott"
+      ]
+    },
+    {
+      "id": "pasta-pomodoro-avokado",
+      "title": "Pasta pomodoro med avokado",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "agg-avokado-rostat-brod",
+      "title": "Ägg & avokado på rostat bröd",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "zucchiniplattar-majs-fetaost",
+      "title": "Zucchiniplattar med majs och fetaost",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
+    },
+    {
+      "id": "snackpotter",
+      "title": "Snackpotter (köpta, 3 st)",
+      "protein": "okant",
+      "vegan": false,
+      "sentiment": null,
+      "tags": []
+    },
+    {
+      "id": "pastagratang-okokt-pasta",
+      "title": "Vego-pastagratäng på okokt pasta",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk"
+      ]
     }
   ],
   "pantryStaples": [
@@ -1386,15 +1416,15 @@
     "grönsaksbuljong",
     "köttbuljong",
     "tomatpuré",
-    "vetemjöl",
-    "ägg"
+    "vetemjöl"
   ],
   "meta": {
-    "referenceDate": "2026-06-20",
+    "referenceDate": "2026-07-11",
     "generatedBy": "scripts/build-brief.ts",
     "sources": [
       "public/data/recipes/_index.json",
       "public/data/weeks/*.json",
+      "public/data/history.json (spontana/oplanerade måltider, senaste 2 veckorna)",
       "public/data/pantry.json",
       "public/data/feedback.json (sentiment + uteslutningar)",
       "src/presence/seed.ts + activities.ts (närvaro/vårdnadsschema)",
