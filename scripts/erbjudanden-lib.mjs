@@ -38,12 +38,17 @@ export function markeringarFromUrsprung(ursprung, existing = []) {
 // authoritative — spot-check the output, especially "ovrigt" and the
 // fresh/frozen split, same as the pre-existing caveat for this classifier.
 const FROZEN_HINT = /glass|djupfryst|\bfryst\b/i;
+// Household/cleaning products whose *name* borrows a food word (a scent, a shape) —
+// checked before any produce/protein keyword so e.g. "Allrengöringssvamp" (cleaning
+// sponge, "svamp" also means mushroom) or an apple-scented "Städservett" (wipe) don't
+// get filed as veg/fruit. Bail to 'ovrigt' unconditionally, same pattern as READY_MEAL_RE.
+const NON_FOOD_RE = /rengör|städ|disk(?:medel|borste|svamp|trasa)|tvättmedel|tvättsvamp|badsvamp|toalettpapper|hushållspapper|mjukmedel/i;
 // Note: only kött/nötkött-style compounds are matched for beef, never a bare "nöt"
 // (peanuts, hazelnuts etc. would false-positive as protein — this classifier
 // migrated away from that exact bug, see erbjudanden-recategorize.mjs's header).
 const PROTEIN_RE = /kyckling|fläsk|nötkött|nötfärs|nötstek|nötgrytbitar|grytbitar|köttbullar|köttfärs|korv|bacon|skinka|färs|entrecote|karré|filé|file|biff|gyros|kebab|revben|spareribs|chark|salami|prosciutto|lax|fisk|torsk|räk|skaldjur|skagenröra|sill(?!i)|makrill|tonfisk|surimi|musslor|ägg\b|tofu|quorn|sojafärs|vegofärs|veggofärs|seitan|kikärt|böna|bönor|lins|linser|halloumi/i;
 const FRUIT_RE = /frukt|äpple|banan|apelsin|citron|avokado|melon|druv|bär|persika|nektarin|mango|ananas|päron|kiwi|plommon|aprikos|fikon|granatäpple/i;
-const VEG_RE = /sallad|tomat|gurka|potatis|lök|paprika|morot|broccoli|zucchini|svamp|vitkål|purjolök|blomkål|spenat|majs|ärtor|ärter|rödbeta|selleri|rädisa|vitlök/i;
+const VEG_RE = /sallad|tomat|gurka|potatis|lök|paprika|morot|broccoli|zucchini|svamp|champinjon|vitkål|purjolök|blomkål|spenat|majs|ärtor|ärter|rödbeta|selleri|rädisa|vitlök/i;
 const SNACKS_RE = /chips|godis|snacks|choklad|kex|nöt|nötter|proteinbar|kola|lakrits|popcorn/i;
 const READY_MEAL_RE = /pizza|bakverk|bulle|bröd|glass|efterrätt|tårta|paj\b|gratäng|nudlar/i;
 // Fruit-flavored drinks/dairy/snack bars are drinks/dairy/snacks, not produce.
@@ -61,6 +66,7 @@ const CATEGORY_KEYWORDS = [
 export function guessKategori(name, details) {
   // "pålägg" (generic "sandwich topping/spread", any kind) hides "ägg" inside it.
   const haystack = `${name} ${details}`.replace(/pålägg/gi, '');
+  if (NON_FOOD_RE.test(haystack)) return 'ovrigt';
   if (READY_MEAL_RE.test(haystack)) return 'ovrigt';
   for (const [re, kat] of CATEGORY_KEYWORDS) {
     if (re.test(haystack)) return kat(haystack);
