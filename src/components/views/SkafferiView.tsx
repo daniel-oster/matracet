@@ -47,6 +47,8 @@ export default function SkafferiView({ onBack, recipeIndex, eaters, onOpenRecipe
   const { stores } = useOffers()
   const offers = useMemo(() => (stores ? tagOffers(stores) : []), [stores])
 
+  const [pantryExpanded, setPantryExpanded] = useState(false)
+
   const [query, setQuery] = useState('')
   const [filter, setFilter] = useState<SuggestionFilter>('fynd')
   const [sort, setSort] = useState<SuggestionSort>('savings')
@@ -136,36 +138,43 @@ export default function SkafferiView({ onBack, recipeIndex, eaters, onOpenRecipe
               Inget matchar än — plocka in fynd eller råvaror i skafferiet nedan, så dyker recept upp här.
             </div>
           )}
-          <div className="sugg-list">
-            {pantryMatches.slice(0, 12).map(m => (
-              <div key={m.entry.slug} className="sugg-card">
-                {m.entry.bildUrl
-                  ? <img className="sugg-card-img" src={m.entry.bildUrl} alt="" />
-                  : <div className="sugg-card-img sugg-card-img--empty" />}
-                <div className="sugg-card-body">
-                  <button type="button" className="sugg-card-name" onClick={() => onOpenRecipe(m.entry.slug)}>
-                    {m.entry.namn}
-                  </button>
-                  <div className="sugg-card-tags">
-                    <span className="tray-tag tray-tag--vegan">🧺 {m.matchedNames.join(', ')}</span>
+          {pantryMatches.length > 0 && (
+            <button type="button" className="stash-expand-btn" onClick={() => setPantryExpanded(e => !e)}>
+              {pantryExpanded ? '▲ Dölj' : `▼ Visa (${Math.min(pantryMatches.length, 12)})`}
+            </button>
+          )}
+          {pantryExpanded && (
+            <div className="sugg-list">
+              {pantryMatches.slice(0, 12).map(m => (
+                <div key={m.entry.slug} className="sugg-card">
+                  {m.entry.bildUrl
+                    ? <img className="sugg-card-img" src={m.entry.bildUrl} alt="" />
+                    : <div className="sugg-card-img sugg-card-img--empty" />}
+                  <div className="sugg-card-body">
+                    <button type="button" className="sugg-card-name" onClick={() => onOpenRecipe(m.entry.slug)}>
+                      {m.entry.namn}
+                    </button>
+                    <div className="sugg-card-tags">
+                      <span className="tray-tag tray-tag--vegan">🧺 {m.matchedNames.join(', ')}</span>
+                    </div>
+                  </div>
+                  <div className="sugg-card-assign">
+                    <button
+                      type="button"
+                      className={`sugg-assign${stashedSlugs.has(m.entry.slug) ? ' on' : ''}`}
+                      onClick={() => toggleRecipeInPool(m.entry)}
+                    >
+                      {stashedSlugs.has(m.entry.slug) ? '✓ I poolen' : '+ Skafferi'}
+                    </button>
                   </div>
                 </div>
-                <div className="sugg-card-assign">
-                  <button
-                    type="button"
-                    className={`sugg-assign${stashedSlugs.has(m.entry.slug) ? ' on' : ''}`}
-                    onClick={() => toggleRecipeInPool(m.entry)}
-                  >
-                    {stashedSlugs.has(m.entry.slug) ? '✓ I poolen' : '+ Skafferi'}
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </section>
 
         <section className="stash-pool">
-          <h3 className="shop-group-title">Din pool</h3>
+          <h3 className="shop-group-title">I ditt skafferi</h3>
           {activeItems.length === 0 && (
             <div className="fynd-empty">
               Skafferiet är tomt — plocka fynd eller lägg till en egen idé nedan.
