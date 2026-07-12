@@ -6,7 +6,7 @@ import { usePantry } from '../../hooks/usePantry'
 import { useOffers } from '../../hooks/useOffers'
 import { useBevakningslista } from '../../hooks/useBevakningslista'
 import { useShoppingList } from '../../hooks/useShoppingList'
-import { tagOffers, findBevakaHits, hitsForStore, CATEGORY_EMOJI, STORES } from '../../lib/bevaka'
+import { tagOffers, findBevakaHits, CATEGORY_EMOJI, STORES } from '../../lib/bevaka'
 import { aggregateIngredients, buildShoppingListText, formatAmount, formatShopLine } from '../../lib/shoppingList'
 import { groupByAisle } from '../../lib/storeOrder'
 import TopBar from '../TopBar'
@@ -72,6 +72,17 @@ export default function HandlaView({ onBack, rollingDays, rollingLunches }: Prop
     return findBevakaHits(bevakningslista, tagOffers(stores))
   }, [bevakningslista, stores])
 
+  // One row per matched offer, not per watch-list item — a category-wide watch (empty `sok`,
+  // e.g. "Frukt" or "Grönt") can match many distinct products in a week (melon, ananas, lime, ...),
+  // and collapsing them into a single generic-named row hid every match but the first.
+  const bevakaOfferHits = useMemo(
+    () =>
+      bevakaHits.flatMap(h =>
+        h.offers.map(o => ({ item: h.item, offer: o, id: `bevaka:${h.item.id}:${o.store}:${o.namn}` })),
+      ),
+    [bevakaHits],
+  )
+
   const { removedIds, manualItems, storeAssignments, markRemoved, restore, addManualItem, cycleStore } = useShoppingList()
 
   // "Show one store at a time" (null = "Alla"). Bevaka hits carry a real store from their
@@ -83,12 +94,12 @@ export default function HandlaView({ onBack, rollingDays, rollingLunches }: Prop
 
   const activeIngredients = ingredients.filter(i => !removedIds.has(i.id))
   const removedIngredients = ingredients.filter(i => removedIds.has(i.id))
-  const activeHits = bevakaHits.filter(h => !removedIds.has(`bevaka:${h.item.id}`))
-  const removedHits = bevakaHits.filter(h => removedIds.has(`bevaka:${h.item.id}`))
+  const activeHits = bevakaOfferHits.filter(h => !removedIds.has(h.id))
+  const removedHits = bevakaOfferHits.filter(h => removedIds.has(h.id))
   const activeManual = manualItems.filter(m => !removedIds.has(m.id))
   const removedManual = manualItems.filter(m => removedIds.has(m.id))
 
-  const hitsToShow = storeFilter ? hitsForStore(activeHits, storeFilter) : activeHits
+  const hitsToShow = storeFilter ? activeHits.filter(h => h.offer.store === storeFilter) : activeHits
 
   const rows: ShopRow[] = [
     ...activeIngredients.map(i => ({
@@ -99,18 +110,17 @@ export default function HandlaView({ onBack, rollingDays, rollingLunches }: Prop
       storeKey: storeAssignments[i.id] ?? null,
       taggable: true,
     })),
-    ...hitsToShow.map(h => {
-      const best = h.offers[0]
-      return {
-        id: `bevaka:${h.item.id}`,
-        vara: h.item.vara,
-        main: `${CATEGORY_EMOJI[h.item.kategori] ?? '📦'} ${h.item.vara}`,
-        why: best ? `${STORES[best.store]?.namn ?? best.store} · ${[best.marke, best.storlek].filter(Boolean).join(' · ')}` : undefined,
-        price: best?.pris_text,
-        storeKey: best?.store ?? null,
-        taggable: false,
-      }
-    }),
+    ...hitsToShow.map(h => ({
+      id: h.id,
+      vara: h.offer.namn,
+      main: `${CATEGORY_EMOJI[h.item.kategori] ?? '📦'} ${h.offer.namn}`,
+      why: [STORES[h.offer.store]?.namn ?? h.offer.store, [h.offer.marke, h.offer.storlek].filter(Boolean).join(' · ')]
+        .filter(Boolean)
+        .join(' · '),
+      price: h.offer.pris_text,
+      storeKey: h.offer.store,
+      taggable: false,
+    })),
     ...activeManual.map(m => ({
       id: m.id,
       vara: m.vara,
@@ -132,7 +142,7 @@ export default function HandlaView({ onBack, rollingDays, rollingLunches }: Prop
 
   const removedRows: { id: string; main: string; restoreId: string }[] = [
     ...removedIngredients.map(i => ({ id: i.id, restoreId: i.id, main: `${formatAmount(i.mangd, i.enhet)} ${i.vara}` })),
-    ...removedHits.map(h => ({ id: `bevaka:${h.item.id}`, restoreId: `bevaka:${h.item.id}`, main: `${CATEGORY_EMOJI[h.item.kategori] ?? '📦'} ${h.item.vara}` })),
+    ...removedHits.map(h => ({ id: h.id, restoreId: h.id, main: `${CATEGORY_EMOJI[h.item.kategori] ?? '📦'} ${h.offer.namn}` })),
     ...removedManual.map(m => ({ id: m.id, restoreId: m.id, main: m.vara })),
   ]
 
