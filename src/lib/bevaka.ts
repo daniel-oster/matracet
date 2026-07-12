@@ -48,14 +48,6 @@ export function findBevakaHits(items: BevakningItem[], all: TaggedOffer[]): Beva
     .filter(h => h.offers.length > 0)
 }
 
-/** Narrows hits down to just the offers actually in stock at one store, dropping hits
- * with no match there — used by HandlaView's "show one store at a time" filter. */
-export function hitsForStore(hits: BevakaHit[], store: string): BevakaHit[] {
-  return hits
-    .map(h => ({ item: h.item, offers: h.offers.filter(o => o.store === store) }))
-    .filter(h => h.offers.length > 0)
-}
-
 /** "ICA · Zoégas · 500g" — store plus the actual product label, not just a price. */
 export function describeOffer(o: TaggedOffer): string {
   const store = STORES[o.store]?.namn ?? o.store
