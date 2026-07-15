@@ -46,7 +46,17 @@ const NON_FOOD_RE = /rengör|städ|disk(?:medel|borste|svamp|trasa)|tvättmedel|
 // Note: only kött/nötkött-style compounds are matched for beef, never a bare "nöt"
 // (peanuts, hazelnuts etc. would false-positive as protein — this classifier
 // migrated away from that exact bug, see erbjudanden-recategorize.mjs's header).
-const PROTEIN_RE = /kyckling|fläsk|nötkött|nötfärs|nötstek|nötgrytbitar|grytbitar|köttbullar|köttfärs|korv|bacon|skinka|färs|entrecote|karré|filé|file|biff|gyros|kebab|revben|spareribs|chark|salami|prosciutto|lax|fisk|torsk|räk|skaldjur|skagenröra|sill(?!i)|makrill|tonfisk|surimi|musslor|ägg\b|tofu|quorn|sojafärs|vegofärs|veggofärs|seitan|kikärt|böna|bönor|lins|linser|halloumi/i;
+// "fisk" excludes a trailing "e" ("Magnetfiske", a fishing-hobby product, not
+// a food) — real food compounds always glue more letters directly onto "fisk"
+// (fiskpinnar, fiskgratäng, laxfisk), never "fisk" + "e" as its own word.
+// "färs" (mince/ground meat) excludes a trailing "k" — otherwise it matches inside
+// "färsk(t/a)" (fresh, an adjective, e.g. "Färsk pasta") and its compounds like
+// "Färskpotatis" (new potatoes). Real mince compounds always end in "färs" (nötfärs,
+// fläskfärs, köttfärs, ...), never "färsk...", so this is safe and exact — same shape
+// as the "fisk(?!e)" guard above, and matches guessAisleCategory's KOTT_FISK_PATTERNS
+// in src/lib/storeOrder.ts (a blanket "strip färsk\w*" was tried first here too, but
+// it also stripped "potatis" out of "Färskpotatis" whole, losing the veg match).
+const PROTEIN_RE = /kyckling|fläsk|nötkött|nötfärs|nötstek|nötgrytbitar|grytbitar|köttbullar|köttfärs|korv|bacon|skinka|färs(?!k)|entrecote|karré|filé|file|biff|burg(?:are|er)|gyros|kebab|revben|spareribs|chark|salami|prosciutto|lax|fisk(?!e)|torsk|räk|skaldjur|skagenröra|sill(?!i)|makrill|tonfisk|surimi|musslor|ägg\b|tofu|quorn|sojafärs|vegofärs|veggofärs|seitan|kikärt|böna|bönor|lins|linser|halloumi/i;
 const FRUIT_RE = /frukt|äpple|banan|apelsin|citron|avokado|melon|druv|bär|persika|nektarin|mango|ananas|päron|kiwi|plommon|aprikos|fikon|granatäpple/i;
 const VEG_RE = /sallad|tomat|gurka|potatis|lök|paprika|morot|broccoli|zucchini|svamp|champinjon|vitkål|purjolök|blomkål|spenat|majs|ärtor|ärter|rödbeta|selleri|rädisa|vitlök/i;
 const SNACKS_RE = /chips|godis|snacks|choklad|kex|nöt|nötter|proteinbar|kola|lakrits|popcorn/i;
@@ -65,7 +75,11 @@ const CATEGORY_KEYWORDS = [
 
 export function guessKategori(name, details) {
   // "pålägg" (generic "sandwich topping/spread", any kind) hides "ägg" inside it.
-  const haystack = `${name} ${details}`.replace(/pålägg/gi, '');
+  // "automat"/"automatic" (appliance product names, e.g. "Kaffebryggare
+  // Automatic") hides "tomat" inside it the same way.
+  const haystack = `${name} ${details}`
+    .replace(/pålägg/gi, '')
+    .replace(/automat\w*/gi, '');
   if (NON_FOOD_RE.test(haystack)) return 'ovrigt';
   if (READY_MEAL_RE.test(haystack)) return 'ovrigt';
   for (const [re, kat] of CATEGORY_KEYWORDS) {
