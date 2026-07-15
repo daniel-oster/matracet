@@ -76,7 +76,24 @@ const SNACKS_RE = /chips|godis|snacks|choklad|kex|nöt|nötter|proteinbar|kola|l
 // "kaka" excludes both a following "o" (kakao=cocoa) and being preceded by "choklad"/
 // "kola" — "Chokladkaka"/"Kolakaka" are candy bars, not cake.
 const BROD_RE = /bröd|limpa|frall|baguett|tortilla(?!\s*chips)|pitabröd|knäckebröd|skorp|croissant|(?<!kött)(?<!fläsk)(?<!fisk)(?<!vego)bull|giffl|levain|bâtard|kavring|rågbröd|sportbröd|surdeg|tannour|hönökaka|knäcke|orientbrd|kladdkaka|tårta|muffin|donut|wienerbröd|(?<!choklad)(?<!kola)kaka(?!o)|jubileum|franska/i;
-const FARDIGMAT_RE = /pizza|glass|efterrätt|paj\b|gratäng|pommes|frites|husmans|enportionsrätt|matpaj|soppa|pinsa/i;
+// Deli-prepared salads built on a starch base (potato, pasta, ...) carry a
+// produce keyword (VEG_RE's "potatis") but are a ready-to-eat side, not
+// fresh veg — unlike a protein-based deli salad (e.g. "Räksallad,
+// skagenröra"), which already resolves correctly via PROTEIN_RE above since
+// it's checked first. "Krämiga sallader"/"Salladsbaren" are the same deli
+// case without an explicit starch/protein word at all.
+const FARDIGMAT_RE = /pizza|glass|efterrätt|paj\b|gratäng|pommes|frites|husmans|enportionsrätt|matpaj|soppa|pinsa|potatissallad|krämiga? sallad|salladsbaren/i;
+// Canned/jarred tomato — "krossade"/"passerade"/"puré" alongside "tomat"
+// (in either word order: "Krossade, passerade tomater" vs. "Tomater
+// Krossade") is a pantry good, not fresh produce; VEG_RE's bare "tomat"
+// would otherwise claim it first. Two lookaheads match regardless of order.
+const CANNED_TOMAT_RE = /(?=.*tomat)(?=.*(?:kross|passerad|puré))/i;
+// "X-sås" condiment names routinely embed an unrelated food word (a flavor,
+// e.g. "Kebabsås Vitlök", "Gräddsås") that would otherwise be claimed by
+// PROTEIN_RE/VEG_RE/MEJERI_RE first — bail to skafferi before any of those
+// run. (SKAFFERI_RE also lists "sås", but that's checked last and would
+// never be reached once an earlier category claims the same haystack.)
+const SAUCE_RE = /sås\b|sauce|dressing|marinad|majo(?:nnäs)?|mayo|ketchup|pesto|bearnaise|aioli|senap|vinägrett/i;
 // Fruit-flavored yoghurt/kvarg/fil/grädde are dairy, fruit-flavored drinks/juice are
 // "dryck", fruit-flavored snack bars ("klämmis"/"stång") are snacks — none are produce.
 const FRUIT_DAIRY_RE = /yoghurt|yogurt|kvarg|\bfil\b|grädd/i;
@@ -101,11 +118,13 @@ const MEJERI_RE = /(?<!kokos)mjölk|(?<!kokos)grädd|yoghurt|yogurt|kvarg|keso|m
 // as word characters by default. Same trap as the fixed-width lookbehind/lookahead
 // guards elsewhere in this file, just via a different mechanism.
 const DRYCK_RE = /kaffe|läsk|cider|(?:^| )öl(?: |,|$)|cola|pepsi|energidryck|dryck|juice|saft|smoothie|kolsyrat|iste|ice coffee|ice tea|tonic|drinkmixer|nektar|barista|havredryck|vätskeersättning|ginger beer/i;
-const SKAFFERI_RE = /sås|sauce|dressing|senap|majo|mayo|ketchup|pesto|vinäger|olja|krydd|marinad|bearnaise|aioli|bbq|pasta|makaron|spagetti|fettuccine|lasagne|risoni|nudlar|noodle|jasminris|basmatiris|rismål|rislunsj|bulgur|couscous|quinoa|mjöl(?!k)|socker|honung|sirap|marmelad|sylt|hummus|oliv|kimchi|buljong|fond|soja|ströbröd|konserv|flingor|müsli|havregryn|havrekuddar|havregott|granola|nesquik|antipasti|tapas|pajdeg|bladdeg|matfett|vetemjöl|matvete|ättiksprit|kokosmjölk|kokosgrädde|cornichon/i;
+const SKAFFERI_RE = /vinäger|olja|krydd|bbq|pasta|makaron|spagetti|fettuccine|lasagne|risoni|nudlar|noodle|jasminris|basmatiris|rismål|rislunsj|bulgur|couscous|quinoa|mjöl(?!k)|socker|honung|sirap|marmelad|sylt|hummus|oliv|kimchi|buljong|fond|soja|ströbröd|konserv|flingor|müsli|havregryn|havrekuddar|havregott|granola|nesquik|antipasti|tapas|pajdeg|bladdeg|matfett|vetemjöl|matvete|ättiksprit|kokosmjölk|kokosgrädde|cornichon/i;
 const HYGIEN_RE = /schampo|balsam|tvål|tvätt|toalettpapper|hushållspapper|servett|tandkräm|tandborste|deo|deodorant|rakhyvel|rakblad|rakgel|rakvård|blöj|bindor|trosskydd|tampong|våtservett|myggmedel|insektsspray|getingspray|myrr|myrdosa|solskydd|solvård|spf|kräm|creme|cream|hårfärg|munskölj|fluorskölj|sköljmedel|fläckborttagning|mopp|wettex|avfallspåse|fryspåse|plastpåse|ugnsfolie|aluminiumfolie|dammsugarpåse|doftblock|pappmugg|papptallrik|dricksglas|bestick|tallrik|hund|katt|grillkol|grillbriketter|grillpinnar|grillrulle|flugsmäll|diskduk|handdiskmedel|maskindisk/i;
 const CATEGORY_KEYWORDS = [
   [BROD_RE, () => 'brod'],
   [FARDIGMAT_RE, () => 'fardigmat'],
+  [CANNED_TOMAT_RE, () => 'skafferi'],
+  [SAUCE_RE, () => 'skafferi'],
   [PROTEIN_RE, (h) => (FROZEN_HINT.test(h) ? 'protein_fryst' : 'protein_farsk')],
   [FRUIT_RE, (h) => {
     if (FRUIT_SNACK_RE.test(h)) return 'snacks_godis';
