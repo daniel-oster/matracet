@@ -31,6 +31,14 @@ förval men låter dig bläddra till valfri sparad vecka i `_index.json.veckor`.
 > strukturerade listan ger rena priser, jämförpris, ordinarie pris och
 > 30-dagarspris. (Hemköps grafiska blad var t.ex. oläsligt, den strukturerade
 > listan var bäst av alla tre butikerna.)
+>
+> **Sedan 2026-07 är en Safari `.webarchive` av butikens erbjudande-sida den
+> förväntade källan för alla tre butiker**, inte bara Willys — se
+> `.claude/skills/import-erbjudanden/SKILL.md` steg 1 för extraktion
+> (`erbjudanden-webarchive-extract.py`) och respektive `erbjudanden-parse-<butik>-html.mjs`.
+> Det ger exakta prissiffror direkt ur sidans DOM (schema.org-markup för Willys,
+> `data-testid`-attribut för ICA/Hemköp) utan kolumndelning eller
+> teckensnittsgissning. PDF-vägen nedan finns kvar som fallback.
 
 `<vecka>` följer samma ISO-format som veckomenyerna, t.ex. `2026-W25`.
 

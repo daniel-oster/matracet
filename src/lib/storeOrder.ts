@@ -78,11 +78,18 @@ const MEJERI_WORDS = [
 // "laxfilé") — exclude that one case; the actual protein keyword (lax/oxfilé/...) picks it up instead.
 const MEJERI_PATTERNS = [/fil(?!é)/]
 const KOTT_FISK_WORDS = [
-  'kött', 'fläsk', 'färs', 'kyckling', 'bacon', 'sidfläsk', 'skinka', 'korv', 'salami', 'prosciutto',
+  'kött', 'fläsk', 'kyckling', 'bacon', 'sidfläsk', 'skinka', 'korv', 'salami', 'prosciutto',
   'biff', 'entrecote', 'oxfilé', 'karré', 'revben', 'kalkon', 'anka', 'lamm', 'vilt',
   'fisk', 'torsk', 'lax', 'sej', 'kolja', 'räka', 'räkor', 'mussl', 'bläckfisk', 'tonfisk', 'sill', 'ansjovis',
   'tofu', 'quorn', 'seitan', 'tempeh',
 ]
+// "färs" (mince/ground meat) as a bare substring also matches inside "färsk(t/a)" (fresh, an
+// adjective) and its compounds, e.g. "Färskpotatis" (new potatoes) — exclude "färs" immediately
+// followed by "k" (real mince compounds always end in "färs": nötfärs, fläskfärs, köttfärs, ...,
+// never "färsk..."). A blanket strip of "färsk\w*" was tried first but also ate "potatis" out of
+// "Färskpotatis" whole, losing the FRUKT_GRONT_WORDS match it needs — matching only the exact
+// substring that's ambiguous is more precise than stripping the word that contains it.
+const KOTT_FISK_PATTERNS = [/färs(?!k)/]
 const BROD_WORDS = ['bröd', 'limpa', 'fralla', 'baguette', 'tortilla', 'pitabröd', 'knäckebröd', 'skorpor', 'croissant', 'bulle']
 const FRUKT_GRONT_WORDS = [
   'lök', 'morot', 'potatis', 'tomat', 'gurka', 'paprika', 'broccoli', 'blomkål', 'zucchini', 'aubergine',
@@ -92,9 +99,7 @@ const FRUKT_GRONT_WORDS = [
 
 /** Best-effort aisle guess for a grocery item name — the interim "normal order" categorizer. */
 export function guessAisleCategory(name: string): string {
-  // "färsk(t/a)" (fresh, an adjective) contains "färs" (mince/ground meat) as a substring —
-  // strip it before matching so e.g. "Grönt (färskt)" doesn't land in kött_fisk.
-  const hay = ` ${name.trim().toLowerCase()} `.replace(/färsk\w*/g, ' ')
+  const hay = ` ${name.trim().toLowerCase()} `
 
   for (const [re, id] of AMBIGUOUS_RE) if (re.test(hay)) return id
 
@@ -104,7 +109,7 @@ export function guessAisleCategory(name: string): string {
   if (includesAny(hay, FRYST_WORDS)) return 'fryst'
   if (matchesAny(hay, SKAFFERI_WORDS, SKAFFERI_PATTERNS)) return 'skafferi'
   if (matchesAny(hay, MEJERI_WORDS, MEJERI_PATTERNS)) return 'mejeri'
-  if (includesAny(hay, KOTT_FISK_WORDS)) return 'kott_fisk'
+  if (matchesAny(hay, KOTT_FISK_WORDS, KOTT_FISK_PATTERNS)) return 'kott_fisk'
   if (includesAny(hay, BROD_WORDS)) return 'brod'
   if (includesAny(hay, FRUKT_GRONT_WORDS)) return 'frukt_gront'
   return 'ovrigt'
