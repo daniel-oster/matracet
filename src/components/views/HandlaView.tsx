@@ -1,13 +1,7 @@
-import { useMemo, useRef, useState } from 'react'
-import { DayMeal } from '../../types'
-import { useWeekPlan, applyOverride } from '../../hooks/useWeekPlan'
-import { useRecipes } from '../../hooks/useRecipes'
-import { usePantry } from '../../hooks/usePantry'
-import { useOffers } from '../../hooks/useOffers'
-import { useBevakningslista } from '../../hooks/useBevakningslista'
+import { useRef, useState } from 'react'
 import { useShoppingList } from '../../hooks/useShoppingList'
-import { tagOffers, findBevakaHits, CATEGORY_EMOJI, STORES } from '../../lib/bevaka'
-import { aggregateIngredients, buildShoppingListText, formatAmount, formatShopLine } from '../../lib/shoppingList'
+import { STORES } from '../../lib/bevaka'
+import { buildShoppingListText, formatShopLine } from '../../lib/shoppingList'
 import { groupByAisle } from '../../lib/storeOrder'
 import TopBar from '../TopBar'
 
@@ -18,142 +12,58 @@ interface ShopRow {
   vara: string
   main: string
   why?: string
-  price?: string
   storeKey: string | null
   taggable: boolean
 }
 
-function monthShort(isoDate: string): string {
-  return new Date(isoDate + 'T00:00:00Z').toLocaleDateString('sv-SE', { month: 'short' })
-}
-function dateNum(isoDate: string): number {
-  return new Date(isoDate + 'T00:00:00Z').getUTCDate()
-}
-
-function weekLabelFor(days: DayMeal[]): string {
-  if (days.length === 0) return ''
-  const first = days[0]
-  const last = days[days.length - 1]
-  return `${dateNum(first.datum)}–${dateNum(last.datum)} ${monthShort(last.datum)}`
-}
-
 interface Props {
   onBack: () => void
-  rollingDays: DayMeal[]
-  rollingLunches: DayMeal[]
 }
 
-export default function HandlaView({ onBack, rollingDays, rollingLunches }: Props) {
-  const { getOverride, getAttendance } = useWeekPlan()
-  const overriddenDays = useMemo(
-    () => rollingDays.map(d => applyOverride(d, getOverride(d.datum, 'dinner'), getAttendance(d.datum, 'dinner'))),
-    [rollingDays, getOverride, getAttendance],
-  )
-  const overriddenLunches = useMemo(
-    () => rollingLunches.map(d => applyOverride(d, getOverride(d.datum, 'lunch'), getAttendance(d.datum, 'lunch'))),
-    [rollingLunches, getOverride, getAttendance],
-  )
-  const allMeals = useMemo(() => [...overriddenDays, ...overriddenLunches], [overriddenDays, overriddenLunches])
-  const slugs = useMemo(
-    () => allMeals.map(m => m.receptSlug).filter((s): s is string => !!s),
-    [allMeals],
-  )
-  const recipes = useRecipes(slugs)
-  const pantry = usePantry()
-  const ingredients = useMemo(
-    () => aggregateIngredients(allMeals, recipes, pantry),
-    [allMeals, recipes, pantry],
-  )
-
-  const bevakningslista = useBevakningslista()
-  const { stores } = useOffers()
-  const bevakaHits = useMemo(() => {
-    if (!bevakningslista || !stores) return []
-    return findBevakaHits(bevakningslista, tagOffers(stores))
-  }, [bevakningslista, stores])
-
-  // One row per matched offer, not per watch-list item — a category-wide watch (empty `sok`,
-  // e.g. "Frukt" or "Grönt") can match many distinct products in a week (melon, ananas, lime, ...),
-  // and collapsing them into a single generic-named row hid every match but the first.
-  const bevakaOfferHits = useMemo(
-    () =>
-      bevakaHits.flatMap(h =>
-        h.offers.map(o => ({ item: h.item, offer: o, id: `bevaka:${h.item.id}:${o.store}:${o.namn}` })),
-      ),
-    [bevakaHits],
-  )
-
+export default function HandlaView({ onBack }: Props) {
   const { removedIds, manualItems, storeAssignments, markRemoved, restore, addManualItem, cycleStore } = useShoppingList()
 
-  // "Show one store at a time" (null = "Alla"). Bevaka hits carry a real store from their
-  // matched offer, so those filter exactly. Ingredients/manual items have no store in the
-  // data model — they can optionally be tagged (see `taggable` below); untagged ones stay
-  // visible in every store's view rather than disappearing.
+  // "Show one store at a time" (null = "Alla"). Items have no store in the data model —
+  // they can optionally be tagged (see `taggable` below); untagged ones stay visible in
+  // every store's view rather than disappearing.
   const [storeFilter, setStoreFilter] = useState<string | null>(null)
   const storeLabel = storeFilter ? STORES[storeFilter]?.namn : null
 
-  const activeIngredients = ingredients.filter(i => !removedIds.has(i.id))
-  const removedIngredients = ingredients.filter(i => removedIds.has(i.id))
-  const activeHits = bevakaOfferHits.filter(h => !removedIds.has(h.id))
-  const removedHits = bevakaOfferHits.filter(h => removedIds.has(h.id))
   const activeManual = manualItems.filter(m => !removedIds.has(m.id))
   const removedManual = manualItems.filter(m => removedIds.has(m.id))
 
-  const hitsToShow = storeFilter ? activeHits.filter(h => h.offer.store === storeFilter) : activeHits
+  // Everything on this list was put here by an explicit user action — typed into "Eget
+  // tillägg", confirmed through a recipe's ingredient-picker checklist, or pulled in from
+  // Fynd/Bevaka/Skafferi. Nothing is aggregated automatically from the week plan or the
+  // watch-list — see CLAUDE.md's "Shopping list is manual-only" note.
+  const rows: ShopRow[] = activeManual.map(m => ({
+    id: m.id,
+    vara: m.vara,
+    main: m.amount ? `${m.amount} ${m.vara}` : m.vara,
+    why: m.source,
+    storeKey: storeAssignments[m.id] ?? null,
+    taggable: true,
+  }))
 
-  const rows: ShopRow[] = [
-    ...activeIngredients.map(i => ({
-      id: i.id,
-      vara: i.vara,
-      main: `${formatAmount(i.mangd, i.enhet)} ${i.vara}`,
-      why: i.meals.length > 0 ? i.meals.join(', ') : undefined,
-      storeKey: storeAssignments[i.id] ?? null,
-      taggable: true,
-    })),
-    ...hitsToShow.map(h => ({
-      id: h.id,
-      vara: h.offer.namn,
-      main: `${CATEGORY_EMOJI[h.item.kategori] ?? '📦'} ${h.offer.namn}`,
-      why: [STORES[h.offer.store]?.namn ?? h.offer.store, [h.offer.marke, h.offer.storlek].filter(Boolean).join(' · ')]
-        .filter(Boolean)
-        .join(' · '),
-      price: h.offer.pris_text,
-      storeKey: h.offer.store,
-      taggable: false,
-    })),
-    ...activeManual.map(m => ({
-      id: m.id,
-      vara: m.vara,
-      main: m.vara,
-      storeKey: storeAssignments[m.id] ?? null,
-      taggable: true,
-    })),
-  ]
-
-  // Bevaka rows are already narrowed to the selected store above; ingredients/manual items
-  // only get filtered out once *tagged* to a different store — untagged ones show everywhere.
   const visibleRows = storeFilter
-    ? rows.filter(r => !r.taggable || !r.storeKey || r.storeKey === storeFilter)
+    ? rows.filter(r => !r.storeKey || r.storeKey === storeFilter)
     : rows
 
   // "Normal order" aisle grouping (see storeOrder.ts) — a per-store walk order placeholder
   // (every store shares the same sequence today) until real per-store aisle order is configured.
   const rowGroups = groupByAisle(visibleRows, r => r.vara, storeFilter)
 
-  const removedRows: { id: string; main: string; restoreId: string }[] = [
-    ...removedIngredients.map(i => ({ id: i.id, restoreId: i.id, main: `${formatAmount(i.mangd, i.enhet)} ${i.vara}` })),
-    ...removedHits.map(h => ({ id: h.id, restoreId: h.id, main: `${CATEGORY_EMOJI[h.item.kategori] ?? '📦'} ${h.offer.namn}` })),
-    ...removedManual.map(m => ({ id: m.id, restoreId: m.id, main: m.vara })),
-  ]
+  const removedRows: { id: string; main: string; restoreId: string }[] = removedManual.map(m => ({
+    id: m.id,
+    restoreId: m.id,
+    main: m.amount ? `${m.amount} ${m.vara}` : m.vara,
+  }))
 
-  const weekLabel = weekLabelFor(rollingDays)
   const fullText = buildShoppingListText({
-    weekLabel: storeLabel ? `${weekLabel} · ${storeLabel}` : weekLabel,
-    lines: rowGroups.flatMap(g => g.items).map(r => formatShopLine(r.main, r.why, r.price)),
+    weekLabel: storeLabel ?? 'Din lista',
+    lines: rowGroups.flatMap(g => g.items).map(r => formatShopLine(r.main, r.why)),
     removedLabels: removedRows.map(r => r.main),
   })
-
-  const loading = slugs.length > 0 && Object.keys(recipes).length === 0
 
   const [newItem, setNewItem] = useState('')
   const [copyState, setCopyState] = useState<'idle' | 'copied'>('idle')
@@ -183,7 +93,7 @@ export default function HandlaView({ onBack, rollingDays, rollingLunches }: Prop
     <div className="screen">
       <TopBar
         onBack={onBack}
-        eyebrow={`Från veckans måltider · ${weekLabel}`}
+        eyebrow="Manuell lista — lägg till från recept, Bevaka eller Fynd"
         title="Inköpslista"
         right={
           <button type="button" className="export-btn" onClick={handleCopy}>
@@ -213,10 +123,11 @@ export default function HandlaView({ onBack, rollingDays, rollingLunches }: Prop
         </div>
       </div>
       <div className="screen-body handla-list">
-        {loading && <div className="fynd-empty">Laddar recept…</div>}
-        {!loading && visibleRows.length === 0 && (
+        {visibleRows.length === 0 && (
           <div className="fynd-empty">
-            {storeLabel ? `Inget att handla på ${storeLabel} just nu.` : 'Listan är tom — allt är avbockat eller redan hemma.'}
+            {storeLabel
+              ? `Inget taggat för ${storeLabel} just nu.`
+              : 'Listan är tom. Lägg till för hand, eller via ett recept, Bevaka eller Fynd.'}
           </div>
         )}
         {rowGroups.map(g => (
@@ -229,7 +140,6 @@ export default function HandlaView({ onBack, rollingDays, rollingLunches }: Prop
                   {row.main}
                   {row.why && <span className="shop-meal-tag"> ({row.why})</span>}
                 </span>
-                {row.price && <em className="shop-meta">{row.price}</em>}
                 {row.taggable && (
                   <button
                     type="button"

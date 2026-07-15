@@ -5,6 +5,16 @@ export interface ManualShoppingItem {
   id: string
   vara: string
   addedAt: string
+  /** Set when added via the recipe ingredient picker (RecipeOverlay's "Lägg till i
+   * inköpslistan" checklist) — an amount string (e.g. "500 g") and the recipe it came
+   * from. Plain "Eget tillägg" adds and Fynd/Bevaka pulls leave both unset. */
+  amount?: string
+  source?: string
+}
+
+export interface AddManualItemExtra {
+  amount?: string
+  source?: string
 }
 
 export interface ShoppingListState {
@@ -33,7 +43,7 @@ function restore(id: string): void {
   shoppingListStore.set({ ...state, removedIds: state.removedIds.filter(x => x !== id) })
 }
 
-function addManualItem(vara: string): void {
+function addManualItem(vara: string, extra?: AddManualItemExtra): void {
   const trimmed = vara.trim()
   if (!trimmed) return
   const state = shoppingListStore.get()
@@ -41,6 +51,8 @@ function addManualItem(vara: string): void {
     id: `manual:${Date.now()}:${Math.random().toString(36).slice(2, 7)}`,
     vara: trimmed,
     addedAt: new Date().toISOString(),
+    ...(extra?.amount ? { amount: extra.amount } : {}),
+    ...(extra?.source ? { source: extra.source } : {}),
   }
   shoppingListStore.set({ ...state, manualItems: [...state.manualItems, item] })
 }
@@ -54,13 +66,13 @@ function findByName(vara: string): ManualShoppingItem | undefined {
  * offer into the shopping list (Fynd double-click, Skafferi stash pool). If a
  * matching item was previously checked off, this restores it instead of creating
  * a duplicate. */
-function addOrRestoreByName(vara: string): void {
+function addOrRestoreByName(vara: string, extra?: AddManualItemExtra): void {
   const existing = findByName(vara)
   if (existing) {
     restore(existing.id)
     return
   }
-  addManualItem(vara)
+  addManualItem(vara, extra)
 }
 
 /** Mirrors addOrRestoreByName: checks a matching manual item off (moves it to
@@ -88,8 +100,8 @@ export interface UseShoppingList {
   storeAssignments: Record<string, string>
   markRemoved: (id: string) => void
   restore: (id: string) => void
-  addManualItem: (vara: string) => void
-  addOrRestoreByName: (vara: string) => void
+  addManualItem: (vara: string, extra?: AddManualItemExtra) => void
+  addOrRestoreByName: (vara: string, extra?: AddManualItemExtra) => void
   removeOrMarkByName: (vara: string) => void
   isActiveByName: (vara: string) => boolean
   cycleStore: (id: string, order: string[]) => void

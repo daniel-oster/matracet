@@ -132,9 +132,7 @@ export default function App() {
           onOpenRecipe={setOverlaySlug}
         />
       )}
-      {screen === 'handla' && (
-        <HandlaView onBack={toHub} rollingDays={rollingDays} rollingLunches={rollingLunches} />
-      )}
+      {screen === 'handla' && <HandlaView onBack={toHub} />}
       {screen === 'recept' && (
         <ReceptView onBack={toHub} recipeIndex={recipeIndex} eaters={eaters.eaters} onOpenRecipe={setOverlaySlug} />
       )}
