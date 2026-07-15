@@ -421,7 +421,6 @@ input, select, textarea { font-family: inherit; }
 .shop-store-tag.willys { background: #3f7d3f; color: #fff; border-color: #3f7d3f; }
 .shop-store-tag.ica { background: #c23b3b; color: #fff; border-color: #c23b3b; }
 .shop-store-tag.hemkop { background: #d99a1f; color: #fff; border-color: #d99a1f; }
-.shop-store-tag.on { background: var(--green-bg); color: var(--green-d); border-color: var(--green); }
 .shop-add-form { display: flex; gap: 8px; margin-top: 6px; }
 .shop-add-input { flex: 1; font-size: 14px; padding: 9px 11px; border-radius: 7px; border: 1px solid var(--line); background: var(--cream); }
 .shop-add-btn { font-family: inherit; font-size: 13px; padding: 9px 13px; border-radius: 7px; border: 1px solid var(--line); background: var(--paper); cursor: pointer; }

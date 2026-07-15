@@ -75,7 +75,12 @@ export default function BevakaView({ onBack }: Props) {
               {offers.map((o, i) => {
                 const inList = isActiveByName(o.namn)
                 return (
-                  <div className="match-row" key={`${o.store}-${i}`}>
+                  <div
+                    className={`match-row${inList ? ' in-list' : ''}`}
+                    key={`${o.store}-${i}`}
+                    onClick={() => (inList ? removeOrMarkByName(o.namn) : addOrRestoreByName(o.namn))}
+                    title={inList ? 'I inköpslistan — klicka för att ta bort' : 'Klicka för att lägga i inköpslistan'}
+                  >
                     <span className={`fynd-store ${STORES[o.store]?.klass}`}>{STORES[o.store]?.namn}</span>
                     <div className="match-info">
                       {inList && <span className="fynd-cart" title="I inköpslistan">🛒</span>}
@@ -88,14 +93,6 @@ export default function BevakaView({ onBack }: Props) {
                     <div className="match-price">
                       <span className="fynd-pris">{o.pris_text}</span>
                     </div>
-                    <button
-                      type="button"
-                      className={`shop-store-tag${inList ? ' on' : ''}`}
-                      onClick={() => (inList ? removeOrMarkByName(o.namn) : addOrRestoreByName(o.namn))}
-                      title={inList ? 'Ta bort från inköpslistan' : 'Lägg till i inköpslistan'}
-                    >
-                      {inList ? '✓' : '+ handla'}
-                    </button>
                   </div>
                 )
               })}
