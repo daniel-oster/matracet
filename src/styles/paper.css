@@ -428,6 +428,11 @@ input, select, textarea { font-family: inherit; }
 
 /* ─── Fynd ─────────────────────────────────────────────────────────────── */
 
+.fynd-search {
+  display: block; width: 100%; box-sizing: border-box; font-size: 13px; padding: 8px 12px;
+  border-radius: 99px; border: 1px solid var(--line); background: var(--cream); color: var(--ink);
+  margin-bottom: 10px; font-family: inherit;
+}
 .fynd-filters { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
 .fynd-week-select { font-family: inherit; font-size: 12px; padding: 5px 9px; border-radius: 99px; border: 1px solid var(--line); background: var(--cream); }
 .fynd-chip { font-family: inherit; font-size: 12px; padding: 5px 12px; border-radius: 99px; border: 1px solid var(--line); background: var(--cream); color: var(--sub); cursor: pointer; }

@@ -61,25 +61,47 @@ const FRUIT_RE = /frukt|äpple|banan|apelsin|citron|avokado|melon|druv|bär|pers
 const VEG_RE = /sallad|tomat|gurka|potatis|lök|paprika|morot|broccoli|zucchini|svamp|champinjon|vitkål|purjolök|blomkål|spenat|majs|ärtor|ärter|rödbeta|selleri|rädisa|vitlök/i;
 const SNACKS_RE = /chips|godis|snacks|choklad|kex|nöt|nötter|proteinbar|kola|lakrits|popcorn/i;
 const READY_MEAL_RE = /pizza|bakverk|bulle|bröd|glass|efterrätt|tårta|paj\b|gratäng|nudlar/i;
-// Fruit-flavored drinks/dairy/snack bars are drinks/dairy/snacks, not produce.
-const FRUIT_NON_PRODUCE_RE = /dryck|smoothie|klämmis|stång|juice|saft|yoghurt|kvarg|\bfil\b|grädde/i;
+// Fruit-flavored yoghurt/kvarg/fil/grädde are dairy, fruit-flavored drinks/juice are
+// "ovrigt", fruit-flavored snack bars ("klämmis"/"stång") are snacks — none are produce.
+const FRUIT_DAIRY_RE = /yoghurt|yogurt|kvarg|\bfil\b|grädd/i;
+const FRUIT_SNACK_RE = /klämmis|stång/i;
+const FRUIT_DRINK_RE = /dryck|smoothie|juice|saft/i;
+// Dairy — checked last, after protein/fruit/veg/snacks, so a compound that also
+// carries one of those signals resolves there first: "Jordnötssmör" (peanut butter)
+// matches SNACKS_RE's "nöt" before ever reaching "smör" here, and "Mjölkchoklad"
+// (milk chocolate) resolves via SNACKS_RE's "choklad" rather than "mjölk".
+// "smör" excludes a trailing "gås" (smörgåsmat/smörgåspålägg = sandwich items, not
+// butter). "ost" excludes being preceded by "r" and followed by "ron" — "rostbiff",
+// "rostad", "mellanrost", "mörkrost" are roasted/roast, not cheese; "ostron" is
+// oysters. "fil" (cultured milk) excludes both a preceding "re" (kaffe-/tandborste-
+// "refill") and a following "é" (filé, the fisk/kött keyword's job, not dairy's).
+// "mjölk"/"grädd" exclude a "kokos" prefix — kokosmjölk/kokosgrädde are a
+// skafferi/pantry item, not dairy (same exclusion storeOrder.ts's aisle
+// categorizer already makes for its own "mejeri" bucket).
+const MEJERI_RE = /(?<!kokos)mjölk|(?<!kokos)grädd|yoghurt|yogurt|kvarg|keso|margarin|mozzarella|philadelphia|cr[eè]me fraiche|brie|cheddar|(?<!r)ost(?!ron)|smör(?!gås)|(?<!re)fil(?!é)/i;
 const CATEGORY_KEYWORDS = [
   [PROTEIN_RE, (h) => (FROZEN_HINT.test(h) ? 'protein_fryst' : 'protein_farsk')],
   [FRUIT_RE, (h) => {
-    if (!FRUIT_NON_PRODUCE_RE.test(h)) return 'frukt';
-    return /klämmis|stång/i.test(h) ? 'snacks_godis' : 'ovrigt';
+    if (FRUIT_SNACK_RE.test(h)) return 'snacks_godis';
+    if (FRUIT_DAIRY_RE.test(h)) return 'mejeri';
+    if (FRUIT_DRINK_RE.test(h)) return 'ovrigt';
+    return 'frukt';
   }],
   [VEG_RE, (h) => (FROZEN_HINT.test(h) ? 'gront_fryst' : 'gront_farsk')],
   [SNACKS_RE, () => 'snacks_godis'],
+  [MEJERI_RE, () => 'mejeri'],
 ];
 
 export function guessKategori(name, details) {
   // "pålägg" (generic "sandwich topping/spread", any kind) hides "ägg" inside it.
   // "automat"/"automatic" (appliance product names, e.g. "Kaffebryggare
-  // Automatic") hides "tomat" inside it the same way.
+  // Automatic") hides "tomat" inside it the same way. "Salladsost" (a cheese,
+  // despite the name) hides VEG_RE's "sallad" — kept as "ost" so MEJERI_RE still
+  // catches it.
   const haystack = `${name} ${details}`
     .replace(/pålägg/gi, '')
-    .replace(/automat\w*/gi, '');
+    .replace(/automat\w*/gi, '')
+    .replace(/salladsost/gi, 'ost');
   if (NON_FOOD_RE.test(haystack)) return 'ovrigt';
   if (READY_MEAL_RE.test(haystack)) return 'ovrigt';
   for (const [re, kat] of CATEGORY_KEYWORDS) {

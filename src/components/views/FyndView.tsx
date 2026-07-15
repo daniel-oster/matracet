@@ -31,10 +31,11 @@ const CATS: CatMeta[] = [
   { id: 'gront_farsk', groupId: 'gront', label: 'Grönt', sub: 'Färskt', emoji: '🥦' },
   { id: 'gront_fryst', groupId: 'gront', label: 'Grönt', sub: 'Fryst', emoji: '🥦' },
   { id: 'frukt', groupId: 'frukt', label: 'Frukt', emoji: '🍎' },
+  { id: 'mejeri', groupId: 'mejeri', label: 'Mejeri', emoji: '🥛' },
   { id: 'snacks_godis', groupId: 'snacks_godis', label: 'Snacks & godis', emoji: '🍫' },
   { id: 'ovrigt', groupId: 'ovrigt', label: 'Övrigt', emoji: '📦' },
 ]
-const GROUP_ORDER = ['protein', 'gront', 'frukt', 'snacks_godis', 'ovrigt']
+const GROUP_ORDER = ['protein', 'gront', 'frukt', 'mejeri', 'snacks_godis', 'ovrigt']
 
 const FLAGS: Record<string, string> = {
   Sverige: '🇸🇪',
@@ -126,6 +127,7 @@ interface Props {
 export default function FyndView({ onBack }: Props) {
   const [storeFilter, setStoreFilter] = useState<Record<string, boolean>>({ willys: true, ica: true, hemkop: true })
   const [swedishOnly, setSwedishOnly] = useState(false)
+  const [query, setQuery] = useState('')
   const [mode, setMode] = useState<'alla' | 'jamfor'>('alla')
   const [week, setWeek] = useState<string | null>(null)
   const { stores, availableWeeks, latestWeek } = useOffers(week)
@@ -156,9 +158,12 @@ export default function FyndView({ onBack }: Props) {
     s.erbjudanden.map(o => ({ ...o, store: s.kalla })),
   )
 
+  const q = query.trim().toLowerCase()
+
   function visible(o: TaggedOffer): boolean {
     if (!storeFilter[o.store]) return false
     if (swedishOnly && !isSwedish(o)) return false
+    if (q && !o.namn.toLowerCase().includes(q) && !(o.marke ?? '').toLowerCase().includes(q)) return false
     return true
   }
 
@@ -189,6 +194,13 @@ export default function FyndView({ onBack }: Props) {
       />
 
       <div className="screen-body">
+        <input
+          className="fynd-search"
+          type="search"
+          placeholder="Sök bland erbjudanden…"
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+        />
         <div className="fynd-filters">
           {(otherWeeks.length > 0 || week) && (
             <select

@@ -153,19 +153,26 @@ Supersättning — varje butik fyller i det den exponerar, resten är `null`.
 Grupperat efter "vad lagar jag med", inte butikens hyllplacering:
 
 `protein_farsk`, `protein_fryst`, `gront_farsk`, `gront_fryst`, `frukt`,
-`snacks_godis`, `ovrigt`.
+`mejeri`, `snacks_godis`, `ovrigt`.
 
 `protein_*` täcker kött, fågel, fisk, skaldjur, ägg och vegetariska/veganska
 proteinkällor (tofu, quorn, bönor, linser …), delat i färskt/fryst. `gront_*`
 är grönsaker, samma färskt/fryst-delning. `frukt` är frukt & bär (ingen
-färskt/fryst-delning). `ovrigt` är allt annat på ett reklamblad — mejeri,
-bröd, dryck, skafferivaror, hygien/hushåll, färdigrätter, glass — snarare än
-en egen kategori vardera, eftersom UI:t (`FyndView`) numera grupperar just
-efter protein/grönt/frukt/snacks/resten. Se `scripts/erbjudanden-lib.mjs`
+färskt/fryst-delning). `mejeri` är mjölk, ost, yoghurt/kvarg/fil, smör/margarin
+och grädde — tillagd i efterhand (2026-07) som en egen kategori istället för
+att falla in i `ovrigt`, eftersom mejeri annars var svårt att hitta bland allt
+annat i den kategorin (ingen egen färskt/fryst-delning; mejeri fryses sällan).
+`ovrigt` är allt annat på ett reklamblad — bröd, dryck, skafferivaror,
+hygien/hushåll, färdigrätter, glass — snarare än en egen kategori vardera,
+eftersom UI:t (`FyndView`) numera grupperar just efter
+protein/grönt/frukt/mejeri/snacks/resten. Se `scripts/erbjudanden-lib.mjs`
 (`guessKategori`) för nyckelordsgissningen och `scripts/erbjudanden-recategorize.mjs`
 för engångsmigreringen från den gamla 11-kategori-listan (kott_fagel,
 fisk_skaldjur, frukt_gront, mejeri, brod_bakverk, torrvaror, frys, dryck,
-snacks_godis, hygien_hushall, ovrigt) till denna.
+snacks_godis, hygien_hushall, ovrigt) till denna (mejeri i den gamla listan
+motsvarar alltså inte samma sak som dagens `mejeri` — den gamla migreringen
+körde före mejeri fanns som egen kategori igen, se `erbjudanden-lib.mjs`s
+`MEJERI_RE`/`isMejeri` för den nuvarande nyckelordslistan).
 
 ### Noteringar
 
