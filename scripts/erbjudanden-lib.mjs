@@ -76,7 +76,13 @@ const SNACKS_RE = /chips|godis|snacks|choklad|kex|nöt|nötter|proteinbar|kola|l
 // "kaka" excludes both a following "o" (kakao=cocoa) and being preceded by "choklad"/
 // "kola" — "Chokladkaka"/"Kolakaka" are candy bars, not cake.
 const BROD_RE = /bröd|limpa|frall|baguett|tortilla(?!\s*chips)|pitabröd|knäckebröd|skorp|croissant|(?<!kött)(?<!fläsk)(?<!fisk)(?<!vego)bull|giffl|levain|bâtard|kavring|rågbröd|sportbröd|surdeg|tannour|hönökaka|knäcke|orientbrd|kladdkaka|tårta|muffin|donut|wienerbröd|(?<!choklad)(?<!kola)kaka(?!o)|jubileum|franska/i;
-const FARDIGMAT_RE = /pizza|glass|efterrätt|paj\b|gratäng|pommes|frites|husmans|enportionsrätt|matpaj|soppa|pinsa/i;
+// "pizza" excludes "-botten"/"-mjöl"/"-sås"/"-kit"/"-mix"/"-topping" — these are
+// pizza-*making* components (dough base, flour, sauce, a build-it-yourself kit, a
+// shredded-cheese mix, toppings), not a finished pizza you heat and eat. They fall
+// through to skafferi/mejeri instead (see those regexes below). "glass" excludes
+// "-ås" (Glassås = chocolate/caramel sauce for ice cream, not ice cream itself) —
+// falls through to skafferi's "sås" keyword.
+const FARDIGMAT_RE = /pizza(?!\s*(?:botten|mjöl|sås|kit|mix|topping))|glass(?!ås)|efterrätt|paj\b|gratäng|pommes|frites|husmans|enportionsrätt|matpaj|soppa|pinsa/i;
 // Fruit-flavored yoghurt/kvarg/fil/grädde are dairy, fruit-flavored drinks/juice are
 // "dryck", fruit-flavored snack bars ("klämmis"/"stång") are snacks — none are produce.
 const FRUIT_DAIRY_RE = /yoghurt|yogurt|kvarg|\bfil\b|grädd/i;
@@ -94,14 +100,14 @@ const FRUIT_DRINK_RE = /dryck|smoothie|juice|saft/i;
 // "mjölk"/"grädd" exclude a "kokos" prefix — kokosmjölk/kokosgrädde are a
 // skafferi/pantry item, not dairy (same exclusion storeOrder.ts's aisle
 // categorizer already makes for its own "mejeri" bucket).
-const MEJERI_RE = /(?<!kokos)mjölk|(?<!kokos)grädd|yoghurt|yogurt|kvarg|keso|margarin|mozzarella|philadelphia|cr[eè]me fraiche|brie|cheddar|(?<!r)ost(?!ron)|smör(?!gås)|(?<!re)fil(?!é)|feta|mascarpone|ricotta|skyr|kefir|bregott|norrloumi|norvegia|jarlsberg|proviva|yoggi/i;
+const MEJERI_RE = /(?<!kokos)mjölk|(?<!kokos)grädd|yoghurt|yogurt|kvarg|keso|margarin|mozzarella|philadelphia|cr[eè]me fraiche|brie|cheddar|(?<!r)ost(?!ron)|smör(?!gås)|(?<!re)fil(?!é)|feta|mascarpone|ricotta|skyr|kefir|bregott|norrloumi|norvegia|jarlsberg|proviva|yoggi|pizzamix/i;
 // "öl" is anchored to whitespace/edges rather than \b — JS's \b only treats ASCII
 // [A-Za-z0-9_] as "word" characters, so \böl\b would (wrongly) find a boundary right
 // before the "ö" in "Vetemjöl"/"Mjölk"/"Sköljmedel" too, since JS doesn't count å/ä/ö
 // as word characters by default. Same trap as the fixed-width lookbehind/lookahead
 // guards elsewhere in this file, just via a different mechanism.
 const DRYCK_RE = /kaffe|läsk|cider|(?:^| )öl(?: |,|$)|cola|pepsi|energidryck|dryck|juice|saft|smoothie|kolsyrat|iste|ice coffee|ice tea|tonic|drinkmixer|nektar|barista|havredryck|vätskeersättning|ginger beer/i;
-const SKAFFERI_RE = /sås|sauce|dressing|senap|majo|mayo|ketchup|pesto|vinäger|olja|krydd|marinad|bearnaise|aioli|bbq|pasta|makaron|spagetti|fettuccine|lasagne|risoni|nudlar|noodle|jasminris|basmatiris|rismål|rislunsj|bulgur|couscous|quinoa|mjöl(?!k)|socker|honung|sirap|marmelad|sylt|hummus|oliv|kimchi|buljong|fond|soja|ströbröd|konserv|flingor|müsli|havregryn|havrekuddar|havregott|granola|nesquik|antipasti|tapas|pajdeg|bladdeg|matfett|vetemjöl|matvete|ättiksprit|kokosmjölk|kokosgrädde|cornichon/i;
+const SKAFFERI_RE = /sås|sauce|dressing|senap|majo|mayo|ketchup|pesto|vinäger|olja|krydd|marinad|bearnaise|aioli|bbq|pasta|makaron|spagetti|fettuccine|lasagne|risoni|nudlar|noodle|jasminris|basmatiris|rismål|rislunsj|bulgur|couscous|quinoa|mjöl(?!k)|socker|honung|sirap|marmelad|sylt|hummus|oliv|kimchi|buljong|fond|soja|ströbröd|konserv|flingor|müsli|havregryn|havrekuddar|havregott|granola|nesquik|antipasti|tapas|pajdeg|bladdeg|matfett|vetemjöl|matvete|ättiksprit|kokosmjölk|kokosgrädde|cornichon|pizzabotten|pizzakit|topping/i;
 const HYGIEN_RE = /schampo|balsam|tvål|tvätt|toalettpapper|hushållspapper|servett|tandkräm|tandborste|deo|deodorant|rakhyvel|rakblad|rakgel|rakvård|blöj|bindor|trosskydd|tampong|våtservett|myggmedel|insektsspray|getingspray|myrr|myrdosa|solskydd|solvård|spf|kräm|creme|cream|hårfärg|munskölj|fluorskölj|sköljmedel|fläckborttagning|mopp|wettex|avfallspåse|fryspåse|plastpåse|ugnsfolie|aluminiumfolie|dammsugarpåse|doftblock|pappmugg|papptallrik|dricksglas|bestick|tallrik|hund|katt|grillkol|grillbriketter|grillpinnar|grillrulle|flugsmäll|diskduk|handdiskmedel|maskindisk/i;
 const CATEGORY_KEYWORDS = [
   [BROD_RE, () => 'brod'],
