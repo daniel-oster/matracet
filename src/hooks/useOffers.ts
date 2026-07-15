@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { OffersIndex, OffersLatest, StoreOffers } from '../types'
+import { Offer, OffersIndex, OffersLatest, StoreOffers } from '../types'
 
 const BASE = '/matracet/data/erbjudanden'
 
@@ -62,6 +62,49 @@ export function useOffers(week?: string | null): OffersResult {
       active = false
     }
   }, [week])
+
+  return result
+}
+
+/** Resolves shopping-list items' {store, week} refs (see ShoppingOfferRef) back to their full
+ * offer record — brand, size, price, savings — straight from that week's saved flyer, so the
+ * list can show exactly which offer an item was pulled from without duplicating those fields
+ * into shopping-list storage. Weekly flyer files are kept forever (see _index.json's `veckor`),
+ * so this always resolves unless the item's name/offer was later edited out of the source data.
+ * Keyed by item id; an id is absent from the result until resolved, and maps to `null` if the
+ * ref's week/store/name no longer match anything. */
+export function useOfferRefLookup(
+  items: { id: string; vara: string; offerRef?: { store: string; week: string } }[],
+): Record<string, Offer | null> {
+  const withRef = items.filter((i): i is typeof i & { offerRef: { store: string; week: string } } => !!i.offerRef)
+  const depKey = withRef.map(i => `${i.id}:${i.offerRef.store}:${i.offerRef.week}:${i.vara}`).join('|')
+  const [result, setResult] = useState<Record<string, Offer | null>>({})
+
+  useEffect(() => {
+    if (withRef.length === 0) {
+      setResult({})
+      return
+    }
+    let active = true
+    loadIndex().then(async idx => {
+      const weeks = [...new Set(withRef.map(i => i.offerRef.week))]
+      const weekStores = await Promise.all(weeks.map(w => loadWeek(w, idx.butiker)))
+      if (!active) return
+      const byWeek = new Map(weeks.map((w, i) => [w, weekStores[i]]))
+      const out: Record<string, Offer | null> = {}
+      for (const item of withRef) {
+        const stores = byWeek.get(item.offerRef.week) ?? []
+        const store = stores.find(s => s.kalla === item.offerRef.store)
+        const needle = item.vara.trim().toLowerCase()
+        out[item.id] = store?.erbjudanden.find(o => o.namn.trim().toLowerCase() === needle) ?? null
+      }
+      setResult(out)
+    })
+    return () => {
+      active = false
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [depKey])
 
   return result
 }

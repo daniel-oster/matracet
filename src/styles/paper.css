@@ -401,21 +401,32 @@ input, select, textarea { font-family: inherit; }
 .shop-aisle-header { font-size: 10.5px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted2); margin: 10px 0 4px; }
 .shop-group:first-child .shop-aisle-header { margin-top: 0; }
 .shop-row {
-  display: flex; align-items: center; gap: 13px; padding: 11px 12px; border-radius: 7px;
+  display: flex; align-items: flex-start; gap: 13px; padding: 11px 12px; border-radius: 7px;
   background: var(--paper); cursor: pointer; user-select: none; margin-bottom: 2px; transition: background 0.2s, opacity 0.2s;
 }
 .shop-row.done { background: var(--checked); opacity: 0.55; }
 .shop-row .box {
-  width: 20px; height: 20px; border-radius: 5px; border: 2px solid #ccc; flex: none;
+  width: 20px; height: 20px; border-radius: 5px; border: 2px solid #ccc; flex: none; margin-top: 1px;
 }
 .shop-row.done .box { border-color: var(--gold); background: var(--gold); }
 .shop-group--compact { margin-bottom: 10px; }
 .shop-row--compact { padding: 6px 9px; gap: 9px; font-size: 12.5px; margin-bottom: 1px; }
 .shop-row--compact .box { width: 14px; height: 14px; border-radius: 4px; }
+.shop-row-body { flex: 1; min-width: 0; display: block; }
+.shop-row-main { line-height: 1.35; }
 .shop-meal-tag { color: var(--muted2); font-size: 12px; }
+.shop-manual-tag {
+  margin-left: 7px; font-size: 10.5px; color: var(--muted2); border: 1px dashed var(--line2);
+  border-radius: 999px; padding: 1px 7px; white-space: nowrap;
+}
+.shop-offer-meta {
+  margin-top: 2px; font-size: 12px; color: var(--muted2); display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+.shop-offer-price { color: var(--ink); font-weight: 600; }
+.shop-offer-save { color: var(--red); }
 .shop-meta { margin-left: auto; color: var(--red); font-style: normal; font-size: 13px; }
 .shop-store-tag {
-  margin-left: auto; flex: none; font-family: inherit; font-size: 10.5px; padding: 3px 9px;
+  margin-left: auto; flex: none; align-self: center; font-family: inherit; font-size: 10.5px; padding: 3px 9px;
   border-radius: 999px; border: 1px solid var(--line); background: var(--cream); color: var(--muted2); cursor: pointer;
 }
 .shop-store-tag.willys { background: #3f7d3f; color: #fff; border-color: #3f7d3f; }

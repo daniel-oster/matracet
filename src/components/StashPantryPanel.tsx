@@ -5,7 +5,7 @@ import { useOffers } from '../hooks/useOffers'
 import { useStash, StashKind } from '../hooks/useStash'
 import { useShoppingList } from '../hooks/useShoppingList'
 import { useIrrelevantOffers } from '../hooks/useIrrelevantOffers'
-import { describeOffer, tagOffers, TaggedOffer } from '../lib/bevaka'
+import { describeOffer, tagOffers, toOfferRef, TaggedOffer } from '../lib/bevaka'
 import { matchPantryRecipes } from '../lib/pantryMatch'
 import { parseSavings } from '../lib/suggestions'
 import SwipeRow from './SwipeRow'
@@ -99,7 +99,7 @@ export default function StashPantryPanel({ recipeIndex, fullRecipes, onOpenRecip
     } else {
       const savings = parseSavings(o.besparing)
       addItem(o.namn, 'stock', null, [savings > 0 ? `🏷 spara ${savings}kr` : '🏷 fynd'], `${describeOffer(o)} · ${o.pris_text}`)
-      addOrRestoreByName(o.namn, { storeKey: o.store })
+      addOrRestoreByName(o.namn, { offerRef: toOfferRef(o) })
     }
   }
 

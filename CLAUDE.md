@@ -515,6 +515,39 @@ immediately. If a future full-width "spans both grid columns" element in some vi
 unexplained extra vertical space, try pulling it out of the grid before spending more time on
 the CSS.
 
+**Store pill is auto-derived, not just manually tagged (2026-07)**: the `.shop-store-tag`
+pill described above used to *only* get filled in by the user tapping "+ Butik" to cycle it —
+an item pulled straight from a Fynd/Bevaka/Skafferi offer (which obviously came from one
+specific store) still started untagged. `AddManualItemExtra.storeKey` (now also derivable from
+`offerRef.store`, see below) is passed at the three offer-pull call sites
+(`FyndView.toggleShoppingList`, `BevakaView`'s match-row click, `StashPantryPanel.toggleOfferInPool`)
+so the pill is correct immediately. It only fills a gap — `cycleStore`'s manual override, if the
+user already set one, always wins (checked via `!currentAssignments[id]` before writing).
+
+**Shopping-list items link back to their exact offer via a `{store, week}` ref, not a
+snapshot (2026-07)**: a plain item name isn't specific enough to shop from — "Kaffe"/"Snabbkaffe"
+doesn't say *which* brand/size/deal was on offer when you added it. The first pass at fixing this
+stored a full copy of the offer's fields (brand, size, price, savings) on the shopping-list item
+itself, but that duplicates data that can drift from the source and needs its own refresh logic.
+Since weekly offer files are never deleted (`_index.json`'s `veckor` list only grows), a
+`ShoppingOfferRef { store, week }` (`useShoppingList.ts`) plus the item's own `vara` (already the
+offer's `namn`) is enough to always re-look-up the *live* record — no duplicated data, and it
+naturally reflects a later correction to the source file instead of going stale. `bevaka.ts`'s
+`TaggedOffer` gained a `week` field (`s.vecka`, populated by `tagOffers`) and a `toOfferRef(o)`
+helper; the same three call sites above pass `{ offerRef: toOfferRef(o) }` instead of a bare
+`storeKey`. `useOffers.ts`'s `useOfferRefLookup(items)` resolves a whole list of `{id, vara,
+offerRef}` at once (batches by distinct week, reuses the same module-level `loadIndex`/`loadWeek`
+caches `useOffers` itself uses — deliberately *not* a second parallel per-store cache, since
+calling `loadWeek` with anything other than the full `idx.butiker` list would poison that shared
+cache for every other caller keyed only by week) into `Record<id, Offer | null>`. `HandlaView`
+renders the resolved brand/size on a `.shop-offer-meta` sub-line under the item name, plus price
+(`.shop-offer-price`) and savings (`.shop-offer-save`) — falls back to just the plain name if the
+ref hasn't resolved yet or the offer's gone from that week's file. Recipe-ingredient adds
+(`source` set, no `offerRef`) still show their `.shop-meal-tag` "why" as before. A row with
+neither `source` nor `offerRef` — a plain "Eget tillägg" type-in — gets a `.shop-manual-tag`
+("✎ Eget tillägg") badge so it's visually obvious which rows aren't tied to a specific recipe or
+product, per the household's ask that a hand-typed item read differently from a picked one.
+
 ### Store offers ("Fynd" tab)
 
 `public/data/erbjudanden/<butik-id>/<vecka>.json` holds weekly store-offer flyers, one file per store per week (see `public/data/erbjudanden/README.md` for the full schema). `_index.json` lists all stores and all saved weeks (`veckor`); `_latest.json` points at the default week shown in the UI. **When adding a new week's offers, add the week to `_index.json.veckor` and repoint `_latest.json`, per store.**

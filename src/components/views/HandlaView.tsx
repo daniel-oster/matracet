@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react'
+import { useOfferRefLookup } from '../../hooks/useOffers'
 import { useShoppingList } from '../../hooks/useShoppingList'
 import { STORES } from '../../lib/bevaka'
 import { buildShoppingListText, formatShopLine } from '../../lib/shoppingList'
@@ -12,6 +13,13 @@ interface ShopRow {
   vara: string
   main: string
   why?: string
+  /** Brand + size of the resolved offer, e.g. "Nescafé · 200g" — see useOfferRefLookup. */
+  offerLabel?: string
+  price?: string
+  savings?: string
+  /** True for a plain "Eget tillägg" add with no recipe/offer origin — HandlaView badges these
+   * so it's clear at a glance which rows aren't tied to a specific product. */
+  manual: boolean
   storeKey: string | null
   taggable: boolean
 }
@@ -32,18 +40,31 @@ export default function HandlaView({ onBack }: Props) {
   const activeManual = manualItems.filter(m => !removedIds.has(m.id))
   const removedManual = manualItems.filter(m => removedIds.has(m.id))
 
+  // Resolves each item's {store, week} offer ref (if any) back to the full offer record —
+  // brand, size, price, savings — live from that week's saved flyer, so a plain product name
+  // like "Snabbkaffe Refill" reads as "Nescafé · 200g, 2 för 165:-" and stays correct even if
+  // that offer's price is later corrected in the source data.
+  const resolvedOffers = useOfferRefLookup(activeManual.map(m => ({ id: m.id, vara: m.vara, offerRef: m.offerRef })))
+
   // Everything on this list was put here by an explicit user action — typed into "Eget
   // tillägg", confirmed through a recipe's ingredient-picker checklist, or pulled in from
   // Fynd/Bevaka/Skafferi. Nothing is aggregated automatically from the week plan or the
   // watch-list — see CLAUDE.md's "Shopping list is manual-only" note.
-  const rows: ShopRow[] = activeManual.map(m => ({
-    id: m.id,
-    vara: m.vara,
-    main: m.amount ? `${m.amount} ${m.vara}` : m.vara,
-    why: m.source,
-    storeKey: storeAssignments[m.id] ?? null,
-    taggable: true,
-  }))
+  const rows: ShopRow[] = activeManual.map(m => {
+    const offer = m.offerRef ? resolvedOffers[m.id] : undefined
+    return {
+      id: m.id,
+      vara: m.vara,
+      main: m.amount ? `${m.amount} ${m.vara}` : m.vara,
+      why: m.source,
+      offerLabel: offer ? [offer.marke, offer.storlek].filter(Boolean).join(' · ') || undefined : undefined,
+      price: offer?.pris_text,
+      savings: offer?.besparing ?? undefined,
+      manual: !m.source && !m.offerRef,
+      storeKey: storeAssignments[m.id] ?? null,
+      taggable: true,
+    }
+  })
 
   const visibleRows = storeFilter
     ? rows.filter(r => !r.storeKey || r.storeKey === storeFilter)
@@ -61,7 +82,7 @@ export default function HandlaView({ onBack }: Props) {
 
   const fullText = buildShoppingListText({
     weekLabel: storeLabel ?? 'Din lista',
-    lines: rowGroups.flatMap(g => g.items).map(r => formatShopLine(r.main, r.why)),
+    lines: rowGroups.flatMap(g => g.items).map(r => formatShopLine(r.main, r.why ?? r.offerLabel, r.price)),
     removedLabels: removedRows.map(r => r.main),
   })
 
@@ -136,10 +157,20 @@ export default function HandlaView({ onBack }: Props) {
             {g.items.map(row => (
               <div className="shop-row" key={row.id} onClick={() => markRemoved(row.id)}>
                 <span className="box" />
-                <span>
-                  {row.main}
-                  {row.why && <span className="shop-meal-tag"> ({row.why})</span>}
-                </span>
+                <div className="shop-row-body">
+                  <div className="shop-row-main">
+                    {row.main}
+                    {row.why && <span className="shop-meal-tag"> ({row.why})</span>}
+                    {row.manual && <span className="shop-manual-tag">✎ Eget tillägg</span>}
+                  </div>
+                  {(row.offerLabel || row.price) && (
+                    <div className="shop-offer-meta">
+                      {row.offerLabel && <span>{row.offerLabel}</span>}
+                      {row.price && <span className="shop-offer-price">{row.price}</span>}
+                      {row.savings && <span className="shop-offer-save">spara {row.savings}</span>}
+                    </div>
+                  )}
+                </div>
                 {row.taggable && (
                   <button
                     type="button"
