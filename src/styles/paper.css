@@ -424,6 +424,7 @@ input, select, textarea { font-family: inherit; }
 }
 .shop-offer-price { color: var(--ink); font-weight: 600; }
 .shop-offer-save { color: var(--red); }
+.shop-offer-week { color: var(--muted2); }
 .shop-meta { margin-left: auto; color: var(--red); font-style: normal; font-size: 13px; }
 .shop-store-tag {
   margin-left: auto; flex: none; align-self: center; font-family: inherit; font-size: 10.5px; padding: 3px 9px;

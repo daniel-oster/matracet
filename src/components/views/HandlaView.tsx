@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 import { useOfferRefLookup } from '../../hooks/useOffers'
 import { useShoppingList } from '../../hooks/useShoppingList'
 import { STORES } from '../../lib/bevaka'
-import { buildShoppingListText, formatShopLine } from '../../lib/shoppingList'
+import { buildShoppingListText, formatOfferWeek, formatShopLine } from '../../lib/shoppingList'
 import { groupByAisle } from '../../lib/storeOrder'
 import TopBar from '../TopBar'
 
@@ -17,6 +17,10 @@ interface ShopRow {
   offerLabel?: string
   price?: string
   savings?: string
+  /** Which week's flyer this item's offer was valid for, e.g. "v.29 · 2026" — set whenever the
+   * item carries an offerRef, even if the offer itself hasn't resolved yet or has since dropped
+   * out of that week's saved file (the ref still says which week it was picked from). */
+  week?: string
   /** True for a plain "Eget tillägg" add with no recipe/offer origin — HandlaView badges these
    * so it's clear at a glance which rows aren't tied to a specific product. */
   manual: boolean
@@ -60,6 +64,7 @@ export default function HandlaView({ onBack }: Props) {
       offerLabel: offer ? [offer.marke, offer.storlek].filter(Boolean).join(' · ') || undefined : undefined,
       price: offer?.pris_text,
       savings: offer?.besparing ?? undefined,
+      week: m.offerRef ? formatOfferWeek(m.offerRef.week) : undefined,
       manual: !m.source && !m.offerRef,
       storeKey: storeAssignments[m.id] ?? null,
       taggable: true,
@@ -82,7 +87,7 @@ export default function HandlaView({ onBack }: Props) {
 
   const fullText = buildShoppingListText({
     weekLabel: storeLabel ?? 'Din lista',
-    lines: rowGroups.flatMap(g => g.items).map(r => formatShopLine(r.main, r.why ?? r.offerLabel, r.price)),
+    lines: rowGroups.flatMap(g => g.items).map(r => formatShopLine(r.main, r.why ?? r.offerLabel, r.price, r.week)),
     removedLabels: removedRows.map(r => r.main),
   })
 
@@ -163,11 +168,12 @@ export default function HandlaView({ onBack }: Props) {
                     {row.why && <span className="shop-meal-tag"> ({row.why})</span>}
                     {row.manual && <span className="shop-manual-tag">✎ Eget tillägg</span>}
                   </div>
-                  {(row.offerLabel || row.price) && (
+                  {(row.offerLabel || row.price || row.week) && (
                     <div className="shop-offer-meta">
                       {row.offerLabel && <span>{row.offerLabel}</span>}
                       {row.price && <span className="shop-offer-price">{row.price}</span>}
                       {row.savings && <span className="shop-offer-save">spara {row.savings}</span>}
+                      {row.week && <span className="shop-offer-week">{row.week}</span>}
                     </div>
                   )}
                 </div>
