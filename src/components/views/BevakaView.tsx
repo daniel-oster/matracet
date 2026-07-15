@@ -24,7 +24,7 @@ export default function BevakaView({ onBack }: Props) {
   }
 
   const all: TaggedOffer[] = stores.flatMap((s: StoreOffers) =>
-    s.erbjudanden.map(o => ({ ...o, store: s.kalla })),
+    s.erbjudanden.map(o => ({ ...o, store: s.kalla, week: s.vecka })),
   )
   const hits = findBevakaHits(items, all)
   const hitIds = new Set(hits.map(h => h.item.id))
