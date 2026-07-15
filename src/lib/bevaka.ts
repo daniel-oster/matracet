@@ -1,4 +1,5 @@
 import { BevakningItem, Offer, StoreOffers } from '../types'
+import { ShoppingOfferRef } from '../hooks/useShoppingList'
 
 export interface StoreMeta {
   namn: string
@@ -29,6 +30,7 @@ export const CATEGORY_EMOJI: Record<string, string> = {
 
 export interface TaggedOffer extends Offer {
   store: string
+  week: string
 }
 
 export interface BevakaHit {
@@ -37,7 +39,13 @@ export interface BevakaHit {
 }
 
 export function tagOffers(stores: StoreOffers[]): TaggedOffer[] {
-  return stores.flatMap(s => s.erbjudanden.map(o => ({ ...o, store: s.kalla })))
+  return stores.flatMap(s => s.erbjudanden.map(o => ({ ...o, store: s.kalla, week: s.vecka })))
+}
+
+/** Points a shopping-list item at the exact offer it was pulled from — see ShoppingOfferRef
+ * for why a {store, week} ref beats duplicating the offer's fields. */
+export function toOfferRef(o: TaggedOffer): ShoppingOfferRef {
+  return { store: o.store, week: o.week }
 }
 
 /** Empty `sok` means "watch the whole category" instead of matching specific keywords. */

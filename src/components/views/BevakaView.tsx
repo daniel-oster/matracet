@@ -2,7 +2,7 @@ import { StoreOffers } from '../../types'
 import { useOffers } from '../../hooks/useOffers'
 import { useBevakningslista } from '../../hooks/useBevakningslista'
 import { useShoppingList } from '../../hooks/useShoppingList'
-import { STORES, CATEGORY_EMOJI, TaggedOffer, findBevakaHits } from '../../lib/bevaka'
+import { STORES, CATEGORY_EMOJI, TaggedOffer, findBevakaHits, toOfferRef } from '../../lib/bevaka'
 import TopBar from '../TopBar'
 
 interface Props {
@@ -78,7 +78,7 @@ export default function BevakaView({ onBack }: Props) {
                   <div
                     className={`match-row${inList ? ' in-list' : ''}`}
                     key={`${o.store}-${i}`}
-                    onClick={() => (inList ? removeOrMarkByName(o.namn) : addOrRestoreByName(o.namn, { storeKey: o.store }))}
+                    onClick={() => (inList ? removeOrMarkByName(o.namn) : addOrRestoreByName(o.namn, { offerRef: toOfferRef(o) }))}
                     title={inList ? 'I inköpslistan — klicka för att ta bort' : 'Klicka för att lägga i inköpslistan'}
                   >
                     <span className={`fynd-store ${STORES[o.store]?.klass}`}>{STORES[o.store]?.namn}</span>

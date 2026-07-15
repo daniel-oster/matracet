@@ -4,6 +4,7 @@ import { useOffers } from '../../hooks/useOffers'
 import { useShoppingList } from '../../hooks/useShoppingList'
 import { useIrrelevantOffers } from '../../hooks/useIrrelevantOffers'
 import { useCollapsedCategories } from '../../hooks/useCollapsedCategories'
+import { toOfferRef } from '../../lib/bevaka'
 import SwipeRow from '../SwipeRow'
 import TopBar from '../TopBar'
 
@@ -52,6 +53,7 @@ const FLAGS: Record<string, string> = {
 
 interface TaggedOffer extends Offer {
   store: string
+  week: string
 }
 
 interface MatchGroup {
@@ -142,7 +144,7 @@ export default function FyndView({ onBack }: Props) {
 
   function toggleShoppingList(o: TaggedOffer) {
     if (isActiveByName(o.namn)) removeOrMarkByName(o.namn)
-    else addOrRestoreByName(o.namn, { storeKey: o.store })
+    else addOrRestoreByName(o.namn, { offerRef: toOfferRef(o) })
   }
 
   const toggleStore = (store: string) => setStoreFilter(prev => ({ ...prev, [store]: !prev[store] }))
@@ -161,7 +163,7 @@ export default function FyndView({ onBack }: Props) {
   const otherWeeks = availableWeeks.filter(w => w !== latestWeek).slice().reverse()
 
   const all: TaggedOffer[] = stores.flatMap((s: StoreOffers) =>
-    s.erbjudanden.map(o => ({ ...o, store: s.kalla })),
+    s.erbjudanden.map(o => ({ ...o, store: s.kalla, week: s.vecka })),
   )
 
   const q = query.trim().toLowerCase()

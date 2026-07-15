@@ -1,6 +1,18 @@
 import { useSyncExternalStore } from 'react'
 import { createLocalStore } from '../lib/localStore'
 
+/** Points at the exact offer a shopping-list item was pulled from — which store's flyer and
+ * which week — so "Kaffe" on the list can be resolved back to "Nescafé Snabbkaffe Refill
+ * 200g, 2 för 165:-" instead of just the generic product name. Deliberately not a snapshot of
+ * the offer's fields: weekly offer files are kept forever (see _index.json's `veckor`), so a
+ * {store, week} ref plus the item's own name is enough to always re-look-up the live record —
+ * no duplicated data that could drift from the source, and HandlaView's lookup naturally
+ * reflects the source file if it's ever corrected. */
+export interface ShoppingOfferRef {
+  store: string
+  week: string
+}
+
 export interface ManualShoppingItem {
   id: string
   vara: string
@@ -10,6 +22,9 @@ export interface ManualShoppingItem {
    * from. Plain "Eget tillägg" adds and Fynd/Bevaka pulls leave both unset. */
   amount?: string
   source?: string
+  /** Set when added from a Fynd/Bevaka/Skafferi offer — see ShoppingOfferRef. Absent for plain
+   * "Eget tillägg" adds and recipe ingredients, which HandlaView highlights as manual. */
+  offerRef?: ShoppingOfferRef
 }
 
 export interface AddManualItemExtra {
@@ -18,8 +33,9 @@ export interface AddManualItemExtra {
   /** Store key ('willys'/'ica'/'hemkop') the item actually came from — set when adding from a
    * Fynd/Bevaka/Skafferi offer, so the store pill is correct immediately instead of starting
    * unset and waiting for a manual tap. Never overrides an existing assignment (e.g. a manual
-   * cycleStore tag the user already made). */
+   * cycleStore tag the user already made). Defaults to `offerRef.store` below when omitted. */
   storeKey?: string
+  offerRef?: ShoppingOfferRef
 }
 
 export interface ShoppingListState {
@@ -58,9 +74,11 @@ function addManualItem(vara: string, extra?: AddManualItemExtra): void {
     addedAt: new Date().toISOString(),
     ...(extra?.amount ? { amount: extra.amount } : {}),
     ...(extra?.source ? { source: extra.source } : {}),
+    ...(extra?.offerRef ? { offerRef: extra.offerRef } : {}),
   }
-  const storeAssignments = extra?.storeKey
-    ? { ...(state.storeAssignments ?? {}), [item.id]: extra.storeKey }
+  const storeKey = extra?.storeKey ?? extra?.offerRef?.store
+  const storeAssignments = storeKey
+    ? { ...(state.storeAssignments ?? {}), [item.id]: storeKey }
     : (state.storeAssignments ?? {})
   shoppingListStore.set({ ...state, manualItems: [...state.manualItems, item], storeAssignments })
 }
@@ -79,11 +97,21 @@ function addOrRestoreByName(vara: string, extra?: AddManualItemExtra): void {
   if (existing) {
     restore(existing.id)
     const state = shoppingListStore.get()
-    if (extra?.storeKey && !(state.storeAssignments ?? {})[existing.id]) {
+    const currentAssignments = state.storeAssignments ?? {}
+    const storeKey = extra?.storeKey ?? extra?.offerRef?.store
+    const storeAssignments = storeKey && !currentAssignments[existing.id]
+      ? { ...currentAssignments, [existing.id]: storeKey }
+      : currentAssignments
+    // Re-picking an existing item from a fresh offer (e.g. re-adding this week's coffee
+    // deal) should point the ref at that week — the user is actively confirming this one.
+    if (extra?.offerRef) {
       shoppingListStore.set({
         ...state,
-        storeAssignments: { ...(state.storeAssignments ?? {}), [existing.id]: extra.storeKey },
+        manualItems: state.manualItems.map(m => (m.id === existing.id ? { ...m, offerRef: extra.offerRef } : m)),
+        storeAssignments,
       })
+    } else if (storeAssignments !== currentAssignments) {
+      shoppingListStore.set({ ...state, storeAssignments })
     }
     return
   }
