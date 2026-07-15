@@ -13,6 +13,11 @@ function hardRefresh() {
   window.location.href = url.toString()
 }
 
+function todayLabel(): string {
+  const label = new Date().toLocaleDateString('sv-SE', { weekday: 'long', day: 'numeric', month: 'long' })
+  return label.charAt(0).toUpperCase() + label.slice(1)
+}
+
 function categoryEmoji(kategorier: string[]): string {
   if (kategorier.includes('vegansk')) return '🌱'
   if (kategorier.includes('vegetarisk')) return '🥚'
@@ -47,7 +52,10 @@ export default function Hub({ weekLabel, rollingDays, recipeIndex, dayPlans, onN
           <div className="hub-title">Matracet</div>
         </div>
         <div className="hub-topbar-right">
-          <div className="hub-week-label">{weekLabel}</div>
+          <div>
+            <div className="hub-today-label">{todayLabel()}</div>
+            <div className="hub-week-label">{weekLabel}</div>
+          </div>
           <button
             className="hub-refresh-btn"
             onClick={hardRefresh}
