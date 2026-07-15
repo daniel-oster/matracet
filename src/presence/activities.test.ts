@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { resolvePresence, effectiveLeaveBy } from './resolver'
-import { SEED_STORE, PERSONS, GROUPS, RULES } from './seed'
+import { SEED_STORE } from './seed'
 import { ACTIVITIES } from './activities'
 import type { Activity, PresenceStore } from './types'
 
