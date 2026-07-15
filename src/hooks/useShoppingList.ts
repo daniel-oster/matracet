@@ -15,6 +15,11 @@ export interface ManualShoppingItem {
 export interface AddManualItemExtra {
   amount?: string
   source?: string
+  /** Store key ('willys'/'ica'/'hemkop') the item actually came from — set when adding from a
+   * Fynd/Bevaka/Skafferi offer, so the store pill is correct immediately instead of starting
+   * unset and waiting for a manual tap. Never overrides an existing assignment (e.g. a manual
+   * cycleStore tag the user already made). */
+  storeKey?: string
 }
 
 export interface ShoppingListState {
@@ -54,7 +59,10 @@ function addManualItem(vara: string, extra?: AddManualItemExtra): void {
     ...(extra?.amount ? { amount: extra.amount } : {}),
     ...(extra?.source ? { source: extra.source } : {}),
   }
-  shoppingListStore.set({ ...state, manualItems: [...state.manualItems, item] })
+  const storeAssignments = extra?.storeKey
+    ? { ...(state.storeAssignments ?? {}), [item.id]: extra.storeKey }
+    : (state.storeAssignments ?? {})
+  shoppingListStore.set({ ...state, manualItems: [...state.manualItems, item], storeAssignments })
 }
 
 function findByName(vara: string): ManualShoppingItem | undefined {
@@ -70,6 +78,13 @@ function addOrRestoreByName(vara: string, extra?: AddManualItemExtra): void {
   const existing = findByName(vara)
   if (existing) {
     restore(existing.id)
+    const state = shoppingListStore.get()
+    if (extra?.storeKey && !(state.storeAssignments ?? {})[existing.id]) {
+      shoppingListStore.set({
+        ...state,
+        storeAssignments: { ...(state.storeAssignments ?? {}), [existing.id]: extra.storeKey },
+      })
+    }
     return
   }
   addManualItem(vara, extra)

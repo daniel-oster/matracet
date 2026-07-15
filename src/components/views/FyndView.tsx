@@ -134,7 +134,7 @@ export default function FyndView({ onBack }: Props) {
 
   function toggleShoppingList(o: TaggedOffer) {
     if (isActiveByName(o.namn)) removeOrMarkByName(o.namn)
-    else addOrRestoreByName(o.namn)
+    else addOrRestoreByName(o.namn, { storeKey: o.store })
   }
 
   const toggleStore = (store: string) => setStoreFilter(prev => ({ ...prev, [store]: !prev[store] }))
