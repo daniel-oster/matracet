@@ -535,7 +535,17 @@ offer's `namn`) is enough to always re-look-up the *live* record — no duplicat
 naturally reflects a later correction to the source file instead of going stale. `bevaka.ts`'s
 `TaggedOffer` gained a `week` field (`s.vecka`, populated by `tagOffers`) and a `toOfferRef(o)`
 helper; the same three call sites above pass `{ offerRef: toOfferRef(o) }` instead of a bare
-`storeKey`. `useOffers.ts`'s `useOfferRefLookup(items)` resolves a whole list of `{id, vara,
+`storeKey`. **Bug hit shipping this**: `BevakaView.tsx` builds its own `TaggedOffer[]` inline
+(`stores.flatMap(s => s.erbjudanden.map(o => ({ ...o, store: s.kalla })))`) instead of calling
+`tagOffers()` — this call site got missed when `week` was added, so Bevaka-added items got an
+`offerRef` with `week: undefined`, silently failed to resolve, and fell back to showing just the
+bare offer name with no brand/size/price. Worse, this real type error (`TaggedOffer` requires
+`week: string`) didn't show up in `npx tsc --noEmit` or `npm run build` at all — see the bare-`tsc`
+no-op gotcha in "Lessons learned"; only `npx tsc --noEmit -p tsconfig.app.json` actually caught it.
+Fixed by adding `week: s.vecka` to this call site too. If a future field gets added to
+`TaggedOffer`, grep for `store: s.kalla` to find every inline reconstruction site, not just
+`tagOffers()`'s one real definition. `useOffers.ts`'s `useOfferRefLookup(items)` resolves a whole
+list of `{id, vara,
 offerRef}` at once (batches by distinct week, reuses the same module-level `loadIndex`/`loadWeek`
 caches `useOffers` itself uses — deliberately *not* a second parallel per-store cache, since
 calling `loadWeek` with anything other than the full `idx.butiker` list would poison that shared
@@ -572,6 +582,7 @@ The UI tab is called **Fynd** (`FyndView.tsx`, "finds/bargains" in Swedish) — 
 
 Durable gotchas discovered while working in this repo. Add to this list rather than rediscovering the same thing in a future session.
 
+- **Bare `tsc`/`npx tsc --noEmit` silently checks nothing in this repo — it's a false-positive "clean" result.** The root `tsconfig.json` is a project-references shell (`"files": []`, `"references": [tsconfig.app.json, tsconfig.node.json]`) meant for `tsc -b`. Running plain `tsc` or `tsc --noEmit` against it (no `-b`, no `-p`) compiles the `files`/`include` of *that* config only — which is empty — so it exits 0 instantly having type-checked zero files, including when run as the `tsc &&` step inside `npm run build`. This let a real type error (`BevakaView.tsx` building its own `TaggedOffer[]` literal missing the `week` field added elsewhere) ship silently through several rounds of "typecheck clean, build clean" verification in one session, and only surfaced as a runtime bug (an added item resolved to nothing instead of its offer detail) once a user actually exercised the feature. **Always type-check with `npx tsc --noEmit -p tsconfig.app.json`** (or `npx tsc -b`) to actually catch errors — never trust a silent/instant bare `tsc` run in this repo as a green signal. This also means `npm run build`'s own type-checking step is currently a no-op (`vite build` transpiles without checking types); worth raising with the user before "fixing" it, since flipping it to real project-aware checking may surface pre-existing unrelated errors (a few already exist in test files as of 2026-07) that could break the GitHub Pages deploy workflow if applied without review.
 - **Fresh clone build failure**: `npm run build` fails with `vite: not found` until `npm install` has run — there's no lockfile-committed `node_modules`.
 - **Playwright `text=` locators are substring matches, not exact**: `page.locator('text=Skafferi').first()` silently grabbed a "→ Öppna Skafferiet" button instead of the "Skafferi" hub tile once both existed on the same screen (semester mode), because both contain "Skafferi" as a substring and `.first()` just took whichever came first in DOM order — no error, the click just did nothing useful. When a screen might have more than one element containing your target word (increasingly likely as tabs/tiles/buttons accumulate), target a specific class/structure instead, e.g. `'.hub-tile:has-text("Skafferi")'`, or `page.locator('text=Skafferi').count()` first to check for ambiguity.
 - **Offer/recipe data loads async in two extra hops beyond the page's own `networkidle`**: `useOffers` chains `_index.json` → `_latest.json` → the actual week file, and `useRecipes` fetches per-slug on mount — neither is done by the time `scripts/screenshot.mjs`'s fixed 400ms post-click wait fires. For a screen that renders from these hooks (anything using `useOffers`/`useRecipes`, e.g. `SkafferiView`, `VeckanPlanner`), write a one-off multi-step script (see the pattern already noted below) and `page.waitForSelector` on something only present once data has actually arrived (e.g. `.offer-chip`), rather than trusting a fixed timeout.
