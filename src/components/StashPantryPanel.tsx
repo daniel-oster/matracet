@@ -99,7 +99,7 @@ export default function StashPantryPanel({ recipeIndex, fullRecipes, onOpenRecip
     } else {
       const savings = parseSavings(o.besparing)
       addItem(o.namn, 'stock', null, [savings > 0 ? `🏷 spara ${savings}kr` : '🏷 fynd'], `${describeOffer(o)} · ${o.pris_text}`)
-      addOrRestoreByName(o.namn)
+      addOrRestoreByName(o.namn, { storeKey: o.store })
     }
   }
 

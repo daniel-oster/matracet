@@ -78,7 +78,7 @@ export default function BevakaView({ onBack }: Props) {
                   <div
                     className={`match-row${inList ? ' in-list' : ''}`}
                     key={`${o.store}-${i}`}
-                    onClick={() => (inList ? removeOrMarkByName(o.namn) : addOrRestoreByName(o.namn))}
+                    onClick={() => (inList ? removeOrMarkByName(o.namn) : addOrRestoreByName(o.namn, { storeKey: o.store }))}
                     title={inList ? 'I inköpslistan — klicka för att ta bort' : 'Klicka för att lägga i inköpslistan'}
                   >
                     <span className={`fynd-store ${STORES[o.store]?.klass}`}>{STORES[o.store]?.namn}</span>
