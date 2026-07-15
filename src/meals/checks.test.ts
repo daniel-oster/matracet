@@ -12,7 +12,7 @@ import { SEED_PREFERENCES } from './seed'
 import { SEED_STORE, PERSONS } from '../presence/seed'
 import { resolvePresence } from '../presence/resolver'
 import type { CookingEvent, MealAssignment, MealSlot, MealPlanData } from './types'
-import type { DayPlan, Person } from '../presence/types'
+import type { DayPlan } from '../presence/types'
 
 // ── Test factories ─────────────────────────────────────────────────────────────
 
@@ -206,32 +206,24 @@ describe('Spacing check (person-derived, SOFT)', () => {
   }
 
   it('kids present, same recipe on consecutive days (Mon→Tue) → SOFT spacing warn', () => {
-    const slot1 = makeSlotWithGroup('2026-05-25', kidsPersons, 3)  // Mon
     const slot2 = makeSlotWithGroup('2026-05-26', kidsPersons, 3)  // Tue (1 day later)
     const assignments = makeAssignPair('2026-05-25', '2026-05-26')
 
-    const warn = checkSpacing(slot2, recipeId, [slot1, slot2], assignments, [cookEv], PERSONS)
+    const warn = checkSpacing(slot2, recipeId, assignments, [cookEv], PERSONS)
     expect(warn, 'Consecutive-day repeat with kids should warn').not.toBeNull()
     expect(warn!.severity).toBe('SOFT')
     expect(warn!.code).toBe('REPEAT_TOO_SOON')
   })
 
   it('kids present, same recipe every other day (Mon→Wed) → no warning', () => {
-    const slot1 = makeSlotWithGroup('2026-05-25', kidsPersons, 3)  // Mon
     const slot2 = makeSlotWithGroup('2026-05-27', kidsPersons, 3)  // Wed (2 days later > maxGap=1)
     const assignments = makeAssignPair('2026-05-25', '2026-05-27')
 
-    const warn = checkSpacing(slot2, recipeId, [slot1, slot2], assignments, [cookEv], PERSONS)
+    const warn = checkSpacing(slot2, recipeId, assignments, [cookEv], PERSONS)
     expect(warn, 'Every-other-day repeat with kids should NOT warn').toBeNull()
   })
 
   it('Daniel-only group (gap=0), consecutive-day repeat → no warning', () => {
-    const slot1: MealSlot = {
-      date: '2026-05-25', occasion: 'DINNER',
-      dayPlan: { date: '2026-05-25', activeGroup: danielGroup, presentPersons: danielPersons, portions: 1,
-        activitiesToday: [], windowStatus: 'OPEN', windowEndsBy: null, eatEarlyBy: null, windowNotes: [] },
-      assignment: null,
-    }
     const slot2: MealSlot = {
       date: '2026-05-26', occasion: 'DINNER',
       dayPlan: { date: '2026-05-26', activeGroup: danielGroup, presentPersons: danielPersons, portions: 1,
@@ -241,13 +233,12 @@ describe('Spacing check (person-derived, SOFT)', () => {
     const evD: CookingEvent = { id: 'ev-d', date: '2026-05-25', recipeId, personMeals: 2 }
     const assignments = makeAssignPair('2026-05-25', '2026-05-26')
 
-    const warn = checkSpacing(slot2, recipeId, [slot1, slot2], assignments, [evD], PERSONS)
+    const warn = checkSpacing(slot2, recipeId, assignments, [evD], PERSONS)
     expect(warn, 'Daniel-only gap=0 should NEVER warn even on consecutive days').toBeNull()
   })
 
   it('Saturday cook → Wednesday leftover (4 days apart, kids) → no warning', () => {
     // Sat 2026-05-23 → Wed 2026-05-27: 4 days apart, maxGap=1, 4 > 1 → no warn
-    const slotSat = makeSlotWithGroup('2026-05-23', kidsPersons, 3)
     const slotWed = makeSlotWithGroup('2026-05-27', kidsPersons, 3)
     const evSat: CookingEvent = { id: 'ev-satw', date: '2026-05-23', recipeId, personMeals: 9 }
     const assignments: MealAssignment[] = [
@@ -255,7 +246,7 @@ describe('Spacing check (person-derived, SOFT)', () => {
       { slotDate: '2026-05-27', kind: 'LEFTOVER',   cookingEventId: 'ev-satw', label: null },
     ]
 
-    const warn = checkSpacing(slotWed, recipeId, [slotSat, slotWed], assignments, [evSat], PERSONS)
+    const warn = checkSpacing(slotWed, recipeId, assignments, [evSat], PERSONS)
     expect(warn, 'Sat→Wed (4 days) should not warn for kids (gap=1)').toBeNull()
   })
 })
@@ -267,9 +258,9 @@ describe('Spacing check (person-derived, SOFT)', () => {
 describe('No shelf-life concept', () => {
   it('CookingEvent has no lastsDays or shelf-life field', () => {
     const ev: CookingEvent = { id: 'e1', date: '2026-05-23', recipeId: 'test', personMeals: 6 }
-    expect((ev as Record<string, unknown>).lastsDays).toBeUndefined()
-    expect((ev as Record<string, unknown>).keepsDays).toBeUndefined()
-    expect((ev as Record<string, unknown>).shelf_life).toBeUndefined()
+    expect((ev as unknown as Record<string, unknown>).lastsDays).toBeUndefined()
+    expect((ev as unknown as Record<string, unknown>).keepsDays).toBeUndefined()
+    expect((ev as unknown as Record<string, unknown>).shelf_life).toBeUndefined()
     expect(Object.keys(ev)).toEqual(['id', 'date', 'recipeId', 'personMeals'])
   })
 

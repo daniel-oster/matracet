@@ -109,7 +109,6 @@ export function checkQuantity(
 export function checkSpacing(
   slot: MealSlot,
   recipeId: string,
-  allSlots: MealSlot[],
   allAssignments: MealAssignment[],
   cookingEvents: CookingEvent[],
   persons: Person[],
@@ -220,7 +219,7 @@ export function evaluateSlot(
   // ─ Spacing check ──────────────────────────────────────────────────────────────
   const spacingWarn = checkSpacing(
     slot, event.recipeId,
-    ctx.allSlots, ctx.allAssignments, ctx.cookingEvents, ctx.persons,
+    ctx.allAssignments, ctx.cookingEvents, ctx.persons,
   )
   if (spacingWarn) warnings.push(spacingWarn)
 
