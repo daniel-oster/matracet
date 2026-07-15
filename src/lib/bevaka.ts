@@ -18,7 +18,12 @@ export const CATEGORY_EMOJI: Record<string, string> = {
   gront_fryst: '🥦',
   frukt: '🍎',
   mejeri: '🥛',
+  brod: '🍞',
+  fardigmat: '🍕',
+  dryck: '🥤',
+  skafferi: '🥫',
   snacks_godis: '🍫',
+  hygien_hushall: '🧴',
   ovrigt: '📦',
 }
 

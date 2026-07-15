@@ -3,6 +3,7 @@ import { Offer, StoreOffers } from '../../types'
 import { useOffers } from '../../hooks/useOffers'
 import { useShoppingList } from '../../hooks/useShoppingList'
 import { useIrrelevantOffers } from '../../hooks/useIrrelevantOffers'
+import { useCollapsedCategories } from '../../hooks/useCollapsedCategories'
 import SwipeRow from '../SwipeRow'
 import TopBar from '../TopBar'
 
@@ -32,10 +33,15 @@ const CATS: CatMeta[] = [
   { id: 'gront_fryst', groupId: 'gront', label: 'Grönt', sub: 'Fryst', emoji: '🥦' },
   { id: 'frukt', groupId: 'frukt', label: 'Frukt', emoji: '🍎' },
   { id: 'mejeri', groupId: 'mejeri', label: 'Mejeri', emoji: '🥛' },
+  { id: 'brod', groupId: 'brod', label: 'Bröd & Bakverk', emoji: '🍞' },
+  { id: 'fardigmat', groupId: 'fardigmat', label: 'Färdigmat', emoji: '🍕' },
+  { id: 'dryck', groupId: 'dryck', label: 'Dryck', emoji: '🥤' },
+  { id: 'skafferi', groupId: 'skafferi', label: 'Skafferi', emoji: '🥫' },
   { id: 'snacks_godis', groupId: 'snacks_godis', label: 'Snacks & godis', emoji: '🍫' },
+  { id: 'hygien_hushall', groupId: 'hygien_hushall', label: 'Hygien & Hushåll', emoji: '🧴' },
   { id: 'ovrigt', groupId: 'ovrigt', label: 'Övrigt', emoji: '📦' },
 ]
-const GROUP_ORDER = ['protein', 'gront', 'frukt', 'mejeri', 'snacks_godis', 'ovrigt']
+const GROUP_ORDER = ['protein', 'gront', 'frukt', 'mejeri', 'brod', 'fardigmat', 'dryck', 'skafferi', 'snacks_godis', 'hygien_hushall', 'ovrigt']
 
 const FLAGS: Record<string, string> = {
   Sverige: '🇸🇪',
@@ -334,6 +340,7 @@ function AllView({ all, visible, isActiveByName, onToggleShoppingList, isIrrelev
   const relevant = (o: TaggedOffer) => visible(o) && !isIrrelevant(o.namn)
   const anyVisible = all.some(relevant)
   const irrelevantOffers = all.filter(o => visible(o) && isIrrelevant(o.namn))
+  const { isCollapsed, toggle: toggleCollapsed } = useCollapsedCategories()
 
   return (
     <div className="fynd-scroll fynd-scroll--wide">
@@ -342,14 +349,23 @@ function AllView({ all, visible, isActiveByName, onToggleShoppingList, isIrrelev
         const groupOffers = all.filter(o => relevant(o) && members.some(m => m.id === o.kategori))
         if (groupOffers.length === 0) return null
         const first = members[0]
+        const collapsed = isCollapsed(groupId)
 
         return (
           <div className="fynd-cat" key={groupId}>
-            <h3 className="fynd-cat-title">
+            <button
+              type="button"
+              className="fynd-cat-title fynd-cat-toggle"
+              onClick={() => toggleCollapsed(groupId)}
+              aria-expanded={!collapsed}
+            >
               <span>{first.emoji} {first.label}</span>
-              <span className="fynd-cat-count">{groupOffers.length}</span>
-            </h3>
-            {members.length > 1
+              <span className="fynd-cat-right">
+                <span className="fynd-cat-count">{groupOffers.length}</span>
+                <span className="fynd-cat-chevron">{collapsed ? '▸' : '▾'}</span>
+              </span>
+            </button>
+            {!collapsed && (members.length > 1
               ? members.map(m => {
                   const offers = groupOffers.filter(o => o.kategori === m.id)
                   if (offers.length === 0) return null
@@ -360,7 +376,7 @@ function AllView({ all, visible, isActiveByName, onToggleShoppingList, isIrrelev
                     </div>
                   )
                 })
-              : <OfferRows offers={groupOffers} isActiveByName={isActiveByName} onToggleShoppingList={onToggleShoppingList} onMarkIrrelevant={onMarkIrrelevant} />}
+              : <OfferRows offers={groupOffers} isActiveByName={isActiveByName} onToggleShoppingList={onToggleShoppingList} onMarkIrrelevant={onMarkIrrelevant} />)}
           </div>
         )
       })}

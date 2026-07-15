@@ -83,7 +83,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "brod"
     },
     {
       "namn": "Chips, ostbågar",
@@ -119,7 +119,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Bindor, trosskydd storpack",
@@ -137,7 +137,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Mogen avokado 3-pack",
@@ -193,7 +193,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Tandkräm",
@@ -211,7 +211,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Mozzarella",
@@ -301,7 +301,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "+ pant",
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Kolsyrat vatten",
@@ -319,7 +319,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "+ pant",
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Makaroner, durumpasta",
@@ -337,7 +337,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "iKaffe",
@@ -355,7 +355,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Duschcreme",
@@ -373,7 +373,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Kyld sås",
@@ -391,7 +391,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Läsk",
@@ -409,7 +409,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "+ pant",
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Rismål",
@@ -427,7 +427,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Aprikoser i ask",
@@ -537,7 +537,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Glass",
@@ -555,7 +555,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "fardigmat"
     },
     {
       "namn": "Varmrökt lax",
@@ -629,7 +629,7 @@
       ],
       "ursprung": "Sverige",
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Fryst pizza Suprema",
@@ -647,7 +647,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "fardigmat"
     },
     {
       "namn": "Färsk fylld pasta",
@@ -665,7 +665,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Fetaost",
@@ -701,7 +701,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Baby tvättservetter",
@@ -719,7 +719,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Kebab",
@@ -737,7 +737,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Frysta enportionsrätter",
@@ -755,7 +755,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "fardigmat"
     },
     {
       "namn": "Kaffekapslar",
@@ -773,7 +773,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Korvbröd 10-pack",
@@ -791,7 +791,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "brod"
     },
     {
       "namn": "Kassler",
@@ -811,7 +811,7 @@
       ],
       "ursprung": "Sverige",
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Proteinyoghurt",
@@ -847,7 +847,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Piccolinitomater i ask",
@@ -883,7 +883,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Kotlett med ben",
@@ -939,7 +939,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Grillkol, Briketter",
@@ -957,7 +957,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Crème fraiche",
@@ -1011,7 +1011,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Toalettpapper Classic",
@@ -1029,7 +1029,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Hushållspapper Classic",
@@ -1047,7 +1047,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Klassikerlåda",
@@ -1103,7 +1103,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Turkisk, Grekisk yoghurt",
@@ -1139,7 +1139,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Paprika 2-pack i påse",
@@ -1193,7 +1193,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Fryst laxfilé",
@@ -1229,7 +1229,7 @@
       "markeringar": [],
       "ursprung": "Nya Zeeland",
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Potatissallad",

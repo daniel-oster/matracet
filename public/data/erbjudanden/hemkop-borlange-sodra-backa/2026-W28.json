@@ -47,7 +47,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Flera sorter, fetthalt 40-82%, gäller ej ekologisk, laktosfri",
-      "kategori": "ovrigt"
+      "kategori": "mejeri"
     },
     {
       "namn": "Drickyoghurt",
@@ -101,7 +101,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Gravad, Kallrökt lax",
@@ -209,7 +209,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Flera sorter",
-      "kategori": "ovrigt"
+      "kategori": "brod"
     },
     {
       "namn": "Makaroner, Fullkornspasta, Fiberpasta",
@@ -227,7 +227,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Flera sorter",
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Ekologisk vispgrädde",
@@ -303,7 +303,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Original",
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Tvättkapslar 16-pack",
@@ -321,7 +321,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Flera sorter",
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Svensk kycklingfärs",
@@ -467,7 +467,7 @@
       "markeringar": [],
       "ursprung": "Tyskland",
       "notering": "Nygrillade i butik",
-      "kategori": "ovrigt"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Svensk majskycklingbröstfilé",
@@ -505,7 +505,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Béarnaise Original. Flera sorter. Bra pris",
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Svensk nötfärs",
@@ -561,7 +561,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Flera sorter, djupfryst. Bra pris",
-      "kategori": "ovrigt"
+      "kategori": "brod"
     },
     {
       "namn": "Fish & Crisp",
@@ -579,7 +579,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Flera sorter, djupfryst",
-      "kategori": "ovrigt"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Hots grillkorv",
@@ -615,7 +615,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Majonnäs",
@@ -633,7 +633,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Majskorn 3-pack",
@@ -669,7 +669,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Cinelle",
@@ -705,7 +705,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Flera sorter",
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Glass",
@@ -723,7 +723,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Flera sorter",
-      "kategori": "ovrigt"
+      "kategori": "fardigmat"
     },
     {
       "namn": "Salami Chips, Snacks, Sticks",
@@ -759,7 +759,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "+ pant",
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Skogaholmslimpa",
@@ -777,7 +777,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "brod"
     },
     {
       "namn": "Ekologisk fil",
@@ -841,7 +841,7 @@
       ],
       "ursprung": null,
       "notering": "Klubb Hemköp dubbla poäng",
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Bindor, Trosskydd",
@@ -859,7 +859,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Flera sorter",
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Diskduk 4-pack",
@@ -877,7 +877,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Classic",
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Deodorant Roll-on",
@@ -895,7 +895,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Flera sorter",
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Strimlad kycklingbröstfilé",
@@ -951,7 +951,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Nygräddat i butik",
-      "kategori": "ovrigt"
+      "kategori": "brod"
     },
     {
       "namn": "Mango",
