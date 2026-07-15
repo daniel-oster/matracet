@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Recipe } from '../types'
+import IngredientPickerModal from './IngredientPickerModal'
 
 interface WakeLockSentinel {
   release(): Promise<void>
@@ -16,6 +17,7 @@ export default function RecipeOverlay({ slug, onClose }: Props) {
   const [loading, setLoading] = useState(true)
   const [wakeLockActive, setWakeLockActive] = useState(false)
   const wakeLockRef = useRef<WakeLockSentinel | null>(null)
+  const [pickerOpen, setPickerOpen] = useState(false)
 
   useEffect(() => {
     setLoading(true)
@@ -107,6 +109,9 @@ export default function RecipeOverlay({ slug, onClose }: Props) {
             <div className="overlay-ingredients-col">
               <div className="overlay-section-head">Ingredienser</div>
               <div className="overlay-recipe-meta">{recipe.tid_min} min · {recipe.portioner} port.</div>
+              <button type="button" className="overlay-add-shop-btn" onClick={() => setPickerOpen(true)}>
+                🛒 Lägg till i inköpslistan
+              </button>
               <ul className="overlay-ing-list">
                 {main.map((ing, i) => (
                   <li key={i} className="overlay-ing-item">
@@ -155,6 +160,10 @@ export default function RecipeOverlay({ slug, onClose }: Props) {
           </div>
         )}
       </div>
+
+      {pickerOpen && recipe && (
+        <IngredientPickerModal recipe={recipe} onClose={() => setPickerOpen(false)} />
+      )}
     </div>
   )
 }

@@ -403,23 +403,116 @@ Lunches use the same `DayMeal` shape as dinners, in a sibling `luncher` array (o
 
 `AnteckningarView` has its content hardcoded as constants inside the component. This is an MVP placeholder — it is not yet driven by JSON files.
 
-### Shopping list ("Handla" tab)
+### Shopping list ("Handla" tab) — manual-only (2026-07 rework)
 
-`HandlaView` is fully derived, not hardcoded. It aggregates ingredients from this week's `rollingDays` **and** `rollingLunches` (both — a meal doesn't cook itself just because it's lunch; both go through `weekPlanStore` overrides now, since the Planera suggestion tray can swap either meal, not just dinner) by fetching each planned recipe (`useRecipes`) and summing `vara`+`enhet` across dishes (`aggregateIngredients` in `src/lib/shoppingList.ts`); items listed in `public/data/pantry.json` (`always_have` / `current_stock`) are skipped since the household already has them. Current watch-list bargains (`findBevakaHits`, shared with `BevakaView` via `src/lib/bevaka.ts`) and manually added items feed the same list.
+**The shopping list only ever grows from an explicit user action. Nothing is ever placed on
+it automatically.** This replaced the original design, where `HandlaView` silently aggregated
+ingredients from the whole week's planned meals *and* every current watch-list ("Bevaka")
+match every time you opened the tab — in practice this produced a list dozens of rows long
+that the user never asked for and didn't want, especially once a few `bevakningslista.json`
+entries turned out to have empty `sok` (category-wide watches — see the Watch-list section
+below) that matched every offer in a whole category. The fix wasn't a smarter filter on top of
+the automatic aggregation; it was to remove the aggregation entirely. Every other screen
+(Veckan, Recept, Fynd, Bevaka, Skafferi) still exists to help you *decide* what to buy — it
+just never writes to the list without you tapping something first.
 
-**One unified list, not three sections (2026-07)**: `HandlaView` used to render ingredients, bevaka hits, and manual items as three separately-headed groups ("Ingredienser" / "Fynd på bevakningslistan" / "Eget tillägg") in a two-column layout — from the shopper's point of view that's a false distinction, it's just one list of things to buy. All three sources now get mapped into one common `ShopRow` shape (`{ main, why?, price?, storeKey, taggable }`) and merged before aisle-grouping, so the on-screen result is a single flowing list with no source-based headers. Each row can still say *why* it's there instead of relying on a section header for context: an ingredient row's `why` is the meal(s) it's needed for (`.shop-meal-tag`, e.g. "(Ugnsbakad lax)"), a bevaka row's `why`/`price` is its matched offer's store+brand+size and price. Manual items get no `why` — being on the list at all is self-evident since you typed it in. The list is single-column at every width now (`.handla-list`, capped `max-width: 640px`) — splitting an aisle-walk-ordered list into two visual columns (like most other screens' wide-breakpoint treatment) would break the very order it exists to preserve.
+`useShoppingList` (`src/hooks/useShoppingList.ts`, a `matracet:shopping:v1` local store) is now
+the *only* source `HandlaView` reads from — `manualItems: ManualShoppingItem[]`. There is no
+week-plan or bevaka read in `HandlaView.tsx` at all (the old `aggregateIngredients` in
+`shoppingList.ts` and its `AggregatedIngredient` type were deleted as dead code once nothing
+called them; `findBevakaHits`/`tagOffers` in `bevaka.ts` are still used, just no longer by
+`HandlaView` — see below). `ManualShoppingItem` carries an optional `amount`/`source` (e.g.
+`"500 g"` / `"Ugnsbakad lax"`) set when an item arrives via the recipe picker (next
+paragraph), rendered as the row's amount-prefix and `.shop-meal-tag` "why", same visual shape
+the old auto-aggregated ingredient rows had — the *display* didn't need to change, only how a
+row gets onto the list in the first place.
 
-All user edits are local-only (no backend, per this app's design), via `useShoppingList` (`src/hooks/useShoppingList.ts`, a `matracet:shopping:v1` local store): checking a row's checkbox means "I already have this / don't need it" — it moves the row into a "Bortmarkerat" section below the list (not deleted), where tapping it there moves it straight back to the active list above. This applies uniformly to computed ingredients, bevaka hits, and manually added items. There's no in-app way to permanently edit the underlying recipe/pantry/watch-list data from this view — the **"⧉ Kopiera lista"** button copies a plain-text snapshot of the current (active, store-filtered) list as one flat sequence of lines (`buildShoppingListText` in `shoppingList.ts` — now takes pre-formatted `lines: string[]` rather than three typed arrays, matching the on-screen merge) plus a "Bortmarkerat" footer of currently-removed items, to the clipboard via a hidden `<textarea>` fallback, meant to be pasted into a Claude Code prompt so a future session can act on it (e.g. update `pantry.json`, tweak a recipe's ingredients, or refine `bevakningslista.json`).
+**Adding a recipe's ingredients: a review checklist, never a bulk dump.** `RecipeOverlay` (the
+shared full-screen recipe view opened from every screen in the app) has a
+**"🛒 Lägg till i inköpslistan"** button above the ingredient list. It opens
+`IngredientPickerModal` (`src/components/IngredientPickerModal.tsx`) — every ingredient listed
+with its own checkbox, all checked by default *except* ones already covered by
+`pantry.json`'s `always_have`/`current_stock` (labeled "redan hemma" so the reason is visible,
+not just a silent omission) — matching the "usually I want most of it, just uncheck a few"
+framing this feature was built for. Confirming calls `useShoppingList.addOrRestoreByName` once
+per checked ingredient with `{ amount, source }`. **Gotcha hit building this**: `usePantry()`
+fetches `pantry.json` asynchronously, so a naive `useState(() => ...filter by pantrySkip...)`
+computed on mount always saw an *empty* pantrySkip (nothing had loaded yet) and every
+ingredient stayed checked regardless of pantry contents — caught by screenshotting the modal
+and comparing against the "redan hemma" labels, which *did* show correctly since those are
+computed fresh on every render from the (eventually loaded) `pantry` value, while the initial
+`checked` state had already been committed and never revisited. Fixed with a one-time
+`useRef` + `useEffect` that un-checks the pantry-covered rows exactly once, the first time
+`pantry` actually loads, rather than trying to compute the right initial value on mount. Watch
+for this same shape of bug anywhere else a `useState` initializer wants a value from a hook
+that itself loads asynchronously — the initializer only runs once, before that data can
+possibly have arrived.
 
-Note the aggregate week data can be sparse — `rollingDays`/`rollingLunches` fall back to `recept: null` for any date without a JSON entry (see `App.tsx`), so a mostly-empty upcoming `weeks/*.json` file means a thin shopping list, not a bug in the aggregation. Check the actual week JSON before assuming the list is dropping something.
+**Bevaka matches**: `BevakaView`'s "Fynd nu" match rows now carry a **"+ handla"** button
+(toggles to "✓" and a 🛒 badge when already on the list, mirroring `FyndView`'s
+`.in-list`/`fynd-cart` convention) via `useShoppingList`'s `addOrRestoreByName`/
+`removeOrMarkByName`/`isActiveByName` — this is now the *only* way a bevaka match reaches the
+shopping list; being on the watch-list and matching an offer no longer implies it's wanted this
+week.
 
-Two other flows feed the manual shopping list besides typing into "Eget tillägg": **double-clicking any offer row in `FyndView`** (both Alla and Jämför modes), and **pulling an offer into the Skafferi stash pool** (`SkafferiView`'s "Veckans fynd" chips, `kind: 'stock'`). Both go through `useShoppingList`'s `addOrRestoreByName`/`removeOrMarkByName`/`isActiveByName` helpers, which dedupe by name (case-insensitive) instead of creating a fresh `ManualShoppingItem` every time, and toggle through the existing restore-don't-delete `removedIds` mechanism rather than adding a second deletion path. `SkafferiView` also renders its own compact, small-format render of the active manual items (`.stash-shoplist`, `.shop-row--compact`) — the vacation-mode screen wants a glanceable list, not `HandlaView`'s full-size rows, so the compact styling was added as a second class rather than shrinking `.shop-row` everywhere.
+**One unified list (2026-07, still true post-rework)**: all shopping-list rows — however they
+got added — share one `ShopRow` shape (`{ main, why?, storeKey, taggable }`) and render as a
+single flowing list, no source-based section headers (`.handla-list`, single-column at every
+width, capped `max-width: 640px` — an aisle-walk order shouldn't be split into two visual
+columns). Checking a row's checkbox means "I already have this / don't need it" — it moves into
+a "Bortmarkerat" section below (not deleted; tapping it there restores it) via
+`useShoppingList`'s restore-don't-delete `removedIds`. The **"⧉ Kopiera lista"** button copies a
+plain-text snapshot (`buildShoppingListText` in `shoppingList.ts`) of the current
+(active, store-filtered) list plus a "Bortmarkerat" footer, meant to be pasted into a Claude
+Code prompt.
 
-**Aisle ("store walk") ordering (2026-07)**: the list is meant to end up ordered by which store an item should be bought in, then by that store's actual shelf layout — but neither shopping-list items nor recipes carry a store assignment yet, so `src/lib/storeOrder.ts` ships an interim "normal order" placeholder until real per-store aisle layouts are configured. `AISLE_CATEGORIES` defines the category set + labels (Frukt & Grönt → Bröd → Kött & Fisk → Mejeri & Ägg → Skafferi → Fryst → Dryck → Snacks & Godis → Hushåll & Hygien → Övrigt); `AISLE_SEQUENCES` is a `Record<storeKey, string[]>` giving each store (willys/ica/hemkop) its *own* walk order — today every store's sequence is literally the same array (`DEFAULT_SEQUENCE`), but the structure means dropping in a real, distinct order for one store later is a one-line edit to that store's array, not a redesign. `guessAisleCategory(name)` keyword-matches an item's `vara` string into a category (unmatched falls to `ovrigt`, same catch-all convention as the `erbjudanden` category taxonomy); `aisleRank(name, store?)`/`sortByAisle`/`groupByAisle` all take an optional `store` key and look up that store's sequence (falling back to the default one). `aggregateIngredients` (`shoppingList.ts`) sorts its output this way, and `HandlaView` groups its merged row list into aisle sections (`.shop-aisle-header`) using whichever store is currently selected in the store filter — so switching stores re-sorts the *whole* list, not just which rows are visible, and once real per-store sequences exist that reorder will actually look different per store. **Watch for the substring-collision trap already documented below** when extending the keyword lists — this categorizer hit it three times in one pass: `färs` (mince) inside `färskt` (fresh), `mjöl` (flour) inside `mjölk` (milk), and `fil` (cultured milk) inside `filé` (fillet, e.g. "Laxfilé") — all fixed with a stripped/negative-lookahead guard rather than trusting the raw substring match.
+Three flows feed the list besides typing into "Eget tillägg": the recipe ingredient picker
+above, **double-clicking any offer row in `FyndView`** (both Alla and Jämför modes), and
+**pulling an offer into the Skafferi stash pool** (`SkafferiView`'s "Veckans fynd" chips,
+`kind: 'stock'`). All three go through `addOrRestoreByName`/`removeOrMarkByName`/
+`isActiveByName`, which dedupe by name (case-insensitive) instead of creating a fresh
+`ManualShoppingItem` every time. `SkafferiView` also renders its own compact render of the
+active manual items (`.stash-shoplist`, `.shop-row--compact`).
 
-**"Show one store at a time" (2026-07)**: a `.handla-storebar` pill row ("Alla"/Willys/ICA/Hemköp, reusing `FyndView`'s `.fynd-chip` styling and `STORES` from `bevaka.ts`) lets the shopper filter `HandlaView` down to one store while actually standing in it. What gets filtered depends on whether we *know* the item's store: bevaka hits carry a real store on their matched offer, so filtering on `h.offer.store` narrows the list to just that store's matches — no tagging needed, this is exact, and it's also where a bevaka row's `price`/`why` text comes from (the matched offer, so the price shown is always right for the selected store). Recipe ingredients and manual items have no store concept in the data model, so instead of hiding them (which would make the filter useless — most of the list would just vanish) they're **taggable**: every ingredient/manual row gets a small pill button (`.shop-store-tag`, "+ Butik" when unset) that cycles willys → ica → hemkop → unset (`useShoppingList`'s `cycleStore`, backed by a `storeAssignments: Record<id, storeKey>` field — additive on the existing `matracet:shopping:v1` key rather than a version bump, since wiping `removedIds`/`manualItems` to add one field would lose real usage data). Untagged rows stay visible in every store's view; tagging one to a store hides it everywhere else — this is the main lever that makes the filter meaningfully change the list *today*, ahead of any real per-store aisle-order data landing. Ingredient ids are deterministic (`ing:<vara>|<enhet>`), so a tag on a recurring ingredient (e.g. always buying milk at ICA) persists across weeks the same way a `matracet:feedback:v1` rating does. **CSS trap hit while building the store bar**: originally nested `.handla-storebar` inside a two-column CSS-grid layout as a `grid-column: 1 / -1` item — Chrome's grid auto-row-sizing inflated that row to ~127px (vs. the row's actual ~45px content+margin) for reasons not fully root-caused; moved the store bar to its own `.handla-storebar-wrap` sibling *outside* the list container (between `TopBar` and `.screen-body.handla-list`, own small padding wrapper) and the phantom gap disappeared immediately. If a future full-width "spans both grid columns" element in some view shows unexplained extra vertical space, try pulling it out of the grid before spending more time on the CSS.
+**Aisle ("store walk") ordering (2026-07)**: the list is meant to end up ordered by which store
+an item should be bought in, then by that store's actual shelf layout — but neither
+shopping-list items nor recipes carry a store assignment yet, so `src/lib/storeOrder.ts` ships
+an interim "normal order" placeholder until real per-store aisle layouts are configured.
+`AISLE_CATEGORIES` defines the category set + labels (Frukt & Grönt → Bröd → Kött & Fisk →
+Mejeri & Ägg → Skafferi → Fryst → Dryck → Snacks & Godis → Hushåll & Hygien → Övrigt);
+`AISLE_SEQUENCES` is a `Record<storeKey, string[]>` giving each store (willys/ica/hemkop) its
+*own* walk order — today every store's sequence is literally the same array
+(`DEFAULT_SEQUENCE`), but the structure means dropping in a real, distinct order for one store
+later is a one-line edit to that store's array, not a redesign. `guessAisleCategory(name)`
+keyword-matches an item's `vara` string into a category (unmatched falls to `ovrigt`, same
+catch-all convention as the `erbjudanden` category taxonomy); `aisleRank(name, store?)`/
+`sortByAisle`/`groupByAisle` all take an optional `store` key and look up that store's sequence
+(falling back to the default one). `HandlaView` groups its row list into aisle sections
+(`.shop-aisle-header`) using whichever store is currently selected in the store filter — so
+switching stores re-sorts the *whole* list, not just which rows are visible. **Watch for the
+substring-collision trap already documented below** when extending the keyword lists — this
+categorizer hit it three times in one pass: `färs` (mince) inside `färskt` (fresh), `mjöl`
+(flour) inside `mjölk` (milk), and `fil` (cultured milk) inside `filé` (fillet, e.g. "Laxfilé")
+— all fixed with a stripped/negative-lookahead guard rather than trusting the raw substring
+match.
 
-**Bug: category-wide bevaka watches collapsed to one generic row (fixed 2026-07)**: `bevakningslista.json` entries with empty `sok` (e.g. `frukt`, `gront_farsk`, `snacks_godis` — "watch the whole category for a bargain", see `matchesBevakning` in `bevaka.ts`) can match many distinct offers in a given week (5 different fruit offers, 12 different fresh-veg offers, 22 different snacks offers all in one real week's data). `HandlaView` used to render exactly one row per bevaka *item*, picking `h.offers[0]` and labeling it with the item's generic `vara` name (`"🍎 Frukt · 19.90/kg"`) — every other matching offer that week was silently dropped from the shopping list entirely, and the one shown wasn't even guaranteed to be the best or most relevant. Fixed by flattening to one row per matched *offer* (`bevakaOfferHits` in `HandlaView.tsx`, id `bevaka:<item.id>:<store>:<offer.namn>`) with the real product name as `main` and the category emoji/item name folded into context — so "Frukt" on the watch list now surfaces every actual fruit bargain (melon, ananas, lime, ...) as its own checkable/removable row, same as brand-specific watches (`kaffe`, `schampo`) already effectively did when a specific keyword only ever matched one offer. `hitsForStore` (`bevaka.ts`) became dead code once the store filter could just check `offer.store` directly on the flattened rows and was deleted. `BevakaView` was never affected — it already rendered every offer in a hit (`hits.map(({item, offers}) => offers.map(...))`), so it's worth comparing against that component's rendering loop before assuming a `BevakaHit`-shaped list is safe to summarize down to one representative offer anywhere else in the app.
+**"Show one store at a time" (2026-07)**: a `.handla-storebar` pill row ("Alla"/Willys/ICA/Hemköp,
+reusing `FyndView`'s `.fynd-chip` styling and `STORES` from `bevaka.ts`) lets the shopper filter
+`HandlaView` down to one store while actually standing in it. Rows have no store concept in the
+data model, so instead of hiding them (which would make the filter useless) they're
+**taggable**: every row gets a small pill button (`.shop-store-tag`, "+ Butik" when unset) that
+cycles willys → ica → hemkop → unset (`useShoppingList`'s `cycleStore`, backed by a
+`storeAssignments: Record<id, storeKey>` field — additive on the existing `matracet:shopping:v1`
+key rather than a version bump, since wiping `removedIds`/`manualItems` to add one field would
+lose real usage data). Untagged rows stay visible in every store's view; tagging one to a store
+hides it everywhere else. **CSS trap hit while building the store bar**: originally nested
+`.handla-storebar` inside a two-column CSS-grid layout as a `grid-column: 1 / -1` item —
+Chrome's grid auto-row-sizing inflated that row to ~127px (vs. the row's actual ~45px
+content+margin) for reasons not fully root-caused; moved the store bar to its own
+`.handla-storebar-wrap` sibling *outside* the list container and the phantom gap disappeared
+immediately. If a future full-width "spans both grid columns" element in some view shows
+unexplained extra vertical space, try pulling it out of the grid before spending more time on
+the CSS.
 
 ### Store offers ("Fynd" tab)
 
@@ -433,7 +526,7 @@ The UI tab is called **Fynd** (`FyndView.tsx`, "finds/bargains" in Swedish) — 
 
 ### Watch-list ("Bevaka" tab)
 
-`public/data/erbjudanden/bevakningslista.json` holds a standing list of products to bulk-buy whenever they're a genuine bargain (e.g. a coffee brand, toilet paper in the usual big pack, a specific toothpaste). Each entry (`BevakningItem` in `types.ts`) has `sok` (lowercase keyword substrings matched against an offer's `namn`/`marke`), `undvik_marken` (brand substrings that disqualify a match — e.g. "not Gevalia"), and optional `onskat_marke`/`storlek_hint`/`troskel_kr`/`anteckning` for extra context. `BevakaView.tsx` cross-references this list against the current week's offers (via `useOffers`, same hook as Fynd): the left page shows the full watch-list with a 🔔 badge on any item currently matched, the right page shows the matched offers grouped by item. **When adding a watch-list item, add an entry to `bevakningslista.json`** — there's no in-app "add" UI (consistent with this app's no-backend/JSON-in-git model), so new items or refinements (e.g. filling in a specific brand once decided) go straight into the file.
+`public/data/erbjudanden/bevakningslista.json` holds a standing list of products to bulk-buy whenever they're a genuine bargain (e.g. a coffee brand, toilet paper in the usual big pack, a specific toothpaste). Each entry (`BevakningItem` in `types.ts`) has `sok` (lowercase keyword substrings matched against an offer's `namn`/`marke`), `undvik_marken` (brand substrings that disqualify a match — e.g. "not Gevalia"), and optional `onskat_marke`/`storlek_hint`/`troskel_kr`/`anteckning` for extra context. `BevakaView.tsx` cross-references this list against the current week's offers (via `useOffers`, same hook as Fynd): the left page shows the full watch-list with a 🔔 badge on any item currently matched, the right page shows the matched offers grouped by item, each with a **"+ handla"** button to explicitly pull that specific offer onto the shopping list (see the Shopping list section above — a bevaka match no longer lands on the list just by existing). **When adding a watch-list item, add an entry to `bevakningslista.json`** — there's no in-app "add" UI (consistent with this app's no-backend/JSON-in-git model), so new items or refinements (e.g. filling in a specific brand once decided) go straight into the file. Note four entries (`frukt`, `gront_farskt`, `gront_fryst`, `snacks_godis`) have an empty `sok`, meaning "watch the whole category" rather than a specific keyword (see `matchesBevakning` in `bevaka.ts`) — these can surface dozens of matches in one week, which is fine now that surfacing a match and adding it to the shopping list are two separate, explicit steps.
 
 ## Lessons learned
 
