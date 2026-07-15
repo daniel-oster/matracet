@@ -27,7 +27,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Bara för dig (aktiveras)",
-      "kategori": "ovrigt"
+      "kategori": "brod"
     },
     {
       "namn": "Riven ost",
@@ -45,7 +45,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "mejeri"
     },
     {
       "namn": "Grekiskt lantbröd, Himla go",
@@ -63,7 +63,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "brod"
     },
     {
       "namn": "Ägg 12-pack",
@@ -99,7 +99,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "mejeri"
     },
     {
       "namn": "Strimlad vitkål",
@@ -135,7 +135,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "brod"
     },
     {
       "namn": "Filmjölk, Yoghurt",
@@ -153,7 +153,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "mejeri"
     },
     {
       "namn": "Proscuitto Crudo",
@@ -189,7 +189,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "brod"
     },
     {
       "namn": "Ekologiska bär",
@@ -225,7 +225,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Proviva",
@@ -243,7 +243,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "mejeri"
     },
     {
       "namn": "Aktiv-Gel",
@@ -279,7 +279,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "mejeri"
     },
     {
       "namn": "Muffin",
@@ -297,7 +297,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "brod"
     },
     {
       "namn": "Pizza",
@@ -315,7 +315,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "fardigmat"
     },
     {
       "namn": "Melon",
@@ -409,7 +409,7 @@
       ],
       "ursprung": "Sverige",
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Karré",
@@ -467,7 +467,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "fardigmat"
     },
     {
       "namn": "Rislunsj",
@@ -485,7 +485,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Fiskpinnar 15-pack",
@@ -521,7 +521,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Marmelad",
@@ -539,7 +539,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Ekologiska Halkidiki Oliver",
@@ -557,7 +557,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Deluxe",
@@ -593,7 +593,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Pålägg",
@@ -647,7 +647,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "brod"
     },
     {
       "namn": "Bacon",
@@ -719,7 +719,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "mejeri"
     },
     {
       "namn": "Bönor, Kikärter",
@@ -773,7 +773,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Matpaj",
@@ -791,7 +791,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "fardigmat"
     },
     {
       "namn": "Bröd",
@@ -809,7 +809,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "brod"
     },
     {
       "namn": "Norrloumi",
@@ -827,7 +827,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "mejeri"
     },
     {
       "namn": "Tvättmedel, Sköljmedel",
@@ -845,7 +845,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Mjukost",
@@ -863,7 +863,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "mejeri"
     },
     {
       "namn": "Tandborste, Tandkräm",
@@ -881,7 +881,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Tomater",
@@ -935,7 +935,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "brod"
     },
     {
       "namn": "Ekologisk fläskytterfilé",
@@ -993,7 +993,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Zoo kex",
@@ -1029,7 +1029,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Snabbkaffe",
@@ -1047,7 +1047,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Cider, Alkoholfri öl",
@@ -1065,7 +1065,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Muffins 4-pack",
@@ -1083,7 +1083,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "brod"
     }
   ]
 }

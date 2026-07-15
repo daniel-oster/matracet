@@ -153,19 +153,33 @@ Supersättning — varje butik fyller i det den exponerar, resten är `null`.
 Grupperat efter "vad lagar jag med", inte butikens hyllplacering:
 
 `protein_farsk`, `protein_fryst`, `gront_farsk`, `gront_fryst`, `frukt`,
-`snacks_godis`, `ovrigt`.
+`mejeri`, `brod`, `fardigmat`, `dryck`, `skafferi`, `snacks_godis`,
+`hygien_hushall`, `ovrigt`.
 
 `protein_*` täcker kött, fågel, fisk, skaldjur, ägg och vegetariska/veganska
 proteinkällor (tofu, quorn, bönor, linser …), delat i färskt/fryst. `gront_*`
-är grönsaker, samma färskt/fryst-delning. `frukt` är frukt & bär (ingen
-färskt/fryst-delning). `ovrigt` är allt annat på ett reklamblad — mejeri,
-bröd, dryck, skafferivaror, hygien/hushåll, färdigrätter, glass — snarare än
-en egen kategori vardera, eftersom UI:t (`FyndView`) numera grupperar just
-efter protein/grönt/frukt/snacks/resten. Se `scripts/erbjudanden-lib.mjs`
-(`guessKategori`) för nyckelordsgissningen och `scripts/erbjudanden-recategorize.mjs`
-för engångsmigreringen från den gamla 11-kategori-listan (kott_fagel,
-fisk_skaldjur, frukt_gront, mejeri, brod_bakverk, torrvaror, frys, dryck,
-snacks_godis, hygien_hushall, ovrigt) till denna.
+är grönsaker (inkl. färska örter som dill/persilja), samma färskt/fryst-delning.
+`frukt` är frukt & bär (ingen färskt/fryst-delning). `mejeri` är mjölk, ost,
+yoghurt/kvarg/fil, smör/margarin och grädde. `brod` är bröd och bakverk
+(kaffebröd, tårtor, kakor — inte "kaka" i betydelsen chokladkaka/godisbit,
+se undantaget i `BROD_RE`). `fardigmat` är förädlade/färdiglagade rätter man
+värmer snarare än lagar från grunden — pizza, glass, gratänger, paj, pommes.
+`dryck` är läsk, saft, juice, kaffe, alkoholfritt öl/cider m.m. `skafferi` är
+såser, kryddor, olja, pasta, ris, torrvaror, konserver — det som ligger kvar
+i skafferiet mellan matlagningstillfällena. `hygien_hushall` är
+hygienartiklar, städ/disk, papper, blöjor och husdjursfoder. Dessa sex
+kategorier tillkom 2026-07 (`mejeri` något tidigare samma månad) för att
+tömma `ovrigt`, som innan dess var en enda odurchsökbar hög — se
+`CLAUDE.md`s "Dairy category..."-/"Bröd, Dryck, Skafferi..."-avsnitt för hela
+bakgrunden. `ovrigt` är numera en genuint liten restpost: produkter utan
+tillräckligt distinkt namn för någon regel ovan (t.ex. rena varumärkesnamn
+utan ett generiskt ord kvar, som "Herrgård®, Präst®, Grevé®"), plus några
+kategorier som medvetet inte fick en egen bucket (krukväxter/blommor,
+husdjursfoder delar `hygien_hushall` snarare — se koden för exakt gränsdragning).
+Se `scripts/erbjudanden-lib.mjs` (`guessKategori`) för nyckelordsgissningen —
+det är den enda källan; `scripts/erbjudanden-recategorize.mjs` är numera bara
+en tunn CLI-wrapper runt samma funktion (för att undvika att två separata
+nyckelordslistor glider isär, vilket hände flera gånger innan den skrevs om).
 
 ### Noteringar
 

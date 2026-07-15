@@ -45,7 +45,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Kebabsås Vitlök",
@@ -99,7 +99,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "fardigmat"
     },
     {
       "namn": "Pommes Frites",
@@ -117,7 +117,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Tillfälligt parti",
-      "kategori": "ovrigt"
+      "kategori": "fardigmat"
     },
     {
       "namn": "Jubileumskakor Vete",
@@ -135,7 +135,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "brod"
     },
     {
       "namn": "Original Large",
@@ -153,7 +153,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "mejeri"
     },
     {
       "namn": "Gourmetskinka Rökt Skivad",
@@ -207,7 +207,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Salladsost 21%",
@@ -225,7 +225,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "gront_farsk"
+      "kategori": "mejeri"
     },
     {
       "namn": "Klassisk Kebab",
@@ -243,7 +243,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Kycklingfilé Bröstfilé Sverige",
@@ -283,7 +283,7 @@
       ],
       "ursprung": "Sverige",
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Spaghetti Pasta",
@@ -301,7 +301,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Pancetta",
@@ -319,7 +319,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Burger Cheese Cheddar Skivor",
@@ -337,7 +337,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Tomater Passerade",
@@ -391,7 +391,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "mejeri"
     },
     {
       "namn": "Aranciata Ross Sparkling Läsk Burk",
@@ -409,7 +409,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Wienerbröd    Hallon&vanilj",
@@ -427,7 +427,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "brod"
     },
     {
       "namn": "Majskyckling Bröstfilé Fryst",
@@ -499,7 +499,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Skinka Lufttorkad",
@@ -625,7 +625,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Stekfläsk Rimmat Skivat",
@@ -661,7 +661,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "mejeri"
     },
     {
       "namn": "Caesarsallad",
@@ -715,7 +715,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "gront_farsk"
     },
     {
       "namn": "Hummus Original",
@@ -733,7 +733,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Fläskfilé Sverige",
@@ -789,7 +789,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Olivolja Italiensk Extra Jungfru",
@@ -807,7 +807,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "EKOLOGISK",
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Risoni Pasta",
@@ -825,7 +825,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Mozzarella Bufala Campana 23%",
@@ -843,7 +843,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "mejeri"
     },
     {
       "namn": "Mortadella",
@@ -861,7 +861,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Salami Milano Organic",
@@ -897,7 +897,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "brod"
     },
     {
       "namn": "Kycklingbröst Filè",
@@ -933,7 +933,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Grillkrydda Original Burk",
@@ -951,7 +951,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Rapsolja",
@@ -969,7 +969,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Chipotle Pineapple Bbq Sauce",
@@ -987,7 +987,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Bbq Allround Grillolja Barbeque Buddies",
@@ -1005,7 +1005,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Brie Vitmögelost 30%",
@@ -1023,7 +1023,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "mejeri"
     },
     {
       "namn": "Dricksglas Flergångs 50cl",
@@ -1041,7 +1041,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Gaffel Flergångs",
@@ -1095,7 +1095,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Chokladsmak Rån Jätten",
@@ -1131,7 +1131,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Mezze Maniche Rigate Pasta",
@@ -1149,7 +1149,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Byxblöjor Storlek 5 12-18kg",
@@ -1167,7 +1167,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Havssalt Chips",
@@ -1203,7 +1203,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Snabbnudlar Kyckling",
@@ -1221,7 +1221,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Tonfisk Vatten 3x80g",
@@ -1275,7 +1275,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Grillpinnar 28cm",
@@ -1293,7 +1293,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Blandade Mörka Bönor Ekologiska",
@@ -1365,7 +1365,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Spf 30 Spray Sensitive&protect Solspray",
@@ -1383,7 +1383,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Cool Mint Minty Breath Fluorskölj",
@@ -1401,7 +1401,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Daily Kids 0-6år Tandkräm",
@@ -1419,7 +1419,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Miracle Moist Schampo",
@@ -1437,7 +1437,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Brago Original",
@@ -1509,7 +1509,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Toffifee Hazelnut Nougat Chokladkola Ask",
@@ -1545,7 +1545,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "EKOLOGISK",
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Lingon Grovt Bröd",
@@ -1563,7 +1563,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "brod"
     },
     {
       "namn": "Hallon Vätskeersättning Brustablett",
@@ -1617,7 +1617,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Cappuccino Snabbkaffe",
@@ -1635,7 +1635,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Ketchup Original",
@@ -1653,7 +1653,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Fryspåsar 3l",
@@ -1707,7 +1707,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Jordgubb Blandsaft Saft Pet",
@@ -1725,7 +1725,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Kyckling Curry Baguettesallad",
@@ -1779,7 +1779,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Aluminiumfolie Ugn/grill/frys",
@@ -1797,7 +1797,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Mjölkchoklad Ballerina",
@@ -1833,7 +1833,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Chili Mayo Hot",
@@ -1851,7 +1851,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Babyschampo Oparfymerad",
@@ -1869,7 +1869,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Toapapper Dekor",
@@ -1905,7 +1905,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "snacks_godis"
     },
     {
       "namn": "House Blend Kaffekapslar",
@@ -1923,7 +1923,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Satay Kycklingspett",
@@ -1977,7 +1977,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Hallonsoda Zero Läsk,burk",
@@ -2031,7 +2031,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Ice Coffee Frappé",
@@ -2049,7 +2049,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Kokosmjölk 17-18%",
@@ -2067,7 +2067,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Visa flerChoklad",
@@ -2103,7 +2103,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Cheddar Vit",
@@ -2121,7 +2121,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "mejeri"
     },
     {
       "namn": "Kina Snacks Gul",
@@ -2175,7 +2175,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "brod"
     },
     {
       "namn": "Saltade Chips",
@@ -2211,7 +2211,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Click Soleil 5 Click Soleil 5 Rakhyvel",
@@ -2229,7 +2229,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Lemon Leaf Verbena No6 Flytande",
@@ -2247,7 +2247,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Äpple Ananas Spenat Citron Kallpressad",
@@ -2301,7 +2301,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "brod"
     },
     {
       "namn": "Comfort 4 7-12kg Öppna Blöjor",
@@ -2319,7 +2319,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "HANDLA FÖR 300 KR",
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Dumlekuddar",
@@ -2409,7 +2409,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "brod"
     },
     {
       "namn": "Fläskfilé",
@@ -2445,7 +2445,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "mejeri"
     },
     {
       "namn": "Pulled Pork",
@@ -2463,7 +2463,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Gurka Sverige Klass 1",
@@ -2519,7 +2519,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Orange Juice With Bits",
@@ -2537,7 +2537,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Ice Tea Peach",
@@ -2555,7 +2555,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Laxburgare 2-pack",
@@ -2591,7 +2591,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "EKOLOGISK",
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Entrecôte Bit Brasilien",
@@ -2609,7 +2609,7 @@
       "markeringar": [],
       "ursprung": "Brasilien",
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Nötspett Peppar",
@@ -2699,7 +2699,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Grana Padano 12 Månader",
@@ -2735,7 +2735,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Kaviar Original",
@@ -2771,7 +2771,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "mejeri"
     },
     {
       "namn": "The Original Pirog Frysta/10-pack",
@@ -2825,7 +2825,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Melon Mini Vatten Eko Klass 1",
@@ -2933,7 +2933,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Salladslök Knippe",
@@ -2987,7 +2987,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "mejeri"
     },
     {
       "namn": "Blåbär Dryck",
@@ -3005,7 +3005,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "EKOLOGISK",
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Apelsin Klass 1",
@@ -3059,7 +3059,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Mayonnaise",
@@ -3077,7 +3077,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Grillost Block 21%",
@@ -3095,7 +3095,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "mejeri"
     },
     {
       "namn": "Biff med Kappa Brasilien",
@@ -3131,7 +3131,7 @@
       "markeringar": [],
       "ursprung": "Nya Zeeland",
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "protein_fryst"
     },
     {
       "namn": "Pizzeria Vetemjöl",
@@ -3149,7 +3149,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Pane Napoletano",
@@ -3203,7 +3203,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "mejeri"
     },
     {
       "namn": "Jordnötter Salta",
@@ -3293,7 +3293,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Banan Mango Passionfrukt Smoothie",
@@ -3311,7 +3311,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Kolakaka Proteinbar",
@@ -3365,7 +3365,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Fotbollsnacks Paprika",
@@ -3419,7 +3419,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Profondo 8 Lungo Kaffekapslar",
@@ -3437,7 +3437,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Tonic Zero Drinkmixer, Pet",
@@ -3455,7 +3455,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Knatter Frukt",
@@ -3491,7 +3491,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Gräddost 38%",
@@ -3509,7 +3509,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "mejeri"
     },
     {
       "namn": "Ostschnitzel Fryst/1 Port",
@@ -3527,7 +3527,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "protein_fryst"
+      "kategori": "mejeri"
     },
     {
       "namn": "Pizzamix Riven 28%",
@@ -3545,7 +3545,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "fardigmat"
     },
     {
       "namn": "Tortillachips Ost",
@@ -3635,7 +3635,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Nöt Paté Delikatesspaté Hundmat",
@@ -3689,7 +3689,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Invisible Dry Men +care Deo Roll On",
@@ -3707,7 +3707,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Multi Insect Spray Myggmedel",
@@ -3725,7 +3725,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Select Soft Tandborste",
@@ -3743,7 +3743,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Classic Clean Schampo",
@@ -3761,7 +3761,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Jarlsberg Block",
@@ -3779,7 +3779,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "mejeri"
     },
     {
       "namn": "Daim Dubbel",
@@ -3851,7 +3851,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Tuggknut Mellan Rullad Hundgodis",
@@ -3887,7 +3887,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Pesto Genovese",
@@ -3905,7 +3905,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Kanelbullar 10-pack",
@@ -3923,7 +3923,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "brod"
     },
     {
       "namn": "Ättiksprit 12%",
@@ -3941,7 +3941,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Gräddsås Pulver",
@@ -3959,7 +3959,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "mejeri"
     },
     {
       "namn": "Jordnötssmör Creamy",
@@ -4013,7 +4013,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Kexchoklad 8-pack",
@@ -4103,7 +4103,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Lavender Gel Doftblock",
@@ -4121,7 +4121,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Havregott Jordgubb",
@@ -4157,7 +4157,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "brod"
     },
     {
       "namn": "Countryside Selection Kattmat Gelé 12-",
@@ -4175,7 +4175,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Tomater Finkrossade",
@@ -4211,7 +4211,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Äggnudlar",
@@ -4229,7 +4229,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Chicken Sticks Twisted Tuggpinnar",
@@ -4247,7 +4247,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "snacks_godis"
     },
     {
       "namn": "Bbq Marsmallow",
@@ -4265,7 +4265,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Allrengöring Städservett Äpple",
@@ -4283,7 +4283,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Cashewnötter Stora Rostade med Havssalt",
@@ -4319,7 +4319,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Original Sås Till Bolognese",
@@ -4337,7 +4337,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Jordgubb/äpple Rostad Müsli",
@@ -4373,7 +4373,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Kokosgrädde 22-24%",
@@ -4391,7 +4391,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Risnudlar",
@@ -4409,7 +4409,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Visa",
@@ -4427,7 +4427,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "brod"
     },
     {
       "namn": "Hushållspapper Classic Decor",
@@ -4445,7 +4445,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Naturell Stilla Vatten Pet",
@@ -4481,7 +4481,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "0,5% Salicylic Acid Cleansing Acid",
@@ -4499,7 +4499,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Toscabulle",
@@ -4517,7 +4517,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "brod"
     },
     {
       "namn": "Ägg 10p Eko Ekologisk Produktion",
@@ -4553,7 +4553,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "2% Salicylic Acid Face Scrub Ansikts Scrub",
@@ -4589,7 +4589,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Matfett Normalsaltat 75% Laktosfri",
@@ -4607,7 +4607,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Coca-cola Lemon Zero Läsk Pet",
@@ -4625,7 +4625,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Tonfisk Steaks",
@@ -4661,7 +4661,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Grillkorv Skinnfri",
@@ -4697,7 +4697,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     }
   ]
 }

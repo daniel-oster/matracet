@@ -26,7 +26,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj och blanda",
-      "kategori": "ovrigt",
+      "kategori": "mejeri",
       "klubbpris": false
     },
     {
@@ -44,7 +44,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Veckans klipp",
-      "kategori": "ovrigt",
+      "kategori": "mejeri",
       "klubbpris": false
     },
     {
@@ -62,7 +62,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt",
+      "kategori": "mejeri",
       "klubbpris": true
     },
     {
@@ -138,7 +138,7 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt",
+      "kategori": "dryck",
       "klubbpris": true
     },
     {
@@ -156,7 +156,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt",
+      "kategori": "mejeri",
       "klubbpris": true
     },
     {
@@ -174,7 +174,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt",
+      "kategori": "brod",
       "klubbpris": true
     },
     {
@@ -210,7 +210,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt",
+      "kategori": "fardigmat",
       "klubbpris": true
     },
     {
@@ -266,7 +266,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt",
+      "kategori": "dryck",
       "klubbpris": true
     },
     {
@@ -284,7 +284,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt",
+      "kategori": "fardigmat",
       "klubbpris": true
     },
     {
@@ -374,7 +374,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt",
+      "kategori": "fardigmat",
       "klubbpris": true
     },
     {
@@ -410,7 +410,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt",
+      "kategori": "mejeri",
       "klubbpris": true
     },
     {
@@ -464,7 +464,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt",
+      "kategori": "dryck",
       "klubbpris": true
     },
     {
@@ -482,7 +482,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt",
+      "kategori": "protein_farsk",
       "klubbpris": true
     },
     {
@@ -554,7 +554,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt",
+      "kategori": "skafferi",
       "klubbpris": true
     },
     {
@@ -572,7 +572,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Bara för dig (aktiveras) · gäller t.o.m. 2026-06-30",
-      "kategori": "ovrigt",
+      "kategori": "skafferi",
       "klubbpris": false
     },
     {
@@ -590,7 +590,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Bara för dig (aktiveras) · gäller t.o.m. 2026-06-30",
-      "kategori": "ovrigt",
+      "kategori": "skafferi",
       "klubbpris": false
     }
   ]

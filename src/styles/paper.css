@@ -428,6 +428,11 @@ input, select, textarea { font-family: inherit; }
 
 /* ─── Fynd ─────────────────────────────────────────────────────────────── */
 
+.fynd-search {
+  display: block; width: 100%; box-sizing: border-box; font-size: 13px; padding: 8px 12px;
+  border-radius: 99px; border: 1px solid var(--line); background: var(--cream); color: var(--ink);
+  margin-bottom: 10px; font-family: inherit;
+}
 .fynd-filters { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
 .fynd-week-select { font-family: inherit; font-size: 12px; padding: 5px 9px; border-radius: 99px; border: 1px solid var(--line); background: var(--cream); }
 .fynd-chip { font-family: inherit; font-size: 12px; padding: 5px 12px; border-radius: 99px; border: 1px solid var(--line); background: var(--cream); color: var(--sub); cursor: pointer; }
@@ -446,6 +451,12 @@ input, select, textarea { font-family: inherit; }
   .fynd-scroll--wide { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 24px; align-content: start; }
 }
 .fynd-cat-title { display: flex; justify-content: space-between; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; color: var(--sub); margin: 0 0 8px; padding-bottom: 6px; border-bottom: 1px solid var(--line); }
+.fynd-cat-toggle {
+  width: 100%; background: none; border: none; border-bottom: 1px solid var(--line); font-family: inherit;
+  cursor: pointer; text-align: left;
+}
+.fynd-cat-right { display: flex; align-items: center; gap: 8px; }
+.fynd-cat-chevron { color: var(--muted2); font-size: 11px; width: 1em; text-align: center; }
 .fynd-cat-count { color: var(--muted2); }
 .fynd-subcat-title { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted2); margin: 10px 0 4px; }
 .fynd-row, .match-row {

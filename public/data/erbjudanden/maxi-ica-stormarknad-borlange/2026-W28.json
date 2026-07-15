@@ -47,7 +47,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Fryst",
-      "kategori": "ovrigt"
+      "kategori": "fardigmat"
     },
     {
       "namn": "Halloumi",
@@ -83,7 +83,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "+ pant",
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Körsbär i ask",
@@ -309,7 +309,7 @@
       ],
       "ursprung": "Sverige",
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Baby Back Ribs",
@@ -329,7 +329,7 @@
       ],
       "ursprung": "Sverige",
       "notering": "Slow cooked. Med glaze.",
-      "kategori": "ovrigt"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Färska Högrevsburgare",
@@ -367,7 +367,7 @@
       "markeringar": [],
       "ursprung": "Irland",
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Skivad Rostbiff",
@@ -405,7 +405,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Maxi klipp",
-      "kategori": "ovrigt"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Kryddkorv",
@@ -479,7 +479,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Korta former. Gäller ej glutenfritt",
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Snabbkaffe Refill",
@@ -497,7 +497,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Softpack. Mellanrost, Mörkrost",
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Crème fraiche smaksatt",
@@ -515,7 +515,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Flera olika sorter. Gäller även dipp",
-      "kategori": "ovrigt"
+      "kategori": "mejeri"
     },
     {
       "namn": "Fryst pizza",
@@ -533,7 +533,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Flera olika sorter",
-      "kategori": "ovrigt"
+      "kategori": "fardigmat"
     },
     {
       "namn": "Mozzarella",
@@ -551,7 +551,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Utan spad",
-      "kategori": "ovrigt"
+      "kategori": "mejeri"
     },
     {
       "namn": "Oliver Halkidiki",
@@ -569,7 +569,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Urkärnad. Utan spad",
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Prosciutto",
@@ -587,7 +587,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Cotto, Crudo, di Parma",
-      "kategori": "ovrigt"
+      "kategori": "protein_farsk"
     },
     {
       "namn": "Majonnäs",
@@ -605,7 +605,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Flera olika sorter",
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Vitost",
@@ -623,7 +623,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Flera olika sorter. Maxi klipp",
-      "kategori": "ovrigt"
+      "kategori": "mejeri"
     },
     {
       "namn": "Taco Kryddmix",
@@ -641,7 +641,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Flera olika sorter",
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Potatissallad",
@@ -677,7 +677,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "+ pant",
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Västkustchips",
@@ -713,7 +713,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "fardigmat"
     },
     {
       "namn": "Vispgrädde",
@@ -731,7 +731,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Gäller Vispgrädde 36%, Laktosfri 36%. Ej Ekologisk",
-      "kategori": "ovrigt"
+      "kategori": "mejeri"
     },
     {
       "namn": "Chokladkaka",
@@ -785,7 +785,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Läktsockrad",
-      "kategori": "ovrigt"
+      "kategori": "skafferi"
     },
     {
       "namn": "Pingvinstång",
@@ -821,7 +821,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "3-pack. Flera olika sorter. Maxi klipp",
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Alkoholfri öl",
@@ -839,7 +839,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Gäller flaska",
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Vätskeersättning",
@@ -857,7 +857,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Maxi klipp",
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Tandkräm",
@@ -875,7 +875,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Dryckeskoncentrat",
@@ -893,7 +893,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Flera olika sorter. Maxi klipp",
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Bindor, Trosskydd, Tamponger",
@@ -911,7 +911,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Bindor 10-16-pack, Tamponger 16-pack, Trosskydd 28-32-pack. Gäller ej inkontinensskydd",
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Städservetter Kök",
@@ -929,7 +929,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Schampo, Balsam",
@@ -947,7 +947,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Gäller ej KIDS",
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Flytande tvål",
@@ -965,7 +965,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Allrengöringssvamp 10-pack",
@@ -983,7 +983,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Med och utan slipmedel",
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Diskborste",
@@ -1001,7 +1001,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Finns i flera olika färger",
-      "kategori": "ovrigt"
+      "kategori": "hygien_hushall"
     },
     {
       "namn": "Jubileumskaka",
@@ -1019,7 +1019,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Flera olika sorter. Gäller även Polarkaka",
-      "kategori": "ovrigt"
+      "kategori": "brod"
     },
     {
       "namn": "Färskost",
@@ -1037,7 +1037,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Flera olika sorter",
-      "kategori": "ovrigt"
+      "kategori": "mejeri"
     },
     {
       "namn": "Smakrike",
@@ -1091,7 +1091,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Flera olika sorter. + pant",
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Smoothie",
@@ -1109,7 +1109,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Flera olika sorter",
-      "kategori": "ovrigt"
+      "kategori": "dryck"
     },
     {
       "namn": "Kvarg",
@@ -1127,7 +1127,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Protein. Flera olika sorter",
-      "kategori": "ovrigt"
+      "kategori": "mejeri"
     },
     {
       "namn": "Skivad ost",
@@ -1145,7 +1145,7 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Herrgård, Präst. Flera olika sorter",
-      "kategori": "ovrigt"
+      "kategori": "mejeri"
     }
   ]
 }
