@@ -1,6 +1,7 @@
 import { StoreOffers } from '../../types'
 import { useOffers } from '../../hooks/useOffers'
 import { useBevakningslista } from '../../hooks/useBevakningslista'
+import { useShoppingList } from '../../hooks/useShoppingList'
 import { STORES, CATEGORY_EMOJI, TaggedOffer, findBevakaHits } from '../../lib/bevaka'
 import TopBar from '../TopBar'
 
@@ -11,6 +12,7 @@ interface Props {
 export default function BevakaView({ onBack }: Props) {
   const items = useBevakningslista()
   const { stores } = useOffers()
+  const { isActiveByName, addOrRestoreByName, removeOrMarkByName } = useShoppingList()
 
   if (!items || !stores) {
     return (
@@ -70,21 +72,30 @@ export default function BevakaView({ onBack }: Props) {
                 <span className="match-cat-emoji">{CATEGORY_EMOJI[item.kategori] ?? '📦'}</span>
                 {item.vara}
               </div>
-              {offers.map((o, i) => (
-                <div className="match-row" key={`${o.store}-${i}`}>
-                  <span className={`fynd-store ${STORES[o.store]?.klass}`}>{STORES[o.store]?.namn}</span>
-                  <div className="match-info">
-                    {[o.marke, o.storlek].filter(Boolean).join(' · ') && (
-                      <span className="match-size">{[o.marke, o.storlek].filter(Boolean).join(' · ')}</span>
-                    )}
-                    {o.jamforpris && <span className="fynd-jmf">{o.jamforpris}</span>}
-                    {o.klubbpris && <span className="fynd-tag club">klubb</span>}
+              {offers.map((o, i) => {
+                const inList = isActiveByName(o.namn)
+                return (
+                  <div
+                    className={`match-row${inList ? ' in-list' : ''}`}
+                    key={`${o.store}-${i}`}
+                    onClick={() => (inList ? removeOrMarkByName(o.namn) : addOrRestoreByName(o.namn))}
+                    title={inList ? 'I inköpslistan — klicka för att ta bort' : 'Klicka för att lägga i inköpslistan'}
+                  >
+                    <span className={`fynd-store ${STORES[o.store]?.klass}`}>{STORES[o.store]?.namn}</span>
+                    <div className="match-info">
+                      {inList && <span className="fynd-cart" title="I inköpslistan">🛒</span>}
+                      {[o.marke, o.storlek].filter(Boolean).join(' · ') && (
+                        <span className="match-size">{[o.marke, o.storlek].filter(Boolean).join(' · ')}</span>
+                      )}
+                      {o.jamforpris && <span className="fynd-jmf">{o.jamforpris}</span>}
+                      {o.klubbpris && <span className="fynd-tag club">klubb</span>}
+                    </div>
+                    <div className="match-price">
+                      <span className="fynd-pris">{o.pris_text}</span>
+                    </div>
                   </div>
-                  <div className="match-price">
-                    <span className="fynd-pris">{o.pris_text}</span>
-                  </div>
-                </div>
-              ))}
+                )
+              })}
             </div>
           ))}
         </div>
