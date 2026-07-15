@@ -3,12 +3,19 @@ export function formatAmount(mangd: number, enhet: string): string {
   return enhet ? `${n} ${enhet}` : `${n}`
 }
 
+/** "2026-W29" -> "v.29 · 2026" — same display format FyndView uses for offer weeks. */
+export function formatOfferWeek(vecka: string): string {
+  const [year, wk] = vecka.split('-W')
+  return `v.${wk} · ${year}`
+}
+
 /** One shopping-list line: the item, optionally why it's there (a meal name, a matched
- * bargain's store/brand), and optionally its price — same shape on screen and in the
- * copy-to-clipboard text. */
-export function formatShopLine(main: string, why?: string | null, price?: string | null): string {
+ * bargain's store/brand, and/or the week that offer was valid), and optionally its price —
+ * same shape on screen and in the copy-to-clipboard text. */
+export function formatShopLine(main: string, why?: string | null, price?: string | null, week?: string | null): string {
   let line = main
-  if (why) line += ` (${why})`
+  const paren = [why, week].filter(Boolean).join(', ')
+  if (paren) line += ` (${paren})`
   if (price) line += ` — ${price}`
   return line
 }
