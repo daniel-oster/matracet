@@ -4,9 +4,12 @@ import { useOffers } from '../../hooks/useOffers'
 import { useShoppingList } from '../../hooks/useShoppingList'
 import { useIrrelevantOffers } from '../../hooks/useIrrelevantOffers'
 import { useCollapsedCategories } from '../../hooks/useCollapsedCategories'
+import { useCategoryFeedback, CategoryFeedbackEntry } from '../../hooks/useCategoryFeedback'
 import { toOfferRef } from '../../lib/bevaka'
+import { kategoriLabel } from '../../lib/categories'
 import SwipeRow from '../SwipeRow'
 import TopBar from '../TopBar'
+import CategoryFeedbackModal from '../CategoryFeedbackModal'
 
 interface StoreMeta {
   namn: string
@@ -141,6 +144,8 @@ export default function FyndView({ onBack }: Props) {
   const { stores, availableWeeks, latestWeek } = useOffers(week)
   const { isActiveForOffer, addOrRestoreByName, removeOrMarkByName } = useShoppingList()
   const { isIrrelevant, markIrrelevant, restore: restoreIrrelevant } = useIrrelevantOffers()
+  const { getCorrection, flagMismatch, clear: clearCategoryFlag } = useCategoryFeedback()
+  const [flagTarget, setFlagTarget] = useState<TaggedOffer | null>(null)
 
   function toggleShoppingList(o: TaggedOffer) {
     if (isActiveForOffer(o.namn, o.store)) removeOrMarkByName(o.namn)
@@ -242,7 +247,10 @@ export default function FyndView({ onBack }: Props) {
             🇸🇪 Svenskt
           </button>
         </div>
-        <p className="fynd-hint">🛒 Dubbelklicka en vara för att lägga den i inköpslistan. ← Svep vänster för att markera som irrelevant.</p>
+        <p className="fynd-hint">
+          🛒 Dubbelklicka en vara för att lägga den i inköpslistan. ← Svep vänster för att markera som irrelevant.
+          ✏️ Håll in en vara för att flagga fel kategori.
+        </p>
 
         {mode === 'alla' ? (
           <AllView
@@ -253,11 +261,30 @@ export default function FyndView({ onBack }: Props) {
             isIrrelevant={isIrrelevant}
             onMarkIrrelevant={markIrrelevant}
             onRestoreIrrelevant={restoreIrrelevant}
+            getCategoryCorrection={getCorrection}
+            onFlagCategory={setFlagTarget}
           />
         ) : (
           <JamforView all={all} visible={visible} isActiveForOffer={isActiveForOffer} onToggleShoppingList={toggleShoppingList} />
         )}
       </div>
+
+      {flagTarget && (
+        <CategoryFeedbackModal
+          namn={flagTarget.namn}
+          currentCategory={flagTarget.kategori}
+          existing={getCorrection(flagTarget.namn)}
+          onPick={correctCategory => {
+            flagMismatch(flagTarget.namn, flagTarget.kategori, correctCategory)
+            setFlagTarget(null)
+          }}
+          onClear={() => {
+            clearCategoryFlag(flagTarget.namn)
+            setFlagTarget(null)
+          }}
+          onClose={() => setFlagTarget(null)}
+        />
+      )}
     </div>
   )
 }
@@ -267,7 +294,11 @@ interface RowProps {
   onToggleShoppingList: (o: TaggedOffer) => void
 }
 
-function OfferRow({ o, best, isActiveForOffer, onToggleShoppingList }: RowProps & { o: TaggedOffer; best: boolean }) {
+function OfferRow({ o, best, isActiveForOffer, onToggleShoppingList, categoryCorrection }: RowProps & {
+  o: TaggedOffer
+  best: boolean
+  categoryCorrection?: CategoryFeedbackEntry
+}) {
   const flag = o.ursprung ? FLAGS[o.ursprung] ?? '🌍' : isSwedish(o) ? '🇸🇪' : ''
   const inList = isActiveForOffer(o.namn, o.store)
   return (
@@ -282,6 +313,9 @@ function OfferRow({ o, best, isActiveForOffer, onToggleShoppingList }: RowProps 
           {inList && <span className="fynd-cart" title="I inköpslistan">🛒</span>}
           {o.namn}
           {flag && <span className="fynd-flag" title={o.ursprung ?? 'Svenskt'}>{flag}</span>}
+          {categoryCorrection && (
+            <span className="fynd-catflag" title={`Flaggad: ska vara ${kategoriLabel(categoryCorrection.correctCategory)}`}>✏️</span>
+          )}
         </div>
         <div className="fynd-meta">
           {[o.marke, o.storlek].filter(Boolean).join(' · ')}
@@ -303,9 +337,11 @@ function OfferRow({ o, best, isActiveForOffer, onToggleShoppingList }: RowProps 
   )
 }
 
-function OfferRows({ offers, isActiveForOffer, onToggleShoppingList, onMarkIrrelevant }: RowProps & {
+function OfferRows({ offers, isActiveForOffer, onToggleShoppingList, onMarkIrrelevant, getCategoryCorrection, onFlagCategory }: RowProps & {
   offers: TaggedOffer[]
   onMarkIrrelevant: (namn: string) => void
+  getCategoryCorrection: (namn: string) => CategoryFeedbackEntry | undefined
+  onFlagCategory: (o: TaggedOffer) => void
 }) {
   const sorted = [...offers].sort((a, b) => sortKey(a) - sortKey(b))
   const minByUnit: Record<string, number> = {}
@@ -323,8 +359,14 @@ function OfferRows({ offers, isActiveForOffer, onToggleShoppingList, onMarkIrrel
         const j = parseJmf(o.jamforpris)
         const best = j != null && unitCount[j.unit] >= 2 && j.val === minByUnit[j.unit]
         return (
-          <SwipeRow key={`${o.store}-${o.namn}-${i}`} onSwipeLeft={() => onMarkIrrelevant(o.namn)}>
-            <OfferRow o={o} best={best} isActiveForOffer={isActiveForOffer} onToggleShoppingList={onToggleShoppingList} />
+          <SwipeRow key={`${o.store}-${o.namn}-${i}`} onSwipeLeft={() => onMarkIrrelevant(o.namn)} onLongPress={() => onFlagCategory(o)}>
+            <OfferRow
+              o={o}
+              best={best}
+              isActiveForOffer={isActiveForOffer}
+              onToggleShoppingList={onToggleShoppingList}
+              categoryCorrection={getCategoryCorrection(o.namn)}
+            />
           </SwipeRow>
         )
       })}
@@ -332,12 +374,14 @@ function OfferRows({ offers, isActiveForOffer, onToggleShoppingList, onMarkIrrel
   )
 }
 
-function AllView({ all, visible, isActiveForOffer, onToggleShoppingList, isIrrelevant, onMarkIrrelevant, onRestoreIrrelevant }: RowProps & {
+function AllView({ all, visible, isActiveForOffer, onToggleShoppingList, isIrrelevant, onMarkIrrelevant, onRestoreIrrelevant, getCategoryCorrection, onFlagCategory }: RowProps & {
   all: TaggedOffer[]
   visible: (o: TaggedOffer) => boolean
   isIrrelevant: (namn: string) => boolean
   onMarkIrrelevant: (namn: string) => void
   onRestoreIrrelevant: (namn: string) => void
+  getCategoryCorrection: (namn: string) => CategoryFeedbackEntry | undefined
+  onFlagCategory: (o: TaggedOffer) => void
 }) {
   const relevant = (o: TaggedOffer) => visible(o) && !isIrrelevant(o.namn)
   const anyVisible = all.some(relevant)
@@ -374,11 +418,11 @@ function AllView({ all, visible, isActiveForOffer, onToggleShoppingList, isIrrel
                   return (
                     <div key={m.id}>
                       <h4 className="fynd-subcat-title">{m.sub}</h4>
-                      <OfferRows offers={offers} isActiveForOffer={isActiveForOffer} onToggleShoppingList={onToggleShoppingList} onMarkIrrelevant={onMarkIrrelevant} />
+                      <OfferRows offers={offers} isActiveForOffer={isActiveForOffer} onToggleShoppingList={onToggleShoppingList} onMarkIrrelevant={onMarkIrrelevant} getCategoryCorrection={getCategoryCorrection} onFlagCategory={onFlagCategory} />
                     </div>
                   )
                 })
-              : <OfferRows offers={groupOffers} isActiveForOffer={isActiveForOffer} onToggleShoppingList={onToggleShoppingList} onMarkIrrelevant={onMarkIrrelevant} />)}
+              : <OfferRows offers={groupOffers} isActiveForOffer={isActiveForOffer} onToggleShoppingList={onToggleShoppingList} onMarkIrrelevant={onMarkIrrelevant} getCategoryCorrection={getCategoryCorrection} onFlagCategory={onFlagCategory} />)}
           </div>
         )
       })}
