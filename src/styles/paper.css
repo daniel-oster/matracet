@@ -849,7 +849,10 @@ input, select, textarea { font-family: inherit; }
 
 /* ─── Floating nav (hamburger, appears on scroll-up) ──────────────────── */
 
-.floating-nav { position: fixed; top: 14px; left: 14px; z-index: 90; }
+/* z-index sits below .topbar (40) on purpose: the header isn't reliably sticky in every
+   scroll context (see App.tsx history), so when it's scrolled back over this corner it
+   should just visually cover the button instead of the two overlapping. */
+.floating-nav { position: fixed; top: 14px; left: 14px; z-index: 35; }
 .floating-nav-btn {
   width: 40px; height: 40px; border-radius: 999px; flex: none;
   border: 1px solid #3a3a3a; background: rgba(20, 16, 10, 0.9); color: var(--cream);
