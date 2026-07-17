@@ -419,6 +419,10 @@ input, select, textarea { font-family: inherit; }
   margin-left: 7px; font-size: 10.5px; color: var(--muted2); border: 1px dashed var(--line2);
   border-radius: 999px; padding: 1px 7px; white-space: nowrap;
 }
+.shop-fynd-tag {
+  margin-left: 7px; font-size: 10.5px; color: var(--gold2); border: 1px solid var(--gold2);
+  border-radius: 999px; padding: 1px 7px; white-space: nowrap;
+}
 .shop-offer-meta {
   margin-top: 2px; font-size: 12px; color: var(--muted2); display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
 }
