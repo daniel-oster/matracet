@@ -12,7 +12,7 @@ interface Props {
 export default function BevakaView({ onBack }: Props) {
   const items = useBevakningslista()
   const { stores } = useOffers()
-  const { isActiveForOffer, addOrRestoreByName, removeOrMarkByName } = useShoppingList()
+  const { isActiveForOffer, addOrRestoreByName, removeOrMarkForOffer } = useShoppingList()
 
   if (!items || !stores) {
     return (
@@ -78,7 +78,7 @@ export default function BevakaView({ onBack }: Props) {
                   <div
                     className={`match-row${inList ? ' in-list' : ''}`}
                     key={`${o.store}-${i}`}
-                    onClick={() => (inList ? removeOrMarkByName(o.namn) : addOrRestoreByName(o.namn, { offerRef: toOfferRef(o) }))}
+                    onClick={() => (inList ? removeOrMarkForOffer(o.namn, o.store) : addOrRestoreByName(o.namn, { offerRef: toOfferRef(o) }))}
                     title={inList ? 'I inköpslistan — klicka för att ta bort' : 'Klicka för att lägga i inköpslistan'}
                   >
                     <span className={`fynd-store ${STORES[o.store]?.klass}`}>{STORES[o.store]?.namn}</span>

@@ -88,12 +88,26 @@ function findByName(vara: string): ManualShoppingItem | undefined {
   return shoppingListStore.get().manualItems.find(m => m.vara.toLowerCase() === needle)
 }
 
+/** Same lookup as findByName, but for an item pulled from a specific store's offer: prefers
+ * an existing item already tied to that same store (so re-picking the same offer just
+ * refreshes its ref/week), else falls back to a storeless item (e.g. a plain hand-typed
+ * "Kaffe") so that gets claimed instead of creating a redundant duplicate. Deliberately does
+ * NOT match an item tied to a *different* store — two stores' offers sharing a generic name
+ * (e.g. "Kaffe" at both ICA and Hemköp) are different products and should coexist as
+ * separate list items, not silently steal each other's line. */
+function findForOffer(vara: string, store: string): ManualShoppingItem | undefined {
+  const needle = vara.trim().toLowerCase()
+  const items = shoppingListStore.get().manualItems.filter(m => m.vara.toLowerCase() === needle)
+  return items.find(m => m.offerRef?.store === store) ?? items.find(m => !m.offerRef)
+}
+
 /** Add a manual item by name, deduped case-insensitively — used when pulling an
  * offer into the shopping list (Fynd double-click, Skafferi stash pool). If a
  * matching item was previously checked off, this restores it instead of creating
- * a duplicate. */
+ * a duplicate. When `extra.offerRef` is set, matching is store-aware (see findForOffer)
+ * so two different stores' same-named offers land as two separate items. */
 function addOrRestoreByName(vara: string, extra?: AddManualItemExtra): void {
-  const existing = findByName(vara)
+  const existing = extra?.offerRef ? findForOffer(vara, extra.offerRef.store) : findByName(vara)
   if (existing) {
     restore(existing.id)
     const state = shoppingListStore.get()
@@ -126,6 +140,15 @@ function removeOrMarkByName(vara: string): void {
   if (existing) markRemoved(existing.id)
 }
 
+/** Store-aware counterpart to removeOrMarkByName, mirroring findForOffer/isActiveForOffer:
+ * only removes the item tied to this exact store (or a storeless generic item), never a
+ * same-named item that belongs to a different store's offer. */
+function removeOrMarkForOffer(vara: string, store: string): void {
+  const needle = vara.trim().toLowerCase()
+  const existing = shoppingListStore.get().manualItems.find(m => m.vara.toLowerCase() === needle && (!m.offerRef || m.offerRef.store === store))
+  if (existing) markRemoved(existing.id)
+}
+
 /** Cycles a manual item's store tag through willys -> ica -> hemkop -> (unset). */
 function cycleStore(id: string, order: string[]): void {
   const state = shoppingListStore.get()
@@ -146,6 +169,7 @@ export interface UseShoppingList {
   addManualItem: (vara: string, extra?: AddManualItemExtra) => void
   addOrRestoreByName: (vara: string, extra?: AddManualItemExtra) => void
   removeOrMarkByName: (vara: string) => void
+  removeOrMarkForOffer: (vara: string, store: string) => void
   isActiveByName: (vara: string) => boolean
   isActiveForOffer: (vara: string, store: string) => boolean
   cycleStore: (id: string, order: string[]) => void
@@ -163,6 +187,7 @@ export function useShoppingList(): UseShoppingList {
     addManualItem,
     addOrRestoreByName,
     removeOrMarkByName,
+    removeOrMarkForOffer,
     isActiveByName: (vara: string) => {
       const needle = vara.trim().toLowerCase()
       const item = data.manualItems.find(m => m.vara.toLowerCase() === needle)
@@ -170,9 +195,8 @@ export function useShoppingList(): UseShoppingList {
     },
     // Like isActiveByName, but for a specific store's offer: two different offers can share
     // the same generic name (e.g. "Kaffe" at both ICA and Hemköp) while being different
-    // products. Since the list only ever holds one item per name (see addOrRestoreByName),
-    // that item's offerRef says which specific store's offer it actually points at right
-    // now — only that offer should show as "in list", not every offer with the same name.
+    // products that can both be on the list at once (see findForOffer) — this only reports
+    // "in list" for the item tied to *this* store, not a same-named item from another store.
     // An item with no offerRef (e.g. typed in by hand) still matches any store, same as before.
     isActiveForOffer: (vara: string, store: string) => {
       const needle = vara.trim().toLowerCase()

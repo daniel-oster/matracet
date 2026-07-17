@@ -142,13 +142,13 @@ export default function FyndView({ onBack }: Props) {
   const [mode, setMode] = useState<'alla' | 'jamfor'>('alla')
   const [week, setWeek] = useState<string | null>(null)
   const { stores, availableWeeks, latestWeek } = useOffers(week)
-  const { isActiveForOffer, addOrRestoreByName, removeOrMarkByName } = useShoppingList()
+  const { isActiveForOffer, addOrRestoreByName, removeOrMarkForOffer } = useShoppingList()
   const { isIrrelevant, markIrrelevant, restore: restoreIrrelevant } = useIrrelevantOffers()
   const { getCorrection, flagMismatch, clear: clearCategoryFlag } = useCategoryFeedback()
   const [flagTarget, setFlagTarget] = useState<TaggedOffer | null>(null)
 
   function toggleShoppingList(o: TaggedOffer) {
-    if (isActiveForOffer(o.namn, o.store)) removeOrMarkByName(o.namn)
+    if (isActiveForOffer(o.namn, o.store)) removeOrMarkForOffer(o.namn, o.store)
     else addOrRestoreByName(o.namn, { offerRef: toOfferRef(o) })
   }
 

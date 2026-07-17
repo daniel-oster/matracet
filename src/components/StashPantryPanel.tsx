@@ -31,7 +31,7 @@ interface Props {
 export default function StashPantryPanel({ recipeIndex, fullRecipes, onOpenRecipe }: Props) {
   const { items, addItem, toggleDone, remove } = useStash()
   const pantry = usePantry()
-  const { addOrRestoreByName, removeOrMarkByName } = useShoppingList()
+  const { addOrRestoreByName, removeOrMarkForOffer } = useShoppingList()
   const { isIrrelevant, markIrrelevant } = useIrrelevantOffers()
   const { stores } = useOffers()
   const taggedOffers = useMemo(() => (stores ? tagOffers(stores) : []), [stores])
@@ -95,7 +95,7 @@ export default function StashPantryPanel({ recipeIndex, fullRecipes, onOpenRecip
     if (stashedOfferNames.has(key)) {
       const existing = activeItems.find(i => i.kind === 'stock' && i.namn.toLowerCase() === key)
       if (existing) remove(existing.id)
-      removeOrMarkByName(o.namn)
+      removeOrMarkForOffer(o.namn, o.store)
     } else {
       const savings = parseSavings(o.besparing)
       addItem(o.namn, 'stock', null, [savings > 0 ? `🏷 spara ${savings}kr` : '🏷 fynd'], `${describeOffer(o)} · ${o.pris_text}`)
