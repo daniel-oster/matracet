@@ -12,7 +12,7 @@ interface Props {
 export default function BevakaView({ onBack }: Props) {
   const items = useBevakningslista()
   const { stores } = useOffers()
-  const { isActiveByName, addOrRestoreByName, removeOrMarkByName } = useShoppingList()
+  const { isActiveForOffer, addOrRestoreByName, removeOrMarkByName } = useShoppingList()
 
   if (!items || !stores) {
     return (
@@ -73,7 +73,7 @@ export default function BevakaView({ onBack }: Props) {
                 {item.vara}
               </div>
               {offers.map((o, i) => {
-                const inList = isActiveByName(o.namn)
+                const inList = isActiveForOffer(o.namn, o.store)
                 return (
                   <div
                     className={`match-row${inList ? ' in-list' : ''}`}

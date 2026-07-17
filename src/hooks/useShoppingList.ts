@@ -147,6 +147,7 @@ export interface UseShoppingList {
   addOrRestoreByName: (vara: string, extra?: AddManualItemExtra) => void
   removeOrMarkByName: (vara: string) => void
   isActiveByName: (vara: string) => boolean
+  isActiveForOffer: (vara: string, store: string) => boolean
   cycleStore: (id: string, order: string[]) => void
 }
 
@@ -165,6 +166,17 @@ export function useShoppingList(): UseShoppingList {
     isActiveByName: (vara: string) => {
       const needle = vara.trim().toLowerCase()
       const item = data.manualItems.find(m => m.vara.toLowerCase() === needle)
+      return !!item && !removedIds.has(item.id)
+    },
+    // Like isActiveByName, but for a specific store's offer: two different offers can share
+    // the same generic name (e.g. "Kaffe" at both ICA and Hemköp) while being different
+    // products. Since the list only ever holds one item per name (see addOrRestoreByName),
+    // that item's offerRef says which specific store's offer it actually points at right
+    // now — only that offer should show as "in list", not every offer with the same name.
+    // An item with no offerRef (e.g. typed in by hand) still matches any store, same as before.
+    isActiveForOffer: (vara: string, store: string) => {
+      const needle = vara.trim().toLowerCase()
+      const item = data.manualItems.find(m => m.vara.toLowerCase() === needle && (!m.offerRef || m.offerRef.store === store))
       return !!item && !removedIds.has(item.id)
     },
     cycleStore,

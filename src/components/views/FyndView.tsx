@@ -139,11 +139,11 @@ export default function FyndView({ onBack }: Props) {
   const [mode, setMode] = useState<'alla' | 'jamfor'>('alla')
   const [week, setWeek] = useState<string | null>(null)
   const { stores, availableWeeks, latestWeek } = useOffers(week)
-  const { isActiveByName, addOrRestoreByName, removeOrMarkByName } = useShoppingList()
+  const { isActiveForOffer, addOrRestoreByName, removeOrMarkByName } = useShoppingList()
   const { isIrrelevant, markIrrelevant, restore: restoreIrrelevant } = useIrrelevantOffers()
 
   function toggleShoppingList(o: TaggedOffer) {
-    if (isActiveByName(o.namn)) removeOrMarkByName(o.namn)
+    if (isActiveForOffer(o.namn, o.store)) removeOrMarkByName(o.namn)
     else addOrRestoreByName(o.namn, { offerRef: toOfferRef(o) })
   }
 
@@ -248,14 +248,14 @@ export default function FyndView({ onBack }: Props) {
           <AllView
             all={all}
             visible={visible}
-            isActiveByName={isActiveByName}
+            isActiveForOffer={isActiveForOffer}
             onToggleShoppingList={toggleShoppingList}
             isIrrelevant={isIrrelevant}
             onMarkIrrelevant={markIrrelevant}
             onRestoreIrrelevant={restoreIrrelevant}
           />
         ) : (
-          <JamforView all={all} visible={visible} isActiveByName={isActiveByName} onToggleShoppingList={toggleShoppingList} />
+          <JamforView all={all} visible={visible} isActiveForOffer={isActiveForOffer} onToggleShoppingList={toggleShoppingList} />
         )}
       </div>
     </div>
@@ -263,13 +263,13 @@ export default function FyndView({ onBack }: Props) {
 }
 
 interface RowProps {
-  isActiveByName: (namn: string) => boolean
+  isActiveForOffer: (namn: string, store: string) => boolean
   onToggleShoppingList: (o: TaggedOffer) => void
 }
 
-function OfferRow({ o, best, isActiveByName, onToggleShoppingList }: RowProps & { o: TaggedOffer; best: boolean }) {
+function OfferRow({ o, best, isActiveForOffer, onToggleShoppingList }: RowProps & { o: TaggedOffer; best: boolean }) {
   const flag = o.ursprung ? FLAGS[o.ursprung] ?? '🌍' : isSwedish(o) ? '🇸🇪' : ''
-  const inList = isActiveByName(o.namn)
+  const inList = isActiveForOffer(o.namn, o.store)
   return (
     <div
       className={`fynd-row${best ? ' best' : ''}${inList ? ' in-list' : ''}`}
@@ -303,7 +303,7 @@ function OfferRow({ o, best, isActiveByName, onToggleShoppingList }: RowProps & 
   )
 }
 
-function OfferRows({ offers, isActiveByName, onToggleShoppingList, onMarkIrrelevant }: RowProps & {
+function OfferRows({ offers, isActiveForOffer, onToggleShoppingList, onMarkIrrelevant }: RowProps & {
   offers: TaggedOffer[]
   onMarkIrrelevant: (namn: string) => void
 }) {
@@ -324,7 +324,7 @@ function OfferRows({ offers, isActiveByName, onToggleShoppingList, onMarkIrrelev
         const best = j != null && unitCount[j.unit] >= 2 && j.val === minByUnit[j.unit]
         return (
           <SwipeRow key={`${o.store}-${o.namn}-${i}`} onSwipeLeft={() => onMarkIrrelevant(o.namn)}>
-            <OfferRow o={o} best={best} isActiveByName={isActiveByName} onToggleShoppingList={onToggleShoppingList} />
+            <OfferRow o={o} best={best} isActiveForOffer={isActiveForOffer} onToggleShoppingList={onToggleShoppingList} />
           </SwipeRow>
         )
       })}
@@ -332,7 +332,7 @@ function OfferRows({ offers, isActiveByName, onToggleShoppingList, onMarkIrrelev
   )
 }
 
-function AllView({ all, visible, isActiveByName, onToggleShoppingList, isIrrelevant, onMarkIrrelevant, onRestoreIrrelevant }: RowProps & {
+function AllView({ all, visible, isActiveForOffer, onToggleShoppingList, isIrrelevant, onMarkIrrelevant, onRestoreIrrelevant }: RowProps & {
   all: TaggedOffer[]
   visible: (o: TaggedOffer) => boolean
   isIrrelevant: (namn: string) => boolean
@@ -374,11 +374,11 @@ function AllView({ all, visible, isActiveByName, onToggleShoppingList, isIrrelev
                   return (
                     <div key={m.id}>
                       <h4 className="fynd-subcat-title">{m.sub}</h4>
-                      <OfferRows offers={offers} isActiveByName={isActiveByName} onToggleShoppingList={onToggleShoppingList} onMarkIrrelevant={onMarkIrrelevant} />
+                      <OfferRows offers={offers} isActiveForOffer={isActiveForOffer} onToggleShoppingList={onToggleShoppingList} onMarkIrrelevant={onMarkIrrelevant} />
                     </div>
                   )
                 })
-              : <OfferRows offers={groupOffers} isActiveByName={isActiveByName} onToggleShoppingList={onToggleShoppingList} onMarkIrrelevant={onMarkIrrelevant} />)}
+              : <OfferRows offers={groupOffers} isActiveForOffer={isActiveForOffer} onToggleShoppingList={onToggleShoppingList} onMarkIrrelevant={onMarkIrrelevant} />)}
           </div>
         )
       })}
@@ -412,7 +412,7 @@ function AllView({ all, visible, isActiveByName, onToggleShoppingList, isIrrelev
   )
 }
 
-function JamforView({ all, visible, isActiveByName, onToggleShoppingList }: RowProps & {
+function JamforView({ all, visible, isActiveForOffer, onToggleShoppingList }: RowProps & {
   all: TaggedOffer[]
   visible: (o: TaggedOffer) => boolean
 }) {
@@ -457,7 +457,7 @@ function JamforView({ all, visible, isActiveByName, onToggleShoppingList }: RowP
               const j = parseJmf(e.jamforpris)
               const best = j != null && unitCount[j.unit] >= 2 && j.val === minJmf[j.unit]
               const flag = e.ursprung ? FLAGS[e.ursprung] ?? '🌍' : isSwedish(e) ? '🇸🇪' : ''
-              const inList = isActiveByName(e.namn)
+              const inList = isActiveForOffer(e.namn, e.store)
               return (
                 <div
                   className={`match-row${best ? ' best' : ''}${inList ? ' in-list' : ''}`}
