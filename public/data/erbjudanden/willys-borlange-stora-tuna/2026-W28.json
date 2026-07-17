@@ -27,7 +27,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "lask_vatten",
+      "form": null,
+      "varutyp": "lask_vatten",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Norvegia",
@@ -45,7 +48,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ost_hard",
+      "form": "kyld",
+      "varutyp": "ost_hard",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Sportbröd",
@@ -65,7 +71,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod"
+      "kategori": "matbrod",
+      "form": null,
+      "varutyp": "matbrod",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Färska hamburgare 4-pack",
@@ -83,7 +92,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk"
+      "kategori": "fars_kottbullar",
+      "form": null,
+      "varutyp": "fars_kottbullar",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Bregott",
@@ -101,7 +113,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "smor_margarin",
+      "form": "kyld",
+      "varutyp": "smor_margarin",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Laxfilé 4-pack",
@@ -121,7 +136,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk"
+      "kategori": "fisk",
+      "form": null,
+      "varutyp": "fisk",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Chips, ostsnacks",
@@ -139,7 +157,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Tillfälligt parti",
-      "kategori": "snacks_godis"
+      "kategori": "chips_snacks",
+      "form": null,
+      "varutyp": "chips_snacks",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Hel färsk vitkål",
@@ -160,7 +181,10 @@
       ],
       "ursprung": "Sverige",
       "notering": null,
-      "kategori": "gront_farsk"
+      "kategori": "gronsaker",
+      "form": "farsk",
+      "varutyp": "gronsaker",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Halloumi",
@@ -178,7 +202,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk"
+      "kategori": "ost_vit_grill",
+      "form": "kyld",
+      "varutyp": "ost_vit_grill",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Orientaliskt bröd 4-pack",
@@ -198,7 +225,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod"
+      "kategori": "matbrod",
+      "form": null,
+      "varutyp": "matbrod",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Grillkorv",
@@ -219,7 +249,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk"
+      "kategori": "korv",
+      "form": null,
+      "varutyp": "korv",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Ekologiska oliver",
@@ -239,7 +272,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "inlagt_delikatess",
+      "form": "torr",
+      "varutyp": "inlagt_delikatess",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Basmatiris",
@@ -257,7 +293,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "ris_gryn",
+      "form": "torr",
+      "varutyp": "ris_gryn",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Kryddkorvar",
@@ -275,7 +314,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk"
+      "kategori": "kryddor_buljong",
+      "form": "torr",
+      "varutyp": "kryddor_buljong",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Kryddkorvar",
@@ -296,7 +338,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk"
+      "kategori": "kryddor_buljong",
+      "form": "torr",
+      "varutyp": "kryddor_buljong",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Grekisk yoghurt",
@@ -314,7 +359,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "fil_yoghurt",
+      "form": "kyld",
+      "varutyp": "fil_yoghurt",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Potatissallad",
@@ -332,7 +380,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "fardigmat"
+      "kategori": "deli_sallad_wrap",
+      "form": "kyld",
+      "varutyp": "deli_sallad_wrap",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Yoghurt & fetaröra",
@@ -350,7 +401,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "fil_yoghurt",
+      "form": "kyld",
+      "varutyp": "fil_yoghurt",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Hummus",
@@ -368,7 +422,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "inlagt_delikatess",
+      "form": "torr",
+      "varutyp": "inlagt_delikatess",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Färsk kycklingbröstfilé",
@@ -390,7 +447,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk"
+      "kategori": "fagel",
+      "form": null,
+      "varutyp": "fagel",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Majo, dressing",
@@ -408,7 +468,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "sas_dressing",
+      "form": "torr",
+      "varutyp": "sas_dressing",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Flintastek",
@@ -429,7 +492,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk"
+      "kategori": "kott",
+      "form": null,
+      "varutyp": "kott",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Grillost",
@@ -447,7 +513,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ost_vit_grill",
+      "form": "kyld",
+      "varutyp": "ost_vit_grill",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Lammgrytbitar",
@@ -465,7 +534,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk"
+      "kategori": "kott",
+      "form": null,
+      "varutyp": "kott",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Kycklingburgare 10-pack",
@@ -483,7 +555,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk"
+      "kategori": "fars_kottbullar",
+      "form": null,
+      "varutyp": "fars_kottbullar",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Kycklingfilé",
@@ -505,7 +580,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk"
+      "kategori": "fagel",
+      "form": null,
+      "varutyp": "fagel",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Fiskburgare",
@@ -525,7 +603,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk"
+      "kategori": "fisk",
+      "form": "fryst",
+      "varutyp": "fisk",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Picanha",
@@ -543,7 +624,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk"
+      "kategori": "charkuterier",
+      "form": null,
+      "varutyp": "charkuterier",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Bearnaise",
@@ -561,7 +645,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "sas_dressing",
+      "form": "torr",
+      "varutyp": "sas_dressing",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Pulled pork",
@@ -583,7 +670,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk"
+      "kategori": "kott",
+      "form": null,
+      "varutyp": "kott",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Ribs",
@@ -601,7 +691,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk"
+      "kategori": "kott",
+      "form": null,
+      "varutyp": "kott",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Grillspett",
@@ -622,7 +715,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk"
+      "kategori": "kott",
+      "form": null,
+      "varutyp": "kott",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Pinsa",
@@ -640,7 +736,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "fardigmat"
+      "kategori": "pizza",
+      "form": null,
+      "varutyp": "pizza",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Riven ost",
@@ -658,7 +757,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ost_hard",
+      "form": "kyld",
+      "varutyp": "ost_hard",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Skivat bacon 3-pack",
@@ -676,7 +778,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk"
+      "kategori": "bacon_skinka",
+      "form": null,
+      "varutyp": "bacon_skinka",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Pizza",
@@ -694,7 +799,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "fardigmat"
+      "kategori": "pizza",
+      "form": null,
+      "varutyp": "pizza",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Pizzamjöl",
@@ -714,7 +822,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "fardigmat"
+      "kategori": "bak_sott",
+      "form": "torr",
+      "varutyp": "bak_sott",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Strimlad skinka, kalkon",
@@ -734,7 +845,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk"
+      "kategori": "bacon_skinka",
+      "form": null,
+      "varutyp": "bacon_skinka",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Pizza topping",
@@ -752,7 +866,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "fardigmat"
+      "kategori": "pizza",
+      "form": null,
+      "varutyp": "pizza",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Pizzasås",
@@ -772,7 +889,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "fardigmat"
+      "kategori": "sas_dressing",
+      "form": "torr",
+      "varutyp": "sas_dressing",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Riven västerbottensost",
@@ -790,7 +910,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ost_hard",
+      "form": "kyld",
+      "varutyp": "ost_hard",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Burrata",
@@ -808,7 +931,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "ost_fars_mjuk",
+      "form": "kyld",
+      "varutyp": "ost_fars_mjuk",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Surdegspizza",
@@ -826,7 +952,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod"
+      "kategori": "matbrod",
+      "form": null,
+      "varutyp": "matbrod",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Stora räkor i lake",
@@ -846,7 +975,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk"
+      "kategori": "skaldjur",
+      "form": null,
+      "varutyp": "skaldjur",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Glass 4-pack",
@@ -864,7 +996,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Tillfälligt parti",
-      "kategori": "fardigmat"
+      "kategori": "glass",
+      "form": "fryst",
+      "varutyp": "glass",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Läsk",
@@ -882,7 +1017,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "lask_vatten",
+      "form": null,
+      "varutyp": "lask_vatten",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Sill i stora glas",
@@ -902,7 +1040,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk"
+      "kategori": "inlagd_fisk_kaviar",
+      "form": null,
+      "varutyp": "inlagd_fisk_kaviar",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Matjessill",
@@ -922,7 +1063,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk"
+      "kategori": "inlagd_fisk_kaviar",
+      "form": null,
+      "varutyp": "inlagd_fisk_kaviar",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Hushållsost",
@@ -940,7 +1084,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ost_hard",
+      "form": "kyld",
+      "varutyp": "ost_hard",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Salta jordnötter",
@@ -958,7 +1105,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Tillfälligt parti",
-      "kategori": "snacks_godis"
+      "kategori": "notter_torkat",
+      "form": null,
+      "varutyp": "notter_torkat",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Smaksatt yoghurt",
@@ -976,7 +1126,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "fil_yoghurt",
+      "form": "kyld",
+      "varutyp": "fil_yoghurt",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Jättefranska, rasker",
@@ -994,7 +1147,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod"
+      "kategori": "matbrod",
+      "form": null,
+      "varutyp": "matbrod",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Ekologisk bregott, laktosfritt bregott",
@@ -1015,7 +1171,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "smor_margarin",
+      "form": "kyld",
+      "varutyp": "smor_margarin",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Crunchy",
@@ -1033,7 +1192,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "ovrigt",
+      "form": null,
+      "varutyp": "ovrigt",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Naturell kefir",
@@ -1053,7 +1215,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "fil_yoghurt",
+      "form": "kyld",
+      "varutyp": "fil_yoghurt",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Skivat smörgåspålägg",
@@ -1074,7 +1239,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "palagg_pastej",
+      "form": null,
+      "varutyp": "palagg_pastej",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Ekologiskt skivat smörgåspålägg",
@@ -1096,7 +1264,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "palagg_pastej",
+      "form": null,
+      "varutyp": "palagg_pastej",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Tropisk nektar, äpplejuice",
@@ -1114,7 +1285,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "juice_saft",
+      "form": null,
+      "varutyp": "juice_saft",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Pasta korta former",
@@ -1132,7 +1306,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "pasta",
+      "form": "torr",
+      "varutyp": "pasta",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Vetemjöl",
@@ -1152,7 +1329,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "bak_sott",
+      "form": "torr",
+      "varutyp": "bak_sott",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Laxfilé i bit refreshed",
@@ -1173,7 +1353,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk"
+      "kategori": "fisk",
+      "form": null,
+      "varutyp": "fisk",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Crème fraiche",
@@ -1193,7 +1376,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "fil_yoghurt",
+      "form": "kyld",
+      "varutyp": "fil_yoghurt",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Kycklingfilé",
@@ -1211,7 +1397,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Tillfälligt parti",
-      "kategori": "protein_farsk"
+      "kategori": "fagel",
+      "form": null,
+      "varutyp": "fagel",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Matgrädde",
@@ -1229,7 +1418,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "mjolk_gradde",
+      "form": "kyld",
+      "varutyp": "mjolk_gradde",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Ryggfilé alaska pollock",
@@ -1249,7 +1441,10 @@
       ],
       "ursprung": null,
       "notering": "Tillfälligt parti",
-      "kategori": "protein_farsk"
+      "kategori": "fisk",
+      "form": null,
+      "varutyp": "fisk",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Vitost",
@@ -1267,7 +1462,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Tillfälligt parti",
-      "kategori": "mejeri"
+      "kategori": "ost_vit_grill",
+      "form": "kyld",
+      "varutyp": "ost_vit_grill",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Jasminris",
@@ -1285,7 +1483,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "ris_gryn",
+      "form": "torr",
+      "varutyp": "ris_gryn",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Marinader, rub",
@@ -1303,7 +1504,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "sas_dressing",
+      "form": "torr",
+      "varutyp": "sas_dressing",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Margarin",
@@ -1321,7 +1525,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "smor_margarin",
+      "form": "kyld",
+      "varutyp": "smor_margarin",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Kolsyrat vatten 12-pack",
@@ -1339,7 +1546,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "lask_vatten",
+      "form": null,
+      "varutyp": "lask_vatten",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Grillkrydda",
@@ -1357,7 +1567,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "kryddor_buljong",
+      "form": "torr",
+      "varutyp": "kryddor_buljong",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Köttbullar",
@@ -1378,7 +1591,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk"
+      "kategori": "fars_kottbullar",
+      "form": null,
+      "varutyp": "fars_kottbullar",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Fruktdryck, bärdryck",
@@ -1396,7 +1612,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "juice_saft",
+      "form": null,
+      "varutyp": "juice_saft",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Rapsolja",
@@ -1416,7 +1635,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "olja_vinager",
+      "form": "torr",
+      "varutyp": "olja_vinager",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Laxfilé i bitar",
@@ -1436,7 +1658,10 @@
       ],
       "ursprung": null,
       "notering": "Tillfälligt parti",
-      "kategori": "protein_farsk"
+      "kategori": "fisk",
+      "form": null,
+      "varutyp": "fisk",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Smoothie",
@@ -1454,7 +1679,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "juice_saft",
+      "form": null,
+      "varutyp": "juice_saft",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Bbq sås",
@@ -1472,7 +1700,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "sas_dressing",
+      "form": "torr",
+      "varutyp": "sas_dressing",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Kycklinggrillkorv",
@@ -1493,7 +1724,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk"
+      "kategori": "korv",
+      "form": null,
+      "varutyp": "korv",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Proteinbar",
@@ -1511,7 +1745,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "snacks_godis"
+      "kategori": "bars",
+      "form": null,
+      "varutyp": "bars",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Grillolja",
@@ -1529,7 +1766,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "olja_vinager",
+      "form": "torr",
+      "varutyp": "olja_vinager",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Honungsmelon, galiamelon, cantaloupemelon",
@@ -1549,7 +1789,10 @@
       ],
       "ursprung": "Spanien",
       "notering": null,
-      "kategori": "frukt"
+      "kategori": "frukt",
+      "form": "farsk",
+      "varutyp": "frukt",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Bigarråer",
@@ -1569,7 +1812,10 @@
       ],
       "ursprung": "Turkiet",
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "bar",
+      "form": "farsk",
+      "varutyp": "bar",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Isbergssallad",
@@ -1590,7 +1836,10 @@
       ],
       "ursprung": "Sverige",
       "notering": null,
-      "kategori": "gront_farsk"
+      "kategori": "gronsaker",
+      "form": "farsk",
+      "varutyp": "gronsaker",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Kvisttomater",
@@ -1610,7 +1859,10 @@
       ],
       "ursprung": "Nederländerna",
       "notering": null,
-      "kategori": "gront_farsk"
+      "kategori": "gronsaker",
+      "form": "farsk",
+      "varutyp": "gronsaker",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Hel ananas",
@@ -1631,7 +1883,10 @@
       ],
       "ursprung": "Costa Rica",
       "notering": null,
-      "kategori": "frukt"
+      "kategori": "frukt",
+      "form": "farsk",
+      "varutyp": "frukt",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Champinjoner 250g",
@@ -1651,7 +1906,10 @@
       ],
       "ursprung": "Polen",
       "notering": null,
-      "kategori": "gront_farsk"
+      "kategori": "svamp",
+      "form": "farsk",
+      "varutyp": "svamp",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Lime",
@@ -1671,7 +1929,10 @@
       ],
       "ursprung": "Brasilien",
       "notering": null,
-      "kategori": "frukt"
+      "kategori": "frukt",
+      "form": "farsk",
+      "varutyp": "frukt",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Broccoli 250g",
@@ -1692,7 +1953,10 @@
       ],
       "ursprung": "Sverige",
       "notering": null,
-      "kategori": "gront_farsk"
+      "kategori": "gronsaker",
+      "form": "farsk",
+      "varutyp": "gronsaker",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Naturella pinjenötter",
@@ -1710,7 +1974,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "snacks_godis"
+      "kategori": "notter_torkat",
+      "form": null,
+      "varutyp": "notter_torkat",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Gröna växter",
@@ -1728,7 +1995,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "blommor_vaxter",
+      "form": null,
+      "varutyp": "blommor_vaxter",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Brie",
@@ -1746,7 +2016,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ost_fars_mjuk",
+      "form": "kyld",
+      "varutyp": "ost_fars_mjuk",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Veckans bukett",
@@ -1764,7 +2037,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "blommor_vaxter",
+      "form": null,
+      "varutyp": "blommor_vaxter",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Ekologisk sallad 65g",
@@ -1785,7 +2061,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "gront_farsk"
+      "kategori": "gronsaker",
+      "form": "farsk",
+      "varutyp": "gronsaker",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Alkoholfri öl 24-pack",
@@ -1805,7 +2084,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "ol_cider",
+      "form": null,
+      "varutyp": "ol_cider",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Delad Honungsmelon, Galiamelon, Cantaloupemelon",
@@ -1825,7 +2107,10 @@
       ],
       "ursprung": "Spanien",
       "notering": null,
-      "kategori": "frukt"
+      "kategori": "frukt",
+      "form": "farsk",
+      "varutyp": "frukt",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Delad färsk vitkål",
@@ -1846,7 +2131,10 @@
       ],
       "ursprung": "Sverige",
       "notering": null,
-      "kategori": "gront_farsk"
+      "kategori": "gronsaker",
+      "form": "farsk",
+      "varutyp": "gronsaker",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Papptallrikar",
@@ -1866,7 +2154,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "engangs_grill",
+      "form": null,
+      "varutyp": "engangs_grill",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Delad ananas",
@@ -1886,7 +2177,10 @@
       ],
       "ursprung": "Costa Rica",
       "notering": null,
-      "kategori": "frukt"
+      "kategori": "frukt",
+      "form": "farsk",
+      "varutyp": "frukt",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Flergångsdricksglas 6-pack",
@@ -1904,7 +2198,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "engangs_grill",
+      "form": null,
+      "varutyp": "engangs_grill",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Frisco hamburgebröd 4-pack",
@@ -1924,7 +2221,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod"
+      "kategori": "korv_hamburgerbrod",
+      "form": null,
+      "varutyp": "korv_hamburgerbrod",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Fotbollssnacks",
@@ -1942,7 +2242,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Tillfälligt parti",
-      "kategori": "snacks_godis"
+      "kategori": "chips_snacks",
+      "form": null,
+      "varutyp": "chips_snacks",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Flergångsbestick 12-pack",
@@ -1960,7 +2263,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "engangs_grill",
+      "form": null,
+      "varutyp": "engangs_grill",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Skivad ost",
@@ -1978,7 +2284,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ost_hard",
+      "form": "kyld",
+      "varutyp": "ost_hard",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Köttbullar",
@@ -1999,7 +2308,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk"
+      "kategori": "fars_kottbullar",
+      "form": null,
+      "varutyp": "fars_kottbullar",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Naturella valnötter",
@@ -2017,7 +2329,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Tillfälligt parti",
-      "kategori": "snacks_godis"
+      "kategori": "chips_snacks",
+      "form": null,
+      "varutyp": "chips_snacks",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Baguette",
@@ -2035,7 +2350,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod"
+      "kategori": "frallor_tunnbrod",
+      "form": null,
+      "varutyp": "frallor_tunnbrod",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Grillbriketter, grillkol",
@@ -2055,7 +2373,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "engangs_grill",
+      "form": null,
+      "varutyp": "engangs_grill",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Lättdryck",
@@ -2073,7 +2394,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "lask_vatten",
+      "form": null,
+      "varutyp": "lask_vatten",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Skivad salami",
@@ -2094,7 +2418,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk"
+      "kategori": "charkuterier",
+      "form": null,
+      "varutyp": "charkuterier",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Kaffekapslar",
@@ -2112,7 +2439,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "kaffe_te",
+      "form": null,
+      "varutyp": "kaffe_te",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Jätten",
@@ -2132,7 +2462,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "godis",
+      "form": null,
+      "varutyp": "godis",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Varmrökt lax",
@@ -2153,7 +2486,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk"
+      "kategori": "fisk",
+      "form": null,
+      "varutyp": "fisk",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Drinkmixer",
@@ -2171,7 +2507,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "lask_vatten",
+      "form": null,
+      "varutyp": "lask_vatten",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Energidryck",
@@ -2189,7 +2528,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "energidryck",
+      "form": null,
+      "varutyp": "energidryck",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Tofu, Korv",
@@ -2205,11 +2547,15 @@
       "klubbpris": false,
       "max_kop": null,
       "markeringar": [
-        "eko"
+        "eko",
+        "vegansk"
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk"
+      "kategori": "korv",
+      "form": null,
+      "varutyp": "korv",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Godispåsar",
@@ -2227,7 +2573,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "snacks_godis"
+      "kategori": "godis",
+      "form": null,
+      "varutyp": "godis",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Pasta",
@@ -2245,7 +2594,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "pasta",
+      "form": "torr",
+      "varutyp": "pasta",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Levain",
@@ -2265,7 +2617,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod"
+      "kategori": "matbrod",
+      "form": null,
+      "varutyp": "matbrod",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Läsk",
@@ -2283,7 +2638,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "lask_vatten",
+      "form": null,
+      "varutyp": "lask_vatten",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Somun pitabröd",
@@ -2301,7 +2659,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod"
+      "kategori": "frallor_tunnbrod",
+      "form": null,
+      "varutyp": "frallor_tunnbrod",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Blöjor",
@@ -2321,7 +2682,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "bloja_babyvard",
+      "form": null,
+      "varutyp": "bloja_babyvard",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Gräddost",
@@ -2341,7 +2705,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "mjolk_gradde",
+      "form": "kyld",
+      "varutyp": "mjolk_gradde",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Maasdamer, gouda",
@@ -2359,7 +2726,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ost_hard",
+      "form": "kyld",
+      "varutyp": "ost_hard",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Chips",
@@ -2377,7 +2747,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Tillfälligt parti",
-      "kategori": "snacks_godis"
+      "kategori": "chips_snacks",
+      "form": null,
+      "varutyp": "chips_snacks",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Husmans enportionsrätter",
@@ -2395,7 +2768,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "fardigmat"
+      "kategori": "enportionsratt",
+      "form": "fryst",
+      "varutyp": "enportionsratt",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Kycklingröra",
@@ -2413,7 +2789,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk"
+      "kategori": "fagel",
+      "form": null,
+      "varutyp": "fagel",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Syltsocker",
@@ -2431,7 +2810,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "bak_sott",
+      "form": "torr",
+      "varutyp": "bak_sott",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Salladslax",
@@ -2452,7 +2834,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk"
+      "kategori": "fisk",
+      "form": null,
+      "varutyp": "fisk",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Riven ost",
@@ -2470,7 +2855,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ost_hard",
+      "form": "kyld",
+      "varutyp": "ost_hard",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Saltiner",
@@ -2488,7 +2876,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Tillfälligt parti",
-      "kategori": "ovrigt"
+      "kategori": "kex",
+      "form": null,
+      "varutyp": "kex",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Snabbnudlar",
@@ -2506,7 +2897,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "enportionsratt",
+      "form": null,
+      "varutyp": "enportionsratt",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Tortillachips",
@@ -2524,7 +2918,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "snacks_godis"
+      "kategori": "chips_snacks",
+      "form": null,
+      "varutyp": "chips_snacks",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Tonfisk 3-pack",
@@ -2545,7 +2942,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk"
+      "kategori": "fisk",
+      "form": null,
+      "varutyp": "fisk",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Krossade, passerade tomater",
@@ -2565,7 +2965,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "konserv_tomat",
+      "form": "torr",
+      "varutyp": "konserv_tomat",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Chokladkakor",
@@ -2583,7 +2986,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "snacks_godis"
+      "kategori": "choklad",
+      "form": null,
+      "varutyp": "choklad",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Tuggummi",
@@ -2601,7 +3007,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "snacks_godis"
+      "kategori": "godis",
+      "form": null,
+      "varutyp": "godis",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Servetter",
@@ -2621,7 +3030,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "papper_pasar_folie",
+      "form": null,
+      "varutyp": "papper_pasar_folie",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Choko crunch, smash",
@@ -2641,7 +3053,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "godis",
+      "form": null,
+      "varutyp": "godis",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Grillpinnar",
@@ -2659,7 +3074,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "engangs_grill",
+      "form": null,
+      "varutyp": "engangs_grill",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Hundmat",
@@ -2677,7 +3095,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "djurmat",
+      "form": null,
+      "varutyp": "djurmat",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Ekologiska bönor",
@@ -2698,7 +3119,10 @@
       ],
       "ursprung": null,
       "notering": "Tillfälligt parti",
-      "kategori": "protein_farsk"
+      "kategori": "baljvaxter",
+      "form": null,
+      "varutyp": "bonor",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Hundmat",
@@ -2716,7 +3140,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "djurmat",
+      "form": null,
+      "varutyp": "djurmat",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Färsk pasta",
@@ -2734,7 +3161,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "pasta",
+      "form": "torr",
+      "varutyp": "pasta",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Hundmat",
@@ -2752,7 +3182,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "djurmat",
+      "form": null,
+      "varutyp": "djurmat",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Engångsrakhyvel 10-pack",
@@ -2770,7 +3203,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "hygien",
+      "form": null,
+      "varutyp": "hygien",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Duschcream, handtvål, deo roll-on",
@@ -2788,7 +3224,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "hygien",
+      "form": null,
+      "varutyp": "hygien",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Bindor, trosskydd, tamponger",
@@ -2806,7 +3245,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "hygien",
+      "form": null,
+      "varutyp": "hygien",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Deo roll-on",
@@ -2824,7 +3266,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "hygien",
+      "form": null,
+      "varutyp": "hygien",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Corn torillas",
@@ -2842,7 +3287,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "ovrigt",
+      "form": null,
+      "varutyp": "ovrigt",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Solskydd",
@@ -2860,7 +3308,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "hygien",
+      "form": null,
+      "varutyp": "hygien",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Myggmedel, kylbalsam",
@@ -2878,7 +3329,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "skadedjur",
+      "form": null,
+      "varutyp": "skadedjur",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Fluorskölj",
@@ -2896,7 +3350,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "hygien",
+      "form": null,
+      "varutyp": "hygien",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Tandborstar",
@@ -2914,7 +3371,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "hygien",
+      "form": null,
+      "varutyp": "hygien",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Barntandkräm",
@@ -2934,7 +3394,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "hygien",
+      "form": null,
+      "varutyp": "hygien",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Schampo",
@@ -2952,7 +3415,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "hygien",
+      "form": null,
+      "varutyp": "hygien",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Schampo, balsam, inpackning",
@@ -2970,7 +3436,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "hygien",
+      "form": null,
+      "varutyp": "hygien",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Duschcream",
@@ -2988,7 +3457,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Tillfälligt parti",
-      "kategori": "skafferi"
+      "kategori": "hygien",
+      "form": null,
+      "varutyp": "hygien",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Grillkorv",
@@ -3006,7 +3478,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk"
+      "kategori": "korv",
+      "form": null,
+      "varutyp": "korv",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Jarlsberg",
@@ -3024,7 +3499,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ost_hard",
+      "form": "kyld",
+      "varutyp": "ost_hard",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Brago",
@@ -3042,7 +3520,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "kex",
+      "form": null,
+      "varutyp": "kex",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Dubbla stycksaker",
@@ -3060,7 +3541,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "choklad",
+      "form": null,
+      "varutyp": "choklad",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Mörk choklad",
@@ -3078,7 +3562,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "snacks_godis"
+      "kategori": "choklad",
+      "form": null,
+      "varutyp": "choklad",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Tutti frutti, tyrkisk peber",
@@ -3096,7 +3583,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "godis",
+      "form": null,
+      "varutyp": "godis",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Kolsyrat vatten",
@@ -3114,7 +3604,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "lask_vatten",
+      "form": null,
+      "varutyp": "lask_vatten",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Bönor, linser",
@@ -3134,7 +3627,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk"
+      "kategori": "baljvaxter",
+      "form": null,
+      "varutyp": "bonor",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Läsk",
@@ -3152,7 +3648,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "lask_vatten",
+      "form": null,
+      "varutyp": "lask_vatten",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Amerikansk dressing",
@@ -3170,7 +3669,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "sas_dressing",
+      "form": "torr",
+      "varutyp": "sas_dressing",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Toffifee",
@@ -3188,7 +3690,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "snacks_godis"
+      "kategori": "godis",
+      "form": null,
+      "varutyp": "godis",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Hundben",
@@ -3206,7 +3711,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "djurgodis_tillbehor",
+      "form": null,
+      "varutyp": "djurgodis_tillbehor",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Diskduk 4-pack",
@@ -3224,7 +3732,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "stad_disk_tvatt",
+      "form": null,
+      "varutyp": "stad_disk_tvatt",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Ekologisk matvete",
@@ -3245,7 +3756,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "ris_gryn",
+      "form": "torr",
+      "varutyp": "ris_gryn",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Vital, limpan, lingon",
@@ -3265,7 +3779,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod"
+      "kategori": "matbrod",
+      "form": null,
+      "varutyp": "matbrod",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Pesto",
@@ -3283,7 +3800,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "sas_dressing",
+      "form": "torr",
+      "varutyp": "sas_dressing",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Vätskeersättning",
@@ -3301,7 +3821,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "halsa",
+      "form": null,
+      "varutyp": "halsa",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Bullar 10-pack",
@@ -3319,7 +3842,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod"
+      "kategori": "fikabrod",
+      "form": null,
+      "varutyp": "fikabrod",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Tuggben",
@@ -3337,7 +3863,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "djurgodis_tillbehor",
+      "form": null,
+      "varutyp": "djurgodis_tillbehor",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Ättiksprit",
@@ -3355,7 +3884,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "olja_vinager",
+      "form": "torr",
+      "varutyp": "olja_vinager",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Fruktklämmisar",
@@ -3373,7 +3905,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "snacks_godis"
+      "kategori": "bars",
+      "form": null,
+      "varutyp": "bars",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Pulversås",
@@ -3391,7 +3926,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "sas_dressing",
+      "form": "torr",
+      "varutyp": "sas_dressing",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Cappucino",
@@ -3409,7 +3947,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "kaffe_te",
+      "form": null,
+      "varutyp": "kaffe_te",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Jordnötssmör",
@@ -3427,7 +3968,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "snacks_godis"
+      "kategori": "notter_torkat",
+      "form": null,
+      "varutyp": "notter_torkat",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Ketchup",
@@ -3445,7 +3989,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "sas_dressing",
+      "form": "torr",
+      "varutyp": "sas_dressing",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Singoalla",
@@ -3463,7 +4010,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "kex",
+      "form": null,
+      "varutyp": "kex",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Fryspåsar",
@@ -3481,7 +4031,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "papper_pasar_folie",
+      "form": "fryst",
+      "varutyp": "papper_pasar_folie",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Plastpåsar",
@@ -3499,7 +4052,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "papper_pasar_folie",
+      "form": null,
+      "varutyp": "papper_pasar_folie",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Chips, nötter",
@@ -3517,7 +4073,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "snacks_godis"
+      "kategori": "chips_snacks",
+      "form": null,
+      "varutyp": "chips_snacks",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Kexchoklad 8-pack",
@@ -3537,7 +4096,10 @@
       ],
       "ursprung": null,
       "notering": "Tillfälligt parti",
-      "kategori": "snacks_godis"
+      "kategori": "kex",
+      "form": null,
+      "varutyp": "kex",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Mörk sojasås",
@@ -3555,7 +4117,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "sas_dressing",
+      "form": "torr",
+      "varutyp": "sas_dressing",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Müslibar 6-pack",
@@ -3573,7 +4138,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "bars",
+      "form": null,
+      "varutyp": "bars",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Saft",
@@ -3591,7 +4159,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "juice_saft",
+      "form": null,
+      "varutyp": "juice_saft",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Fruktstång",
@@ -3609,7 +4180,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "snacks_godis"
+      "kategori": "bars",
+      "form": null,
+      "varutyp": "bars",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Krämiga sallader",
@@ -3627,7 +4201,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "fardigmat"
+      "kategori": "deli_sallad_wrap",
+      "form": "kyld",
+      "varutyp": "deli_sallad_wrap",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Kattgodis",
@@ -3645,7 +4222,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "snacks_godis"
+      "kategori": "djurmat",
+      "form": null,
+      "varutyp": "djurmat",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Mikropop 3-pack",
@@ -3663,7 +4243,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "chips_snacks",
+      "form": null,
+      "varutyp": "chips_snacks",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Frukdryck 3-pack",
@@ -3681,7 +4264,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "lask_vatten",
+      "form": null,
+      "varutyp": "lask_vatten",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Classico olivolja",
@@ -3701,7 +4287,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "olja_vinager",
+      "form": "torr",
+      "varutyp": "olja_vinager",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Doftblock",
@@ -3719,7 +4308,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "stad_disk_tvatt",
+      "form": null,
+      "varutyp": "stad_disk_tvatt",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Ugnsfolie",
@@ -3737,7 +4329,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "papper_pasar_folie",
+      "form": null,
+      "varutyp": "papper_pasar_folie",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Havregott",
@@ -3755,7 +4350,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "flingor_musli",
+      "form": "torr",
+      "varutyp": "flingor_musli",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Ballerina",
@@ -3775,7 +4373,10 @@
       ],
       "ursprung": null,
       "notering": "Tillfälligt parti",
-      "kategori": "ovrigt"
+      "kategori": "kex",
+      "form": null,
+      "varutyp": "kex",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Gifflar",
@@ -3793,7 +4394,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod"
+      "kategori": "fikabrod",
+      "form": null,
+      "varutyp": "fikabrod",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Snabbkaffe",
@@ -3813,7 +4417,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "kaffe_te",
+      "form": null,
+      "varutyp": "kaffe_te",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Kattmat",
@@ -3831,7 +4438,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "djurmat",
+      "form": null,
+      "varutyp": "djurmat",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Mayo, salsa",
@@ -3849,7 +4459,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "sas_dressing",
+      "form": "torr",
+      "varutyp": "sas_dressing",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Finkrossade tomater 3-pack",
@@ -3867,7 +4480,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "konserv_tomat",
+      "form": "torr",
+      "varutyp": "konserv_tomat",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Babytvätt",
@@ -3887,7 +4503,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "bloja_babyvard",
+      "form": null,
+      "varutyp": "bloja_babyvard",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Kyld sås",
@@ -3905,7 +4524,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "sas_dressing",
+      "form": "torr",
+      "varutyp": "sas_dressing",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Toalettpapper",
@@ -3925,7 +4547,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "papper_pasar_folie",
+      "form": null,
+      "varutyp": "papper_pasar_folie",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Äggnudlar",
@@ -3943,7 +4568,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "pasta",
+      "form": "torr",
+      "varutyp": "pasta",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Godis",
@@ -3961,7 +4589,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "snacks_godis"
+      "kategori": "godis",
+      "form": null,
+      "varutyp": "godis",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Tuggben 7-pack",
@@ -3979,7 +4610,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "djurgodis_tillbehor",
+      "form": null,
+      "varutyp": "djurgodis_tillbehor",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Tuggben 25-pack",
@@ -3997,7 +4631,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt"
+      "kategori": "djurgodis_tillbehor",
+      "form": null,
+      "varutyp": "djurgodis_tillbehor",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Kaffekapslar 10-pack",
@@ -4015,7 +4652,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "kaffe_te",
+      "form": null,
+      "varutyp": "kaffe_te",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Marshmallows",
@@ -4033,7 +4673,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "snacks_godis"
+      "kategori": "godis",
+      "form": null,
+      "varutyp": "godis",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Kycklingspett",
@@ -4051,7 +4694,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk"
+      "kategori": "fagel",
+      "form": null,
+      "varutyp": "fagel",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Städservetter 70-pack",
@@ -4071,7 +4717,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "papper_pasar_folie",
+      "form": null,
+      "varutyp": "papper_pasar_folie",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Mariakex",
@@ -4089,7 +4738,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Tillfälligt parti",
-      "kategori": "snacks_godis"
+      "kategori": "kex",
+      "form": null,
+      "varutyp": "kex",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Cashewnötter",
@@ -4107,7 +4759,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "snacks_godis"
+      "kategori": "notter_torkat",
+      "form": null,
+      "varutyp": "notter_torkat",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Iste",
@@ -4125,7 +4780,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "kaffe_te",
+      "form": null,
+      "varutyp": "kaffe_te",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Hund torrfoder",
@@ -4143,7 +4801,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "djurmat",
+      "form": null,
+      "varutyp": "djurmat",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Läsk",
@@ -4161,7 +4822,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "lask_vatten",
+      "form": null,
+      "varutyp": "lask_vatten",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Pastasås",
@@ -4179,7 +4843,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Tillfälligt parti",
-      "kategori": "skafferi"
+      "kategori": "sas_dressing",
+      "form": "torr",
+      "varutyp": "sas_dressing",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Champinjoner",
@@ -4197,7 +4864,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "gront_farsk"
+      "kategori": "svamp",
+      "form": "farsk",
+      "varutyp": "svamp",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Müsli",
@@ -4215,7 +4885,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "flingor_musli",
+      "form": "torr",
+      "varutyp": "flingor_musli",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Senap",
@@ -4233,7 +4906,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "sas_dressing",
+      "form": "torr",
+      "varutyp": "sas_dressing",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Avfallspåse",
@@ -4251,7 +4927,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "papper_pasar_folie",
+      "form": null,
+      "varutyp": "papper_pasar_folie",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Ice coffee",
@@ -4269,7 +4948,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "kaffe_te",
+      "form": null,
+      "varutyp": "kaffe_te",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Nudlar",
@@ -4287,7 +4969,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "pasta",
+      "form": "torr",
+      "varutyp": "pasta",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Kokosmjölk",
@@ -4305,7 +4990,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "inlagt_delikatess",
+      "form": "torr",
+      "varutyp": "inlagt_delikatess",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Kokosmjölk",
@@ -4323,7 +5011,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "inlagt_delikatess",
+      "form": "torr",
+      "varutyp": "inlagt_delikatess",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Risnudlar",
@@ -4341,7 +5032,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "pasta",
+      "form": "torr",
+      "varutyp": "pasta",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Glassås",
@@ -4361,7 +5055,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "fardigmat"
+      "kategori": "dessertsas",
+      "form": null,
+      "varutyp": "dessertsas",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Limpa, frölimpa",
@@ -4381,7 +5078,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod"
+      "kategori": "matbrod",
+      "form": null,
+      "varutyp": "matbrod",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Flytande tvättmedel",
@@ -4399,7 +5099,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Tillfälligt parti",
-      "kategori": "hygien_hushall"
+      "kategori": "stad_disk_tvatt",
+      "form": null,
+      "varutyp": "stad_disk_tvatt",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Hushållspapper 4-pack",
@@ -4419,7 +5122,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "papper_pasar_folie",
+      "form": null,
+      "varutyp": "papper_pasar_folie",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Cheddar",
@@ -4437,7 +5143,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri"
+      "kategori": "ost_hard",
+      "form": "kyld",
+      "varutyp": "ost_hard",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Kolsyrat, stilla vatten 6-pack",
@@ -4455,7 +5164,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "lask_vatten",
+      "form": null,
+      "varutyp": "lask_vatten",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Kina snacks",
@@ -4473,7 +5185,10 @@
       "markeringar": [],
       "ursprung": "Kina",
       "notering": null,
-      "kategori": "snacks_godis"
+      "kategori": "chips_snacks",
+      "form": null,
+      "varutyp": "chips_snacks",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Våtservetter 120-pack",
@@ -4493,7 +5208,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall"
+      "kategori": "papper_pasar_folie",
+      "form": null,
+      "varutyp": "papper_pasar_folie",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Squeezy sylt",
@@ -4511,7 +5229,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi"
+      "kategori": "bak_sott",
+      "form": "torr",
+      "varutyp": "bak_sott",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Dryck 14-pack",
@@ -4529,7 +5250,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck"
+      "kategori": "lask_vatten",
+      "form": null,
+      "varutyp": "lask_vatten",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "ORIENTBRD",
@@ -4547,7 +5271,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod"
+      "kategori": "matbrod",
+      "form": null,
+      "varutyp": "matbrod",
+      "kategori_kalla": "regel"
     }
   ]
 }

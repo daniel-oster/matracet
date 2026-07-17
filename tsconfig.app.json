@@ -4,6 +4,10 @@
     "useDefineForClassFields": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
+    // Lets src/lib/kategoriTaxonomy.mjs and kategoriClassify.mjs be plain, isomorphic
+    // ESM imported unchanged by both the app and scripts/*.mjs — one physical file,
+    // not two keyword lists that can drift (see CLAUDE.md).
+    "allowJs": true,
     "skipLibCheck": true,
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,

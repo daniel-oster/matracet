@@ -7,6 +7,7 @@ import { useCollapsedCategories } from '../../hooks/useCollapsedCategories'
 import { useCategoryFeedback, CategoryFeedbackEntry } from '../../hooks/useCategoryFeedback'
 import { toOfferRef } from '../../lib/bevaka'
 import { kategoriLabel } from '../../lib/categories'
+import { GROUPS, GROUP_ORDER } from '../../lib/kategoriTaxonomy.mjs'
 import SwipeRow from '../SwipeRow'
 import TopBar from '../TopBar'
 import CategoryFeedbackModal from '../CategoryFeedbackModal'
@@ -28,24 +29,22 @@ interface CatMeta {
   sub?: string
   emoji: string
 }
-/** Grouped by "what do I cook with" rather than store-shelf placement — protein and
- * vegetables each split into a fresh/frozen sub-section within one group heading. */
-const CATS: CatMeta[] = [
-  { id: 'protein_farsk', groupId: 'protein', label: 'Protein', sub: 'Färskt', emoji: '🥩' },
-  { id: 'protein_fryst', groupId: 'protein', label: 'Protein', sub: 'Fryst', emoji: '🥩' },
-  { id: 'gront_farsk', groupId: 'gront', label: 'Grönt', sub: 'Färskt', emoji: '🥦' },
-  { id: 'gront_fryst', groupId: 'gront', label: 'Grönt', sub: 'Fryst', emoji: '🥦' },
-  { id: 'frukt', groupId: 'frukt', label: 'Frukt', emoji: '🍎' },
-  { id: 'mejeri', groupId: 'mejeri', label: 'Mejeri', emoji: '🥛' },
-  { id: 'brod', groupId: 'brod', label: 'Bröd & Bakverk', emoji: '🍞' },
-  { id: 'fardigmat', groupId: 'fardigmat', label: 'Färdigmat', emoji: '🍕' },
-  { id: 'dryck', groupId: 'dryck', label: 'Dryck', emoji: '🥤' },
-  { id: 'skafferi', groupId: 'skafferi', label: 'Skafferi', emoji: '🥫' },
-  { id: 'snacks_godis', groupId: 'snacks_godis', label: 'Snacks & godis', emoji: '🍫' },
-  { id: 'hygien_hushall', groupId: 'hygien_hushall', label: 'Hygien & Hushåll', emoji: '🧴' },
-  { id: 'ovrigt', groupId: 'ovrigt', label: 'Övrigt', emoji: '📦' },
-]
-const GROUP_ORDER = ['protein', 'gront', 'frukt', 'mejeri', 'brod', 'fardigmat', 'dryck', 'skafferi', 'snacks_godis', 'hygien_hushall', 'ovrigt']
+/** Grouped by "what do I cook with" rather than store-shelf placement (see
+ * kategoriTaxonomy.mjs, the single source of truth for this — built here, not
+ * hand-copied, so it can't drift). Every leaf renders as its own sub-heading exactly
+ * like the old Färskt/Fryst split did, just generalized from 2 leaves to however many
+ * a group actually has (up to 13 for Protein) — fresh/frozen is a `form` badge on the
+ * row now, not a place in the tree (see design issue §3.2). */
+const CATS: CatMeta[] = GROUPS.flatMap(g =>
+  g.leaves.map(l => ({ id: l.id, groupId: g.id, label: g.label, sub: g.leaves.length > 1 ? l.label : undefined, emoji: g.emoji })),
+)
+/** Groups that start collapsed until the user explicitly opens them (see
+ * kategoriTaxonomy.mjs's `standardDold`) — low-signal-density sections (pet food,
+ * flowers, the genuine remainder) that would otherwise push everything else down. */
+const DEFAULT_COLLAPSED = GROUPS.filter(g => g.standardDold).map(g => g.id)
+
+const FORM_LABEL: Record<string, string> = { farsk: 'Färskt', kyld: 'Kylt', fryst: 'Fryst', torr: 'Torrvara', konserv: 'Konserv' }
+const VEGO_MARKS = ['vegansk', 'vegetarisk']
 
 const FLAGS: Record<string, string> = {
   Sverige: '🇸🇪',
@@ -98,10 +97,28 @@ function normalizeKey(s: string): string {
   return k
 }
 
+const VARUTYP_LABELS: Record<string, string> = { bonor: 'Bönor', kikartor: 'Kikärtor', linser: 'Linser' }
+
+/** Groups by product name as before — UNLESS `varutyp` has been deliberately split
+ * finer than the offer's own `kategori` leaf (today only baljvaxter's bönor/kikärtor/
+ * linser split, see kategoriClassify.mjs's detectVarutyp), in which case grouping by
+ * `varutyp` is used instead so e.g. every bean offer across all three stores lands in
+ * one comparable group regardless of how each store phrased the product name
+ * ("Kidneybönor" / "Bönor, kikärter" / "Blandade Mörka Bönor Ekologiska") — the
+ * "kidney-bean problem" from the design issue's §3.5. Grouping by the bare `varutyp`
+ * for *every* leaf (most of which still default varutyp === kategori, a much coarser
+ * grouping) would instead dump e.g. every cut of beef into one "Jämför" group just
+ * because they share the "kott" leaf — not remotely the same product — so that's
+ * deliberately not done until real per-product varutyp assignment accrues further
+ * (see the design issue's own convergence-over-time framing for this field). */
+function groupKeyFor(o: TaggedOffer): string {
+  return o.varutyp && o.varutyp !== o.kategori ? `varutyp:${o.varutyp}` : `namn:${normalizeKey(o.namn)}`
+}
+
 function buildMatchGroups(all: TaggedOffer[]): MatchGroup[] {
   const byKey = new Map<string, TaggedOffer[]>()
   for (const o of all) {
-    const key = normalizeKey(o.namn)
+    const key = groupKeyFor(o)
     if (!byKey.has(key)) byKey.set(key, [])
     byKey.get(key)!.push(o)
   }
@@ -119,9 +136,10 @@ function buildMatchGroups(all: TaggedOffer[]): MatchGroup[] {
 
     const catId = entries[0].kategori
     const catMeta = CATS.find(c => c.id === catId)
+    const varutyp = entries[0].varutyp
     groups.push({
       key,
-      label: entries[0].namn,
+      label: key.startsWith('varutyp:') && varutyp ? (VARUTYP_LABELS[varutyp] ?? varutyp) : entries[0].namn,
       kategori: catId,
       catEmoji: catMeta?.emoji ?? '📦',
       entries: bestByStore,
@@ -138,6 +156,7 @@ interface Props {
 export default function FyndView({ onBack }: Props) {
   const [storeFilter, setStoreFilter] = useState<Record<string, boolean>>({ willys: true, ica: true, hemkop: true })
   const [swedishOnly, setSwedishOnly] = useState(false)
+  const [vegoOnly, setVegoOnly] = useState(false)
   const [query, setQuery] = useState('')
   const [mode, setMode] = useState<'alla' | 'jamfor'>('alla')
   const [week, setWeek] = useState<string | null>(null)
@@ -176,6 +195,7 @@ export default function FyndView({ onBack }: Props) {
   function visible(o: TaggedOffer): boolean {
     if (!storeFilter[o.store]) return false
     if (swedishOnly && !isSwedish(o)) return false
+    if (vegoOnly && !VEGO_MARKS.some(m => o.markeringar.includes(m))) return false
     if (q && !o.namn.toLowerCase().includes(q) && !(o.marke ?? '').toLowerCase().includes(q)) return false
     return true
   }
@@ -246,6 +266,14 @@ export default function FyndView({ onBack }: Props) {
           >
             🇸🇪 Svenskt
           </button>
+          <button
+            type="button"
+            className={`fynd-chip flag${vegoOnly ? ' on' : ''}`}
+            onClick={() => setVegoOnly(v => !v)}
+            title="Visa bara vegansk/vegetarisk"
+          >
+            🌱 Vego
+          </button>
         </div>
         <p className="fynd-hint">
           🛒 Dubbelklicka en vara för att lägga den i inköpslistan. ← Svep vänster för att markera som irrelevant.
@@ -313,6 +341,7 @@ function OfferRow({ o, best, isActiveForOffer, onToggleShoppingList, categoryCor
           {inList && <span className="fynd-cart" title="I inköpslistan">🛒</span>}
           {o.namn}
           {flag && <span className="fynd-flag" title={o.ursprung ?? 'Svenskt'}>{flag}</span>}
+          {VEGO_MARKS.some(m => o.markeringar.includes(m)) && <span className="fynd-flag" title="Vegansk/vegetarisk">🌱</span>}
           {categoryCorrection && (
             <span className="fynd-catflag" title={`Flaggad: ska vara ${kategoriLabel(categoryCorrection.correctCategory)}`}>✏️</span>
           )}
@@ -321,6 +350,7 @@ function OfferRow({ o, best, isActiveForOffer, onToggleShoppingList, categoryCor
           {[o.marke, o.storlek].filter(Boolean).join(' · ')}
           {o.jamforpris && <span className="fynd-jmf">{o.jamforpris}</span>}
           {best && <span className="fynd-best">lägst</span>}
+          {o.form === 'fryst' && <span className="fynd-tag">❄️ {FORM_LABEL.fryst}</span>}
           {o.klubbpris && <span className="fynd-tag club">klubb</span>}
           {o.max_kop != null && <span className="fynd-tag">max {o.max_kop}</span>}
         </div>
@@ -386,7 +416,7 @@ function AllView({ all, visible, isActiveForOffer, onToggleShoppingList, isIrrel
   const relevant = (o: TaggedOffer) => visible(o) && !isIrrelevant(o.namn)
   const anyVisible = all.some(relevant)
   const irrelevantOffers = all.filter(o => visible(o) && isIrrelevant(o.namn))
-  const { isCollapsed, toggle: toggleCollapsed } = useCollapsedCategories()
+  const { isCollapsed, toggle: toggleCollapsed } = useCollapsedCategories(DEFAULT_COLLAPSED)
 
   return (
     <div className="fynd-scroll fynd-scroll--wide">

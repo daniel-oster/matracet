@@ -22,7 +22,7 @@
 //   node scripts/erbjudanden-parse-willys-html.mjs page.html > draft.json
 
 import { readFileSync } from 'node:fs';
-import { extractUrsprung, markeringarFromUrsprung, guessKategori, tightenUnit } from './erbjudanden-lib.mjs';
+import { extractUrsprung, markeringarFromUrsprung, classify, tightenUnit } from './erbjudanden-lib.mjs';
 
 const LABEL_MAP = {
   'Nyckelhålsmärkt': 'nyckelhal',
@@ -160,6 +160,7 @@ function parseProduct(chunk) {
   const { marke, storlek } = splitBrandSize(brandSize);
   let ursprung = extractUrsprung(`${namn} ${brandSize}`);
   if (ursprung) ursprung = titleCaseCountry(ursprung);
+  const cls = classify(namn, marke, brandSize);
 
   return {
     namn,
@@ -174,10 +175,13 @@ function parseProduct(chunk) {
     besparing,
     klubbpris,
     max_kop: maxKopM ? parseInt(maxKopM[1], 10) : null,
-    markeringar: markeringarFromUrsprung(ursprung, markeringar),
+    markeringar: markeringarFromUrsprung(ursprung, [...markeringar, ...cls.markeringar]),
     ursprung,
     notering: tillfalligtParti ? 'Tillfälligt parti' : null,
-    kategori: guessKategori(namn, brandSize),
+    kategori: cls.kategori,
+    form: cls.form,
+    varutyp: cls.varutyp,
+    kategori_kalla: cls.kategori_kalla,
   };
 }
 

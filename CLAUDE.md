@@ -564,7 +564,7 @@ product, per the household's ask that a hand-typed item read differently from a 
 
 The UI tab is called **Fynd** (`FyndView.tsx`, "finds/bargains" in Swedish) — a voice-transcribed request for "weekly fines" turned out to mean this feature ("fynd" → mis-heard as "fines"). If a request mentions store deals, discounts, offers, or savings and doesn't obviously match an existing tab, check `public/data/erbjudanden/` and `FyndView.tsx` before assuming the feature doesn't exist yet.
 
-**Category taxonomy (2026-07 redesign)**: offers are now grouped by "what do I cook with" rather than store-shelf placement — `protein_farsk`/`protein_fryst` (meat, poultry, fish, seafood, eggs, and vegetarian/vegan protein like tofu/quorn/legumes, split fresh/frozen), `gront_farsk`/`gront_fryst` (vegetables, same split), `frukt` (fruit, no split), `mejeri` (dairy, added 2026-07 — see below), `brod`, `fardigmat`, `dryck`, `skafferi`, `snacks_godis`, `hygien_hushall` (also added 2026-07 — see "Bröd/Dryck/Skafferi/Färdigmat/Hygien split" below), and `ovrigt` as the genuine remainder — see `public/data/erbjudanden/README.md`. `FyndView`'s `AllView` groups by this taxonomy with Färskt/Fryst sub-headings inside Protein/Grönt, and each category header is a collapse/expand toggle (see "Collapsible Fynd categories" below). `scripts/erbjudanden-lib.mjs`'s `guessKategori` (used by the `erbjudanden-parse-*.mjs` draft parsers) already guesses into this new scheme for future weeks.
+**Category taxonomy (2026-07 redesign, superseded later the same month — see "Category taxonomy rework" further down)**: offers were grouped by "what do I cook with" rather than store-shelf placement — `protein_farsk`/`protein_fryst`, `gront_farsk`/`gront_fryst`, `frukt`, `mejeri`, `brod`, `fardigmat`, `dryck`, `skafferi`, `snacks_godis`, `hygien_hushall`, `ovrigt`. `FyndView`'s `AllView` grouped by this taxonomy with Färskt/Fryst sub-headings inside Protein/Grönt, and each category header was a collapse/expand toggle (see "Collapsible Fynd categories" below, still accurate). **This flat 13-category scheme, and the `_farsk`/`_fryst` category-forking pattern, were both replaced** by the 12-group/~74-leaf taxonomy + `form` field described in "Category taxonomy rework" below (`src/lib/kategoriTaxonomy.mjs` is now the single source of truth) — the rest of this paragraph's specifics are historical, kept for context on *why* the later rework happened, not a description of the current schema.
 
 **Bröd/Dryck/Skafferi/Färdigmat/Hygien split (2026-07)**: after the dairy split (above), `ovrigt` was still ~1100 of ~1820 offers — a genuinely unbrowsable dumping ground, not a real "everything else" bucket. Rather than guessing keyword lists cold, the actual leftover `ovrigt` items (all 645 unique names, across all 15 `public/data/erbjudanden/*/2026-W*.json` files) were dumped and read by eye to find real clusters, the same "read the data before writing the classifier" discipline the dairy work and every `erbjudanden-recategorize.mjs`-adjacent script already follows. Five clear clusters emerged, matching (not coincidentally) five of the buckets from the *old* pre-"what do I cook with" 11-category scheme that `erbjudanden-recategorize.mjs`'s header still documents: `brod` (🍞 bread + bakverk/cakes/cookies — "kaka" excludes a preceding "choklad"/"kola", since "Chokladkaka"/"Kolakaka" are candy bars, not cake, and a following "o", since that's kakao/cocoa), `fardigmat` (🍕 frozen/chilled ready-to-heat meals — pizza, glass, gratäng, paj, pommes, soppa; this absorbs what the *old*, now-deleted `READY_MEAL_RE` used to blanket-bail to `ovrigt`), `dryck` (🥤 drinks incl. coffee/tea-adjacent and alcohol-free beer/cider), `skafferi` (🥫 pantry: sauces, condiments, oils, pasta, rice, spices, dry goods — this is also where `kokosmjölk`/`kokosgrädde` land, matching `storeOrder.ts`'s pre-existing exclusion of those two from *its own* separate `mejeri` aisle-bucket), and `hygien_hushall` (🧴 hygiene, cleaning, paper goods, pet food/supplies — `NON_FOOD_RE`, which already existed purely to bail food-word-collision hygiene products like "Allrengöringssvamp" away from produce, now resolves straight to this category instead of `ovrigt`). `BROD_RE`/`FARDIGMAT_RE` are checked in `guessKategori` *before* protein/fruit/veg/snacks (same protective role the deleted `READY_MEAL_RE` played) so e.g. "Korvbröd"/"Vitlöksbröd"/"Hamburgerbröd" don't match the meat/veg keyword baked into their own name, and "Fiskgratäng"/"Potatisgratäng"/"Chokladglass" don't match fisk/potatis/choklad instead of being recognized as bread or a ready meal. `DRYCK_RE`/`SKAFFERI_RE`/`HYGIEN_RE` are checked *last* (after mejeri), same "narrower/more specific signal wins" ordering principle used throughout this classifier. **New collision found and fixed in the same pass**: `bull` (bread bun) is a substring of `köttbullar`/`kycklingköttbullar`/`vegobullar` — a genuine Swedish homonym, not a typo (`bulle`="bun", but the unrelated "-bulle" in `köttbulle`="meatball" is spelled identically) — first draft of `BROD_RE` reclassified meatballs as bread; fixed with `(?<!kött)(?<!fläsk)(?<!fisk)(?<!vego)bull`. **New JS-regex-specific trap found while writing `DRYCK_RE`**: `\böl\b` (beer) looks like the right way to match a short whole word, but JS's `\b` only treats ASCII `[A-Za-z0-9_]` as "word" characters — å/ä/ö don't count — so `\böl\b` finds a (wrong) boundary right before the `ö` in `Vetemjöl`/`Mjölk`/`Sköljmedel` too, since JS doesn't see those as word-continuation. Fixed by anchoring to literal whitespace/edges instead: `(?:^| )öl(?: |,|$)`. Same underlying gotcha as the fixed-width lookbehind/lookahead guards used elsewhere in this classifier, just surfacing through a different mechanism — worth checking for before reaching for `\b` around any short Swedish word again. `scripts/erbjudanden-recategorize.mjs` — previously a second, hand-maintained keyword classifier that had *already* drifted from `guessKategori` more than once (see the git history / prior entries in this list) — was rewritten from scratch as a thin CLI wrapper that just calls `guessKategori` per offer (keeping only the one bit of logic that can't live in `guessKategori` itself: trusting a pre-existing `snacks_godis` value for brand-name candy the keyword lists can't catch). This doesn't just fix the immediate drift, it makes the *next* drift structurally impossible — there is now exactly one place keyword lists live. Existing data was migrated the same "safe by construction" way as the dairy migration: for every offer currently `kategori: 'ovrigt'`, recompute via `guessKategori` and overwrite only when the new verdict isn't `'ovrigt'` — 907 of 1065 `ovrigt` offers were reclassified this way (final counts: `hygien_hushall` 256, `skafferi` 253, `dryck` 165, `brod` 92, `fardigmat` 57, `protein_farsk` 50 — mostly meat/fish terms `guessKategori` already knew that the *data* predated, like `burg(?:are|er)` — `mejeri` 19, `gront_farsk` 8, `snacks_godis` 6, `protein_fryst` 1), leaving `ovrigt` at a genuinely small 158. Before running the migration, every "already-non-`ovrigt` item's classification would also change under the new rules" transition was diffed and eyeballed too (not just the `ovrigt→X` ones actually being written) specifically to catch classifier bugs like the meatball one above before they could touch real data, even though those non-`ovrigt` transitions were deliberately *not* applied (this migration only ever moves items *out of* `ovrigt`, never touches an already-differently-categorized item, so any pre-existing classification some other process set is left alone even if the current classifier would now disagree with it).
 
@@ -579,6 +579,302 @@ The UI tab is called **Fynd** (`FyndView.tsx`, "finds/bargains" in Swedish) — 
 The category list shown in the picker (`src/lib/categories.ts`'s `KATEGORI_OPTIONS`) is built from `bevaka.ts`'s existing `CATEGORY_EMOJI` map (the id/emoji source of truth) plus a small hardcoded label dictionary — deliberately not importing `FyndView`'s own internal `CATS`/`GROUP_ORDER` (which already has richer sub-labels like "Färskt"/"Fryst"), matching this codebase's existing precedent of each screen/lib owning its own small copy of the category list (`bevaka.ts`'s `CATEGORY_EMOJI` and `FyndView`'s `CATS` already didn't share one either) rather than a forced shared refactor.
 
 Two export paths, both from `src/lib/exportData.ts`: the correction entries are **automatically** included in the existing full "⬇ Exportera data" download (`downloadLocalData`/`buildExportPayload` iterate every `matracet:*` key generically, so nothing had to change there — see "Local storage export" below), and a **new**, separate "⬇ Exportera kategori-flaggningar" button on the **Synka** screen (`downloadCategoryFeedback`/`buildCategoryFeedbackPayload`) downloads just the category corrections as their own small `matracet-category-feedback-<date>.json` file, for when the household wants to hand over *only* the category fixes without a full data export. Both are meant to be pasted into a Claude Code chat; the **`sync-category-feedback`** skill (`.claude/skills/sync-category-feedback/SKILL.md`) reads either shape, patches the real `kategori` field in every matching saved `public/data/erbjudanden/*/*.json` offer (only where it still equals the flagged `wrongCategory`, across every week the product recurs in — not just the most recent), and — the actual "learn from the feedback" half — updates `scripts/erbjudanden-lib.mjs`'s `guessKategori` keyword regexes so future weeks classify the same product correctly the first time, applying the same narrow-lookaround-guard discipline (never a blanket strip) as every prior substring-collision fix documented in "Lessons learned". The skill explicitly does **not** blanket-rerun the categorizer across all saved offers when patching `guessKategori` (same standing warning as the dairy/bröd-dryck-skafferi migrations above) and does not attempt to clear the local `matracet:category-feedback:v1` flag remotely — a lingering ✏️ badge after a sync is just stale, not still-wrong; per-item "Ångra flaggning" in the modal is how the user clears it if they want the badge gone.
+
+### Category taxonomy rework: retiring the regex classifier as the source of truth (2026-07)
+
+A GitHub issue argued (with real corpus evidence — glass filed under `fardigmat`,
+"Nötspett" under `snacks_godis`, "Red Bull" under `brod`, cheese brand names dumped in
+`ovrigt`, a `gront_fryst` category with exactly one member in 1,820 offers) that
+`guessKategori`'s regex cascade had hit a structural ceiling: Swedish compounding means
+any food word is a substring of some non-food product, and brand-only names ("Präst",
+"Ballerina") are permanently unreachable by keyword matching no matter how many
+lookaround guards get added. Implemented in full: a new 12-group/~74-leaf taxonomy
+(`src/lib/kategoriTaxonomy.mjs`, single source of truth — groups are UI/collapse units,
+leaves are the actual `kategori` value), a `form` field (`farsk`/`kyld`/`fryst`/`torr`/
+`konserv`, replacing the old `protein_farsk`/`protein_fryst`-style category forking —
+`aisleFor(leaf, form)` looks up the shopping-list aisle without a second keyword list),
+a `varutyp` field (finer-than-`kategori` grouping for Jämför-mode comparison — see the
+"kidney bean problem" below), and a `_kategori-lexikon.json` (Git-tracked, product →
+verdict, so the same product is never reclassified twice and a human correction
+(`kategori_kalla: "manuell"`) is permanently locked against future automated passes).
+
+**Diet is a `markeringar` flag, never a category** — the corpus itself proves this:
+"Vegokorv" (ICA), "Vegan mayo" (Garant), and "Vegansk ärtdryck" (Sproud) are a sausage,
+a sauce, and a drink respectively, so no single "vego" category could ever hold them all.
+Each is filed by *what it is* (`korv`, `sas_dressing`, `vaxtdryck`) with
+`markeringar: ["vegansk"]` added — a vegan sausage sits three rows from the meat sausage
+it substitutes for, which is *better* adjacency for meal-planning than a segregated vego
+section would be. `FyndView` gained a 🌱 filter chip reading `markeringar` for "what can
+the vegan kid eat this week" instead. The one nuance: a vego product that **mimics** a
+meat product (Oumph "meat chunks") files under the meat category (`kott`) it substitutes
+for; `tofu_tempeh` is reserved for vego protein with **no** animal counterpart at all
+(tofu, seitan) — conflating the two was tried in an earlier draft and immediately broke
+on "Vegokorv" landing in a different bucket than "Falukorv".
+
+**The classifier didn't go away — its role changed from "generate the answer" to
+"refute a wrong one".** `src/lib/kategoriClassify.mjs` is still a hand-written regex
+cascade (isomorphic ESM, `.mjs` inside `src/lib/` so both Node scripts and the Vite app
+import the *same physical file* — see `tsconfig.app.json`'s `allowJs: true`, added
+specifically for this), but it's now explicitly the §3.3.5 "cold-start fallback" for a
+lexicon miss, not the source of truth; a real import classifies new products once (in
+the Claude Code session doing the import, following
+`.claude/skills/import-erbjudanden/klassificering.md`'s decision procedure), writes the
+verdict into the lexicon, and every future week's occurrence of that product is a free
+lookup. `scripts/erbjudanden-verify.mjs` repurposes the *same* keyword knowledge as a
+deterministic verifier: "this offer's name contains a non-food keyword but is filed
+under a food category" is a sound assertion even though the reverse ("this name doesn't
+match any of my patterns, so it must be `X`") never was — a rule that can only refute,
+never confidently generate, can't be fooled by a clean, confident, wrong match the way
+the old regex-first "send only low-confidence items to a human" design was (that design
+was tried and rejected during this work specifically because `"Red Bull" → brod` is a
+clean, single-pattern, *maximum-confidence* match with no way for the regex to know it's
+wrong).
+
+**The "kidney bean problem"**: `FyndView`'s Jämför mode used to group by
+`normalizeKey(namn)` (the full product name, ascii-folded) — so "Kidneybönor", "Bönor,
+kikärter", and "Blandade Mörka Bönor Ekologiska" (three different stores' phrasing for
+comparable products) never shared a group, since no two stores spell a product name
+identically. `varutyp` fixes this at the *product-identity* level instead of the
+name-string level: `detectVarutyp()` in `kategoriClassify.mjs` assigns all three
+`varutyp: "bonor"` regardless of `namn`, and `FyndView`'s `buildMatchGroups` groups by
+`varutyp` instead of `normalizeKey(namn)` **only when `varutyp` has been deliberately
+split finer than the leaf itself** (today, only within `baljvaxter`) — grouping by the
+bare `varutyp` for every leaf was considered and rejected, since most leaves still
+default `varutyp === kategori` (a much coarser grouping than the old per-name one), and
+that would dump e.g. every cut of beef into one "Jämför" group just because they share
+the `kott` leaf. Finer per-product `varutyp` assignment is meant to accrue over time via
+the same lexicon process as `kategori` itself, not be hand-assigned to all ~1,350
+lexicon entries up front.
+
+**Gotchas hit migrating the real corpus (1,820 offers) with the new rules**, beyond the
+ones already itemized in the design issue's own evidence table: a `\b` boundary right
+after an accented letter silently never matches (same shape as the pre-existing `\böl\b`
+lesson, this time on "Grevé" — fixed by dropping the trailing `\b`, not by trying to
+special-case Unicode word chars); "Costa Rica" (an origin string, from
+`erbjudanden-lib.mjs`'s `COUNTRIES` list) contains the substring "ost" and was landing a
+plain pineapple in `ost_hard` — stripped from the haystack before matching, same pattern
+as the pre-existing `salladsost`/`automat` strips; "Dessertost" (a real cheese) and
+"Chips, ostbågar"/"ostsnacks" (cheese-puff crisps) both embed `ost` but aren't cheese in
+the sense the dairy pattern means — fixed with a haystack rewrite (`dessertost`→`ost` so
+the dairy pass *does* catch it; `ostbågar`/`ostsnacks`→`snacks` so it doesn't); "Kaffe
+hela bönor" defeated a `(?<!kaffe)böna` lookbehind because "kaffe" wasn't *immediately*
+adjacent to "böna" (intervening word "hela") — fixed with a separate whole-haystack
+"contains kaffe AND böna anywhere" check rather than trying to make the lookbehind
+handle arbitrary intervening words; and a blanket `BRAND_OVERRIDES` entry for
+"Billys"/"Dafgårds" (both genuinely ready-meal-focused brands) was silently preempting
+*more specific, correct* signal already in the product's own name — "Grekiskt lantbröd"
+and "Lyxbulle, Solbulle" (bread) and "Pizza supersize" (pizza) all got forced to
+`enportionsratt` before `BROD_RE`/`FARDIGMAT_RE`'s own, better keyword match ever got a
+turn, simply because brand-override checks run first in the decision order. Lesson,
+generalized: a blanket brand-name override is only safe when the brand makes
+*exactly one kind of thing* — the moment a brand spans product types, hardcode the
+specific compound *product words* (`ostschnitzel`, a real dish name) instead of the bare
+brand name, so real per-product signal in the name isn't preempted. All of these were
+caught by literally reading the classifier's own output on the real corpus and building
+a 200-row hand-verified golden set (`scripts/__fixtures__/kategori-golden.json`,
+`src/lib/kategoriGolden.test.ts`) from it — sampled per the design issue's own
+prescription (every remaining `ovrigt` item, every known collision-family match, a
+random tail) — rather than trusting the classifier's self-reported confidence.
+
+### Post-mortem: the rework's first PR inverted its own design (2026-07)
+
+A code review of the rework's first PR found that what shipped was **"rules generate,
+lexicon caches, model never runs"** — the exact inversion of the design's own
+"lexicon-first, model generates, rules verify" pipeline. Concretely, at merge time:
+`_kategori-lexikon.json` was 100% `kalla: "regel"` (zero `"model"` entries — the
+classifier seeded its own lexicon rather than a model classifying each product), and
+98.7% of entries self-reported `confidence: "hog"` even though §3.3.2's whole argument
+was that a regex cascade *cannot know when it's wrong* ("Red Bull → brod" was a clean,
+single-pattern, maximum-confidence match with no competing category, and it was
+completely wrong — self-reported confidence was never a signal that could be trusted).
+The golden test set had the same shape of problem one level up: it was originally
+enriched for known-hard collision families *and then regenerated from the classifier's
+own (bug-fixed) output*, which is why it scored a suspicious 100/100 (later 200/200) —
+a fixture built that way has no remaining power to catch a new bug, only to notice a
+values *change*. The review found 8 concrete, live misclassifications this way (all
+self-reporting `confidence: "hog"`, none caught by the enriched golden set):
+`Sejfilé → kott` (not `fisk` — the fish-species pattern was defensively space-anchored
+without checking whether that was needed, so it never matched inside the compound),
+`Hallonsoda Zero Läsk → bar` (not `lask_vatten` — BAR_RE had none of FRUIT_RE's drink/
+dairy/snack exclusions), `Vegetariska delikatessbullar → fikabrod` (not
+`fars_kottbullar` — BROD_RE's bare "bull" pattern ran before the more specific
+meatball-compound check, even though that check already listed this exact product),
+`Burgare/Grillburgare → kott` (not `fars_kottbullar`, contradicting the taxonomy's own
+worked example), `Oxpytt → kott` (a Findus product, so almost certainly `enportionsratt`,
+not raw butcher-counter meat), and `Räkost → ost_hard` (not `ost_fars_mjuk`, a tube
+cheese).
+
+**Fixed, not just re-argued:**
+
+1. **`confidence` is now honest.** `finish()` defaults to `'lag'`; only a
+   `BRAND_OVERRIDES` hit (a fact, not a guess) reports `'hog'`. Re-seeding the lexicon
+   with this change alone moved 1,330 of 1,348 entries from `hog` to the honest `lag`
+   — they were never verified, and now they say so.
+2. **All 8 confirmed bugs fixed**, plus a systematic follow-up audit (grepping the real
+   corpus for the same collision *shapes*, not just the 8 reported instances) found and
+   fixed several more of the same kind: fish-species patterns unnecessarily space-
+   anchored (`sej`/`gös`), a berry/fruit-flavour-word collision affecting 7 real
+   products (sodas, baby smoothies, cereal — not just the one reported), `olivolja`
+   landing in `inlagt_delikatess` instead of `olja_vinager`, `Salsicciakorv` landing in
+   `charkuterier` instead of `korv` despite its own literal "-korv" suffix, "Dessertglass
+   | Daim, Oreo" landing in `kex` because a brand override ran before the more specific
+   "dessertglass" product-type signal (same shape as the Dafgårds/Billys lesson below),
+   and — the largest single gap — **`NON_FOOD_LEAF_RULES` had no dedicated `hygien` rule
+   at all**: every hygiene keyword was in the *gate* (so the item correctly bailed out of
+   food categories) but had no matching *leaf* rule, so shampoo, toothpaste, deodorant,
+   sanitary products, sun/skin care and razors were all silently defaulting to
+   `stad_disk_tvatt` (the first leaf rule with no more specific match). None of this
+   showed up in the original golden set because it never sampled these products blind.
+3. **The golden set was rebuilt from scratch as a genuinely blind random sample** — 200
+   products sampled uniformly (not enriched for known-hard families), each hand-labelled
+   by reasoning about the product *before* ever running `classify()` on it, compared only
+   afterward. Real, honest accuracy on that first blind pass: **88.0%** (176/200) — every
+   one of the systemic bugs above surfaced on this pass, several for the first time (the
+   `hygien` gap alone accounted for 7 of the 24 misses). After the fixes: **97.5%**
+   (195/200), which is the number now enforced as the regression floor in
+   `kategoriGolden.test.ts` (with a couple points of headroom, not a knife-edge). See
+   that test file's header for the full accounting. **Lesson, stated plainly because it
+   nearly repeated the "don't trust a derived value as its own validator" trap already in
+   this file's Lessons Learned**: a test fixture built *from* the thing it's meant to
+   test can only ever measure drift from that thing's own past output, never correctness
+   against reality — the sampling and labelling has to happen independently, before the
+   code under test is ever consulted.
+4. **The model pass itself, done as a follow-up in the same session**: every one of the
+   1,223 `lag`-confidence lexicon entries was read individually (not sampled) — the full
+   lexicon, dumped and read category by category, ~74 categories — and either confirmed
+   or corrected. This found **12 more real bugs** the 200-row blind sample hadn't
+   surfaced (a smaller sample, even an honest one, only ever sees a slice): a chicken
+   burger landing in `fagel` instead of `fars_kottbullar` (contradicting the taxonomy's
+   own "färska burgare" example) because the burger check ran after, not before, the
+   species check; "Lammgrytbitar" (diced stew meat, not ground/formed) had been swept
+   into `fars_kottbullar` by a keyword that never belonged there; "Tofukorv" and
+   "Vegansk korv, tofu" landing in `tofu_tempeh` instead of `korv`, directly
+   contradicting this file's own vego-is-a-marking rule (a vego product mimicking a
+   specific meat product files under that product); a `dessertsas` leaf rule that
+   required "odense dessertsås" as one exact brand-then-name phrase, so it silently
+   never matched a real product whose fields concatenate name-then-brand; `BROD_RE`'s
+   gate had no bare "kex" trigger even though the leaf rule beneath it did, so
+   "Mariakex"/"Kex Maria" fell through to `SNACKS_RE`'s `?? 'godis'` default; flavoured
+   sparkling water ("Citron kolsyrat vatten") landing in `frukt`; a flavoured cereal
+   ("Havregott Jordgubb") landing in `bar`; "Tortillachips Ost" and "Mikropopcorn ...
+   Smör" both landing in a dairy leaf via their flavour word, ahead of ever reaching
+   `SNACKS_RE`; and "Ekologiska vita bönor i tomatsås" landing in `sas_dressing` instead
+   of `baljvaxter` because bare "sås" is checked well before the protein branch. Every
+   reviewed entry now carries `kalla: "model"` (1,224 of 1,348) with confidence set
+   honestly per-item — `hog` for the ~99.5% now individually confirmed, `lag` kept on
+   the handful still genuinely ambiguous after real review (e.g. "Choko crunch, smash |
+   SMASH! • OLW" — Smash is both a candy brand and part of this OLW snack line's name,
+   and the product name alone can't disambiguate which). The 124 `kalla: "regel"`
+   entries remaining are `BRAND_OVERRIDES` hits (Präst, Ballerina, …) — deterministic
+   facts vetted when the pattern was written, not guesses that need individual review.
+   **Lesson**: this is the second time in this same rework that a smaller, curated
+   sample (first the enriched-then-self-referential golden set, now the 200-row blind
+   sample) missed real bugs a full pass caught — a sample tells you the *rate* of a
+   problem, not its *membership*; when the corpus is small enough to read in full
+   (~1,350 products, a few hours of focused review), reading all of it finds bugs no
+   sample size can guarantee catching.
+5. **What's still genuinely unfinished, stated plainly rather than as a vague
+   "follow-up"**:
+   - `varutyp` is populated beyond a plain copy of `kategori` for exactly one leaf
+     (`baljvaxter`'s bönor/kikärtor/linser split — 12 of 1,348 lexicon entries, 0.9%).
+     `FyndView`'s Jämför mode therefore only groups by `varutyp` for that one leaf;
+     everywhere else it still falls back to `normalizeKey(namn)`, the exact mechanism
+     §3.5 diagnosed as the cause of the kidney-bean problem in the first place. The bean
+     case itself is genuinely fixed; nothing broader is.
+   - **The acceptance criterion "no classifier runs in the browser" is not met.**
+     `src/lib/storeOrder.ts`'s `guessAisleId()` calls `classify()` live, in the browser,
+     on a bare ingredient/item name with no brand or context — the weakest input the
+     classifier ever sees — for any shopping-list item that didn't arrive with a
+     pre-computed `kategori` (i.e. every hand-typed "Eget tillägg" entry, and every
+     recipe-ingredient add, since no recipe file has been backfilled with a stored
+     `kategori` — see `Ingredient.kategori` in `types.ts`, added but unpopulated). This
+     was disclosed as a deferred follow-up in the original PR description but should have
+     been stated as a failed acceptance criterion, not a soft "deferred" — those aren't
+     the same thing and shouldn't be blurred together.
+
+### Post-mortem, round 3: the "model pass" provenance overclaimed what actually happened
+
+A third review of the same PR found the model-classification pass above had shipped
+**"rules generate, lexicon caches, model never runs" — again**, just one layer deeper
+than round 2 caught: `motivering` was byte-identical boilerplate
+("Granskad individuellt i en fullständig lexikon-genomgång (2026-07).") across 1,223 of
+1,224 `kalla:'model'` entries — the literal opposite of evidence that each product was
+individually reasoned about, contradicting `klassificering.md`'s own per-product
+requirement — `varutyp`/`markeringar` were still populated for only 13 of 1,348 entries
+despite `kalla:'model'` claiming a full review, and `confidence` had swung back to
+1,342/1,348 `hog` (from the round-2 fix's honest ~125), self-reporting certainty the
+review process hadn't actually re-earned. Worse: **the one experiment that would have
+tested whether the mechanism works at all — reviewing the true `BRAND_OVERRIDES`-derived
+`confidence:'hog'` entries, the ones a human/model should be most likely to catch a
+wrong "fact" in — had never been run.** The review's explicit ask was narrow and
+concrete: run that one experiment, and stop the lexicon from claiming
+individually-reasoned review it hadn't done.
+
+**Fixed:**
+1. **Ran the actual experiment**: read all 125 `confidence:'hog'` lexicon entries (the
+   `BRAND_OVERRIDES` hits) by eye, one by one. Found and fixed 3 real bugs (2.4% error
+   rate on the set specifically curated to be "facts, not guesses" — evidence the
+   mechanism itself is sound, since a targeted review of the highest-confidence subset
+   still surfaces real mistakes): **Burrata** was grouped with the `ost_hard`
+   (hard-cheese) `BRAND_OVERRIDES` pattern — it's a fresh/soft cheese in the same family
+   as mozzarella (already correctly `ost_fars_mjuk`), not a hard one; moved into the
+   mozzarella pattern. **Pucko/Cocio** (chocolate milk drinks) were filed as
+   `juice_saft` — they're a dairy product (`mjolk_gradde`), not a juice/must; a plain
+   category-constant swap. **"Smash"** turned out to be the one `BRAND_OVERRIDES` entry
+   self-reporting certainty it didn't have: it's genuinely ambiguous between an
+   Ahlgrens/Fazer-adjacent candy name and the OLW "Smash!" savory snack line (documented
+   as an open ambiguity back in round 2's own writeup, but the entry still inherited
+   `BRAND_OVERRIDES`' blanket `'hog'`) — pulled out of `BRAND_OVERRIDES` into its own
+   explicit check ahead of it, reporting the honest default `'lag'` instead.
+2. **Reapplied a genuinely lost fix**: the lexicon reset done while chasing an unrelated
+   bug (a flavoured-sparkling-water misclassification — "Citron kolsyrat vatten" was
+   landing in `juice_saft` instead of `lask_vatten` because the drink-exclusion branches
+   in `BAR_RE`/`FRUIT_RE` always hardcoded `juice_saft` rather than checking which drink
+   category the exclusion actually matched; fixed by routing through
+   `DRYCK_LEAF_RULES` first) wiped a manual correction for "Produkter från gräddhyllan |
+   Flora • Flora by Milda" (a Flora/Milda margarine product with no product name beyond
+   a generic aisle description, so the bare "grädd" substring was winning
+   `mjolk_gradde` over the correct `smor_margarin`). Rather than re-adding it as a
+   one-off lexicon lock (fragile — lost again on the next reset), added `flora`/`milda`
+   to `BRAND_OVERRIDES` as a real, checked-for-collisions brand fact, so it's now
+   structural and survives any future lexicon regeneration.
+3. **Fixed the provenance overclaim by not making the claim**: rather than fabricating
+   1,223 more distinct `motivering` strings under time pressure (round 3's own stated
+   concern about cost), the lexicon reset above already put every entry back to the
+   honest baseline — `kalla:'regel'`, no `motivering` field, `confidence` split
+   124 `hog` (true `BRAND_OVERRIDES` facts) / 1,224 `lag` (plain regex verdicts) — and
+   that baseline was *kept* rather than re-decorated with `kalla:'model'` claims this
+   round can't back up with real distinct reasoning. The genuine review *work* from
+   round 2 (reading all 1,223 `lag` entries by category, finding and fixing 12 real
+   bugs) wasn't lost — its findings are encoded the correct way, structurally in
+   `kategoriClassify.mjs`'s regex/haystack rules (so every future product benefits, not
+   just the 1,223 reviewed at the time), which is a stronger artifact than a per-item
+   lexicon annotation would have been anyway. What's honestly true and now honestly
+   stated: two full-corpus reading passes have happened (round 2's 1,223 `lag` entries,
+   round 3's 125 `hog` entries) and both found real bugs, now fixed in the rule engine
+   itself — but the lexicon no longer claims a per-product `kalla:'model'` review that
+   didn't produce per-product evidence.
+4. **`kategoriGolden.test.ts` now tests the lexicon-first production path**, not
+   `classify()` in isolation — it looks up each golden-set product in
+   `_kategori-lexikon.json` first (the file `erbjudanden-recategorize.mjs` actually
+   replays into every saved offer) and only falls back to `classify()` on a lexicon
+   miss, per the review's "cheapest fix" framing: a regex change could pass the old
+   version of this test while a stale or wrong lexicon entry for that exact product
+   still shipped, since the lexicon — not a bare classifier call — is what the app
+   reads. Still 97.5% (195/200) on the same blind sample; unchanged because every
+   golden-set product is already a lexicon hit, which is itself a fine sanity check.
+5. **Still open, unchanged from item 5 above**: `varutyp` broad population and the
+   browser-side `classify()` call in `storeOrder.ts` — both explicitly out of scope
+   again this round, not silently dropped.
+
+**Lesson, the general shape repeating across all three rounds of this PR**: a metadata
+field that *claims* a process happened (`kalla:'model'`, `confidence:'hog'`,
+`motivering`) is only trustworthy if it's cheaper to tell the truth than to fake it —
+the moment producing honest per-item evidence is more expensive than the reviewer has
+budget for, the metadata should downgrade to match what was actually done, not quietly
+keep claiming the expensive version. Every round of review here caught exactly that gap
+between claimed and actual rigor; the fix each time was the same shape — either do the
+real work, or shrink the claim to fit it.
 
 ### Watch-list ("Bevaka" tab)
 

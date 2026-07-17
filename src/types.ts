@@ -2,6 +2,18 @@ export type TabName = 'veckan' | 'handla' | 'recept' | 'familj' | 'anteckningar'
 export type ScreenName = 'hub' | TabName
 export type MealKind = 'lunch' | 'dinner'
 
+/** Storage/freshness attribute, independent of `kategori` — see the categorisation
+ * rework design issue (2026-07): a frozen salmon is still salmon for meal planning,
+ * but a different thing for a shopping round, so this doesn't fork the category tree
+ * the way the old protein_farsk/protein_fryst split did. */
+export type OfferForm = 'farsk' | 'kyld' | 'fryst' | 'torr' | 'konserv' | null
+
+/** Where an offer's `kategori`/`form`/`varutyp` came from — 'manuell' entries are a
+ * human correction (via CategoryFeedbackModal → sync-category-feedback, or a direct
+ * hand-fix during import) and must never be silently overwritten by a re-classification
+ * pass; see scripts/erbjudanden-verify.mjs. */
+export type KategoriKalla = 'regel' | 'model' | 'manuell'
+
 /** One offer from a store's weekly specials (see public/data/erbjudanden/README.md) */
 export interface Offer {
   namn: string
@@ -19,8 +31,33 @@ export interface Offer {
   markeringar: string[]
   ursprung: string | null
   notering: string | null
+  /** Leaf id from src/lib/kategoriTaxonomy.mjs (e.g. "kott", "ost_hard") */
   kategori: string
+  form?: OfferForm
+  /** Finer-than-kategori grouping for "would I swap one for the other in a recipe" —
+   * e.g. every bean product shares varutyp "bonor" regardless of kategori-leaf-mates
+   * or which store it's from. Defaults to the kategori leaf id when no finer split has
+   * been made yet (see design issue §3.5) — never assume it differs from kategori. */
+  varutyp?: string
+  kategori_kalla?: KategoriKalla
 }
+
+/** One entry in public/data/erbjudanden/_kategori-lexikon.json, keyed by a normalized
+ * name+brand product key (see scripts/erbjudanden-lexikon.mjs). Deterministic,
+ * cross-week product identity — the whole point of the lexicon is that the same
+ * product gets the same verdict every week without re-classifying it. */
+export interface KategoriLexikonEntry {
+  kategori: string
+  form: OfferForm
+  varutyp: string
+  markeringar?: string[]
+  confidence: 'hog' | 'lag'
+  motivering?: string
+  kalla: KategoriKalla
+  updated: string
+}
+
+export type KategoriLexikon = Record<string, KategoriLexikonEntry>
 
 /** One store's flyer for a given week */
 export interface StoreOffers {
@@ -72,6 +109,12 @@ export interface Ingredient {
   mangd: number
   enhet: string
   grupp?: string | null
+  /** Leaf id from src/lib/kategoriTaxonomy.mjs, set at recipe-authoring time so the
+   * shopping list never needs to classify a recipe-derived item at runtime (see
+   * storeOrder.ts). Not yet backfilled onto existing recipes — optional and only
+   * consumed when present; falls back to a live classify() call by ingredient name
+   * otherwise (see useShoppingList.ts). */
+  kategori?: string | null
 }
 
 export interface RecipeVariant {

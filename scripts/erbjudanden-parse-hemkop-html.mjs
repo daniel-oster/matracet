@@ -29,7 +29,7 @@
 //   node scripts/erbjudanden-parse-hemkop-html.mjs page.html > draft.json
 
 import { readFileSync } from 'node:fs';
-import { extractUrsprung, markeringarFromUrsprung, guessKategori, tightenUnit, toNumber } from './erbjudanden-lib.mjs';
+import { extractUrsprung, markeringarFromUrsprung, classify, tightenUnit, toNumber } from './erbjudanden-lib.mjs';
 
 const [, , input] = process.argv;
 if (!input) {
@@ -102,6 +102,7 @@ function parseProductContainer(chunk) {
 
   const haystack = `${namn} ${marke ?? ''} ${storlek ?? ''}`;
   const ursprung = extractUrsprung(haystack);
+  const cls = classify(namn, marke, haystack);
 
   return {
     namn,
@@ -116,10 +117,13 @@ function parseProductContainer(chunk) {
     besparing: null,
     klubbpris,
     max_kop: null,
-    markeringar: markeringarFromUrsprung(ursprung),
+    markeringar: markeringarFromUrsprung(ursprung, cls.markeringar),
     ursprung,
     notering,
-    kategori: guessKategori(namn, haystack),
+    kategori: cls.kategori,
+    form: cls.form,
+    varutyp: cls.varutyp,
+    kategori_kalla: cls.kategori_kalla,
   };
 }
 
@@ -167,6 +171,7 @@ function parsePersonalCoupon(chunk) {
   const storlek = volM ? tightenUnit(decodeEntities(volM[1])) : null;
   const haystack = `${namn} ${marke ?? ''} ${storlek ?? ''}`;
   const ursprung = extractUrsprung(haystack);
+  const cls = classify(namn, marke, haystack);
 
   return {
     namn,
@@ -181,10 +186,13 @@ function parsePersonalCoupon(chunk) {
     besparing: null,
     klubbpris: false,
     max_kop: null,
-    markeringar: markeringarFromUrsprung(ursprung),
+    markeringar: markeringarFromUrsprung(ursprung, cls.markeringar),
     ursprung,
     notering: 'Bara för dig (kräver aktivering i appen)',
-    kategori: guessKategori(namn, haystack),
+    kategori: cls.kategori,
+    form: cls.form,
+    varutyp: cls.varutyp,
+    kategori_kalla: cls.kategori_kalla,
   };
 }
 

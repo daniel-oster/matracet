@@ -26,8 +26,11 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi",
-      "klubbpris": false
+      "kategori": "pasta",
+      "klubbpris": false,
+      "form": "torr",
+      "varutyp": "pasta",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Svensk kycklingfärs",
@@ -46,8 +49,11 @@
       ],
       "ursprung": "Sverige",
       "notering": null,
-      "kategori": "protein_farsk",
-      "klubbpris": true
+      "kategori": "fars_kottbullar",
+      "klubbpris": true,
+      "form": null,
+      "varutyp": "fars_kottbullar",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Olivolja",
@@ -64,8 +70,11 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi",
-      "klubbpris": true
+      "kategori": "olja_vinager",
+      "klubbpris": true,
+      "form": "torr",
+      "varutyp": "olja_vinager",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Kaffe",
@@ -82,8 +91,11 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj och blanda",
-      "kategori": "dryck",
-      "klubbpris": false
+      "kategori": "kaffe_te",
+      "klubbpris": false,
+      "form": null,
+      "varutyp": "kaffe_te",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Tortillabröd 8-pack",
@@ -100,8 +112,11 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod",
-      "klubbpris": true
+      "kategori": "frallor_tunnbrod",
+      "klubbpris": true,
+      "form": null,
+      "varutyp": "frallor_tunnbrod",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Naturgodis",
@@ -118,8 +133,11 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Max 3 kg",
-      "kategori": "snacks_godis",
-      "klubbpris": false
+      "kategori": "godis",
+      "klubbpris": false,
+      "form": null,
+      "varutyp": "godis",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Förkokt majs",
@@ -136,8 +154,11 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "gront_farsk",
-      "klubbpris": true
+      "kategori": "gronsaker",
+      "klubbpris": true,
+      "form": "farsk",
+      "varutyp": "gronsaker",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Blöjor",
@@ -154,8 +175,11 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj och blanda",
-      "kategori": "hygien_hushall",
-      "klubbpris": false
+      "kategori": "bloja_babyvard",
+      "klubbpris": false,
+      "form": null,
+      "varutyp": "bloja_babyvard",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Jubileumsbröd",
@@ -172,8 +196,11 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod",
-      "klubbpris": true
+      "kategori": "matbrod",
+      "klubbpris": true,
+      "form": null,
+      "varutyp": "matbrod",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Salladsbaren",
@@ -190,8 +217,11 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "fardigmat",
-      "klubbpris": true
+      "kategori": "deli_sallad_wrap",
+      "klubbpris": true,
+      "form": "kyld",
+      "varutyp": "deli_sallad_wrap",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Kebab, Gyros",
@@ -208,8 +238,11 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk",
-      "klubbpris": true
+      "kategori": "kott",
+      "klubbpris": true,
+      "form": null,
+      "varutyp": "kott",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Laxfilé 4-pack ASC",
@@ -228,8 +261,11 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk",
-      "klubbpris": true
+      "kategori": "fisk",
+      "klubbpris": true,
+      "form": null,
+      "varutyp": "fisk",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Kebabsås",
@@ -246,8 +282,11 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi",
-      "klubbpris": true
+      "kategori": "sas_dressing",
+      "klubbpris": true,
+      "form": "torr",
+      "varutyp": "sas_dressing",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Prosciutto Crudo",
@@ -264,8 +303,11 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk",
-      "klubbpris": true
+      "kategori": "charkuterier",
+      "klubbpris": true,
+      "form": null,
+      "varutyp": "charkuterier",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Våtservetter",
@@ -282,8 +324,11 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall",
-      "klubbpris": true
+      "kategori": "papper_pasar_folie",
+      "klubbpris": true,
+      "form": null,
+      "varutyp": "papper_pasar_folie",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Yoggi",
@@ -300,8 +345,11 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "mejeri",
-      "klubbpris": true
+      "kategori": "fil_yoghurt",
+      "klubbpris": true,
+      "form": "kyld",
+      "varutyp": "fil_yoghurt",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Pasta",
@@ -318,8 +366,11 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi",
-      "klubbpris": true
+      "kategori": "pasta",
+      "klubbpris": true,
+      "form": "torr",
+      "varutyp": "pasta",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Ekologiskt vetemjöl",
@@ -338,8 +389,11 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi",
-      "klubbpris": true
+      "kategori": "bak_sott",
+      "klubbpris": true,
+      "form": "torr",
+      "varutyp": "bak_sott",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Laxburgare 2-pack ASC",
@@ -358,8 +412,11 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk",
-      "klubbpris": true
+      "kategori": "fisk",
+      "klubbpris": true,
+      "form": null,
+      "varutyp": "fisk",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Bearnaisesås",
@@ -376,8 +433,11 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "skafferi",
-      "klubbpris": true
+      "kategori": "sas_dressing",
+      "klubbpris": true,
+      "form": "torr",
+      "varutyp": "sas_dressing",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Vitlöksbaguetter 2-pack",
@@ -394,8 +454,11 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "gront_fryst",
-      "klubbpris": true
+      "kategori": "frallor_tunnbrod",
+      "klubbpris": true,
+      "form": null,
+      "varutyp": "frallor_tunnbrod",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "iKaffe",
@@ -412,8 +475,11 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "dryck",
-      "klubbpris": true
+      "kategori": "vaxtdryck",
+      "klubbpris": true,
+      "form": null,
+      "varutyp": "vaxtdryck",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Billys Original 9-pack",
@@ -431,7 +497,10 @@
       "ursprung": null,
       "notering": null,
       "kategori": "ovrigt",
-      "klubbpris": true
+      "klubbpris": true,
+      "form": null,
+      "varutyp": "ovrigt",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Flytande tvättmedel",
@@ -448,8 +517,11 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall",
-      "klubbpris": true
+      "kategori": "stad_disk_tvatt",
+      "klubbpris": true,
+      "form": null,
+      "varutyp": "stad_disk_tvatt",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Bindor, Trosskydd, Intimtvätt",
@@ -466,8 +538,11 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "hygien_hushall",
-      "klubbpris": true
+      "kategori": "hygien",
+      "klubbpris": true,
+      "form": null,
+      "varutyp": "hygien",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Präst, Herrgård, Grevé",
@@ -484,8 +559,11 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt",
-      "klubbpris": true
+      "kategori": "ost_hard",
+      "klubbpris": true,
+      "form": "kyld",
+      "varutyp": "ost_hard",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Ekologiska linser",
@@ -504,8 +582,11 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "protein_farsk",
-      "klubbpris": true
+      "kategori": "baljvaxter",
+      "klubbpris": true,
+      "form": null,
+      "varutyp": "linser",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Kanellängd, Kardemummalängd",
@@ -522,8 +603,11 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt",
-      "klubbpris": false
+      "kategori": "fikabrod",
+      "klubbpris": false,
+      "form": null,
+      "varutyp": "fikabrod",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Levain",
@@ -540,8 +624,11 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "brod",
-      "klubbpris": false
+      "kategori": "matbrod",
+      "klubbpris": false,
+      "form": null,
+      "varutyp": "matbrod",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Svenska jordgubbar",
@@ -560,8 +647,11 @@
       ],
       "ursprung": "Sverige",
       "notering": null,
-      "kategori": "frukt",
-      "klubbpris": false
+      "kategori": "bar",
+      "klubbpris": false,
+      "form": "farsk",
+      "varutyp": "bar",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Soy sauce",
@@ -578,8 +668,11 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Bara för dig (aktiveras) · gäller t.o.m. 2026-06-30",
-      "kategori": "skafferi",
-      "klubbpris": false
+      "kategori": "sas_dressing",
+      "klubbpris": false,
+      "form": "torr",
+      "varutyp": "sas_dressing",
+      "kategori_kalla": "regel"
     },
     {
       "namn": "Kimchi",
@@ -596,8 +689,11 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Bara för dig (aktiveras) · gäller t.o.m. 2026-06-30",
-      "kategori": "skafferi",
-      "klubbpris": false
+      "kategori": "inlagt_delikatess",
+      "klubbpris": false,
+      "form": "torr",
+      "varutyp": "inlagt_delikatess",
+      "kategori_kalla": "regel"
     }
   ]
 }

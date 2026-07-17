@@ -12,7 +12,7 @@
 // guesses before folding into the store's weekly JSON file.
 
 import { readFileSync } from 'node:fs';
-import { stripPageNoise, extractUrsprung, markeringarFromUrsprung, guessKategori, tightenUnit, toNumber } from './erbjudanden-lib.mjs';
+import { stripPageNoise, extractUrsprung, markeringarFromUrsprung, classify, tightenUnit, toNumber } from './erbjudanden-lib.mjs';
 
 const [, , input] = process.argv;
 if (!input) {
@@ -160,6 +160,8 @@ function parseChunk(rawChunkLines) {
   else if (pris_typ === 'rabatt') pris_text = percentVal ? `${percentVal}% rabatt` : 'rabatt';
   else pris_text = `${swedishAmount(priceRaw)}/${priceUnit}`;
 
+  const cls = classify(namn, marke, details);
+
   return {
     namn,
     marke,
@@ -173,10 +175,13 @@ function parseChunk(rawChunkLines) {
     besparing: null,
     klubbpris: false,
     max_kop: maxKopMatch ? parseInt(maxKopMatch[1], 10) : null,
-    markeringar: markeringarFromUrsprung(ursprung),
+    markeringar: markeringarFromUrsprung(ursprung, cls.markeringar),
     ursprung,
     notering: null,
-    kategori: guessKategori(namn, details),
+    kategori: cls.kategori,
+    form: cls.form,
+    varutyp: cls.varutyp,
+    kategori_kalla: cls.kategori_kalla,
   };
 }
 

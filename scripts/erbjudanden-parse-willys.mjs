@@ -20,7 +20,7 @@
 // sorter" (multiple variants collapsed into one card) or missing fields.
 
 import { readFileSync } from 'node:fs';
-import { stripPageNoise, extractUrsprung, markeringarFromUrsprung, guessKategori, tightenUnit } from './erbjudanden-lib.mjs';
+import { stripPageNoise, extractUrsprung, markeringarFromUrsprung, classify, tightenUnit } from './erbjudanden-lib.mjs';
 
 // Banner labels the site renders above the product name (not part of it).
 const BANNER_LABELS = new Set(['TILLFÄLLIGT PARTI', 'NYHET', 'EKOLOGISK', 'KLUBBPRIS', 'GÄLLER TILL ONS 24/6']);
@@ -154,6 +154,7 @@ function parseBlock(block) {
     pris_text = `${priceValue?.toFixed(2)}/${priceUnit}`;
   }
   if (pant) pris_text += ' +pant';
+  const cls = classify(namn, marke, brandSize);
 
   return {
     namn,
@@ -168,12 +169,15 @@ function parseBlock(block) {
     besparing,
     klubbpris: false,
     max_kop: maxKopMatch ? parseInt(maxKopMatch[1], 10) : null,
-    markeringar: markeringarFromUrsprung(ursprung),
+    markeringar: markeringarFromUrsprung(ursprung, cls.markeringar),
     ursprung,
     notering: banner
       ? (banner === 'TILLFÄLLIGT PARTI' ? 'Tillfälligt parti' : banner === 'EKOLOGISK' ? 'EKOLOGISK' : banner)
       : (block.some((l) => l === 'Visa fler sorter') ? 'Välj & blanda' : null),
-    kategori: guessKategori(namn, brandSize),
+    kategori: cls.kategori,
+    form: cls.form,
+    varutyp: cls.varutyp,
+    kategori_kalla: cls.kategori_kalla,
   };
 }
 

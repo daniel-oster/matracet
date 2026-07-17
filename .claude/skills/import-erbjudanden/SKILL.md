@@ -93,77 +93,51 @@ in doubt, ask: "would this normally be restocked weekly as part of a grocery run
 is it a one-off durable purchase?" — the latter goes in `urval`'s excluded list, not
 `erbjudanden[]`.
 
-## 3. Classification — the part most likely to silently go wrong
+## 3. Classification — lexicon-first, model classifies misses, rules verify
 
-`kategori` is guessed by keyword from the product name (`scripts/erbjudanden-lib.mjs`'s
-`guessKategori`, used by the parsers above; `scripts/erbjudanden-recategorize.mjs` has
-an equivalent standalone list used for one-off bulk re-migrations — **keep both in sync
-when you change one**, nothing enforces it automatically).
+`kategori`/`form`/`varutyp` are set by `classify()` at parse time
+(`src/lib/kategoriClassify.mjs`, re-exported from `scripts/erbjudanden-lib.mjs` as
+`classify`/`guessKategori` for backward compatibility) — a deterministic rule engine
+that is deliberately **not** the source of truth. It's the cold-start fallback for a
+product the lexicon (`public/data/erbjudanden/_kategori-lexikon.json`) hasn't seen
+yet. The real pipeline, per product:
 
-Two known false-positive shapes to check for on every import, not just when something
-looks obviously wrong:
-
-1. **A short food keyword substring-matches inside an unrelated compound word** —
-   e.g. bare `nöt` (beef) inside `jordnötsringar` (peanut rings), `sill` (herring)
-   inside `fusilli` (pasta), `ägg` (egg) inside `pålägg` (any sandwich topping). Not
-   fixable with word boundaries (Swedish compounding needs substring-anywhere matching
-   for the *correct* cases too) — fix by extending the specific strip-list
-   (`sanitize()` in `erbjudanden-recategorize.mjs`, the inline `.replace()` calls in
-   `erbjudanden-lib.mjs`'s `guessKategori`).
-2. **A non-food product borrows a food word as scent/shape/brand** — e.g.
-   "Allrengöringssvamp" (cleaning sponge — `svamp` also means mushroom) or an
-   apple-scented "Städservett" (wipe, matched `äpple`). Guarded by `NON_FOOD_RE` in
-   `erbjudanden-lib.mjs` (checked before any produce/protein keyword) — extend that
-   list first if a new household/hygiene product slips through, rather than adding an
-   exception to the food keyword itself.
-3. **A common Swedish adjective/verb hides a shorter food keyword inside it** — found
-   two new ones in the 2026-W29 import, both fixed with the same "negative lookahead
-   on the exact colliding letter" shape already used for `fisk(?!e)`/`sill(?!i)`:
-   - `färs` (mince/ground meat) inside `färsk`/`färskt`/`färska` (the adjective
-     "fresh" — extremely common: "Färsk pasta", "Färska kryddor", "Färskpotatis") —
-     fixed as `färs(?!k)`. A blanket strip of the whole word (`färsk\w*` — matching
-     what `src/lib/storeOrder.ts`'s aisle categorizer already did for the same
-     collision) was tried first and rejected: it also eats compounds like
-     "Färskpotatis" whole, dropping the `potatis` keyword needed to classify it as
-     veg and losing the match entirely instead of just fixing the meat
-     mis-classification. The negative-lookahead-on-just-the-ambiguous-substring form
-     is strictly more precise — ported this exact fix back into
-     `guessAisleCategory` too (see that function's own comments) since it had the
-     stale, less-precise version.
-   - `tomat` (tomato) inside `automat`/`automatic` (appliance names, e.g.
-     "Kaffebryggare Automatic") — fixed with `.replace(/automat\w*/gi, '')` in
-     `guessKategori`'s haystack (this one *is* safe to blanket-strip, unlike `färsk`,
-     since "automat" doesn't compound directly onto another food keyword the way
-     "färsk" does).
-   When adding any new keyword, grep the existing offer `namn` fields for it as a
-   substring first (same check already called out below) — and if the collision is
-   with a word that itself *contains* another real keyword as a suffix (like
-   `färskpotatis`), prefer a negative lookahead on the ambiguous keyword over
-   stripping the containing word.
-4. **A generic/borrowed word matches inside a hobby or gadget product name that isn't
-   food at all** — e.g. "Magnetfiske" (a magnet-fishing kit, a toy) matched bare
-   `fisk`. Fixed the same way as #3, `fisk(?!e)` (real food compounds always glue more
-   letters directly onto "fisk" — fiskpinnar, fiskgratäng — never "fisk" + "e" as a
-   standalone word). This is different from `NON_FOOD_RE` bailouts (#2) because
-   there's no single household-product family to list — check case by case.
-
-Before merging a draft, spot-check it:
-
-```bash
-node -e "
-const d = require('./left.json'); // or whichever draft file
-for (const o of d.erbjudanden ?? d) {
-  const n = (o.namn||'').toLowerCase();
-  if (/reng|städ|disk|tvätt|toalettpapper|hushållspapper|servett|tvål|schampo|deo|blöj/.test(n)
-      && ['gront_farsk','gront_fryst','frukt','protein_farsk','protein_fryst','snacks_godis'].includes(o.kategori)) {
-    console.log('SUSPECT non-food in a food category:', o.namn, o.kategori);
-  }
-}
-"
-```
+1. **Lexicon hit** (same normalized name+brand seen in a prior week) → use that
+   verdict, no reclassification. This is why re-importing an unchanged week produces
+   a zero-line diff.
+2. **Lexicon miss, rule engine confident** (`classify()` doesn't fall back to
+   `ovrigt`) → accept it, but it's still worth a skim — the rule engine can be
+   *wrong with full confidence* (a clean, unambiguous match to the wrong category —
+   "Red Bull" cleanly matching a bread-brand-name pattern, say), not just
+   "unmatched". It cannot detect its own failure mode.
+3. **Lexicon miss, rule engine falls back to `ovrigt`** (or you spot-check and
+   disagree with a confident-but-wrong verdict) → classify it yourself, right here in
+   this session, following **`.claude/skills/import-erbjudanden/klassificering.md`**
+   — the full decision procedure (edibility → head-noun → processing → brand facts →
+   flavour-word test), the taxonomy's ~74 leaf ids, and the vego-is-a-marking rule.
+   Write the result into the lexicon (`upsertLexikon()` in
+   `scripts/erbjudanden-lexikon.mjs`), not just into this week's JSON — that's what
+   makes next week's import of the same product free.
+4. Run `node scripts/erbjudanden-recategorize.mjs <files>` to apply the (now
+   updated) lexicon across the files you're importing — it's a thin orchestrator, not
+   a second classifier, so there's nothing to keep in sync by hand.
+5. Run `node scripts/erbjudanden-verify.mjs <files>` — a deterministic set of
+   assertions repurposing the old keyword-collision knowledge as **refutation**
+   (non-food-word-in-a-food-category, "fryst" in the name but `form` isn't `fryst`,
+   a `varutyp` claimed by two different `kategori` values, a vego word with no
+   `vegansk`/`vegetarisk` marking, …). It hard-fails on a real contradiction and
+   warns on the rest (e.g. `ovrigt` share > 3%) — fix FAILs before committing, use
+   your judgement on WARNs.
 
 `ovrigt` is an accepted fallback for anything genuinely unmatched — it is not itself a
-bug. A *food* category on a cleaning/hygiene product is the bug.
+bug. A *food* category on a cleaning/hygiene product, or a confident-but-wrong
+category on anything, is the bug. See `klassificering.md`'s own header and
+`kategoriClassify.mjs`'s file comment for the specific collision shapes (Swedish
+compounding, plural mismatches, non-food products borrowing a food word as scent/
+brand/shape, a country name embedding a food substring — "Costa Rica" contains
+"ost") that keep recurring; when you fix a new one, extend the pattern in
+`kategoriClassify.mjs` itself, not a second copy — there is exactly one classifier
+now.
 
 ## 4. Schema gotchas when finishing the JSON
 
@@ -199,8 +173,12 @@ bug. A *food* category on a cleaning/hygiene product is the bug.
 
 ## 6. Verify
 
-- `npm run test` (existing classification/logic unit tests must still pass).
+- `node scripts/erbjudanden-verify.mjs <the new files>` — must exit 0 (no FAILs); see
+  §3 above for what it checks. Review any WARNs, but they don't block.
+- `npm run test` — includes `src/lib/kategoriGolden.test.ts`, a 200-row hand-verified
+  regression check on `kategoriClassify.mjs`; existing classification/logic unit
+  tests must still pass too.
 - Load the app and check the **Fynd** tab (`npm run screenshot` or `npm run dev` +
   manual look) — confirm the new week's offers render under the expected category
-  groupings (Protein/Grönt Färskt-Fryst/Frukt/Snacks/Övrigt), not just that the JSON
-  parses.
+  groups (Frukt & Grönt / Protein / Mejeri & Ost / … — see `kategoriTaxonomy.mjs`),
+  not just that the JSON parses.

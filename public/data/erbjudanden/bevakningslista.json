@@ -90,9 +90,9 @@
       "anteckning": "Duschcreme, utan parfym."
     },
     {
-      "id": "snacks_godis",
-      "vara": "Snacks & godis",
-      "kategori": "snacks_godis",
+      "id": "godis_snacks",
+      "vara": "Godis & Snacks",
+      "kategori": "godis_snacks",
       "sok": [],
       "undvik_marken": [],
       "onskat_marke": null,
@@ -101,37 +101,15 @@
       "anteckning": "Chips, godis, snacks – hela kategorin, inget särskilt märke."
     },
     {
-      "id": "gront_farskt",
-      "vara": "Grönt (färskt)",
-      "kategori": "gront_farsk",
+      "id": "frukt_gront",
+      "vara": "Frukt & Grönt",
+      "kategori": "frukt_gront",
       "sok": [],
       "undvik_marken": [],
       "onskat_marke": null,
       "storlek_hint": null,
       "troskel_kr": null,
-      "anteckning": "Allt – morötter, tomater m.m. – hela kategorin på extrapris."
-    },
-    {
-      "id": "gront_fryst",
-      "vara": "Grönt (fryst)",
-      "kategori": "gront_fryst",
-      "sok": [],
-      "undvik_marken": [],
-      "onskat_marke": null,
-      "storlek_hint": null,
-      "troskel_kr": null,
-      "anteckning": "Fryst grönsaksmix, ärtor m.m. – hela kategorin på extrapris."
-    },
-    {
-      "id": "frukt",
-      "vara": "Frukt",
-      "kategori": "frukt",
-      "sok": [],
-      "undvik_marken": [],
-      "onskat_marke": null,
-      "storlek_hint": null,
-      "troskel_kr": null,
-      "anteckning": "Vattenmelon, jordgubbar m.m. – hela kategorin på extrapris."
+      "anteckning": "Allt – morötter, tomater, vattenmelon, jordgubbar m.m. – hela kategorin på extrapris. Ersätter tre tidigare separata poster (Grönt färskt/fryst, Frukt); den 2026-07-rework:ade taxonomin har fryst grönt/frukt som en `form`-attribut på varje erbjudande snarare än en egen bevaknings-kategori, så ett par frysta grönsakserbjudanden kan dyka upp här också."
     }
   ]
 }
