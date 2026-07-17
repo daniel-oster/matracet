@@ -113,20 +113,30 @@ const BAK_HEAD_RE = /pizzamjöl|pizzadeg|pizzabotten/i
 // lookbehind chain on this pattern (an earlier version tried exactly that and still
 // missed "Vegetariska delikatessbullar" — the lookbehind list simply didn't include
 // "delikatess"). No lookbehind needed here any more as a result.
-const MEATBALL_RE = /köttbullar|nötfärs|fläskfärs|köttfärs|kycklingfärs|blandfärs|vegofärs|vegobullar|delikatessbullar|grytbitar|färs(?!k)/i
-const BROD_RE = /bröd|limpa|frall|baguett|tortilla(?!\s*chips)|pitabröd|knäckebröd|skorp|croissant|bull(?:ar)?|giffl|levain|bâtard|kavring|rågbröd|sportbröd|surdeg|tannour|hönökaka|knäcke|orientbrd|kladdkaka|tårta|muffin|donut|brownie|wienerbröd|(?<!choklad)(?<!kola)kaka(?!o)|jubileum|franska|roast.?n.?toast|smörgåsrån|pane napoletano|saltiner|kanellängd|kardemummalängd/i
+// "grytbitar" (diced stew meat, e.g. lamb) removed from here — a whole-muscle diced
+// cut isn't ground/formed the way mince or meatballs are, and the taxonomy's own
+// fars_kottbullar examples don't include it; moved to PROTEIN_GENERIC_RE's plain
+// "kott" below (found via a full lexicon review: "Lammgrytbitar" was landing here).
+const MEATBALL_RE = /köttbullar|nötfärs|fläskfärs|köttfärs|kycklingfärs|blandfärs|vegofärs|vegobullar|delikatessbullar|färs(?!k)/i
+// Bare "kex" added to the gate (not \b-bounded — needs to also catch it glued onto
+// another word, e.g. "Mariakex") — the leaf rule below already listed it, but with no
+// matching gate trigger "Kex Maria"/"Mariakex"/"Tux kex"/"Zoo kex" never reached
+// BROD_RE at all, fell through to SNACKS_RE's bare "kex" instead, and landed on that
+// branch's "?? 'godis'" fallback since no SNACKS_LEAF_RULES pattern matched either
+// (found via a full lexicon review).
+const BROD_RE = /bröd|limpa|frall|baguett(?!esallad)|tortilla(?!\s*chips)|pitabröd|knäckebröd|skorp|croissant|bull(?:ar)?|giffl|levain|bâtard|kavring|rågbröd|sportbröd|surdeg|tannour|hönökaka|knäcke|orientbrd|kladdkaka|tårta|muffin|donut|brownie|wienerbröd|(?<!choklad)(?<!kola)kaka(?!o)|jubileum|franska|roast.?n.?toast|smörgåsrån|pane napoletano|saltiner|kanellängd|kardemummalängd|kex/i
 const BROD_LEAF_RULES = [
   [/kex|digestive|\btuc\b|\boreo\b|mariekex|saltiner/i, 'kex'],
   [/tårta|kladdkaka|muffin|donut|(?<!choklad)(?<!kola)kaka(?!o)|brownie/i, 'tarta_kaka'],
   [/bull(?:ar)?|giffl|wienerbröd\b|kanellängd|kardemummalängd/i, 'fikabrod'],
   [/korvbröd|hamburgerbröd|brioche/i, 'korv_hamburgerbrod'],
   [/knäcke|skorp|hönökaka|smörgåsrån/i, 'knackebrod'],
-  [/frall|baguett|tortilla(?!\s*chips)|pitabröd|croissant|somun|roast.?n.?toast|pane napoletano/i, 'frallor_tunnbrod'],
+  [/frall|baguett(?!esallad)|tortilla(?!\s*chips)|pitabröd|croissant|somun|roast.?n.?toast|pane napoletano/i, 'frallor_tunnbrod'],
 ]
 
 // "schnitzel" (breaded cutlet) is a heat-and-eat ready meal, not raw protein — same
 // protective role as the rest of FARDIGMAT_RE (checked before PROTEIN_RE).
-const FARDIGMAT_RE = /pizza|pinsa|surdegspizza|efterrätt|paj\b|gratäng|quiche|matpaj|pommes|frites|rösti|husmans|enportionsrätt|matvete\s*rätt|soppa|potatissallad|krämiga? sallad|salladsbaren|caesarsallad|wrap\b|schnitzel|mac\s*&?\s*cheese|snabbnudlar|kelda|\boxpytt\b|(?=.*potatis)(?=.*strips)/i
+const FARDIGMAT_RE = /pizza|pinsa|surdegspizza|efterrätt|paj\b|gratäng|quiche|matpaj|pommes|frites|rösti|husmans|enportionsrätt|matvete\s*rätt|soppa|potatissallad|krämiga? sallad|salladsbaren|caesarsallad|baguettesallad|wrap\b|schnitzel|mac\s*&?\s*cheese|snabbnudlar|kelda|\boxpytt\b|(?=.*potatis)(?=.*strips)/i
 const FARDIGMAT_LEAF_RULES = [
   [/pizza|pinsa|surdegspizza/i, 'pizza'],
   [/gratäng|paj\b|quiche|matpaj/i, 'gratang_paj'],
@@ -134,7 +144,7 @@ const FARDIGMAT_LEAF_RULES = [
   // resolves as a processed potato product, not a raw root vegetable — a plain
   // "strips"/"pommes"/"frites"/"rösti" alone stays potatisprodukter too.
   [/pommes|frites|rösti|(?=.*potatis)(?=.*strips)/i, 'potatisprodukter'],
-  [/potatissallad|krämiga? sallad|salladsbaren|caesarsallad|wrap\b/i, 'deli_sallad_wrap'],
+  [/potatissallad|krämiga? sallad|salladsbaren|caesarsallad|baguettesallad|wrap\b/i, 'deli_sallad_wrap'],
   [/kelda|kyld soppa/i, 'kyld_soppa'],
   [/\boxpytt\b/i, 'enportionsratt'],
 ]
@@ -147,7 +157,12 @@ const FARDIGMAT_LEAF_RULES = [
 // "Dessertost | Kvibille" was landing in the glass_dessert group).
 const GLASS_RE = /glass|efterrätt|dessert(?!ost)|pannacotta|barattolino/i
 const GLASS_LEAF_RULES = [
-  [/glassås|glasstrut|odense dessertsås/i, 'dessertsas'],
+  // Was "odense dessertsås" (requiring that exact brand-then-name word order) — a
+  // real product's fields concatenate as "Dessertsås Odense" (name first, brand
+  // second), so the compound never matched and it fell all the way through to the
+  // GLASS_LEAF_RULES fallback ('glass') instead (found via a full lexicon review).
+  // Bare "dessertsås" doesn't need the brand at all.
+  [/glassås|glasstrut|dessertsås/i, 'dessertsas'],
   [/efterrätt|dessert(?!sås)(?!ost)|pannacotta|barattolino/i, 'dessert'],
 ]
 
@@ -182,6 +197,14 @@ const PALAGG_RE = /pålägg|pastej/i
 const PROTEIN_LEAF_RULES = [
   [/pålägg|pastej/i, 'palagg_pastej'],
   [/(?<!kaffe)böna|(?<!kaffe)bönor|kikärt|\blins(?:er)?\b/i, 'baljvaxter'],
+  // Two independent lookaheads (order-independent — "Vegansk korv, tofu" has "korv"
+  // *before* "tofu", so a single negative lookahead on tofu alone wouldn't catch it)
+  // — "Tofukorv"/"Vegansk korv, tofu" are sausages that happen to be made of tofu, not
+  // tofu itself, per this taxonomy's own rule that a vego product mimicking a specific
+  // meat product files under that product (Vegokorv → korv), not under tofu_tempeh
+  // (reserved for vego protein with no animal counterpart at all). Found via a full
+  // lexicon review.
+  [/(?=.*(?:tofu|tempeh|seitan))(?=.*korv)/i, 'korv'],
   [/tofu|tempeh|seitan/i, 'tofu_tempeh'],
   [/sill(?!i)|matjes|kaviar|caviar|(?:^| )rom(?: |,|$)|strömming/i, 'inlagd_fisk_kaviar'],
   [/räk|skaldjur|kräft|mussl|scampi|hummer|krabba|skagenröra/i, 'skaldjur'],
@@ -191,6 +214,15 @@ const PROTEIN_LEAF_RULES = [
   // real corpus for a bare-substring collision on either word and found none, so both
   // are unanchored now, same as every other fish species in this pattern.
   [/lax|torsk|sej|skädda|tonfisk|fisk(?!e)|\bfish\b|makrill|abborre|gös|kolja|surimi|kummel|pollock/i, 'fisk'],
+  // Checked here — right after fisk, before charkuterier/bacon_skinka/korv/fagel —
+  // so a fish burger ("Laxburgare", already claimed above by "lax") stays fisk, but a
+  // *chicken* burger doesn't get claimed by the fagel rule below first: the taxonomy's
+  // own worked example lists "färska burgare" under fars_kottbullar (a formed patty is
+  // the same product shape as a meatball), and that includes a chicken patty just as
+  // much as a beef one (found via a full lexicon review: "Kycklingburgare" was landing
+  // in fagel).
+  [MEATBALL_RE, 'fars_kottbullar'],
+  [/burgare|\bburger\b/i, 'fars_kottbullar'],
   // salsiccia(?!korv) — "Salsicciakorv" literally ends in the "-korv" suffix, a
   // stronger signal than the charcuterie-style "salsiccia" on its own (found via a
   // blind random-sample audit: it was landing in charkuterier ahead of the korv\b
@@ -199,8 +231,6 @@ const PROTEIN_LEAF_RULES = [
   [/bacon|skinka|kassler|stekfläsk|pancetta/i, 'bacon_skinka'],
   [/korv\b/i, 'korv'],
   [/kyckling|kalkon|(?:^| )anka(?: |,|$)/i, 'fagel'],
-  [MEATBALL_RE, 'fars_kottbullar'],
-  [/burgare|\bburger\b/i, 'fars_kottbullar'],
   [/(?:^| )ägg(?:et|en|ar)?(?: |,|$)/i, 'agg'],
   // Fallback for a bare Quorn product with no more specific signal above — closest
   // existing precedent is "Quorn måltidsdelar → tofu_tempeh" (design issue §3.1b).
@@ -217,7 +247,7 @@ const PROTEIN_LEAF_RULES = [
 // old pre-rework classifier's protein_farsk verdict for it was carried over here
 // unexamined; a real butcher-counter product would normally say "oxkött i tärningar" or
 // "grytbitar" instead).
-const PROTEIN_GENERIC_RE = /entrec[oô]te|karré|filé|\bbiff\b|kotlett|revben|spareribs|\bribs\b|grillspett|grillrulle|lamm|tomahawk|oxfilé|högrev|nötkött|nötstek|nötspett|nötgrytbitar|fläsk(?!färs)|\bvilt\b|pluma|flankstek|flintastek|t-?bone|kamben|club\s*steak|griskött|ytterlår|innanlår|rimmad|kalv(?!sylta)?|gyros|kebab|\boumph\b|pulled\s*pork/i
+const PROTEIN_GENERIC_RE = /entrec[oô]te|karré|filé|\bbiff\b|kotlett|revben|spareribs|\bribs\b|grillspett|grillrulle|grytbitar|lamm|tomahawk|oxfilé|högrev|nötkött|nötstek|nötspett|nötgrytbitar|fläsk(?!färs)|\bvilt\b|pluma|flankstek|flintastek|t-?bone|kamben|club\s*steak|griskött|ytterlår|innanlår|rimmad|kalv(?!sylta)?|gyros|kebab|\boumph\b|pulled\s*pork/i
 
 // ---------------------------------------------------------------------------
 // 4. Fruit (checked before veg/snacks so the produce keyword wins its own category
@@ -228,8 +258,13 @@ const BAR_RE = /jordgubb|blåbär|hallon|björnbär|körsbär|bigarrå|vinbär|s
 const FRUIT_RE = /frukt|äpple|banan|apelsin|citron|clementin|(?:^| )lime(?: |,|$)|avokado|melon|druv|persik|paraguayos|nektarin|mango|ananas|päron|kiwi|plommon|aprikos|fikon|granatäpple|citrus/i
 const FRUIT_SNACK_RE = /klämmis|stång/i
 const FRUIT_DAIRY_RE = /yoghurt|yogurt|kvarg|(?:^| )fil(?: |,|$)|grädd/i
-const FRUIT_DRINK_RE = /dryck|smoothie|juice|saft|läsk|soda|(?:^| )cider(?: |,|$)/i
-const FRUIT_CEREAL_RE = /flingor|müsli|granola/i
+// "kolsyrat" — flavoured sparkling water ("Citron kolsyrat vatten", "Päron kolsyrat
+// vatten") was landing in frukt without it (found via a full lexicon review).
+const FRUIT_DRINK_RE = /dryck|smoothie|juice|saft|läsk|soda|kolsyrat|(?:^| )cider(?: |,|$)/i
+// havregott/havregryn/havrekuddar/nesquik added alongside flingor/müsli/granola — a
+// flavoured cereal ("Havregott Jordgubb") needs the same exclusion as a flavoured
+// drink (found via a full lexicon review).
+const FRUIT_CEREAL_RE = /flingor|müsli|granola|havregott|havregryn|havrekuddar|nesquik/i
 // "Fruktsmoothie ... Från 6 Månader" / "Fruktstång ... Från 12 Månader" (baby food,
 // found alongside the berry/drink collision below) — checked ahead of both.
 const BABY_AGE_RE = /från \d+ månader/i
@@ -366,7 +401,7 @@ export function classify(namn, marke, details) {
   // meaning of their own, so they're stripped entirely — but "rostbiff" (roast beef)
   // is a real meat product, so it's rewritten to "biff" (kept meaningful) rather than
   // deleted outright, unlike its purely-adjectival cousins.
-  const haystack = raw
+  let haystack = raw
     .replace(/automat\w*/gi, '')
     .replace(/salladsost|dessertost/gi, 'ost')
     .replace(/rostbiff/gi, 'biff')
@@ -378,9 +413,21 @@ export function classify(namn, marke, details) {
     // ("Hel ananas | Costa Rica" was landing in ost_hard).
     .replace(/costa rica/gi, '')
     // "Ostbågar"/"ostsnacks" (cheese-puff crisps) are a snack, not a cheese — the
-    // generic dairy "ost" fallback below would otherwise win first since it's
-    // checked before the snacks pass (found via the golden set: "Chips, ostbågar").
+    // generic dairy "ost" fallback would otherwise win first since it's checked
+    // before the snacks pass (found via the golden set: "Chips, ostbågar").
     .replace(/ostbåg\w*|ostsnacks/gi, 'snacks')
+    // Same shape, a different compound: cheese-flavoured tortilla chips ("Tortillachips
+    // Ost") were landing in ost_hard via the same generic "ost" fallback (found via a
+    // full lexicon review) — the flavour word is redundant once "chips" is present.
+    .replace(/tortillachips ost/gi, 'tortillachips')
+
+  // "Mikropopcorn ... Smör" (butter-flavoured microwave popcorn) was landing in
+  // smor_margarin via the "smör" flavour word, ahead of ever reaching SNACKS_RE's
+  // "popcorn" — a plain conditional rather than a single regex, since "popcorn" comes
+  // *before* "smör" in this product's actual field order (namn then marke), so a
+  // forward-only lookahead alone wouldn't have caught it (found via a full lexicon
+  // review).
+  if (/popcorn/i.test(haystack)) haystack = haystack.replace(/smör/gi, '')
 
   for (const [re, leaf] of BRAND_OVERRIDES) {
     if (re.test(raw)) return finish(leaf, haystack, 'hog')
@@ -396,6 +443,10 @@ export function classify(namn, marke, details) {
   // Checked before SAUCE_RE — "Glassås" ends in the substring "sås" and would
   // otherwise be claimed by the generic sauce pattern before ever reaching here.
   if (GLASS_RE.test(haystack)) return finish(firstMatch(GLASS_LEAF_RULES, haystack) ?? 'glass', haystack)
+  // Also checked before SAUCE_RE — "Ekologiska vita bönor i tomatsås" is fundamentally
+  // a bean product (the sauce describes how it's packed, not what it is), but bare
+  // "sås" would otherwise claim it first (found via a full lexicon review).
+  if (/böna|bönor|kikärt|lins/i.test(haystack) && /sås/i.test(haystack)) return finish('baljvaxter', haystack)
   if (SAUCE_RE.test(haystack)) return finish('sas_dressing', haystack)
   // Checked before BROD_RE — see MEATBALL_RE's own comment for why.
   if (MEATBALL_RE.test(haystack)) return finish('fars_kottbullar', haystack)

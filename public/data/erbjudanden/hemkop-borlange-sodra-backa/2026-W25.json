@@ -30,7 +30,7 @@
       "klubbpris": false,
       "form": "kyld",
       "varutyp": "fil_yoghurt",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Bregott",
@@ -72,7 +72,7 @@
       "klubbpris": true,
       "form": "kyld",
       "varutyp": "mjolk_gradde",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Gravad, kallrökt lax",
@@ -95,7 +95,7 @@
       "klubbpris": false,
       "form": null,
       "varutyp": "fisk",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Svensk fläskytterfilé",
@@ -116,7 +116,7 @@
       "klubbpris": true,
       "form": null,
       "varutyp": "kott",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Matjessill",
@@ -137,7 +137,7 @@
       "klubbpris": false,
       "form": null,
       "varutyp": "inlagd_fisk_kaviar",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Ekologisk citronjuice, limejuice",
@@ -160,7 +160,7 @@
       "klubbpris": true,
       "form": null,
       "varutyp": "juice_saft",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Laktosfri vispgrädde",
@@ -181,7 +181,7 @@
       "klubbpris": true,
       "form": "kyld",
       "varutyp": "mjolk_gradde",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Hamburgerbröd 4-pack",
@@ -202,7 +202,7 @@
       "klubbpris": true,
       "form": null,
       "varutyp": "korv_hamburgerbrod",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Salsicciakorv",
@@ -223,7 +223,7 @@
       "klubbpris": true,
       "form": null,
       "varutyp": "korv",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Fries, frites, strips",
@@ -244,7 +244,7 @@
       "klubbpris": true,
       "form": null,
       "varutyp": "potatisprodukter",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Babyspenat, ruccola, småbladsmix",
@@ -267,7 +267,7 @@
       "klubbpris": true,
       "form": "farsk",
       "varutyp": "gronsaker",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Sejfilé",
@@ -288,7 +288,7 @@
       "klubbpris": true,
       "form": "fryst",
       "varutyp": "fisk",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Läsk 6-pack",
@@ -309,7 +309,7 @@
       "klubbpris": true,
       "form": null,
       "varutyp": "lask_vatten",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Paj",
@@ -330,7 +330,7 @@
       "klubbpris": true,
       "form": null,
       "varutyp": "gratang_paj",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Lime",
@@ -351,7 +351,7 @@
       "klubbpris": true,
       "form": "farsk",
       "varutyp": "frukt",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Dill, gräslök, persilja",
@@ -372,7 +372,7 @@
       "klubbpris": true,
       "form": "farsk",
       "varutyp": "farska_kryddor",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Svensk gurka",
@@ -393,7 +393,7 @@
       "klubbpris": true,
       "form": "farsk",
       "varutyp": "gronsaker",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Färskpotatis",
@@ -414,7 +414,7 @@
       "klubbpris": true,
       "form": "farsk",
       "varutyp": "potatis_rotfrukt",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Gräddglass",
@@ -435,7 +435,7 @@
       "klubbpris": true,
       "form": "fryst",
       "varutyp": "glass",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Tux kex",
@@ -452,11 +452,11 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "godis",
+      "kategori": "kex",
       "klubbpris": true,
       "form": null,
-      "varutyp": "godis",
-      "kategori_kalla": "regel"
+      "varutyp": "kex",
+      "kategori_kalla": "model"
     },
     {
       "namn": "Färskost",
@@ -477,7 +477,7 @@
       "klubbpris": true,
       "form": "kyld",
       "varutyp": "ost_fars_mjuk",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Vegofärs, vegobullar",
@@ -500,7 +500,7 @@
       "klubbpris": true,
       "form": null,
       "varutyp": "fars_kottbullar",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Chips",
@@ -521,7 +521,7 @@
       "klubbpris": true,
       "form": null,
       "varutyp": "chips_snacks",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Juice",
@@ -542,7 +542,7 @@
       "klubbpris": true,
       "form": null,
       "varutyp": "juice_saft",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Kaffebönor",
@@ -563,7 +563,7 @@
       "klubbpris": true,
       "form": null,
       "varutyp": "kaffe_te",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Svensk nötfärs",
@@ -584,7 +584,7 @@
       "klubbpris": true,
       "form": null,
       "varutyp": "fars_kottbullar",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Frysta räkor",
@@ -605,7 +605,7 @@
       "klubbpris": true,
       "form": "fryst",
       "varutyp": "skaldjur",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Grillfiléer kyckling",
@@ -626,7 +626,7 @@
       "klubbpris": true,
       "form": null,
       "varutyp": "fagel",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Sås",
@@ -647,7 +647,7 @@
       "klubbpris": true,
       "form": "torr",
       "varutyp": "sas_dressing",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Soy sauce",
@@ -668,7 +668,7 @@
       "klubbpris": false,
       "form": "torr",
       "varutyp": "sas_dressing",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Kimchi",
@@ -689,7 +689,7 @@
       "klubbpris": false,
       "form": "torr",
       "varutyp": "inlagt_delikatess",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     }
   ]
 }

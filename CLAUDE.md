@@ -739,13 +739,42 @@ cheese).
    test can only ever measure drift from that thing's own past output, never correctness
    against reality — the sampling and labelling has to happen independently, before the
    code under test is ever consulted.
-4. **What's still genuinely unfinished, stated plainly rather than as a vague "follow-up"**:
-   - The lexicon is still seeded entirely by the rule engine, not a per-product model
-     pass — the review's recommended fix (§3.3.1: ~45 batched model calls over the 1,361
-     unique products, in a session that's already open, is a rounding error against the
-     rest of an import) has not been done. `kalla: "model"` remains 0 entries. Confidence
-     is honest now (`'lag'` where unverified), which at least means a future model pass
-     has an accurate worklist instead of a false all-clear.
+4. **The model pass itself, done as a follow-up in the same session**: every one of the
+   1,223 `lag`-confidence lexicon entries was read individually (not sampled) — the full
+   lexicon, dumped and read category by category, ~74 categories — and either confirmed
+   or corrected. This found **12 more real bugs** the 200-row blind sample hadn't
+   surfaced (a smaller sample, even an honest one, only ever sees a slice): a chicken
+   burger landing in `fagel` instead of `fars_kottbullar` (contradicting the taxonomy's
+   own "färska burgare" example) because the burger check ran after, not before, the
+   species check; "Lammgrytbitar" (diced stew meat, not ground/formed) had been swept
+   into `fars_kottbullar` by a keyword that never belonged there; "Tofukorv" and
+   "Vegansk korv, tofu" landing in `tofu_tempeh` instead of `korv`, directly
+   contradicting this file's own vego-is-a-marking rule (a vego product mimicking a
+   specific meat product files under that product); a `dessertsas` leaf rule that
+   required "odense dessertsås" as one exact brand-then-name phrase, so it silently
+   never matched a real product whose fields concatenate name-then-brand; `BROD_RE`'s
+   gate had no bare "kex" trigger even though the leaf rule beneath it did, so
+   "Mariakex"/"Kex Maria" fell through to `SNACKS_RE`'s `?? 'godis'` default; flavoured
+   sparkling water ("Citron kolsyrat vatten") landing in `frukt`; a flavoured cereal
+   ("Havregott Jordgubb") landing in `bar`; "Tortillachips Ost" and "Mikropopcorn ...
+   Smör" both landing in a dairy leaf via their flavour word, ahead of ever reaching
+   `SNACKS_RE`; and "Ekologiska vita bönor i tomatsås" landing in `sas_dressing` instead
+   of `baljvaxter` because bare "sås" is checked well before the protein branch. Every
+   reviewed entry now carries `kalla: "model"` (1,224 of 1,348) with confidence set
+   honestly per-item — `hog` for the ~99.5% now individually confirmed, `lag` kept on
+   the handful still genuinely ambiguous after real review (e.g. "Choko crunch, smash |
+   SMASH! • OLW" — Smash is both a candy brand and part of this OLW snack line's name,
+   and the product name alone can't disambiguate which). The 124 `kalla: "regel"`
+   entries remaining are `BRAND_OVERRIDES` hits (Präst, Ballerina, …) — deterministic
+   facts vetted when the pattern was written, not guesses that need individual review.
+   **Lesson**: this is the second time in this same rework that a smaller, curated
+   sample (first the enriched-then-self-referential golden set, now the 200-row blind
+   sample) missed real bugs a full pass caught — a sample tells you the *rate* of a
+   problem, not its *membership*; when the corpus is small enough to read in full
+   (~1,350 products, a few hours of focused review), reading all of it finds bugs no
+   sample size can guarantee catching.
+5. **What's still genuinely unfinished, stated plainly rather than as a vague
+   "follow-up"**:
    - `varutyp` is populated beyond a plain copy of `kategori` for exactly one leaf
      (`baljvaxter`'s bönor/kikärtor/linser split — 12 of 1,348 lexicon entries, 0.9%).
      `FyndView`'s Jämför mode therefore only groups by `varutyp` for that one leaf;

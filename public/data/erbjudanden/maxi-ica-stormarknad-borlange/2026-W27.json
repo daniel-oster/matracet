@@ -30,7 +30,7 @@
       "kategori": "bars",
       "form": null,
       "varutyp": "bars",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Snack pot",
@@ -72,7 +72,7 @@
       "kategori": "frallor_tunnbrod",
       "form": null,
       "varutyp": "frallor_tunnbrod",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Tomatpuré",
@@ -93,7 +93,7 @@
       "kategori": "konserv_tomat",
       "form": "torr",
       "varutyp": "konserv_tomat",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Chips",
@@ -114,7 +114,7 @@
       "kategori": "chips_snacks",
       "form": null,
       "varutyp": "chips_snacks",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Senap",
@@ -135,7 +135,7 @@
       "kategori": "sas_dressing",
       "form": "torr",
       "varutyp": "sas_dressing",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Fruktdryck",
@@ -177,7 +177,7 @@
       "kategori": "kaffe_te",
       "form": null,
       "varutyp": "kaffe_te",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Pizza Ristorante",
@@ -198,7 +198,7 @@
       "kategori": "pizza",
       "form": null,
       "varutyp": "pizza",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Påläggschark",
@@ -219,7 +219,7 @@
       "kategori": "palagg_pastej",
       "form": null,
       "varutyp": "palagg_pastej",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Champinjoner i ask",
@@ -240,7 +240,7 @@
       "kategori": "svamp",
       "form": "farsk",
       "varutyp": "svamp",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Ballerina, Singoalla, Brago",
@@ -279,10 +279,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "glass",
-      "form": "fryst",
-      "varutyp": "glass",
-      "kategori_kalla": "regel"
+      "kategori": "dessertsas",
+      "form": null,
+      "varutyp": "dessertsas",
+      "kategori_kalla": "model"
     },
     {
       "namn": "Kyld sås",
@@ -303,7 +303,7 @@
       "kategori": "sas_dressing",
       "form": "torr",
       "varutyp": "sas_dressing",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Galia- och Honungsmeloner",
@@ -324,7 +324,7 @@
       "kategori": "frukt",
       "form": "farsk",
       "varutyp": "frukt",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Glass",
@@ -345,7 +345,7 @@
       "kategori": "glass",
       "form": "fryst",
       "varutyp": "glass",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Läsk",
@@ -366,7 +366,7 @@
       "kategori": "lask_vatten",
       "form": null,
       "varutyp": "lask_vatten",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Grillkarré",
@@ -389,7 +389,7 @@
       "kategori": "kott",
       "form": null,
       "varutyp": "kott",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Korv-, hamburgerbröd, gourmet hamburgerbröd",
@@ -410,7 +410,7 @@
       "kategori": "korv_hamburgerbrod",
       "form": null,
       "varutyp": "korv_hamburgerbrod",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Färsk fylld pasta",
@@ -431,7 +431,7 @@
       "kategori": "pasta",
       "form": "torr",
       "varutyp": "pasta",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Syltsocker",
@@ -452,7 +452,7 @@
       "kategori": "bak_sott",
       "form": "torr",
       "varutyp": "bak_sott",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Pasta",
@@ -473,7 +473,7 @@
       "kategori": "pasta",
       "form": "torr",
       "varutyp": "pasta",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Herrgård®, Präst®, Grevé®",
@@ -515,7 +515,7 @@
       "kategori": "kaffe_te",
       "form": null,
       "varutyp": "kaffe_te",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Duschcreme",
@@ -557,7 +557,7 @@
       "kategori": "gronsaker",
       "form": "farsk",
       "varutyp": "gronsaker",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Färska kryddor i påse",
@@ -580,7 +580,7 @@
       "kategori": "kryddor_buljong",
       "form": "torr",
       "varutyp": "kryddor_buljong",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Fryst vego",
@@ -603,7 +603,7 @@
       "kategori": "kott",
       "form": "fryst",
       "varutyp": "kott",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Juice",
@@ -624,7 +624,7 @@
       "kategori": "juice_saft",
       "form": null,
       "varutyp": "juice_saft",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Riven ost",
@@ -645,7 +645,7 @@
       "kategori": "ost_hard",
       "form": "kyld",
       "varutyp": "ost_hard",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Fruktyoghurt",
@@ -666,7 +666,7 @@
       "kategori": "fil_yoghurt",
       "form": "kyld",
       "varutyp": "fil_yoghurt",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Grillkorv",
@@ -687,7 +687,7 @@
       "kategori": "korv",
       "form": null,
       "varutyp": "korv",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Fryst paj",
@@ -708,7 +708,7 @@
       "kategori": "gratang_paj",
       "form": "fryst",
       "varutyp": "gratang_paj",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Mjukost i tub",
@@ -729,7 +729,7 @@
       "kategori": "ost_fars_mjuk",
       "form": "kyld",
       "varutyp": "ost_fars_mjuk",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Frysta Enportionsrätter a la carte/lean",
@@ -750,7 +750,7 @@
       "kategori": "enportionsratt",
       "form": "fryst",
       "varutyp": "enportionsratt",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Fryst kryddad kyckling",
@@ -773,7 +773,7 @@
       "kategori": "fagel",
       "form": "fryst",
       "varutyp": "fagel",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Lättdryck",
@@ -794,7 +794,7 @@
       "kategori": "lask_vatten",
       "form": null,
       "varutyp": "lask_vatten",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Frukt- och Grötsmoothie",
@@ -815,7 +815,7 @@
       "kategori": "juice_saft",
       "form": null,
       "varutyp": "juice_saft",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Burrata, Stracciatella",
@@ -856,10 +856,10 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "tofu_tempeh",
+      "kategori": "korv",
       "form": null,
-      "varutyp": "tofu_tempeh",
-      "kategori_kalla": "regel"
+      "varutyp": "korv",
+      "kategori_kalla": "model"
     },
     {
       "namn": "Kolsyrat vatten",
@@ -880,7 +880,7 @@
       "kategori": "lask_vatten",
       "form": null,
       "varutyp": "lask_vatten",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Donutkakor",
@@ -901,7 +901,7 @@
       "kategori": "tarta_kaka",
       "form": null,
       "varutyp": "tarta_kaka",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Bregott",
@@ -943,7 +943,7 @@
       "kategori": "kyld_soppa",
       "form": "kyld",
       "varutyp": "kyld_soppa",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Färska hamburgare",
@@ -966,7 +966,7 @@
       "kategori": "fars_kottbullar",
       "form": null,
       "varutyp": "fars_kottbullar",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Färskt sidfläsk i bit",
@@ -989,7 +989,7 @@
       "kategori": "kott",
       "form": null,
       "varutyp": "kott",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Läsk",
@@ -1010,7 +1010,7 @@
       "kategori": "lask_vatten",
       "form": null,
       "varutyp": "lask_vatten",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Ekologisk majs 2-pack",
@@ -1031,7 +1031,7 @@
       "kategori": "gronsaker",
       "form": "farsk",
       "varutyp": "gronsaker",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Havrefralla, Kvarngoda, Havrerundel",
@@ -1052,7 +1052,7 @@
       "kategori": "frallor_tunnbrod",
       "form": null,
       "varutyp": "frallor_tunnbrod",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Avokado",
@@ -1073,7 +1073,7 @@
       "kategori": "frukt",
       "form": "farsk",
       "varutyp": "frukt",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Pizzakit",
@@ -1094,7 +1094,7 @@
       "kategori": "pizza",
       "form": null,
       "varutyp": "pizza",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Granola",
@@ -1115,7 +1115,7 @@
       "kategori": "flingor_musli",
       "form": "torr",
       "varutyp": "flingor_musli",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Färsk laxsida ASC",
@@ -1138,7 +1138,7 @@
       "kategori": "fisk",
       "form": null,
       "varutyp": "fisk",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Pluma",
@@ -1161,7 +1161,7 @@
       "kategori": "kott",
       "form": null,
       "varutyp": "kott",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Grillspett",
@@ -1184,7 +1184,7 @@
       "kategori": "kott",
       "form": null,
       "varutyp": "kott",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Mogen mango",
@@ -1205,7 +1205,7 @@
       "kategori": "frukt",
       "form": "farsk",
       "varutyp": "frukt",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Munskölj",
@@ -1226,7 +1226,7 @@
       "kategori": "hygien",
       "form": null,
       "varutyp": "hygien",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Blåbär i ask",
@@ -1247,7 +1247,7 @@
       "kategori": "bar",
       "form": "farsk",
       "varutyp": "bar",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Snackpaprika i påse",
@@ -1268,7 +1268,7 @@
       "kategori": "gronsaker",
       "form": "farsk",
       "varutyp": "gronsaker",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Potatisgratäng",
@@ -1289,7 +1289,7 @@
       "kategori": "gratang_paj",
       "form": null,
       "varutyp": "gratang_paj",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Strimlad skinka, kalkon",
@@ -1310,7 +1310,7 @@
       "kategori": "bacon_skinka",
       "form": null,
       "varutyp": "bacon_skinka",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Kamben BBQ",
@@ -1333,7 +1333,7 @@
       "kategori": "kott",
       "form": null,
       "varutyp": "kott",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Alkoholfri öl",
@@ -1354,7 +1354,7 @@
       "kategori": "ol_cider",
       "form": null,
       "varutyp": "ol_cider",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Dishmatic diskborste + 3-pack refill",
@@ -1375,7 +1375,7 @@
       "kategori": "stad_disk_tvatt",
       "form": null,
       "varutyp": "stad_disk_tvatt",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Avfallspåse",
@@ -1396,7 +1396,7 @@
       "kategori": "papper_pasar_folie",
       "form": null,
       "varutyp": "papper_pasar_folie",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Dammsugarpåsar",
@@ -1417,7 +1417,7 @@
       "kategori": "papper_pasar_folie",
       "form": null,
       "varutyp": "papper_pasar_folie",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Iskuber",
@@ -1438,7 +1438,7 @@
       "kategori": "ovrigt",
       "form": null,
       "varutyp": "ovrigt",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Liten Avfallspåse 45-pack",
@@ -1459,7 +1459,7 @@
       "kategori": "papper_pasar_folie",
       "form": null,
       "varutyp": "papper_pasar_folie",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Solvård",
@@ -1480,7 +1480,7 @@
       "kategori": "hygien",
       "form": null,
       "varutyp": "hygien",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Gröna kärnfria druvor i ask",
@@ -1501,7 +1501,7 @@
       "kategori": "frukt",
       "form": "farsk",
       "varutyp": "frukt",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     }
   ]
 }
