@@ -1051,9 +1051,9 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "inlagt_delikatess",
+      "kategori": "olja_vinager",
       "form": "torr",
-      "varutyp": "inlagt_delikatess",
+      "varutyp": "olja_vinager",
       "kategori_kalla": "regel"
     },
     {
@@ -1204,9 +1204,9 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "inlagt_delikatess",
+      "kategori": "olja_vinager",
       "form": "torr",
-      "varutyp": "inlagt_delikatess",
+      "varutyp": "olja_vinager",
       "kategori_kalla": "regel"
     },
     {
@@ -1378,9 +1378,9 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "bar",
-      "form": "farsk",
-      "varutyp": "bar",
+      "kategori": "flingor_musli",
+      "form": "torr",
+      "varutyp": "flingor_musli",
       "kategori_kalla": "regel"
     },
     {
@@ -1550,9 +1550,9 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott",
+      "kategori": "enportionsratt",
       "form": "fryst",
-      "varutyp": "kott",
+      "varutyp": "enportionsratt",
       "kategori_kalla": "regel"
     },
     {
@@ -2932,9 +2932,9 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "stad_disk_tvatt",
+      "kategori": "hygien",
       "form": null,
-      "varutyp": "stad_disk_tvatt",
+      "varutyp": "hygien",
       "kategori_kalla": "regel"
     },
     {
@@ -2995,9 +2995,9 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "stad_disk_tvatt",
+      "kategori": "hygien",
       "form": null,
-      "varutyp": "stad_disk_tvatt",
+      "varutyp": "hygien",
       "kategori_kalla": "regel"
     },
     {
@@ -3037,9 +3037,9 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Välj & blanda, Tillfälligt parti",
-      "kategori": "stad_disk_tvatt",
+      "kategori": "hygien",
       "form": null,
-      "varutyp": "stad_disk_tvatt",
+      "varutyp": "hygien",
       "kategori_kalla": "regel"
     },
     {
@@ -3079,9 +3079,9 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "stad_disk_tvatt",
+      "kategori": "hygien",
       "form": null,
-      "varutyp": "stad_disk_tvatt",
+      "varutyp": "hygien",
       "kategori_kalla": "regel"
     },
     {
@@ -3814,9 +3814,9 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "stad_disk_tvatt",
+      "kategori": "hygien",
       "form": null,
-      "varutyp": "stad_disk_tvatt",
+      "varutyp": "hygien",
       "kategori_kalla": "regel"
     },
     {
@@ -4357,9 +4357,9 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "godis",
+      "kategori": "choklad",
       "form": null,
-      "varutyp": "godis",
+      "varutyp": "choklad",
       "kategori_kalla": "regel"
     },
     {
@@ -4466,9 +4466,9 @@
       ],
       "ursprung": null,
       "notering": null,
-      "kategori": "fikabrod",
+      "kategori": "fars_kottbullar",
       "form": null,
-      "varutyp": "fikabrod",
+      "varutyp": "fars_kottbullar",
       "kategori_kalla": "regel"
     },
     {
@@ -4772,9 +4772,9 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "fagel",
+      "kategori": "fars_kottbullar",
       "form": null,
-      "varutyp": "fagel",
+      "varutyp": "fars_kottbullar",
       "kategori_kalla": "regel"
     },
     {
@@ -4988,9 +4988,9 @@
       ],
       "ursprung": null,
       "notering": "Välj & blanda",
-      "kategori": "stad_disk_tvatt",
+      "kategori": "hygien",
       "form": null,
-      "varutyp": "stad_disk_tvatt",
+      "varutyp": "hygien",
       "kategori_kalla": "regel"
     },
     {
@@ -5009,9 +5009,9 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Tillfälligt parti",
-      "kategori": "stad_disk_tvatt",
+      "kategori": "hygien",
       "form": null,
-      "varutyp": "stad_disk_tvatt",
+      "varutyp": "hygien",
       "kategori_kalla": "regel"
     },
     {
@@ -5030,9 +5030,9 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "stad_disk_tvatt",
+      "kategori": "hygien",
       "form": null,
-      "varutyp": "stad_disk_tvatt",
+      "varutyp": "hygien",
       "kategori_kalla": "regel"
     },
     {
@@ -5051,9 +5051,9 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "stad_disk_tvatt",
+      "kategori": "hygien",
       "form": null,
-      "varutyp": "stad_disk_tvatt",
+      "varutyp": "hygien",
       "kategori_kalla": "regel"
     },
     {

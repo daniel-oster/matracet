@@ -219,10 +219,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "charkuterier",
+      "kategori": "korv",
       "klubbpris": true,
       "form": null,
-      "varutyp": "charkuterier",
+      "varutyp": "korv",
       "kategori_kalla": "regel"
     },
     {
@@ -284,10 +284,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott",
+      "kategori": "fisk",
       "klubbpris": true,
       "form": "fryst",
-      "varutyp": "kott",
+      "varutyp": "fisk",
       "kategori_kalla": "regel"
     },
     {

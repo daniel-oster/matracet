@@ -155,9 +155,9 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "stad_disk_tvatt",
+      "kategori": "hygien",
       "form": null,
-      "varutyp": "stad_disk_tvatt",
+      "varutyp": "hygien",
       "kategori_kalla": "regel"
     },
     {
@@ -241,9 +241,9 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "stad_disk_tvatt",
+      "kategori": "hygien",
       "form": null,
-      "varutyp": "stad_disk_tvatt",
+      "varutyp": "hygien",
       "kategori_kalla": "regel"
     },
     {
@@ -833,9 +833,9 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "papper_pasar_folie",
+      "kategori": "bloja_babyvard",
       "form": null,
-      "varutyp": "papper_pasar_folie",
+      "varutyp": "bloja_babyvard",
       "kategori_kalla": "regel"
     },
     {
@@ -1173,9 +1173,9 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "inlagt_delikatess",
+      "kategori": "olja_vinager",
       "form": "torr",
-      "varutyp": "inlagt_delikatess",
+      "varutyp": "olja_vinager",
       "kategori_kalla": "regel"
     },
     {

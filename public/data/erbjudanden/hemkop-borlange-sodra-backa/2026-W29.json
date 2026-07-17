@@ -195,9 +195,9 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott",
+      "kategori": "enportionsratt",
       "form": "fryst",
-      "varutyp": "kott",
+      "varutyp": "enportionsratt",
       "kategori_kalla": "regel"
     },
     {
@@ -237,9 +237,9 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "stad_disk_tvatt",
+      "kategori": "hygien",
       "form": null,
-      "varutyp": "stad_disk_tvatt",
+      "varutyp": "hygien",
       "kategori_kalla": "regel"
     },
     {
@@ -300,9 +300,9 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "kott",
+      "kategori": "fars_kottbullar",
       "form": null,
-      "varutyp": "kott",
+      "varutyp": "fars_kottbullar",
       "kategori_kalla": "regel"
     },
     {
@@ -1079,9 +1079,9 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "stad_disk_tvatt",
+      "kategori": "hygien",
       "form": null,
-      "varutyp": "stad_disk_tvatt",
+      "varutyp": "hygien",
       "kategori_kalla": "regel"
     },
     {

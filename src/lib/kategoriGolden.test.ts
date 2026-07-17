@@ -5,26 +5,36 @@ import path from 'node:path'
 import { classify } from './kategoriClassify.mjs'
 
 /**
- * Regression test against a 200-row hand-verified sample (see the categorisation
- * rework design issue §5): every current `ovrigt` offer at the time this fixture was
- * built, every product matching a known collision family (glass/pizza/fryst/nöt/bull/
- * oliv/sallad/ost/paprika), and a random tail. Each row's kategori/form was verified
- * by eye against the real product (see kategoriClassify.mjs's inline comments for the
- * specific bugs this caught: "Grekiskt lantbröd" landing in enportionsratt via a
- * blanket Dafgårds brand override, "Hel ananas | Costa Rica" landing in ost_hard via
- * the country name embedding "ost", etc.) — this is not just a re-dump of whatever
- * the classifier happened to output.
+ * Regression test against a 200-row **genuinely blind random sample** of the corpus
+ * (see CLAUDE.md's "the lexicon shipped 100% regex output" post-mortem for why this
+ * fixture was rebuilt from scratch once already — the first version was enriched for
+ * known-hard collision families and then, worse, *regenerated from the classifier's
+ * own output* after bugs were fixed, which meant it scored 100% and had stopped
+ * measuring anything). This version: 200 products sampled uniformly at random from
+ * the full corpus, each hand-labelled by reading the product name/brand and reasoning
+ * about the taxonomy *before* ever running classify() on it — the label file was
+ * written and saved first, then compared against classifier output in a second,
+ * separate step. Real, measured accuracy on that blind pass was 97.5%: expect this
+ * number to be lower than any sample enriched for hard cases, and expect it to
+ * fluctuate a little as real classifier improvements trade one edge case for another
+ * — that's a feature of an honest measurement, not a flaw in the fixture.
  *
- * Not a pass/fail gate at 100%: a small amount of drift is expected as the taxonomy
- * evolves, and the point is to print per-category accuracy and confusion pairs so a
- * regression is visible and diagnosable, not just red/green.
+ * Several real, previously-invisible bugs were only found this way, not by the
+ * original (enriched, self-referential) sample — see kategoriClassify.mjs's inline
+ * comments for specifics: a missing `hygien` leaf rule that silently dumped shampoo/
+ * toothpaste/deodorant/sanitary-products into `stad_disk_tvatt`, "Sejfilé" landing in
+ * `kott` because the fish-species pattern was defensively space-anchored without
+ * checking whether that was actually needed, "Hallonsoda"/"Blåbärsdryck" landing in
+ * `bar` (berries) because BAR_RE had none of FRUIT_RE's drink/dairy/cereal
+ * exclusions, and more. Not a pass/fail gate at 100% — the point is to print
+ * per-category accuracy and confusion pairs so a regression is visible and
+ * diagnosable, not just red/green.
  */
 
 interface GoldenRow {
   namn: string
   marke: string | null
   kategori: string
-  form: string | null
 }
 
 const fixturePath = path.join(
@@ -68,7 +78,9 @@ describe('kategoriClassify against the golden set', () => {
       for (const c of confusions) console.log(`  ${c}`)
     }
 
-    // Regression floor, not a target — see this file's header.
-    expect(accuracy).toBeGreaterThanOrEqual(0.97)
+    // Regression floor, not a target — see this file's header. Measured 97.5% (195/200)
+    // on this blind sample; floor set a couple points below that so small, legitimate
+    // taxonomy tweaks don't flip the test red on their own.
+    expect(accuracy).toBeGreaterThanOrEqual(0.95)
   })
 })

@@ -49,10 +49,10 @@
       ],
       "ursprung": "Sverige",
       "notering": null,
-      "kategori": "fagel",
+      "kategori": "fars_kottbullar",
       "klubbpris": true,
       "form": null,
-      "varutyp": "fagel",
+      "varutyp": "fars_kottbullar",
       "kategori_kalla": "regel"
     },
     {
@@ -70,10 +70,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "inlagt_delikatess",
+      "kategori": "olja_vinager",
       "klubbpris": true,
       "form": "torr",
-      "varutyp": "inlagt_delikatess",
+      "varutyp": "olja_vinager",
       "kategori_kalla": "regel"
     },
     {
@@ -538,10 +538,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "stad_disk_tvatt",
+      "kategori": "hygien",
       "klubbpris": true,
       "form": null,
-      "varutyp": "stad_disk_tvatt",
+      "varutyp": "hygien",
       "kategori_kalla": "regel"
     },
     {

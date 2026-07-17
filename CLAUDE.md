@@ -676,6 +676,93 @@ a 200-row hand-verified golden set (`scripts/__fixtures__/kategori-golden.json`,
 prescription (every remaining `ovrigt` item, every known collision-family match, a
 random tail) — rather than trusting the classifier's self-reported confidence.
 
+### Post-mortem: the rework's first PR inverted its own design (2026-07)
+
+A code review of the rework's first PR found that what shipped was **"rules generate,
+lexicon caches, model never runs"** — the exact inversion of the design's own
+"lexicon-first, model generates, rules verify" pipeline. Concretely, at merge time:
+`_kategori-lexikon.json` was 100% `kalla: "regel"` (zero `"model"` entries — the
+classifier seeded its own lexicon rather than a model classifying each product), and
+98.7% of entries self-reported `confidence: "hog"` even though §3.3.2's whole argument
+was that a regex cascade *cannot know when it's wrong* ("Red Bull → brod" was a clean,
+single-pattern, maximum-confidence match with no competing category, and it was
+completely wrong — self-reported confidence was never a signal that could be trusted).
+The golden test set had the same shape of problem one level up: it was originally
+enriched for known-hard collision families *and then regenerated from the classifier's
+own (bug-fixed) output*, which is why it scored a suspicious 100/100 (later 200/200) —
+a fixture built that way has no remaining power to catch a new bug, only to notice a
+values *change*. The review found 8 concrete, live misclassifications this way (all
+self-reporting `confidence: "hog"`, none caught by the enriched golden set):
+`Sejfilé → kott` (not `fisk` — the fish-species pattern was defensively space-anchored
+without checking whether that was needed, so it never matched inside the compound),
+`Hallonsoda Zero Läsk → bar` (not `lask_vatten` — BAR_RE had none of FRUIT_RE's drink/
+dairy/snack exclusions), `Vegetariska delikatessbullar → fikabrod` (not
+`fars_kottbullar` — BROD_RE's bare "bull" pattern ran before the more specific
+meatball-compound check, even though that check already listed this exact product),
+`Burgare/Grillburgare → kott` (not `fars_kottbullar`, contradicting the taxonomy's own
+worked example), `Oxpytt → kott` (a Findus product, so almost certainly `enportionsratt`,
+not raw butcher-counter meat), and `Räkost → ost_hard` (not `ost_fars_mjuk`, a tube
+cheese).
+
+**Fixed, not just re-argued:**
+
+1. **`confidence` is now honest.** `finish()` defaults to `'lag'`; only a
+   `BRAND_OVERRIDES` hit (a fact, not a guess) reports `'hog'`. Re-seeding the lexicon
+   with this change alone moved 1,330 of 1,348 entries from `hog` to the honest `lag`
+   — they were never verified, and now they say so.
+2. **All 8 confirmed bugs fixed**, plus a systematic follow-up audit (grepping the real
+   corpus for the same collision *shapes*, not just the 8 reported instances) found and
+   fixed several more of the same kind: fish-species patterns unnecessarily space-
+   anchored (`sej`/`gös`), a berry/fruit-flavour-word collision affecting 7 real
+   products (sodas, baby smoothies, cereal — not just the one reported), `olivolja`
+   landing in `inlagt_delikatess` instead of `olja_vinager`, `Salsicciakorv` landing in
+   `charkuterier` instead of `korv` despite its own literal "-korv" suffix, "Dessertglass
+   | Daim, Oreo" landing in `kex` because a brand override ran before the more specific
+   "dessertglass" product-type signal (same shape as the Dafgårds/Billys lesson below),
+   and — the largest single gap — **`NON_FOOD_LEAF_RULES` had no dedicated `hygien` rule
+   at all**: every hygiene keyword was in the *gate* (so the item correctly bailed out of
+   food categories) but had no matching *leaf* rule, so shampoo, toothpaste, deodorant,
+   sanitary products, sun/skin care and razors were all silently defaulting to
+   `stad_disk_tvatt` (the first leaf rule with no more specific match). None of this
+   showed up in the original golden set because it never sampled these products blind.
+3. **The golden set was rebuilt from scratch as a genuinely blind random sample** — 200
+   products sampled uniformly (not enriched for known-hard families), each hand-labelled
+   by reasoning about the product *before* ever running `classify()` on it, compared only
+   afterward. Real, honest accuracy on that first blind pass: **88.0%** (176/200) — every
+   one of the systemic bugs above surfaced on this pass, several for the first time (the
+   `hygien` gap alone accounted for 7 of the 24 misses). After the fixes: **97.5%**
+   (195/200), which is the number now enforced as the regression floor in
+   `kategoriGolden.test.ts` (with a couple points of headroom, not a knife-edge). See
+   that test file's header for the full accounting. **Lesson, stated plainly because it
+   nearly repeated the "don't trust a derived value as its own validator" trap already in
+   this file's Lessons Learned**: a test fixture built *from* the thing it's meant to
+   test can only ever measure drift from that thing's own past output, never correctness
+   against reality — the sampling and labelling has to happen independently, before the
+   code under test is ever consulted.
+4. **What's still genuinely unfinished, stated plainly rather than as a vague "follow-up"**:
+   - The lexicon is still seeded entirely by the rule engine, not a per-product model
+     pass — the review's recommended fix (§3.3.1: ~45 batched model calls over the 1,361
+     unique products, in a session that's already open, is a rounding error against the
+     rest of an import) has not been done. `kalla: "model"` remains 0 entries. Confidence
+     is honest now (`'lag'` where unverified), which at least means a future model pass
+     has an accurate worklist instead of a false all-clear.
+   - `varutyp` is populated beyond a plain copy of `kategori` for exactly one leaf
+     (`baljvaxter`'s bönor/kikärtor/linser split — 12 of 1,348 lexicon entries, 0.9%).
+     `FyndView`'s Jämför mode therefore only groups by `varutyp` for that one leaf;
+     everywhere else it still falls back to `normalizeKey(namn)`, the exact mechanism
+     §3.5 diagnosed as the cause of the kidney-bean problem in the first place. The bean
+     case itself is genuinely fixed; nothing broader is.
+   - **The acceptance criterion "no classifier runs in the browser" is not met.**
+     `src/lib/storeOrder.ts`'s `guessAisleId()` calls `classify()` live, in the browser,
+     on a bare ingredient/item name with no brand or context — the weakest input the
+     classifier ever sees — for any shopping-list item that didn't arrive with a
+     pre-computed `kategori` (i.e. every hand-typed "Eget tillägg" entry, and every
+     recipe-ingredient add, since no recipe file has been backfilled with a stored
+     `kategori` — see `Ingredient.kategori` in `types.ts`, added but unpopulated). This
+     was disclosed as a deferred follow-up in the original PR description but should have
+     been stated as a failed acceptance criterion, not a soft "deferred" — those aren't
+     the same thing and shouldn't be blurred together.
+
 ### Watch-list ("Bevaka" tab)
 
 `public/data/erbjudanden/bevakningslista.json` holds a standing list of products to bulk-buy whenever they're a genuine bargain (e.g. a coffee brand, toilet paper in the usual big pack, a specific toothpaste). Each entry (`BevakningItem` in `types.ts`) has `sok` (lowercase keyword substrings matched against an offer's `namn`/`marke`), `undvik_marken` (brand substrings that disqualify a match — e.g. "not Gevalia"), and optional `onskat_marke`/`storlek_hint`/`troskel_kr`/`anteckning` for extra context. `BevakaView.tsx` cross-references this list against the current week's offers (via `useOffers`, same hook as Fynd): the left page shows the full watch-list with a 🔔 badge on any item currently matched, the right page shows the matched offers grouped by item — clicking a matched offer row (`.match-row`, same "whole row is the control" convention as `FyndView`'s double-click, `.in-list`/`🛒` shown once added) explicitly adds it to the shopping list via `useShoppingList`'s `addOrRestoreByName`/`removeOrMarkByName`/`isActiveByName`; clicking an already-added one removes it again (see the Shopping list section above — a bevaka match no longer lands on the list just by existing). **When adding a watch-list item, add an entry to `bevakningslista.json`** — there's no in-app "add" UI (consistent with this app's no-backend/JSON-in-git model), so new items or refinements (e.g. filling in a specific brand once decided) go straight into the file. Note four entries (`frukt`, `gront_farskt`, `gront_fryst`, `snacks_godis`) have an empty `sok`, meaning "watch the whole category" rather than a specific keyword (see `matchesBevakning` in `bevaka.ts`) — these can surface dozens of matches in one week, which is fine now that surfacing a match and adding it to the shopping list are two separate, explicit steps.
