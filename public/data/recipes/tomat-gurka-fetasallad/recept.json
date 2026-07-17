@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "slug": "tomat-gurka-fetasallad",
+  "nummer": 120,
+  "namn": "Tomat-, gurk- och fetaostsallad",
+  "tid_min": 15,
+  "portioner": 4,
+  "kategorier": ["vegetarisk", "glutenfri"],
+  "sasong": ["sommar"],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["sallad", "snabb", "sommar", "no-cook", "grekisk"],
+  "kalla": "Natasha's Kitchen",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1608897013039-887f21d8c804?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "tomater", "mangd": 500, "enhet": "g" },
+    { "vara": "gurka", "mangd": 1, "enhet": "st" },
+    { "vara": "fetaost", "mangd": 170, "enhet": "g" },
+    { "vara": "rödlök", "mangd": 1, "enhet": "st" },
+    { "vara": "färsk koriander", "mangd": 0.25, "enhet": "kruka" },
+    { "vara": "olivolja", "mangd": 2, "enhet": "msk", "grupp": "dressing" },
+    { "vara": "citronsaft", "mangd": 2, "enhet": "msk", "grupp": "dressing" },
+    { "vara": "vitlöksklyftor", "mangd": 2, "enhet": "st", "grupp": "dressing" },
+    { "vara": "salt", "mangd": 0.25, "enhet": "tsk", "grupp": "dressing" },
+    { "vara": "svartpeppar", "mangd": 0.25, "enhet": "tsk", "grupp": "dressing" },
+    { "vara": "spiskummin", "mangd": 0.25, "enhet": "tsk", "grupp": "dressing" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Blanda olivolja, citronsaft, pressad vitlök, salt, peppar och spiskummin i en liten skål till en dressing.",
+    "Lägg tomater, gurka, fetaost, rödlök och koriander i en stor skål.",
+    "Ringla dressingen över salladen precis innan servering och vänd försiktigt. Smaka av med extra salt vid behov."
+  ],
+  "servering": ["pitabröd"],
+  "tips": "Byt gärna ut koriandern mot dill om du föredrar det. Tillsätt dressingen precis innan servering så blir salladen fräsch och inte vattnig av tomaterna och gurkan.",
+  "komplett": true
+}
