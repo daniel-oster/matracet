@@ -37,16 +37,25 @@ const BRAND_OVERRIDES = [
   // no \b after "grevé" — JS regex \b treats accented letters as non-word chars, so a
   // boundary check right after "é" silently never matches (same class of bug as the
   // documented \böl\b trap); this substring is distinctive enough without one.
-  [/\bpräst\b|\bherrgård(?:sost)?\b|grevé|västerbottens?\b|grana padano|\bburrata\b|\bnorvegia\b/i, 'ost_hard'],
-  [/mozzarella/i, 'ost_fars_mjuk'],
+  [/\bpräst\b|\bherrgård(?:sost)?\b|grevé|västerbottens?\b|grana padano|\bnorvegia\b/i, 'ost_hard'],
+  // Burrata is a fresh/soft cheese (same family as mozzarella, not a hard cheese) —
+  // was grouped with the ost_hard pattern above until the "run the 125 hog entries"
+  // review caught it; moved in with mozzarella instead.
+  [/mozzarella|\bburrata\b/i, 'ost_fars_mjuk'],
   [/ballerina|singoalla|\bbrago\b|digestive|mariekex|\btuc\b|\boreo\b/i, 'kex'],
   [/\bdogman\b|chew rolls|hundbajspåsar?/i, 'djurgodis_tillbehor'],
   [/\bdoggy\b|\blatz\b(?!e)|smart pets/i, 'djurmat'],
-  [/\bsmash\b|\bjätten\b|\bdumle\b|ahlgrens|\bknatter\b|tutti frutti|tyrkisk peber|frökusar|pingvinstång/i, 'godis'],
+  [/\bjätten\b|\bdumle\b|ahlgrens|\bknatter\b|tutti frutti|tyrkisk peber|frökusar|pingvinstång/i, 'godis'],
   // Kinder is primarily a chocolate brand (Kinder Chocolate/Bueno/Surprise), not
   // boiled-sweets/gummy godis — moved here from the godis line above.
   [/marabou|\bdaim\b|kitkat|\blion\b|smarties|noblesse|\bkinder\b/i, 'choklad'],
   [/\bbregott\b/i, 'smor_margarin'],
+  // "Produkter från gräddhyllan | Flora • Flora by Milda" has no product name at
+  // all beyond a generic aisle description ("products from the cream shelf") — the
+  // "grädd" substring alone would otherwise fall through to mjolk_gradde, but Flora/
+  // Milda are margarine brands, not cream (a lost manual correction reapplied here
+  // as a real brand fact after a lexicon reset, per "run the 125" review).
+  [/\bflora\b|\bmilda\b/i, 'smor_margarin'],
   [/\byoggi\b|\bproviva\b|\bcultura\b|smakrike/i, 'fil_yoghurt'],
   [/\bgrandiosa\b/i, 'pizza'],
   // "Glace" (GB Glace) doesn't contain the substring "glass", so GLASS_RE's own gate
@@ -65,7 +74,9 @@ const BRAND_OVERRIDES = [
   [/\bwettex\b|\bmopp\b|maskindisk/i, 'stad_disk_tvatt'],
   [/pärsons|smörgåsmat/i, 'palagg_pastej'],
   [/\bmaggi\b/i, 'kryddor_buljong'],
-  [/\bpucko\b|\bcocio\b/i, 'juice_saft'],
+  // Pucko/Cocio are chocolate MILK drinks (a dairy product), not a juice/must —
+  // caught by the same "run the 125 hog entries" review as the burrata fix above.
+  [/\bpucko\b|\bcocio\b/i, 'mjolk_gradde'],
   [/\bknorr\b.*\bpot\b|\bpot\b.*\bknorr\b/i, 'enportionsratt'],
 ]
 
@@ -429,6 +440,15 @@ export function classify(namn, marke, details) {
   // review).
   if (/popcorn/i.test(haystack)) haystack = haystack.replace(/smör/gi, '')
 
+  // "Smash" is genuinely ambiguous, not a fact BRAND_OVERRIDES can safely assert: it's
+  // both an Ahlgrens/Fazer-adjacent candy name and the OLW "Smash!" savory snack line
+  // ("Choko crunch, smash | SMASH! • OLW" — the product name alone can't disambiguate
+  // which). Checked here, ahead of BRAND_OVERRIDES, so it reports the honest 'lag'
+  // confidence instead of inheriting BRAND_OVERRIDES' blanket 'hog' — caught by the
+  // "run the 125 hog entries" review, which found this was the one BRAND_OVERRIDES
+  // entry self-reporting certainty it didn't actually have.
+  if (/\bsmash\b/i.test(raw)) return finish('godis', haystack)
+
   for (const [re, leaf] of BRAND_OVERRIDES) {
     if (re.test(raw)) return finish(leaf, haystack, 'hog')
   }
@@ -486,14 +506,22 @@ export function classify(namn, marke, details) {
   if (BAR_RE.test(haystack)) {
     if (FRUIT_SNACK_RE.test(haystack)) return finish('bars', haystack)
     if (FRUIT_DAIRY_RE.test(haystack)) return finish(firstMatch(DAIRY_LEAF_RULES, haystack) ?? 'fil_yoghurt', haystack)
-    if (FRUIT_DRINK_RE.test(haystack)) return finish('juice_saft', haystack)
+    // firstMatch(DRYCK_LEAF_RULES, ...), not a hardcoded 'juice_saft' — "Citron
+    // kolsyrat vatten" is flavoured *water*, not juice; DRYCK_LEAF_RULES already knows
+    // that distinction (found in the round-3 review: both had been landing in
+    // juice_saft instead of lask_vatten).
+    if (FRUIT_DRINK_RE.test(haystack)) return finish(firstMatch(DRYCK_LEAF_RULES, haystack) ?? 'juice_saft', haystack)
     if (FRUIT_CEREAL_RE.test(haystack)) return finish('flingor_musli', haystack)
     return finish('bar', haystack)
   }
   if (FRUIT_RE.test(haystack)) {
     if (FRUIT_SNACK_RE.test(haystack)) return finish('bars', haystack)
     if (FRUIT_DAIRY_RE.test(haystack)) return finish(firstMatch(DAIRY_LEAF_RULES, haystack) ?? 'fil_yoghurt', haystack)
-    if (FRUIT_DRINK_RE.test(haystack)) return finish('juice_saft', haystack)
+    // firstMatch(DRYCK_LEAF_RULES, ...), not a hardcoded 'juice_saft' — "Citron
+    // kolsyrat vatten" is flavoured *water*, not juice; DRYCK_LEAF_RULES already knows
+    // that distinction (found in the round-3 review: both had been landing in
+    // juice_saft instead of lask_vatten).
+    if (FRUIT_DRINK_RE.test(haystack)) return finish(firstMatch(DRYCK_LEAF_RULES, haystack) ?? 'juice_saft', haystack)
     if (FRUIT_CEREAL_RE.test(haystack)) return finish('flingor_musli', haystack)
     return finish('frukt', haystack)
   }

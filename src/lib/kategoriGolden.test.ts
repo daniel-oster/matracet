@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import { classify } from './kategoriClassify.mjs'
+import { loadLexikon, lookupLexikon } from '../../scripts/erbjudanden-lexikon.mjs'
 
 /**
  * Regression test against a 200-row **genuinely blind random sample** of the corpus
@@ -29,6 +30,17 @@ import { classify } from './kategoriClassify.mjs'
  * exclusions, and more. Not a pass/fail gate at 100% — the point is to print
  * per-category accuracy and confusion pairs so a regression is visible and
  * diagnosable, not just red/green.
+ *
+ * Looks up the actual production lexicon first, falling back to classify() only on a
+ * lexicon miss -- a round-3 review of PR #79 correctly pointed out that testing
+ * classify() alone never exercises the file that actually drives the app
+ * (_kategori-lexikon.json, replayed by scripts/erbjudanden-recategorize.mjs), so a
+ * regex fix could pass this test while a stale/wrong lexicon entry for that exact
+ * product still ships. Every golden-set product should already be a lexicon hit
+ * (they were sampled from the real corpus), so this mostly just verifies the lexicon
+ * agrees with the classifier that seeded it -- but it will catch a manual correction
+ * that silently drifted from what the current classifier would say, which classify()
+ * alone cannot.
  */
 
 interface GoldenRow {
@@ -42,24 +54,30 @@ const fixturePath = path.join(
   '../../scripts/__fixtures__/kategori-golden.json',
 )
 const golden: GoldenRow[] = JSON.parse(readFileSync(fixturePath, 'utf8'))
+const lexikon = loadLexikon()
 
 describe('kategoriClassify against the golden set', () => {
   it('reports accuracy and stays above the regression floor', () => {
     let correct = 0
+    let lexikonMisses = 0
     const perCategory = new Map<string, { correct: number; total: number }>()
     const confusions: string[] = []
 
     for (const row of golden) {
-      const result = classify(row.namn, row.marke, '')
+      const entry = lookupLexikon(lexikon, row.namn, row.marke)
+      const kategori = entry ? entry.kategori : (lexikonMisses++, classify(row.namn, row.marke, '').kategori)
       const stats = perCategory.get(row.kategori) ?? { correct: 0, total: 0 }
       stats.total++
-      if (result.kategori === row.kategori) {
+      if (kategori === row.kategori) {
         correct++
         stats.correct++
       } else {
-        confusions.push(`${row.namn} | ${row.marke ?? ''} — expected ${row.kategori}, got ${result.kategori}`)
+        confusions.push(`${row.namn} | ${row.marke ?? ''} — expected ${row.kategori}, got ${kategori}`)
       }
       perCategory.set(row.kategori, stats)
+    }
+    if (lexikonMisses > 0) {
+      console.log(`\n${lexikonMisses}/${golden.length} golden rows were NOT in the lexicon (fell back to classify())`)
     }
 
     const accuracy = correct / golden.length

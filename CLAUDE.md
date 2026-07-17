@@ -792,6 +792,90 @@ cheese).
      been stated as a failed acceptance criterion, not a soft "deferred" — those aren't
      the same thing and shouldn't be blurred together.
 
+### Post-mortem, round 3: the "model pass" provenance overclaimed what actually happened
+
+A third review of the same PR found the model-classification pass above had shipped
+**"rules generate, lexicon caches, model never runs" — again**, just one layer deeper
+than round 2 caught: `motivering` was byte-identical boilerplate
+("Granskad individuellt i en fullständig lexikon-genomgång (2026-07).") across 1,223 of
+1,224 `kalla:'model'` entries — the literal opposite of evidence that each product was
+individually reasoned about, contradicting `klassificering.md`'s own per-product
+requirement — `varutyp`/`markeringar` were still populated for only 13 of 1,348 entries
+despite `kalla:'model'` claiming a full review, and `confidence` had swung back to
+1,342/1,348 `hog` (from the round-2 fix's honest ~125), self-reporting certainty the
+review process hadn't actually re-earned. Worse: **the one experiment that would have
+tested whether the mechanism works at all — reviewing the true `BRAND_OVERRIDES`-derived
+`confidence:'hog'` entries, the ones a human/model should be most likely to catch a
+wrong "fact" in — had never been run.** The review's explicit ask was narrow and
+concrete: run that one experiment, and stop the lexicon from claiming
+individually-reasoned review it hadn't done.
+
+**Fixed:**
+1. **Ran the actual experiment**: read all 125 `confidence:'hog'` lexicon entries (the
+   `BRAND_OVERRIDES` hits) by eye, one by one. Found and fixed 3 real bugs (2.4% error
+   rate on the set specifically curated to be "facts, not guesses" — evidence the
+   mechanism itself is sound, since a targeted review of the highest-confidence subset
+   still surfaces real mistakes): **Burrata** was grouped with the `ost_hard`
+   (hard-cheese) `BRAND_OVERRIDES` pattern — it's a fresh/soft cheese in the same family
+   as mozzarella (already correctly `ost_fars_mjuk`), not a hard one; moved into the
+   mozzarella pattern. **Pucko/Cocio** (chocolate milk drinks) were filed as
+   `juice_saft` — they're a dairy product (`mjolk_gradde`), not a juice/must; a plain
+   category-constant swap. **"Smash"** turned out to be the one `BRAND_OVERRIDES` entry
+   self-reporting certainty it didn't have: it's genuinely ambiguous between an
+   Ahlgrens/Fazer-adjacent candy name and the OLW "Smash!" savory snack line (documented
+   as an open ambiguity back in round 2's own writeup, but the entry still inherited
+   `BRAND_OVERRIDES`' blanket `'hog'`) — pulled out of `BRAND_OVERRIDES` into its own
+   explicit check ahead of it, reporting the honest default `'lag'` instead.
+2. **Reapplied a genuinely lost fix**: the lexicon reset done while chasing an unrelated
+   bug (a flavoured-sparkling-water misclassification — "Citron kolsyrat vatten" was
+   landing in `juice_saft` instead of `lask_vatten` because the drink-exclusion branches
+   in `BAR_RE`/`FRUIT_RE` always hardcoded `juice_saft` rather than checking which drink
+   category the exclusion actually matched; fixed by routing through
+   `DRYCK_LEAF_RULES` first) wiped a manual correction for "Produkter från gräddhyllan |
+   Flora • Flora by Milda" (a Flora/Milda margarine product with no product name beyond
+   a generic aisle description, so the bare "grädd" substring was winning
+   `mjolk_gradde` over the correct `smor_margarin`). Rather than re-adding it as a
+   one-off lexicon lock (fragile — lost again on the next reset), added `flora`/`milda`
+   to `BRAND_OVERRIDES` as a real, checked-for-collisions brand fact, so it's now
+   structural and survives any future lexicon regeneration.
+3. **Fixed the provenance overclaim by not making the claim**: rather than fabricating
+   1,223 more distinct `motivering` strings under time pressure (round 3's own stated
+   concern about cost), the lexicon reset above already put every entry back to the
+   honest baseline — `kalla:'regel'`, no `motivering` field, `confidence` split
+   124 `hog` (true `BRAND_OVERRIDES` facts) / 1,224 `lag` (plain regex verdicts) — and
+   that baseline was *kept* rather than re-decorated with `kalla:'model'` claims this
+   round can't back up with real distinct reasoning. The genuine review *work* from
+   round 2 (reading all 1,223 `lag` entries by category, finding and fixing 12 real
+   bugs) wasn't lost — its findings are encoded the correct way, structurally in
+   `kategoriClassify.mjs`'s regex/haystack rules (so every future product benefits, not
+   just the 1,223 reviewed at the time), which is a stronger artifact than a per-item
+   lexicon annotation would have been anyway. What's honestly true and now honestly
+   stated: two full-corpus reading passes have happened (round 2's 1,223 `lag` entries,
+   round 3's 125 `hog` entries) and both found real bugs, now fixed in the rule engine
+   itself — but the lexicon no longer claims a per-product `kalla:'model'` review that
+   didn't produce per-product evidence.
+4. **`kategoriGolden.test.ts` now tests the lexicon-first production path**, not
+   `classify()` in isolation — it looks up each golden-set product in
+   `_kategori-lexikon.json` first (the file `erbjudanden-recategorize.mjs` actually
+   replays into every saved offer) and only falls back to `classify()` on a lexicon
+   miss, per the review's "cheapest fix" framing: a regex change could pass the old
+   version of this test while a stale or wrong lexicon entry for that exact product
+   still shipped, since the lexicon — not a bare classifier call — is what the app
+   reads. Still 97.5% (195/200) on the same blind sample; unchanged because every
+   golden-set product is already a lexicon hit, which is itself a fine sanity check.
+5. **Still open, unchanged from item 5 above**: `varutyp` broad population and the
+   browser-side `classify()` call in `storeOrder.ts` — both explicitly out of scope
+   again this round, not silently dropped.
+
+**Lesson, the general shape repeating across all three rounds of this PR**: a metadata
+field that *claims* a process happened (`kalla:'model'`, `confidence:'hog'`,
+`motivering`) is only trustworthy if it's cheaper to tell the truth than to fake it —
+the moment producing honest per-item evidence is more expensive than the reviewer has
+budget for, the metadata should downgrade to match what was actually done, not quietly
+keep claiming the expensive version. Every round of review here caught exactly that gap
+between claimed and actual rigor; the fix each time was the same shape — either do the
+real work, or shrink the claim to fit it.
+
 ### Watch-list ("Bevaka" tab)
 
 `public/data/erbjudanden/bevakningslista.json` holds a standing list of products to bulk-buy whenever they're a genuine bargain (e.g. a coffee brand, toilet paper in the usual big pack, a specific toothpaste). Each entry (`BevakningItem` in `types.ts`) has `sok` (lowercase keyword substrings matched against an offer's `namn`/`marke`), `undvik_marken` (brand substrings that disqualify a match — e.g. "not Gevalia"), and optional `onskat_marke`/`storlek_hint`/`troskel_kr`/`anteckning` for extra context. `BevakaView.tsx` cross-references this list against the current week's offers (via `useOffers`, same hook as Fynd): the left page shows the full watch-list with a 🔔 badge on any item currently matched, the right page shows the matched offers grouped by item — clicking a matched offer row (`.match-row`, same "whole row is the control" convention as `FyndView`'s double-click, `.in-list`/`🛒` shown once added) explicitly adds it to the shopping list via `useShoppingList`'s `addOrRestoreByName`/`removeOrMarkByName`/`isActiveByName`; clicking an already-added one removes it again (see the Shopping list section above — a bevaka match no longer lands on the list just by existing). **When adding a watch-list item, add an entry to `bevakningslista.json`** — there's no in-app "add" UI (consistent with this app's no-backend/JSON-in-git model), so new items or refinements (e.g. filling in a specific brand once decided) go straight into the file. Note four entries (`frukt`, `gront_farskt`, `gront_fryst`, `snacks_godis`) have an empty `sok`, meaning "watch the whole category" rather than a specific keyword (see `matchesBevakning` in `bevaka.ts`) — these can surface dozens of matches in one week, which is fine now that surfacing a match and adding it to the shopping list are two separate, explicit steps.
