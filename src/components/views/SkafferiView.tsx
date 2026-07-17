@@ -6,7 +6,7 @@ import { useOffers } from '../../hooks/useOffers'
 import { useStash, StashKind } from '../../hooks/useStash'
 import { useShoppingList } from '../../hooks/useShoppingList'
 import { useIrrelevantOffers } from '../../hooks/useIrrelevantOffers'
-import { tagOffers } from '../../lib/bevaka'
+import { STORES, tagOffers } from '../../lib/bevaka'
 import { rankSuggestions, SuggestionFilter, SuggestionSort } from '../../lib/suggestions'
 import StashPantryPanel from '../StashPantryPanel'
 import TopBar from '../TopBar'
@@ -90,7 +90,14 @@ export default function SkafferiView({ onBack, recipeIndex, eaters, onOpenRecipe
             {activeManualItems.map(m => (
               <div className="shop-row shop-row--compact" key={m.id} onClick={() => markRemoved(m.id)}>
                 <span className="box" />
-                {m.vara}
+                <span className="shop-row-main">
+                  {m.amount ? `${m.amount} ${m.vara}` : m.vara}
+                  {m.source && <span className="shop-meal-tag"> ({m.source})</span>}
+                  {m.offerRef && (
+                    <span className="shop-fynd-tag">🏷 {STORES[m.offerRef.store]?.namn ?? 'Fynd'}</span>
+                  )}
+                  {!m.source && !m.offerRef && <span className="shop-manual-tag">✎ Eget tillägg</span>}
+                </span>
               </div>
             ))}
           </div>
