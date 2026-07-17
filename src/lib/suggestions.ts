@@ -35,10 +35,21 @@ export function suitableForPresent(r: RecipeIndexEntry, eaters: Eater[], present
   return true
 }
 
+/**
+ * Generic pantry staples that are too trivial/free to ever be a meaningful "bargain match" —
+ * e.g. a recipe's plain "vatten" (water, for boiling pasta) would otherwise substring-match a
+ * "Kolsyrat vatten 12-pack" offer, surfacing a sparkling-water deal as the reason to cook a
+ * completely unrelated dish. Same substring-collision shape as the erbjudanden classifier traps
+ * documented in CLAUDE.md, just in the offer-matching heuristic instead.
+ */
+const TRIVIAL_INGREDIENTS = new Set(['vatten', 'salt', 'peppar', 'svartpeppar', 'vitpeppar', 'salt och peppar', 'is', 'isbitar'])
+
 /** Find a currently-discounted offer whose name plausibly matches one of the recipe's ingredients. */
 function findOfferMatch(recipe: Recipe | undefined, offers: TaggedOffer[]): TaggedOffer | undefined {
   if (!recipe) return undefined
-  const ingredientNames = recipe.ingredienser.map(i => i.vara.trim().toLowerCase()).filter(Boolean)
+  const ingredientNames = recipe.ingredienser
+    .map(i => i.vara.trim().toLowerCase())
+    .filter(name => name && !TRIVIAL_INGREDIENTS.has(name))
   if (ingredientNames.length === 0) return undefined
   return offers.find(o => {
     const hay = o.namn.toLowerCase()
