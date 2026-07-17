@@ -843,4 +843,29 @@ input, select, textarea { font-family: inherit; }
   .stash-cook .sugg-list, .stash-suggest .sugg-list { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
 }
 
+/* ─── Floating nav (hamburger, appears on scroll-up) ──────────────────── */
+
+.floating-nav { position: fixed; top: 14px; left: 14px; z-index: 90; }
+.floating-nav-btn {
+  width: 40px; height: 40px; border-radius: 999px; flex: none;
+  border: 1px solid #3a3a3a; background: rgba(20, 16, 10, 0.9); color: var(--cream);
+  font-size: 17px; cursor: pointer; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+  display: grid; place-items: center;
+}
+.floating-nav.open .floating-nav-btn { background: #252525; }
+.floating-nav-menu {
+  position: absolute; top: 48px; left: 0; min-width: 200px; max-height: min(70vh, 460px);
+  overflow-y: auto; padding: 6px; border-radius: 12px;
+  background: #201d18; border: 1px solid #3a3a3a; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+.floating-nav-item {
+  display: flex; align-items: center; gap: 9px; width: 100%; text-align: left;
+  font-family: inherit; font-size: 14px; padding: 9px 10px; border-radius: 8px;
+  border: none; background: transparent; color: var(--cream); cursor: pointer;
+}
+.floating-nav-item:hover { background: rgba(255, 255, 255, 0.08); }
+.floating-nav-item:disabled { color: #6a6459; cursor: not-allowed; }
+.floating-nav-em { width: 18px; flex: none; text-align: center; }
+.floating-nav-divider { height: 1px; background: #3a3a3a; margin: 5px 4px; }
+
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }

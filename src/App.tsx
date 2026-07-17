@@ -14,6 +14,7 @@ import SkafferiView from './components/views/SkafferiView'
 import HistorikView from './components/views/HistorikView'
 import SynkaView from './components/views/SynkaView'
 import RecipeOverlay from './components/RecipeOverlay'
+import FloatingNav from './components/FloatingNav'
 import { resolvePresenceRange, addDays } from './presence/resolver'
 import { SEED_STORE } from './presence/seed'
 import type { DayPlan } from './presence/types'
@@ -42,6 +43,7 @@ export default function App() {
   const [dayPlans, setDayPlans] = useState<DayPlan[]>([])
   const [historyEntries, setHistoryEntries] = useState<HistoryEntry[]>([])
   const [screen, setScreen] = useState<ScreenName>('hub')
+  const [screenHistory, setScreenHistory] = useState<ScreenName[]>([])
   const [overlaySlug, setOverlaySlug] = useState<string | null>(null)
 
   useEffect(() => {
@@ -106,7 +108,31 @@ export default function App() {
     return <div className="app-loading">Laddar…</div>
   }
 
-  const toHub = () => setScreen('hub')
+  function navigate(next: ScreenName) {
+    if (next === screen) return
+    if (next === 'hub') {
+      setScreenHistory([])
+      setScreen('hub')
+      return
+    }
+    setScreenHistory(prev => [...prev, screen])
+    setScreen(next)
+  }
+
+  const toHub = () => navigate('hub')
+
+  function goBack() {
+    setScreenHistory(prev => {
+      if (prev.length === 0) {
+        setScreen('hub')
+        return prev
+      }
+      const next = [...prev]
+      const last = next.pop() as ScreenName
+      setScreen(last)
+      return next
+    })
+  }
 
   return (
     <div className="app-shell">
@@ -116,7 +142,7 @@ export default function App() {
           rollingDays={rollingDays}
           recipeIndex={recipeIndex}
           dayPlans={dayPlans}
-          onNavigate={setScreen}
+          onNavigate={navigate}
           onOpenRecipe={setOverlaySlug}
         />
       )}
@@ -163,6 +189,16 @@ export default function App() {
         />
       )}
       {screen === 'synka' && <SynkaView onBack={toHub} />}
+
+      {screen !== 'hub' && !overlaySlug && (
+        <FloatingNav
+          currentScreen={screen}
+          hasHistory={screenHistory.length > 0}
+          onBack={goBack}
+          onHub={toHub}
+          onNavigate={navigate}
+        />
+      )}
 
       {overlaySlug && (
         <RecipeOverlay slug={overlaySlug} onClose={() => setOverlaySlug(null)} />
