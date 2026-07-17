@@ -1,0 +1,1202 @@
+[
+  {
+    "namn": "Sylt Squeezy",
+    "marke": "BOB",
+    "kategori": "bak_sott",
+    "form": "torr"
+  },
+  {
+    "namn": "Hallon i ask",
+    "marke": "ICA",
+    "kategori": "bar",
+    "form": "farsk"
+  },
+  {
+    "namn": "Jordgubb/äpple Rostad Müsli",
+    "marke": "FREBACO KVARN",
+    "kategori": "bar",
+    "form": "farsk"
+  },
+  {
+    "namn": "Veckans bukett",
+    "marke": null,
+    "kategori": "blommor_vaxter",
+    "form": null
+  },
+  {
+    "namn": "Chips, nötter",
+    "marke": "GÅRDSCHIPS • GÅRDSNÖTTER",
+    "kategori": "chips_snacks",
+    "form": null
+  },
+  {
+    "namn": "Chips, ostbågar",
+    "marke": "OLW",
+    "kategori": "chips_snacks",
+    "form": null
+  },
+  {
+    "namn": "Chips, ostsnacks",
+    "marke": "OLW",
+    "kategori": "chips_snacks",
+    "form": null
+  },
+  {
+    "namn": "Chips, ostsnacks, jordnötsringar",
+    "marke": "Estrella",
+    "kategori": "chips_snacks",
+    "form": null
+  },
+  {
+    "namn": "Fotbollsnacks Paprika",
+    "marke": "PACKERS BRAND",
+    "kategori": "chips_snacks",
+    "form": null
+  },
+  {
+    "namn": "Fotbollssnacks",
+    "marke": "PACKERS BRAND",
+    "kategori": "chips_snacks",
+    "form": null
+  },
+  {
+    "namn": "Jordnötter Salta",
+    "marke": "ESTRELLA",
+    "kategori": "chips_snacks",
+    "form": null
+  },
+  {
+    "namn": "Naturella valnötter",
+    "marke": "EXOTIC SNACKS",
+    "kategori": "chips_snacks",
+    "form": null
+  },
+  {
+    "namn": "Salta jordnötter",
+    "marke": "ESTRELLA",
+    "kategori": "chips_snacks",
+    "form": null
+  },
+  {
+    "namn": "Noblesse",
+    "marke": "Marabou",
+    "kategori": "choklad",
+    "form": null
+  },
+  {
+    "namn": "Toffifee Hazelnut Nougat Chokladkola Ask",
+    "marke": "STORCK",
+    "kategori": "choklad",
+    "form": null
+  },
+  {
+    "namn": "Caesarsallad",
+    "marke": "REDO",
+    "kategori": "deli_sallad_wrap",
+    "form": "kyld"
+  },
+  {
+    "namn": "Krämiga sallader",
+    "marke": "RYDBERGS",
+    "kategori": "deli_sallad_wrap",
+    "form": "kyld"
+  },
+  {
+    "namn": "Krämiga sallader",
+    "marke": "Rydbergs",
+    "kategori": "deli_sallad_wrap",
+    "form": "kyld"
+  },
+  {
+    "namn": "Potatissallad",
+    "marke": "Redo",
+    "kategori": "deli_sallad_wrap",
+    "form": "kyld"
+  },
+  {
+    "namn": "Potatissallad",
+    "marke": "RYDBERGS",
+    "kategori": "deli_sallad_wrap",
+    "form": "kyld"
+  },
+  {
+    "namn": "Potatissallad",
+    "marke": "Rydbergs",
+    "kategori": "deli_sallad_wrap",
+    "form": "kyld"
+  },
+  {
+    "namn": "Potatissallad",
+    "marke": "ICA",
+    "kategori": "deli_sallad_wrap",
+    "form": "kyld"
+  },
+  {
+    "namn": "Potatissallad",
+    "marke": "REDO",
+    "kategori": "deli_sallad_wrap",
+    "form": "kyld"
+  },
+  {
+    "namn": "Glassås",
+    "marke": "DAZZLEY",
+    "kategori": "dessertsas",
+    "form": null
+  },
+  {
+    "namn": "Countryside Selection Kattmat Gelé 12-",
+    "marke": "pack LATZ",
+    "kategori": "djurmat",
+    "form": null
+  },
+  {
+    "namn": "Hundmat",
+    "marke": "Doggy Professional",
+    "kategori": "djurmat",
+    "form": null
+  },
+  {
+    "namn": "Nöt Paté Delikatesspaté Hundmat",
+    "marke": "DOGGY DELIKAT",
+    "kategori": "djurmat",
+    "form": null
+  },
+  {
+    "namn": "Energidryck",
+    "marke": "Red Bull",
+    "kategori": "energidryck",
+    "form": null
+  },
+  {
+    "namn": "Frysta Enportionsrätter",
+    "marke": "Dafgårds",
+    "kategori": "enportionsratt",
+    "form": "fryst"
+  },
+  {
+    "namn": "Ostschnitzel Fryst/1 Port",
+    "marke": "FINDUS",
+    "kategori": "enportionsratt",
+    "form": "fryst"
+  },
+  {
+    "namn": "The Original Pirog Frysta/10-pack",
+    "marke": "GORBY´S",
+    "kategori": "enportionsratt",
+    "form": "fryst"
+  },
+  {
+    "namn": "Fryst tunnskivad, tvådelad kycklingfilé",
+    "marke": "Guldfågeln",
+    "kategori": "fagel",
+    "form": "fryst"
+  },
+  {
+    "namn": "Kalkonköttbullar, kalkoncevapcici",
+    "marke": "Ingelsta kalkon",
+    "kategori": "fagel",
+    "form": null
+  },
+  {
+    "namn": "Majskyckling Bröstfilé Fryst",
+    "marke": "GULDFÅGELN",
+    "kategori": "fagel",
+    "form": "fryst"
+  },
+  {
+    "namn": "Satay Kycklingspett",
+    "marke": "SPICEFIELD",
+    "kategori": "fagel",
+    "form": null
+  },
+  {
+    "namn": "Svensk kycklingfärs",
+    "marke": "Kronfågel",
+    "kategori": "fagel",
+    "form": null
+  },
+  {
+    "namn": "Delikatessköttbullar",
+    "marke": "Garant",
+    "kategori": "fars_kottbullar",
+    "form": null
+  },
+  {
+    "namn": "Ekologisk nötfärs",
+    "marke": "Garant Eko",
+    "kategori": "fars_kottbullar",
+    "form": null
+  },
+  {
+    "namn": "Köttbullar",
+    "marke": "SCAN",
+    "kategori": "fars_kottbullar",
+    "form": null
+  },
+  {
+    "namn": "Köttbullar Färdiglagade",
+    "marke": "GARANT",
+    "kategori": "fars_kottbullar",
+    "form": null
+  },
+  {
+    "namn": "Nötfärs",
+    "marke": null,
+    "kategori": "fars_kottbullar",
+    "form": null
+  },
+  {
+    "namn": "Små delikatessköttbullar",
+    "marke": "Felix",
+    "kategori": "fars_kottbullar",
+    "form": null
+  },
+  {
+    "namn": "Svensk nötfärs",
+    "marke": "Smak av Gotland",
+    "kategori": "fars_kottbullar",
+    "form": null
+  },
+  {
+    "namn": "Bullar 10-pack",
+    "marke": "SKOGAHOLM",
+    "kategori": "fikabrod",
+    "form": null
+  },
+  {
+    "namn": "Bullar 10-pack",
+    "marke": "Skogaholm",
+    "kategori": "fikabrod",
+    "form": null
+  },
+  {
+    "namn": "Lyxbulle, Solbulle",
+    "marke": "Dafgårds",
+    "kategori": "fikabrod",
+    "form": null
+  },
+  {
+    "namn": "Toscabulle",
+    "marke": "BONJOUR",
+    "kategori": "fikabrod",
+    "form": null
+  },
+  {
+    "namn": "Vegetariska delikatessbullar",
+    "marke": "Felix",
+    "kategori": "fikabrod",
+    "form": null
+  },
+  {
+    "namn": "Drickkvarg",
+    "marke": "Lindahls",
+    "kategori": "fil_yoghurt",
+    "form": "kyld"
+  },
+  {
+    "namn": "Laxfilé i bit refreshed",
+    "marke": "FALKENBERG",
+    "kategori": "fisk",
+    "form": null
+  },
+  {
+    "namn": "Salladslax",
+    "marke": "ELDORADO",
+    "kategori": "fisk",
+    "form": null
+  },
+  {
+    "namn": "Frallor 4-pack",
+    "marke": "Garant",
+    "kategori": "frallor_tunnbrod",
+    "form": null
+  },
+  {
+    "namn": "Tortillabröd 8-pack",
+    "marke": "Santa Maria",
+    "kategori": "frallor_tunnbrod",
+    "form": null
+  },
+  {
+    "namn": "Apelsin Klass 1",
+    "marke": null,
+    "kategori": "frukt",
+    "form": "farsk"
+  },
+  {
+    "namn": "Citron Kolsyrat Vatten Pet",
+    "marke": "LOKA",
+    "kategori": "frukt",
+    "form": "farsk"
+  },
+  {
+    "namn": "Ekologiska minivattenmeloner",
+    "marke": "ICA I love eco",
+    "kategori": "frukt",
+    "form": "farsk"
+  },
+  {
+    "namn": "Hel ananas",
+    "marke": "COSTA RICA",
+    "kategori": "frukt",
+    "form": "farsk"
+  },
+  {
+    "namn": "Hel ananas",
+    "marke": null,
+    "kategori": "frukt",
+    "form": "farsk"
+  },
+  {
+    "namn": "Äpple Pink Lady",
+    "marke": null,
+    "kategori": "frukt",
+    "form": "farsk"
+  },
+  {
+    "namn": "Glass",
+    "marke": "Häagen Dazs",
+    "kategori": "glass",
+    "form": "fryst"
+  },
+  {
+    "namn": "Glass",
+    "marke": "Sia Glass",
+    "kategori": "glass",
+    "form": "fryst"
+  },
+  {
+    "namn": "Glass",
+    "marke": "GB Favorites",
+    "kategori": "glass",
+    "form": "fryst"
+  },
+  {
+    "namn": "Glass",
+    "marke": "Nick's",
+    "kategori": "glass",
+    "form": "fryst"
+  },
+  {
+    "namn": "Glass",
+    "marke": "Triumf Glass",
+    "kategori": "glass",
+    "form": "fryst"
+  },
+  {
+    "namn": "Glass",
+    "marke": "Alvestaglass",
+    "kategori": "glass",
+    "form": "fryst"
+  },
+  {
+    "namn": "Glass",
+    "marke": "Häagen-Dazs",
+    "kategori": "glass",
+    "form": "fryst"
+  },
+  {
+    "namn": "Glass 4-pack",
+    "marke": "Kar Kar",
+    "kategori": "glass",
+    "form": "fryst"
+  },
+  {
+    "namn": "Glass 4-pack",
+    "marke": "NESTLÉ",
+    "kategori": "glass",
+    "form": "fryst"
+  },
+  {
+    "namn": "Glass flerpack",
+    "marke": "TRIUMF GLASS",
+    "kategori": "glass",
+    "form": "fryst"
+  },
+  {
+    "namn": "Glass flerpack",
+    "marke": "SIA Glass",
+    "kategori": "glass",
+    "form": "fryst"
+  },
+  {
+    "namn": "Gräddglass",
+    "marke": "SIA Glass",
+    "kategori": "glass",
+    "form": "fryst"
+  },
+  {
+    "namn": "Klassiker Glass",
+    "marke": "GB GLACE",
+    "kategori": "glass",
+    "form": "fryst"
+  },
+  {
+    "namn": "Tutti frutti, tyrkisk peber",
+    "marke": "FAZER",
+    "kategori": "godis",
+    "form": null
+  },
+  {
+    "namn": "Fryst paj",
+    "marke": "Dafgårds",
+    "kategori": "gratang_paj",
+    "form": "fryst"
+  },
+  {
+    "namn": "Cocktailtomat Kvist Klass 1",
+    "marke": null,
+    "kategori": "gronsaker",
+    "form": "farsk"
+  },
+  {
+    "namn": "Ekologisk sallad 65g",
+    "marke": "GARANT EKO • Land se förp",
+    "kategori": "gronsaker",
+    "form": "farsk"
+  },
+  {
+    "namn": "Padronpaprika Klass 1",
+    "marke": null,
+    "kategori": "gronsaker",
+    "form": "farsk"
+  },
+  {
+    "namn": "Paprika 2-pack i påse",
+    "marke": "ICA",
+    "kategori": "gronsaker",
+    "form": "farsk"
+  },
+  {
+    "namn": "Paprikamix 400g",
+    "marke": "NEDERLÄNDERNA",
+    "kategori": "gronsaker",
+    "form": "farsk"
+  },
+  {
+    "namn": "Röd spetspaprika i påse",
+    "marke": "ICA",
+    "kategori": "gronsaker",
+    "form": "farsk"
+  },
+  {
+    "namn": "Sallad",
+    "marke": "Redo",
+    "kategori": "gronsaker",
+    "form": "farsk"
+  },
+  {
+    "namn": "Skurna sallader i påse",
+    "marke": "ICA",
+    "kategori": "gronsaker",
+    "form": "farsk"
+  },
+  {
+    "namn": "Snackpaprika i påse",
+    "marke": "ICA",
+    "kategori": "gronsaker",
+    "form": "farsk"
+  },
+  {
+    "namn": "Deodorant, Duschkräm, Handtvål",
+    "marke": "Palmolive",
+    "kategori": "hygien",
+    "form": null
+  },
+  {
+    "namn": "Duschcream",
+    "marke": "PALMOLIVE",
+    "kategori": "hygien",
+    "form": null
+  },
+  {
+    "namn": "Duschcream, handtvål, deo roll-on",
+    "marke": "Palmolive",
+    "kategori": "hygien",
+    "form": null
+  },
+  {
+    "namn": "Classico olivolja",
+    "marke": "Garant",
+    "kategori": "inlagt_delikatess",
+    "form": "torr"
+  },
+  {
+    "namn": "Ekologisk olivolja",
+    "marke": "Garant Eko",
+    "kategori": "inlagt_delikatess",
+    "form": "torr"
+  },
+  {
+    "namn": "Ekologiska oliver",
+    "marke": "GARANT EKO",
+    "kategori": "inlagt_delikatess",
+    "form": "torr"
+  },
+  {
+    "namn": "Kokosmjölk",
+    "marke": "Garant",
+    "kategori": "inlagt_delikatess",
+    "form": "torr"
+  },
+  {
+    "namn": "Oliver",
+    "marke": "Zeta",
+    "kategori": "inlagt_delikatess",
+    "form": "torr"
+  },
+  {
+    "namn": "Oliver Halkidiki",
+    "marke": "ICA",
+    "kategori": "inlagt_delikatess",
+    "form": "torr"
+  },
+  {
+    "namn": "Olivolja",
+    "marke": "Terra Delyssa",
+    "kategori": "inlagt_delikatess",
+    "form": "torr"
+  },
+  {
+    "namn": "Olivolja",
+    "marke": "De Cecco",
+    "kategori": "inlagt_delikatess",
+    "form": "torr"
+  },
+  {
+    "namn": "Olivolja Italiensk Extra Jungfru",
+    "marke": "GARANT EKO",
+    "kategori": "inlagt_delikatess",
+    "form": "torr"
+  },
+  {
+    "namn": "Pucko Original Chokladmjölk",
+    "marke": "COCIO",
+    "kategori": "juice_saft",
+    "form": null
+  },
+  {
+    "namn": "Saft",
+    "marke": "BOB",
+    "kategori": "juice_saft",
+    "form": null
+  },
+  {
+    "namn": "Kaffe hela bönor",
+    "marke": "Zoegas",
+    "kategori": "kaffe_te",
+    "form": null
+  },
+  {
+    "namn": "Snabbkaffe",
+    "marke": "Löfbergs",
+    "kategori": "kaffe_te",
+    "form": null
+  },
+  {
+    "namn": "Snabbkaffe Mellanrost Refill",
+    "marke": "ELDORADO",
+    "kategori": "kaffe_te",
+    "form": null
+  },
+  {
+    "namn": "Dessertglass",
+    "marke": "Daim, Oreo",
+    "kategori": "kex",
+    "form": null
+  },
+  {
+    "namn": "Digestives",
+    "marke": "McVities",
+    "kategori": "kex",
+    "form": null
+  },
+  {
+    "namn": "Kex",
+    "marke": "Oreo",
+    "kategori": "kex",
+    "form": null
+  },
+  {
+    "namn": "Tomater Krossade",
+    "marke": "ELDORADO",
+    "kategori": "konserv_tomat",
+    "form": "torr"
+  },
+  {
+    "namn": "Wienerkorv",
+    "marke": "GARANT",
+    "kategori": "korv",
+    "form": null
+  },
+  {
+    "namn": "Ekologiskt nötkött",
+    "marke": "Garant Eko",
+    "kategori": "kott",
+    "form": null
+  },
+  {
+    "namn": "Flankstek",
+    "marke": "Fine cuts Hacksta köttdisk",
+    "kategori": "kott",
+    "form": null
+  },
+  {
+    "namn": "Fryst vego",
+    "marke": "Oumph",
+    "kategori": "kott",
+    "form": "fryst"
+  },
+  {
+    "namn": "Grillrulle",
+    "marke": "Scan",
+    "kategori": "kott",
+    "form": null
+  },
+  {
+    "namn": "Kebab",
+    "marke": "Jojjen",
+    "kategori": "kott",
+    "form": null
+  },
+  {
+    "namn": "Lammframdel med Ben Fryst Nya Zeeland",
+    "marke": "AFFCO",
+    "kategori": "kott",
+    "form": "fryst"
+  },
+  {
+    "namn": "Nötspett",
+    "marke": "Scan",
+    "kategori": "kott",
+    "form": null
+  },
+  {
+    "namn": "Nötspett Peppar",
+    "marke": "SCAN",
+    "kategori": "kott",
+    "form": null
+  },
+  {
+    "namn": "Spareribs",
+    "marke": "Tulip",
+    "kategori": "kott",
+    "form": null
+  },
+  {
+    "namn": "Tomahawk",
+    "marke": "Prime",
+    "kategori": "kott",
+    "form": null
+  },
+  {
+    "namn": "Frysta kryddor",
+    "marke": "Garant",
+    "kategori": "kryddor_buljong",
+    "form": "fryst"
+  },
+  {
+    "namn": "Grillkrydda",
+    "marke": "Kockens",
+    "kategori": "kryddor_buljong",
+    "form": "torr"
+  },
+  {
+    "namn": "Coca-cola Zero Läsk Pet",
+    "marke": "COCA-COLA ZERO",
+    "kategori": "lask_vatten",
+    "form": null
+  },
+  {
+    "namn": "Kolsyrat vatten 12-pack",
+    "marke": "Premier",
+    "kategori": "lask_vatten",
+    "form": null
+  },
+  {
+    "namn": "Salladslök Knippe",
+    "marke": null,
+    "kategori": "lok",
+    "form": "farsk"
+  },
+  {
+    "namn": "Grekiskt lantbröd",
+    "marke": "Dafgårds",
+    "kategori": "matbrod",
+    "form": null
+  },
+  {
+    "namn": "Jubileumsbröd",
+    "marke": "Östras Bröd",
+    "kategori": "matbrod",
+    "form": null
+  },
+  {
+    "namn": "Surdegspizza",
+    "marke": "POP! BAKERY",
+    "kategori": "matbrod",
+    "form": null
+  },
+  {
+    "namn": "Gräddost 38%",
+    "marke": "GARANT",
+    "kategori": "mjolk_gradde",
+    "form": "kyld"
+  },
+  {
+    "namn": "Vispgrädde",
+    "marke": "Arla Ko, Arla Köket",
+    "kategori": "mjolk_gradde",
+    "form": "kyld"
+  },
+  {
+    "namn": "Cashewnötter",
+    "marke": "ICA Gott Liv",
+    "kategori": "notter_torkat",
+    "form": null
+  },
+  {
+    "namn": "Cashewnötter Stora Rostade med Havssalt",
+    "marke": "DENLILLENÖTT",
+    "kategori": "notter_torkat",
+    "form": null
+  },
+  {
+    "namn": "Ekologiskt jordnötssmör",
+    "marke": "Garant Eko",
+    "kategori": "notter_torkat",
+    "form": null
+  },
+  {
+    "namn": "Jordnötssmör",
+    "marke": "Skippy",
+    "kategori": "notter_torkat",
+    "form": null
+  },
+  {
+    "namn": "Jordnötssmör Creamy",
+    "marke": "SKIPPY",
+    "kategori": "notter_torkat",
+    "form": null
+  },
+  {
+    "namn": "Nötmix",
+    "marke": "OLW",
+    "kategori": "notter_torkat",
+    "form": null
+  },
+  {
+    "namn": "Färskost",
+    "marke": "Arla",
+    "kategori": "ost_fars_mjuk",
+    "form": "kyld"
+  },
+  {
+    "namn": "Färskost",
+    "marke": "Tine",
+    "kategori": "ost_fars_mjuk",
+    "form": "kyld"
+  },
+  {
+    "namn": "Mjukost",
+    "marke": "Kavli",
+    "kategori": "ost_fars_mjuk",
+    "form": "kyld"
+  },
+  {
+    "namn": "Mjukost",
+    "marke": "Fjällbrynt",
+    "kategori": "ost_fars_mjuk",
+    "form": "kyld"
+  },
+  {
+    "namn": "Ricotta Mild Färskost 9%",
+    "marke": "GARANT",
+    "kategori": "ost_fars_mjuk",
+    "form": "kyld"
+  },
+  {
+    "namn": "Dessertost",
+    "marke": "Kvibille / Castello",
+    "kategori": "ost_hard",
+    "form": "kyld"
+  },
+  {
+    "namn": "Fetaost",
+    "marke": "Garant",
+    "kategori": "ost_hard",
+    "form": "kyld"
+  },
+  {
+    "namn": "Getost",
+    "marke": "Soignon",
+    "kategori": "ost_hard",
+    "form": "kyld"
+  },
+  {
+    "namn": "Hamburgerost",
+    "marke": "Président",
+    "kategori": "ost_hard",
+    "form": "kyld"
+  },
+  {
+    "namn": "Hamburgerost",
+    "marke": "Eldorado",
+    "kategori": "ost_hard",
+    "form": "kyld"
+  },
+  {
+    "namn": "Hushållsost",
+    "marke": "ARLA",
+    "kategori": "ost_hard",
+    "form": "kyld"
+  },
+  {
+    "namn": "Maasdamer, gouda",
+    "marke": "WERNERSSON OST",
+    "kategori": "ost_hard",
+    "form": "kyld"
+  },
+  {
+    "namn": "Riven ost",
+    "marke": "Frischgold",
+    "kategori": "ost_hard",
+    "form": "kyld"
+  },
+  {
+    "namn": "Riven ost",
+    "marke": "GARANT • GARANT EKO",
+    "kategori": "ost_hard",
+    "form": "kyld"
+  },
+  {
+    "namn": "Riven västerbottensost",
+    "marke": "VÄSTERBOTTENS",
+    "kategori": "ost_hard",
+    "form": "kyld"
+  },
+  {
+    "namn": "Räkost 16%",
+    "marke": "KAVLI",
+    "kategori": "ost_hard",
+    "form": "kyld"
+  },
+  {
+    "namn": "Salladsost",
+    "marke": "Eldorado",
+    "kategori": "ost_hard",
+    "form": "kyld"
+  },
+  {
+    "namn": "Salladsost 21%",
+    "marke": "ELDORADO",
+    "kategori": "ost_hard",
+    "form": "kyld"
+  },
+  {
+    "namn": "Skivad ost",
+    "marke": "Frischgold",
+    "kategori": "ost_hard",
+    "form": "kyld"
+  },
+  {
+    "namn": "Skivad ost",
+    "marke": "ELDORADO",
+    "kategori": "ost_hard",
+    "form": "kyld"
+  },
+  {
+    "namn": "Västerbottensost",
+    "marke": "Norrmejerier",
+    "kategori": "ost_hard",
+    "form": "kyld"
+  },
+  {
+    "namn": "Grillost",
+    "marke": "ELDORADO",
+    "kategori": "ost_vit_grill",
+    "form": "kyld"
+  },
+  {
+    "namn": "Halloumi",
+    "marke": "ICA",
+    "kategori": "ost_vit_grill",
+    "form": "kyld"
+  },
+  {
+    "namn": "A-fil Naturell",
+    "marke": "ICA",
+    "kategori": "ovrigt",
+    "form": null
+  },
+  {
+    "namn": "Aktiv-Gel",
+    "marke": "Duck",
+    "kategori": "ovrigt",
+    "form": null
+  },
+  {
+    "namn": "Bbq Marsmallow",
+    "marke": "DAZZLEY",
+    "kategori": "ovrigt",
+    "form": null
+  },
+  {
+    "namn": "Bbq oil",
+    "marke": "Caj P.",
+    "kategori": "ovrigt",
+    "form": null
+  },
+  {
+    "namn": "Corn torillas",
+    "marke": "EL TACO TRUCK",
+    "kategori": "ovrigt",
+    "form": null
+  },
+  {
+    "namn": "Corn torillas",
+    "marke": "El Taco Truck",
+    "kategori": "ovrigt",
+    "form": null
+  },
+  {
+    "namn": "Crunchy",
+    "marke": "GARANT",
+    "kategori": "ovrigt",
+    "form": null
+  },
+  {
+    "namn": "Dumlekuddar",
+    "marke": "FAZER",
+    "kategori": "ovrigt",
+    "form": null
+  },
+  {
+    "namn": "Ferrari",
+    "marke": "Toms",
+    "kategori": "ovrigt",
+    "form": null
+  },
+  {
+    "namn": "Finbladiga sallater i påse",
+    "marke": "ICA",
+    "kategori": "ovrigt",
+    "form": null
+  },
+  {
+    "namn": "Iskuber",
+    "marke": "ICA",
+    "kategori": "ovrigt",
+    "form": null
+  },
+  {
+    "namn": "Lindorkulor",
+    "marke": "Lindt",
+    "kategori": "ovrigt",
+    "form": null
+  },
+  {
+    "namn": "Mumspannkakor",
+    "marke": "Pop! Bakery",
+    "kategori": "ovrigt",
+    "form": null
+  },
+  {
+    "namn": "Pannkakor",
+    "marke": "POP! Bakery, Myprotein",
+    "kategori": "ovrigt",
+    "form": null
+  },
+  {
+    "namn": "Pimiento de padron i påse",
+    "marke": "ICA",
+    "kategori": "ovrigt",
+    "form": null
+  },
+  {
+    "namn": "Proscuitto Crudo",
+    "marke": "Garant",
+    "kategori": "ovrigt",
+    "form": null
+  },
+  {
+    "namn": "Proteinpudding, shake",
+    "marke": "Valio 150-180g •",
+    "kategori": "ovrigt",
+    "form": null
+  },
+  {
+    "namn": "Rosta",
+    "marke": "Pågen",
+    "kategori": "ovrigt",
+    "form": null
+  },
+  {
+    "namn": "Hushållspapper 3-pack",
+    "marke": "Serla",
+    "kategori": "papper_pasar_folie",
+    "form": null
+  },
+  {
+    "namn": "Toalettpapper",
+    "marke": "Lambi",
+    "kategori": "papper_pasar_folie",
+    "form": null
+  },
+  {
+    "namn": "Ugnsfolie",
+    "marke": "Toppits",
+    "kategori": "papper_pasar_folie",
+    "form": null
+  },
+  {
+    "namn": "Fryst pizza",
+    "marke": "Grandiosa",
+    "kategori": "pizza",
+    "form": "fryst"
+  },
+  {
+    "namn": "Fryst pizza Suprema",
+    "marke": "Dr Oetker",
+    "kategori": "pizza",
+    "form": "fryst"
+  },
+  {
+    "namn": "Pizza",
+    "marke": "DR. OETKER",
+    "kategori": "pizza",
+    "form": null
+  },
+  {
+    "namn": "Pizza Ristorante",
+    "marke": "Dr. Oetker",
+    "kategori": "pizza",
+    "form": null
+  },
+  {
+    "namn": "Pizza supersize",
+    "marke": "BILLYS",
+    "kategori": "pizza",
+    "form": null
+  },
+  {
+    "namn": "Pizza topping",
+    "marke": "TULIP",
+    "kategori": "pizza",
+    "form": null
+  },
+  {
+    "namn": "Pizzakit",
+    "marke": "ICA",
+    "kategori": "pizza",
+    "form": null
+  },
+  {
+    "namn": "Pizzamix Riven 28%",
+    "marke": "FRISCHGOLD",
+    "kategori": "pizza",
+    "form": null
+  },
+  {
+    "namn": "Jasminris",
+    "marke": "Sevan",
+    "kategori": "ris_gryn",
+    "form": "torr"
+  },
+  {
+    "namn": "Chili Mayo Hot",
+    "marke": "EL TACO TRUCK",
+    "kategori": "sas_dressing",
+    "form": "torr"
+  },
+  {
+    "namn": "Majonnäs, Dressing",
+    "marke": "Hellmann's",
+    "kategori": "sas_dressing",
+    "form": "torr"
+  },
+  {
+    "namn": "Pesto",
+    "marke": "Garant",
+    "kategori": "sas_dressing",
+    "form": "torr"
+  },
+  {
+    "namn": "Pizzasås",
+    "marke": "GARANT",
+    "kategori": "sas_dressing",
+    "form": "torr"
+  },
+  {
+    "namn": "Multi Insect Spray Myggmedel",
+    "marke": "AUTAN",
+    "kategori": "skadedjur",
+    "form": null
+  },
+  {
+    "namn": "Rödräkor utan skal",
+    "marke": "KAPTEN ROYAL",
+    "kategori": "skaldjur",
+    "form": null
+  },
+  {
+    "namn": "Skagenröra, räksallad",
+    "marke": "Rydbergs",
+    "kategori": "skaldjur",
+    "form": null
+  },
+  {
+    "namn": "Bindor, trosskydd, tamponger",
+    "marke": "Intuition",
+    "kategori": "stad_disk_tvatt",
+    "form": null
+  },
+  {
+    "namn": "Dishmatic diskborste + 3-pack refill",
+    "marke": null,
+    "kategori": "stad_disk_tvatt",
+    "form": null
+  },
+  {
+    "namn": "Diskduk",
+    "marke": "FIXA",
+    "kategori": "stad_disk_tvatt",
+    "form": null
+  },
+  {
+    "namn": "Tandkräm",
+    "marke": "Sensodyne",
+    "kategori": "stad_disk_tvatt",
+    "form": null
+  },
+  {
+    "namn": "Champinjoner Skivor",
+    "marke": "GARANT",
+    "kategori": "svamp",
+    "form": "farsk"
+  },
+  {
+    "namn": "Champinjoner i ask",
+    "marke": "ICA",
+    "kategori": "svamp",
+    "form": "farsk"
+  },
+  {
+    "namn": "Marsipantårta",
+    "marke": "Anthon Berg",
+    "kategori": "tarta_kaka",
+    "form": null
+  },
+  {
+    "namn": "Vegetariska måltidsdelar",
+    "marke": "QUORN",
+    "kategori": "tofu_tempeh",
+    "form": null
+  },
+  {
+    "namn": "Ärtdryck",
+    "marke": "Sproud",
+    "kategori": "vaxtdryck",
+    "form": null
+  }
+]

@@ -146,40 +146,58 @@ Supersättning — varje butik fyller i det den exponerar, resten är `null`.
 | `markeringar` | Märkningar: `nyckelhal`, `msc`, `asc`, `krav`, `eko`, `svanen`, `rainforest`, `fairtrade`, `fagel_sverige`, `kott_sverige`, `svensk`, `miljomarkt`, `eu_blomman`, `glutenfri` … |
 | `ursprung` | Ursprungsland (ICA anger ibland) |
 | `notering` | Fritext (t.ex. "Tillfälligt parti", "Välj & blanda") |
-| `kategori` | Se nedan |
+| `kategori` | Se nedan — ett löv-id från `src/lib/kategoriTaxonomy.mjs` |
+| `form` | Förvaring/färskhet: `farsk` \| `kyld` \| `fryst` \| `torr` \| `konserv` \| `null` — se nedan |
+| `varutyp` | Finare gruppering än `kategori`, för Jämför-läget — se nedan |
+| `kategori_kalla` | `regel` \| `model` \| `manuell` — varifrån klassificeringen kommer; `manuell` är en spärr som aldrig skrivs över automatiskt |
 
-### Kategorier
+### Kategorier (omarbetad 2026-07 — se designdokumentet i det GitHub-issue som drev om arbetet)
 
-Grupperat efter "vad lagar jag med", inte butikens hyllplacering:
+Taxonomin är en tvånivåstruktur — **grupp** (UI-rubrik/kollaps-enhet) och **löv**
+(det faktiska `kategori`-värdet) — definierad på **ett enda ställe**:
+`src/lib/kategoriTaxonomy.mjs`. 12 grupper (+ `ovrigt` som en genuin restpost, inte
+riktigt en "grupp") och ~74 löv. Grupperat efter "vad lagar jag med", inte butikens
+hyllplacering — men **djupt** där hushållet faktiskt lagar mat (Protein har 13 löv,
+Frukt & Grönt har 7) och **grunt** där det bara skummas (Hygien är ett enda löv,
+oavsett om det är schampo, tandkräm eller rakhyvel).
 
-`protein_farsk`, `protein_fryst`, `gront_farsk`, `gront_fryst`, `frukt`,
-`mejeri`, `brod`, `fardigmat`, `dryck`, `skafferi`, `snacks_godis`,
-`hygien_hushall`, `ovrigt`.
+Grupper (i UI-ordning): **Frukt & Grönt** 🥦, **Protein** 🥩, **Mejeri & Ost** 🧀,
+**Bröd** 🍞, **Färdigmat** 🍕, **Glass & Dessert** 🍨, **Godis & Snacks** 🍫,
+**Dryck** 🥤, **Skafferi** 🥫, **Hushåll & Hygien** 🧴, **Barn** 👶 (kollapsad som
+standard), **Djur** 🐾 (kollapsad som standard), **Övrigt** 📦 (kollapsad som
+standard). Full lista med löv: se `src/lib/kategoriTaxonomy.mjs`, `GROUPS`.
 
-`protein_*` täcker kött, fågel, fisk, skaldjur, ägg och vegetariska/veganska
-proteinkällor (tofu, quorn, bönor, linser …), delat i färskt/fryst. `gront_*`
-är grönsaker (inkl. färska örter som dill/persilja), samma färskt/fryst-delning.
-`frukt` är frukt & bär (ingen färskt/fryst-delning). `mejeri` är mjölk, ost,
-yoghurt/kvarg/fil, smör/margarin och grädde. `brod` är bröd och bakverk
-(kaffebröd, tårtor, kakor — inte "kaka" i betydelsen chokladkaka/godisbit,
-se undantaget i `BROD_RE`). `fardigmat` är förädlade/färdiglagade rätter man
-värmer snarare än lagar från grunden — pizza, glass, gratänger, paj, pommes.
-`dryck` är läsk, saft, juice, kaffe, alkoholfritt öl/cider m.m. `skafferi` är
-såser, kryddor, olja, pasta, ris, torrvaror, konserver — det som ligger kvar
-i skafferiet mellan matlagningstillfällena. `hygien_hushall` är
-hygienartiklar, städ/disk, papper, blöjor och husdjursfoder. Dessa sex
-kategorier tillkom 2026-07 (`mejeri` något tidigare samma månad) för att
-tömma `ovrigt`, som innan dess var en enda odurchsökbar hög — se
-`CLAUDE.md`s "Dairy category..."-/"Bröd, Dryck, Skafferi..."-avsnitt för hela
-bakgrunden. `ovrigt` är numera en genuint liten restpost: produkter utan
-tillräckligt distinkt namn för någon regel ovan (t.ex. rena varumärkesnamn
-utan ett generiskt ord kvar, som "Herrgård®, Präst®, Grevé®"), plus några
-kategorier som medvetet inte fick en egen bucket (krukväxter/blommor,
-husdjursfoder delar `hygien_hushall` snarare — se koden för exakt gränsdragning).
-Se `scripts/erbjudanden-lib.mjs` (`guessKategori`) för nyckelordsgissningen —
-det är den enda källan; `scripts/erbjudanden-recategorize.mjs` är numera bara
-en tunn CLI-wrapper runt samma funktion (för att undvika att två separata
-nyckelordslistor glider isär, vilket hände flera gånger innan den skrevs om).
+**Kost (vegansk/vegetarisk) är en `markeringar`-flagga, aldrig en kategori** — en
+vegansk korv ligger i samma löv (`korv`) som falukorven den ersätter, inte i en egen
+"vego"-kategori (som aldrig skulle rymma en vegansk majonnäs eller havredryck ändå).
+Fynd-fliken har ett eget 🌱-filter som läser `markeringar`.
+
+**`form` ersätter den gamla `_farsk`/`_fryst`-uppdelningen av kategorin** (protein och
+grönt hade tidigare separata `protein_farsk`/`protein_fryst`-kategorier — bara 10 av
+1820 erbjudanden hamnade någonsin i `gront_fryst`, ett tecken på att uppdelningen inte
+fungerade). En fryst lax är fortfarande lax vid måltidsplanering, men fryst vid
+matinköp — `form: 'fryst'` styr shoppinglistans skafferi-vs-frysdisk-gång
+(`aisleFor()` i `kategoriTaxonomy.mjs`) utan att förgrena kategoriträdet.
+
+**`varutyp` löser "vilken buljong är billigast"-problemet**: två butikers
+kidneybönor-erbjudanden med olika produktnamn ("Kidneybönor" vs. "Bönor, kikärter")
+delar `varutyp: "bonor"` även om `kategori` (löv) redan är samma (`baljvaxter`) —
+`varutyp` finns för när ett löv i sig är för brett för att jämföra rakt av. Default
+är `varutyp === kategori`; finare uppdelning läggs till i lexikonet i takt med att
+riktiga produkter klassificeras (se nedan), inte i förväg.
+
+**Klassificeringen är inte längre en ren regex-gissning.** Se
+`.claude/skills/import-erbjudanden/klassificering.md` för hela pipelinen: ett
+Git-spårat lexikon (`_kategori-lexikon.json`) håller en produkt → kategori-mappning
+byggd upp vecka för vecka (samma produkt klassificeras aldrig om), nya produkter
+klassificeras av modellen i samma Claude Code-session som importerar veckan, och
+`scripts/erbjudanden-lib.mjs`s `classify()`/`guessKategori()` (i praktiken
+`src/lib/kategoriClassify.mjs`, re-exporterad för bakåtkompatibilitet) är bara ett
+**kallstarts-facit** för lexikon-missar — inte källan till sanning. Samma funktion
+används av `scripts/erbjudanden-verify.mjs`s ickefood-koll som en **verifierare**
+(kan bara säga "det här är definitivt fel", aldrig "det här är definitivt rätt") —
+kör den efter varje import. `ovrigt` är fortfarande ett godkänt svar; en ärlig
+`ovrigt` är billigare än en säker men fel gissning som skrivs till Git.
 
 ### Noteringar
 

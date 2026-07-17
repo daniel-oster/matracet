@@ -1,5 +1,6 @@
 import { BevakningItem, Offer, StoreOffers } from '../types'
 import { ShoppingOfferRef } from '../hooks/useShoppingList'
+import { GROUPS, groupOf } from './kategoriTaxonomy.mjs'
 
 export interface StoreMeta {
   namn: string
@@ -12,21 +13,14 @@ export const STORES: Record<string, StoreMeta> = {
   hemkop: { namn: 'Hemköp', klass: 'hemkop' },
 }
 
-export const CATEGORY_EMOJI: Record<string, string> = {
-  protein_farsk: '🥩',
-  protein_fryst: '🥩',
-  gront_farsk: '🥦',
-  gront_fryst: '🥦',
-  frukt: '🍎',
-  mejeri: '🥛',
-  brod: '🍞',
-  fardigmat: '🍕',
-  dryck: '🥤',
-  skafferi: '🥫',
-  snacks_godis: '🍫',
-  hygien_hushall: '🧴',
-  ovrigt: '📦',
-}
+/** Built from kategoriTaxonomy.mjs, not hand-maintained — every leaf inherits its
+ * parent group's emoji, and every group id is also a key (used by a "watch the whole
+ * category" BevakningItem — see matchesBevakning below), so this one map covers both
+ * offer-level (leaf) and watchlist-level (group) lookups without drifting apart. */
+export const CATEGORY_EMOJI: Record<string, string> = Object.fromEntries([
+  ...GROUPS.map(g => [g.id, g.emoji]),
+  ...GROUPS.flatMap(g => g.leaves.map(l => [l.id, g.emoji])),
+])
 
 export interface TaggedOffer extends Offer {
   store: string
@@ -48,11 +42,14 @@ export function toOfferRef(o: TaggedOffer): ShoppingOfferRef {
   return { store: o.store, week: o.week }
 }
 
-/** Empty `sok` means "watch the whole category" instead of matching specific keywords. */
+/** Empty `sok` means "watch the whole category" instead of matching specific
+ * keywords — `item.kategori` is a *group* id here (e.g. "godis_snacks",
+ * "frukt_gront"), not a single leaf, since the whole point is breadth ("all of
+ * snacks", not just one snack leaf). */
 export function matchesBevakning(item: BevakningItem, o: TaggedOffer): boolean {
   const hay = `${o.namn} ${o.marke ?? ''}`.toLowerCase()
   if (item.undvik_marken.some(b => hay.includes(b.toLowerCase()))) return false
-  if (item.sok.length === 0) return o.kategori === item.kategori
+  if (item.sok.length === 0) return groupOf(o.kategori) === item.kategori
   return item.sok.some(k => hay.includes(k.toLowerCase()))
 }
 

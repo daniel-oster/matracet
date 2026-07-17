@@ -22,7 +22,7 @@
 //   node scripts/erbjudanden-parse-ica-html.mjs page.html > draft.json
 
 import { readFileSync } from 'node:fs';
-import { extractUrsprung, markeringarFromUrsprung, guessKategori, tightenUnit, toNumber } from './erbjudanden-lib.mjs';
+import { extractUrsprung, markeringarFromUrsprung, classify, tightenUnit, toNumber } from './erbjudanden-lib.mjs';
 
 const [, , input] = process.argv;
 if (!input) {
@@ -124,6 +124,8 @@ function parseArticle(chunk) {
     jamforpris = `${splash.pris.toFixed(2)}/${splash.unit}`;
   }
 
+  const cls = classify(namn, marke, `${boldText} ${detailText}`);
+
   return {
     namn,
     marke,
@@ -137,10 +139,13 @@ function parseArticle(chunk) {
     besparing: null,
     klubbpris: false,
     max_kop: maxKopM ? parseInt(maxKopM[1], 10) : null,
-    markeringar: markeringarFromUrsprung(ursprung),
+    markeringar: markeringarFromUrsprung(ursprung, cls.markeringar),
     ursprung,
     notering: splash.notering ?? null,
-    kategori: guessKategori(namn, `${boldText} ${detailText}`),
+    kategori: cls.kategori,
+    form: cls.form,
+    varutyp: cls.varutyp,
+    kategori_kalla: cls.kategori_kalla,
   };
 }
 

@@ -1,130 +1,68 @@
-/**
- * "Normal order" aisle sequence for the shopping list — a generic Swedish grocery-store
- * walk order used as a placeholder until real per-store aisle layouts are configured
- * (see CLAUDE.md: store-specific ordering is a planned follow-up, this is the interim default).
- */
-export interface AisleCategory {
-  id: string
-  label: string
+// Shopping-list aisle ("store walk") ordering — a generic Swedish grocery-store walk
+// order used as a placeholder until real per-store aisle layouts are configured (see
+// CLAUDE.md: store-specific ordering is a planned follow-up, this is the interim
+// default).
+//
+// This used to carry its own hand-maintained keyword classifier (`guessAisleCategory`,
+// a ~10-category list that drifted from `erbjudanden-lib.mjs`'s `guessKategori` more
+// than once — see CLAUDE.md's "Two taxonomies already exist and disagree"). The
+// categorisation-rework design issue (2026-07) replaced both with a single shared
+// classifier (`kategoriClassify.mjs`) and a single taxonomy (`kategoriTaxonomy.mjs`);
+// this file now only maps a taxonomy leaf (+ its `form`) to a walk-order aisle id via
+// `aisleFor()` — it does not re-derive a category from a product name itself, and
+// there is exactly one place in the codebase that does that keyword matching.
+import { classify } from './kategoriClassify.mjs'
+import { aisleFor, AISLE_ORDER } from './kategoriTaxonomy.mjs'
+
+const AISLE_LABELS: Record<string, string> = {
+  frukt_gront: 'Frukt & Grönt',
+  brod: 'Bröd',
+  kott_fisk: 'Kött & Fisk',
+  mejeri: 'Mejeri & Ost',
+  skafferi: 'Skafferi',
+  fryst: 'Fryst',
+  dryck: 'Dryck',
+  snacks_godis: 'Snacks & Godis',
+  hushall: 'Hushåll & Hygien',
+  barn: 'Barn',
+  djur: 'Djur',
+  ovrigt: 'Övrigt',
 }
 
-export const AISLE_CATEGORIES: AisleCategory[] = [
-  { id: 'frukt_gront', label: 'Frukt & Grönt' },
-  { id: 'brod', label: 'Bröd' },
-  { id: 'kott_fisk', label: 'Kött & Fisk' },
-  { id: 'mejeri', label: 'Mejeri & Ägg' },
-  { id: 'skafferi', label: 'Skafferi' },
-  { id: 'fryst', label: 'Fryst' },
-  { id: 'dryck', label: 'Dryck' },
-  { id: 'snacks_godis', label: 'Snacks & Godis' },
-  { id: 'hushall', label: 'Hushåll & Hygien' },
-  { id: 'ovrigt', label: 'Övrigt' },
-]
-
-const AISLE_LABEL = new Map(AISLE_CATEGORIES.map(c => [c.id, c.label]))
-const DEFAULT_SEQUENCE = AISLE_CATEGORIES.map(c => c.id)
-
 /** Per-store walk order — every store uses the same placeholder sequence today
- * (`DEFAULT_SEQUENCE`), but each store gets its own array so a real, distinct aisle
- * order can be dropped in per store later without touching the categorizer at all. */
+ * (`AISLE_ORDER`), but each store gets its own array so a real, distinct aisle order
+ * can be dropped in per store later without touching the categorizer at all. */
 const AISLE_SEQUENCES: Record<string, string[]> = {
-  willys: DEFAULT_SEQUENCE,
-  ica: DEFAULT_SEQUENCE,
-  hemkop: DEFAULT_SEQUENCE,
+  willys: AISLE_ORDER,
+  ica: AISLE_ORDER,
+  hemkop: AISLE_ORDER,
 }
 
 function sequenceFor(store?: string | null): string[] {
-  return (store && AISLE_SEQUENCES[store]) || DEFAULT_SEQUENCE
+  return (store && AISLE_SEQUENCES[store]) || AISLE_ORDER
 }
 
-function includesAny(hay: string, words: string[]): boolean {
-  return words.some(w => hay.includes(w))
-}
-
-function matchesAny(hay: string, words: string[], patterns: RegExp[] = []): boolean {
-  return includesAny(hay, words) || patterns.some(p => p.test(hay))
-}
-
-// Checked in this exact order — narrower/compound-word groups first, so e.g.
-// "kokosmjölk" (skafferi) resolves before the broad "mjölk" (mejeri) keyword ever runs,
-// and "kaffebönor" (dryck) resolves before the broad "böna" (skafferi) keyword.
-// See CLAUDE.md "Lessons learned" for the substring-collision trap this guards against.
-const AMBIGUOUS_RE: [RegExp, string][] = [
-  [/pålägg/, 'ovrigt'], // generic "sandwich topping", any kind — can't classify narrower
-]
-
-const HUSHALL_WORDS = [
-  'tvättmedel', 'diskmedel', 'diskborste', 'disksvamp', 'handdisk',
-  'toalettpapper', 'hushållspapper', 'rengöring', 'rengör', 'städ',
-  'servett', 'tandkräm', 'schampo', 'tvål', 'sopsäck', 'blöja', 'plastfolie', 'bakplåtspapper',
-]
-const SNACKS_WORDS = ['godis', 'choklad', 'chips', 'kex', 'lakrits', 'karamell', 'popcorn', 'jordnötsring']
-const DRYCK_WORDS = ['kaffe', ' te ', 'läsk', 'juice', 'saft', ' öl', 'vin', 'cider', 'mineralvatten', 'dricka', 'vatten']
-const FRYST_WORDS = ['fryst', 'frysta', 'glass']
-const SKAFFERI_WORDS = [
-  'pasta', 'spagetti', 'fusilli', 'penne', 'makaroner', 'lasagneplatt', 'nudlar', 'äggnudlar', 'äggpasta',
-  'ris', 'quinoa', 'couscous', 'socker', 'honung', 'sirap', 'russin',
-  'mandel', 'cashew', 'jordnöt', 'sesam', 'kikärt', 'lins', 'kokosmjölk', 'kokosgrädde', 'jordnötssmör',
-  'konserv', 'buljong', 'fond', 'olja', 'vinäger', 'ketchup', 'senap', 'majonnäs', 'curry', 'krydda',
-  'peppar', 'salt', 'soja', 'ströbröd', 'böna', 'bönor', 'tomatpuré', 'krossade tomater', 'passerade tomater',
-]
-// "mjöl" (flour) as a bare substring also matches inside "mjölk" (milk) — exclude that one case.
-const SKAFFERI_PATTERNS = [/mjöl(?!k)/]
-const MEJERI_WORDS = [
-  'mjölk', 'grädde', 'yoghurt', 'yogurt', 'kvarg', 'keso', 'ost', 'halloumi',
-  'smör', 'margarin', 'ägg', 'crème fraiche', 'creme fraiche', 'mozzarella', 'parmesan', 'fetaost',
-]
-// "fil" (cultured milk) as a bare substring also matches inside "filé" (meat/fish fillet, e.g.
-// "laxfilé") — exclude that one case; the actual protein keyword (lax/oxfilé/...) picks it up instead.
-const MEJERI_PATTERNS = [/fil(?!é)/]
-const KOTT_FISK_WORDS = [
-  'kött', 'fläsk', 'kyckling', 'bacon', 'sidfläsk', 'skinka', 'korv', 'salami', 'prosciutto',
-  'biff', 'entrecote', 'oxfilé', 'karré', 'revben', 'kalkon', 'anka', 'lamm', 'vilt',
-  'fisk', 'torsk', 'lax', 'sej', 'kolja', 'räka', 'räkor', 'mussl', 'bläckfisk', 'tonfisk', 'sill', 'ansjovis',
-  'tofu', 'quorn', 'seitan', 'tempeh',
-]
-// "färs" (mince/ground meat) as a bare substring also matches inside "färsk(t/a)" (fresh, an
-// adjective) and its compounds, e.g. "Färskpotatis" (new potatoes) — exclude "färs" immediately
-// followed by "k" (real mince compounds always end in "färs": nötfärs, fläskfärs, köttfärs, ...,
-// never "färsk..."). A blanket strip of "färsk\w*" was tried first but also ate "potatis" out of
-// "Färskpotatis" whole, losing the FRUKT_GRONT_WORDS match it needs — matching only the exact
-// substring that's ambiguous is more precise than stripping the word that contains it.
-const KOTT_FISK_PATTERNS = [/färs(?!k)/]
-const BROD_WORDS = ['bröd', 'limpa', 'fralla', 'baguette', 'tortilla', 'pitabröd', 'knäckebröd', 'skorpor', 'croissant', 'bulle']
-const FRUKT_GRONT_WORDS = [
-  'lök', 'morot', 'potatis', 'tomat', 'gurka', 'paprika', 'broccoli', 'blomkål', 'zucchini', 'aubergine',
-  'spenat', 'sallad', 'citron', 'lime', 'äpple', 'banan', 'päron', 'apelsin', 'avokado', 'champinjon', 'svamp',
-  'kål', 'chili', 'ingefära', 'koriander', 'basilika', 'persilja', 'dill', 'sötpotatis', 'pumpa', 'frukt', 'grönt',
-]
-
-/** Best-effort aisle guess for a grocery item name — the interim "normal order" categorizer. */
-export function guessAisleCategory(name: string): string {
-  const hay = ` ${name.trim().toLowerCase()} `
-
-  for (const [re, id] of AMBIGUOUS_RE) if (re.test(hay)) return id
-
-  if (includesAny(hay, HUSHALL_WORDS)) return 'hushall'
-  if (includesAny(hay, SNACKS_WORDS)) return 'snacks_godis'
-  if (includesAny(hay, DRYCK_WORDS)) return 'dryck'
-  if (includesAny(hay, FRYST_WORDS)) return 'fryst'
-  if (matchesAny(hay, SKAFFERI_WORDS, SKAFFERI_PATTERNS)) return 'skafferi'
-  if (matchesAny(hay, MEJERI_WORDS, MEJERI_PATTERNS)) return 'mejeri'
-  if (matchesAny(hay, KOTT_FISK_WORDS, KOTT_FISK_PATTERNS)) return 'kott_fisk'
-  if (includesAny(hay, BROD_WORDS)) return 'brod'
-  if (includesAny(hay, FRUKT_GRONT_WORDS)) return 'frukt_gront'
-  return 'ovrigt'
+/** Best-effort aisle guess for a grocery item name — used for items that only carry a
+ * plain name (a hand-typed "Eget tillägg" list entry, or a recipe ingredient that
+ * hasn't been backfilled with its own `kategori` yet, see Ingredient.kategori in
+ * types.ts). An item with a known taxonomy leaf already assigned (an offer, or a
+ * recipe ingredient authored with `kategori` set) should call `aisleFor()` directly
+ * instead of re-classifying its name here. */
+export function guessAisleId(name: string): string {
+  const { kategori, form } = classify(name, null, '')
+  return aisleFor(kategori, form)
 }
 
 /** Rank within one store's walk order (or the shared placeholder order if `store` is
  * unset/unknown) — lower sorts first. */
 export function aisleRank(name: string, store?: string | null): number {
   const seq = sequenceFor(store)
-  const idx = seq.indexOf(guessAisleCategory(name))
+  const idx = seq.indexOf(guessAisleId(name))
   return idx === -1 ? seq.length : idx
 }
 
 export function aisleLabel(id: string): string {
-  return AISLE_LABEL.get(id) ?? 'Övrigt'
+  return AISLE_LABELS[id] ?? 'Övrigt'
 }
 
 /** Sorts by one store's aisle order (see `aisleRank`), then alphabetically within each aisle. */
@@ -147,7 +85,7 @@ export function groupByAisle<T>(items: T[], getName: (item: T) => string, store?
   const sorted = sortByAisle(items, getName, store)
   const groups: AisleGroup<T>[] = []
   for (const item of sorted) {
-    const id = guessAisleCategory(getName(item))
+    const id = guessAisleId(getName(item))
     const last = groups[groups.length - 1]
     if (last && last.id === id) last.items.push(item)
     else groups.push({ id, label: aisleLabel(id), items: [item] })

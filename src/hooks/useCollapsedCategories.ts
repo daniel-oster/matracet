@@ -24,11 +24,17 @@ export interface UseCollapsedCategories {
   toggle: (groupId: string) => void
 }
 
-export function useCollapsedCategories(): UseCollapsedCategories {
+/** `defaultCollapsedIds` (e.g. taxonomy groups with `standardDold: true` — Djur,
+ * Barn, Övrigt) start collapsed without the user having tapped anything; the stored
+ * set still just means "toggled away from its default", so `toggle` itself needs no
+ * knowledge of which groups default which way — presence in the set flips whichever
+ * default the caller passed in. */
+export function useCollapsedCategories(defaultCollapsedIds: string[] = []): UseCollapsedCategories {
   const data = useSyncExternalStore(collapsedCategoriesStore.subscribe, collapsedCategoriesStore.getSnapshot, () => EMPTY)
   const set = new Set(data.groupIds)
+  const defaults = new Set(defaultCollapsedIds)
   return {
-    isCollapsed: (groupId: string) => set.has(groupId),
+    isCollapsed: (groupId: string) => (defaults.has(groupId) ? !set.has(groupId) : set.has(groupId)),
     toggle,
   }
 }
