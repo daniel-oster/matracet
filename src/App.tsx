@@ -19,6 +19,7 @@ import { resolvePresenceRange, addDays } from './presence/resolver'
 import { SEED_STORE } from './presence/seed'
 import type { DayPlan } from './presence/types'
 import { mergeFeedbackBaseline } from './hooks/useFeedback'
+import { hydrateFromSync } from './lib/syncHydration'
 
 function getISOWeekString(isoDate: string): string {
   const d = new Date(isoDate + 'T00:00:00Z')
@@ -101,6 +102,21 @@ export default function App() {
       setWeekLabel(`${month.charAt(0).toUpperCase() + month.slice(1)} ${year} · Vecka ${isoWeek}`)
 
       setDayPlans(resolvePresenceRange(today, addDays(today, 6), SEED_STORE))
+    })
+  }, [])
+
+  // GitHub-sync hydration (see CLAUDE.md's "GitHub-backed auto-sync" section) — a fully
+  // independent effect on purpose: it never sets any state the loading gate below depends
+  // on, so a slow or failing device-sync fetch can't add a second way for "Laddar…" to spin
+  // forever. No token → hydrateFromSync resolves immediately with zero network calls.
+  useEffect(() => {
+    hydrateFromSync().then(outcome => {
+      if (outcome.status === 'applied') {
+        console.info('[matracet sync] hydrated from device-sync', outcome.decisions)
+      } else if (outcome.status === 'error') {
+        // Phase 3 wires this to a toast instead of just a console warning.
+        console.warn('[matracet sync] hydration failed:', outcome.reason)
+      }
     })
   }, [])
 

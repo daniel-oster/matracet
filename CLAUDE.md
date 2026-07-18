@@ -917,7 +917,7 @@ a dedicated `device-sync` branch via the Contents API; a scheduled Action merges
 see the originating task/issue for the full spec (branch keys the file, one snapshot object, no
 diffing/CRDTs, single-writer assumption throughout).
 
-**Status: Phase 1 only.** `src/lib/githubSync.ts` is the pure client — `getToken`/`setToken`/
+**Status: Phase 1 + Phase 2.** `src/lib/githubSync.ts` is the pure client — `getToken`/`setToken`/
 `clearToken` (token lives at `matracet:sync:token`, deliberately outside the synced-store set: it
 must never itself be synced), `fetchState()`/`pushState(state, knownSha?)` against
 `repos/daniel-oster/matracet/contents/sync/state.json?ref=device-sync`, typed `SyncStatus` results
@@ -927,8 +927,51 @@ characters), and `serializeState()` sorting store keys so an unchanged snapshot 
 byte-identical. `pushState`'s 409 handling: refetch the sha once and retry once; a second 409
 returns `conflict-exhausted` rather than looping — under single-writer, a repeat conflict means
 something's genuinely wrong, not a transient race. Covered by `src/lib/githubSync.test.ts` (mocked
-`fetch`) — no UI wiring, no localStorage-store subscription/debounce, no GitHub Actions changes yet;
-none of that exists in the app or repo yet, so this phase changes zero runtime behavior.
+`fetch`).
+
+**Phase 2 — snapshot assembly + boot hydration, now wired into `App.tsx`.** `src/lib/localStore.ts`
+gained a **shared** touched-ledger (`matracet:sync:touched:v1`, one small map keyed by store key —
+not a companion localStorage key per store) rather than wrapping each store's own value, so every
+existing `get()`/`getSnapshot()` caller is untouched. Three write paths, each with different sync
+semantics: `set()` (a genuine local edit — stamps the ledger to "now"), `setFromSync(next,
+touchedAt)` (sync hydration adopting a remote value — stamps the ledger to the *remote's* timestamp,
+not now, so a freshly-hydrated value isn't mistaken for an edit and immediately re-pushed), and
+`setSilently()` (persists without touching the ledger at all — for writes that are neither, see
+below). `src/lib/syncStores.ts` is the **hand-picked** registry of which stores actually sync
+(`SYNCED_STORES`, a `SyncableStore[]` erasing each store's own `T` via an adapter, since `T` is
+contravariant in `set`/`setFromSync` and a plain array of `LocalStore<unknown>` doesn't typecheck)
+— IN: feedback, irrelevant-offers, weekplan, category-feedback, stash, shopping list, chaos mode;
+OUT: `matracet:fynd-collapsed:v1` (purely cosmetic per-device UI state, no cross-device value).
+`src/lib/syncSnapshot.ts`'s `collectSnapshot()`/`applyRemoteSnapshot()` do the actual newer-wins
+comparison (per-store, not per-snapshot-as-a-whole) and forward-compatibly ignore an unknown remote
+store key instead of crashing. `src/lib/syncHydration.ts`'s `hydrateFromSync()` ties fetchState +
+applyRemoteSnapshot together for `App.tsx`'s boot effect.
+
+**Critique-gate finding worth keeping**: the boot `Promise.all` already writes to a synced store —
+`mergeFeedbackBaseline` (gap-filling ratings from the git-tracked `feedback.json` baseline) calls
+`feedbackStore.set(...)`. If that stayed a genuine `.set()`, it would stamp the ledger to "now" on
+every boot that has any gap to fill, so a *later* sync hydration in the same boot would then always
+see local as "just touched" and skip adopting a genuinely newer remote snapshot — silently breaking
+sync, and the bug would depend on operation *ordering* between two independent async effects (fragile,
+hard to test for). Fixed at the root instead of by sequencing: `mergeFeedbackBaseline` now calls
+`feedbackStore.setSilently(...)` — a git-baseline gap-fill is conceptually the same non-edit category
+as a sync hydration, not a fresh local edit, so it shouldn't move the ledger either. This makes the
+two effects' relative order irrelevant to correctness, which is why hydration in `App.tsx` is a
+*second, fully independent* `useEffect` — it never blocks or is blocked by the static data fetch, so
+a slow/failing device-sync request can't become a second way for the `Laddar…` gate to spin forever.
+Verified end-to-end with a throwaway Playwright script (not committed — one-off verification, see
+Phase 2's own validation step) against `npm run preview`: zero `api.github.com` calls with no token
+stored, and with a token + a mocked device-sync response, a remote-only store value (chaos mode)
+lands in localStorage and `console.info('[matracet sync] hydrated from device-sync', …)` logs the
+per-store decision (including `ignored-unknown-key` for a synthetic future-store test key).
+
+Documented, not handled: newer-wins is a lexicographic compare of `toISOString()` timestamps, so a
+wrong device clock can flip a comparison either way — cosmetic under the single-writer assumption
+(worst case, a device's own earlier remote copy clobbers its own more-recent edit), not a
+cross-writer data-loss risk.
+
+No UI wiring yet (no token-entry screen, no push path, no toast, no GitHub Actions changes) — that's
+Phase 3+.
 
 **Known blocker before any later phase goes live: this repo is currently public.** The plan's own
 risk section flags that auto-push inherits the repo's visibility — ratings, per-meal attendance
