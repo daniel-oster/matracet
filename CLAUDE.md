@@ -1014,16 +1014,58 @@ shows on screen. The debounce/coalescing timing itself is proven by the fake-tim
 above, not by eyeballing a browser network tab — a deliberately stronger and cheaper check for
 that specific behavior than the plan's own "manually verify in devtools" validation step.
 
-Still open: no GitHub Actions changes (Phase 4's merge workflow), no intelligence queue
-(Phase 5). Repo visibility (below) remains unresolved — Phase 3 code exists now, but nothing
-syncs until a real token is entered on a real device.
+**Phase 4 — merge script + workflow, built but deliberately not dispatched.**
+`scripts/merge-device-sync.mjs` ports `.claude/skills/sync-local-storage/SKILL.md`'s
+feedback-merge rule into deterministic code — `loadSnapshot()` refuses (throws, no write) on
+any schema-version mismatch or unparseable snapshot; `mergeFeedback()` does the same
+per-(recipe,person) merge the skill describes, but compares each entry's own `updatedAt`
+instead of "trust the paste" (sound for a one-off human paste, not for a recurring automated
+merge). Deliberately narrow: **only `matracet:feedback:v1` has a canonical merge target
+implemented.** Every other synced store key is skipped and logged, not silently dropped —
+weekplan/shopping-list/stash/chaos-mode have no git-tracked canonical file to merge into at
+all (by design, see the local-only-override tier elsewhere in this file); category-feedback's
+mechanical merge (patch `public/data/erbjudanden/*/*.json` + lock the kategori lexicon, per
+`sync-category-feedback` skill's step 2) is real, well-specified follow-up work intentionally
+left for its own pass rather than rushed in alongside everything else in this session — stated
+here as an open scope boundary, not a silent gap (see the repeated "don't overclaim
+completeness" lesson elsewhere in this file). `scripts/merge-device-sync.test.mjs` (14 tests,
+added to vitest's `include` glob alongside the existing `src/**/*.test.ts`) covers the refusal
+cases, newer-wins in both directions, the exclude-OR rule, untouched-recipe preservation, and
+idempotency — proven twice: once as a plain equality assertion in the test, and once by
+literally running the CLI against the fixtures twice and `diff`ing the two output files on
+disk (zero-byte diff), per the plan's explicit "assert idempotency by running it twice and
+diffing" instruction.
 
-**Known blocker before this goes live for real: this repo is currently public.** The plan's own
-risk section flags that auto-push inherits the repo's visibility — ratings, per-meal attendance
-overrides, and the custody-derived weekplan would start flowing to a public branch automatically.
-Resolve repo visibility (or narrow what gets synced) before building Phase 3's actual auto-push —
-Phase 1/2 (client + hydration logic) are safe to build regardless since they don't push anything
-without a token, and no token-issuing UI exists yet.
+`.github/workflows/merge-device-sync.yml` exists but has **only a `workflow_dispatch`
+trigger, no `schedule:`** — the plan's Phase 4 critique gate requires the first live run to be
+a manual dispatch with the resulting `main` diff reviewed by hand before a cron is ever
+enabled, so shipping an active schedule now would violate that gate the moment this merges to
+`main` (a `schedule:` trigger is otherwise inert on an unmerged feature branch, but there's no
+reason to rely on that). It checks out `main`, fetches `device-sync` (tolerating either not
+existing yet — logs and no-ops, doesn't fail the run), extracts `sync/state.json` via `git
+show`, runs the merge script, and commits only if `feedback.json` actually changed. **Real gap
+this surfaced, not just theorized**: `deploy.yml` only triggers on `push: branches: [main]`,
+but GitHub does not fire a workflow's `push` trigger from a commit authenticated with the
+default `GITHUB_TOKEN` (loop prevention, not configurable) — so this workflow's own commit to
+`main` would silently never deploy. Fixed by adding a `workflow_dispatch` trigger to
+`deploy.yml` too (purely additive, existing push-triggered behavior unchanged) and having the
+merge workflow's last step call `gh workflow run deploy.yml --ref main` explicitly after a
+successful push, per the plan's own "verify, and if not, call the deploy via
+workflow_call/dispatch explicitly" instruction — this needed `actions: write` added to the
+merge workflow's permissions block.
+
+**Not yet done, on purpose**: the workflow has never been dispatched — no real commit has
+landed on `main` from it, no diff has been hand-reviewed, and the cron trigger stays absent
+until that happens. This was an explicit scope decision for this session, not an oversight.
+Phase 5 (the intelligence queue + `run-sync-tasks` skill) hasn't been started either.
+
+**Known blocker before any of this goes live for real: this repo is currently public.** The
+plan's own risk section flags that auto-push inherits the repo's visibility — ratings, per-meal
+attendance overrides, and the custody-derived weekplan would start flowing to a public branch
+automatically the moment a real token is entered on a real device. Resolve repo visibility (or
+narrow what gets synced) before that happens. Everything built so far (Phases 1-4) is inert
+without a token and without the merge workflow ever being dispatched, so none of it has
+actually moved any household data yet.
 
 ## Deploy
 
