@@ -84,6 +84,15 @@ function clearFeedback(recipeId: string): void {
  * but missing locally — e.g. a rating entered on another device and synced via
  * the sync-local-storage skill. Local edits always win: an existing local entry
  * for that recipe+person is never overwritten. Safe to call on every app load.
+ *
+ * Uses `setSilently`, not `set`: this is a gap-fill from the (comparatively stale)
+ * git-tracked baseline, not a genuine local edit or a GitHub-sync hydration — it must
+ * not advance feedbackStore's sync ledger, or a later device-sync hydration (see
+ * CLAUDE.md's "GitHub-backed auto-sync" section) would wrongly see this store as
+ * "just touched" and skip adopting a genuinely newer remote snapshot. Keeping this
+ * write silent makes the boot-time ordering between this call and sync hydration
+ * irrelevant to correctness — whichever runs first, the other's newer-wins decision
+ * is unaffected.
  */
 export function mergeFeedbackBaseline(baseline: FeedbackStore): void {
   const all = feedbackStore.get()
@@ -102,7 +111,7 @@ export function mergeFeedbackBaseline(baseline: FeedbackStore): void {
       persons: [...(local?.persons ?? []), ...missing],
     }
   }
-  if (changed) feedbackStore.set(next)
+  if (changed) feedbackStore.setSilently(next)
 }
 
 export interface UseFeedback {

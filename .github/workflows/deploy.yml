@@ -3,6 +3,12 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  # Lets merge-device-sync.yml trigger a deploy explicitly after it commits to main — a
+  # push authenticated with the default GITHUB_TOKEN (as that workflow's commit is) does
+  # NOT fire other workflows' `on: push` triggers, by GitHub's design (loop prevention), so
+  # relying on the trigger above alone would silently never deploy a device-sync merge. See
+  # CLAUDE.md's "GitHub-backed auto-sync" section, Phase 4.
+  workflow_dispatch: {}
 
 permissions:
   contents: read

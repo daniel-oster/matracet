@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "deviceId": "fixture-device",
+  "updatedAt": "2026-07-15T10:00:00.000Z",
+  "stores": {
+    "matracet:feedback:v1": {
+      "updatedAt": "2026-07-15T10:00:00.000Z",
+      "data": {
+        "ugnsbakad-lax": {
+          "recipeId": "ugnsbakad-lax",
+          "excludeFromWeekPlan": false,
+          "updatedAt": "2026-07-15T10:00:00.000Z",
+          "persons": [
+            { "personId": "anna", "sentiment": "likes", "updatedAt": "2026-07-15T10:00:00.000Z" },
+            { "personId": "erik", "sentiment": "refuses", "updatedAt": "2026-07-10T09:00:00.000Z" }
+          ]
+        },
+        "korvstroganoff": {
+          "recipeId": "korvstroganoff",
+          "excludeFromWeekPlan": true,
+          "updatedAt": "2026-07-15T10:00:00.000Z",
+          "persons": [
+            { "personId": "anna", "sentiment": "dislikes", "updatedAt": "2026-07-15T10:00:00.000Z" }
+          ]
+        }
+      }
+    },
+    "matracet:weekplan:v2": {
+      "updatedAt": "2026-07-15T10:00:00.000Z",
+      "data": { "2026-07-15": { "dinner": { "recept": "korvstroganoff" } } }
+    },
+    "matracet:category-feedback:v1": {
+      "updatedAt": "2026-07-15T10:00:00.000Z",
+      "data": {}
+    }
+  }
+}

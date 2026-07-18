@@ -7,7 +7,7 @@ import { createLocalStore } from '../lib/localStore'
  * usual day-by-day slotting flow to the pantry/stash-first view (see StashPantryPanel).
  * Scoped to Planera only; it does not touch Hub or the read-only Vecka overview.
  */
-const chaosModeStore = createLocalStore<boolean>('matracet:chaosmode:v1', false)
+export const chaosModeStore = createLocalStore<boolean>('matracet:chaosmode:v1', false)
 
 export interface UseChaosMode {
   enabled: boolean

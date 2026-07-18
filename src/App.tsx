@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { WeekMenu, EatersData, RecipeIndex, RecipeIndexEntry, DayMeal, WeekNote, ScreenName } from './types'
 import type { HistoryEntry, HistoryFile } from './types/history'
 import type { FeedbackFile, FeedbackStore } from './types/feedback'
+import type { TaskLogFile } from './types/taskLog'
 import Hub from './components/Hub'
 import VeckanView from './components/views/VeckanView'
 import HandlaView from './components/views/HandlaView'
@@ -19,6 +20,10 @@ import { resolvePresenceRange, addDays } from './presence/resolver'
 import { SEED_STORE } from './presence/seed'
 import type { DayPlan } from './presence/types'
 import { mergeFeedbackBaseline } from './hooks/useFeedback'
+import { pruneSyncTasks } from './hooks/useSyncTasks'
+import { applyTaskOutcome } from './lib/syncTaskOutcomes'
+import { hydrateFromSync } from './lib/syncHydration'
+import { startSyncPusher, seedKnownSha } from './lib/syncPusher'
 
 function getISOWeekString(isoDate: string): string {
   const d = new Date(isoDate + 'T00:00:00Z')
@@ -62,8 +67,9 @@ export default function App() {
       fetch('/matracet/data/recipes/_index.json').then(r => r.json()),
       fetch('/matracet/data/history.json').then(r => r.ok ? r.json() as Promise<HistoryFile> : null).catch(() => null),
       fetch('/matracet/data/feedback.json').then(r => r.ok ? r.json() as Promise<FeedbackFile> : null).catch(() => null),
+      fetch('/matracet/data/task-log.json').then(r => r.ok ? r.json() as Promise<TaskLogFile> : null).catch(() => null),
       ...weekFetches,
-    ]).then(([eatersData, indexData, historyData, feedbackData, ...weekResults]: [EatersData, RecipeIndex, HistoryFile | null, FeedbackFile | null, ...(WeekMenu | null)[]]) => {
+    ]).then(([eatersData, indexData, historyData, feedbackData, taskLogData, ...weekResults]: [EatersData, RecipeIndex, HistoryFile | null, FeedbackFile | null, TaskLogFile | null, ...(WeekMenu | null)[]]) => {
       setEaters(eatersData)
       setRecipeIndex(indexData.recipes)
       setHistoryEntries(historyData?.entries ?? [])
@@ -71,6 +77,14 @@ export default function App() {
       // in case it's ever a bare feedback map instead of the { feedback: {...} } wrapper.
       const feedbackBaseline = feedbackData?.feedback ?? (feedbackData as unknown as FeedbackStore | null)
       if (feedbackBaseline) mergeFeedbackBaseline(feedbackBaseline)
+
+      // Sync task acknowledgment (see CLAUDE.md's "GitHub-backed auto-sync" Phase 5) — like
+      // the feedback baseline above, task-log.json is a static git-tracked file every device
+      // fetches directly, not something routed through device-sync.
+      if (taskLogData?.entries?.length) {
+        for (const entry of taskLogData.entries) applyTaskOutcome(entry)
+        pruneSyncTasks(new Set(taskLogData.entries.map(e => e.id)))
+      }
 
       const dayMap = new Map<string, DayMeal>()
       const lunchMap = new Map<string, DayMeal>()
@@ -103,6 +117,29 @@ export default function App() {
       setDayPlans(resolvePresenceRange(today, addDays(today, 6), SEED_STORE))
     })
   }, [])
+
+  // GitHub-sync hydration (see CLAUDE.md's "GitHub-backed auto-sync" section) — a fully
+  // independent effect on purpose: it never sets any state the loading gate below depends
+  // on, so a slow or failing device-sync fetch can't add a second way for "Laddar…" to spin
+  // forever. No token → hydrateFromSync resolves immediately with zero network calls.
+  useEffect(() => {
+    hydrateFromSync().then(outcome => {
+      if (outcome.status === 'applied') {
+        console.info('[matracet sync] hydrated from device-sync', outcome.decisions)
+      } else if (outcome.status === 'error') {
+        console.warn('[matracet sync] hydration failed:', outcome.reason)
+      }
+      // Hand the already-fetched state to the pusher so its first push this session doesn't
+      // pay for a second, redundant discovery-and-merge fetch, and so its "skip a no-op
+      // push" guard is warm from boot (see seedKnownSha's own doc).
+      if (outcome.sha !== undefined) seedKnownSha(outcome.sha, outcome.storesKey)
+    })
+  }, [])
+
+  // Auto-push (see CLAUDE.md's "GitHub-backed auto-sync" section) — independent of both
+  // effects above for the same reason hydration is: it must never block app boot. No token
+  // stored → every push attempt no-ops with zero network calls (pushState's own guard).
+  useEffect(() => startSyncPusher(), [])
 
   if (!eaters || rollingDays.length === 0) {
     return <div className="app-loading">Laddar…</div>

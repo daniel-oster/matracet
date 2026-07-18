@@ -570,9 +570,25 @@ input, select, textarea { font-family: inherit; }
 
 .synka-stats { display: flex; flex-direction: column; gap: 6px; margin: 14px 0; }
 .synka-stat { font-size: 13.5px; color: var(--muted2); }
+.synka-stat--error { color: var(--red); }
 .synka-download-btn { padding: 11px 16px; font-size: 14px; }
+.synka-download-btn:disabled { opacity: 0.45; cursor: not-allowed; }
 .synka-downloaded { margin-top: 10px; font-size: 13px; color: var(--green-d); }
 .synka-category-hint { margin-top: 20px; }
+
+.synka-token-field { margin: 16px 0; display: flex; flex-direction: column; gap: 8px; }
+.synka-token-field label { font-size: 12px; color: var(--muted); }
+.synka-token-field input {
+  border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; font-size: 14px;
+  background: var(--paper); color: var(--ink); font-family: monospace;
+}
+.synka-token-actions { display: flex; gap: 10px; align-items: center; }
+.synka-token-clear { background: none; border: none; color: var(--muted); text-decoration: underline; cursor: pointer; font-size: 13px; }
+.synka-status { margin-top: 4px; }
+
+.synka-manual-export { margin-top: 24px; border-top: 1px solid var(--line); padding-top: 14px; }
+.synka-manual-export summary { cursor: pointer; color: var(--muted); font-size: 13px; }
+.synka-manual-export[open] summary { margin-bottom: 10px; }
 
 .recipe-card-wrap { background: var(--paper); border: 1px solid var(--line2); border-radius: 9px; overflow: hidden; margin-bottom: 10px; }
 .recipe-card-wrap.excluded { opacity: 0.55; }
@@ -874,5 +890,18 @@ input, select, textarea { font-family: inherit; }
 .floating-nav-item:disabled { color: #6a6459; cursor: not-allowed; }
 .floating-nav-em { width: 18px; flex: none; text-align: center; }
 .floating-nav-divider { height: 1px; background: #3a3a3a; margin: 5px 4px; }
+
+/* ─── Toast (sync failures) ───────────────────────────────────────────── */
+
+.toast-host {
+  position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 500;
+  display: flex; flex-direction: column; gap: 8px; align-items: center;
+}
+.toast {
+  max-width: 480px; width: 100%; text-align: left; border: none; border-radius: 9px;
+  padding: 11px 14px; font-size: 13.5px; cursor: pointer; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+}
+.toast--error { background: var(--red-bg); color: var(--red); border: 1px solid var(--red); }
+.toast--info { background: var(--paper); color: var(--ink); border: 1px solid var(--line); }
 
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }

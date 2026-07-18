@@ -908,6 +908,276 @@ Durable gotchas discovered while working in this repo. Add to this list rather t
 - **A fourth substring-collision shape, found while re-running the classifier against the new ICA/Hemköp webarchive sources**: a common Swedish *adjective*, not just a compound noun, can hide a shorter food keyword — `färs` (mince) inside `färsk`/`färskt`/`färska` ("fresh", e.g. "Färsk pasta", "Färska kryddor") mis-filed pasta and fresh herbs as meat. The obvious fix (blanket-strip `färsk\w*` before matching, which is what `src/lib/storeOrder.ts`'s `guessAisleCategory` had *already* been doing for this exact collision) turns out to be wrong: it also eats compounds like `färskpotatis` (new potatoes) whole, silently dropping the `potatis` keyword the classifier needs and turning a wrong-category bug into a no-category bug instead of actually fixing it. The precise fix is a negative lookahead on just the ambiguous substring, `färs(?!k)` — real mince compounds (nötfärs, fläskfärs, köttfärs) always end in "färs", never continue into "färsk...", so this is exact with no observed false negatives. Ported this exact fix into both `scripts/erbjudanden-lib.mjs`'s `guessKategori` (`PROTEIN_RE`) and `src/lib/storeOrder.ts`'s `guessAisleCategory` (`KOTT_FISK_PATTERNS`) — the aisle categorizer's version had silently shipped with the less-precise strip-based fix, worth checking for elsewhere if a similar "strip the containing word" fix shows up. Two more collisions found in the same pass, same `(?!x)` shape: `tomat` (tomato) inside `automat`/`automatic` (appliance names — "Kaffebryggare Automatic" isn't a vegetable) and `fisk` inside `fiske`/`Magnetfiske` (a magnet-fishing hobby kit, not food) → `fisk(?!e)`.
 - **A fifth substring-collision shape: a *processed/pantry* product's name embeds the raw produce it's made from, or a flavor word matching a different category entirely** — flagged by the household spotting "Krossade, passerade tomater" (canned crushed tomatoes) and "Potatissallad" (deli potato salad) both filed under `gront_farsk` ("fresh") in the Fynd UI. `VEG_RE`'s bare `tomat`/`potatis` matched inside these processed names same as any fresh tomato/potato, and — unlike the compound-word traps above — there's no fixed-width lookaround that disambiguates "Tomater Krossade" from "Tomater" alone; the distinguishing word (`krossad`/`passerad`/`puré`) can appear on *either side* of "tomat" depending on source phrasing. Fixed with a same-string AND via two lookaheads instead of alternation: `CANNED_TOMAT_RE = /(?=.*tomat)(?=.*(?:kross|passerad|puré))/i`, checked (→ `skafferi`) before `PROTEIN_RE`/`VEG_RE` run, same "bail first" position as `BROD_RE`/`FARDIGMAT_RE`. Starch-based deli salads (`potatissallad`, `krämiga sallader`, `salladsbaren`) got the same "ready-to-eat, not raw produce" fix by extending `FARDIGMAT_RE` (already checked first) — note *protein*-based deli salads ("Räksallad, skagenröra") already resolved correctly beforehand since `PROTEIN_RE` is checked ahead of `VEG_RE` too; only the starch-only case had no earlier category to catch it. Separately, any `sås`/`dressing`/`marinad`/... condiment name routinely carries an unrelated flavor word ("Kebabsås Vitlök" ⊃ `kebab` **and** `vitlök`, "Gräddsås Pulver" ⊃ `grädd`, "Hamburgerdressing" ⊃ no produce word but still a condiment) that would otherwise be claimed by `PROTEIN_RE`/`VEG_RE`/`MEJERI_RE` first (all checked before `SKAFFERI_RE`'s own `sås` keyword ever gets a look) — pulled those condiment keywords out into a new `SAUCE_RE`, also checked before `PROTEIN_RE`. **When applying a classifier fix retroactively to already-saved data, never blanket-rerun `erbjudanden-recategorize.mjs` across all files** — it recomputes *every* offer's category from `guessKategori` and only trusts the old category as a fallback for `snacks_godis`, so any offer whose correct category depends on a keyword `guessKategori` simply doesn't have yet (this pass found `hallon`, `clementin`, `lime`, `jordgubb` missing from `FRUIT_RE`, and plural `morötter` not matching `VEG_RE`'s singular `morot` — Swedish plurals often shift the vowel, e.g. o→ö, so a substring match on the singular silently fails) gets silently demoted to `ovrigt`, even though nothing about *that* offer was wrong. Re-ran the migration as a narrow one-off instead: only recompute `kategori` for offers whose name/brand actually matches one of the *new* patterns (`CANNED_TOMAT_RE`/`SAUCE_RE`/the deli-salad addition to `FARDIGMAT_RE`), leaving every other offer's existing category untouched regardless of what the full classifier would now say about it.
 
+## GitHub-backed auto-sync (in progress, 2026-07)
+
+A plan exists to replace the manual Synka export/import flow with device→GitHub auto-sync: a
+fine-grained PAT on-device pushes `matracet:*` localStorage state to a `sync/state.json` file on
+a dedicated `device-sync` branch via the Contents API; a scheduled Action merges it into canonical
+`public/data/` files on `main`. The plan is phased with a validation + critique gate per phase —
+see the originating task/issue for the full spec (branch keys the file, one snapshot object, no
+diffing/CRDTs, single-writer assumption throughout).
+
+**Status: Phase 1 + Phase 2.** `src/lib/githubSync.ts` is the pure client — `getToken`/`setToken`/
+`clearToken` (token lives at `matracet:sync:token`, deliberately outside the synced-store set: it
+must never itself be synced), `fetchState()`/`pushState(state, knownSha?)` against
+`repos/daniel-oster/matracet/contents/sync/state.json?ref=device-sync`, typed `SyncStatus` results
+(`'ok' | 'no-token' | 'unauthorized' | 'network' | 'conflict-exhausted' | 'not-found'`) rather than
+thrown exceptions, UTF-8-safe base64 (via `TextEncoder`, not bare `btoa` — this data has Swedish
+characters), and `serializeState()` sorting store keys so an unchanged snapshot re-serializes
+byte-identical. `pushState`'s 409 handling: refetch the sha once and retry once; a second 409
+returns `conflict-exhausted` rather than looping — under single-writer, a repeat conflict means
+something's genuinely wrong, not a transient race. Covered by `src/lib/githubSync.test.ts` (mocked
+`fetch`).
+
+**Phase 2 — snapshot assembly + boot hydration, now wired into `App.tsx`.** `src/lib/localStore.ts`
+gained a **shared** touched-ledger (`matracet:sync:touched:v1`, one small map keyed by store key —
+not a companion localStorage key per store) rather than wrapping each store's own value, so every
+existing `get()`/`getSnapshot()` caller is untouched. Three write paths, each with different sync
+semantics: `set()` (a genuine local edit — stamps the ledger to "now"), `setFromSync(next,
+touchedAt)` (sync hydration adopting a remote value — stamps the ledger to the *remote's* timestamp,
+not now, so a freshly-hydrated value isn't mistaken for an edit and immediately re-pushed), and
+`setSilently()` (persists without touching the ledger at all — for writes that are neither, see
+below). `src/lib/syncStores.ts` is the **hand-picked** registry of which stores actually sync
+(`SYNCED_STORES`, a `SyncableStore[]` erasing each store's own `T` via an adapter, since `T` is
+contravariant in `set`/`setFromSync` and a plain array of `LocalStore<unknown>` doesn't typecheck)
+— IN: feedback, irrelevant-offers, weekplan, category-feedback, stash, shopping list, chaos mode;
+OUT: `matracet:fynd-collapsed:v1` (purely cosmetic per-device UI state, no cross-device value).
+`src/lib/syncSnapshot.ts`'s `collectSnapshot()`/`applyRemoteSnapshot()` do the actual newer-wins
+comparison (per-store, not per-snapshot-as-a-whole) and forward-compatibly ignore an unknown remote
+store key instead of crashing. `src/lib/syncHydration.ts`'s `hydrateFromSync()` ties fetchState +
+applyRemoteSnapshot together for `App.tsx`'s boot effect.
+
+**Critique-gate finding worth keeping**: the boot `Promise.all` already writes to a synced store —
+`mergeFeedbackBaseline` (gap-filling ratings from the git-tracked `feedback.json` baseline) calls
+`feedbackStore.set(...)`. If that stayed a genuine `.set()`, it would stamp the ledger to "now" on
+every boot that has any gap to fill, so a *later* sync hydration in the same boot would then always
+see local as "just touched" and skip adopting a genuinely newer remote snapshot — silently breaking
+sync, and the bug would depend on operation *ordering* between two independent async effects (fragile,
+hard to test for). Fixed at the root instead of by sequencing: `mergeFeedbackBaseline` now calls
+`feedbackStore.setSilently(...)` — a git-baseline gap-fill is conceptually the same non-edit category
+as a sync hydration, not a fresh local edit, so it shouldn't move the ledger either. This makes the
+two effects' relative order irrelevant to correctness, which is why hydration in `App.tsx` is a
+*second, fully independent* `useEffect` — it never blocks or is blocked by the static data fetch, so
+a slow/failing device-sync request can't become a second way for the `Laddar…` gate to spin forever.
+Verified end-to-end with a throwaway Playwright script (not committed — one-off verification, see
+Phase 2's own validation step) against `npm run preview`: zero `api.github.com` calls with no token
+stored, and with a token + a mocked device-sync response, a remote-only store value (chaos mode)
+lands in localStorage and `console.info('[matracet sync] hydrated from device-sync', …)` logs the
+per-store decision (including `ignored-unknown-key` for a synthetic future-store test key).
+
+Documented, not handled: newer-wins is a lexicographic compare of `toISOString()` timestamps, so a
+wrong device clock can flip a comparison either way — cosmetic under the single-writer assumption
+(worst case, a device's own earlier remote copy clobbers its own more-recent edit), not a
+cross-writer data-loss risk.
+
+**Phase 3 — auto-push + toast + Synka rework.** `src/lib/syncPusher.ts`'s `startSyncPusher()`
+subscribes to every `SYNCED_STORES` entry; any change (re)arms a single 20s debounce timer
+(`scheduleDebounced`), so rapid consecutive edits still produce one push, not one per edit. Its
+exported `pushNow()` bypasses the debounce (used by the visibilitychange-hidden flush and the
+Synka screen's manual "Synka nu" button) and is safe to call while a push is already in flight —
+it sets a `dirtyDuringFlight` flag instead of starting a second concurrent PUT, and the in-flight
+push's own `do/while` loop re-runs once with a fresh `collectSnapshot()` before returning, so an
+edit that lands mid-push is never silently dropped, only delayed until that loop (or the next
+debounce cycle) catches it. `startSyncPusher()` is idempotent — a second call while already
+started returns a no-op teardown, so only the original caller's `stop()` can actually unsubscribe;
+covered by `src/lib/syncPusher.test.ts` using `vi.useFakeTimers()` for all three critique-gate
+scenarios (debounce coalescing, in-flight coalescing, double-start-then-stop leaves no dangling
+subscription).
+
+`src/lib/toastStore.ts` is a minimal in-memory (unlike every other store in this app, deliberately
+**not** persisted — a toast is a this-load-only notification) pub-sub, rendered by
+`src/components/ToastHost.tsx` and mounted once in `main.tsx` alongside `<App />` so it's never
+gated by `App`'s own loading state. `src/lib/syncStatus.ts` tracks last-push/last-hydration time
+and the last error for the Synka screen, plus the **shared failure-episode flag**
+(`reportSyncFailure`/`recordPushSuccess`/`recordHydration`) — both the push and hydration paths
+call into this one flag, not two independent ones, specifically because a real Playwright pass
+caught the bug of having two: with a mocked-failing GitHub API, boot-time hydration failed and
+toasted, then clicking "Synka nu" (which pushes, then hydrates-without-its-own-toast) failed again
+and toasted a *second* time — technically "once per call site," not "once per episode." Centralizing
+the flag so either path's success clears it, and either path's failure only toasts if the flag
+wasn't already set, fixed it: re-ran the same script and got exactly one toast for the same
+scenario. Kept as a concrete example here because it's exactly the class of bug "add tests, run
+build" doesn't catch — only actually driving the failure path end-to-end surfaced it.
+
+`SynkaView.tsx` is now the status/settings screen described in the plan: a token field
+(`getToken`/`setToken`/`clearToken` from `githubSync.ts`), last-push/last-hydration/last-error
+display (`useSyncStatus`), a "↻ Synka nu" button (disabled without a token) that calls
+`pushNow()` then `hydrateFromSync(false)`, and the **original** download-based export flow moved
+behind a native `<details>` "Manuell export" disclosure — not deleted, per the plan's explicit
+"this is the degraded mode" instruction; it works identically to before, just no longer the
+screen's primary content.
+
+Verified via a throwaway Playwright script (not committed) against `npm run preview`: screenshot
+of the token-entry Synka screen with no token; a second pass with a token stored and every
+`api.github.com` request mocked to fail, confirming exactly one toast renders and "Senaste fel"
+shows on screen. The debounce/coalescing timing itself is proven by the fake-timer unit tests
+above, not by eyeballing a browser network tab — a deliberately stronger and cheaper check for
+that specific behavior than the plan's own "manually verify in devtools" validation step.
+
+**Phase 4 — merge script + workflow, built but deliberately not dispatched.**
+`scripts/merge-device-sync.mjs` ports `.claude/skills/sync-local-storage/SKILL.md`'s
+feedback-merge rule into deterministic code — `loadSnapshot()` refuses (throws, no write) on
+any schema-version mismatch or unparseable snapshot; `mergeFeedback()` does the same
+per-(recipe,person) merge the skill describes, but compares each entry's own `updatedAt`
+instead of "trust the paste" (sound for a one-off human paste, not for a recurring automated
+merge). Deliberately narrow: **only `matracet:feedback:v1` has a canonical merge target
+implemented.** Every other synced store key is skipped and logged, not silently dropped —
+weekplan/shopping-list/stash/chaos-mode have no git-tracked canonical file to merge into at
+all (by design, see the local-only-override tier elsewhere in this file); category-feedback's
+mechanical merge (patch `public/data/erbjudanden/*/*.json` + lock the kategori lexicon, per
+`sync-category-feedback` skill's step 2) is real, well-specified follow-up work intentionally
+left for its own pass rather than rushed in alongside everything else in this session — stated
+here as an open scope boundary, not a silent gap (see the repeated "don't overclaim
+completeness" lesson elsewhere in this file). `scripts/merge-device-sync.test.mjs` (14 tests,
+added to vitest's `include` glob alongside the existing `src/**/*.test.ts`) covers the refusal
+cases, newer-wins in both directions, the exclude-OR rule, untouched-recipe preservation, and
+idempotency — proven twice: once as a plain equality assertion in the test, and once by
+literally running the CLI against the fixtures twice and `diff`ing the two output files on
+disk (zero-byte diff), per the plan's explicit "assert idempotency by running it twice and
+diffing" instruction.
+
+`.github/workflows/merge-device-sync.yml` exists but has **only a `workflow_dispatch`
+trigger, no `schedule:`** — the plan's Phase 4 critique gate requires the first live run to be
+a manual dispatch with the resulting `main` diff reviewed by hand before a cron is ever
+enabled, so shipping an active schedule now would violate that gate the moment this merges to
+`main` (a `schedule:` trigger is otherwise inert on an unmerged feature branch, but there's no
+reason to rely on that). It checks out `main`, fetches `device-sync` (tolerating either not
+existing yet — logs and no-ops, doesn't fail the run), extracts `sync/state.json` via `git
+show`, runs the merge script, and commits only if `feedback.json` actually changed. **Real gap
+this surfaced, not just theorized**: `deploy.yml` only triggers on `push: branches: [main]`,
+but GitHub does not fire a workflow's `push` trigger from a commit authenticated with the
+default `GITHUB_TOKEN` (loop prevention, not configurable) — so this workflow's own commit to
+`main` would silently never deploy. Fixed by adding a `workflow_dispatch` trigger to
+`deploy.yml` too (purely additive, existing push-triggered behavior unchanged) and having the
+merge workflow's last step call `gh workflow run deploy.yml --ref main` explicitly after a
+successful push, per the plan's own "verify, and if not, call the deploy via
+workflow_call/dispatch explicitly" instruction — this needed `actions: write` added to the
+merge workflow's permissions block.
+
+**Not yet done, on purpose**: the workflow has never been dispatched — no real commit has
+landed on `main` from it, no diff has been hand-reviewed, and the cron trigger stays absent
+until that happens. This was an explicit scope decision for this session, not an oversight.
+
+**Phase 5 — intelligence queue + `run-sync-tasks` skill.** `src/hooks/useSyncTasks.ts` is the
+`matracet:synctasks:v1` queue (`SyncTask { id, type, createdAt, payload }` — structured
+intent, never prompt text) — `addSyncTask`/`pruneSyncTasks`, and it's in `SYNCED_STORES` so a
+task queued on one device is visible to an interactive session working from `device-sync`
+regardless of which device queued it. Wired into exactly **one** real feature, per the plan's
+"proving case" instruction: `HandlaView.tsx`'s `submitAdd()` (the "Eget tillägg" manual add)
+also queues a `resolve-manual-item` task, since a hand-typed item (unlike a Fynd/Bevaka/recipe
+pick) has no offer attached yet. `.claude/skills/run-sync-tasks/` (`SKILL.md` + `tasks/
+resolve-manual-item.md`) is the catalog — run interactively (explicitly *not* GitHub Actions,
+same cost-model reasoning as every other Claude Code skill in this repo: token billing vs. the
+existing subscription), it reads `sync/state.json` from `device-sync`, resolves each pending
+task per its catalog file, and appends outcomes to `public/data/task-log.json` (new, seeded
+empty). The device applies outcomes on its next boot: `src/lib/syncTaskOutcomes.ts`'s
+`applyTaskOutcome` (one function per recognized `type`, currently just `resolve-manual-item` —
+attaches the resolved `offerRef` to the still-unresolved matching item) and `pruneSyncTasks`
+both run from a new step in `App.tsx`'s existing static-fetch `.then()`, right after the
+feedback-baseline merge. Like that merge, `applyTaskOutcome` uses `shoppingListStore.
+setSilently(...)`, not `.set()` — `task-log.json` is a static git-tracked file every device
+fetches directly (not routed through `device-sync`), so applying it doesn't need to advance
+the sync ledger, and doing so would risk the identical same-boot ordering hazard already fixed
+for `mergeFeedbackBaseline` (see Phase 2's critique-gate note above).
+
+**Standing rule** (also written into the skill itself): whenever implementation work creates a
+new situation that needs cloud/LLM judgment rather than a deterministic script, add a task
+type + its `tasks/<type>.md` procedure to the `run-sync-tasks` catalog in the same session —
+grow the catalog while building, the same discipline as this file's own "Always be learning"
+rule at the top.
+
+**Critique gate** (three questions the plan requires answering):
+- *What happens to a task the skill doesn't recognize?* Survives untouched, structurally: the
+  skill only appends a `task-log.json` entry for a task it actually processed (SKILL.md §2 is
+  explicit — no entry for an unrecognized type, no guessing, no partial processing); the
+  device's `pruneSyncTasks` only removes a task once its id appears in that log, so an
+  unprocessed task simply stays in the queue indefinitely until a future catalog update
+  recognizes it.
+- *Can the deterministic Action and the skill ever both act on the same task?* No, and not
+  just by convention — `merge-device-sync.mjs` has exactly one canonical merge target
+  (`matracet:feedback:v1`); every other snapshot key, `matracet:synctasks:v1` included, always
+  lands in that script's own `skipped` list (see its Phase 4 write-up above). The Action has
+  no code path that reads or writes the task queue at all.
+- *Does any catalog prompt instruct writing to device-sync?* No — `SKILL.md` §4 states this
+  explicitly as a hard rule, and `tasks/resolve-manual-item.md` only reads offer files and
+  writes a `result` payload for the log; nothing in either file tells Claude to push to
+  `device-sync`.
+
+Verified end-to-end (not dispatched — this needed no live GitHub calls to prove locally):
+Playwright against `npm run preview`, typing "kaffe" into Handla's "Eget tillägg" input, then
+reading `localStorage` directly — confirmed both `matracet:shopping:v1` (the plain item) and
+`matracet:synctasks:v1` (a queued `resolve-manual-item` task with that exact payload) update
+correctly. The apply+prune half is covered by `src/hooks/useSyncTasks.test.ts`'s "boot-time
+hydration with tasks present" cases (mirroring `App.tsx`'s exact `applyTaskOutcome` →
+`pruneSyncTasks` sequence) and `src/lib/syncTaskOutcomes.test.ts`.
+
+**Repo visibility: decided, staying public (2026-07).** The plan's own risk section flagged
+that auto-push inherits the repo's visibility — ratings, per-meal attendance overrides, and
+the custody-derived weekplan flow to a public `device-sync` branch the moment a real token is
+entered on a real device. Raised explicitly with the household; the decision is to accept that
+tradeoff rather than make the repo private or narrow what gets synced. Not revisited unless
+asked. Everything built so far (Phases 1-5) is still inert without a token and without the
+merge workflow ever being dispatched, so none of it has actually moved any household data yet
+— but there is no longer an open blocker standing in front of turning it on for real.
+
+### PR #83 review fixes (2026-07)
+
+A code review of the merged Phase 1-5 work found two real bugs (one data-loss-shaped, dormant
+under single-device use) plus several hardening gaps. All fixed in the same PR before merge:
+
+- **Multi-device wholesale-overwrite (the serious one).** `pushState` replaces
+  `sync/state.json` *wholesale*, so a device whose cached `knownSha` predates another
+  device's push would blindly overwrite that newer data before ever looking at it — under
+  strict one-device use this can't fire, which is why nothing caught it before a second
+  device was in the picture. Fixed two ways: `syncPusher.ts`'s `pushNow()` now runs
+  `ensureFreshBeforePush()` — fetch-and-merge the branch's current state onto local stores,
+  newer-wins per store, *before* computing what to push — whenever it doesn't already hold a
+  known-fresh sha; and `SynkaView.tsx`'s manual "Synka nu" now hydrates *then* pushes (was the
+  other way round), which covers the case where the pusher's cached sha is already warm from
+  earlier in the session. Verified with a Playwright pass showing the real request order
+  (GET before PUT) and a unit test with two fake stores — remote newer in one, local newer in
+  the other — asserting the pushed snapshot contains the max of each, not a blind copy.
+- **Junk commit on every app open.** `setFromSync` (hydration adopting a remote value) has to
+  notify subscribers same as a real edit, so every boot armed the debounced pusher, which
+  ~20s later would PUT a snapshot byte-identical to what the branch already held.
+  `syncSnapshot.ts`'s new `stableStoresKey()` gives a stable (sorted-key) fingerprint of just
+  a snapshot's `stores` content (deliberately excluding the envelope's `deviceId`/top-level
+  `updatedAt`, which legitimately differ between two snapshots with identical store content);
+  `syncPusher.ts` tracks the last confirmed-matching key and skips the PUT entirely when a
+  push's content matches it. Seeded from boot-time hydration too (`seedKnownSha`'s new
+  `storesKey` parameter), not just the pusher's own first discovery fetch, so this is warm
+  from a session's very first push, not just its second.
+- **No client-side schema-version check.** The merge script refused a mismatched
+  `version` before writing anything; the client itself just blind-cast whatever the branch
+  held. `hydrateFromSync` now refuses (reports failure, doesn't apply) a snapshot whose
+  `version !== 1` — per-key forward compatibility only ever covered *additive* change.
+- **Malformed store entries adoptable on a fresh device.** A brand-new device has
+  `touchedAt() === null` for everything, so `applyRemoteSnapshot`'s newer-wins check let *any*
+  entry win unconditionally — including one with a missing `updatedAt` or no `data` field at
+  all. `sync/state.json` lives on a public, hand-editable branch, so this wasn't purely
+  theoretical. Added a shape guard (`isWellFormedEntry`) and a new `'skipped-malformed'`
+  decision.
+- **403 conflated "bad token" with "rate-limited."** GitHub returns 403 for both; mapping
+  both to `'unauthorized'` would tell a merely-rate-limited user their token is broken — the
+  one diagnosis that sends them to regenerate a perfectly good PAT. `classifyAuthFailure`
+  checks `x-ratelimit-remaining: 0` / `retry-after` and classifies those as the retryable
+  `'network'` status instead.
+- **Backgrounded-tab flush could be killed mid-request.** The `visibilitychange → hidden`
+  flush is exactly the moment mobile browsers are most likely to freeze/kill an in-flight
+  fetch. The PUT now sets `keepalive: true` (the same transport `navigator.sendBeacon` uses),
+  and `putOnce` warns in the console once the base64 payload approaches the ~64KB keepalive
+  cap, since weekplan + shopping list + sync tasks will only grow.
+- **Two smaller notes, not code fixes**: `mergeFeedback`'s very first live run will likely
+  report `changed: true` from field-shape normalization alone (an absent `excludeFromWeekPlan`
+  becoming an explicit `false`) — commented in the script so the Phase 4 gate's required
+  diff review isn't spent puzzling over a non-bug. `run-sync-tasks/SKILL.md` gained an
+  explicit "a task id is its identity, its payload is immutable — if you ever see the same id
+  with two different payloads, stop and report, don't guess" rule, plus a note on the safe
+  (not-yet-needed) condition for eventually compacting `task-log.json`.
+
+All of the above shipped with tests (141 total, up from 130) and a fresh Playwright pass
+confirming the real request ordering and toast behavior end-to-end, not just mocked units.
+
 ## Deploy
 
 Pushing to `main` triggers the GitHub Actions workflow (`.github/workflows/deploy.yml`) which runs `npm ci && npm run build` and deploys `dist/` to GitHub Pages. No manual steps needed.
