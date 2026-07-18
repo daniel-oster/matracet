@@ -70,6 +70,20 @@ function authHeaders(token: string): HeadersInit {
   }
 }
 
+/** GitHub returns 403 both for a bad/expired token AND for rate-limiting (primary or
+ * secondary) — conflating them as 'unauthorized' would tell a merely-rate-limited user their
+ * token is broken, the one diagnosis that sends them off to regenerate a perfectly good PAT
+ * for no reason (PR #83 review fix). A rate-limited response carries `x-ratelimit-remaining:
+ * 0` (primary) or a `retry-after` header (secondary/abuse detection); classify only those as
+ * the retryable 'network' status, everything else 403 as genuinely 'unauthorized'. */
+function classifyAuthFailure(res: Response): 'unauthorized' | 'network' {
+  if (res.status === 401) return 'unauthorized'
+  if (res.headers.get('x-ratelimit-remaining') === '0' || res.headers.get('retry-after')) {
+    return 'network'
+  }
+  return 'unauthorized'
+}
+
 /** UTF-8-safe base64 encode — bare `btoa` throws on non-Latin1 text (e.g. "Grönkålspaj"). */
 function encodeBase64(text: string): string {
   const bytes = new TextEncoder().encode(text)
@@ -109,7 +123,7 @@ export async function fetchState(): Promise<FetchStateResult> {
   }
 
   if (res.status === 404) return { status: 'not-found', state: null, sha: null }
-  if (res.status === 401 || res.status === 403) return { status: 'unauthorized', state: null, sha: null }
+  if (res.status === 401 || res.status === 403) return { status: classifyAuthFailure(res), state: null, sha: null }
   if (!res.ok) return { status: 'network', state: null, sha: null }
 
   try {
@@ -121,10 +135,26 @@ export async function fetchState(): Promise<FetchStateResult> {
   }
 }
 
+// Chrome enforces a ~64KB total-request cap for `fetch(..., { keepalive: true })` (the same
+// limit `navigator.sendBeacon` has, since keepalive uses the same transport) — warn well
+// before a real snapshot could hit it, since weekplan + shopping list + sync tasks will only
+// grow. Comparing against the base64 content specifically, not the full JSON body, is a
+// deliberately conservative (i.e. early) proxy — the real body is that plus a small amount of
+// envelope JSON around it.
+const KEEPALIVE_WARN_THRESHOLD = 48_000
+
 async function putOnce(token: string, state: SyncState, sha: string | null): Promise<Response | null> {
+  const content = encodeBase64(serializeState(state))
+  if (content.length > KEEPALIVE_WARN_THRESHOLD) {
+    console.warn(
+      `[matracet sync] snapshot is ${content.length} bytes (base64) — approaching the ~64KB ` +
+      'limit for a keepalive push, which the visibilitychange-hidden flush relies on to ' +
+      'survive the tab being backgrounded.',
+    )
+  }
   const payload: Record<string, unknown> = {
     message: `sync: update device state (${state.deviceId} @ ${state.updatedAt})`,
-    content: encodeBase64(serializeState(state)),
+    content,
     branch: SYNC_BRANCH,
   }
   if (sha) payload.sha = sha
@@ -134,6 +164,10 @@ async function putOnce(token: string, state: SyncState, sha: string | null): Pro
       method: 'PUT',
       headers: { ...authHeaders(token), 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
+      // A background-tab flush (visibilitychange → hidden) is exactly when mobile browsers
+      // are most likely to freeze/kill an in-flight request — keepalive lets it survive page
+      // teardown the same way navigator.sendBeacon does (PR #83 review fix).
+      keepalive: true,
     })
   } catch {
     return null
@@ -178,7 +212,7 @@ export async function pushState(state: SyncState, knownSha?: string | null): Pro
       }
     }
 
-    if (res.status === 401 || res.status === 403) return { status: 'unauthorized', sha: null }
+    if (res.status === 401 || res.status === 403) return { status: classifyAuthFailure(res), sha: null }
 
     if (res.status === 409) {
       if (attempt === 1) break // no attempts left — don't spend a call re-fetching for nothing

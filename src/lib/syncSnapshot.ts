@@ -28,9 +28,26 @@ export function collectSnapshot(stores: SyncableStore[] = SYNCED_STORES): SyncSt
   }
 }
 
+/** A stable (sorted-key) string of just a snapshot's `stores` content — deliberately
+ * excludes the envelope's `deviceId`/top-level `updatedAt`, which legitimately differ
+ * between two snapshots carrying identical store content (e.g. this device's own
+ * `collectSnapshot()` vs. a remote snapshot last pushed by a different device). Used by
+ * syncPusher.ts (PR #83 review fix) to detect "nothing actually changed" and skip a
+ * would-be no-op PUT — e.g. the one that would otherwise fire ~20s after every hydration,
+ * since setFromSync's listener notification arms the debounce timer same as a real edit. */
+export function stableStoresKey(stores: SyncState['stores']): string {
+  const sorted: SyncState['stores'] = {}
+  for (const key of Object.keys(stores).sort()) sorted[key] = stores[key]
+  return JSON.stringify(sorted)
+}
+
 export interface HydrationDecision {
   key: string
-  action: 'adopted' | 'kept-local' | 'ignored-unknown-key'
+  action: 'adopted' | 'kept-local' | 'ignored-unknown-key' | 'skipped-malformed'
+}
+
+function isWellFormedEntry(entry: unknown): entry is { updatedAt: string; data: unknown } {
+  return !!entry && typeof entry === 'object' && typeof (entry as { updatedAt?: unknown }).updatedAt === 'string' && 'data' in entry
 }
 
 /**
@@ -38,7 +55,11 @@ export interface HydrationDecision {
  * whole — one store having a newer remote value never overwrites a different store that
  * happens to have an older one). A remote key with no matching local store is ignored, not
  * an error: forward compatibility for a snapshot written by a newer client version, or one
- * synced before a store was removed from SYNCED_STORES.
+ * synced before a store was removed from SYNCED_STORES. A malformed entry (missing/non-string
+ * `updatedAt`, or no `data` field at all) is skipped the same way, never adopted — the
+ * single-writer app itself never produces one, but `sync/state.json` is a hand-editable file
+ * on a public branch, and a fresh device (touchedAt() === null for everything) would
+ * otherwise adopt *any* entry unconditionally, malformed or not (PR #83 review fix).
  *
  * NOTE — device clock skew: "newer" is a lexicographic compare of ISO 8601 timestamps
  * (`new Date().toISOString()`'s fixed-width UTC format, so this is a valid substitute for a
@@ -58,6 +79,10 @@ export function applyRemoteSnapshot(
     const store = byKey.get(key)
     if (!store) {
       decisions.push({ key, action: 'ignored-unknown-key' })
+      continue
+    }
+    if (!isWellFormedEntry(entry)) {
+      decisions.push({ key, action: 'skipped-malformed' })
       continue
     }
     const localTouchedAt = store.touchedAt()

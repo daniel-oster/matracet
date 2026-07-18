@@ -4,7 +4,7 @@ import { useWeekPlan } from '../../hooks/useWeekPlan'
 import { useCategoryFeedback } from '../../hooks/useCategoryFeedback'
 import { downloadLocalData, downloadCategoryFeedback } from '../../lib/exportData'
 import { getToken, setToken, clearToken } from '../../lib/githubSync'
-import { pushNow } from '../../lib/syncPusher'
+import { pushNow, seedKnownSha } from '../../lib/syncPusher'
 import { hydrateFromSync } from '../../lib/syncHydration'
 import { useSyncStatus } from '../../lib/syncStatus'
 import TopBar from '../TopBar'
@@ -61,8 +61,16 @@ export default function SynkaView({ onBack }: Props) {
   async function handleSyncNow() {
     setSyncing(true)
     try {
+      // Hydrate-then-push, not the other way round (PR #83 review fix): pushState replaces
+      // sync/state.json wholesale, so pushing first can overwrite another device's newer
+      // push before this device has ever looked at it. Hydrating first means this device's
+      // own snapshot already reflects the latest remote state before it writes anything —
+      // pushNow's own merge-on-discovery (see syncPusher.ts) is the same fix for the
+      // automatic debounced path; this covers the manual button even when pushNow's cached
+      // sha is already warm from earlier in the session.
+      const outcome = await hydrateFromSync(false)
+      if (outcome.sha !== undefined) seedKnownSha(outcome.sha, outcome.storesKey)
       await pushNow()
-      await hydrateFromSync(false)
     } finally {
       setSyncing(false)
     }

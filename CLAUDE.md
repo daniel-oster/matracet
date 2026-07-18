@@ -1120,6 +1120,64 @@ asked. Everything built so far (Phases 1-5) is still inert without a token and w
 merge workflow ever being dispatched, so none of it has actually moved any household data yet
 — but there is no longer an open blocker standing in front of turning it on for real.
 
+### PR #83 review fixes (2026-07)
+
+A code review of the merged Phase 1-5 work found two real bugs (one data-loss-shaped, dormant
+under single-device use) plus several hardening gaps. All fixed in the same PR before merge:
+
+- **Multi-device wholesale-overwrite (the serious one).** `pushState` replaces
+  `sync/state.json` *wholesale*, so a device whose cached `knownSha` predates another
+  device's push would blindly overwrite that newer data before ever looking at it — under
+  strict one-device use this can't fire, which is why nothing caught it before a second
+  device was in the picture. Fixed two ways: `syncPusher.ts`'s `pushNow()` now runs
+  `ensureFreshBeforePush()` — fetch-and-merge the branch's current state onto local stores,
+  newer-wins per store, *before* computing what to push — whenever it doesn't already hold a
+  known-fresh sha; and `SynkaView.tsx`'s manual "Synka nu" now hydrates *then* pushes (was the
+  other way round), which covers the case where the pusher's cached sha is already warm from
+  earlier in the session. Verified with a Playwright pass showing the real request order
+  (GET before PUT) and a unit test with two fake stores — remote newer in one, local newer in
+  the other — asserting the pushed snapshot contains the max of each, not a blind copy.
+- **Junk commit on every app open.** `setFromSync` (hydration adopting a remote value) has to
+  notify subscribers same as a real edit, so every boot armed the debounced pusher, which
+  ~20s later would PUT a snapshot byte-identical to what the branch already held.
+  `syncSnapshot.ts`'s new `stableStoresKey()` gives a stable (sorted-key) fingerprint of just
+  a snapshot's `stores` content (deliberately excluding the envelope's `deviceId`/top-level
+  `updatedAt`, which legitimately differ between two snapshots with identical store content);
+  `syncPusher.ts` tracks the last confirmed-matching key and skips the PUT entirely when a
+  push's content matches it. Seeded from boot-time hydration too (`seedKnownSha`'s new
+  `storesKey` parameter), not just the pusher's own first discovery fetch, so this is warm
+  from a session's very first push, not just its second.
+- **No client-side schema-version check.** The merge script refused a mismatched
+  `version` before writing anything; the client itself just blind-cast whatever the branch
+  held. `hydrateFromSync` now refuses (reports failure, doesn't apply) a snapshot whose
+  `version !== 1` — per-key forward compatibility only ever covered *additive* change.
+- **Malformed store entries adoptable on a fresh device.** A brand-new device has
+  `touchedAt() === null` for everything, so `applyRemoteSnapshot`'s newer-wins check let *any*
+  entry win unconditionally — including one with a missing `updatedAt` or no `data` field at
+  all. `sync/state.json` lives on a public, hand-editable branch, so this wasn't purely
+  theoretical. Added a shape guard (`isWellFormedEntry`) and a new `'skipped-malformed'`
+  decision.
+- **403 conflated "bad token" with "rate-limited."** GitHub returns 403 for both; mapping
+  both to `'unauthorized'` would tell a merely-rate-limited user their token is broken — the
+  one diagnosis that sends them to regenerate a perfectly good PAT. `classifyAuthFailure`
+  checks `x-ratelimit-remaining: 0` / `retry-after` and classifies those as the retryable
+  `'network'` status instead.
+- **Backgrounded-tab flush could be killed mid-request.** The `visibilitychange → hidden`
+  flush is exactly the moment mobile browsers are most likely to freeze/kill an in-flight
+  fetch. The PUT now sets `keepalive: true` (the same transport `navigator.sendBeacon` uses),
+  and `putOnce` warns in the console once the base64 payload approaches the ~64KB keepalive
+  cap, since weekplan + shopping list + sync tasks will only grow.
+- **Two smaller notes, not code fixes**: `mergeFeedback`'s very first live run will likely
+  report `changed: true` from field-shape normalization alone (an absent `excludeFromWeekPlan`
+  becoming an explicit `false`) — commented in the script so the Phase 4 gate's required
+  diff review isn't spent puzzling over a non-bug. `run-sync-tasks/SKILL.md` gained an
+  explicit "a task id is its identity, its payload is immutable — if you ever see the same id
+  with two different payloads, stop and report, don't guess" rule, plus a note on the safe
+  (not-yet-needed) condition for eventually compacting `task-log.json`.
+
+All of the above shipped with tests (141 total, up from 130) and a fresh Playwright pass
+confirming the real request ordering and toast behavior end-to-end, not just mocked units.
+
 ## Deploy
 
 Pushing to `main` triggers the GitHub Actions workflow (`.github/workflows/deploy.yml`) which runs `npm ci && npm run build` and deploys `dist/` to GitHub Pages. No manual steps needed.

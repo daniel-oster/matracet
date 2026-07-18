@@ -43,6 +43,15 @@ Fetch `sync/state.json` from the `device-sync` branch (GitHub MCP `get_file_cont
 its `stores['matracet:synctasks:v1'].data.tasks` array — each entry is
 `{ id, type, createdAt, payload }` (see `src/hooks/useSyncTasks.ts`'s `SyncTask`).
 
+**A task's `id` is its identity, and its `payload` is immutable** — `addSyncTask` generates
+the id once and never edits an existing task in place (see `useSyncTasks.ts`), so the same id
+should never legitimately appear twice with a different payload. If you ever do observe that
+(e.g. two entries with the same id but different `vara` values across two fetches), that's a
+sign something is generating/reusing ids incorrectly — **stop and report it** rather than
+guessing which payload is "right" or inventing a dedup-by-content rule. This shouldn't happen
+by construction today; it's called out explicitly so a future catalog author doesn't have to
+rediscover the invariant from scratch.
+
 Also read the current `public/data/task-log.json` on `main` and collect its entries' `id`s.
 **Skip any task whose id is already in the log** — it's already been processed by a prior
 run; the device just hasn't hydrated and pruned it locally yet. This makes re-running this
@@ -50,6 +59,14 @@ skill idempotent even if it's invoked again before the device catches up.
 
 If there are no tasks left to process after that filter, say so and stop — don't touch
 `task-log.json` for a no-op run.
+
+**Growth note**: `task-log.json` only ever appends (see §3) — it isn't compacted by this
+skill. At this household's volume that's a non-issue for years, but if it ever grows large
+enough to matter, the safe compaction rule is: an entry may be dropped once every device that
+could still have that task id queued has hydrated past it — in practice, "old enough that no
+plausible device has been offline that long" (e.g. drop entries older than a few months).
+Don't build this preemptively; note it here so a future session doesn't have to re-derive the
+safety condition from scratch.
 
 ## 2. Process each remaining task by type
 

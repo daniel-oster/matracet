@@ -36,10 +36,11 @@ function decodeBase64ForTest(b64: string): string {
   return new TextDecoder().decode(bytes)
 }
 
-function jsonResponse(status: number, body: unknown): Response {
+function jsonResponse(status: number, body: unknown, headers?: Record<string, string>): Response {
   return {
     ok: status >= 200 && status < 300,
     status,
+    headers: new Headers(headers ?? {}),
     json: async () => body,
   } as Response
 }
@@ -133,6 +134,27 @@ describe('fetchState', () => {
     fetchMock.mockRejectedValueOnce(new TypeError('fetch failed'))
     const result = await fetchState()
     expect(result.status).toBe('network')
+  })
+
+  it('PR #83 fix: a rate-limited 403 (x-ratelimit-remaining: 0) is "network", not "unauthorized"', async () => {
+    setToken('tok')
+    fetchMock.mockResolvedValueOnce(jsonResponse(403, {}, { 'x-ratelimit-remaining': '0' }))
+    const result = await fetchState()
+    expect(result.status).toBe('network')
+  })
+
+  it('PR #83 fix: a secondary-rate-limited 403 (retry-after) is "network" too', async () => {
+    setToken('tok')
+    fetchMock.mockResolvedValueOnce(jsonResponse(403, {}, { 'retry-after': '30' }))
+    const result = await fetchState()
+    expect(result.status).toBe('network')
+  })
+
+  it('a plain 403 with no rate-limit headers is still "unauthorized"', async () => {
+    setToken('bad-token')
+    fetchMock.mockResolvedValueOnce(jsonResponse(403, {}))
+    const result = await fetchState()
+    expect(result.status).toBe('unauthorized')
   })
 })
 
@@ -241,6 +263,20 @@ describe('pushState', () => {
     const body = JSON.parse(fetchMock.mock.calls[0][1].body as string)
     const decoded = JSON.parse(decodeBase64ForTest(body.content))
     expect(decoded.stores['matracet:feedback:v1'].data.note).toBe('Grönkålspaj – ½ tsk')
+  })
+
+  it('PR #83 fix: a rate-limited 403 on the PUT itself is "network", not "unauthorized"', async () => {
+    setToken('tok')
+    fetchMock.mockResolvedValueOnce(jsonResponse(403, {}, { 'x-ratelimit-remaining': '0' }))
+    const result = await pushState(makeState(), 'some-sha')
+    expect(result.status).toBe('network')
+  })
+
+  it('PR #83 fix: the PUT is sent with keepalive so a backgrounded-tab flush can survive teardown', async () => {
+    setToken('tok')
+    fetchMock.mockResolvedValueOnce(jsonResponse(201, { content: { sha: 'sha-x' } }))
+    await pushState(makeState(), null)
+    expect(fetchMock.mock.calls[0][1].keepalive).toBe(true)
   })
 })
 

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { applyRemoteSnapshot, collectSnapshot } from './syncSnapshot'
+import { applyRemoteSnapshot, collectSnapshot, stableStoresKey } from './syncSnapshot'
 import type { SyncableStore } from './syncStores'
 import type { SyncState } from './githubSync'
 
@@ -97,5 +97,47 @@ describe('applyRemoteSnapshot', () => {
     expect(() => applyRemoteSnapshot(remote, [local])).not.toThrow()
     const decisions = applyRemoteSnapshot(remote, [local])
     expect(decisions).toContainEqual({ key: 'store-from-a-newer-client', action: 'ignored-unknown-key' })
+  })
+
+  it('PR #83 fix: skips a malformed entry (missing updatedAt) instead of adopting it onto a fresh device', () => {
+    const local = makeFakeStore('store-a', { safe: true }, null) // never touched — would adopt ANY well-formed entry
+    const remote = makeRemote({
+      // @ts-expect-error deliberately malformed for the test — no `updatedAt` at all
+      'store-a': { data: { corrupted: true } },
+    })
+    const decisions = applyRemoteSnapshot(remote, [local])
+    expect(decisions).toEqual([{ key: 'store-a', action: 'skipped-malformed' }])
+    expect(local.getSnapshot()).toEqual({ safe: true }) // untouched
+  })
+
+  it('PR #83 fix: skips a malformed entry (no data field) too', () => {
+    const local = makeFakeStore('store-a', { safe: true }, null)
+    const remote = makeRemote({
+      // @ts-expect-error deliberately malformed for the test — no `data` at all
+      'store-a': { updatedAt: '2026-01-01T00:00:00.000Z' },
+    })
+    const decisions = applyRemoteSnapshot(remote, [local])
+    expect(decisions).toEqual([{ key: 'store-a', action: 'skipped-malformed' }])
+    expect(local.getSnapshot()).toEqual({ safe: true })
+  })
+})
+
+describe('stableStoresKey', () => {
+  it('is order-independent (sorted keys) so two snapshots with the same content match', () => {
+    const a: SyncState['stores'] = {
+      b: { updatedAt: 't', data: 1 },
+      a: { updatedAt: 't', data: 2 },
+    }
+    const b: SyncState['stores'] = {
+      a: { updatedAt: 't', data: 2 },
+      b: { updatedAt: 't', data: 1 },
+    }
+    expect(stableStoresKey(a)).toBe(stableStoresKey(b))
+  })
+
+  it('differs when any store\'s data or updatedAt differs', () => {
+    const a: SyncState['stores'] = { x: { updatedAt: 't0', data: 1 } }
+    const b: SyncState['stores'] = { x: { updatedAt: 't1', data: 1 } }
+    expect(stableStoresKey(a)).not.toBe(stableStoresKey(b))
   })
 })

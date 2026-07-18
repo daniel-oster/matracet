@@ -65,6 +65,15 @@ export function loadSnapshot(raw) {
  *     never silently clear an exclusion someone set.
  *   - A recipeId or person entry absent from the incoming snapshot is left exactly as-is —
  *     additive/overwriting per entry, never a sync-mirror that could delete data.
+ *
+ * PR #83 review note: the very first live run against a real snapshot will very likely
+ * report `changed: true` (and commit) even when nothing semantically changed — every touched
+ * record gets rebuilt with `excludeFromWeekPlan` coerced from possibly-absent to an explicit
+ * `false`/`true`, so a record that never had that field at all now does. This is a one-time
+ * shape-normalization artifact, not a bug: the merge is still idempotent from the *second*
+ * run onward (see merge-device-sync.test.mjs's idempotency cases), and no rating data is
+ * altered. Called out here so the Phase 4 gate's required first-dispatch diff review isn't
+ * spent puzzling over an otherwise-unexplained blanket diff.
  */
 export function mergeFeedback(existing, incoming) {
   const result = { ...(existing ?? {}) }

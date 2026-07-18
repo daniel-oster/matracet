@@ -23,7 +23,7 @@ import { mergeFeedbackBaseline } from './hooks/useFeedback'
 import { pruneSyncTasks } from './hooks/useSyncTasks'
 import { applyTaskOutcome } from './lib/syncTaskOutcomes'
 import { hydrateFromSync } from './lib/syncHydration'
-import { startSyncPusher } from './lib/syncPusher'
+import { startSyncPusher, seedKnownSha } from './lib/syncPusher'
 
 function getISOWeekString(isoDate: string): string {
   const d = new Date(isoDate + 'T00:00:00Z')
@@ -129,6 +129,10 @@ export default function App() {
       } else if (outcome.status === 'error') {
         console.warn('[matracet sync] hydration failed:', outcome.reason)
       }
+      // Hand the already-fetched state to the pusher so its first push this session doesn't
+      // pay for a second, redundant discovery-and-merge fetch, and so its "skip a no-op
+      // push" guard is warm from boot (see seedKnownSha's own doc).
+      if (outcome.sha !== undefined) seedKnownSha(outcome.sha, outcome.storesKey)
     })
   }, [])
 
