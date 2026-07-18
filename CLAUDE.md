@@ -1057,13 +1057,65 @@ merge workflow's permissions block.
 **Not yet done, on purpose**: the workflow has never been dispatched — no real commit has
 landed on `main` from it, no diff has been hand-reviewed, and the cron trigger stays absent
 until that happens. This was an explicit scope decision for this session, not an oversight.
-Phase 5 (the intelligence queue + `run-sync-tasks` skill) hasn't been started either.
+
+**Phase 5 — intelligence queue + `run-sync-tasks` skill.** `src/hooks/useSyncTasks.ts` is the
+`matracet:synctasks:v1` queue (`SyncTask { id, type, createdAt, payload }` — structured
+intent, never prompt text) — `addSyncTask`/`pruneSyncTasks`, and it's in `SYNCED_STORES` so a
+task queued on one device is visible to an interactive session working from `device-sync`
+regardless of which device queued it. Wired into exactly **one** real feature, per the plan's
+"proving case" instruction: `HandlaView.tsx`'s `submitAdd()` (the "Eget tillägg" manual add)
+also queues a `resolve-manual-item` task, since a hand-typed item (unlike a Fynd/Bevaka/recipe
+pick) has no offer attached yet. `.claude/skills/run-sync-tasks/` (`SKILL.md` + `tasks/
+resolve-manual-item.md`) is the catalog — run interactively (explicitly *not* GitHub Actions,
+same cost-model reasoning as every other Claude Code skill in this repo: token billing vs. the
+existing subscription), it reads `sync/state.json` from `device-sync`, resolves each pending
+task per its catalog file, and appends outcomes to `public/data/task-log.json` (new, seeded
+empty). The device applies outcomes on its next boot: `src/lib/syncTaskOutcomes.ts`'s
+`applyTaskOutcome` (one function per recognized `type`, currently just `resolve-manual-item` —
+attaches the resolved `offerRef` to the still-unresolved matching item) and `pruneSyncTasks`
+both run from a new step in `App.tsx`'s existing static-fetch `.then()`, right after the
+feedback-baseline merge. Like that merge, `applyTaskOutcome` uses `shoppingListStore.
+setSilently(...)`, not `.set()` — `task-log.json` is a static git-tracked file every device
+fetches directly (not routed through `device-sync`), so applying it doesn't need to advance
+the sync ledger, and doing so would risk the identical same-boot ordering hazard already fixed
+for `mergeFeedbackBaseline` (see Phase 2's critique-gate note above).
+
+**Standing rule** (also written into the skill itself): whenever implementation work creates a
+new situation that needs cloud/LLM judgment rather than a deterministic script, add a task
+type + its `tasks/<type>.md` procedure to the `run-sync-tasks` catalog in the same session —
+grow the catalog while building, the same discipline as this file's own "Always be learning"
+rule at the top.
+
+**Critique gate** (three questions the plan requires answering):
+- *What happens to a task the skill doesn't recognize?* Survives untouched, structurally: the
+  skill only appends a `task-log.json` entry for a task it actually processed (SKILL.md §2 is
+  explicit — no entry for an unrecognized type, no guessing, no partial processing); the
+  device's `pruneSyncTasks` only removes a task once its id appears in that log, so an
+  unprocessed task simply stays in the queue indefinitely until a future catalog update
+  recognizes it.
+- *Can the deterministic Action and the skill ever both act on the same task?* No, and not
+  just by convention — `merge-device-sync.mjs` has exactly one canonical merge target
+  (`matracet:feedback:v1`); every other snapshot key, `matracet:synctasks:v1` included, always
+  lands in that script's own `skipped` list (see its Phase 4 write-up above). The Action has
+  no code path that reads or writes the task queue at all.
+- *Does any catalog prompt instruct writing to device-sync?* No — `SKILL.md` §4 states this
+  explicitly as a hard rule, and `tasks/resolve-manual-item.md` only reads offer files and
+  writes a `result` payload for the log; nothing in either file tells Claude to push to
+  `device-sync`.
+
+Verified end-to-end (not dispatched — this needed no live GitHub calls to prove locally):
+Playwright against `npm run preview`, typing "kaffe" into Handla's "Eget tillägg" input, then
+reading `localStorage` directly — confirmed both `matracet:shopping:v1` (the plain item) and
+`matracet:synctasks:v1` (a queued `resolve-manual-item` task with that exact payload) update
+correctly. The apply+prune half is covered by `src/hooks/useSyncTasks.test.ts`'s "boot-time
+hydration with tasks present" cases (mirroring `App.tsx`'s exact `applyTaskOutcome` →
+`pruneSyncTasks` sequence) and `src/lib/syncTaskOutcomes.test.ts`.
 
 **Known blocker before any of this goes live for real: this repo is currently public.** The
 plan's own risk section flags that auto-push inherits the repo's visibility — ratings, per-meal
 attendance overrides, and the custody-derived weekplan would start flowing to a public branch
 automatically the moment a real token is entered on a real device. Resolve repo visibility (or
-narrow what gets synced) before that happens. Everything built so far (Phases 1-4) is inert
+narrow what gets synced) before that happens. Everything built so far (Phases 1-5) is inert
 without a token and without the merge workflow ever being dispatched, so none of it has
 actually moved any household data yet.
 

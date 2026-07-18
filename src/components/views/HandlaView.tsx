@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import { useOfferRefLookup } from '../../hooks/useOffers'
 import { useShoppingList } from '../../hooks/useShoppingList'
+import { addSyncTask } from '../../hooks/useSyncTasks'
 import { STORES } from '../../lib/bevaka'
 import { buildShoppingListText, formatOfferWeek, formatShopLine } from '../../lib/shoppingList'
 import { groupByAisle } from '../../lib/storeOrder'
@@ -96,8 +97,14 @@ export default function HandlaView({ onBack }: Props) {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   function submitAdd() {
-    if (!newItem.trim()) return
-    addManualItem(newItem)
+    const trimmed = newItem.trim()
+    if (!trimmed) return
+    addManualItem(trimmed)
+    // Intelligence-queue proving case (see CLAUDE.md's "GitHub-backed auto-sync" Phase 5):
+    // a plain hand-typed item ("kaffe") has no offer attached, unlike the Fynd/Bevaka/recipe
+    // pickers — queue a task so an interactive Claude Code session can resolve it against
+    // real current offers next time someone runs the run-sync-tasks skill.
+    addSyncTask('resolve-manual-item', { vara: trimmed })
     setNewItem('')
   }
 

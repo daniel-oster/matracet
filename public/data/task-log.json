@@ -1,0 +1,6 @@
+{
+  "_om": "Written by the .claude/skills/run-sync-tasks/ skill (Claude Code, interactive) after processing pending matracet:synctasks:v1 entries from the device-sync branch. Every device fetches this file directly and applies/prunes matching local tasks on boot — see src/lib/syncTaskOutcomes.ts. Never hand-edit; append entries via the skill.",
+  "app": "matracet",
+  "version": 1,
+  "entries": []
+}
