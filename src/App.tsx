@@ -20,6 +20,7 @@ import { SEED_STORE } from './presence/seed'
 import type { DayPlan } from './presence/types'
 import { mergeFeedbackBaseline } from './hooks/useFeedback'
 import { hydrateFromSync } from './lib/syncHydration'
+import { startSyncPusher } from './lib/syncPusher'
 
 function getISOWeekString(isoDate: string): string {
   const d = new Date(isoDate + 'T00:00:00Z')
@@ -114,11 +115,15 @@ export default function App() {
       if (outcome.status === 'applied') {
         console.info('[matracet sync] hydrated from device-sync', outcome.decisions)
       } else if (outcome.status === 'error') {
-        // Phase 3 wires this to a toast instead of just a console warning.
         console.warn('[matracet sync] hydration failed:', outcome.reason)
       }
     })
   }, [])
+
+  // Auto-push (see CLAUDE.md's "GitHub-backed auto-sync" section) — independent of both
+  // effects above for the same reason hydration is: it must never block app boot. No token
+  // stored → every push attempt no-ops with zero network calls (pushState's own guard).
+  useEffect(() => startSyncPusher(), [])
 
   if (!eaters || rollingDays.length === 0) {
     return <div className="app-loading">Laddar…</div>

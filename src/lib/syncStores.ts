@@ -29,6 +29,7 @@ export interface SyncableStore {
   getSnapshot: () => unknown
   touchedAt: () => string | null
   setFromSync: (next: unknown, touchedAt: string) => void
+  subscribe: (listener: () => void) => () => void
 }
 
 function asSyncable<T>(store: LocalStore<T>): SyncableStore {
@@ -37,6 +38,7 @@ function asSyncable<T>(store: LocalStore<T>): SyncableStore {
     getSnapshot: () => store.getSnapshot(),
     touchedAt: () => store.touchedAt(),
     setFromSync: (next, touchedAt) => store.setFromSync(next as T, touchedAt),
+    subscribe: listener => store.subscribe(listener),
   }
 }
 

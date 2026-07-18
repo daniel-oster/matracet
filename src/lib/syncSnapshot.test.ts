@@ -31,6 +31,7 @@ function makeFakeStore(key: string, data: unknown, touchedAt: string | null): Sy
       current = next
       touched = at
     },
+    subscribe: () => () => {},
   }
 }
 

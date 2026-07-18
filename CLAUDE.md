@@ -970,10 +970,55 @@ wrong device clock can flip a comparison either way — cosmetic under the singl
 (worst case, a device's own earlier remote copy clobbers its own more-recent edit), not a
 cross-writer data-loss risk.
 
-No UI wiring yet (no token-entry screen, no push path, no toast, no GitHub Actions changes) — that's
-Phase 3+.
+**Phase 3 — auto-push + toast + Synka rework.** `src/lib/syncPusher.ts`'s `startSyncPusher()`
+subscribes to every `SYNCED_STORES` entry; any change (re)arms a single 20s debounce timer
+(`scheduleDebounced`), so rapid consecutive edits still produce one push, not one per edit. Its
+exported `pushNow()` bypasses the debounce (used by the visibilitychange-hidden flush and the
+Synka screen's manual "Synka nu" button) and is safe to call while a push is already in flight —
+it sets a `dirtyDuringFlight` flag instead of starting a second concurrent PUT, and the in-flight
+push's own `do/while` loop re-runs once with a fresh `collectSnapshot()` before returning, so an
+edit that lands mid-push is never silently dropped, only delayed until that loop (or the next
+debounce cycle) catches it. `startSyncPusher()` is idempotent — a second call while already
+started returns a no-op teardown, so only the original caller's `stop()` can actually unsubscribe;
+covered by `src/lib/syncPusher.test.ts` using `vi.useFakeTimers()` for all three critique-gate
+scenarios (debounce coalescing, in-flight coalescing, double-start-then-stop leaves no dangling
+subscription).
 
-**Known blocker before any later phase goes live: this repo is currently public.** The plan's own
+`src/lib/toastStore.ts` is a minimal in-memory (unlike every other store in this app, deliberately
+**not** persisted — a toast is a this-load-only notification) pub-sub, rendered by
+`src/components/ToastHost.tsx` and mounted once in `main.tsx` alongside `<App />` so it's never
+gated by `App`'s own loading state. `src/lib/syncStatus.ts` tracks last-push/last-hydration time
+and the last error for the Synka screen, plus the **shared failure-episode flag**
+(`reportSyncFailure`/`recordPushSuccess`/`recordHydration`) — both the push and hydration paths
+call into this one flag, not two independent ones, specifically because a real Playwright pass
+caught the bug of having two: with a mocked-failing GitHub API, boot-time hydration failed and
+toasted, then clicking "Synka nu" (which pushes, then hydrates-without-its-own-toast) failed again
+and toasted a *second* time — technically "once per call site," not "once per episode." Centralizing
+the flag so either path's success clears it, and either path's failure only toasts if the flag
+wasn't already set, fixed it: re-ran the same script and got exactly one toast for the same
+scenario. Kept as a concrete example here because it's exactly the class of bug "add tests, run
+build" doesn't catch — only actually driving the failure path end-to-end surfaced it.
+
+`SynkaView.tsx` is now the status/settings screen described in the plan: a token field
+(`getToken`/`setToken`/`clearToken` from `githubSync.ts`), last-push/last-hydration/last-error
+display (`useSyncStatus`), a "↻ Synka nu" button (disabled without a token) that calls
+`pushNow()` then `hydrateFromSync(false)`, and the **original** download-based export flow moved
+behind a native `<details>` "Manuell export" disclosure — not deleted, per the plan's explicit
+"this is the degraded mode" instruction; it works identically to before, just no longer the
+screen's primary content.
+
+Verified via a throwaway Playwright script (not committed) against `npm run preview`: screenshot
+of the token-entry Synka screen with no token; a second pass with a token stored and every
+`api.github.com` request mocked to fail, confirming exactly one toast renders and "Senaste fel"
+shows on screen. The debounce/coalescing timing itself is proven by the fake-timer unit tests
+above, not by eyeballing a browser network tab — a deliberately stronger and cheaper check for
+that specific behavior than the plan's own "manually verify in devtools" validation step.
+
+Still open: no GitHub Actions changes (Phase 4's merge workflow), no intelligence queue
+(Phase 5). Repo visibility (below) remains unresolved — Phase 3 code exists now, but nothing
+syncs until a real token is entered on a real device.
+
+**Known blocker before this goes live for real: this repo is currently public.** The plan's own
 risk section flags that auto-push inherits the repo's visibility — ratings, per-meal attendance
 overrides, and the custody-derived weekplan would start flowing to a public branch automatically.
 Resolve repo visibility (or narrow what gets synced) before building Phase 3's actual auto-push —
