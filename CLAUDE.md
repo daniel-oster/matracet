@@ -908,6 +908,35 @@ Durable gotchas discovered while working in this repo. Add to this list rather t
 - **A fourth substring-collision shape, found while re-running the classifier against the new ICA/Hemköp webarchive sources**: a common Swedish *adjective*, not just a compound noun, can hide a shorter food keyword — `färs` (mince) inside `färsk`/`färskt`/`färska` ("fresh", e.g. "Färsk pasta", "Färska kryddor") mis-filed pasta and fresh herbs as meat. The obvious fix (blanket-strip `färsk\w*` before matching, which is what `src/lib/storeOrder.ts`'s `guessAisleCategory` had *already* been doing for this exact collision) turns out to be wrong: it also eats compounds like `färskpotatis` (new potatoes) whole, silently dropping the `potatis` keyword the classifier needs and turning a wrong-category bug into a no-category bug instead of actually fixing it. The precise fix is a negative lookahead on just the ambiguous substring, `färs(?!k)` — real mince compounds (nötfärs, fläskfärs, köttfärs) always end in "färs", never continue into "färsk...", so this is exact with no observed false negatives. Ported this exact fix into both `scripts/erbjudanden-lib.mjs`'s `guessKategori` (`PROTEIN_RE`) and `src/lib/storeOrder.ts`'s `guessAisleCategory` (`KOTT_FISK_PATTERNS`) — the aisle categorizer's version had silently shipped with the less-precise strip-based fix, worth checking for elsewhere if a similar "strip the containing word" fix shows up. Two more collisions found in the same pass, same `(?!x)` shape: `tomat` (tomato) inside `automat`/`automatic` (appliance names — "Kaffebryggare Automatic" isn't a vegetable) and `fisk` inside `fiske`/`Magnetfiske` (a magnet-fishing hobby kit, not food) → `fisk(?!e)`.
 - **A fifth substring-collision shape: a *processed/pantry* product's name embeds the raw produce it's made from, or a flavor word matching a different category entirely** — flagged by the household spotting "Krossade, passerade tomater" (canned crushed tomatoes) and "Potatissallad" (deli potato salad) both filed under `gront_farsk` ("fresh") in the Fynd UI. `VEG_RE`'s bare `tomat`/`potatis` matched inside these processed names same as any fresh tomato/potato, and — unlike the compound-word traps above — there's no fixed-width lookaround that disambiguates "Tomater Krossade" from "Tomater" alone; the distinguishing word (`krossad`/`passerad`/`puré`) can appear on *either side* of "tomat" depending on source phrasing. Fixed with a same-string AND via two lookaheads instead of alternation: `CANNED_TOMAT_RE = /(?=.*tomat)(?=.*(?:kross|passerad|puré))/i`, checked (→ `skafferi`) before `PROTEIN_RE`/`VEG_RE` run, same "bail first" position as `BROD_RE`/`FARDIGMAT_RE`. Starch-based deli salads (`potatissallad`, `krämiga sallader`, `salladsbaren`) got the same "ready-to-eat, not raw produce" fix by extending `FARDIGMAT_RE` (already checked first) — note *protein*-based deli salads ("Räksallad, skagenröra") already resolved correctly beforehand since `PROTEIN_RE` is checked ahead of `VEG_RE` too; only the starch-only case had no earlier category to catch it. Separately, any `sås`/`dressing`/`marinad`/... condiment name routinely carries an unrelated flavor word ("Kebabsås Vitlök" ⊃ `kebab` **and** `vitlök`, "Gräddsås Pulver" ⊃ `grädd`, "Hamburgerdressing" ⊃ no produce word but still a condiment) that would otherwise be claimed by `PROTEIN_RE`/`VEG_RE`/`MEJERI_RE` first (all checked before `SKAFFERI_RE`'s own `sås` keyword ever gets a look) — pulled those condiment keywords out into a new `SAUCE_RE`, also checked before `PROTEIN_RE`. **When applying a classifier fix retroactively to already-saved data, never blanket-rerun `erbjudanden-recategorize.mjs` across all files** — it recomputes *every* offer's category from `guessKategori` and only trusts the old category as a fallback for `snacks_godis`, so any offer whose correct category depends on a keyword `guessKategori` simply doesn't have yet (this pass found `hallon`, `clementin`, `lime`, `jordgubb` missing from `FRUIT_RE`, and plural `morötter` not matching `VEG_RE`'s singular `morot` — Swedish plurals often shift the vowel, e.g. o→ö, so a substring match on the singular silently fails) gets silently demoted to `ovrigt`, even though nothing about *that* offer was wrong. Re-ran the migration as a narrow one-off instead: only recompute `kategori` for offers whose name/brand actually matches one of the *new* patterns (`CANNED_TOMAT_RE`/`SAUCE_RE`/the deli-salad addition to `FARDIGMAT_RE`), leaving every other offer's existing category untouched regardless of what the full classifier would now say about it.
 
+## GitHub-backed auto-sync (in progress, 2026-07)
+
+A plan exists to replace the manual Synka export/import flow with device→GitHub auto-sync: a
+fine-grained PAT on-device pushes `matracet:*` localStorage state to a `sync/state.json` file on
+a dedicated `device-sync` branch via the Contents API; a scheduled Action merges it into canonical
+`public/data/` files on `main`. The plan is phased with a validation + critique gate per phase —
+see the originating task/issue for the full spec (branch keys the file, one snapshot object, no
+diffing/CRDTs, single-writer assumption throughout).
+
+**Status: Phase 1 only.** `src/lib/githubSync.ts` is the pure client — `getToken`/`setToken`/
+`clearToken` (token lives at `matracet:sync:token`, deliberately outside the synced-store set: it
+must never itself be synced), `fetchState()`/`pushState(state, knownSha?)` against
+`repos/daniel-oster/matracet/contents/sync/state.json?ref=device-sync`, typed `SyncStatus` results
+(`'ok' | 'no-token' | 'unauthorized' | 'network' | 'conflict-exhausted' | 'not-found'`) rather than
+thrown exceptions, UTF-8-safe base64 (via `TextEncoder`, not bare `btoa` — this data has Swedish
+characters), and `serializeState()` sorting store keys so an unchanged snapshot re-serializes
+byte-identical. `pushState`'s 409 handling: refetch the sha once and retry once; a second 409
+returns `conflict-exhausted` rather than looping — under single-writer, a repeat conflict means
+something's genuinely wrong, not a transient race. Covered by `src/lib/githubSync.test.ts` (mocked
+`fetch`) — no UI wiring, no localStorage-store subscription/debounce, no GitHub Actions changes yet;
+none of that exists in the app or repo yet, so this phase changes zero runtime behavior.
+
+**Known blocker before any later phase goes live: this repo is currently public.** The plan's own
+risk section flags that auto-push inherits the repo's visibility — ratings, per-meal attendance
+overrides, and the custody-derived weekplan would start flowing to a public branch automatically.
+Resolve repo visibility (or narrow what gets synced) before building Phase 3's actual auto-push —
+Phase 1/2 (client + hydration logic) are safe to build regardless since they don't push anything
+without a token, and no token-issuing UI exists yet.
+
 ## Deploy
 
 Pushing to `main` triggers the GitHub Actions workflow (`.github/workflows/deploy.yml`) which runs `npm ci && npm run build` and deploys `dist/` to GitHub Pages. No manual steps needed.
