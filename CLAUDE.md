@@ -1111,13 +1111,14 @@ correctly. The apply+prune half is covered by `src/hooks/useSyncTasks.test.ts`'s
 hydration with tasks present" cases (mirroring `App.tsx`'s exact `applyTaskOutcome` →
 `pruneSyncTasks` sequence) and `src/lib/syncTaskOutcomes.test.ts`.
 
-**Known blocker before any of this goes live for real: this repo is currently public.** The
-plan's own risk section flags that auto-push inherits the repo's visibility — ratings, per-meal
-attendance overrides, and the custody-derived weekplan would start flowing to a public branch
-automatically the moment a real token is entered on a real device. Resolve repo visibility (or
-narrow what gets synced) before that happens. Everything built so far (Phases 1-5) is inert
-without a token and without the merge workflow ever being dispatched, so none of it has
-actually moved any household data yet.
+**Repo visibility: decided, staying public (2026-07).** The plan's own risk section flagged
+that auto-push inherits the repo's visibility — ratings, per-meal attendance overrides, and
+the custody-derived weekplan flow to a public `device-sync` branch the moment a real token is
+entered on a real device. Raised explicitly with the household; the decision is to accept that
+tradeoff rather than make the repo private or narrow what gets synced. Not revisited unless
+asked. Everything built so far (Phases 1-5) is still inert without a token and without the
+merge workflow ever being dispatched, so none of it has actually moved any household data yet
+— but there is no longer an open blocker standing in front of turning it on for real.
 
 ## Deploy
 
