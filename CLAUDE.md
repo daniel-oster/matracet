@@ -1178,6 +1178,70 @@ under single-device use) plus several hardening gaps. All fixed in the same PR b
 All of the above shipped with tests (141 total, up from 130) and a fresh Playwright pass
 confirming the real request ordering and toast behavior end-to-end, not just mocked units.
 
+## Meals as the plannable unit (in progress, 2026-07)
+
+A design to give "meal" (what we're eating) a first-class identity separate from "recipe"
+(how to cook it) — the two had never been distinguished, so the same *display name +
+optional recipe link* shape had been independently reinvented four times: `HistoryEntry`,
+`WeekPlanOverride`, `StashItem` `kind: 'dish'`, and the dead Side B module's `MealAssignment`
+`kind: 'OTHER'` + `label`. None of the four has an id, so none can be reused, counted, rated,
+or given components — and `komplett: false` (meant as the escape valve for non-recipe dishes)
+sees almost no use, because "everything must eventually become a recipe" pushes non-recipe
+things into the recipe schema anyway (`public/data/recipes/snackpotter/recept.json` — "boil
+water, wait 3–5 minutes" — is `komplett: true` purely because there was nowhere else to put it).
+
+**Model**: Meal and Recipe stay separate, linked one-way and optionally. A new flat
+`public/data/meals.json` (`Meal { slug, namn, alias, komponenter: {vara, alternativ[],
+valfri?}[], receptSlug: string | null, taggar, tid_min? }`) becomes what plan slots, history,
+and the stash pool all reference. Frequency/last-eaten/which-recipes-we've-used-for-it are
+**computed from `history.json`, never stored**. Dietary fit is **computed, not classified** —
+a small solve over `Recipe.varianter[*].byt` + `Meal.komponenter[*].alternativ` against
+`Eater.kost`/`undviker` (ingredient-level) and feedback `refuses` (dish-level veto), because a
+dish like Hamburgare isn't "vegan" or not — it's vegan-compatible if its protein component has
+a substitute. Explicitly rejected: a `receptMatch` query field (recipe search is a UI-time
+concern, not stored state), a generic→specific meal hierarchy, merging Meal into Recipe, and a
+component role taxonomy (protein/kolhydrat/grönt) — free-text components are enough.
+
+**Staged plan** (each stage independently shippable; don't start stage N+1 before stage N is
+merged — later stages, especially the dietary solve, are much easier once real meals exist):
+0. Delete the dead Side B module (`src/meals/`, `MealsSection.tsx`) — never wired into the
+   real app, superseded by this design.
+1. Add the `Meal` type + `meals.json` + `useMeals`; collapse `WeekPlanOverride` (→
+   `matracet:weekplan:v3`), `StashItem` `kind: 'dish'`, and `HistoryEntry` onto `mealSlug`.
+2. Point the `log-meal` skill at `meals.json` (match by `namn`/alias, create-or-alias on a
+   miss) instead of offering `komplett: false` recipe stubs; add derived `antalGånger`/
+   `senastÄten`; feed the meal library into `build-brief.ts`.
+3. Plan-time component swaps (`komponentByten` on `WeekPlanOverride`), ranked by what's on
+   hand via the existing `pantryMatch.ts` `haveNames` (don't write a second matcher).
+4. `src/lib/dietFit.ts::evaluateFit` — the actual solve described above; replace the
+   `🌱 Vegansk` chip and `⚠️ vägrar` badge logic in `suggestions.ts`/`WeekWarnings`/
+   `VeckanOverview` with calls to it, surfacing `requiredSwaps` ("works for everyone if the
+   beef patty becomes the vegan one") instead of a flat pass/fail.
+5. Re-key `feedback.json`/`matracet:feedback:v1` from recipe slug to meal slug (last,
+   deliberately — touches git-tracked data and the `sync-local-storage` skill's merge rule).
+
+**Status: Stage 0 done.** `src/meals/` (`types.ts`, `seed.ts`, `checks.ts`, `checks.test.ts`)
+deleted — confirmed unimported anywhere outside itself before deleting. `MealsSection.tsx`
+deleted and its `matplan`/"Side B" nav entry removed from `SysdocApp.tsx` (`Section` union,
+`NAV_SIDE_A`, the render branch) rather than rewritten, since it would otherwise document a
+model that doesn't exist in code yet — a real sysdoc section for the actual `Meal` entity
+belongs in a later stage, once `meals.json`/`useMeals` exist to describe truthfully.
+
+**Two ideas from the deleted `checks.ts` worth reviving later as meal-level checks, kept here
+so deleting the file didn't lose them:**
+- `checkQuantity` / `CookingEvent.personMeals` — a cook produces N person-meals and leftover
+  days draw from that pool until it empties; a better model of "Monday's stew covers Tuesday"
+  than the current `dagkedja` field. (See the "Open question for later" below — this is one of
+  the two ways the app currently solves the same leftover-tracking problem.)
+- `checkSpacing` / `Person.minRepeatGapDays` — warns when the same dish repeats within a
+  per-person gap, presence-gated so it only applies when the person who cares is actually
+  home. Becomes more useful against *meals* than recipes, since repetition is a property of
+  the dish, not the recipe used to make it that time.
+
+**Open question for later**: `dagkedja` and the person-meal pool above solve the same
+leftover-tracking problem two different ways. Once meals exist, pick one — the pool model is
+the better of the two — and retire the other.
+
 ## Deploy
 
 Pushing to `main` triggers the GitHub Actions workflow (`.github/workflows/deploy.yml`) which runs `npm ci && npm run build` and deploys `dist/` to GitHub Pages. No manual steps needed.
