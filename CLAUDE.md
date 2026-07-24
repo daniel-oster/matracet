@@ -1321,6 +1321,41 @@ before deleting dead code must grep the *whole repo* (`scripts/`, `.claude/skill
 not just `src/` — a Node script importing straight from `src/*.ts` via `tsx` is invisible to
 an app-only search.
 
+**Stage 3 done.** `WeekPlanOverride` gained `komponentByten?: Record<string, string>`
+(vara → chosen alternativ) and `useWeekPlan` a `setComponentSwap(date, kind, vara, chosen)`
+that no-ops on a slot with no assignment yet — a swap only ever modifies an existing
+override, never creates one. `mealResolve.ts` gained `resolveComponents(meal,
+komponentByten)` (the post-swap component list — a swap only takes effect when it names
+the component's own `vara` or a declared `alternativ`, so stale `komponentByten` from a
+since-edited meal is ignored rather than substituting an unrelated item) and
+`rankComponentOptions(component, haveNames)` (orders `[vara, ...alternativ]` so whatever's
+already on hand sorts first — reuses `pantryMatch.ts`'s `looselyMatches`, not a second
+matcher, per the stage's own instruction).
+
+`VeckanPlanner`'s active-slot editor renders a `.active-slot-components` block per
+component (tappable option chips, current selection highlighted) whenever the assigned
+slot's meal has any `komponenter`, plus a "🛒 Lägg komponenter i inköpslistan" button that
+calls the existing `useShoppingList.addOrRestoreByName` once per *resolved* (post-swap)
+component with `source: meal.namn` — no new shopping-list code needed, exactly as the
+design predicted ("the list already accepts free-text names with an optional amount
+string").
+
+**Gap found while wiring this up, fixed in the same stage**: the suggestion list a slot
+assigns from (`assign()`) only ever iterates `recipeIndex`, so a meal with no recipe at
+all — `hamburgare`/`pastasas`/`tacos`, three of the four seed meals, deliberately built
+with no `receptSlug` — had no path to ever reach a plan slot, which would have made the
+component-swap UI unreachable for exactly the cases it was built to demonstrate. Not
+itemized as its own stage-3 bullet, but necessary infrastructure for the bullet that was:
+added a compact "🍽️ Måltider" quick-pick section (`.meal-quickpick`, above the recipe
+suggestion list) listing every `meals.json` entry with the same ☼/☾ assign buttons as a
+recipe suggestion card, calling `setMeal` directly with the meal's own `slug`/`receptSlug`
+(no `resolveMealForRecipe` needed — it's already a real, non-virtual meal). Verified
+end-to-end with a throwaway Playwright script: assigned Hamburgare to dinner via the quick-
+pick, swapped `nötfärsbiff` → `vegansk biff` in the component editor, clicked the shopping-
+list button, and confirmed `localStorage`'s `matracet:shopping:v1` held all four resolved
+components (the swapped `vegansk biff`, not `nötfärsbiff`) and `matracet:weekplan:v3` held
+`komponentByten: {"nötfärsbiff": "vegansk biff"}`.
+
 **Two ideas from the deleted `checks.ts` worth reviving later as meal-level checks, kept here
 so deleting the file didn't lose them:**
 - `checkQuantity` / `CookingEvent.personMeals` — a cook produces N person-meals and leftover

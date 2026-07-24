@@ -1,5 +1,6 @@
-import type { Meal } from '../types/meal'
+import type { Meal, MealComponent } from '../types/meal'
 import type { RecipeIndexEntry } from '../types'
+import { looselyMatches } from './pantryMatch'
 
 /** Same slug convention as recipes (see CLAUDE.md's "Recipe files" section): lowercase,
  *  hyphens, Swedish vowels transliterated. Used only for locally-derived "virtual" meal
@@ -61,6 +62,35 @@ export function resolveMealForName(name: string, meals: Meal[]): Meal {
     receptSlug: null,
     taggar: [],
   }
+}
+
+/**
+ * A meal's components with any plan-time swaps (WeekPlanOverride.komponentByten)
+ * applied — the post-swap list to actually shop/cook from. A swap only takes effect
+ * when it names the component's own vara or one of its declared alternativ; anything
+ * else in komponentByten (stale data from a since-edited meal) is ignored rather than
+ * silently substituting an unrelated item.
+ */
+export function resolveComponents(meal: Meal, komponentByten?: Record<string, string>): MealComponent[] {
+  return meal.komponenter.map(c => {
+    const chosen = komponentByten?.[c.vara]
+    if (chosen && chosen !== c.vara && c.alternativ.includes(chosen)) {
+      return { ...c, vara: chosen }
+    }
+    return c
+  })
+}
+
+/**
+ * Orders a component's own name plus its alternativ so whichever one is already on
+ * hand (haveNames — pantry staples/current stock and/or the stash pool's stock items,
+ * same combination pantryMatch.ts's callers already build) sorts first. Reuses
+ * pantryMatch.ts's looselyMatches rather than a second substring matcher.
+ */
+export function rankComponentOptions(component: MealComponent, haveNames: string[]): string[] {
+  const options = [component.vara, ...component.alternativ]
+  const onHand = (name: string) => haveNames.some(h => looselyMatches(h, name))
+  return [...options].sort((a, b) => Number(onHand(b)) - Number(onHand(a)))
 }
 
 /** Display name for a plan slot given only its mealSlug/receptSlug — looks up the real

@@ -245,6 +245,17 @@ input, select, textarea { font-family: inherit; }
   border: 1px solid var(--line2); background: var(--cream); cursor: pointer;
 }
 .unlock-chip-add:disabled { opacity: 0.55; cursor: default; }
+/* Meal-library quick-pick: assign a meals.json entry (often with no recipe at all)
+   straight to the active slot, alongside the much larger recipe suggestion list. */
+.meal-quickpick { margin: 14px 0; }
+.meal-quickpick-list { display: flex; flex-direction: column; gap: 6px; }
+.meal-chip {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  background: var(--paper); border: 1px solid var(--line2); border-radius: 8px; padding: 7px 9px;
+}
+.meal-chip-name { font-size: 13.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.meal-chip-assign { display: flex; gap: 6px; flex: none; }
+
 .unlock-recipes { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
 .unlock-recipe-link {
   font-family: inherit; font-size: 12.5px; padding: 5px 10px; border-radius: 999px;
@@ -314,6 +325,25 @@ input, select, textarea { font-family: inherit; }
   font-family: inherit; font-size: 11px; background: none; border: none; cursor: pointer; color: var(--gold2);
 }
 .attendance-close { margin-left: auto; color: var(--muted); }
+
+/* Plan-time component swaps — a meal's komponenter/alternativ as tappable chips. */
+.active-slot-components {
+  margin: 2px 0 4px 21px; padding: 8px; border: 1px solid var(--line2); border-radius: 8px;
+  background: var(--cream); display: flex; flex-direction: column; gap: 8px;
+}
+.component-row { display: flex; flex-direction: column; gap: 4px; }
+.component-label { font-size: 11.5px; color: var(--muted); }
+.component-options { display: flex; flex-wrap: wrap; gap: 6px; }
+.component-opt {
+  font-family: inherit; font-size: 12px; padding: 4px 10px; border-radius: 99px;
+  border: 1px solid var(--line2); background: var(--paper); color: var(--muted); cursor: pointer;
+}
+.component-opt.on { background: var(--green-bg); border-color: var(--green); color: var(--green-d); }
+.component-shop-btn {
+  align-self: flex-start; font-family: inherit; font-size: 12px; padding: 4px 10px;
+  border-radius: 99px; border: 1px solid var(--line2); background: var(--paper);
+  color: var(--gold2); cursor: pointer;
+}
 
 /* Suggestion controls: filter chips, sort, search — all first-class, "discover" feel. */
 .sugg-controls { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }

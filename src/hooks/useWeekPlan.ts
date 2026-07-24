@@ -7,6 +7,10 @@ import { resolveMealDisplayName, resolveMealForName } from '../lib/mealResolve'
 export interface WeekPlanOverride {
   mealSlug: string           // link into meals.json, or a virtual meal slug (see mealResolve.ts)
   receptSlug: string | null  // link to the recipe if there is one
+  /** Plan-time override of one or more of the meal's components (vara -> chosen
+   *  alternativ) — a swap for this slot only, never a change to the meal itself.
+   *  Undefined/empty for a meal with no swaps made. */
+  komponentByten?: Record<string, string>
   updatedAt: string
 }
 
@@ -185,6 +189,30 @@ function setAttendance(date: string, kind: MealKind, attendance: MealAttendance)
   })
 }
 
+/** Set (or clear, when chosen is null) a plan-time component swap on an already-assigned
+ *  slot. No-ops if the slot has no override yet — a swap only ever modifies an existing
+ *  assignment, it never creates one. */
+function setComponentSwap(date: string, kind: MealKind, vara: string, chosen: string | null): void {
+  const all = weekPlanStore.get()
+  const day = all[date]
+  const override = day?.[kind]
+  if (!override) return
+  const nextByten = { ...(override.komponentByten ?? {}) }
+  if (chosen === null) delete nextByten[vara]
+  else nextByten[vara] = chosen
+  weekPlanStore.set({
+    ...all,
+    [date]: {
+      ...day,
+      [kind]: {
+        ...override,
+        komponentByten: Object.keys(nextByten).length > 0 ? nextByten : undefined,
+        updatedAt: new Date().toISOString(),
+      },
+    },
+  })
+}
+
 function clearAttendance(date: string, kind: MealKind): void {
   const all = weekPlanStore.get()
   const day = all[date]
@@ -204,6 +232,7 @@ export interface UseWeekPlan {
   getAttendance: (date: string, kind: MealKind) => MealAttendance | undefined
   setMeal: (date: string, kind: MealKind, mealSlug: string, receptSlug: string | null) => void
   clearOverride: (date: string, kind: MealKind) => void
+  setComponentSwap: (date: string, kind: MealKind, vara: string, chosen: string | null) => void
   setAttendance: (date: string, kind: MealKind, attendance: MealAttendance) => void
   clearAttendance: (date: string, kind: MealKind) => void
 }
@@ -220,6 +249,7 @@ export function useWeekPlan(): UseWeekPlan {
     getAttendance: (date: string, kind: MealKind) => data[date]?.[attendanceKey(kind)],
     setMeal,
     clearOverride,
+    setComponentSwap,
     setAttendance,
     clearAttendance,
   }

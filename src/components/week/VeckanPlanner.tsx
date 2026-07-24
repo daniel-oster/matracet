@@ -13,7 +13,7 @@ import { useChaosMode } from '../../hooks/useChaosMode'
 import { tagOffers } from '../../lib/bevaka'
 import { rankSuggestions, SuggestionFilter, SuggestionSort } from '../../lib/suggestions'
 import { findUnlockOpportunities } from '../../lib/unlockMatch'
-import { resolveMealForRecipe } from '../../lib/mealResolve'
+import { resolveMealForRecipe, resolveComponents, rankComponentOptions } from '../../lib/mealResolve'
 import StashPantryPanel from '../StashPantryPanel'
 
 const DAY_SHORT: Record<string, string> = {
@@ -54,7 +54,7 @@ interface Props {
 }
 
 export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeIndex, meals, onOpenRecipe }: Props) {
-  const { getOverride, setMeal, clearOverride, getAttendance, setAttendance, clearAttendance } = useWeekPlan()
+  const { getOverride, setMeal, clearOverride, setComponentSwap, getAttendance, setAttendance, clearAttendance } = useWeekPlan()
   const { getFeedback } = useFeedback()
   const allSlugs = useMemo(() => recipeIndex.map(r => r.slug), [recipeIndex])
   const fullRecipes = useRecipes(allSlugs)
@@ -229,6 +229,46 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
                       ))}
                     </div>
                   )}
+                  {override && (() => {
+                    const meal = meals.find(m => m.slug === override.mealSlug)
+                    if (!meal || meal.komponenter.length === 0) return null
+                    return (
+                      <div className="active-slot-components">
+                        {meal.komponenter.map(orig => {
+                          const current = override.komponentByten?.[orig.vara] ?? orig.vara
+                          const options = rankComponentOptions(orig, haveNames)
+                          return (
+                            <div className="component-row" key={orig.vara}>
+                              <span className="component-label">{orig.vara}{orig.valfri ? ' · valfri' : ''}</span>
+                              <div className="component-options">
+                                {options.map(opt => (
+                                  <button
+                                    key={opt}
+                                    type="button"
+                                    className={`component-opt${opt === current ? ' on' : ''}`}
+                                    onClick={() => setComponentSwap(active.datum, kind, orig.vara, opt === orig.vara ? null : opt)}
+                                  >
+                                    {opt}
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+                          )
+                        })}
+                        <button
+                          type="button"
+                          className="component-shop-btn"
+                          onClick={() => {
+                            for (const c of resolveComponents(meal, override.komponentByten)) {
+                              addOrRestoreByName(c.vara, { source: meal.namn })
+                            }
+                          }}
+                        >
+                          🛒 Lägg komponenter i inköpslistan
+                        </button>
+                      </div>
+                    )
+                  })()}
                   {attendanceOpen === kind && (
                     <div className="attendance-editor">
                       <div className="attendance-eaters">
@@ -341,6 +381,39 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
               ))}
             </div>
           )}
+        </section>
+      )}
+
+      {meals.length > 0 && (
+        <section className="meal-quickpick">
+          <h3 className="shop-group-title">🍽️ Måltider</h3>
+          <div className="meal-quickpick-list">
+            {meals.map(m => {
+              const isLunch = active?.lunchOverride?.mealSlug === m.slug
+              const isDinner = active?.dinnerOverride?.mealSlug === m.slug
+              return (
+                <div key={m.slug} className="meal-chip">
+                  <span className="meal-chip-name">{m.namn}</span>
+                  <div className="meal-chip-assign">
+                    <button
+                      type="button"
+                      className={`sugg-assign${isLunch ? ' on' : ''}`}
+                      onClick={() => active && setMeal(active.datum, 'lunch', m.slug, m.receptSlug)}
+                    >
+                      {isLunch ? '✓ Lunch' : '☼ Lunch'}
+                    </button>
+                    <button
+                      type="button"
+                      className={`sugg-assign${isDinner ? ' on' : ''}`}
+                      onClick={() => active && setMeal(active.datum, 'dinner', m.slug, m.receptSlug)}
+                    >
+                      {isDinner ? '✓ Middag' : '☾ Middag'}
+                    </button>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
         </section>
       )}
 
