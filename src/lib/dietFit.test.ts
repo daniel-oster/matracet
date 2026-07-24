@@ -1,8 +1,29 @@
 import { describe, it, expect } from 'vitest'
-import { evaluateFit } from './dietFit'
+import { readFileSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
+import path from 'node:path'
+import { evaluateFit, type DietFitResult } from './dietFit'
 import type { Eater, Recipe } from '../types'
-import type { Meal } from '../types/meal'
+import type { Meal, MealsFile } from '../types/meal'
+import type { EatersData } from '../types'
 import type { RecipeFeedbackRecord } from '../types/feedback'
+
+const dataDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../public/data')
+const REAL_MEALS: Meal[] = JSON.parse(readFileSync(path.join(dataDir, 'meals.json'), 'utf8')).meals
+const REAL_EATERS: Eater[] = (JSON.parse(readFileSync(path.join(dataDir, 'eaters.json'), 'utf8')) as EatersData).eaters
+function realMeal(slug: string): Meal {
+  const meal = REAL_MEALS.find(m => m.slug === slug)
+  if (!meal) throw new Error(`fixture meal "${slug}" not found in public/data/meals.json`)
+  return meal
+}
+function realEater(id: string): Eater {
+  const eater = REAL_EATERS.find(e => e.id === id)
+  if (!eater) throw new Error(`fixture eater "${id}" not found in public/data/eaters.json`)
+  return eater
+}
+/** Loosely typed so these assertions compile both before and after Stage C adds a real
+ *  `unknowns` field to DietFitResult — see this file's PR-follow-up section. */
+type ResultWithMaybeUnknowns = DietFitResult & { unknowns?: { personId: string; reason: string; detail: string }[] }
 
 function makeRecipe(over: Partial<Recipe> = {}): Recipe {
   return {
@@ -161,5 +182,66 @@ describe('evaluateFit', () => {
     expect(result.requiredSwaps).toHaveLength(1)
     expect(result.requiredSwaps[0].reason).toContain('Sarah')
     expect(result.requiredSwaps[0].reason).toContain('Other')
+  })
+})
+
+// ── PR follow-up: the vegan check must fail closed ──────────────────────────────────
+// A code review found evaluateFit reports a dish safe for a vegan eater when it isn't —
+// every defect below fails in the direction of a false "fine". These 5 cases must fail
+// against today's production code before any fix lands (see the task's Stage A).
+describe('evaluateFit — fail-closed vegan classification (PR follow-up)', () => {
+  it('does not offer halloumi as a vegan substitute for the real tacos meal', () => {
+    const tacos = realMeal('tacos')
+    const eaters = [realEater('daniel'), realEater('sarah'), realEater('annabelle')]
+    const result = evaluateFit(tacos, null, eaters, null)
+    expect(result.requiredSwaps.some(s => s.to === 'halloumi')).toBe(false)
+  })
+
+  it('does not silently pass a dish with no known component data for a vegan eater', () => {
+    const emptyMeal = makeMeal({ komponenter: [] })
+    const annabelle = makeEater({ id: 'annabelle', namn: 'Annabelle', kost: ['vegan'] })
+    const result = evaluateFit(emptyMeal, null, [annabelle], null) as ResultWithMaybeUnknowns
+    const reportsClean = result.ok === true && result.conflicts.length === 0 && (result.unknowns?.length ?? 0) === 0
+    expect(reportsClean).toBe(false)
+  })
+
+  it('does not propose a swap that violates the same eater\'s own avoid list', () => {
+    // "svarta bönor" is genuinely vegan (matches the allow-list) — the defect isn't in
+    // classifying it, it's in offering it anyway when the same eater's own undviker rules
+    // it out for a different reason.
+    const meal = makeMeal({
+      komponenter: [{ vara: 'köttfärs', alternativ: ['svarta bönor'] }],
+    })
+    const annabelle = makeEater({ id: 'annabelle', namn: 'Annabelle', kost: ['vegan'], undviker: ['bönor'] })
+    const result = evaluateFit(meal, null, [annabelle], null)
+    expect(result.requiredSwaps.some(s => s.to === 'svarta bönor')).toBe(false)
+  })
+
+  it('loosely matches a recipe substitute keyed to a shorter ingredient name', () => {
+    const recipe = makeRecipe({
+      namn: 'Äggrätt',
+      kategorier: ['vegetarisk'],
+      ingredienser: [{ vara: 'ägg (stora)', mangd: 4, enhet: 'st' }],
+      varianter: { vegansk: { byt: { ägg: 'rökt tofu i skivor' } } },
+    })
+    const sarah = makeEater({ id: 'sarah', namn: 'Sarah', undviker: ['ägg'] })
+    const result = evaluateFit(HAMBURGARE, recipe, [sarah], null)
+    expect(result.requiredSwaps).toContainEqual({ from: 'ägg (stora)', to: 'rökt tofu i skivor', reason: 'Sarah undviker ägg' })
+  })
+
+  it('a dairy/animal-product denylist probe', () => {
+    const probe = makeEater({ id: 'annabelle', namn: 'Annabelle', kost: ['vegan'] })
+    const names = [
+      'halloumi', 'mozzarella', 'parmesan', 'yoghurt', 'kvarg', 'crème fraiche',
+      'majonnäs', 'aioli', 'hollandaise', 'salami', 'chorizo', 'prosciutto',
+      'leverpastej', 'hönsbuljong', 'gelatin', 'musslor',
+    ]
+    for (const name of names) {
+      const meal = makeMeal({ komponenter: [{ vara: name, alternativ: [] }] })
+      const result = evaluateFit(meal, null, [probe], null) as ResultWithMaybeUnknowns
+      const reportsVeganCompatible =
+        result.ok === true && result.conflicts.length === 0 && (result.unknowns?.length ?? 0) === 0
+      expect(reportsVeganCompatible, `"${name}" was reported as vegan-compatible`).toBe(false)
+    }
   })
 })
