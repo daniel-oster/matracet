@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import { evaluateFit } from './dietFit'
-import type { Eater, Recipe } from '../types'
+import type { Eater, Recipe, RecipeIndexEntry } from '../types'
 import type { Meal } from '../types/meal'
 import type { EatersData } from '../types'
 import type { RecipeFeedbackRecord } from '../types/feedback'
@@ -247,5 +247,48 @@ describe('evaluateFit — fail-closed vegan classification (PR follow-up)', () =
       expect(result.ok, `"${name}" was reported as vegan-compatible`).toBe(false)
       expect(result.conflicts.length + result.unknowns.length, `"${name}" produced neither a conflict nor an unknown`).toBeGreaterThan(0)
     }
+  })
+})
+
+function makeIndexEntry(over: Partial<RecipeIndexEntry> = {}): RecipeIndexEntry {
+  return { slug: 'test-recipe', nummer: 1, namn: 'Testrätt', tid_min: 20, kategorier: [], ...over }
+}
+
+// ── Stage D: a lightweight RecipeIndexEntry (kategorier only, no ingredienser/varianter) ──
+describe('evaluateFit — lightweight RecipeIndexEntry', () => {
+  it('uses kategorier for a definite vegan verdict with no ingredient data at all', () => {
+    const entry = makeIndexEntry({ namn: 'Köttbullar', kategorier: ['kott'] })
+    const annabelle = makeEater({ id: 'annabelle', kost: ['vegan'] })
+    const result = evaluateFit(HAMBURGARE, entry, [annabelle], null)
+    expect(result.ok).toBe(false)
+    expect(result.conflicts).toEqual([
+      { personId: 'annabelle', reason: 'vegan', detail: expect.stringContaining('Köttbullar') },
+    ])
+    expect(result.unknowns).toEqual([])
+  })
+
+  it('an index entry already marked vegansk needs no swap and no unknown', () => {
+    const entry = makeIndexEntry({ kategorier: ['vegansk'] })
+    const annabelle = makeEater({ id: 'annabelle', kost: ['vegan'] })
+    const result = evaluateFit(HAMBURGARE, entry, [annabelle], null)
+    expect(result).toEqual({ ok: true, conflicts: [], requiredSwaps: [], unknowns: [] })
+  })
+
+  it('emits an ingredients-unavailable unknown for an undviker check with no ingredient list', () => {
+    const entry = makeIndexEntry({ namn: 'Fisksoppa' })
+    const sarah = makeEater({ id: 'sarah', namn: 'Sarah', undviker: ['lax'] })
+    const result = evaluateFit(HAMBURGARE, entry, [sarah], null)
+    expect(result.ok).toBe(false)
+    expect(result.conflicts).toEqual([])
+    expect(result.unknowns).toEqual([
+      { personId: 'sarah', reason: 'ingredients-unavailable', detail: expect.stringContaining('lax') },
+    ])
+  })
+
+  it('does not report an unknown for an eater with nothing to avoid', () => {
+    const entry = makeIndexEntry()
+    const daniel = makeEater({ id: 'daniel', namn: 'Daniel' })
+    const result = evaluateFit(HAMBURGARE, entry, [daniel], null)
+    expect(result).toEqual({ ok: true, conflicts: [], requiredSwaps: [], unknowns: [] })
   })
 })

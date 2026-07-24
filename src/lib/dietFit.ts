@@ -1,4 +1,4 @@
-import type { Eater, Recipe } from '../types'
+import type { Eater, Recipe, RecipeIndexEntry } from '../types'
 import type { Meal } from '../types/meal'
 import type { RecipeFeedbackRecord } from '../types/feedback'
 import { looselyMatches } from './pantryMatch'
@@ -61,11 +61,21 @@ export function classifyVegan(name: string): VeganVerdict {
   return 'unknown'
 }
 
+/** A full Recipe carries ingredienser/varianter; a lightweight RecipeIndexEntry (kategorier
+ *  only) never does. Narrows the union down to the shape that actually has that data. */
+function fullRecipeOf(recipe: Recipe | RecipeIndexEntry | null): Recipe | null {
+  return recipe && 'ingredienser' in recipe ? recipe : null
+}
+
 /** Everything the dish is currently made of, as written (before any swap) — recipe
- *  ingredients when a recipe backs this slot, else the meal's own components. */
-function baseNames(meal: Meal, recipe: Recipe | null): string[] {
-  if (recipe) return recipe.ingredienser.map(i => i.vara)
-  return meal.komponenter.map(c => c.vara)
+ *  ingredients when a full Recipe backs this slot, the meal's own components when there's
+ *  no recipe at all, or null when only a lightweight RecipeIndexEntry is available
+ *  (kategorier known, but no ingredient list) — a genuinely different "we have no data"
+ *  case from an empty meal.komponenter, which is a real (if trivial) answer of zero. */
+function baseNames(meal: Meal, recipe: Recipe | RecipeIndexEntry | null): string[] | null {
+  if (!recipe) return meal.komponenter.map(c => c.vara)
+  const full = fullRecipeOf(recipe)
+  return full ? full.ingredienser.map(i => i.vara) : null
 }
 
 /** Declared substitutes for a given ingredient/component name — every recipe variant's
@@ -101,6 +111,13 @@ function dedupeSwaps(swaps: RequiredSwap[]): RequiredSwap[] {
  * caller already looked up for this slot (recipe-keyed today — see CLAUDE.md's Stage 5
  * note on the pending move to meal-keyed feedback).
  *
+ * `recipe` accepts either a full `Recipe` (ingredienser/varianter available — full
+ * ingredient-level and vegansk-variant checks) or a lightweight `RecipeIndexEntry`
+ * (kategorier only, as most week/warning views load) — the vegan verdict still comes
+ * straight from `kategorier` either way, but ingredient-level `undviker` checks can't run
+ * without an ingredient list, so those surface as an `ingredients-unavailable` unknown
+ * instead of silently passing.
+ *
  * Known scope limit, stated rather than silently glossed over: each conflict is resolved
  * independently against the dish's *as-written* state — this does not re-check whether a
  * swap proposed for one eater's requirement would introduce a new conflict for a different
@@ -110,13 +127,14 @@ function dedupeSwaps(swaps: RequiredSwap[]): RequiredSwap[] {
  */
 export function evaluateFit(
   meal: Meal,
-  recipe: Recipe | null,
+  recipe: Recipe | RecipeIndexEntry | null,
   presentEaters: Eater[],
   feedback: RecipeFeedbackRecord | null,
 ): DietFitResult {
   const conflicts: DietConflict[] = []
   const requiredSwaps: RequiredSwap[] = []
   const unknowns: DietUnknown[] = []
+  const fullRecipe = fullRecipeOf(recipe)
   const names = baseNames(meal, recipe)
   const dishName = recipe?.namn ?? meal.namn
 
@@ -127,15 +145,26 @@ export function evaluateFit(
       conflicts.push({ personId: eater.id, reason: 'refuses', detail: `${eater.namn} vägrar äta ”${dishName}”` })
     }
 
-    // Ingredient-level avoid list.
-    for (const avoid of eater.undviker) {
-      const hit = names.find(n => looselyMatches(n, avoid))
-      if (!hit) continue
-      const subs = substitutesFor(hit, meal, recipe)
-      if (subs.length > 0) {
-        requiredSwaps.push({ from: hit, to: subs[0], reason: `${eater.namn} undviker ${avoid}` })
+    // Ingredient-level avoid list. A lightweight RecipeIndexEntry has no ingredient list at
+    // all (names === null) — that's reported as an unknown, not silently skipped.
+    if (eater.undviker.length > 0) {
+      if (names === null) {
+        unknowns.push({
+          personId: eater.id,
+          reason: 'ingredients-unavailable',
+          detail: `${eater.namn} undviker ${eater.undviker.join(', ')} — kan inte kontrolleras mot ”${dishName}” (bara receptets kategorier är inlästa, inga ingredienser)`,
+        })
       } else {
-        conflicts.push({ personId: eater.id, reason: 'avoid-ingredient', detail: `${eater.namn} undviker ${avoid} — finns i ”${dishName}”` })
+        for (const avoid of eater.undviker) {
+          const hit = names.find(n => looselyMatches(n, avoid))
+          if (!hit) continue
+          const subs = substitutesFor(hit, meal, fullRecipe)
+          if (subs.length > 0) {
+            requiredSwaps.push({ from: hit, to: subs[0], reason: `${eater.namn} undviker ${avoid}` })
+          } else {
+            conflicts.push({ personId: eater.id, reason: 'avoid-ingredient', detail: `${eater.namn} undviker ${avoid} — finns i ”${dishName}”` })
+          }
+        }
       }
     }
 
@@ -144,7 +173,7 @@ export function evaluateFit(
 
     if (recipe) {
       if (recipe.kategorier.includes('vegansk')) continue
-      const byt = recipe.varianter?.vegansk?.byt
+      const byt = fullRecipe?.varianter?.vegansk?.byt
       if (byt && Object.keys(byt).length > 0) {
         for (const [from, to] of Object.entries(byt)) {
           requiredSwaps.push({ from, to, reason: `${eater.namn} äter veganskt` })

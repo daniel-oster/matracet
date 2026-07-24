@@ -48,8 +48,10 @@ export default function VeckanOverview({ days, lunches, dayPlans, eaters, recipe
         const dishRecipe = day.receptSlug ? recipeIndex.find(r => r.slug === day.receptSlug) : undefined
 
         // evaluateFit replaces the old hand-rolled refuses-only check (see CLAUDE.md's
-        // Stage 4 note) — recipe: null for the same reason as WeekWarnings: no full Recipe
-        // data loaded here, and refusal never needed it.
+        // Stage 4 note). Passing the lightweight `dishRecipe` (RecipeIndexEntry, not the
+        // full Recipe this view never loads) still gets the kategorier-based vegan verdict
+        // right — ingredient-level undviker checks against a recipe-backed day surface as
+        // an 'ingredients-unavailable' unknown instead (see dietFit.ts's Stage D note).
         const dayMeal = resolveDayMeal(day, meals)
         // Feedback is keyed by meal, not recipe (Stage 5) — dayMeal.slug either way.
         const record = dayMeal ? getFeedback(dayMeal.slug) : null
@@ -57,7 +59,7 @@ export default function VeckanOverview({ days, lunches, dayPlans, eaters, recipe
         const planPresentIds = plan?.presentPersons.map(p => p.id) ?? null
         const presentIds = effectivePresentIds(planPresentIds, dinnerAttendance)
         const presentEaters = presentIds ? eaters.filter(e => presentIds.includes(e.id)) : eaters
-        const dayFit = dayMeal ? evaluateFit(dayMeal, null, presentEaters, record ?? null) : null
+        const dayFit = dayMeal ? evaluateFit(dayMeal, dishRecipe ?? null, presentEaters, record ?? null) : null
         const conflicts = dayFit?.conflicts ?? []
         const unknowns = dayFit?.unknowns ?? []
         const { away: dinnerAway, extra: dinnerExtra } = diffAttendance(planPresentIds, dinnerAttendance)
