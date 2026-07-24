@@ -1,13 +1,16 @@
 import { Eater, Recipe, RecipeIndexEntry } from '../types'
+import type { Meal } from '../types/meal'
 import type { UseFeedback } from '../hooks/useFeedback'
 import type { TaggedOffer } from './bevaka'
+import { evaluateFit } from './dietFit'
+import { resolveMealForRecipe } from './mealResolve'
 
 export type SuggestionFilter = 'alla' | 'fynd' | 'snabbt' | 'vegansk'
 export type SuggestionSort = 'match' | 'savings' | 'favorites' | 'fastest'
 
 export interface SuggestionTag {
   text: string
-  kind: 'offer' | 'fast' | 'warn' | 'vegan' | 'liked'
+  kind: 'offer' | 'fast' | 'warn' | 'vegan' | 'liked' | 'swap'
 }
 
 export interface RankedSuggestion {
@@ -20,19 +23,15 @@ export interface RankedSuggestion {
   likerNames: string[]
 }
 
-/**
- * A recipe is "suitable" for the day when it doesn't structurally conflict with a
- * present eater's diet. The only hard rule we can derive today: if a vegan is home,
- * meat/fish dishes don't fit. Everything else stays eligible — we suggest, never block.
- */
-export function suitableForPresent(r: RecipeIndexEntry, eaters: Eater[], presentIds: string[] | null): boolean {
-  if (!presentIds || presentIds.length === 0) return true
-  const present = eaters.filter(e => presentIds.includes(e.id))
-  const hasVegan = present.some(e => e.kost?.includes('vegan'))
-  if (hasVegan && (r.kategorier.includes('kott') || r.kategorier.includes('fisk'))) {
-    return false
-  }
-  return true
+/** A probe eater with no identity of its own, used purely to ask "would this dish work
+ *  for someone who eats vegan" independent of who's actually present today — the same
+ *  question the 🌱 filter chip/tag always asked, now answered by evaluateFit (as-written
+ *  OR swappable) instead of a flat `kategorier.includes('vegansk')` lookup, so a
+ *  swappable dish like Hamburgare correctly counts as vegan-friendly. */
+const VEGAN_PROBE: Eater = { id: '__vegan_probe__', namn: '', roll: '', kost: ['vegan'], gillar: [], undviker: [] }
+
+function isVeganFriendly(meal: Meal, recipe: Recipe | undefined): boolean {
+  return evaluateFit(meal, recipe ?? null, [VEGAN_PROBE], null).ok
 }
 
 /**
@@ -77,6 +76,7 @@ function matchesQuery(r: RecipeIndexEntry, q: string): boolean {
 interface RankOptions {
   recipeIndex: RecipeIndexEntry[]
   fullRecipes: Record<string, Recipe>
+  meals: Meal[]
   query: string
   filter: SuggestionFilter
   sort: SuggestionSort
@@ -90,6 +90,7 @@ interface RankOptions {
 export function rankSuggestions({
   recipeIndex,
   fullRecipes,
+  meals,
   query,
   filter,
   sort,
@@ -102,20 +103,18 @@ export function rankSuggestions({
 
   const ranked = recipeIndex
     .filter(r => matchesQuery(r, query))
-    .filter(r => {
-      if (filter === 'snabbt') return r.tid_min <= 25
-      if (filter === 'vegansk') return r.kategorier.includes('vegansk')
-      return true
-    })
+    .filter(r => (filter === 'snabbt' ? r.tid_min <= 25 : true))
     .map((entry): RankedSuggestion => {
+      const recipe = fullRecipes[entry.slug]
       const feedback = getFeedback(entry.slug)
       const excluded = feedback?.excludeFromWeekPlan ?? false
-      const offerMatch = findOfferMatch(fullRecipes[entry.slug], offers)
+      const offerMatch = findOfferMatch(recipe, offers)
       const savingsKr = parseSavings(offerMatch?.besparing)
-      const suitable = suitableForPresent(entry, eaters, presentPersonIds)
-      const refusers = feedback?.persons.filter(
-        p => p.sentiment === 'refuses' && present.some(e => e.id === p.personId),
-      ) ?? []
+      const meal = resolveMealForRecipe(entry.slug, entry.namn, meals)
+      const veganFriendly = isVeganFriendly(meal, recipe)
+      const fit = evaluateFit(meal, recipe ?? null, present, feedback ?? null)
+      const refusers = fit.conflicts.filter(c => c.reason === 'refuses')
+      const otherConflicts = fit.conflicts.filter(c => c.reason !== 'refuses')
       const likers = feedback?.persons.filter(
         p => p.sentiment === 'likes' && present.some(e => e.id === p.personId),
       ) ?? []
@@ -128,21 +127,26 @@ export function rankSuggestions({
         tags.push({ text: savingsKr > 0 ? `🏷 spara ${savingsKr}kr` : `🏷 ${offerMatch.namn}`, kind: 'offer' })
       }
       if (entry.tid_min <= 25) { score += 1; tags.push({ text: `⚡ ${entry.tid_min} min`, kind: 'fast' }) }
-      if (entry.kategorier.includes('vegansk')) { score += 1; tags.push({ text: '🌱 vegansk', kind: 'vegan' }) }
+      if (veganFriendly) { score += 1; tags.push({ text: '🌱 vegansk', kind: 'vegan' }) }
       score += likers.length
       if (likerNames.length > 0) tags.push({ text: `❤ ${likerNames.join(', ')}`, kind: 'liked' })
-      if (!suitable) score -= 2
+      if (otherConflicts.length > 0) score -= 2
       if (refusers.length > 0) {
         score -= 5
         const names = refusers
-          .map(p => eaters.find(e => e.id === p.personId)?.namn ?? p.personId)
+          .map(c => eaters.find(e => e.id === c.personId)?.namn ?? c.personId)
           .join(', ')
         tags.push({ text: `⚠️ ${names} vägrar`, kind: 'warn' })
+      }
+      if (fit.requiredSwaps.length > 0 && refusers.length === 0) {
+        const swap = fit.requiredSwaps[0]
+        tags.push({ text: `🔁 byt ${swap.from} → ${swap.to}`, kind: 'swap' })
       }
 
       return { entry, score, tags: tags.slice(0, 4), excluded, offerMatch, savingsKr, likerNames }
     })
     .filter(s => filter !== 'fynd' || s.tags.some(t => t.kind === 'offer'))
+    .filter(s => filter !== 'vegansk' || s.tags.some(t => t.kind === 'vegan'))
 
   return ranked.sort((a, b) => {
     if (a.excluded !== b.excluded) return a.excluded ? 1 : -1

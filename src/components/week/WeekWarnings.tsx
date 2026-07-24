@@ -4,6 +4,8 @@ import type { Meal } from '../../types/meal'
 import type { DayPlan } from '../../presence/types'
 import { useFeedback } from '../../hooks/useFeedback'
 import { useWeekPlan, applyOverride, effectivePresentIds } from '../../hooks/useWeekPlan'
+import { evaluateFit } from '../../lib/dietFit'
+import { resolveDayMeal } from '../../lib/mealResolve'
 
 interface Props {
   days: DayMeal[]
@@ -37,18 +39,15 @@ export default function WeekWarnings({ days, lunches, dayPlans, eaters, recipeIn
   const { getFeedback } = useFeedback()
   const { getOverride, getAttendance } = useWeekPlan()
 
-  const eaterName = new Map(eaters.map(e => [e.id, e.namn]))
   const warnings: Warning[] = []
 
   function collect(raw: DayMeal, kind: MealKind) {
     const attendance = getAttendance(raw.datum, kind)
     const day = applyOverride(raw, getOverride(raw.datum, kind), meals, recipeIndex, attendance)
     const slug = day.receptSlug
-    if (!slug) return
-    const record = getFeedback(slug)
-    if (!record) return
+    const record = slug ? getFeedback(slug) : null
 
-    if (record.excludeFromWeekPlan) {
+    if (record?.excludeFromWeekPlan) {
       warnings.push({
         key: `${day.datum}-${kind}-excluded`,
         dateLabel: dateLabel(day),
@@ -57,15 +56,24 @@ export default function WeekWarnings({ days, lunches, dayPlans, eaters, recipeIn
       })
     }
 
+    // evaluateFit replaces the old hand-rolled "loop feedback.persons, filter refuses,
+    // presence-gate" logic — same shared solve suggestions.ts uses, so a meal-only
+    // assignment (no recipe at all) gets checked too, not just recipe-backed days. Passing
+    // recipe: null here is a deliberate scope choice, not an oversight: this view has no
+    // full Recipe data loaded (only the lightweight recipeIndex), and the refusal check
+    // that mattered here before never needed ingredient/kategori data anyway — see
+    // CLAUDE.md's Stage 4 note.
+    const meal = resolveDayMeal(day, meals)
+    if (!meal) return
     const plan = dayPlans.find(p => p.date === day.datum)
     const presentIds = effectivePresentIds(plan?.presentPersons.map(p => p.id) ?? null, attendance)
-    for (const p of record.persons) {
-      if (p.sentiment !== 'refuses') continue
-      if (presentIds && !presentIds.includes(p.personId)) continue
+    const presentEaters = presentIds ? eaters.filter(e => presentIds.includes(e.id)) : eaters
+    const fit = evaluateFit(meal, null, presentEaters, record ?? null)
+    for (const c of fit.conflicts) {
       warnings.push({
-        key: `${day.datum}-${kind}-refuses-${p.personId}`,
+        key: `${day.datum}-${kind}-${c.reason}-${c.personId}`,
         dateLabel: dateLabel(day),
-        text: `${eaterName.get(p.personId) ?? p.personId} vägrar äta ”${day.recept}”`,
+        text: c.detail,
         slug,
       })
     }

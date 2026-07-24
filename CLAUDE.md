@@ -1356,6 +1356,75 @@ list button, and confirmed `localStorage`'s `matracet:shopping:v1` held all four
 components (the swapped `vegansk biff`, not `nötfärsbiff`) and `matracet:weekplan:v3` held
 `komponentByten: {"nötfärsbiff": "vegansk biff"}`.
 
+**Stage 4 done.** `src/lib/dietFit.ts::evaluateFit(meal, recipe, presentEaters, feedback) →
+{ok, conflicts[], requiredSwaps[]}` is the one shared solve: dish-level `refuses` is an
+unconditional veto (no substitution fixes it); each present eater's `undviker` entries are
+checked against the dish's current ingredient/component names (`looselyMatches`, reused
+from `pantryMatch.ts`) and resolved via a substitute when one exists (`Recipe.varianter[*]
+.byt` for a recipe-backed slot — any variant's map, not just one keyed to the specific
+requirement — or `Meal.komponenter[*].alternativ` for a recipe-less one); a `kost: "vegan"`
+requirement checks `Recipe.kategorier.includes('vegansk')` when a recipe backs the slot,
+resolved via its `varianter.vegansk.byt` if not already vegan.
+
+**Judgment call, disclosed rather than silently made**: a recipe-less meal has *no* schema
+field at all for "is this vegan" (the design is explicit that meals aren't classified) —
+yet the design's own worked example ("Hamburgare... because one component is
+substitutable") requires knowing that "nötfärsbiff" isn't vegan and "vegansk biff" is,
+with no recipe in the picture. `dietFit.ts` added two small, deliberately conservative
+keyword regexes (`VEGAN_SAFE_RE` checked before `ANIMAL_PRODUCT_RE`, same
+narrower-signal-wins-first ordering as every other keyword classifier documented in this
+file) purely as the fallback for this one case — it only ever changes which swap gets
+*suggested*, never silently changes what's cooked. **Stated scope limit**: each conflict
+is resolved independently against the dish's as-written state; the function does not
+re-check whether a swap proposed for one eater's requirement could introduce a new
+conflict for a different present eater (a true fixpoint solve was judged more machinery
+than "a small solve" calls for) — exercised for real, not just theorized, by the
+Hamburgare test data: Annabelle's own `undviker: ["grön sallad"]` matches the default
+"sallad" component *and* her `kost: ["vegan"]` requires swapping "nötfärsbiff" — both
+surface as two independent suggested swaps, applied one at a time, not one coordinated
+resolution.
+
+Replaced call sites: `suggestions.ts`'s `🌱 Vegansk` filter/tag now calls `evaluateFit`
+against a synthetic "vegan probe" eater (kost-only, no identity) instead of a flat
+`kategorier.includes('vegansk')` lookup — so a swappable dish like Hamburgare correctly
+counts as vegan-friendly, which the old lookup could never see. The `⚠️ ... vägrar`
+scoring/tag and the old coarse `suitableForPresent` (which only checked "vegan present +
+kött/fisk kategori", no swap-awareness) are both gone, folded into one `evaluateFit` call
+against the actually-present eaters; a new `🔁 byt X → Y` tag (added `SuggestionTag`
+kind `'swap'`) surfaces the first unresolved-but-swappable conflict. `WeekWarnings` and
+`VeckanOverview`'s day-flag badges got the same replacement for their refusal checks,
+extended for free to also catch `vegan`/`avoid-ingredient` conflicts — deliberately
+called with `recipe: null` (neither view loads full `Recipe` data, only the lightweight
+`recipeIndex`, and the refusal check that mattered here before never needed ingredient/
+kategori data anyway) — a disclosed scope choice, not a silent gap. New
+`mealResolve.ts::resolveDayMeal(day, meals)` resolves the actual `Meal` object behind an
+already-`applyOverride`'d slot (real meals.json entry, or the same virtual-meal
+reconstruction `resolveMealForRecipe`/`resolveMealForName` would produce) for all three
+call sites plus a fourth: `VeckanPlanner`'s active-slot editor now renders `fit.conflicts`
+as read-only warnings and `fit.requiredSwaps` as "🔁 funkar för alla om X byts mot Y"
+hints, each with a tappable "Använd" button when the swap maps onto one of the meal's own
+components (calls the existing `setComponentSwap` from Stage 3) — recipe-variant swaps
+have no application mechanism yet, so those render as information only.
+
+**Gap fixed while wiring `resolveDayMeal` in**: Stage 1's `App.tsx` only set a static
+week-day's `mealSlug` when its free-text `recept` name matched a real `meals.json` entry —
+a recipe-linked day with no meals.json match (the overwhelming majority) was silently left
+with no `mealSlug` at all, meaning `resolveDayMeal` would have had nothing to resolve for
+almost every non-overridden day. Fixed by falling back to `resolveMealForRecipe` (a
+virtual meal keyed to the recipe) whenever `receptSlug` is present, matching exactly what
+`VeckanPlanner`'s `assign()` already does for overridden days — every day with an actual
+dish now reliably carries a `mealSlug`, not just ones the planner has touched.
+
+Verified end-to-end with a throwaway Playwright script: added Annabelle to dinner's
+attendance override, assigned Hamburgare via the Stage-3 quick-pick, and confirmed both
+expected fit hints rendered — `🔁 ... sallad byts mot ruccola (Annabelle undviker grön
+sallad)` and `🔁 ... nötfärsbiff byts mot vegansk biff (Annabelle äter veganskt)` — then
+tapped "Använd" on the first and confirmed `komponentByten: {"sallad": "ruccola"}` landed
+in `localStorage`. `src/lib/dietFit.test.ts` (10 cases) covers both branches (recipe-
+backed via kategorier/varianter, recipe-less via the keyword fallback), the refusal veto,
+undviker substitution and its no-substitute conflict path, and swap deduplication across
+multiple present eaters requesting the same fix.
+
 **Two ideas from the deleted `checks.ts` worth reviving later as meal-level checks, kept here
 so deleting the file didn't lose them:**
 - `checkQuantity` / `CookingEvent.personMeals` — a cook produces N person-meals and leftover

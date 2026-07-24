@@ -3,6 +3,8 @@ import type { Meal } from '../../types/meal'
 import type { DayPlan } from '../../presence/types'
 import { useWeekPlan, applyOverride, effectivePresentIds, diffAttendance } from '../../hooks/useWeekPlan'
 import { useFeedback } from '../../hooks/useFeedback'
+import { evaluateFit } from '../../lib/dietFit'
+import { resolveDayMeal } from '../../lib/mealResolve'
 import WeekWarnings from './WeekWarnings'
 
 const DAY_NAMES: Record<string, string> = {
@@ -49,9 +51,12 @@ export default function VeckanOverview({ days, lunches, dayPlans, eaters, recipe
         const isExcluded = record?.excludeFromWeekPlan ?? false
         const planPresentIds = plan?.presentPersons.map(p => p.id) ?? null
         const presentIds = effectivePresentIds(planPresentIds, dinnerAttendance)
-        const refusers = record
-          ? record.persons.filter(p => p.sentiment === 'refuses' && (!presentIds || presentIds.includes(p.personId)))
-          : []
+        // evaluateFit replaces the old hand-rolled refuses-only check (see CLAUDE.md's
+        // Stage 4 note) — recipe: null for the same reason as WeekWarnings: no full Recipe
+        // data loaded here, and refusal never needed it.
+        const dayMeal = resolveDayMeal(day, meals)
+        const presentEaters = presentIds ? eaters.filter(e => presentIds.includes(e.id)) : eaters
+        const conflicts = dayMeal ? evaluateFit(dayMeal, null, presentEaters, record ?? null).conflicts : []
         const { away: dinnerAway, extra: dinnerExtra } = diffAttendance(planPresentIds, dinnerAttendance)
 
         const lunchLabel = lunch?.recept ?? lunch?.anteckning ?? null
@@ -73,12 +78,12 @@ export default function VeckanOverview({ days, lunches, dayPlans, eaters, recipe
                 <span className="vline-ic">☾</span>
                 <span className="vline-nm">{dishLabel ?? 'middag ledig'}</span>
               </div>
-              {(isExcluded || refusers.length > 0 || dinnerAway.length > 0 || dinnerExtra.length > 0) && (
+              {(isExcluded || conflicts.length > 0 || dinnerAway.length > 0 || dinnerExtra.length > 0) && (
                 <div className="day-flags">
                   {isExcluded && <span className="day-flag day-flag--excluded">Utesluten</span>}
-                  {refusers.map(p => (
-                    <span className="day-flag day-flag--refuses" key={p.personId}>
-                      ⚠️ {eaters.find(e => e.id === p.personId)?.namn ?? p.personId}
+                  {conflicts.map(c => (
+                    <span className="day-flag day-flag--refuses" key={`${c.reason}-${c.personId}`}>
+                      ⚠️ {eaters.find(e => e.id === c.personId)?.namn ?? c.personId}
                     </span>
                   ))}
                   {dinnerAway.map(id => (

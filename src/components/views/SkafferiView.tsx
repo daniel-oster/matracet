@@ -58,7 +58,7 @@ export default function SkafferiView({ onBack, recipeIndex, meals, eaters, onOpe
   const stashedSlugs = new Set(activeItems.map(i => i.receptSlug).filter((s): s is string => !!s))
 
   const suggestions = rankSuggestions({
-    recipeIndex, fullRecipes, query, filter, sort, eaters,
+    recipeIndex, fullRecipes, meals, query, filter, sort, eaters,
     presentPersonIds: null,
     offers, getFeedback,
   })

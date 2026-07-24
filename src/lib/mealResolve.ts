@@ -1,5 +1,5 @@
 import type { Meal, MealComponent } from '../types/meal'
-import type { RecipeIndexEntry } from '../types'
+import type { DayMeal, RecipeIndexEntry } from '../types'
 import { looselyMatches } from './pantryMatch'
 
 /** Same slug convention as recipes (see CLAUDE.md's "Recipe files" section): lowercase,
@@ -91,6 +91,24 @@ export function rankComponentOptions(component: MealComponent, haveNames: string
   const options = [component.vara, ...component.alternativ]
   const onHand = (name: string) => haveNames.some(h => looselyMatches(h, name))
   return [...options].sort((a, b) => Number(onHand(b)) - Number(onHand(a)))
+}
+
+/**
+ * The meal behind an already-resolved day/lunch slot (a DayMeal as returned by
+ * applyOverride, or the raw static entry) — for callers (WeekWarnings, VeckanOverview)
+ * that need the actual Meal object for evaluateFit, not just its display name. Prefers
+ * the real meals.json entry when `mealSlug` names one, else reconstructs the same virtual
+ * meal resolveMealForRecipe/resolveMealForName would have produced. Returns null only for
+ * a genuinely empty slot (no dish at all).
+ */
+export function resolveDayMeal(day: Pick<DayMeal, 'recept' | 'receptSlug' | 'mealSlug'>, meals: Meal[]): Meal | null {
+  if (day.mealSlug) {
+    const meal = meals.find(m => m.slug === day.mealSlug)
+    if (meal) return meal
+  }
+  if (day.receptSlug) return resolveMealForRecipe(day.receptSlug, day.recept ?? day.receptSlug, meals)
+  if (day.recept) return resolveMealForName(day.recept, meals)
+  return null
 }
 
 /** Display name for a plan slot given only its mealSlug/receptSlug — looks up the real

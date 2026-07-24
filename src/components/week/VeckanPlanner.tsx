@@ -13,7 +13,8 @@ import { useChaosMode } from '../../hooks/useChaosMode'
 import { tagOffers } from '../../lib/bevaka'
 import { rankSuggestions, SuggestionFilter, SuggestionSort } from '../../lib/suggestions'
 import { findUnlockOpportunities } from '../../lib/unlockMatch'
-import { resolveMealForRecipe, resolveComponents, rankComponentOptions } from '../../lib/mealResolve'
+import { resolveMealForRecipe, resolveComponents, rankComponentOptions, resolveDayMeal } from '../../lib/mealResolve'
+import { evaluateFit } from '../../lib/dietFit'
 import StashPantryPanel from '../StashPantryPanel'
 
 const DAY_SHORT: Record<string, string> = {
@@ -112,7 +113,7 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
   const activePlanIds = useMemo(() => active?.plan?.presentPersons.map(p => p.id) ?? [], [active])
 
   const suggestions = rankSuggestions({
-    recipeIndex, fullRecipes, query, filter, sort, eaters,
+    recipeIndex, fullRecipes, meals, query, filter, sort, eaters,
     presentPersonIds: effectivePresentIds(active?.plan?.presentPersons.map(p => p.id) ?? null, active?.dinnerAttendance),
     offers, getFeedback,
   })
@@ -194,6 +195,12 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
               const override = kind === 'lunch' ? active.lunchOverride : active.dinnerOverride
               const attendance = attendanceFor(kind)
               const { away, extra } = diffAttendance(activePlanIds, attendance)
+              const meal = resolveDayMeal({ recept: label, receptSlug: slug ?? undefined, mealSlug: override?.mealSlug }, meals)
+              const presentIds = effectivePresentIds(activePlanIds, attendance)
+              const presentEaters = presentIds ? eaters.filter(e => presentIds.includes(e.id)) : eaters
+              const fit = meal && !attendance?.skip
+                ? evaluateFit(meal, slug ? fullRecipes[slug] ?? null : null, presentEaters, slug ? getFeedback(slug) ?? null : null)
+                : null
               return (
                 <div key={kind} className="active-slot-group">
                   <div className="active-slot">
@@ -230,7 +237,6 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
                     </div>
                   )}
                   {override && (() => {
-                    const meal = meals.find(m => m.slug === override.mealSlug)
                     if (!meal || meal.komponenter.length === 0) return null
                     return (
                       <div className="active-slot-components">
@@ -269,6 +275,35 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
                       </div>
                     )
                   })()}
+                  {fit && (fit.conflicts.length > 0 || fit.requiredSwaps.length > 0) && (
+                    <div className="fit-hints">
+                      {fit.conflicts.map(c => (
+                        <div className="fit-conflict" key={`${c.reason}-${c.personId}`}>⚠️ {c.detail}</div>
+                      ))}
+                      {fit.requiredSwaps.map(s => {
+                        const canApply = meal?.komponenter.some(
+                          c => (override?.komponentByten?.[c.vara] ?? c.vara) === s.from && c.alternativ.includes(s.to),
+                        )
+                        return (
+                          <div className="fit-swap" key={`${s.from}-${s.to}`}>
+                            <span>🔁 funkar för alla om <strong>{s.from}</strong> byts mot <strong>{s.to}</strong> ({s.reason})</span>
+                            {canApply && meal && (
+                              <button
+                                type="button"
+                                className="fit-swap-apply"
+                                onClick={() => {
+                                  const orig = meal.komponenter.find(c => (override?.komponentByten?.[c.vara] ?? c.vara) === s.from)
+                                  if (orig) setComponentSwap(active.datum, kind, orig.vara, s.to)
+                                }}
+                              >
+                                Använd
+                              </button>
+                            )}
+                          </div>
+                        )
+                      })}
+                    </div>
+                  )}
                   {attendanceOpen === kind && (
                     <div className="attendance-editor">
                       <div className="attendance-eaters">
