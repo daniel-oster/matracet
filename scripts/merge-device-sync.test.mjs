@@ -30,10 +30,10 @@ describe('loadSnapshot', () => {
 
 describe('mergeFeedback', () => {
   it('adopts a person entry missing locally', () => {
-    const existing = { r1: { recipeId: 'r1', excludeFromWeekPlan: false, updatedAt: 't0', persons: [] } }
+    const existing = { r1: { mealId: 'r1', excludeFromWeekPlan: false, updatedAt: 't0', persons: [] } }
     const incoming = {
       r1: {
-        recipeId: 'r1',
+        mealId: 'r1',
         excludeFromWeekPlan: false,
         updatedAt: '2026-01-02T00:00:00.000Z',
         persons: [{ personId: 'anna', sentiment: 'likes', updatedAt: '2026-01-02T00:00:00.000Z' }],
@@ -46,7 +46,7 @@ describe('mergeFeedback', () => {
   it('keeps the existing person entry when it is strictly newer than the incoming one', () => {
     const existing = {
       r1: {
-        recipeId: 'r1',
+        mealId: 'r1',
         excludeFromWeekPlan: false,
         updatedAt: '2026-02-01T00:00:00.000Z',
         persons: [{ personId: 'anna', sentiment: 'refuses', updatedAt: '2026-02-01T00:00:00.000Z' }],
@@ -54,7 +54,7 @@ describe('mergeFeedback', () => {
     }
     const incoming = {
       r1: {
-        recipeId: 'r1',
+        mealId: 'r1',
         excludeFromWeekPlan: false,
         updatedAt: '2026-01-01T00:00:00.000Z',
         persons: [{ personId: 'anna', sentiment: 'likes', updatedAt: '2026-01-01T00:00:00.000Z' }],
@@ -67,7 +67,7 @@ describe('mergeFeedback', () => {
   it('adopts the incoming person entry when it is strictly newer', () => {
     const existing = {
       r1: {
-        recipeId: 'r1',
+        mealId: 'r1',
         excludeFromWeekPlan: false,
         updatedAt: '2026-01-01T00:00:00.000Z',
         persons: [{ personId: 'anna', sentiment: 'refuses', updatedAt: '2026-01-01T00:00:00.000Z' }],
@@ -75,7 +75,7 @@ describe('mergeFeedback', () => {
     }
     const incoming = {
       r1: {
-        recipeId: 'r1',
+        mealId: 'r1',
         excludeFromWeekPlan: false,
         updatedAt: '2026-02-01T00:00:00.000Z',
         persons: [{ personId: 'anna', sentiment: 'likes', updatedAt: '2026-02-01T00:00:00.000Z' }],
@@ -86,24 +86,24 @@ describe('mergeFeedback', () => {
   })
 
   it('OR-merges excludeFromWeekPlan — true from either side wins, never silently cleared', () => {
-    const existing = { r1: { recipeId: 'r1', excludeFromWeekPlan: true, updatedAt: 't0', persons: [] } }
-    const incoming = { r1: { recipeId: 'r1', excludeFromWeekPlan: false, updatedAt: 't1', persons: [] } }
+    const existing = { r1: { mealId: 'r1', excludeFromWeekPlan: true, updatedAt: 't0', persons: [] } }
+    const incoming = { r1: { mealId: 'r1', excludeFromWeekPlan: false, updatedAt: 't1', persons: [] } }
     expect(mergeFeedback(existing, incoming).r1.excludeFromWeekPlan).toBe(true)
   })
 
-  it('leaves a recipeId absent from the incoming snapshot untouched', () => {
+  it('leaves a mealId absent from the incoming snapshot untouched', () => {
     const existing = {
-      untouched: { recipeId: 'untouched', excludeFromWeekPlan: true, updatedAt: 't0', persons: [{ personId: 'anna', sentiment: 'likes', updatedAt: 't0' }] },
+      untouched: { mealId: 'untouched', excludeFromWeekPlan: true, updatedAt: 't0', persons: [{ personId: 'anna', sentiment: 'likes', updatedAt: 't0' }] },
     }
     const result = mergeFeedback(existing, {})
     expect(result.untouched).toEqual(existing.untouched)
   })
 
   it('is idempotent — merging the same incoming data twice produces the same result', () => {
-    const existing = { r1: { recipeId: 'r1', excludeFromWeekPlan: false, updatedAt: 't0', persons: [] } }
+    const existing = { r1: { mealId: 'r1', excludeFromWeekPlan: false, updatedAt: 't0', persons: [] } }
     const incoming = {
       r1: {
-        recipeId: 'r1',
+        mealId: 'r1',
         excludeFromWeekPlan: false,
         updatedAt: '2026-01-01T00:00:00.000Z',
         persons: [{ personId: 'anna', sentiment: 'likes', updatedAt: '2026-01-01T00:00:00.000Z' }],

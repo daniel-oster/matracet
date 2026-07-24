@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Eater, RecipeIndexEntry } from '../../types'
+import type { Meal } from '../../types/meal'
 import { useFeedback } from '../../hooks/useFeedback'
 import { useRecipes } from '../../hooks/useRecipes'
 import { useOffers } from '../../hooks/useOffers'
@@ -30,11 +31,12 @@ const KIND_ICON: Record<StashKind, string> = { dish: '🍽️', stock: '🧺' }
 interface Props {
   onBack: () => void
   recipeIndex: RecipeIndexEntry[]
+  meals: Meal[]
   eaters: Eater[]
   onOpenRecipe: (slug: string) => void
 }
 
-export default function SkafferiView({ onBack, recipeIndex, eaters, onOpenRecipe }: Props) {
+export default function SkafferiView({ onBack, recipeIndex, meals, eaters, onOpenRecipe }: Props) {
   const { items, addItem, toggleDone, remove } = useStash()
   const { manualItems, removedIds, markRemoved, restore } = useShoppingList()
   const { getFeedback } = useFeedback()
@@ -56,7 +58,7 @@ export default function SkafferiView({ onBack, recipeIndex, eaters, onOpenRecipe
   const stashedSlugs = new Set(activeItems.map(i => i.receptSlug).filter((s): s is string => !!s))
 
   const suggestions = rankSuggestions({
-    recipeIndex, fullRecipes, query, filter, sort, eaters,
+    recipeIndex, fullRecipes, meals, query, filter, sort, eaters,
     presentPersonIds: null,
     offers, getFeedback,
   })
@@ -79,7 +81,7 @@ export default function SkafferiView({ onBack, recipeIndex, eaters, onOpenRecipe
         right={activeItems.length > 0 ? `${activeItems.length} i skafferiet` : undefined}
       />
       <div className="screen-body">
-        <StashPantryPanel recipeIndex={recipeIndex} fullRecipes={fullRecipes} onOpenRecipe={onOpenRecipe} />
+        <StashPantryPanel recipeIndex={recipeIndex} fullRecipes={fullRecipes} meals={meals} onOpenRecipe={onOpenRecipe} />
 
         <section className="stash-shoplist">
           <h3 className="shop-group-title">Inköpslistan</h3>

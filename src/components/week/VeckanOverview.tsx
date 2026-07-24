@@ -1,7 +1,10 @@
 import { DayMeal, Eater, RecipeIndexEntry } from '../../types'
+import type { Meal } from '../../types/meal'
 import type { DayPlan } from '../../presence/types'
 import { useWeekPlan, applyOverride, effectivePresentIds, diffAttendance } from '../../hooks/useWeekPlan'
 import { useFeedback } from '../../hooks/useFeedback'
+import { evaluateFit } from '../../lib/dietFit'
+import { resolveDayMeal } from '../../lib/mealResolve'
 import WeekWarnings from './WeekWarnings'
 
 const DAY_NAMES: Record<string, string> = {
@@ -23,11 +26,12 @@ interface Props {
   dayPlans: DayPlan[]
   eaters: Eater[]
   recipeIndex: RecipeIndexEntry[]
+  meals: Meal[]
   onOpenRecipe: (slug: string) => void
   onEdit: () => void
 }
 
-export default function VeckanOverview({ days, lunches, dayPlans, eaters, recipeIndex, onOpenRecipe, onEdit }: Props) {
+export default function VeckanOverview({ days, lunches, dayPlans, eaters, recipeIndex, meals, onOpenRecipe, onEdit }: Props) {
   const { getOverride, getAttendance } = useWeekPlan()
   const { getFeedback } = useFeedback()
   const todayDatum = days[0]?.datum
@@ -36,20 +40,24 @@ export default function VeckanOverview({ days, lunches, dayPlans, eaters, recipe
     <div className="vecka-list">
       {days.map(rawDay => {
         const dinnerAttendance = getAttendance(rawDay.datum, 'dinner')
-        const day = applyOverride(rawDay, getOverride(rawDay.datum, 'dinner'), dinnerAttendance)
+        const day = applyOverride(rawDay, getOverride(rawDay.datum, 'dinner'), meals, recipeIndex, dinnerAttendance)
         const rawLunch = lunches.find(l => l.datum === rawDay.datum)
         const lunchAttendance = getAttendance(rawDay.datum, 'lunch')
-        const lunch = rawLunch ? applyOverride(rawLunch, getOverride(rawDay.datum, 'lunch'), lunchAttendance) : undefined
+        const lunch = rawLunch ? applyOverride(rawLunch, getOverride(rawDay.datum, 'lunch'), meals, recipeIndex, lunchAttendance) : undefined
         const plan = dayPlans.find(p => p.date === day.datum)
         const dishRecipe = day.receptSlug ? recipeIndex.find(r => r.slug === day.receptSlug) : undefined
 
-        const record = day.receptSlug ? getFeedback(day.receptSlug) : null
+        // evaluateFit replaces the old hand-rolled refuses-only check (see CLAUDE.md's
+        // Stage 4 note) — recipe: null for the same reason as WeekWarnings: no full Recipe
+        // data loaded here, and refusal never needed it.
+        const dayMeal = resolveDayMeal(day, meals)
+        // Feedback is keyed by meal, not recipe (Stage 5) — dayMeal.slug either way.
+        const record = dayMeal ? getFeedback(dayMeal.slug) : null
         const isExcluded = record?.excludeFromWeekPlan ?? false
         const planPresentIds = plan?.presentPersons.map(p => p.id) ?? null
         const presentIds = effectivePresentIds(planPresentIds, dinnerAttendance)
-        const refusers = record
-          ? record.persons.filter(p => p.sentiment === 'refuses' && (!presentIds || presentIds.includes(p.personId)))
-          : []
+        const presentEaters = presentIds ? eaters.filter(e => presentIds.includes(e.id)) : eaters
+        const conflicts = dayMeal ? evaluateFit(dayMeal, null, presentEaters, record ?? null).conflicts : []
         const { away: dinnerAway, extra: dinnerExtra } = diffAttendance(planPresentIds, dinnerAttendance)
 
         const lunchLabel = lunch?.recept ?? lunch?.anteckning ?? null
@@ -71,12 +79,12 @@ export default function VeckanOverview({ days, lunches, dayPlans, eaters, recipe
                 <span className="vline-ic">☾</span>
                 <span className="vline-nm">{dishLabel ?? 'middag ledig'}</span>
               </div>
-              {(isExcluded || refusers.length > 0 || dinnerAway.length > 0 || dinnerExtra.length > 0) && (
+              {(isExcluded || conflicts.length > 0 || dinnerAway.length > 0 || dinnerExtra.length > 0) && (
                 <div className="day-flags">
                   {isExcluded && <span className="day-flag day-flag--excluded">Utesluten</span>}
-                  {refusers.map(p => (
-                    <span className="day-flag day-flag--refuses" key={p.personId}>
-                      ⚠️ {eaters.find(e => e.id === p.personId)?.namn ?? p.personId}
+                  {conflicts.map(c => (
+                    <span className="day-flag day-flag--refuses" key={`${c.reason}-${c.personId}`}>
+                      ⚠️ {eaters.find(e => e.id === c.personId)?.namn ?? c.personId}
                     </span>
                   ))}
                   {dinnerAway.map(id => (
@@ -112,7 +120,7 @@ export default function VeckanOverview({ days, lunches, dayPlans, eaters, recipe
         )
       })}
 
-      <WeekWarnings days={days} lunches={lunches} dayPlans={dayPlans} eaters={eaters} onOpenRecipe={onOpenRecipe} />
+      <WeekWarnings days={days} lunches={lunches} dayPlans={dayPlans} eaters={eaters} recipeIndex={recipeIndex} meals={meals} onOpenRecipe={onOpenRecipe} />
 
       <div className="hint">Tryck en dag för att redigera i Planera. Tryck bilden för att öppna receptet.</div>
     </div>

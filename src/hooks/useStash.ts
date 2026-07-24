@@ -15,6 +15,9 @@ export interface StashItem {
   id: string
   namn: string
   kind: StashKind
+  /** Set for kind:'dish' items — link into meals.json, or a virtual meal slug (see
+   *  src/lib/mealResolve.ts) when no meals.json entry matches. Always null for kind:'stock'. */
+  mealSlug: string | null
   receptSlug: string | null
   taggar: string[]
   anteckning: string | null
@@ -36,6 +39,7 @@ function addItem(
   receptSlug: string | null,
   taggar: string[],
   anteckning: string | null,
+  mealSlug: string | null = null,
 ): void {
   const trimmed = namn.trim()
   if (!trimmed) return
@@ -44,6 +48,7 @@ function addItem(
     id: `stash:${Date.now()}:${Math.random().toString(36).slice(2, 7)}`,
     namn: trimmed,
     kind,
+    mealSlug: kind === 'dish' ? mealSlug : null,
     receptSlug,
     taggar,
     anteckning,
@@ -67,7 +72,14 @@ function remove(id: string): void {
 
 export interface UseStash {
   items: StashItem[]
-  addItem: (namn: string, kind: StashKind, receptSlug: string | null, taggar: string[], anteckning: string | null) => void
+  addItem: (
+    namn: string,
+    kind: StashKind,
+    receptSlug: string | null,
+    taggar: string[],
+    anteckning: string | null,
+    mealSlug?: string | null,
+  ) => void
   toggleDone: (id: string) => void
   remove: (id: string) => void
 }

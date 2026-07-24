@@ -1,13 +1,13 @@
 {
-  "schemaVersion": "1.2",
+  "schemaVersion": "1.4",
   "week": {
-    "isoWeek": "2026-W29",
+    "isoWeek": "2026-W31",
     "year": 2026,
-    "startDate": "2026-07-13"
+    "startDate": "2026-07-27"
   },
   "days": [
     {
-      "date": "2026-07-13",
+      "date": "2026-07-27",
       "weekday": "mandag",
       "weekdayIso": 1,
       "present": [
@@ -29,7 +29,7 @@
       "notes": []
     },
     {
-      "date": "2026-07-14",
+      "date": "2026-07-28",
       "weekday": "tisdag",
       "weekdayIso": 2,
       "present": [
@@ -47,7 +47,7 @@
       "notes": []
     },
     {
-      "date": "2026-07-15",
+      "date": "2026-07-29",
       "weekday": "onsdag",
       "weekdayIso": 3,
       "present": [
@@ -69,7 +69,7 @@
       "notes": []
     },
     {
-      "date": "2026-07-16",
+      "date": "2026-07-30",
       "weekday": "torsdag",
       "weekdayIso": 4,
       "present": [
@@ -87,7 +87,7 @@
       "notes": []
     },
     {
-      "date": "2026-07-17",
+      "date": "2026-07-31",
       "weekday": "fredag",
       "weekdayIso": 5,
       "present": [
@@ -109,7 +109,7 @@
       "notes": []
     },
     {
-      "date": "2026-07-18",
+      "date": "2026-08-01",
       "weekday": "lordag",
       "weekdayIso": 6,
       "present": [
@@ -131,7 +131,7 @@
       "notes": []
     },
     {
-      "date": "2026-07-19",
+      "date": "2026-08-02",
       "weekday": "sondag",
       "weekdayIso": 7,
       "present": [
@@ -175,17 +175,7 @@
       }
     ]
   },
-  "recentHistory": [
-    {
-      "date": "2026-07-05",
-      "recipeId": "teriyakikyckling-riskokare",
-      "title": "Teriyakikyckling i riskokare",
-      "protein": "kott",
-      "cuisine": null,
-      "sentiment": null,
-      "source": "planerat"
-    }
-  ],
+  "recentHistory": [],
   "recipeIndex": [
     {
       "id": "het-kikärtsgryta",
@@ -1404,6 +1394,64 @@
       "tags": [
         "vegetarisk"
       ]
+    },
+    {
+      "id": "tomat-gurka-fetasallad",
+      "title": "Tomat-, gurk- och fetaostsallad",
+      "protein": "vegetarisk",
+      "vegan": false,
+      "sentiment": null,
+      "tags": [
+        "vegetarisk",
+        "glutenfri"
+      ]
+    }
+  ],
+  "mealLibrary": [
+    {
+      "slug": "hamburgare",
+      "namn": "Hamburgare",
+      "receptSlug": null,
+      "taggar": [
+        "grill",
+        "snabbt",
+        "barnvänligt"
+      ],
+      "antalGanger": 0,
+      "senastAten": null
+    },
+    {
+      "slug": "snackpotter",
+      "namn": "Snackpotter",
+      "receptSlug": "snackpotter",
+      "taggar": [
+        "snabbt",
+        "barnvänligt"
+      ],
+      "antalGanger": 0,
+      "senastAten": null
+    },
+    {
+      "slug": "pastasas",
+      "namn": "Pasta med sås",
+      "receptSlug": null,
+      "taggar": [
+        "snabbt",
+        "barnvänligt"
+      ],
+      "antalGanger": 0,
+      "senastAten": null
+    },
+    {
+      "slug": "tacos",
+      "namn": "Tacos",
+      "receptSlug": null,
+      "taggar": [
+        "fredagsmys",
+        "barnvänligt"
+      ],
+      "antalGanger": 0,
+      "senastAten": null
     }
   ],
   "pantryStaples": [
@@ -1419,16 +1467,17 @@
     "vetemjöl"
   ],
   "meta": {
-    "referenceDate": "2026-07-11",
+    "referenceDate": "2026-07-24",
     "generatedBy": "scripts/build-brief.ts",
     "sources": [
       "public/data/recipes/_index.json",
+      "public/data/meals.json (måltidsbibliotek; antalGånger/senastÄten härlett ur hela history.json)",
       "public/data/weeks/*.json",
-      "public/data/history.json (spontana/oplanerade måltider, senaste 2 veckorna)",
+      "public/data/history.json (spontana/oplanerade måltider, senaste 2 veckorna + all-tid för mealLibrary-frekvens)",
       "public/data/pantry.json",
       "public/data/feedback.json (sentiment + uteslutningar)",
-      "src/presence/seed.ts + activities.ts (närvaro/vårdnadsschema)",
-      "src/meals/seed.ts (preferenser: REQUIRE_VEGAN)"
+      "public/data/eaters.json (kost: vegan → veganRequired)",
+      "src/presence/seed.ts + activities.ts (närvaro/vårdnadsschema)"
     ],
     "externalInputs": [
       "feedback.json är tom — exportera \"Ladda ner mina data\" i appen och committa för att fylla sentiment + exclusions."
@@ -1436,7 +1485,9 @@
     "assumptions": [
       "present[] och portioner härleds helt ur vårdnadsschemat (src/presence/seed.ts): barn=3, Daniel+Erika=2, Daniel ensam=1. Varje dag har en bestämd uppsättning — inga okända dagar.",
       "protein härleds ur recept-kategorier (kott>fisk>vegansk>vegetarisk); inget eget proteinfält finns.",
-      "veganRequired = sant när en person med HARD REQUIRE_VEGAN är hemma (presence-gated).",
+      "veganRequired = sant när en person med kost:\"vegan\" (eaters.json) är hemma (presence-gated).",
+      "mealLibrary.antalGanger/senastAten är beräknade, inte hand-underhållna fält i meals.json — se matchesHistoryEntry.",
+      "feedback.json (och därmed sentiment/exclusions) är nu nyckelt på måltid, inte recept — mealIdFor löser ut vilken måltid ett recept tillhör (sin egen virtuella måltid om ingen meals.json-post länkar det).",
       "recipeIndex.tags = kategorier (slimmade indexet bär inte de fria taggarna).",
       "maxRepeatProteinPerWeek = null (ingen gräns, per användarens val)."
     ],

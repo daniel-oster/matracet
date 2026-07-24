@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Recipe, RecipeIndexEntry } from '../types'
+import type { Meal } from '../types/meal'
 import { usePantry } from '../hooks/usePantry'
 import { useOffers } from '../hooks/useOffers'
 import { useStash, StashKind } from '../hooks/useStash'
@@ -8,6 +9,7 @@ import { useIrrelevantOffers } from '../hooks/useIrrelevantOffers'
 import { describeOffer, tagOffers, toOfferRef, TaggedOffer } from '../lib/bevaka'
 import { matchPantryRecipes } from '../lib/pantryMatch'
 import { parseSavings } from '../lib/suggestions'
+import { resolveMealForName, resolveMealForRecipe } from '../lib/mealResolve'
 import SwipeRow from './SwipeRow'
 
 const IDEA_TAGS = ['🏷 Fynd', '⚡ Snabbt', '🧊 Fryst', '🌱 Vegan', '🔥 Grill']
@@ -20,6 +22,7 @@ function offerKey(o: TaggedOffer, i: number): string {
 interface Props {
   recipeIndex: RecipeIndexEntry[]
   fullRecipes: Record<string, Recipe>
+  meals: Meal[]
   onOpenRecipe: (slug: string) => void
 }
 
@@ -28,7 +31,7 @@ interface Props {
  * match against it, shared between SkafferiView and VeckanPlanner's chaos-mode view
  * so the two don't maintain separate copies of the same pantry/offer logic.
  */
-export default function StashPantryPanel({ recipeIndex, fullRecipes, onOpenRecipe }: Props) {
+export default function StashPantryPanel({ recipeIndex, fullRecipes, meals, onOpenRecipe }: Props) {
   const { items, addItem, toggleDone, remove } = useStash()
   const pantry = usePantry()
   const { addOrRestoreByName, removeOrMarkForOffer } = useShoppingList()
@@ -75,7 +78,12 @@ export default function StashPantryPanel({ recipeIndex, fullRecipes, onOpenRecip
 
   function submitIdea() {
     if (!ideaName.trim()) return
-    addItem(ideaName, addKind, null, ideaTags, ideaNote.trim() || null)
+    if (addKind === 'dish') {
+      const meal = resolveMealForName(ideaName, meals)
+      addItem(ideaName, addKind, meal.receptSlug, ideaTags, ideaNote.trim() || null, meal.slug)
+    } else {
+      addItem(ideaName, addKind, null, ideaTags, ideaNote.trim() || null)
+    }
     setIdeaName('')
     setIdeaNote('')
     setIdeaTags([])
@@ -86,7 +94,8 @@ export default function StashPantryPanel({ recipeIndex, fullRecipes, onOpenRecip
       const existing = activeItems.find(i => i.receptSlug === entry.slug)
       if (existing) remove(existing.id)
     } else {
-      addItem(entry.namn, 'dish', entry.slug, [], null)
+      const meal = resolveMealForRecipe(entry.slug, entry.namn, meals)
+      addItem(entry.namn, 'dish', entry.slug, [], null, meal.slug)
     }
   }
 

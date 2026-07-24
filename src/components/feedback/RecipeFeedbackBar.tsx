@@ -11,7 +11,7 @@ const SENTIMENT_LABEL: Record<FeedbackSentiment, string> = {
 }
 
 interface Props {
-  recipeId: string
+  mealId: string
   eaters: Eater[]
   variant: 'card' | 'detail'
 }
@@ -20,12 +20,12 @@ function initials(namn: string): string {
   return namn.charAt(0).toUpperCase()
 }
 
-export default function RecipeFeedbackBar({ recipeId, eaters, variant }: Props) {
+export default function RecipeFeedbackBar({ mealId, eaters, variant }: Props) {
   const { getFeedback, setPersonSentiment } = useFeedback()
   const [openPersonId, setOpenPersonId] = useState<string | null>(null)
   const [anchorRect, setAnchorRect] = useState<DOMRect | null>(null)
 
-  const record = getFeedback(recipeId)
+  const record = getFeedback(mealId)
   const byPerson = new Map(record?.persons.map(p => [p.personId, p]) ?? [])
 
   return (
@@ -65,7 +65,7 @@ export default function RecipeFeedbackBar({ recipeId, eaters, variant }: Props) 
                 eater={eater}
                 current={fb}
                 anchorRect={anchorRect}
-                onSet={(s, note) => setPersonSentiment(recipeId, eater.id, s, note)}
+                onSet={(s, note) => setPersonSentiment(mealId, eater.id, s, note)}
                 onClose={() => setOpenPersonId(null)}
               />
             )}

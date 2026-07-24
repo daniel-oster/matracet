@@ -14,8 +14,18 @@ import { readFileSync, writeFileSync, existsSync } from 'fs'
 import { resolve } from 'path'
 import { resolvePresence } from '../src/presence/resolver.ts'
 import { SEED_STORE, PERSONS } from '../src/presence/seed.ts'
-import { SEED_PREFERENCES } from '../src/meals/seed.ts'
-import { getRecipeVegan } from '../src/meals/checks.ts'
+import { matchMealByName, resolveMealForRecipe } from '../src/lib/mealResolve.ts'
+import type { Meal, MealsFile } from '../src/types/meal.ts'
+
+/** Derive vegan status from a recipe's kategorier array — true = marked vegansk,
+ *  false = marked vegetarisk/kott/fisk, undefined = can't tell (warn softly).
+ *  Ported from the deleted src/meals/checks.ts (see CLAUDE.md's "Meals as the
+ *  plannable unit" section, Stage 0) — this one pure helper was still needed here. */
+function getRecipeVegan(kategorier: string[]): boolean | undefined {
+  if (kategorier.includes('vegansk')) return true
+  if (kategorier.some(k => ['vegetarisk', 'kott', 'fisk'].includes(k))) return false
+  return undefined
+}
 
 // ── Konfiguration ───────────────────────────────────────────────────────────────
 
@@ -24,7 +34,7 @@ import { getRecipeVegan } from '../src/meals/checks.ts'
  *  variationsregeln är per-person `minRepeatGapDays` (se constraints.spacingByPerson). */
 const MAX_REPEAT_PROTEIN_PER_WEEK: number | null = null
 
-const SCHEMA_VERSION = '1.2'
+const SCHEMA_VERSION = '1.4'
 
 // ── Datum-helpers (UTC, ISO-vecka) ──────────────────────────────────────────────
 
@@ -104,8 +114,14 @@ interface Pantry {
 
 const recipeIndex = (readJson<{ recipes: IndexEntry[] }>('public/data/recipes/_index.json')?.recipes) ?? []
 const pantry = readJson<Pantry>('public/data/pantry.json')
+const eatersData = readJson<{ eaters: { id: string; kost?: string[] }[] }>('public/data/eaters.json')
+const mealLibrary = readJson<MealsFile>('public/data/meals.json')?.meals ?? []
 
 const indexBySlug = new Map(recipeIndex.map(r => [r.slug, r]))
+// present[]/portioner already derive person-level facts from src/presence/seed.ts (custody);
+// this is the equivalent derivation for diet — Eater.kost is the live source of truth, not the
+// deleted Side B SEED_PREFERENCES (see CLAUDE.md's "Meals as the plannable unit" section).
+const veganEaterIds = new Set((eatersData?.eaters ?? []).filter(e => e.kost?.includes('vegan')).map(e => e.id))
 
 // ── Feedback (sentiment + uteslutningar) ────────────────────────────────────────
 // Detta är den enda datakällan som lever utanför git: appens localStorage. Den
@@ -131,17 +147,26 @@ const feedbackRecords: FeedbackStore = Object.fromEntries(
 )
 const feedbackCount = Object.keys(feedbackRecords).length
 
-/** Per-recipe sentiment as recorded per person, or null when nobody has rated it. */
-function sentimentFor(slug: string): PersonSentiment[] | null {
-  const persons = feedbackRecords[slug]?.persons
+/** feedback.json is keyed by meal, not recipe (see CLAUDE.md's Stage 5 note) — resolve the
+ *  meal a recipe belongs to (its own virtual meal when no meals.json entry links it)
+ *  before looking anything up. */
+function mealIdFor(recipeSlug: string, recipeNamn: string): string {
+  return resolveMealForRecipe(recipeSlug, recipeNamn, mealLibrary).slug
+}
+
+/** Sentiment as recorded per person for a meal id, or null when nobody has rated it. */
+function sentimentFor(mealId: string): PersonSentiment[] | null {
+  const persons = feedbackRecords[mealId]?.persons
   return persons && persons.length > 0
     ? persons.map(p => ({ personId: p.personId, sentiment: p.sentiment, ...(p.note ? { note: p.note } : {}) }))
     : null
 }
 
+// Meal ids (not recipe ids) with excludeFromWeekPlan set — see mealIdFor above for why a
+// bare recipe slug isn't always the right key to cross-reference against recipeIndex.
 const exclusions = Object.entries(feedbackRecords)
   .filter(([, r]) => r.excludeFromWeekPlan === true)
-  .map(([slug]) => slug)
+  .map(([mealId]) => mealId)
 
 // ── Härledning ──────────────────────────────────────────────────────────────────
 
@@ -155,16 +180,9 @@ function deriveProtein(kategorier: string[]): string {
   return 'okant'
 }
 
-/** REQUIRE_VEGAN-preferenser är presence-gated. veganRequired = sant om någon
- *  som kräver veganskt är hemma denna dag. */
+/** veganRequired = sant om någon med kost:"vegan" (eaters.json) är hemma denna dag. */
 function veganRequiredFor(presentIds: Set<string>): boolean {
-  return SEED_PREFERENCES.some(
-    p =>
-      p.rule.type === 'REQUIRE_VEGAN' &&
-      p.origin === 'PERSON' &&
-      p.personId !== null &&
-      presentIds.has(p.personId),
-  )
+  return [...veganEaterIds].some(id => presentIds.has(id))
 }
 
 // ── Bygg veckan ─────────────────────────────────────────────────────────────────
@@ -219,6 +237,7 @@ interface HistoryFile {
   entries: {
     datum: string
     recipeSlug: string | null
+    mealSlug?: string
     beskrivning: string
     kalla: 'planerat' | 'spontant'
   }[]
@@ -239,7 +258,7 @@ for (const back of [2, 1]) {
       title: m.recept ?? idx?.namn ?? m.receptSlug,
       protein: idx ? deriveProtein(idx.kategorier) : 'okant',
       cuisine: null, // spåras inte i datamodellen
-      sentiment: sentimentFor(m.receptSlug),
+      sentiment: sentimentFor(mealIdFor(m.receptSlug, idx?.namn ?? m.receptSlug)),
       source: 'planerat',
     })
   }
@@ -258,12 +277,35 @@ for (const e of historyFile?.entries ?? []) {
     title: e.beskrivning || idx?.namn || e.recipeSlug,
     protein: idx ? deriveProtein(idx.kategorier) : 'okant',
     cuisine: null,
-    sentiment: sentimentFor(e.recipeSlug),
+    sentiment: sentimentFor(mealIdFor(e.recipeSlug, idx?.namn ?? e.recipeSlug)),
     source: e.kalla,
   })
 }
 
 recentHistory.sort((a, b) => (a.date < b.date ? -1 : 1))
+
+// ── Måltidsbiblioteket (meals.json) + härledd frekvens ur hela history.json ────
+// antalGånger/senastÄten är medvetet inte fält i meals.json (se CLAUDE.md) — härleds
+// här ur *hela* history.json (inte bara recentHistory's tvåveckorsfönster ovan), så
+// frekvensen är en genuin livstidssiffra, inte "hur ofta senaste två veckorna".
+function matchesHistoryEntry(meal: Meal, e: HistoryFile['entries'][number]): boolean {
+  if (e.mealSlug) return e.mealSlug === meal.slug
+  if (e.recipeSlug && meal.receptSlug === e.recipeSlug) return true
+  return matchMealByName(e.beskrivning, [meal]) !== undefined
+}
+
+const mealLibrarySlim = mealLibrary.map(meal => {
+  const matches = (historyFile?.entries ?? []).filter(e => matchesHistoryEntry(meal, e))
+  const senastAten = matches.length > 0 ? matches.map(e => e.datum).sort().at(-1)! : null
+  return {
+    slug: meal.slug,
+    namn: meal.namn,
+    receptSlug: meal.receptSlug,
+    taggar: meal.taggar,
+    antalGanger: matches.length,
+    senastAten,
+  }
+})
 
 // ── Slimmat receptregister ──────────────────────────────────────────────────────
 
@@ -272,7 +314,7 @@ const recipeIndexSlim = recipeIndex.map(r => ({
   title: r.namn,
   protein: deriveProtein(r.kategorier),
   vegan: getRecipeVegan(r.kategorier) === true,
-  sentiment: sentimentFor(r.slug),
+  sentiment: sentimentFor(mealIdFor(r.slug, r.namn)),
   tags: r.kategorier, // _index.json bär bara kategorier; fria `taggar` finns i fulla receptfiler
 }))
 
@@ -287,7 +329,8 @@ const brief = {
   },
   days,
   constraints: {
-    // Recept som ska uteslutas ur planen — härlett ur feedback.json (excludeFromWeekPlan).
+    // Måltids-id:n (mealLibrary-slug eller virtuell måltid för ett recept) som ska
+    // uteslutas ur planen — härlett ur feedback.json (excludeFromWeekPlan).
     exclusions,
     // null = ingen proteinupprepningsgräns (per användarens val).
     maxRepeatProteinPerWeek: MAX_REPEAT_PROTEIN_PER_WEEK,
@@ -299,29 +342,33 @@ const brief = {
   },
   recentHistory,
   recipeIndex: recipeIndexSlim,
+  mealLibrary: mealLibrarySlim,
   pantryStaples: pantry?.always_have ?? [],
   meta: {
     referenceDate,
     generatedBy: 'scripts/build-brief.ts',
     sources: [
       'public/data/recipes/_index.json',
+      'public/data/meals.json (måltidsbibliotek; antalGånger/senastÄten härlett ur hela history.json)',
       'public/data/weeks/*.json',
-      'public/data/history.json (spontana/oplanerade måltider, senaste 2 veckorna)',
+      'public/data/history.json (spontana/oplanerade måltider, senaste 2 veckorna + all-tid för mealLibrary-frekvens)',
       'public/data/pantry.json',
       'public/data/feedback.json (sentiment + uteslutningar)',
+      'public/data/eaters.json (kost: vegan → veganRequired)',
       'src/presence/seed.ts + activities.ts (närvaro/vårdnadsschema)',
-      'src/meals/seed.ts (preferenser: REQUIRE_VEGAN)',
     ],
     // Den enda inmatningen som inte lever i git: appens localStorage, exporterad och committad.
     externalInputs: [
       feedbackCount > 0
-        ? `feedback.json: ${feedbackCount} recept importerade → sentiment och exclusions ifyllda.`
+        ? `feedback.json: ${feedbackCount} måltider importerade → sentiment och exclusions ifyllda.`
         : 'feedback.json är tom — exportera "Ladda ner mina data" i appen och committa för att fylla sentiment + exclusions.',
     ],
     assumptions: [
       'present[] och portioner härleds helt ur vårdnadsschemat (src/presence/seed.ts): barn=3, Daniel+Erika=2, Daniel ensam=1. Varje dag har en bestämd uppsättning — inga okända dagar.',
       'protein härleds ur recept-kategorier (kott>fisk>vegansk>vegetarisk); inget eget proteinfält finns.',
-      'veganRequired = sant när en person med HARD REQUIRE_VEGAN är hemma (presence-gated).',
+      'veganRequired = sant när en person med kost:"vegan" (eaters.json) är hemma (presence-gated).',
+      'mealLibrary.antalGanger/senastAten är beräknade, inte hand-underhållna fält i meals.json — se matchesHistoryEntry.',
+      'feedback.json (och därmed sentiment/exclusions) är nu nyckelt på måltid, inte recept — mealIdFor löser ut vilken måltid ett recept tillhör (sin egen virtuella måltid om ingen meals.json-post länkar det).',
       'recipeIndex.tags = kategorier (slimmade indexet bär inte de fria taggarna).',
       'maxRepeatProteinPerWeek = null (ingen gräns, per användarens val).',
     ],
@@ -336,5 +383,5 @@ writeFileSync(resolve(root, outPath), JSON.stringify(brief, null, 2) + '\n', 'ut
 
 console.log(`planning-brief skriven: ${outPath}`)
 console.log(`  kommande vecka : ${brief.week.isoWeek} (start ${brief.week.startDate}, ref ${referenceDate})`)
-console.log(`  dagar          : ${days.length}  ·  recept i register: ${recipeIndexSlim.length}`)
+console.log(`  dagar          : ${days.length}  ·  recept i register: ${recipeIndexSlim.length}  ·  måltider i bibliotek: ${mealLibrarySlim.length}`)
 console.log(`  historik       : ${recentHistory.length} middagar  ·  pantryStaples: ${brief.pantryStaples.length}`)

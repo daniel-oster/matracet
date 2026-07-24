@@ -3,11 +3,11 @@
   "deviceId": "fixture-device",
   "updatedAt": "2026-07-15T10:00:00.000Z",
   "stores": {
-    "matracet:feedback:v1": {
+    "matracet:feedback:v2": {
       "updatedAt": "2026-07-15T10:00:00.000Z",
       "data": {
         "ugnsbakad-lax": {
-          "recipeId": "ugnsbakad-lax",
+          "mealId": "ugnsbakad-lax",
           "excludeFromWeekPlan": false,
           "updatedAt": "2026-07-15T10:00:00.000Z",
           "persons": [
@@ -16,7 +16,7 @@
           ]
         },
         "korvstroganoff": {
-          "recipeId": "korvstroganoff",
+          "mealId": "korvstroganoff",
           "excludeFromWeekPlan": true,
           "updatedAt": "2026-07-15T10:00:00.000Z",
           "persons": [

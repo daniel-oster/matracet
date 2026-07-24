@@ -25,7 +25,7 @@ division of labor:
   recognizes, and `src/hooks/useSyncTasks.ts`'s `pruneSyncTasks` drops every local task whose
   id now appears in the log — whether or not this client understood its `type`.
 - The **deterministic merge Action never touches this store** — `merge-device-sync.mjs`
-  only has a canonical merge target for `matracet:feedback:v1`; every other key, including
+  only has a canonical merge target for `matracet:feedback:v2`; every other key, including
   `matracet:synctasks:v1`, is skipped and logged untouched (see that script's own header
   comment). This makes it structurally impossible for the Action and this skill to both act
   on the same task, not just unlikely by convention.

@@ -1,4 +1,5 @@
 import { DayMeal, RecipeIndexEntry, ScreenName } from '../types'
+import type { Meal } from '../types/meal'
 import { useWeekPlan, applyOverride } from '../hooks/useWeekPlan'
 import type { DayPlan } from '../presence/types'
 
@@ -30,16 +31,17 @@ interface Props {
   weekLabel: string
   rollingDays: DayMeal[]
   recipeIndex: RecipeIndexEntry[]
+  meals: Meal[]
   dayPlans: DayPlan[]
   onNavigate: (screen: ScreenName) => void
   onOpenRecipe: (slug: string) => void
 }
 
-export default function Hub({ weekLabel, rollingDays, recipeIndex, dayPlans, onNavigate, onOpenRecipe }: Props) {
+export default function Hub({ weekLabel, rollingDays, recipeIndex, meals, dayPlans, onNavigate, onOpenRecipe }: Props) {
   const { getOverride, getAttendance } = useWeekPlan()
   const rawTonight = rollingDays[0]
   const tonight = rawTonight
-    ? applyOverride(rawTonight, getOverride(rawTonight.datum, 'dinner'), getAttendance(rawTonight.datum, 'dinner'))
+    ? applyOverride(rawTonight, getOverride(rawTonight.datum, 'dinner'), meals, recipeIndex, getAttendance(rawTonight.datum, 'dinner'))
     : undefined
   const tonightRecipe = tonight?.receptSlug ? recipeIndex.find(r => r.slug === tonight.receptSlug) : undefined
   const tonightPlan = tonight ? dayPlans.find(p => p.date === tonight.datum) : undefined

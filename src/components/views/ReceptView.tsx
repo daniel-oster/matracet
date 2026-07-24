@@ -1,12 +1,15 @@
 import { useState } from 'react'
 import { RecipeIndexEntry, Eater } from '../../types'
+import type { Meal } from '../../types/meal'
 import { useFeedback } from '../../hooks/useFeedback'
+import { resolveMealForRecipe } from '../../lib/mealResolve'
 import RecipeFeedbackBar from '../feedback/RecipeFeedbackBar'
 import TopBar from '../TopBar'
 
 interface Props {
   onBack: () => void
   recipeIndex: RecipeIndexEntry[]
+  meals: Meal[]
   eaters: Eater[]
   onOpenRecipe: (slug: string) => void
 }
@@ -25,7 +28,7 @@ function categoryText(kategorier: string[]): string {
   return kategorier[0] ?? ''
 }
 
-export default function ReceptView({ onBack, recipeIndex, eaters, onOpenRecipe }: Props) {
+export default function ReceptView({ onBack, recipeIndex, meals, eaters, onOpenRecipe }: Props) {
   const [query, setQuery] = useState('')
   const { getFeedback, setExcludeFromWeekPlan } = useFeedback()
 
@@ -50,7 +53,12 @@ export default function ReceptView({ onBack, recipeIndex, eaters, onOpenRecipe }
             <div className="recipe-search-empty">Inga recept matchar "{query}".</div>
           )}
           {filtered.map(r => {
-            const excluded = getFeedback(r.slug)?.excludeFromWeekPlan ?? false
+            // Feedback is keyed by meal, not recipe (see CLAUDE.md's Stage 5 note) — most
+            // recipes have no meals.json entry, so this resolves to a virtual meal keyed
+            // to the recipe's own slug, which is why this still reads/writes correctly for
+            // almost every card even though the key underneath changed.
+            const mealId = resolveMealForRecipe(r.slug, r.namn, meals).slug
+            const excluded = getFeedback(mealId)?.excludeFromWeekPlan ?? false
             return (
               <div key={r.slug} className={`recipe-card-wrap${excluded ? ' excluded' : ''}`}>
                 <button
@@ -70,12 +78,12 @@ export default function ReceptView({ onBack, recipeIndex, eaters, onOpenRecipe }
                   </div>
                 </button>
                 <div className="recipe-card-footer">
-                  <RecipeFeedbackBar recipeId={r.slug} eaters={eaters} variant="card" />
+                  <RecipeFeedbackBar mealId={mealId} eaters={eaters} variant="card" />
                   <label className="exclude-toggle">
                     <input
                       type="checkbox"
                       checked={excluded}
-                      onChange={e => setExcludeFromWeekPlan(r.slug, e.target.checked)}
+                      onChange={e => setExcludeFromWeekPlan(mealId, e.target.checked)}
                     />
                     <span>Använd inte i veckoplan</span>
                   </label>

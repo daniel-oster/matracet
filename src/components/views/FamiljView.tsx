@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { DayMeal, Eater, MealKind } from '../../types'
+import { DayMeal, Eater, MealKind, RecipeIndexEntry } from '../../types'
+import type { Meal } from '../../types/meal'
 import type { DayPlan, Activity } from '../../presence/types'
 import { GROUPS, RULES } from '../../presence/seed'
 import { ACTIVITIES } from '../../presence/activities'
@@ -34,16 +35,18 @@ interface Props {
   dayPlans: DayPlan[]
   rollingDays: DayMeal[]
   rollingLunches: DayMeal[]
+  recipeIndex: RecipeIndexEntry[]
+  meals: Meal[]
 }
 
-export default function FamiljView({ onBack, eaters, dayPlans, rollingDays, rollingLunches }: Props) {
+export default function FamiljView({ onBack, eaters, dayPlans, rollingDays, rollingLunches, recipeIndex, meals }: Props) {
   const [section, setSection] = useState<Section>('profiler')
 
   return (
     <div className="screen">
       <TopBar onBack={onBack} eyebrow="Vem äter vad" title="Familj" />
       <div className="screen-body familj-grid">
-        <SchedulePane dayPlans={dayPlans} days={rollingDays} lunches={rollingLunches} eaters={eaters} />
+        <SchedulePane dayPlans={dayPlans} days={rollingDays} lunches={rollingLunches} eaters={eaters} recipeIndex={recipeIndex} meals={meals} />
         <div className="familj-pane">
           <div className="familj-toggle">
             <button
@@ -71,6 +74,8 @@ interface SchedulePaneProps {
   days: DayMeal[]
   lunches: DayMeal[]
   eaters: Eater[]
+  recipeIndex: RecipeIndexEntry[]
+  meals: Meal[]
 }
 
 interface AttendanceException {
@@ -85,6 +90,8 @@ function collectAttendanceExceptions(
   lunches: DayMeal[],
   dayPlans: DayPlan[],
   eaters: Eater[],
+  recipeIndex: RecipeIndexEntry[],
+  meals: Meal[],
   getAttendance: ReturnType<typeof useWeekPlan>['getAttendance'],
   getOverride: ReturnType<typeof useWeekPlan>['getOverride'],
 ): AttendanceException[] {
@@ -96,7 +103,7 @@ function collectAttendanceExceptions(
     if (!attendance) return
     const plan = dayPlans.find(p => p.date === raw.datum)
     const planPresentIds = plan?.presentPersons.map(p => p.id) ?? null
-    const day = applyOverride(raw, getOverride(raw.datum, kind), attendance)
+    const day = applyOverride(raw, getOverride(raw.datum, kind), meals, recipeIndex, attendance)
     const dish = day.recept
     const dateLabel = shortDayLabel(raw.datum)
 
@@ -123,9 +130,9 @@ function collectAttendanceExceptions(
   return exceptions
 }
 
-function SchedulePane({ dayPlans, days, lunches, eaters }: SchedulePaneProps) {
+function SchedulePane({ dayPlans, days, lunches, eaters, recipeIndex, meals }: SchedulePaneProps) {
   const { getAttendance, getOverride } = useWeekPlan()
-  const exceptions = collectAttendanceExceptions(days, lunches, dayPlans, eaters, getAttendance, getOverride)
+  const exceptions = collectAttendanceExceptions(days, lunches, dayPlans, eaters, recipeIndex, meals, getAttendance, getOverride)
 
   return (
     <div className="sched-pane">

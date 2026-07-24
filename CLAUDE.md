@@ -1020,8 +1020,10 @@ feedback-merge rule into deterministic code — `loadSnapshot()` refuses (throws
 any schema-version mismatch or unparseable snapshot; `mergeFeedback()` does the same
 per-(recipe,person) merge the skill describes, but compares each entry's own `updatedAt`
 instead of "trust the paste" (sound for a one-off human paste, not for a recurring automated
-merge). Deliberately narrow: **only `matracet:feedback:v1` has a canonical merge target
-implemented.** Every other synced store key is skipped and logged, not silently dropped —
+merge). Deliberately narrow: **only `matracet:feedback:v2` has a canonical merge target
+implemented** (bumped from `v1` — see "Meals as the plannable unit" Stage 5 further down
+for the recipe→meal re-key that caused this). Every other synced store key is skipped and
+logged, not silently dropped —
 weekplan/shopping-list/stash/chaos-mode have no git-tracked canonical file to merge into at
 all (by design, see the local-only-override tier elsewhere in this file); category-feedback's
 mechanical merge (patch `public/data/erbjudanden/*/*.json` + lock the kategori lexicon, per
@@ -1095,7 +1097,8 @@ rule at the top.
   recognizes it.
 - *Can the deterministic Action and the skill ever both act on the same task?* No, and not
   just by convention — `merge-device-sync.mjs` has exactly one canonical merge target
-  (`matracet:feedback:v1`); every other snapshot key, `matracet:synctasks:v1` included, always
+  (`matracet:feedback:v2`, see the Stage 5 note further down); every other snapshot key,
+  `matracet:synctasks:v1` included, always
   lands in that script's own `skipped` list (see its Phase 4 write-up above). The Action has
   no code path that reads or writes the task queue at all.
 - *Does any catalog prompt instruct writing to device-sync?* No — `SKILL.md` §4 states this
@@ -1177,6 +1180,326 @@ under single-device use) plus several hardening gaps. All fixed in the same PR b
 
 All of the above shipped with tests (141 total, up from 130) and a fresh Playwright pass
 confirming the real request ordering and toast behavior end-to-end, not just mocked units.
+
+## Meals as the plannable unit (in progress, 2026-07)
+
+A design to give "meal" (what we're eating) a first-class identity separate from "recipe"
+(how to cook it) — the two had never been distinguished, so the same *display name +
+optional recipe link* shape had been independently reinvented four times: `HistoryEntry`,
+`WeekPlanOverride`, `StashItem` `kind: 'dish'`, and the dead Side B module's `MealAssignment`
+`kind: 'OTHER'` + `label`. None of the four has an id, so none can be reused, counted, rated,
+or given components — and `komplett: false` (meant as the escape valve for non-recipe dishes)
+sees almost no use, because "everything must eventually become a recipe" pushes non-recipe
+things into the recipe schema anyway (`public/data/recipes/snackpotter/recept.json` — "boil
+water, wait 3–5 minutes" — is `komplett: true` purely because there was nowhere else to put it).
+
+**Model**: Meal and Recipe stay separate, linked one-way and optionally. A new flat
+`public/data/meals.json` (`Meal { slug, namn, alias, komponenter: {vara, alternativ[],
+valfri?}[], receptSlug: string | null, taggar, tid_min? }`) becomes what plan slots, history,
+and the stash pool all reference. Frequency/last-eaten/which-recipes-we've-used-for-it are
+**computed from `history.json`, never stored**. Dietary fit is **computed, not classified** —
+a small solve over `Recipe.varianter[*].byt` + `Meal.komponenter[*].alternativ` against
+`Eater.kost`/`undviker` (ingredient-level) and feedback `refuses` (dish-level veto), because a
+dish like Hamburgare isn't "vegan" or not — it's vegan-compatible if its protein component has
+a substitute. Explicitly rejected: a `receptMatch` query field (recipe search is a UI-time
+concern, not stored state), a generic→specific meal hierarchy, merging Meal into Recipe, and a
+component role taxonomy (protein/kolhydrat/grönt) — free-text components are enough.
+
+**Staged plan** (each stage independently shippable; don't start stage N+1 before stage N is
+merged — later stages, especially the dietary solve, are much easier once real meals exist):
+0. Delete the dead Side B module (`src/meals/`, `MealsSection.tsx`) — never wired into the
+   real app, superseded by this design.
+1. Add the `Meal` type + `meals.json` + `useMeals`; collapse `WeekPlanOverride` (→
+   `matracet:weekplan:v3`), `StashItem` `kind: 'dish'`, and `HistoryEntry` onto `mealSlug`.
+2. Point the `log-meal` skill at `meals.json` (match by `namn`/alias, create-or-alias on a
+   miss) instead of offering `komplett: false` recipe stubs; add derived `antalGånger`/
+   `senastÄten`; feed the meal library into `build-brief.ts`.
+3. Plan-time component swaps (`komponentByten` on `WeekPlanOverride`), ranked by what's on
+   hand via the existing `pantryMatch.ts` `haveNames` (don't write a second matcher).
+4. `src/lib/dietFit.ts::evaluateFit` — the actual solve described above; replace the
+   `🌱 Vegansk` chip and `⚠️ vägrar` badge logic in `suggestions.ts`/`WeekWarnings`/
+   `VeckanOverview` with calls to it, surfacing `requiredSwaps` ("works for everyone if the
+   beef patty becomes the vegan one") instead of a flat pass/fail.
+5. Re-key `feedback.json`/`matracet:feedback:v1` from recipe slug to meal slug (last,
+   deliberately — touches git-tracked data and the `sync-local-storage` skill's merge rule).
+
+**Status: Stage 0 done.** `src/meals/` (`types.ts`, `seed.ts`, `checks.ts`, `checks.test.ts`)
+deleted — confirmed unimported anywhere outside itself before deleting. `MealsSection.tsx`
+deleted and its `matplan`/"Side B" nav entry removed from `SysdocApp.tsx` (`Section` union,
+`NAV_SIDE_A`, the render branch) rather than rewritten, since it would otherwise document a
+model that doesn't exist in code yet — a real sysdoc section for the actual `Meal` entity
+belongs in a later stage, once `meals.json`/`useMeals` exist to describe truthfully.
+
+**Stage 1 done.** `src/types/meal.ts` (the `Meal`/`MealComponent`/`MealsFile` interfaces,
+verbatim from the design above) and `public/data/meals.json` (four hand-written meals:
+`hamburgare` — no recipe, pure components, matching the design's own worked example;
+`snackpotter` — `receptSlug: "snackpotter"`, demonstrating the recipe-linked case;
+`pastasas`/`tacos` — no recipe, generic components with `alternativ`, deliberately *not*
+pointing `tacos` at any one of the app's four existing taco recipes, since "many recipes,
+no single link" is itself part of what this entity needs to represent). `useMeals`
+(`src/hooks/useMeals.ts`) follows `usePantry`'s single-flat-file module-cache pattern
+(meals.json is one file, not per-slug like recipes) — `App.tsx` also fetches it directly
+into its existing `Promise.all` (alongside `recipeIndex`) so it can thread `meals` as a
+prop the same way it already threads `recipeIndex`, since almost every plan-rendering
+component needs both together.
+
+`src/lib/mealResolve.ts` is the shared resolution layer, used everywhere a plan slot,
+stash item, or migration needs to turn a name/recipe into a meal identity:
+- `resolveMealForRecipe(recipeSlug, recipeNamn, meals)` — most of the app's 120 recipes
+  have no `meals.json` entry (by design; stage 1's plan explicitly forbids bulk-generating
+  one), so assigning a bare recipe suggestion to a plan slot resolves to a **virtual
+  meal** keyed by the recipe's own slug when no real meal links to it. Never written back
+  to `meals.json`. This is what makes "the slot type stays uniform — always a meal, never
+  sometimes-a-recipe" (the design's own requirement) actually hold given that constraint.
+- `resolveMealForName(name, meals)` — same idea for a freeform name with no recipe at
+  all (a hand-typed Skafferi stash idea, or a v2 weekplan override with no `receptSlug`):
+  match by `namn`/`alias` first, else a virtual meal `slugify()`'d from the name.
+- `resolveMealDisplayName(mealSlug, receptSlug, meals, recipeIndex)` — the read side:
+  real meal name, else the linked recipe's name, else the bare slug.
+
+`WeekPlanOverride` is now `{ mealSlug, receptSlug: string | null, updatedAt }`
+(`matracet:weekplan:v3`, up from `v2`) — `applyOverride` gained `meals`/`recipeIndex`
+parameters (inserted before the existing optional `attendance` param) to resolve
+`mealSlug` back into the `recept` display name every consumer already reads off its
+`DayMeal`-shaped return value, so **no consumer needed to change what it reads**, only
+what it passes in. That rippled `meals`/`recipeIndex` as props through every
+`applyOverride` call site: `Hub`, `VeckanView` → `VeckanOverview`/`VeckanPlanner`,
+`VeckanOverview` → `WeekWarnings`, and `FamiljView` → `SchedulePane`. `VeckanPlanner`'s
+`assign()` (writing a recipe suggestion into a slot) now calls `resolveMealForRecipe`
+first and writes the resulting `meal.slug`, not the recipe's own slug directly.
+
+Unlike the silent v1→v2 cutover (old data simply orphaned under the old key), v3 ships a
+real migration (`migrateWeekPlanV2`, called once from `App.tsx` right after `meals.json`
+loads, since it needs the meal list to match names against): reads the raw v2 localStorage
+key, resolves each override's old `recept` name via `resolveMealForName`, writes the result
+via `weekPlanStore.setSilently` (a migration adopting old local data is neither a fresh
+edit nor a sync hydration — same reasoning as `mergeFeedbackBaseline`), and no-ops if v3
+already has any data (already migrated) or there's no v2 data to read. Verified end-to-end
+with a throwaway Playwright script (not committed): seeded a v2 override
+(`{recept: "Hamburgare", receptSlug: null}`) via `addInitScript` before loading the app,
+confirmed the resulting v3 entry was `{mealSlug: "hamburgare", receptSlug: null, ...}` and
+that Hub's tonight-glance correctly displayed "Hamburgare" again through the new
+resolution path.
+
+`StashItem` (`useStash.ts`) gained `mealSlug: string | null` (always null for
+`kind: 'stock'`) alongside the existing `receptSlug`, populated the same way: pulling a
+pantry-matched recipe into the pool resolves it via `resolveMealForRecipe`; the freeform
+"Lägg till för hand" dish path resolves via `resolveMealForName` (so typing "burgare" now
+correctly links to the real `hamburgare` meal via its alias, while still displaying
+exactly what the user typed). `HistoryEntry` gained an optional `mealSlug` field
+alongside the existing `recipeSlug`, kept exactly as the design specifies ("keep both
+during transition") — not yet populated by anything (that's Stage 2's `log-meal` skill
+update). `DayMeal` gained an optional `mealSlug`, resolved once in `App.tsx` for every
+day/lunch built from the static `public/data/weeks/*.json` files by matching that day's
+free-text `recept` name against `meals.json` — those files themselves are untouched, per
+the design's explicit "stays free text for now" instruction.
+
+**Stage 2 done.** `.claude/skills/log-meal/SKILL.md` no longer offers a `komplett: false`
+recipe stub for a spontaneous dish with no recipe — step 2 now matches the description
+against `meals.json`'s `namn`/`alias`, proposes adding an alias on a near-miss instead of
+a duplicate entry, and creates a new `meals.json` entry (components, not a fake recipe)
+on a genuine miss. Recipe matching (the old step 2, now step 3) is unchanged in spirit but
+narrower in scope: it can still set `recipeSlug` on the history entry and, if the meal has
+no `receptSlug` yet and this is clearly *the* recipe for it, on the meal too — but it never
+creates a new recipe file. `HistoryEntry.mealSlug` gets set here now.
+
+`scripts/build-brief.ts` gained a `mealLibrary` array alongside the existing slim
+`recipeIndex` — each entry's `antalGanger`/`senastAten` is computed at brief-build time by
+scanning *all* of `history.json` (not just `recentHistory`'s 2-week window), matching each
+history entry to a meal via `mealSlug` first, else `recipeSlug === meal.receptSlug`, else a
+name/alias match on `beskrivning` (reusing `mealResolve.ts`'s `matchMealByName` rather than
+a second copy). `schemaVersion` bumped `1.2` → `1.3`.
+
+Fixing this surfaced a real bug from Stage 0: `build-brief.ts` imported
+`../src/meals/seed.ts` and `../src/meals/checks.ts` (`SEED_PREFERENCES`, `getRecipeVegan`)
+— Stage 0's "confirmed unimported anywhere outside itself" check only grepped `src/`, missing
+this `scripts/` consumer, so deleting those files had silently broken `npm run brief` for
+however long between Stage 0 and this stage. Fixed by inlining `getRecipeVegan` (it was a
+pure, standalone function) directly into `build-brief.ts`, and replacing
+`veganRequiredFor`'s dependency on the deleted Side B `SEED_PREFERENCES` with a read of
+`eaters.json`'s real, live `kost: ["vegan"]` field (the exact same signal
+`suggestions.ts::suitableForPresent` already uses in the running app) — strictly better
+than what it replaced, not just a workaround. **Lesson**: a "confirmed unimported" check
+before deleting dead code must grep the *whole repo* (`scripts/`, `.claude/skills/`, etc.),
+not just `src/` — a Node script importing straight from `src/*.ts` via `tsx` is invisible to
+an app-only search.
+
+**Stage 3 done.** `WeekPlanOverride` gained `komponentByten?: Record<string, string>`
+(vara → chosen alternativ) and `useWeekPlan` a `setComponentSwap(date, kind, vara, chosen)`
+that no-ops on a slot with no assignment yet — a swap only ever modifies an existing
+override, never creates one. `mealResolve.ts` gained `resolveComponents(meal,
+komponentByten)` (the post-swap component list — a swap only takes effect when it names
+the component's own `vara` or a declared `alternativ`, so stale `komponentByten` from a
+since-edited meal is ignored rather than substituting an unrelated item) and
+`rankComponentOptions(component, haveNames)` (orders `[vara, ...alternativ]` so whatever's
+already on hand sorts first — reuses `pantryMatch.ts`'s `looselyMatches`, not a second
+matcher, per the stage's own instruction).
+
+`VeckanPlanner`'s active-slot editor renders a `.active-slot-components` block per
+component (tappable option chips, current selection highlighted) whenever the assigned
+slot's meal has any `komponenter`, plus a "🛒 Lägg komponenter i inköpslistan" button that
+calls the existing `useShoppingList.addOrRestoreByName` once per *resolved* (post-swap)
+component with `source: meal.namn` — no new shopping-list code needed, exactly as the
+design predicted ("the list already accepts free-text names with an optional amount
+string").
+
+**Gap found while wiring this up, fixed in the same stage**: the suggestion list a slot
+assigns from (`assign()`) only ever iterates `recipeIndex`, so a meal with no recipe at
+all — `hamburgare`/`pastasas`/`tacos`, three of the four seed meals, deliberately built
+with no `receptSlug` — had no path to ever reach a plan slot, which would have made the
+component-swap UI unreachable for exactly the cases it was built to demonstrate. Not
+itemized as its own stage-3 bullet, but necessary infrastructure for the bullet that was:
+added a compact "🍽️ Måltider" quick-pick section (`.meal-quickpick`, above the recipe
+suggestion list) listing every `meals.json` entry with the same ☼/☾ assign buttons as a
+recipe suggestion card, calling `setMeal` directly with the meal's own `slug`/`receptSlug`
+(no `resolveMealForRecipe` needed — it's already a real, non-virtual meal). Verified
+end-to-end with a throwaway Playwright script: assigned Hamburgare to dinner via the quick-
+pick, swapped `nötfärsbiff` → `vegansk biff` in the component editor, clicked the shopping-
+list button, and confirmed `localStorage`'s `matracet:shopping:v1` held all four resolved
+components (the swapped `vegansk biff`, not `nötfärsbiff`) and `matracet:weekplan:v3` held
+`komponentByten: {"nötfärsbiff": "vegansk biff"}`.
+
+**Stage 4 done.** `src/lib/dietFit.ts::evaluateFit(meal, recipe, presentEaters, feedback) →
+{ok, conflicts[], requiredSwaps[]}` is the one shared solve: dish-level `refuses` is an
+unconditional veto (no substitution fixes it); each present eater's `undviker` entries are
+checked against the dish's current ingredient/component names (`looselyMatches`, reused
+from `pantryMatch.ts`) and resolved via a substitute when one exists (`Recipe.varianter[*]
+.byt` for a recipe-backed slot — any variant's map, not just one keyed to the specific
+requirement — or `Meal.komponenter[*].alternativ` for a recipe-less one); a `kost: "vegan"`
+requirement checks `Recipe.kategorier.includes('vegansk')` when a recipe backs the slot,
+resolved via its `varianter.vegansk.byt` if not already vegan.
+
+**Judgment call, disclosed rather than silently made**: a recipe-less meal has *no* schema
+field at all for "is this vegan" (the design is explicit that meals aren't classified) —
+yet the design's own worked example ("Hamburgare... because one component is
+substitutable") requires knowing that "nötfärsbiff" isn't vegan and "vegansk biff" is,
+with no recipe in the picture. `dietFit.ts` added two small, deliberately conservative
+keyword regexes (`VEGAN_SAFE_RE` checked before `ANIMAL_PRODUCT_RE`, same
+narrower-signal-wins-first ordering as every other keyword classifier documented in this
+file) purely as the fallback for this one case — it only ever changes which swap gets
+*suggested*, never silently changes what's cooked. **Stated scope limit**: each conflict
+is resolved independently against the dish's as-written state; the function does not
+re-check whether a swap proposed for one eater's requirement could introduce a new
+conflict for a different present eater (a true fixpoint solve was judged more machinery
+than "a small solve" calls for) — exercised for real, not just theorized, by the
+Hamburgare test data: Annabelle's own `undviker: ["grön sallad"]` matches the default
+"sallad" component *and* her `kost: ["vegan"]` requires swapping "nötfärsbiff" — both
+surface as two independent suggested swaps, applied one at a time, not one coordinated
+resolution.
+
+Replaced call sites: `suggestions.ts`'s `🌱 Vegansk` filter/tag now calls `evaluateFit`
+against a synthetic "vegan probe" eater (kost-only, no identity) instead of a flat
+`kategorier.includes('vegansk')` lookup — so a swappable dish like Hamburgare correctly
+counts as vegan-friendly, which the old lookup could never see. The `⚠️ ... vägrar`
+scoring/tag and the old coarse `suitableForPresent` (which only checked "vegan present +
+kött/fisk kategori", no swap-awareness) are both gone, folded into one `evaluateFit` call
+against the actually-present eaters; a new `🔁 byt X → Y` tag (added `SuggestionTag`
+kind `'swap'`) surfaces the first unresolved-but-swappable conflict. `WeekWarnings` and
+`VeckanOverview`'s day-flag badges got the same replacement for their refusal checks,
+extended for free to also catch `vegan`/`avoid-ingredient` conflicts — deliberately
+called with `recipe: null` (neither view loads full `Recipe` data, only the lightweight
+`recipeIndex`, and the refusal check that mattered here before never needed ingredient/
+kategori data anyway) — a disclosed scope choice, not a silent gap. New
+`mealResolve.ts::resolveDayMeal(day, meals)` resolves the actual `Meal` object behind an
+already-`applyOverride`'d slot (real meals.json entry, or the same virtual-meal
+reconstruction `resolveMealForRecipe`/`resolveMealForName` would produce) for all three
+call sites plus a fourth: `VeckanPlanner`'s active-slot editor now renders `fit.conflicts`
+as read-only warnings and `fit.requiredSwaps` as "🔁 funkar för alla om X byts mot Y"
+hints, each with a tappable "Använd" button when the swap maps onto one of the meal's own
+components (calls the existing `setComponentSwap` from Stage 3) — recipe-variant swaps
+have no application mechanism yet, so those render as information only.
+
+**Gap fixed while wiring `resolveDayMeal` in**: Stage 1's `App.tsx` only set a static
+week-day's `mealSlug` when its free-text `recept` name matched a real `meals.json` entry —
+a recipe-linked day with no meals.json match (the overwhelming majority) was silently left
+with no `mealSlug` at all, meaning `resolveDayMeal` would have had nothing to resolve for
+almost every non-overridden day. Fixed by falling back to `resolveMealForRecipe` (a
+virtual meal keyed to the recipe) whenever `receptSlug` is present, matching exactly what
+`VeckanPlanner`'s `assign()` already does for overridden days — every day with an actual
+dish now reliably carries a `mealSlug`, not just ones the planner has touched.
+
+Verified end-to-end with a throwaway Playwright script: added Annabelle to dinner's
+attendance override, assigned Hamburgare via the Stage-3 quick-pick, and confirmed both
+expected fit hints rendered — `🔁 ... sallad byts mot ruccola (Annabelle undviker grön
+sallad)` and `🔁 ... nötfärsbiff byts mot vegansk biff (Annabelle äter veganskt)` — then
+tapped "Använd" on the first and confirmed `komponentByten: {"sallad": "ruccola"}` landed
+in `localStorage`. `src/lib/dietFit.test.ts` (10 cases) covers both branches (recipe-
+backed via kategorier/varianter, recipe-less via the keyword fallback), the refusal veto,
+undviker substitution and its no-substitute conflict path, and swap deduplication across
+multiple present eaters requesting the same fix.
+
+**Stage 5 done — all five stages of this design have now shipped.** `public/data/
+feedback.json` and `matracet:feedback:v1` are re-keyed from recipe slug to meal id
+(`matracet:feedback:v2`) — `RecipeFeedbackRecord`'s `recipeId` field renamed to `mealId`
+(kept the type name itself to limit churn; the field rename is where the actual confusion
+risk was). In practice most keys still look exactly like a recipe slug, because a recipe
+with no `meals.json` entry gets its own virtual meal keyed to its own slug
+(`resolveMealForRecipe`) — only a meal a real `meals.json` entry links to a recipe (today,
+just `snackpotter`) can differ. **Disclosed side effect of the migration, not silently
+absorbed**: `excludeFromWeekPlan` used to be a recipe-level "don't suggest this specific
+written recipe" flag; re-keyed to meal, excluding one recipe now hides every recipe that
+shares its meal from suggestions. A no-op today (no meal currently links more than one
+recipe), but worth knowing before a future `meals.json` entry links a second recipe to an
+already-excluded one.
+
+The one write path (`ReceptView`'s recipe-card feedback bar/exclude-toggle — the only
+`RecipeFeedbackBar` call site in the app) now resolves `resolveMealForRecipe(r.slug,
+r.namn, meals).slug` and keys by that instead of the bare recipe slug; `suggestions.ts`,
+`VeckanOverview`, `WeekWarnings`, and `VeckanPlanner` all switched their `getFeedback`
+calls from a recipe/receptSlug key to the already-resolved meal's `.slug` (each of these
+already had a `meal`/`dayMeal` value in scope from Stage 4's `evaluateFit` wiring, so this
+was a same-shape key swap, not new resolution logic). `scripts/build-brief.ts` gained a
+`mealIdFor(recipeSlug, recipeNamn)` helper (thin wrapper over `resolveMealForRecipe`) used
+everywhere it previously called `sentimentFor(recipeSlug)` directly; `constraints
+.exclusions` is now a list of meal ids, not recipe slugs — documented in the brief's own
+`meta.assumptions` since that's a real meaning change for whatever reads the brief.
+`schemaVersion` bumped `1.3` → `1.4`.
+
+**`mergeFeedbackBaseline` itself was not where the migration logic went, despite the
+design text's literal wording** ("write a local migration in mergeFeedbackBaseline") — that
+function's job is merging the *git baseline* (already-parsed, already correctly-keyed) into
+local storage, a different data source and shape than re-keying a device's own raw legacy
+`localStorage` entry. Instead, `useFeedback.ts` gained a separate `migrateFeedbackV1(meals,
+recipeIndex)`, matching Stage 1's `migrateWeekPlanV2` precedent exactly: reads the legacy
+key directly, resolves each old recipe slug to its meal via `resolveMealForRecipe` (merging
+persons by newer-`updatedAt`-wins when two legacy recipe keys resolve to the same real
+meal), writes via `setSilently`, and no-ops if the new store already has data. Called from
+`App.tsx` — critically, **before** `mergeFeedbackBaseline`, not after: the migration's
+"already migrated" guard just checks whether the v2 store is non-empty, so a baseline
+merge landing first would look identical to "already migrated" and silently strand a
+device's real local ratings unread.
+
+The GitHub-sync side needed the same update: `scripts/merge-device-sync.mjs`'s
+`FEEDBACK_KEY` bumped to `matracet:feedback:v2`, its `mergeFeedback()` renamed `recipeId`→
+`mealId` throughout (functionally identical merge logic — per-`personId` newer-wins, OR'd
+`excludeFromWeekPlan` — just re-keyed), and `.claude/skills/sync-local-storage/SKILL.md`
+rewritten to describe the new key and field name, plus an explicit fallback procedure for
+a device whose export still shows the old `v1` shape (hasn't opened the app since this
+shipped): resolve each legacy `recipeId` to a meal by hand — check `meals.json` for a
+`receptSlug` match, else the recipe's own slug is its virtual meal — using the exact same
+rule the app's own `migrateFeedbackV1` applies client-side.
+
+Verified via `src/hooks/useFeedback.test.ts` (4 new cases: re-keying to a virtual meal,
+merging two legacy keys that resolve to the same real meal, and both no-op guards) and
+`scripts/merge-device-sync.test.mjs`'s existing 14 cases (updated fixtures, all still
+green) — `public/data/feedback.json` itself had zero real entries at the time of this
+migration, so there was nothing to re-key in the git-tracked file; the risk this stage
+guards against is entirely about devices that already hold real local ratings.
+
+**Two ideas from the deleted `checks.ts` worth reviving later as meal-level checks, kept here
+so deleting the file didn't lose them:**
+- `checkQuantity` / `CookingEvent.personMeals` — a cook produces N person-meals and leftover
+  days draw from that pool until it empties; a better model of "Monday's stew covers Tuesday"
+  than the current `dagkedja` field. (See the "Open question for later" below — this is one of
+  the two ways the app currently solves the same leftover-tracking problem.)
+- `checkSpacing` / `Person.minRepeatGapDays` — warns when the same dish repeats within a
+  per-person gap, presence-gated so it only applies when the person who cares is actually
+  home. Becomes more useful against *meals* than recipes, since repetition is a property of
+  the dish, not the recipe used to make it that time.
+
+**Open question for later**: `dagkedja` and the person-meal pool above solve the same
+leftover-tracking problem two different ways. Once meals exist, pick one — the pool model is
+the better of the two — and retire the other.
 
 ## Deploy
 

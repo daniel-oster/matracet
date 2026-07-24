@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "meals": [
+    {
+      "slug": "hamburgare",
+      "namn": "Hamburgare",
+      "alias": ["burgare", "grillburgare"],
+      "komponenter": [
+        { "vara": "hamburgerbröd", "alternativ": [] },
+        { "vara": "nötfärsbiff", "alternativ": ["vegansk biff", "halloumi"] },
+        { "vara": "sallad", "alternativ": ["ruccola"], "valfri": true },
+        { "vara": "pommes", "alternativ": ["klyftpotatis", "sötpotatispommes"], "valfri": true }
+      ],
+      "receptSlug": null,
+      "taggar": ["grill", "snabbt", "barnvänligt"]
+    },
+    {
+      "slug": "snackpotter",
+      "namn": "Snackpotter",
+      "alias": [],
+      "komponenter": [
+        { "vara": "snackpotter (köpta)", "alternativ": [] }
+      ],
+      "receptSlug": "snackpotter",
+      "taggar": ["snabbt", "barnvänligt"],
+      "tid_min": 5
+    },
+    {
+      "slug": "pastasas",
+      "namn": "Pasta med sås",
+      "alias": ["pasta", "pastasås"],
+      "komponenter": [
+        { "vara": "pasta", "alternativ": ["nudlar", "ris"] },
+        { "vara": "sås", "alternativ": ["tomatsås", "köttfärssås", "gräddsås", "pesto"] },
+        { "vara": "riven ost", "alternativ": ["vegoost"], "valfri": true }
+      ],
+      "receptSlug": null,
+      "taggar": ["snabbt", "barnvänligt"],
+      "tid_min": 20
+    },
+    {
+      "slug": "tacos",
+      "namn": "Tacos",
+      "alias": ["tacofredag"],
+      "komponenter": [
+        { "vara": "tortilla eller tacoskal", "alternativ": [] },
+        { "vara": "köttfärs", "alternativ": ["fisk", "halloumi", "svarta bönor"] },
+        { "vara": "riven ost", "alternativ": ["vegoost"], "valfri": true },
+        { "vara": "gräddfil", "alternativ": ["vegansk gräddfil"], "valfri": true },
+        { "vara": "salsa", "alternativ": [], "valfri": true }
+      ],
+      "receptSlug": null,
+      "taggar": ["fredagsmys", "barnvänligt"],
+      "tid_min": 25
+    }
+  ]
+}
