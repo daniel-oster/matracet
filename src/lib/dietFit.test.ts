@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import { evaluateFit, type DietFitResult } from './dietFit'
 import type { Eater, Recipe } from '../types'
-import type { Meal, MealsFile } from '../types/meal'
+import type { Meal } from '../types/meal'
 import type { EatersData } from '../types'
 import type { RecipeFeedbackRecord } from '../types/feedback'
 
@@ -85,14 +85,20 @@ describe('evaluateFit', () => {
     expect(result).toEqual({ ok: true, conflicts: [], requiredSwaps: [] })
   })
 
-  it('suggests a swap for a vegan eater against a recipe-less meal (the Hamburgare worked example)', () => {
+  it('suggests the meat-patty swap for a vegan eater against a recipe-less meal (the Hamburgare worked example)', () => {
+    // Updated for the fail-closed rework (see CLAUDE.md's "Vegan classification is
+    // fail-closed"): "nötfärsbiff" is still correctly matched to "vegansk biff", but
+    // "hamburgerbröd"/"sallad" carry no explicit vegan signal either way, so they now
+    // correctly surface as unresolved rather than being silently waved through — this
+    // is the intended, disclosed consequence of no longer treating "unknown" as "fine",
+    // not a regression. (Stage C moves these two into a dedicated `unknowns` channel
+    // instead of `conflicts` — this assertion is intentionally loose on that shape.)
     const annabelle = makeEater({ id: 'annabelle', namn: 'Annabelle', kost: ['vegan'] })
     const result = evaluateFit(HAMBURGARE, null, [annabelle], null)
-    expect(result.ok).toBe(true)
-    expect(result.conflicts).toEqual([])
     expect(result.requiredSwaps).toEqual([
       { from: 'nötfärsbiff', to: 'vegansk biff', reason: 'Annabelle äter veganskt' },
     ])
+    expect(result.ok).toBe(false)
   })
 
   it('conflicts when a vegan eater has no vegan-compatible alternativ available', () => {

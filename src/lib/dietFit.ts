@@ -26,19 +26,28 @@ export interface DietFitResult {
 // schema-given "is this vegan as written" signal. A recipe-less meal has nothing
 // equivalent, and the worked example this stage is built around (Hamburgare: not vegan,
 // but "nötfärsbiff" is substitutable) requires *some* way to tell whether a bare
-// component name is a plausible animal product without one. These two small, deliberately
-// conservative keyword lists are that fallback — checked in this order (safe first) so a
-// name like "vegoost" or "svarta bönor" resolves via VEGAN_SAFE_RE before ANIMAL_PRODUCT_RE
-// ever gets a look, same "narrower/more specific signal wins first" ordering already used
-// throughout this codebase's other keyword classifiers (see the erbjudanden lessons in
-// CLAUDE.md). This only ever affects which swaps get *suggested* for a recipe-less meal —
-// a human still reviews and taps the swap, it never silently changes what's cooked.
+// component name is a plausible animal product without one. These two small keyword lists
+// are that fallback, and this check protects one specific eater — so the classification is
+// fail-closed, tri-state (`vegan` | `animal` | `unknown`), not a boolean. Recognising the
+// safe and the obviously unsafe is the job; admitting ignorance about everything else is
+// the point (see CLAUDE.md's "Vegan classification is fail-closed" note). Checked in this
+// order (safe first) so a name like "vegoost" or "svarta bönor" resolves via VEGAN_SAFE_RE
+// before ANIMAL_PRODUCT_RE ever gets a look, same "narrower/more specific signal wins
+// first" ordering already used throughout this codebase's other keyword classifiers (see
+// the erbjudanden lessons in CLAUDE.md). This only ever affects which swaps get *suggested*
+// for a recipe-less meal — a human still reviews and taps the swap, it never silently
+// changes what's cooked.
 const VEGAN_SAFE_RE = /vegan|vego|tofu|seitan|kikärt|böna|bönor|linser/i
-const ANIMAL_PRODUCT_RE = /kött|fläsk|\bbiff\b|färs(?!k)|kyckling|fisk|\blax\b|räk|skaldjur|ägg|(?<!veg)ost\b|grädd|mjölk|smör|honung|bacon|skinka|korv|tonfisk|kalkon|anka/i
+const ANIMAL_PRODUCT_RE =
+  /kött|fläsk|\bbiff\b|färs(?!k)|kyckling|fisk(?!e)|\blax\b|räk|skaldjur|mussl|hummer|ostron|krabba|ägg|(?<!veg)ost\b|(?<!kokos)grädd|(?<!kokos)mjölk|smör|honung|bacon|skinka|korv|tonfisk|kalkon|anka|yoghurt|kvarg|keso|cr[eè]me|filmjölk|majonnäs|aioli|hollandaise|bearnaise|buljong|fond|gelatin|salami|chorizo|prosciutto|pancetta|pastej|halloumi|mozzarella|parmesan|pecorino|cheddar|feta|ricotta|mascarpone|chèvre/i
 
-function isVeganCompatible(name: string): boolean {
-  if (VEGAN_SAFE_RE.test(name)) return true
-  return !ANIMAL_PRODUCT_RE.test(name)
+export type VeganVerdict = 'vegan' | 'animal' | 'unknown'
+
+/** Fail-closed: an unrecognised name is 'unknown', never silently 'vegan'. */
+export function classifyVegan(name: string): VeganVerdict {
+  if (VEGAN_SAFE_RE.test(name)) return 'vegan'
+  if (ANIMAL_PRODUCT_RE.test(name)) return 'animal'
+  return 'unknown'
 }
 
 /** Everything the dish is currently made of, as written (before any swap) — recipe
@@ -120,10 +129,9 @@ export function evaluateFit(
 
     // Vegan requirement.
     if (!eater.kost?.includes('vegan')) continue
-    const veganAsWritten = recipe ? recipe.kategorier.includes('vegansk') : names.every(isVeganCompatible)
-    if (veganAsWritten) continue
 
     if (recipe) {
+      if (recipe.kategorier.includes('vegansk')) continue
       const byt = recipe.varianter?.vegansk?.byt
       if (byt && Object.keys(byt).length > 0) {
         for (const [from, to] of Object.entries(byt)) {
@@ -135,8 +143,30 @@ export function evaluateFit(
       continue
     }
 
-    for (const c of meal.komponenter.filter(c => !isVeganCompatible(c.vara))) {
-      const veganAlt = c.alternativ.find(isVeganCompatible)
+    // Recipe-less meal — classify every component individually. Fail-closed: an empty
+    // component list or an 'unknown' verdict is reported (as a conflict for now — this
+    // function has no separate "unknown" channel yet; see CLAUDE.md's PR-follow-up
+    // write-up for the Stage that adds one), never silently treated as vegan.
+    if (meal.komponenter.length === 0) {
+      conflicts.push({
+        personId: eater.id,
+        reason: 'vegan',
+        detail: `${eater.namn} äter veganskt — inga komponenter kända för ”${dishName}”, går inte att kontrollera`,
+      })
+      continue
+    }
+    for (const c of meal.komponenter) {
+      const verdict = classifyVegan(c.vara)
+      if (verdict === 'vegan') continue
+      if (verdict === 'unknown') {
+        conflicts.push({
+          personId: eater.id,
+          reason: 'vegan',
+          detail: `${eater.namn} äter veganskt — okänt om ”${c.vara}” i ”${dishName}” är veganskt`,
+        })
+        continue
+      }
+      const veganAlt = c.alternativ.find(alt => classifyVegan(alt) === 'vegan')
       if (veganAlt) {
         requiredSwaps.push({ from: c.vara, to: veganAlt, reason: `${eater.namn} äter veganskt` })
       } else {
