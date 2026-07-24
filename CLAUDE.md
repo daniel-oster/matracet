@@ -1291,6 +1291,36 @@ day/lunch built from the static `public/data/weeks/*.json` files by matching tha
 free-text `recept` name against `meals.json` — those files themselves are untouched, per
 the design's explicit "stays free text for now" instruction.
 
+**Stage 2 done.** `.claude/skills/log-meal/SKILL.md` no longer offers a `komplett: false`
+recipe stub for a spontaneous dish with no recipe — step 2 now matches the description
+against `meals.json`'s `namn`/`alias`, proposes adding an alias on a near-miss instead of
+a duplicate entry, and creates a new `meals.json` entry (components, not a fake recipe)
+on a genuine miss. Recipe matching (the old step 2, now step 3) is unchanged in spirit but
+narrower in scope: it can still set `recipeSlug` on the history entry and, if the meal has
+no `receptSlug` yet and this is clearly *the* recipe for it, on the meal too — but it never
+creates a new recipe file. `HistoryEntry.mealSlug` gets set here now.
+
+`scripts/build-brief.ts` gained a `mealLibrary` array alongside the existing slim
+`recipeIndex` — each entry's `antalGanger`/`senastAten` is computed at brief-build time by
+scanning *all* of `history.json` (not just `recentHistory`'s 2-week window), matching each
+history entry to a meal via `mealSlug` first, else `recipeSlug === meal.receptSlug`, else a
+name/alias match on `beskrivning` (reusing `mealResolve.ts`'s `matchMealByName` rather than
+a second copy). `schemaVersion` bumped `1.2` → `1.3`.
+
+Fixing this surfaced a real bug from Stage 0: `build-brief.ts` imported
+`../src/meals/seed.ts` and `../src/meals/checks.ts` (`SEED_PREFERENCES`, `getRecipeVegan`)
+— Stage 0's "confirmed unimported anywhere outside itself" check only grepped `src/`, missing
+this `scripts/` consumer, so deleting those files had silently broken `npm run brief` for
+however long between Stage 0 and this stage. Fixed by inlining `getRecipeVegan` (it was a
+pure, standalone function) directly into `build-brief.ts`, and replacing
+`veganRequiredFor`'s dependency on the deleted Side B `SEED_PREFERENCES` with a read of
+`eaters.json`'s real, live `kost: ["vegan"]` field (the exact same signal
+`suggestions.ts::suitableForPresent` already uses in the running app) — strictly better
+than what it replaced, not just a workaround. **Lesson**: a "confirmed unimported" check
+before deleting dead code must grep the *whole repo* (`scripts/`, `.claude/skills/`, etc.),
+not just `src/` — a Node script importing straight from `src/*.ts` via `tsx` is invisible to
+an app-only search.
+
 **Two ideas from the deleted `checks.ts` worth reviving later as meal-level checks, kept here
 so deleting the file didn't lose them:**
 - `checkQuantity` / `CookingEvent.personMeals` — a cook produces N person-meals and leftover

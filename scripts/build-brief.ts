@@ -14,8 +14,18 @@ import { readFileSync, writeFileSync, existsSync } from 'fs'
 import { resolve } from 'path'
 import { resolvePresence } from '../src/presence/resolver.ts'
 import { SEED_STORE, PERSONS } from '../src/presence/seed.ts'
-import { SEED_PREFERENCES } from '../src/meals/seed.ts'
-import { getRecipeVegan } from '../src/meals/checks.ts'
+import { matchMealByName } from '../src/lib/mealResolve.ts'
+import type { Meal, MealsFile } from '../src/types/meal.ts'
+
+/** Derive vegan status from a recipe's kategorier array — true = marked vegansk,
+ *  false = marked vegetarisk/kott/fisk, undefined = can't tell (warn softly).
+ *  Ported from the deleted src/meals/checks.ts (see CLAUDE.md's "Meals as the
+ *  plannable unit" section, Stage 0) — this one pure helper was still needed here. */
+function getRecipeVegan(kategorier: string[]): boolean | undefined {
+  if (kategorier.includes('vegansk')) return true
+  if (kategorier.some(k => ['vegetarisk', 'kott', 'fisk'].includes(k))) return false
+  return undefined
+}
 
 // ── Konfiguration ───────────────────────────────────────────────────────────────
 
@@ -24,7 +34,7 @@ import { getRecipeVegan } from '../src/meals/checks.ts'
  *  variationsregeln är per-person `minRepeatGapDays` (se constraints.spacingByPerson). */
 const MAX_REPEAT_PROTEIN_PER_WEEK: number | null = null
 
-const SCHEMA_VERSION = '1.2'
+const SCHEMA_VERSION = '1.3'
 
 // ── Datum-helpers (UTC, ISO-vecka) ──────────────────────────────────────────────
 
@@ -104,8 +114,14 @@ interface Pantry {
 
 const recipeIndex = (readJson<{ recipes: IndexEntry[] }>('public/data/recipes/_index.json')?.recipes) ?? []
 const pantry = readJson<Pantry>('public/data/pantry.json')
+const eatersData = readJson<{ eaters: { id: string; kost?: string[] }[] }>('public/data/eaters.json')
+const mealLibrary = readJson<MealsFile>('public/data/meals.json')?.meals ?? []
 
 const indexBySlug = new Map(recipeIndex.map(r => [r.slug, r]))
+// present[]/portioner already derive person-level facts from src/presence/seed.ts (custody);
+// this is the equivalent derivation for diet — Eater.kost is the live source of truth, not the
+// deleted Side B SEED_PREFERENCES (see CLAUDE.md's "Meals as the plannable unit" section).
+const veganEaterIds = new Set((eatersData?.eaters ?? []).filter(e => e.kost?.includes('vegan')).map(e => e.id))
 
 // ── Feedback (sentiment + uteslutningar) ────────────────────────────────────────
 // Detta är den enda datakällan som lever utanför git: appens localStorage. Den
@@ -155,16 +171,9 @@ function deriveProtein(kategorier: string[]): string {
   return 'okant'
 }
 
-/** REQUIRE_VEGAN-preferenser är presence-gated. veganRequired = sant om någon
- *  som kräver veganskt är hemma denna dag. */
+/** veganRequired = sant om någon med kost:"vegan" (eaters.json) är hemma denna dag. */
 function veganRequiredFor(presentIds: Set<string>): boolean {
-  return SEED_PREFERENCES.some(
-    p =>
-      p.rule.type === 'REQUIRE_VEGAN' &&
-      p.origin === 'PERSON' &&
-      p.personId !== null &&
-      presentIds.has(p.personId),
-  )
+  return [...veganEaterIds].some(id => presentIds.has(id))
 }
 
 // ── Bygg veckan ─────────────────────────────────────────────────────────────────
@@ -219,6 +228,7 @@ interface HistoryFile {
   entries: {
     datum: string
     recipeSlug: string | null
+    mealSlug?: string
     beskrivning: string
     kalla: 'planerat' | 'spontant'
   }[]
@@ -265,6 +275,29 @@ for (const e of historyFile?.entries ?? []) {
 
 recentHistory.sort((a, b) => (a.date < b.date ? -1 : 1))
 
+// ── Måltidsbiblioteket (meals.json) + härledd frekvens ur hela history.json ────
+// antalGånger/senastÄten är medvetet inte fält i meals.json (se CLAUDE.md) — härleds
+// här ur *hela* history.json (inte bara recentHistory's tvåveckorsfönster ovan), så
+// frekvensen är en genuin livstidssiffra, inte "hur ofta senaste två veckorna".
+function matchesHistoryEntry(meal: Meal, e: HistoryFile['entries'][number]): boolean {
+  if (e.mealSlug) return e.mealSlug === meal.slug
+  if (e.recipeSlug && meal.receptSlug === e.recipeSlug) return true
+  return matchMealByName(e.beskrivning, [meal]) !== undefined
+}
+
+const mealLibrarySlim = mealLibrary.map(meal => {
+  const matches = (historyFile?.entries ?? []).filter(e => matchesHistoryEntry(meal, e))
+  const senastAten = matches.length > 0 ? matches.map(e => e.datum).sort().at(-1)! : null
+  return {
+    slug: meal.slug,
+    namn: meal.namn,
+    receptSlug: meal.receptSlug,
+    taggar: meal.taggar,
+    antalGanger: matches.length,
+    senastAten,
+  }
+})
+
 // ── Slimmat receptregister ──────────────────────────────────────────────────────
 
 const recipeIndexSlim = recipeIndex.map(r => ({
@@ -299,18 +332,20 @@ const brief = {
   },
   recentHistory,
   recipeIndex: recipeIndexSlim,
+  mealLibrary: mealLibrarySlim,
   pantryStaples: pantry?.always_have ?? [],
   meta: {
     referenceDate,
     generatedBy: 'scripts/build-brief.ts',
     sources: [
       'public/data/recipes/_index.json',
+      'public/data/meals.json (måltidsbibliotek; antalGånger/senastÄten härlett ur hela history.json)',
       'public/data/weeks/*.json',
-      'public/data/history.json (spontana/oplanerade måltider, senaste 2 veckorna)',
+      'public/data/history.json (spontana/oplanerade måltider, senaste 2 veckorna + all-tid för mealLibrary-frekvens)',
       'public/data/pantry.json',
       'public/data/feedback.json (sentiment + uteslutningar)',
+      'public/data/eaters.json (kost: vegan → veganRequired)',
       'src/presence/seed.ts + activities.ts (närvaro/vårdnadsschema)',
-      'src/meals/seed.ts (preferenser: REQUIRE_VEGAN)',
     ],
     // Den enda inmatningen som inte lever i git: appens localStorage, exporterad och committad.
     externalInputs: [
@@ -321,7 +356,8 @@ const brief = {
     assumptions: [
       'present[] och portioner härleds helt ur vårdnadsschemat (src/presence/seed.ts): barn=3, Daniel+Erika=2, Daniel ensam=1. Varje dag har en bestämd uppsättning — inga okända dagar.',
       'protein härleds ur recept-kategorier (kott>fisk>vegansk>vegetarisk); inget eget proteinfält finns.',
-      'veganRequired = sant när en person med HARD REQUIRE_VEGAN är hemma (presence-gated).',
+      'veganRequired = sant när en person med kost:"vegan" (eaters.json) är hemma (presence-gated).',
+      'mealLibrary.antalGanger/senastAten är beräknade, inte hand-underhållna fält i meals.json — se matchesHistoryEntry.',
       'recipeIndex.tags = kategorier (slimmade indexet bär inte de fria taggarna).',
       'maxRepeatProteinPerWeek = null (ingen gräns, per användarens val).',
     ],
@@ -336,5 +372,5 @@ writeFileSync(resolve(root, outPath), JSON.stringify(brief, null, 2) + '\n', 'ut
 
 console.log(`planning-brief skriven: ${outPath}`)
 console.log(`  kommande vecka : ${brief.week.isoWeek} (start ${brief.week.startDate}, ref ${referenceDate})`)
-console.log(`  dagar          : ${days.length}  ·  recept i register: ${recipeIndexSlim.length}`)
+console.log(`  dagar          : ${days.length}  ·  recept i register: ${recipeIndexSlim.length}  ·  måltider i bibliotek: ${mealLibrarySlim.length}`)
 console.log(`  historik       : ${recentHistory.length} middagar  ·  pantryStaples: ${brief.pantryStaples.length}`)
