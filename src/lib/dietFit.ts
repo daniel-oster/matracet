@@ -159,8 +159,12 @@ export function evaluateFit(
           const hit = names.find(n => looselyMatches(n, avoid))
           if (!hit) continue
           const subs = substitutesFor(hit, meal, fullRecipe)
-          if (subs.length > 0) {
-            requiredSwaps.push({ from: hit, to: subs[0], reason: `${eater.namn} undviker ${avoid}` })
+          // A swap must also clear this same eater's own avoid list — a substitute that
+          // fixes one of their requirements but violates a different one of theirs isn't
+          // a fix at all.
+          const safeSub = subs.find(s => !eater.undviker.some(a => looselyMatches(s, a)))
+          if (safeSub) {
+            requiredSwaps.push({ from: hit, to: safeSub, reason: `${eater.namn} undviker ${avoid}` })
           } else {
             conflicts.push({ personId: eater.id, reason: 'avoid-ingredient', detail: `${eater.namn} undviker ${avoid} — finns i ”${dishName}”` })
           }
@@ -176,6 +180,17 @@ export function evaluateFit(
       const byt = fullRecipe?.varianter?.vegansk?.byt
       if (byt && Object.keys(byt).length > 0) {
         for (const [from, to] of Object.entries(byt)) {
+          // Same self-consistency guard as the undviker branch: don't propose the
+          // vegansk variant's own swap if the eater asking for it separately avoids
+          // whatever that swap lands on.
+          if (eater.undviker.some(a => looselyMatches(to, a))) {
+            conflicts.push({
+              personId: eater.id,
+              reason: 'vegan',
+              detail: `${eater.namn} äter veganskt — den veganska varianten av ”${dishName}” byter ${from} mot ${to}, som ${eater.namn} också undviker`,
+            })
+            continue
+          }
           requiredSwaps.push({ from, to, reason: `${eater.namn} äter veganskt` })
         }
       } else {
@@ -206,7 +221,10 @@ export function evaluateFit(
         })
         continue
       }
-      const veganAlt = c.alternativ.find(alt => classifyVegan(alt) === 'vegan')
+      // A vegan-compatible alternativ must also clear this same eater's own avoid list.
+      const veganAlt = c.alternativ.find(
+        alt => classifyVegan(alt) === 'vegan' && !eater.undviker.some(a => looselyMatches(alt, a)),
+      )
       if (veganAlt) {
         requiredSwaps.push({ from: c.vara, to: veganAlt, reason: `${eater.namn} äter veganskt` })
       } else {
