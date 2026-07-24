@@ -9,7 +9,7 @@
  * automated merge can't make that assumption, and the schema already carries real
  * timestamps to compare instead.
  *
- * Deliberately narrow in scope for now: only matracet:feedback:v1 has a canonical merge
+ * Deliberately narrow in scope for now: only matracet:feedback:v2 has a canonical merge
  * target implemented here. Every other synced store key (weekplan, shopping list, stash,
  * chaos-mode, category-feedback) is skipped untouched and logged, not silently dropped —
  * see "Still open" in CLAUDE.md's GitHub-backed auto-sync section for why each is out of
@@ -28,7 +28,10 @@
 import { readFileSync, writeFileSync, existsSync } from 'node:fs'
 
 export const FEEDBACK_PATH = new URL('../public/data/feedback.json', import.meta.url).pathname
-export const FEEDBACK_KEY = 'matracet:feedback:v1'
+// Keyed by meal, not recipe, since the app's Stage 5 re-key (see CLAUDE.md's "Meals as the
+// plannable unit" section) — a record's key is a meals.json slug, or a virtual meal slug
+// for a recipe with no matching entry there.
+export const FEEDBACK_KEY = 'matracet:feedback:v2'
 
 /** Throws on anything that isn't a well-formed v1 snapshot — never returns a partial/best-
  * guess result. This is the one thing standing between a malformed snapshot and a bad
@@ -57,13 +60,13 @@ export function loadSnapshot(raw) {
 }
 
 /**
- * Merge an incoming feedback store (matracet:feedback:v1's `data`) into the canonical
- * feedback.json shape, per (recipeId, personId) — never a whole-file overwrite:
+ * Merge an incoming feedback store (matracet:feedback:v2's `data`) into the canonical
+ * feedback.json shape, per (mealId, personId) — never a whole-file overwrite:
  *   - Newer `updatedAt` wins per person entry (strictly newer — a tie keeps the existing
  *     entry unchanged, which is what makes re-running this idempotent).
  *   - `excludeFromWeekPlan` is an OR: a `true` from either side wins, so a stale sync can
  *     never silently clear an exclusion someone set.
- *   - A recipeId or person entry absent from the incoming snapshot is left exactly as-is —
+ *   - A mealId or person entry absent from the incoming snapshot is left exactly as-is —
  *     additive/overwriting per entry, never a sync-mirror that could delete data.
  *
  * PR #83 review note: the very first live run against a real snapshot will very likely
@@ -77,8 +80,8 @@ export function loadSnapshot(raw) {
  */
 export function mergeFeedback(existing, incoming) {
   const result = { ...(existing ?? {}) }
-  for (const [recipeId, incomingRecord] of Object.entries(incoming ?? {})) {
-    const existingRecord = result[recipeId]
+  for (const [mealId, incomingRecord] of Object.entries(incoming ?? {})) {
+    const existingRecord = result[mealId]
     const personMap = new Map((existingRecord?.persons ?? []).map(p => [p.personId, p]))
     for (const incomingPerson of incomingRecord.persons ?? []) {
       const current = personMap.get(incomingPerson.personId)
@@ -90,8 +93,8 @@ export function mergeFeedback(existing, incoming) {
       .filter(Boolean)
       .sort()
       .at(-1)
-    result[recipeId] = {
-      recipeId,
+    result[mealId] = {
+      mealId,
       excludeFromWeekPlan: Boolean(existingRecord?.excludeFromWeekPlan) || Boolean(incomingRecord.excludeFromWeekPlan),
       updatedAt: updatedAt ?? new Date().toISOString(),
       persons: [...personMap.values()],
@@ -106,7 +109,7 @@ export function mergeFeedback(existing, incoming) {
  * CLI can skip writing/committing a no-op), and which snapshot store keys were skipped. */
 export function runMerge(snapshotRaw, feedbackFile) {
   const snapshot = loadSnapshot(snapshotRaw)
-  const base = feedbackFile ?? { app: 'matracet', version: 1, feedback: {} }
+  const base = feedbackFile ?? { app: 'matracet', version: 2, feedback: {} }
   const existingFeedback = base.feedback ?? base
 
   let feedback = existingFeedback

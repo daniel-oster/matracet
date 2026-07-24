@@ -199,7 +199,7 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
               const presentIds = effectivePresentIds(activePlanIds, attendance)
               const presentEaters = presentIds ? eaters.filter(e => presentIds.includes(e.id)) : eaters
               const fit = meal && !attendance?.skip
-                ? evaluateFit(meal, slug ? fullRecipes[slug] ?? null : null, presentEaters, slug ? getFeedback(slug) ?? null : null)
+                ? evaluateFit(meal, slug ? fullRecipes[slug] ?? null : null, presentEaters, getFeedback(meal.slug) ?? null)
                 : null
               return (
                 <div key={kind} className="active-slot-group">

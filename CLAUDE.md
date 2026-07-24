@@ -1020,8 +1020,10 @@ feedback-merge rule into deterministic code — `loadSnapshot()` refuses (throws
 any schema-version mismatch or unparseable snapshot; `mergeFeedback()` does the same
 per-(recipe,person) merge the skill describes, but compares each entry's own `updatedAt`
 instead of "trust the paste" (sound for a one-off human paste, not for a recurring automated
-merge). Deliberately narrow: **only `matracet:feedback:v1` has a canonical merge target
-implemented.** Every other synced store key is skipped and logged, not silently dropped —
+merge). Deliberately narrow: **only `matracet:feedback:v2` has a canonical merge target
+implemented** (bumped from `v1` — see "Meals as the plannable unit" Stage 5 further down
+for the recipe→meal re-key that caused this). Every other synced store key is skipped and
+logged, not silently dropped —
 weekplan/shopping-list/stash/chaos-mode have no git-tracked canonical file to merge into at
 all (by design, see the local-only-override tier elsewhere in this file); category-feedback's
 mechanical merge (patch `public/data/erbjudanden/*/*.json` + lock the kategori lexicon, per
@@ -1095,7 +1097,8 @@ rule at the top.
   recognizes it.
 - *Can the deterministic Action and the skill ever both act on the same task?* No, and not
   just by convention — `merge-device-sync.mjs` has exactly one canonical merge target
-  (`matracet:feedback:v1`); every other snapshot key, `matracet:synctasks:v1` included, always
+  (`matracet:feedback:v2`, see the Stage 5 note further down); every other snapshot key,
+  `matracet:synctasks:v1` included, always
   lands in that script's own `skipped` list (see its Phase 4 write-up above). The Action has
   no code path that reads or writes the task queue at all.
 - *Does any catalog prompt instruct writing to device-sync?* No — `SKILL.md` §4 states this
@@ -1424,6 +1427,64 @@ in `localStorage`. `src/lib/dietFit.test.ts` (10 cases) covers both branches (re
 backed via kategorier/varianter, recipe-less via the keyword fallback), the refusal veto,
 undviker substitution and its no-substitute conflict path, and swap deduplication across
 multiple present eaters requesting the same fix.
+
+**Stage 5 done — all five stages of this design have now shipped.** `public/data/
+feedback.json` and `matracet:feedback:v1` are re-keyed from recipe slug to meal id
+(`matracet:feedback:v2`) — `RecipeFeedbackRecord`'s `recipeId` field renamed to `mealId`
+(kept the type name itself to limit churn; the field rename is where the actual confusion
+risk was). In practice most keys still look exactly like a recipe slug, because a recipe
+with no `meals.json` entry gets its own virtual meal keyed to its own slug
+(`resolveMealForRecipe`) — only a meal a real `meals.json` entry links to a recipe (today,
+just `snackpotter`) can differ. **Disclosed side effect of the migration, not silently
+absorbed**: `excludeFromWeekPlan` used to be a recipe-level "don't suggest this specific
+written recipe" flag; re-keyed to meal, excluding one recipe now hides every recipe that
+shares its meal from suggestions. A no-op today (no meal currently links more than one
+recipe), but worth knowing before a future `meals.json` entry links a second recipe to an
+already-excluded one.
+
+The one write path (`ReceptView`'s recipe-card feedback bar/exclude-toggle — the only
+`RecipeFeedbackBar` call site in the app) now resolves `resolveMealForRecipe(r.slug,
+r.namn, meals).slug` and keys by that instead of the bare recipe slug; `suggestions.ts`,
+`VeckanOverview`, `WeekWarnings`, and `VeckanPlanner` all switched their `getFeedback`
+calls from a recipe/receptSlug key to the already-resolved meal's `.slug` (each of these
+already had a `meal`/`dayMeal` value in scope from Stage 4's `evaluateFit` wiring, so this
+was a same-shape key swap, not new resolution logic). `scripts/build-brief.ts` gained a
+`mealIdFor(recipeSlug, recipeNamn)` helper (thin wrapper over `resolveMealForRecipe`) used
+everywhere it previously called `sentimentFor(recipeSlug)` directly; `constraints
+.exclusions` is now a list of meal ids, not recipe slugs — documented in the brief's own
+`meta.assumptions` since that's a real meaning change for whatever reads the brief.
+`schemaVersion` bumped `1.3` → `1.4`.
+
+**`mergeFeedbackBaseline` itself was not where the migration logic went, despite the
+design text's literal wording** ("write a local migration in mergeFeedbackBaseline") — that
+function's job is merging the *git baseline* (already-parsed, already correctly-keyed) into
+local storage, a different data source and shape than re-keying a device's own raw legacy
+`localStorage` entry. Instead, `useFeedback.ts` gained a separate `migrateFeedbackV1(meals,
+recipeIndex)`, matching Stage 1's `migrateWeekPlanV2` precedent exactly: reads the legacy
+key directly, resolves each old recipe slug to its meal via `resolveMealForRecipe` (merging
+persons by newer-`updatedAt`-wins when two legacy recipe keys resolve to the same real
+meal), writes via `setSilently`, and no-ops if the new store already has data. Called from
+`App.tsx` — critically, **before** `mergeFeedbackBaseline`, not after: the migration's
+"already migrated" guard just checks whether the v2 store is non-empty, so a baseline
+merge landing first would look identical to "already migrated" and silently strand a
+device's real local ratings unread.
+
+The GitHub-sync side needed the same update: `scripts/merge-device-sync.mjs`'s
+`FEEDBACK_KEY` bumped to `matracet:feedback:v2`, its `mergeFeedback()` renamed `recipeId`→
+`mealId` throughout (functionally identical merge logic — per-`personId` newer-wins, OR'd
+`excludeFromWeekPlan` — just re-keyed), and `.claude/skills/sync-local-storage/SKILL.md`
+rewritten to describe the new key and field name, plus an explicit fallback procedure for
+a device whose export still shows the old `v1` shape (hasn't opened the app since this
+shipped): resolve each legacy `recipeId` to a meal by hand — check `meals.json` for a
+`receptSlug` match, else the recipe's own slug is its virtual meal — using the exact same
+rule the app's own `migrateFeedbackV1` applies client-side.
+
+Verified via `src/hooks/useFeedback.test.ts` (4 new cases: re-keying to a virtual meal,
+merging two legacy keys that resolve to the same real meal, and both no-op guards) and
+`scripts/merge-device-sync.test.mjs`'s existing 14 cases (updated fixtures, all still
+green) — `public/data/feedback.json` itself had zero real entries at the time of this
+migration, so there was nothing to re-key in the git-tracked file; the risk this stage
+guards against is entirely about devices that already hold real local ratings.
 
 **Two ideas from the deleted `checks.ts` worth reviving later as meal-level checks, kept here
 so deleting the file didn't lose them:**

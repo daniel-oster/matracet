@@ -45,16 +45,6 @@ export default function WeekWarnings({ days, lunches, dayPlans, eaters, recipeIn
     const attendance = getAttendance(raw.datum, kind)
     const day = applyOverride(raw, getOverride(raw.datum, kind), meals, recipeIndex, attendance)
     const slug = day.receptSlug
-    const record = slug ? getFeedback(slug) : null
-
-    if (record?.excludeFromWeekPlan) {
-      warnings.push({
-        key: `${day.datum}-${kind}-excluded`,
-        dateLabel: dateLabel(day),
-        text: `”${day.recept}” är utesluten ur veckoplanen men ändå planerad`,
-        slug,
-      })
-    }
 
     // evaluateFit replaces the old hand-rolled "loop feedback.persons, filter refuses,
     // presence-gate" logic — same shared solve suggestions.ts uses, so a meal-only
@@ -65,6 +55,18 @@ export default function WeekWarnings({ days, lunches, dayPlans, eaters, recipeIn
     // CLAUDE.md's Stage 4 note.
     const meal = resolveDayMeal(day, meals)
     if (!meal) return
+    // Feedback is keyed by meal, not recipe (Stage 5).
+    const record = getFeedback(meal.slug)
+
+    if (record?.excludeFromWeekPlan) {
+      warnings.push({
+        key: `${day.datum}-${kind}-excluded`,
+        dateLabel: dateLabel(day),
+        text: `”${day.recept}” är utesluten ur veckoplanen men ändå planerad`,
+        slug,
+      })
+    }
+
     const plan = dayPlans.find(p => p.date === day.datum)
     const presentIds = effectivePresentIds(plan?.presentPersons.map(p => p.id) ?? null, attendance)
     const presentEaters = presentIds ? eaters.filter(e => presentIds.includes(e.id)) : eaters

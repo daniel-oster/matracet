@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "1.3",
+  "schemaVersion": "1.4",
   "week": {
     "isoWeek": "2026-W31",
     "year": 2026,
@@ -1487,6 +1487,7 @@
       "protein härleds ur recept-kategorier (kott>fisk>vegansk>vegetarisk); inget eget proteinfält finns.",
       "veganRequired = sant när en person med kost:\"vegan\" (eaters.json) är hemma (presence-gated).",
       "mealLibrary.antalGanger/senastAten är beräknade, inte hand-underhållna fält i meals.json — se matchesHistoryEntry.",
+      "feedback.json (och därmed sentiment/exclusions) är nu nyckelt på måltid, inte recept — mealIdFor löser ut vilken måltid ett recept tillhör (sin egen virtuella måltid om ingen meals.json-post länkar det).",
       "recipeIndex.tags = kategorier (slimmade indexet bär inte de fria taggarna).",
       "maxRepeatProteinPerWeek = null (ingen gräns, per användarens val)."
     ],

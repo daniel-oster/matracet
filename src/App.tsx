@@ -22,7 +22,7 @@ import FloatingNav from './components/FloatingNav'
 import { resolvePresenceRange, addDays } from './presence/resolver'
 import { SEED_STORE } from './presence/seed'
 import type { DayPlan } from './presence/types'
-import { mergeFeedbackBaseline } from './hooks/useFeedback'
+import { mergeFeedbackBaseline, migrateFeedbackV1 } from './hooks/useFeedback'
 import { pruneSyncTasks } from './hooks/useSyncTasks'
 import { applyTaskOutcome } from './lib/syncTaskOutcomes'
 import { hydrateFromSync } from './lib/syncHydration'
@@ -83,6 +83,10 @@ export default function App() {
       // needs the meal library loaded first to match names/alias, so it runs here rather
       // than at module load. See CLAUDE.md's "Meals as the plannable unit" section.
       migrateWeekPlanV2(mealsList)
+      // Must run before mergeFeedbackBaseline below — migrateFeedbackV1 only migrates when
+      // the v2 store is still empty, so a baseline merge landing first would look like
+      // "already migrated" and silently strand this device's real v1 ratings unread.
+      migrateFeedbackV1(mealsList, indexData.recipes)
       setHistoryEntries(historyData?.entries ?? [])
       // Tolerant unwrap — mirrors scripts/build-brief.ts's handling of this same file,
       // in case it's ever a bare feedback map instead of the { feedback: {...} } wrapper.
@@ -225,7 +229,7 @@ export default function App() {
       )}
       {screen === 'handla' && <HandlaView onBack={toHub} />}
       {screen === 'recept' && (
-        <ReceptView onBack={toHub} recipeIndex={recipeIndex} eaters={eaters.eaters} onOpenRecipe={setOverlaySlug} />
+        <ReceptView onBack={toHub} recipeIndex={recipeIndex} meals={meals} eaters={eaters.eaters} onOpenRecipe={setOverlaySlug} />
       )}
       {screen === 'familj' && (
         <FamiljView

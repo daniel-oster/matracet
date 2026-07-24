@@ -140,7 +140,7 @@ describe('evaluateFit', () => {
   it('a refusal is a veto no substitution fixes, even alongside an otherwise-clean fit', () => {
     const daniel = makeEater({ id: 'daniel', namn: 'Daniel' })
     const feedback: RecipeFeedbackRecord = {
-      recipeId: 'hamburgare',
+      mealId: 'hamburgare',
       persons: [{ personId: 'daniel', sentiment: 'refuses', updatedAt: '2026-01-01T00:00:00Z' }],
       excludeFromWeekPlan: false,
       updatedAt: '2026-01-01T00:00:00Z',

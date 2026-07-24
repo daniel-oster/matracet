@@ -1,6 +1,6 @@
 {
-  "_om": "Sentiment och uteslutningar lagras i webbläsarens localStorage. Klicka 'Ladda ner mina data' i appen, klistra in exporten här (eller bara dess feedback-objekt) och committa. build-brief läser den och fyller sentiment + constraints.exclusions. Tom = inget importerat ännu.",
+  "_om": "Sentiment och uteslutningar lagras i webbläsarens localStorage. Klicka 'Ladda ner mina data' i appen, klistra in exporten här (eller bara dess feedback-objekt) och committa. build-brief läser den och fyller sentiment + constraints.exclusions. Tom = inget importerat ännu. Nycklarna är måltids-id:n (public/data/meals.json-slugs, eller en virtuell måltid keyad till receptets egen slug när ingen meals.json-post länkar det) — inte alltid ett recept-slug, se CLAUDE.md:s 'Meals as the plannable unit' Stage 5.",
   "app": "matracet",
-  "version": 1,
+  "version": 2,
   "feedback": {}
 }

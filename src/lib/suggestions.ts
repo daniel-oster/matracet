@@ -106,11 +106,11 @@ export function rankSuggestions({
     .filter(r => (filter === 'snabbt' ? r.tid_min <= 25 : true))
     .map((entry): RankedSuggestion => {
       const recipe = fullRecipes[entry.slug]
-      const feedback = getFeedback(entry.slug)
+      const meal = resolveMealForRecipe(entry.slug, entry.namn, meals)
+      const feedback = getFeedback(meal.slug)
       const excluded = feedback?.excludeFromWeekPlan ?? false
       const offerMatch = findOfferMatch(recipe, offers)
       const savingsKr = parseSavings(offerMatch?.besparing)
-      const meal = resolveMealForRecipe(entry.slug, entry.namn, meals)
       const veganFriendly = isVeganFriendly(meal, recipe)
       const fit = evaluateFit(meal, recipe ?? null, present, feedback ?? null)
       const refusers = fit.conflicts.filter(c => c.reason === 'refuses')

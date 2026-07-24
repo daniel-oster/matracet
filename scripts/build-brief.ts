@@ -14,7 +14,7 @@ import { readFileSync, writeFileSync, existsSync } from 'fs'
 import { resolve } from 'path'
 import { resolvePresence } from '../src/presence/resolver.ts'
 import { SEED_STORE, PERSONS } from '../src/presence/seed.ts'
-import { matchMealByName } from '../src/lib/mealResolve.ts'
+import { matchMealByName, resolveMealForRecipe } from '../src/lib/mealResolve.ts'
 import type { Meal, MealsFile } from '../src/types/meal.ts'
 
 /** Derive vegan status from a recipe's kategorier array — true = marked vegansk,
@@ -34,7 +34,7 @@ function getRecipeVegan(kategorier: string[]): boolean | undefined {
  *  variationsregeln är per-person `minRepeatGapDays` (se constraints.spacingByPerson). */
 const MAX_REPEAT_PROTEIN_PER_WEEK: number | null = null
 
-const SCHEMA_VERSION = '1.3'
+const SCHEMA_VERSION = '1.4'
 
 // ── Datum-helpers (UTC, ISO-vecka) ──────────────────────────────────────────────
 
@@ -147,17 +147,26 @@ const feedbackRecords: FeedbackStore = Object.fromEntries(
 )
 const feedbackCount = Object.keys(feedbackRecords).length
 
-/** Per-recipe sentiment as recorded per person, or null when nobody has rated it. */
-function sentimentFor(slug: string): PersonSentiment[] | null {
-  const persons = feedbackRecords[slug]?.persons
+/** feedback.json is keyed by meal, not recipe (see CLAUDE.md's Stage 5 note) — resolve the
+ *  meal a recipe belongs to (its own virtual meal when no meals.json entry links it)
+ *  before looking anything up. */
+function mealIdFor(recipeSlug: string, recipeNamn: string): string {
+  return resolveMealForRecipe(recipeSlug, recipeNamn, mealLibrary).slug
+}
+
+/** Sentiment as recorded per person for a meal id, or null when nobody has rated it. */
+function sentimentFor(mealId: string): PersonSentiment[] | null {
+  const persons = feedbackRecords[mealId]?.persons
   return persons && persons.length > 0
     ? persons.map(p => ({ personId: p.personId, sentiment: p.sentiment, ...(p.note ? { note: p.note } : {}) }))
     : null
 }
 
+// Meal ids (not recipe ids) with excludeFromWeekPlan set — see mealIdFor above for why a
+// bare recipe slug isn't always the right key to cross-reference against recipeIndex.
 const exclusions = Object.entries(feedbackRecords)
   .filter(([, r]) => r.excludeFromWeekPlan === true)
-  .map(([slug]) => slug)
+  .map(([mealId]) => mealId)
 
 // ── Härledning ──────────────────────────────────────────────────────────────────
 
@@ -249,7 +258,7 @@ for (const back of [2, 1]) {
       title: m.recept ?? idx?.namn ?? m.receptSlug,
       protein: idx ? deriveProtein(idx.kategorier) : 'okant',
       cuisine: null, // spåras inte i datamodellen
-      sentiment: sentimentFor(m.receptSlug),
+      sentiment: sentimentFor(mealIdFor(m.receptSlug, idx?.namn ?? m.receptSlug)),
       source: 'planerat',
     })
   }
@@ -268,7 +277,7 @@ for (const e of historyFile?.entries ?? []) {
     title: e.beskrivning || idx?.namn || e.recipeSlug,
     protein: idx ? deriveProtein(idx.kategorier) : 'okant',
     cuisine: null,
-    sentiment: sentimentFor(e.recipeSlug),
+    sentiment: sentimentFor(mealIdFor(e.recipeSlug, idx?.namn ?? e.recipeSlug)),
     source: e.kalla,
   })
 }
@@ -305,7 +314,7 @@ const recipeIndexSlim = recipeIndex.map(r => ({
   title: r.namn,
   protein: deriveProtein(r.kategorier),
   vegan: getRecipeVegan(r.kategorier) === true,
-  sentiment: sentimentFor(r.slug),
+  sentiment: sentimentFor(mealIdFor(r.slug, r.namn)),
   tags: r.kategorier, // _index.json bär bara kategorier; fria `taggar` finns i fulla receptfiler
 }))
 
@@ -320,7 +329,8 @@ const brief = {
   },
   days,
   constraints: {
-    // Recept som ska uteslutas ur planen — härlett ur feedback.json (excludeFromWeekPlan).
+    // Måltids-id:n (mealLibrary-slug eller virtuell måltid för ett recept) som ska
+    // uteslutas ur planen — härlett ur feedback.json (excludeFromWeekPlan).
     exclusions,
     // null = ingen proteinupprepningsgräns (per användarens val).
     maxRepeatProteinPerWeek: MAX_REPEAT_PROTEIN_PER_WEEK,
@@ -350,7 +360,7 @@ const brief = {
     // Den enda inmatningen som inte lever i git: appens localStorage, exporterad och committad.
     externalInputs: [
       feedbackCount > 0
-        ? `feedback.json: ${feedbackCount} recept importerade → sentiment och exclusions ifyllda.`
+        ? `feedback.json: ${feedbackCount} måltider importerade → sentiment och exclusions ifyllda.`
         : 'feedback.json är tom — exportera "Ladda ner mina data" i appen och committa för att fylla sentiment + exclusions.',
     ],
     assumptions: [
@@ -358,6 +368,7 @@ const brief = {
       'protein härleds ur recept-kategorier (kott>fisk>vegansk>vegetarisk); inget eget proteinfält finns.',
       'veganRequired = sant när en person med kost:"vegan" (eaters.json) är hemma (presence-gated).',
       'mealLibrary.antalGanger/senastAten är beräknade, inte hand-underhållna fält i meals.json — se matchesHistoryEntry.',
+      'feedback.json (och därmed sentiment/exclusions) är nu nyckelt på måltid, inte recept — mealIdFor löser ut vilken måltid ett recept tillhör (sin egen virtuella måltid om ingen meals.json-post länkar det).',
       'recipeIndex.tags = kategorier (slimmade indexet bär inte de fria taggarna).',
       'maxRepeatProteinPerWeek = null (ingen gräns, per användarens val).',
     ],
