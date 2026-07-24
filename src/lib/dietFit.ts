@@ -9,6 +9,16 @@ export interface DietConflict {
   detail: string
 }
 
+/** A check that couldn't be completed one way or the other — distinct from a
+ *  `DietConflict`, which means "checked, and it's a problem". `ok` requires this to be
+ *  empty too: unknown must never behave like "fine" for a check that protects a specific
+ *  eater (see CLAUDE.md's "Vegan classification is fail-closed" note). */
+export interface DietUnknown {
+  personId: string
+  reason: 'vegan-unknown' | 'ingredients-unavailable'
+  detail: string
+}
+
 export interface RequiredSwap {
   from: string
   to: string
@@ -19,6 +29,7 @@ export interface DietFitResult {
   ok: boolean
   conflicts: DietConflict[]
   requiredSwaps: RequiredSwap[]
+  unknowns: DietUnknown[]
 }
 
 // A meal has no diet classification of its own (see CLAUDE.md's "Dietary fit is computed,
@@ -105,6 +116,7 @@ export function evaluateFit(
 ): DietFitResult {
   const conflicts: DietConflict[] = []
   const requiredSwaps: RequiredSwap[] = []
+  const unknowns: DietUnknown[] = []
   const names = baseNames(meal, recipe)
   const dishName = recipe?.namn ?? meal.namn
 
@@ -144,13 +156,12 @@ export function evaluateFit(
     }
 
     // Recipe-less meal — classify every component individually. Fail-closed: an empty
-    // component list or an 'unknown' verdict is reported (as a conflict for now — this
-    // function has no separate "unknown" channel yet; see CLAUDE.md's PR-follow-up
-    // write-up for the Stage that adds one), never silently treated as vegan.
+    // component list or an 'unknown' verdict is reported as an unknown, never silently
+    // treated as vegan.
     if (meal.komponenter.length === 0) {
-      conflicts.push({
+      unknowns.push({
         personId: eater.id,
-        reason: 'vegan',
+        reason: 'vegan-unknown',
         detail: `${eater.namn} äter veganskt — inga komponenter kända för ”${dishName}”, går inte att kontrollera`,
       })
       continue
@@ -159,9 +170,9 @@ export function evaluateFit(
       const verdict = classifyVegan(c.vara)
       if (verdict === 'vegan') continue
       if (verdict === 'unknown') {
-        conflicts.push({
+        unknowns.push({
           personId: eater.id,
-          reason: 'vegan',
+          reason: 'vegan-unknown',
           detail: `${eater.namn} äter veganskt — okänt om ”${c.vara}” i ”${dishName}” är veganskt`,
         })
         continue
@@ -179,5 +190,10 @@ export function evaluateFit(
     }
   }
 
-  return { ok: conflicts.length === 0, conflicts, requiredSwaps: dedupeSwaps(requiredSwaps) }
+  return {
+    ok: conflicts.length === 0 && unknowns.length === 0,
+    conflicts,
+    requiredSwaps: dedupeSwaps(requiredSwaps),
+    unknowns,
+  }
 }

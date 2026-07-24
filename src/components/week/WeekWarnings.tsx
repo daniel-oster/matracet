@@ -22,6 +22,9 @@ interface Warning {
   dateLabel: string
   text: string
   slug?: string
+  /** 'unknown' = couldn't be checked one way or the other (see dietFit.ts's DietUnknown) —
+   *  rendered in a muted, lower-urgency style, distinct from a real conflict. */
+  kind: 'conflict' | 'unknown'
 }
 
 const DAY_SHORT: Record<string, string> = {
@@ -64,6 +67,7 @@ export default function WeekWarnings({ days, lunches, dayPlans, eaters, recipeIn
         dateLabel: dateLabel(day),
         text: `”${day.recept}” är utesluten ur veckoplanen men ändå planerad`,
         slug,
+        kind: 'conflict',
       })
     }
 
@@ -77,6 +81,16 @@ export default function WeekWarnings({ days, lunches, dayPlans, eaters, recipeIn
         dateLabel: dateLabel(day),
         text: c.detail,
         slug,
+        kind: 'conflict',
+      })
+    }
+    for (const u of fit.unknowns) {
+      warnings.push({
+        key: `${day.datum}-${kind}-${u.reason}-${u.personId}`,
+        dateLabel: dateLabel(day),
+        text: u.detail,
+        slug,
+        kind: 'unknown',
       })
     }
   }
@@ -102,18 +116,18 @@ export default function WeekWarnings({ days, lunches, dayPlans, eaters, recipeIn
       {open && (
         <ul className="week-warnings-list">
           {warnings.map(w => (
-            <li key={w.key} className="week-warning-row">
+            <li key={w.key} className={`week-warning-row${w.kind === 'unknown' ? ' week-warning-row--unknown' : ''}`}>
               <span className="week-warning-day">{w.dateLabel}</span>
               {w.slug && onOpenRecipe ? (
                 <button
                   type="button"
-                  className="week-warning-text week-warning-link"
+                  className={`week-warning-text week-warning-link${w.kind === 'unknown' ? ' week-warning-text--unknown' : ''}`}
                   onClick={() => onOpenRecipe(w.slug!)}
                 >
                   {w.text}
                 </button>
               ) : (
-                <span className="week-warning-text">{w.text}</span>
+                <span className={`week-warning-text${w.kind === 'unknown' ? ' week-warning-text--unknown' : ''}`}>{w.text}</span>
               )}
             </li>
           ))}

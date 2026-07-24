@@ -57,7 +57,9 @@ export default function VeckanOverview({ days, lunches, dayPlans, eaters, recipe
         const planPresentIds = plan?.presentPersons.map(p => p.id) ?? null
         const presentIds = effectivePresentIds(planPresentIds, dinnerAttendance)
         const presentEaters = presentIds ? eaters.filter(e => presentIds.includes(e.id)) : eaters
-        const conflicts = dayMeal ? evaluateFit(dayMeal, null, presentEaters, record ?? null).conflicts : []
+        const dayFit = dayMeal ? evaluateFit(dayMeal, null, presentEaters, record ?? null) : null
+        const conflicts = dayFit?.conflicts ?? []
+        const unknowns = dayFit?.unknowns ?? []
         const { away: dinnerAway, extra: dinnerExtra } = diffAttendance(planPresentIds, dinnerAttendance)
 
         const lunchLabel = lunch?.recept ?? lunch?.anteckning ?? null
@@ -79,12 +81,21 @@ export default function VeckanOverview({ days, lunches, dayPlans, eaters, recipe
                 <span className="vline-ic">☾</span>
                 <span className="vline-nm">{dishLabel ?? 'middag ledig'}</span>
               </div>
-              {(isExcluded || conflicts.length > 0 || dinnerAway.length > 0 || dinnerExtra.length > 0) && (
+              {(isExcluded || conflicts.length > 0 || unknowns.length > 0 || dinnerAway.length > 0 || dinnerExtra.length > 0) && (
                 <div className="day-flags">
                   {isExcluded && <span className="day-flag day-flag--excluded">Utesluten</span>}
                   {conflicts.map(c => (
                     <span className="day-flag day-flag--refuses" key={`${c.reason}-${c.personId}`}>
                       ⚠️ {eaters.find(e => e.id === c.personId)?.namn ?? c.personId}
+                    </span>
+                  ))}
+                  {unknowns.map(u => (
+                    <span
+                      className="day-flag day-flag--unknown"
+                      key={`${u.reason}-${u.personId}`}
+                      title={u.detail}
+                    >
+                      ? {eaters.find(e => e.id === u.personId)?.namn ?? u.personId}
                     </span>
                   ))}
                   {dinnerAway.map(id => (

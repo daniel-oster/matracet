@@ -114,7 +114,10 @@ export function rankSuggestions({
       const veganFriendly = isVeganFriendly(meal, recipe)
       const fit = evaluateFit(meal, recipe ?? null, present, feedback ?? null)
       const refusers = fit.conflicts.filter(c => c.reason === 'refuses')
-      const otherConflicts = fit.conflicts.filter(c => c.reason !== 'refuses')
+      // Unknowns fold in here for scoring — a fit we couldn't verify one way or the other
+      // is not a "clean pass" any more than a real conflict is (see CLAUDE.md's "Vegan
+      // classification is fail-closed" note).
+      const softIssueCount = fit.conflicts.filter(c => c.reason !== 'refuses').length + fit.unknowns.length
       const likers = feedback?.persons.filter(
         p => p.sentiment === 'likes' && present.some(e => e.id === p.personId),
       ) ?? []
@@ -130,7 +133,7 @@ export function rankSuggestions({
       if (veganFriendly) { score += 1; tags.push({ text: '🌱 vegansk', kind: 'vegan' }) }
       score += likers.length
       if (likerNames.length > 0) tags.push({ text: `❤ ${likerNames.join(', ')}`, kind: 'liked' })
-      if (otherConflicts.length > 0) score -= 2
+      if (softIssueCount > 0) score -= 2
       if (refusers.length > 0) {
         score -= 5
         const names = refusers

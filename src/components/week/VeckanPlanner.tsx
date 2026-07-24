@@ -275,10 +275,13 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
                       </div>
                     )
                   })()}
-                  {fit && (fit.conflicts.length > 0 || fit.requiredSwaps.length > 0) && (
+                  {fit && (fit.conflicts.length > 0 || fit.unknowns.length > 0 || fit.requiredSwaps.length > 0) && (
                     <div className="fit-hints">
                       {fit.conflicts.map(c => (
                         <div className="fit-conflict" key={`${c.reason}-${c.personId}`}>⚠️ {c.detail}</div>
+                      ))}
+                      {fit.unknowns.map(u => (
+                        <div className="fit-unknown" key={`${u.reason}-${u.personId}`}>? {u.detail}</div>
                       ))}
                       {fit.requiredSwaps.map(s => {
                         const canApply = meal?.komponenter.some(

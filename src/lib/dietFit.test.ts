@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
-import { evaluateFit, type DietFitResult } from './dietFit'
+import { evaluateFit } from './dietFit'
 import type { Eater, Recipe } from '../types'
 import type { Meal } from '../types/meal'
 import type { EatersData } from '../types'
@@ -21,10 +21,6 @@ function realEater(id: string): Eater {
   if (!eater) throw new Error(`fixture eater "${id}" not found in public/data/eaters.json`)
   return eater
 }
-/** Loosely typed so these assertions compile both before and after Stage C adds a real
- *  `unknowns` field to DietFitResult — see this file's PR-follow-up section. */
-type ResultWithMaybeUnknowns = DietFitResult & { unknowns?: { personId: string; reason: string; detail: string }[] }
-
 function makeRecipe(over: Partial<Recipe> = {}): Recipe {
   return {
     schema_version: '1',
@@ -82,22 +78,24 @@ const HAMBURGARE = makeMeal({
 describe('evaluateFit', () => {
   it('is ok with no conflicts or swaps when nobody present has any requirement', () => {
     const result = evaluateFit(HAMBURGARE, null, [makeEater({ id: 'daniel' })], null)
-    expect(result).toEqual({ ok: true, conflicts: [], requiredSwaps: [] })
+    expect(result).toEqual({ ok: true, conflicts: [], requiredSwaps: [], unknowns: [] })
   })
 
   it('suggests the meat-patty swap for a vegan eater against a recipe-less meal (the Hamburgare worked example)', () => {
     // Updated for the fail-closed rework (see CLAUDE.md's "Vegan classification is
     // fail-closed"): "nötfärsbiff" is still correctly matched to "vegansk biff", but
     // "hamburgerbröd"/"sallad" carry no explicit vegan signal either way, so they now
-    // correctly surface as unresolved rather than being silently waved through — this
-    // is the intended, disclosed consequence of no longer treating "unknown" as "fine",
-    // not a regression. (Stage C moves these two into a dedicated `unknowns` channel
-    // instead of `conflicts` — this assertion is intentionally loose on that shape.)
+    // correctly surface as unknowns rather than being silently waved through — this is
+    // the intended, disclosed consequence of no longer treating "unknown" as "fine",
+    // not a regression.
     const annabelle = makeEater({ id: 'annabelle', namn: 'Annabelle', kost: ['vegan'] })
     const result = evaluateFit(HAMBURGARE, null, [annabelle], null)
     expect(result.requiredSwaps).toEqual([
       { from: 'nötfärsbiff', to: 'vegansk biff', reason: 'Annabelle äter veganskt' },
     ])
+    expect(result.conflicts).toEqual([])
+    expect(result.unknowns).toHaveLength(2)
+    expect(result.unknowns.every(u => u.reason === 'vegan-unknown')).toBe(true)
     expect(result.ok).toBe(false)
   })
 
@@ -143,7 +141,7 @@ describe('evaluateFit', () => {
     const recipe = makeRecipe({ kategorier: ['vegansk'] })
     const annabelle = makeEater({ id: 'annabelle', kost: ['vegan'] })
     const result = evaluateFit(HAMBURGARE, recipe, [annabelle], null)
-    expect(result).toEqual({ ok: true, conflicts: [], requiredSwaps: [] })
+    expect(result).toEqual({ ok: true, conflicts: [], requiredSwaps: [], unknowns: [] })
   })
 
   it('suggests a swap when an avoided ingredient has a component alternativ', () => {
@@ -206,9 +204,10 @@ describe('evaluateFit — fail-closed vegan classification (PR follow-up)', () =
   it('does not silently pass a dish with no known component data for a vegan eater', () => {
     const emptyMeal = makeMeal({ komponenter: [] })
     const annabelle = makeEater({ id: 'annabelle', namn: 'Annabelle', kost: ['vegan'] })
-    const result = evaluateFit(emptyMeal, null, [annabelle], null) as ResultWithMaybeUnknowns
-    const reportsClean = result.ok === true && result.conflicts.length === 0 && (result.unknowns?.length ?? 0) === 0
-    expect(reportsClean).toBe(false)
+    const result = evaluateFit(emptyMeal, null, [annabelle], null)
+    expect(result.ok).toBe(false)
+    expect(result.unknowns).toHaveLength(1)
+    expect(result.unknowns[0].reason).toBe('vegan-unknown')
   })
 
   it('does not propose a swap that violates the same eater\'s own avoid list', () => {
@@ -244,10 +243,9 @@ describe('evaluateFit — fail-closed vegan classification (PR follow-up)', () =
     ]
     for (const name of names) {
       const meal = makeMeal({ komponenter: [{ vara: name, alternativ: [] }] })
-      const result = evaluateFit(meal, null, [probe], null) as ResultWithMaybeUnknowns
-      const reportsVeganCompatible =
-        result.ok === true && result.conflicts.length === 0 && (result.unknowns?.length ?? 0) === 0
-      expect(reportsVeganCompatible, `"${name}" was reported as vegan-compatible`).toBe(false)
+      const result = evaluateFit(meal, null, [probe], null)
+      expect(result.ok, `"${name}" was reported as vegan-compatible`).toBe(false)
+      expect(result.conflicts.length + result.unknowns.length, `"${name}" produced neither a conflict nor an unknown`).toBeGreaterThan(0)
     }
   })
 })
