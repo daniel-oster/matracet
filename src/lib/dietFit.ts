@@ -81,13 +81,17 @@ function baseNames(meal: Meal, recipe: Recipe | RecipeIndexEntry | null): string
 /** Declared substitutes for a given ingredient/component name — every recipe variant's
  *  byt map (not just one keyed to the eater's specific requirement — a "vegansk" variant's
  *  swap is just as usable for someone who merely avoids that one ingredient) when a recipe
- *  backs this slot, else the meal's own komponenter[*].alternativ. */
+ *  backs this slot, else the meal's own komponenter[*].alternativ. Matches byt keys loosely
+ *  (same as the undviker hit-finding just above it), not by exact string equality — a recipe
+ *  ingredient is written as "ägg (stora)" while its variant map is keyed just "ägg", and an
+ *  exact lookup misses that real substitute entirely. */
 function substitutesFor(name: string, meal: Meal, recipe: Recipe | null): string[] {
   if (recipe) {
     const subs: string[] = []
     for (const variant of Object.values(recipe.varianter ?? {})) {
-      const byt = variant.byt[name]
-      if (byt) subs.push(byt)
+      for (const [key, sub] of Object.entries(variant.byt)) {
+        if (looselyMatches(key, name)) subs.push(sub)
+      }
     }
     return subs
   }
