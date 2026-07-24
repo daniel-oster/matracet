@@ -1486,6 +1486,24 @@ green) — `public/data/feedback.json` itself had zero real entries at the time 
 migration, so there was nothing to re-key in the git-tracked file; the risk this stage
 guards against is entirely about devices that already hold real local ratings.
 
+### Vegan classification is fail-closed (2026-07 PR follow-up)
+
+A code review of `evaluateFit` found every defect failing in the same direction: it could
+report a dish safe for a vegan eater when it wasn't (halloumi offered as a vegan swap, an
+empty-component dish silently passing, a swap that violated the same eater's own avoid
+list). Fixed across `src/lib/dietFit.ts`: `classifyVegan(name)` is tri-state
+(`'vegan' | 'animal' | 'unknown'`), not a boolean, and `DietFitResult` gained an
+`unknowns: DietUnknown[]` channel alongside `conflicts` — `ok` requires both to be empty.
+An ingredient or component the keyword lists don't recognize is reported as unknown, never
+silently treated as vegan. This check exists to protect one specific family member —
+a false clear (telling her a dish is fine when it isn't) is worse than a false alarm
+(flagging something that turns out to be fine), so admitting "I don't know" beats guessing
+safe. The keyword lists (`VEGAN_SAFE_RE`/`ANIMAL_PRODUCT_RE`) are a fallback for
+recipe-less meals only, which have no diet classification of their own —
+`Recipe.kategorier` remains the authority whenever a recipe (or even just its lightweight
+`RecipeIndexEntry`) backs the slot; the keyword classifier never overrides it, it only
+covers the gap where no such field exists at all.
+
 **Two ideas from the deleted `checks.ts` worth reviving later as meal-level checks, kept here
 so deleting the file didn't lose them:**
 - `checkQuantity` / `CookingEvent.personMeals` — a cook produces N person-meals and leftover
