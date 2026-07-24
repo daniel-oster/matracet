@@ -1,4 +1,5 @@
 import { DayMeal, Eater, RecipeIndexEntry } from '../../types'
+import type { Meal } from '../../types/meal'
 import type { DayPlan } from '../../presence/types'
 import { useWeekPlan, applyOverride, effectivePresentIds, diffAttendance } from '../../hooks/useWeekPlan'
 import { useFeedback } from '../../hooks/useFeedback'
@@ -23,11 +24,12 @@ interface Props {
   dayPlans: DayPlan[]
   eaters: Eater[]
   recipeIndex: RecipeIndexEntry[]
+  meals: Meal[]
   onOpenRecipe: (slug: string) => void
   onEdit: () => void
 }
 
-export default function VeckanOverview({ days, lunches, dayPlans, eaters, recipeIndex, onOpenRecipe, onEdit }: Props) {
+export default function VeckanOverview({ days, lunches, dayPlans, eaters, recipeIndex, meals, onOpenRecipe, onEdit }: Props) {
   const { getOverride, getAttendance } = useWeekPlan()
   const { getFeedback } = useFeedback()
   const todayDatum = days[0]?.datum
@@ -36,10 +38,10 @@ export default function VeckanOverview({ days, lunches, dayPlans, eaters, recipe
     <div className="vecka-list">
       {days.map(rawDay => {
         const dinnerAttendance = getAttendance(rawDay.datum, 'dinner')
-        const day = applyOverride(rawDay, getOverride(rawDay.datum, 'dinner'), dinnerAttendance)
+        const day = applyOverride(rawDay, getOverride(rawDay.datum, 'dinner'), meals, recipeIndex, dinnerAttendance)
         const rawLunch = lunches.find(l => l.datum === rawDay.datum)
         const lunchAttendance = getAttendance(rawDay.datum, 'lunch')
-        const lunch = rawLunch ? applyOverride(rawLunch, getOverride(rawDay.datum, 'lunch'), lunchAttendance) : undefined
+        const lunch = rawLunch ? applyOverride(rawLunch, getOverride(rawDay.datum, 'lunch'), meals, recipeIndex, lunchAttendance) : undefined
         const plan = dayPlans.find(p => p.date === day.datum)
         const dishRecipe = day.receptSlug ? recipeIndex.find(r => r.slug === day.receptSlug) : undefined
 
@@ -112,7 +114,7 @@ export default function VeckanOverview({ days, lunches, dayPlans, eaters, recipe
         )
       })}
 
-      <WeekWarnings days={days} lunches={lunches} dayPlans={dayPlans} eaters={eaters} onOpenRecipe={onOpenRecipe} />
+      <WeekWarnings days={days} lunches={lunches} dayPlans={dayPlans} eaters={eaters} recipeIndex={recipeIndex} meals={meals} onOpenRecipe={onOpenRecipe} />
 
       <div className="hint">Tryck en dag för att redigera i Planera. Tryck bilden för att öppna receptet.</div>
     </div>

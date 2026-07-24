@@ -1227,6 +1227,70 @@ deleted and its `matplan`/"Side B" nav entry removed from `SysdocApp.tsx` (`Sect
 model that doesn't exist in code yet — a real sysdoc section for the actual `Meal` entity
 belongs in a later stage, once `meals.json`/`useMeals` exist to describe truthfully.
 
+**Stage 1 done.** `src/types/meal.ts` (the `Meal`/`MealComponent`/`MealsFile` interfaces,
+verbatim from the design above) and `public/data/meals.json` (four hand-written meals:
+`hamburgare` — no recipe, pure components, matching the design's own worked example;
+`snackpotter` — `receptSlug: "snackpotter"`, demonstrating the recipe-linked case;
+`pastasas`/`tacos` — no recipe, generic components with `alternativ`, deliberately *not*
+pointing `tacos` at any one of the app's four existing taco recipes, since "many recipes,
+no single link" is itself part of what this entity needs to represent). `useMeals`
+(`src/hooks/useMeals.ts`) follows `usePantry`'s single-flat-file module-cache pattern
+(meals.json is one file, not per-slug like recipes) — `App.tsx` also fetches it directly
+into its existing `Promise.all` (alongside `recipeIndex`) so it can thread `meals` as a
+prop the same way it already threads `recipeIndex`, since almost every plan-rendering
+component needs both together.
+
+`src/lib/mealResolve.ts` is the shared resolution layer, used everywhere a plan slot,
+stash item, or migration needs to turn a name/recipe into a meal identity:
+- `resolveMealForRecipe(recipeSlug, recipeNamn, meals)` — most of the app's 120 recipes
+  have no `meals.json` entry (by design; stage 1's plan explicitly forbids bulk-generating
+  one), so assigning a bare recipe suggestion to a plan slot resolves to a **virtual
+  meal** keyed by the recipe's own slug when no real meal links to it. Never written back
+  to `meals.json`. This is what makes "the slot type stays uniform — always a meal, never
+  sometimes-a-recipe" (the design's own requirement) actually hold given that constraint.
+- `resolveMealForName(name, meals)` — same idea for a freeform name with no recipe at
+  all (a hand-typed Skafferi stash idea, or a v2 weekplan override with no `receptSlug`):
+  match by `namn`/`alias` first, else a virtual meal `slugify()`'d from the name.
+- `resolveMealDisplayName(mealSlug, receptSlug, meals, recipeIndex)` — the read side:
+  real meal name, else the linked recipe's name, else the bare slug.
+
+`WeekPlanOverride` is now `{ mealSlug, receptSlug: string | null, updatedAt }`
+(`matracet:weekplan:v3`, up from `v2`) — `applyOverride` gained `meals`/`recipeIndex`
+parameters (inserted before the existing optional `attendance` param) to resolve
+`mealSlug` back into the `recept` display name every consumer already reads off its
+`DayMeal`-shaped return value, so **no consumer needed to change what it reads**, only
+what it passes in. That rippled `meals`/`recipeIndex` as props through every
+`applyOverride` call site: `Hub`, `VeckanView` → `VeckanOverview`/`VeckanPlanner`,
+`VeckanOverview` → `WeekWarnings`, and `FamiljView` → `SchedulePane`. `VeckanPlanner`'s
+`assign()` (writing a recipe suggestion into a slot) now calls `resolveMealForRecipe`
+first and writes the resulting `meal.slug`, not the recipe's own slug directly.
+
+Unlike the silent v1→v2 cutover (old data simply orphaned under the old key), v3 ships a
+real migration (`migrateWeekPlanV2`, called once from `App.tsx` right after `meals.json`
+loads, since it needs the meal list to match names against): reads the raw v2 localStorage
+key, resolves each override's old `recept` name via `resolveMealForName`, writes the result
+via `weekPlanStore.setSilently` (a migration adopting old local data is neither a fresh
+edit nor a sync hydration — same reasoning as `mergeFeedbackBaseline`), and no-ops if v3
+already has any data (already migrated) or there's no v2 data to read. Verified end-to-end
+with a throwaway Playwright script (not committed): seeded a v2 override
+(`{recept: "Hamburgare", receptSlug: null}`) via `addInitScript` before loading the app,
+confirmed the resulting v3 entry was `{mealSlug: "hamburgare", receptSlug: null, ...}` and
+that Hub's tonight-glance correctly displayed "Hamburgare" again through the new
+resolution path.
+
+`StashItem` (`useStash.ts`) gained `mealSlug: string | null` (always null for
+`kind: 'stock'`) alongside the existing `receptSlug`, populated the same way: pulling a
+pantry-matched recipe into the pool resolves it via `resolveMealForRecipe`; the freeform
+"Lägg till för hand" dish path resolves via `resolveMealForName` (so typing "burgare" now
+correctly links to the real `hamburgare` meal via its alias, while still displaying
+exactly what the user typed). `HistoryEntry` gained an optional `mealSlug` field
+alongside the existing `recipeSlug`, kept exactly as the design specifies ("keep both
+during transition") — not yet populated by anything (that's Stage 2's `log-meal` skill
+update). `DayMeal` gained an optional `mealSlug`, resolved once in `App.tsx` for every
+day/lunch built from the static `public/data/weeks/*.json` files by matching that day's
+free-text `recept` name against `meals.json` — those files themselves are untouched, per
+the design's explicit "stays free text for now" instruction.
+
 **Two ideas from the deleted `checks.ts` worth reviving later as meal-level checks, kept here
 so deleting the file didn't lose them:**
 - `checkQuantity` / `CookingEvent.personMeals` — a cook produces N person-meals and leftover

@@ -165,6 +165,10 @@ export interface DayMeal {
   datum: string
   recept: string | null
   receptSlug?: string
+  /** Resolved at load time by matching `recept` against meals.json namn/alias (see
+   *  src/lib/mealResolve.ts) — public/data/weeks/*.json itself stays free text, this is
+   *  never written back to those files. Undefined until that resolution has run. */
+  mealSlug?: string
   kommentar?: string
   anteckning?: string
   varianter?: Record<string, string>

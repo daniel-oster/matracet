@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import type { DayMeal, Eater, MealKind } from '../../types'
+import type { DayMeal, Eater, MealKind, RecipeIndexEntry } from '../../types'
+import type { Meal } from '../../types/meal'
 import type { DayPlan } from '../../presence/types'
 import { useFeedback } from '../../hooks/useFeedback'
 import { useWeekPlan, applyOverride, effectivePresentIds } from '../../hooks/useWeekPlan'
@@ -9,6 +10,8 @@ interface Props {
   lunches?: DayMeal[]
   dayPlans: DayPlan[]
   eaters: Eater[]
+  recipeIndex: RecipeIndexEntry[]
+  meals: Meal[]
   onOpenRecipe?: (slug: string) => void
 }
 
@@ -29,7 +32,7 @@ function dateLabel(day: DayMeal): string {
   return `${DAY_SHORT[day.dag] ?? day.dag} ${num}`
 }
 
-export default function WeekWarnings({ days, lunches, dayPlans, eaters, onOpenRecipe }: Props) {
+export default function WeekWarnings({ days, lunches, dayPlans, eaters, recipeIndex, meals, onOpenRecipe }: Props) {
   const [open, setOpen] = useState(true)
   const { getFeedback } = useFeedback()
   const { getOverride, getAttendance } = useWeekPlan()
@@ -39,7 +42,7 @@ export default function WeekWarnings({ days, lunches, dayPlans, eaters, onOpenRe
 
   function collect(raw: DayMeal, kind: MealKind) {
     const attendance = getAttendance(raw.datum, kind)
-    const day = applyOverride(raw, getOverride(raw.datum, kind), attendance)
+    const day = applyOverride(raw, getOverride(raw.datum, kind), meals, recipeIndex, attendance)
     const slug = day.receptSlug
     if (!slug) return
     const record = getFeedback(slug)

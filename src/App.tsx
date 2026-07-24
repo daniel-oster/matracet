@@ -3,6 +3,9 @@ import { WeekMenu, EatersData, RecipeIndex, RecipeIndexEntry, DayMeal, WeekNote,
 import type { HistoryEntry, HistoryFile } from './types/history'
 import type { FeedbackFile, FeedbackStore } from './types/feedback'
 import type { TaskLogFile } from './types/taskLog'
+import type { Meal, MealsFile } from './types/meal'
+import { matchMealByName } from './lib/mealResolve'
+import { migrateWeekPlanV2 } from './hooks/useWeekPlan'
 import Hub from './components/Hub'
 import VeckanView from './components/views/VeckanView'
 import HandlaView from './components/views/HandlaView'
@@ -45,6 +48,7 @@ export default function App() {
   const [weekLabel, setWeekLabel] = useState('')
   const [eaters, setEaters] = useState<EatersData | null>(null)
   const [recipeIndex, setRecipeIndex] = useState<RecipeIndexEntry[]>([])
+  const [meals, setMeals] = useState<Meal[]>([])
   const [dayPlans, setDayPlans] = useState<DayPlan[]>([])
   const [historyEntries, setHistoryEntries] = useState<HistoryEntry[]>([])
   const [screen, setScreen] = useState<ScreenName>('hub')
@@ -65,13 +69,20 @@ export default function App() {
     Promise.all([
       fetch('/matracet/data/eaters.json').then(r => r.json()),
       fetch('/matracet/data/recipes/_index.json').then(r => r.json()),
+      fetch('/matracet/data/meals.json').then(r => r.ok ? r.json() as Promise<MealsFile> : null).catch(() => null),
       fetch('/matracet/data/history.json').then(r => r.ok ? r.json() as Promise<HistoryFile> : null).catch(() => null),
       fetch('/matracet/data/feedback.json').then(r => r.ok ? r.json() as Promise<FeedbackFile> : null).catch(() => null),
       fetch('/matracet/data/task-log.json').then(r => r.ok ? r.json() as Promise<TaskLogFile> : null).catch(() => null),
       ...weekFetches,
-    ]).then(([eatersData, indexData, historyData, feedbackData, taskLogData, ...weekResults]: [EatersData, RecipeIndex, HistoryFile | null, FeedbackFile | null, TaskLogFile | null, ...(WeekMenu | null)[]]) => {
+    ]).then(([eatersData, indexData, mealsData, historyData, feedbackData, taskLogData, ...weekResults]: [EatersData, RecipeIndex, MealsFile | null, HistoryFile | null, FeedbackFile | null, TaskLogFile | null, ...(WeekMenu | null)[]]) => {
       setEaters(eatersData)
       setRecipeIndex(indexData.recipes)
+      const mealsList = mealsData?.meals ?? []
+      setMeals(mealsList)
+      // v2 weekplan overrides carried a display name rather than a mealSlug link — this
+      // needs the meal library loaded first to match names/alias, so it runs here rather
+      // than at module load. See CLAUDE.md's "Meals as the plannable unit" section.
+      migrateWeekPlanV2(mealsList)
       setHistoryEntries(historyData?.entries ?? [])
       // Tolerant unwrap — mirrors scripts/build-brief.ts's handling of this same file,
       // in case it's ever a bare feedback map instead of the { feedback: {...} } wrapper.
@@ -95,13 +106,22 @@ export default function App() {
         }
       }
 
+      // public/data/weeks/*.json is historical free text (see CLAUDE.md's "Week menus"
+      // section) — resolve each day's `recept` name to a mealSlug by namn/alias where
+      // possible, without touching those files themselves.
+      function withMealSlug(day: DayMeal): DayMeal {
+        if (!day.recept) return day
+        const meal = matchMealByName(day.recept, mealsList)
+        return meal ? { ...day, mealSlug: meal.slug } : day
+      }
+
       const days = windowDates.map(date =>
-        dayMap.get(date) ?? { dag: dagFromDate(date), datum: date, recept: null },
+        withMealSlug(dayMap.get(date) ?? { dag: dagFromDate(date), datum: date, recept: null }),
       )
       setRollingDays(days)
 
       const lunches = windowDates.map(date =>
-        lunchMap.get(date) ?? { dag: dagFromDate(date), datum: date, recept: null },
+        withMealSlug(lunchMap.get(date) ?? { dag: dagFromDate(date), datum: date, recept: null }),
       )
       setRollingLunches(lunches)
 
@@ -178,6 +198,7 @@ export default function App() {
           weekLabel={weekLabel}
           rollingDays={rollingDays}
           recipeIndex={recipeIndex}
+          meals={meals}
           dayPlans={dayPlans}
           onNavigate={navigate}
           onOpenRecipe={setOverlaySlug}
@@ -192,6 +213,7 @@ export default function App() {
           dayPlans={dayPlans}
           eaters={eaters.eaters}
           recipeIndex={recipeIndex}
+          meals={meals}
           onOpenRecipe={setOverlaySlug}
         />
       )}
@@ -206,6 +228,8 @@ export default function App() {
           dayPlans={dayPlans}
           rollingDays={rollingDays}
           rollingLunches={rollingLunches}
+          recipeIndex={recipeIndex}
+          meals={meals}
         />
       )}
       {screen === 'anteckningar' && (
@@ -214,7 +238,7 @@ export default function App() {
       {screen === 'fynd' && <FyndView onBack={toHub} />}
       {screen === 'bevaka' && <BevakaView onBack={toHub} />}
       {screen === 'skafferi' && (
-        <SkafferiView onBack={toHub} recipeIndex={recipeIndex} eaters={eaters.eaters} onOpenRecipe={setOverlaySlug} />
+        <SkafferiView onBack={toHub} recipeIndex={recipeIndex} meals={meals} eaters={eaters.eaters} onOpenRecipe={setOverlaySlug} />
       )}
       {screen === 'historik' && (
         <HistorikView

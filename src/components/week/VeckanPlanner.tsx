@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { DayMeal, Eater, MealKind, RecipeIndexEntry } from '../../types'
+import type { Meal } from '../../types/meal'
 import type { DayPlan } from '../../presence/types'
 import { useWeekPlan, applyOverride, effectivePresentIds, diffAttendance, MealAttendance } from '../../hooks/useWeekPlan'
 import { useFeedback } from '../../hooks/useFeedback'
@@ -12,6 +13,7 @@ import { useChaosMode } from '../../hooks/useChaosMode'
 import { tagOffers } from '../../lib/bevaka'
 import { rankSuggestions, SuggestionFilter, SuggestionSort } from '../../lib/suggestions'
 import { findUnlockOpportunities } from '../../lib/unlockMatch'
+import { resolveMealForRecipe } from '../../lib/mealResolve'
 import StashPantryPanel from '../StashPantryPanel'
 
 const DAY_SHORT: Record<string, string> = {
@@ -47,10 +49,11 @@ interface Props {
   dayPlans: DayPlan[]
   eaters: Eater[]
   recipeIndex: RecipeIndexEntry[]
+  meals: Meal[]
   onOpenRecipe: (slug: string) => void
 }
 
-export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeIndex, onOpenRecipe }: Props) {
+export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeIndex, meals, onOpenRecipe }: Props) {
   const { getOverride, setMeal, clearOverride, getAttendance, setAttendance, clearAttendance } = useWeekPlan()
   const { getFeedback } = useFeedback()
   const allSlugs = useMemo(() => recipeIndex.map(r => r.slug), [recipeIndex])
@@ -77,9 +80,9 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
   const enrichedDays = useMemo(() => days.map(rawDay => {
     const dinnerAttendance = getAttendance(rawDay.datum, 'dinner')
     const lunchAttendance = getAttendance(rawDay.datum, 'lunch')
-    const dinner = applyOverride(rawDay, getOverride(rawDay.datum, 'dinner'), dinnerAttendance)
+    const dinner = applyOverride(rawDay, getOverride(rawDay.datum, 'dinner'), meals, recipeIndex, dinnerAttendance)
     const rawLunch = lunches.find(l => l.datum === rawDay.datum)
-    const lunch = rawLunch ? applyOverride(rawLunch, getOverride(rawDay.datum, 'lunch'), lunchAttendance) : undefined
+    const lunch = rawLunch ? applyOverride(rawLunch, getOverride(rawDay.datum, 'lunch'), meals, recipeIndex, lunchAttendance) : undefined
     return {
       datum: rawDay.datum,
       dag: rawDay.dag,
@@ -94,7 +97,7 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
       lunchAttendance,
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }), [days, lunches, dayPlans, getOverride, getAttendance])
+  }), [days, lunches, dayPlans, meals, recipeIndex, getOverride, getAttendance])
 
   const [activeDate, setActiveDate] = useState(() => {
     const firstEmpty = enrichedDays.find(d => !d.lunchLabel || !d.dinnerLabel)
@@ -116,7 +119,8 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
 
   function assign(kind: MealKind, entry: { namn: string; slug: string }) {
     if (!active) return
-    setMeal(active.datum, kind, entry.namn, entry.slug)
+    const meal = resolveMealForRecipe(entry.slug, entry.namn, meals)
+    setMeal(active.datum, kind, meal.slug, entry.slug)
   }
 
   function attendanceFor(kind: MealKind): MealAttendance | undefined {
@@ -159,7 +163,7 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
       </button>
 
       {chaos.enabled ? (
-        <StashPantryPanel recipeIndex={recipeIndex} fullRecipes={fullRecipes} onOpenRecipe={onOpenRecipe} />
+        <StashPantryPanel recipeIndex={recipeIndex} fullRecipes={fullRecipes} meals={meals} onOpenRecipe={onOpenRecipe} />
       ) : (
         <>
       <div className="day-strip">
