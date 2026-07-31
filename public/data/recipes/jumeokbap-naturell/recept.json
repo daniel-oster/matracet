@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "slug": "jumeokbap-naturell",
+  "nummer": 127,
+  "namn": "Jumeokbap naturell",
+  "tid_min": 10,
+  "portioner": 6,
+  "kategorier": [],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["jumeokbap", "koreanskt", "risbollar", "ris", "snacks", "furikake"],
+  "kalla": "Marc Winer",
+  "kallaUrl": "https://marcwiner.com/sv/jumeokbap/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "sushiris (vikt före kokning)", "mangd": 250, "enhet": "g" },
+    { "vara": "sesamolja", "mangd": 1, "enhet": "msk" },
+    { "vara": "salt", "mangd": 1, "enhet": "krm" },
+    { "vara": "furikake, efter smak", "mangd": 2, "enhet": "msk" },
+    { "vara": "rostade noriark, smulade", "mangd": 1, "enhet": "förp" },
+    { "vara": "salladslök, finstrimlad", "mangd": 1, "enhet": "st", "grupp": "garnering" },
+    { "vara": "japansk majonnäs", "mangd": 1, "enhet": "msk", "grupp": "garnering" },
+    { "vara": "tonkatsusås", "mangd": 1, "enhet": "msk", "grupp": "garnering" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Blanda ris, furikake, salt, sesamolja och smulad nori i en skål.",
+    "Ta en handfull av risblandningen och forma till bollar med händerna.",
+    "Lägg upp bollarna på ett fat, ringla över majonnäs och tonkatsusås i sicksack och toppa med finstrimlad salladslök."
+  ],
+  "servering": ["salladslök", "japansk majonnäs", "tonkatsusås"],
+  "tips": "Den enklaste varianten av jumeokbap – bra bas att bygga vidare på med rester ur kylskåpet. Olja händerna lätt med sesamolja innan du formar bollarna så fastnar inte riset.",
+  "komplett": true
+}

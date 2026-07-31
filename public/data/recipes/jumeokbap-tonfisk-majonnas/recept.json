@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "slug": "jumeokbap-tonfisk-majonnas",
+  "nummer": 126,
+  "namn": "Jumeokbap med tonfisk och majonnäs",
+  "tid_min": 20,
+  "portioner": 6,
+  "kategorier": ["fisk"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["jumeokbap", "koreanskt", "risbollar", "ris", "snacks", "tonfisk"],
+  "kalla": "Marc Winer",
+  "kallaUrl": "https://marcwiner.com/sv/jumeokbap/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1580476262798-bddd9f4b7369?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "sushiris (vikt före kokning)", "mangd": 250, "enhet": "g" },
+    { "vara": "sesamolja", "mangd": 1, "enhet": "msk" },
+    { "vara": "salt", "mangd": 1, "enhet": "krm" },
+    { "vara": "rostade noriark, smulade", "mangd": 1, "enhet": "förp" },
+    { "vara": "tonfisk på burk, avrunnen", "mangd": 160, "enhet": "g", "grupp": "fyllning" },
+    { "vara": "japansk majonnäs (Kewpie)", "mangd": 2, "enhet": "msk", "grupp": "fyllning" },
+    { "vara": "peppar", "mangd": 1, "enhet": "krm", "grupp": "fyllning" },
+    { "vara": "färsk grön chili, finhackad (valfritt)", "mangd": 1, "enhet": "st", "grupp": "fyllning" },
+    { "vara": "salladslök, finstrimlad", "mangd": 1, "enhet": "st", "grupp": "garnering" },
+    { "vara": "japansk majonnäs", "mangd": 1, "enhet": "msk", "grupp": "garnering" },
+    { "vara": "tonkatsusås", "mangd": 1, "enhet": "msk", "grupp": "garnering" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Blanda tonfisk, majonnäs, peppar och ev. finhackad chili i en skål till en fyllning.",
+    "Blanda riset med sesamolja och salt i en annan skål.",
+    "Ta en handfull ris och platta ut det i handflatan.",
+    "Lägg en sked tonfiskröra i mitten och vik över riset så att fyllningen täcks helt.",
+    "Forma till en boll och rulla den i smulad nori.",
+    "Lägg upp bollarna på ett fat, ringla över majonnäs och tonkatsusås i sicksack och toppa med finstrimlad salladslök."
+  ],
+  "servering": ["salladslök", "japansk majonnäs", "tonkatsusås"],
+  "tips": "Olja händerna lätt med sesamolja innan du formar bollarna så fastnar inte riset. Har du ingen plastpåse att rulla bollarna i går det bra att smula nori på en tallrik istället.",
+  "komplett": true
+}
