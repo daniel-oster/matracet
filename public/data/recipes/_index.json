@@ -120,6 +120,13 @@
     {"slug":"snackpotter","nummer":118,"namn":"Snackpotter (köpta, 3 st)","tid_min":5,"kategorier":[],"bildUrl":"https://images.unsplash.com/photo-1766871139455-e71da53674fb?w=400&auto=format&fit=crop"},
     {"slug":"pastagratang-okokt-pasta","nummer":119,"namn":"Vego-pastagratäng på okokt pasta","tid_min":45,"kategorier":["vegetarisk"],"bildUrl":"https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?w=400&auto=format&fit=crop"},
     {"slug":"tomat-gurka-fetasallad","nummer":120,"namn":"Tomat-, gurk- och fetaostsallad","tid_min":15,"kategorier":["vegetarisk","glutenfri"],"bildUrl":"https://images.unsplash.com/photo-1608897013039-887f21d8c804?w=400&auto=format&fit=crop"},
-    {"slug":"rotfruktsgryta-med-rodbetor-och-morotter","nummer":121,"namn":"Rotfruktsgryta med rödbetor och morötter","tid_min":45,"kategorier":["vegansk","glutenfri"],"bildUrl":"https://images.unsplash.com/photo-1547592180-85f173990554?w=400&auto=format&fit=crop"}
+    {"slug":"rotfruktsgryta-med-rodbetor-och-morotter","nummer":121,"namn":"Rotfruktsgryta med rödbetor och morötter","tid_min":45,"kategorier":["vegansk","glutenfri"],"bildUrl":"https://images.unsplash.com/photo-1547592180-85f173990554?w=400&auto=format&fit=crop"},
+    {"slug":"onigiri-med-kyckling","nummer":122,"namn":"Onigiri med kyckling","tid_min":60,"kategorier":["kott"],"bildUrl":"https://images.unsplash.com/photo-1604909052743-94e838986d24?w=400&auto=format&fit=crop"},
+    {"slug":"onigiri-med-tonfisk","nummer":123,"namn":"Onigiri med tonfisk","tid_min":60,"kategorier":["fisk"],"bildUrl":"https://images.unsplash.com/photo-1611143669185-af224c5e3252?w=400&auto=format&fit=crop"},
+    {"slug":"onigiri-med-lax","nummer":124,"namn":"Onigiri med lax","tid_min":60,"kategorier":["fisk"],"bildUrl":"https://images.unsplash.com/photo-1617196034183-421b4917c92d?w=400&auto=format&fit=crop"},
+    {"slug":"yaki-onigiri-grillade-risbollar","nummer":125,"namn":"Yaki onigiri – grillade risbollar","tid_min":15,"kategorier":["vegetarisk"],"bildUrl":"https://images.unsplash.com/photo-1553621042-f6e147245754?w=400&auto=format&fit=crop"},
+    {"slug":"jumeokbap-tonfisk-majonnas","nummer":126,"namn":"Jumeokbap med tonfisk och majonnäs","tid_min":20,"kategorier":["fisk"],"bildUrl":"https://images.unsplash.com/photo-1580476262798-bddd9f4b7369?w=400&auto=format&fit=crop"},
+    {"slug":"jumeokbap-naturell","nummer":127,"namn":"Jumeokbap naturell","tid_min":10,"kategorier":[],"bildUrl":"https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400&auto=format&fit=crop"},
+    {"slug":"jumeokbap-notkott-ost-kimchi","nummer":128,"namn":"Jumeokbap med nötkött, ost och kimchi","tid_min":20,"kategorier":["kott"],"bildUrl":"https://images.unsplash.com/photo-1569058242567-93de6f36f8e6?w=400&auto=format&fit=crop"}
   ]
 }

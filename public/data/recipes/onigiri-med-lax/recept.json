@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "slug": "onigiri-med-lax",
+  "nummer": 124,
+  "namn": "Onigiri med lax",
+  "tid_min": 60,
+  "portioner": 8,
+  "kategorier": ["fisk"],
+  "sasong": [],
+  "svarighet": "medel",
+  "barnvanlig": "delvis",
+  "taggar": ["onigiri", "japanskt", "ris", "matsäck", "lax"],
+  "kalla": "ICA",
+  "kallaUrl": "https://www.ica.se/recept/onigiri-730313/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1617196034183-421b4917c92d?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "sushiris", "mangd": 250, "enhet": "g" },
+    { "vara": "salt", "mangd": 0.5, "enhet": "tsk" },
+    { "vara": "nori (ca 18x20 cm)", "mangd": 1, "enhet": "st" },
+    { "vara": "gravad eller marinerad lax", "mangd": 150, "enhet": "g", "grupp": "fyllning" },
+    { "vara": "salladslök", "mangd": 1, "enhet": "st", "grupp": "fyllning" },
+    { "vara": "majonnäs", "mangd": 1, "enhet": "msk", "grupp": "fyllning" },
+    { "vara": "sesamfrön", "mangd": 1, "enhet": "tsk", "grupp": "fyllning" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Koka riset enligt anvisningen på förpackningen tillsammans med saltet. Låt det svalna till rumstemperatur med lock på.",
+    "Tärna laxen fint och finhacka salladslöken. Blanda med majonnäs och sesamfrön till en fyllning.",
+    "Dela riset i 8 delar. Platta ut varje del till en ca 14 cm cirkel på en bit plastfolie.",
+    "Lägg en klick laxfyllning i mitten. Vik ihop plastfolien till ett runt paket och forma sedan till en bred triangel.",
+    "Klipp en remsa nori och vira runt basen på varje onigiri.",
+    "Doppa kanterna i valfri topping, t.ex. rostade sesamfrön, furikake, hackad gräslök eller rostad lök, innan servering."
+  ],
+  "servering": ["rostade sesamfrön", "furikake", "hackad gräslök", "rostad lök"],
+  "tips": "Använd gärna färdig gravad lax från fiskdisken för en snabbare variant.",
+  "komplett": true
+}

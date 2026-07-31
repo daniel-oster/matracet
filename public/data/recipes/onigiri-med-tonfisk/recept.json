@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "slug": "onigiri-med-tonfisk",
+  "nummer": 123,
+  "namn": "Onigiri med tonfisk",
+  "tid_min": 60,
+  "portioner": 8,
+  "kategorier": ["fisk"],
+  "sasong": [],
+  "svarighet": "medel",
+  "barnvanlig": "ja",
+  "taggar": ["onigiri", "japanskt", "ris", "matsäck", "tonfisk"],
+  "kalla": "ICA",
+  "kallaUrl": "https://www.ica.se/recept/onigiri-730313/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1611143669185-af224c5e3252?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "sushiris", "mangd": 250, "enhet": "g" },
+    { "vara": "salt", "mangd": 0.5, "enhet": "tsk" },
+    { "vara": "nori (ca 18x20 cm)", "mangd": 1, "enhet": "st" },
+    { "vara": "tonfisk i buljong, avrunnen", "mangd": 120, "enhet": "g", "grupp": "fyllning" },
+    { "vara": "rödlök", "mangd": 0.25, "enhet": "st", "grupp": "fyllning" },
+    { "vara": "majonnäs", "mangd": 0.5, "enhet": "dl", "grupp": "fyllning" },
+    { "vara": "japansk soja", "mangd": 1, "enhet": "msk", "grupp": "fyllning" },
+    { "vara": "salt", "mangd": 1, "enhet": "krm", "grupp": "fyllning" },
+    { "vara": "svartpeppar", "mangd": 1, "enhet": "krm", "grupp": "fyllning" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Koka riset enligt anvisningen på förpackningen tillsammans med saltet. Låt det svalna till rumstemperatur med lock på.",
+    "Finhacka rödlöken. Blanda den avrunna tonfisken med rödlök, majonnäs och soja. Smaka av med salt och peppar.",
+    "Dela riset i 8 delar. Platta ut varje del till en ca 14 cm cirkel på en bit plastfolie.",
+    "Lägg en klick tonfiskröra i mitten. Vik ihop plastfolien till ett runt paket och forma sedan till en bred triangel.",
+    "Klipp en remsa nori och vira runt basen på varje onigiri.",
+    "Doppa kanterna i valfri topping, t.ex. rostade sesamfrön, furikake, hackad gräslök eller rostad lök, innan servering."
+  ],
+  "servering": ["rostade sesamfrön", "furikake", "hackad gräslök", "rostad lök"],
+  "tips": "Byt gärna ut rödlöken mot finhackad salladslök om du vill ha en mildare smak.",
+  "komplett": true
+}
