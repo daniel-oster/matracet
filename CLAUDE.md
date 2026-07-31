@@ -1594,6 +1594,23 @@ with the active day already selected, tapped "Spara → ☾ Middag", and confirm
 `matracet:meals:local:v1` gained the new meal and `matracet:weekplan:v3` recorded it as that
 day's dinner — visible immediately in the active-day slot, no second search needed.
 
+**Follow-up: "Sök måltid" couldn't find a recipe you remembered by name.** The household's
+next real report ("I wanted to add the recipe from the bank as a meal" / "I can't search
+recipes") turned out not to be a request for a whole new "add a recipe" feature — it was this
+search box only matching the ~5-entry `meals.json` library, not the 120-recipe bank, so typing
+a real recipe's name into it found nothing (the existing recipe-suggestion search further down
+the screen does cover the bank, but it's a separate box, easy to miss/confuse with this one).
+Fixed by having `mealMatches` search `recipeIndex` too — a matched recipe with no `meals.json`
+entry resolves via `resolveMealForRecipe` into the same virtual meal the suggestion cards
+already use, so it renders and assigns identically to a real meal (a small "RECEPT" tag on the
+row is the only visual difference, so it's clear ✎-editing it creates a local override rather
+than editing a hand-authored meals.json entry). The "+ Skapa ny måltid" fallback now also checks
+for an exact recipe-name match, not just a meal-name match, so it doesn't offer to "create" a
+dish that's actually already in the recipe bank. Verified with a throwaway Playwright script:
+searched "Tofu Stroganoff" (a real recipe, no meals.json entry) from the meal search box,
+confirmed it appeared tagged "recept" and assigning it wrote the correct `mealSlug`/`receptSlug`
+pair to `matracet:weekplan:v3`.
+
 ## Deploy
 
 Pushing to `main` triggers the GitHub Actions workflow (`.github/workflows/deploy.yml`) which runs `npm ci && npm run build` and deploys `dist/` to GitHub Pages. No manual steps needed.

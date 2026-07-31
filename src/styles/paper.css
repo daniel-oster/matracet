@@ -254,6 +254,10 @@ input, select, textarea { font-family: inherit; }
   background: var(--paper); border: 1px solid var(--line2); border-radius: 8px; padding: 7px 9px;
 }
 .meal-chip-name { font-size: 13.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.meal-chip-kind {
+  font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.4px; margin-left: 6px;
+  padding: 1px 6px; border-radius: 99px; background: var(--blue-bg); color: var(--blue); vertical-align: middle;
+}
 .meal-chip-assign { display: flex; gap: 6px; flex: none; }
 
 .unlock-recipes { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
