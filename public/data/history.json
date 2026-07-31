@@ -1,4 +1,29 @@
 {
   "schema_version": 1,
-  "entries": []
+  "entries": [
+    {
+      "id": "2026-07-31:lunch:l4n1",
+      "datum": "2026-07-31",
+      "maltid": "lunch",
+      "recipeSlug": null,
+      "mealSlug": "mexikansk-soppa-nachos",
+      "beskrivning": "Mexikansk soppa med nachos",
+      "kalla": "spontant",
+      "narvarande": ["daniel", "sarah", "annabelle"],
+      "anteckning": null,
+      "loggad": "2026-07-31T11:14:19.000Z"
+    },
+    {
+      "id": "2026-07-31:dinner:s2u5h",
+      "datum": "2026-07-31",
+      "maltid": "dinner",
+      "recipeSlug": null,
+      "mealSlug": "sushi",
+      "beskrivning": "Sushi (köpt)",
+      "kalla": "spontant",
+      "narvarande": ["daniel", "sarah", "annabelle"],
+      "anteckning": "Köpt, inte hemlagat",
+      "loggad": "2026-07-31T11:14:19.000Z"
+    }
+  ]
 }
