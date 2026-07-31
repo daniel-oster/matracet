@@ -52,6 +52,27 @@
       "receptSlug": null,
       "taggar": ["fredagsmys", "barnvänligt"],
       "tid_min": 25
+    },
+    {
+      "slug": "mexikansk-soppa-nachos",
+      "namn": "Mexikansk soppa med nachos",
+      "alias": [],
+      "komponenter": [
+        { "vara": "mexikansk soppa", "alternativ": [] },
+        { "vara": "nachos", "alternativ": [], "valfri": true }
+      ],
+      "receptSlug": null,
+      "taggar": ["snabbt"]
+    },
+    {
+      "slug": "sushi",
+      "namn": "Sushi",
+      "alias": [],
+      "komponenter": [
+        { "vara": "sushi (köpt)", "alternativ": [] }
+      ],
+      "receptSlug": null,
+      "taggar": ["köpt", "snabbt"]
     }
   ]
 }
