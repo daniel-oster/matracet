@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "slug": "yaki-onigiri-grillade-risbollar",
+  "nummer": 125,
+  "namn": "Yaki onigiri – grillade risbollar",
+  "tid_min": 15,
+  "portioner": 4,
+  "kategorier": ["vegetarisk"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["onigiri", "japanskt", "ris", "snabbmat", "snacks"],
+  "kalla": "Kikkoman",
+  "kallaUrl": "https://www.kikkoman.se/recept/detail/yaki-onigiri-grillade-risbollar",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1553621042-f6e147245754?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "kokt ris", "mangd": 400, "enhet": "g" },
+    { "vara": "japansk soja", "mangd": 2, "enhet": "msk" },
+    { "vara": "rostade sesamfrön", "mangd": 1, "enhet": "msk" },
+    { "vara": "matolja", "mangd": 0.5, "enhet": "msk" },
+    { "vara": "sesamolja", "mangd": 3, "enhet": "droppar" },
+    { "vara": "japansk soja", "mangd": 1, "enhet": "msk", "grupp": "glaze" },
+    { "vara": "äggula", "mangd": 1, "enhet": "st", "grupp": "glaze" },
+    { "vara": "socker", "mangd": 1, "enhet": "krm", "grupp": "glaze" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Blanda riset med soja och sesamfrön i en bunke tills väl blandat.",
+    "Dela riset i 4 delar. Forma varje del till en triangel med hjälp av plastfolie.",
+    "Hetta upp matolja och sesamolja i en non-stick-panna på medelvärme. Stek risbollarna på båda sidor.",
+    "Rör ihop soja, äggula och socker till en glaze. Pensla ena sidan av risbollarna med glazen och stek tills ytan blir knaprig. Vänd, pensla andra sidan med resten av glazen och stek tills även den är knaprig.",
+    "Lägg upp på tallrikar och servera med t.ex. picklade grönsaker."
+  ],
+  "servering": ["picklade grönsaker"],
+  "tips": "Äggulan i glazen steks igenom i pannan tillsammans med risbollarna, så den blir inte rå på tallriken. Använd gärna rester av kokt ris – ju fastare riset är, desto lättare är det att forma.",
+  "komplett": true
+}

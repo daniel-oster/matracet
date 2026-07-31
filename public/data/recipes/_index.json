@@ -123,6 +123,7 @@
     {"slug":"rotfruktsgryta-med-rodbetor-och-morotter","nummer":121,"namn":"Rotfruktsgryta med rödbetor och morötter","tid_min":45,"kategorier":["vegansk","glutenfri"],"bildUrl":"https://images.unsplash.com/photo-1547592180-85f173990554?w=400&auto=format&fit=crop"},
     {"slug":"onigiri-med-kyckling","nummer":122,"namn":"Onigiri med kyckling","tid_min":60,"kategorier":["kott"],"bildUrl":"https://images.unsplash.com/photo-1604909052743-94e838986d24?w=400&auto=format&fit=crop"},
     {"slug":"onigiri-med-tonfisk","nummer":123,"namn":"Onigiri med tonfisk","tid_min":60,"kategorier":["fisk"],"bildUrl":"https://images.unsplash.com/photo-1611143669185-af224c5e3252?w=400&auto=format&fit=crop"},
-    {"slug":"onigiri-med-lax","nummer":124,"namn":"Onigiri med lax","tid_min":60,"kategorier":["fisk"],"bildUrl":"https://images.unsplash.com/photo-1617196034183-421b4917c92d?w=400&auto=format&fit=crop"}
+    {"slug":"onigiri-med-lax","nummer":124,"namn":"Onigiri med lax","tid_min":60,"kategorier":["fisk"],"bildUrl":"https://images.unsplash.com/photo-1617196034183-421b4917c92d?w=400&auto=format&fit=crop"},
+    {"slug":"yaki-onigiri-grillade-risbollar","nummer":125,"namn":"Yaki onigiri – grillade risbollar","tid_min":15,"kategorier":["vegetarisk"],"bildUrl":"https://images.unsplash.com/photo-1553621042-f6e147245754?w=400&auto=format&fit=crop"}
   ]
 }
