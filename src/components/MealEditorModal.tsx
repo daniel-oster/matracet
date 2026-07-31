@@ -10,7 +10,13 @@ interface Props {
   initialName?: string
   recipeIndex: RecipeIndexEntry[]
   existingSlugs: string[]
+  /** Label for the currently active Planera day (e.g. "Fredag 31") — when set, shows two
+   *  "spara & lägg till" quick-assign buttons alongside plain Spara, so creating a meal you
+   *  need *right now* doesn't require a second search-and-tap round trip afterwards. Omit to
+   *  hide them (e.g. when opened from a context with no active day/slot). */
+  activeDayLabel?: string
   onSave: (meal: Meal) => void
+  onSaveAndAssign?: (meal: Meal, kind: 'lunch' | 'dinner') => void
   onClose: () => void
 }
 
@@ -22,7 +28,9 @@ function splitList(text: string): string[] {
  *  CLAUDE.md's "Meals as the plannable unit" section). Covers the two things asked for as
  *  the first feature — create a meal, and edit one (rename, add/remove components, link or
  *  unlink a recipe) — not yet offer-driven suggestions, which is explicitly a later step. */
-export default function MealEditorModal({ meal, initialName, recipeIndex, existingSlugs, onSave, onClose }: Props) {
+export default function MealEditorModal({
+  meal, initialName, recipeIndex, existingSlugs, activeDayLabel, onSave, onSaveAndAssign, onClose,
+}: Props) {
   const [namn, setNamn] = useState(meal?.namn ?? initialName ?? '')
   const [aliasText, setAliasText] = useState((meal?.alias ?? []).join(', '))
   const [taggarText, setTaggarText] = useState((meal?.taggar ?? []).join(', '))
@@ -51,15 +59,15 @@ export default function MealEditorModal({ meal, initialName, recipeIndex, existi
     setKomponenter(prev => prev.filter((_, idx) => idx !== i))
   }
 
-  function save() {
+  function buildMeal(): Meal | null {
     const trimmedNamn = namn.trim()
-    if (!trimmedNamn) return
+    if (!trimmedNamn) return null
     const slug = meal?.slug ?? uniqueMealSlug(trimmedNamn, existingSlugs)
     const cleanKomponenter = komponenter
       .map(c => ({ ...c, vara: c.vara.trim() }))
       .filter(c => c.vara.length > 0)
     const tid = tidMin.trim() ? Number(tidMin) : undefined
-    onSave({
+    return {
       slug,
       namn: trimmedNamn,
       alias: splitList(aliasText),
@@ -67,7 +75,17 @@ export default function MealEditorModal({ meal, initialName, recipeIndex, existi
       receptSlug,
       taggar: splitList(taggarText),
       ...(tid != null && !Number.isNaN(tid) ? { tid_min: tid } : {}),
-    })
+    }
+  }
+
+  function save() {
+    const m = buildMeal()
+    if (m) onSave(m)
+  }
+
+  function saveAndAssign(kind: 'lunch' | 'dinner') {
+    const m = buildMeal()
+    if (m && onSaveAndAssign) onSaveAndAssign(m, kind)
   }
 
   return (
@@ -191,8 +209,24 @@ export default function MealEditorModal({ meal, initialName, recipeIndex, existi
           />
         </label>
 
-        <div className="ingpick-actions">
+        {onSaveAndAssign && activeDayLabel && (
+          <div className="mealedit-assign-hint">
+            "Spara" lägger bara till måltiden i biblioteket, utan att schemalägga den. Använd
+            knapparna nedan för att direkt lägga den som {activeDayLabel}s lunch eller middag.
+          </div>
+        )}
+        <div className="ingpick-actions mealedit-actions">
           <button type="button" className="export-btn" onClick={onClose}>Avbryt</button>
+          {onSaveAndAssign && activeDayLabel && (
+            <>
+              <button type="button" className="mealedit-assign-btn" disabled={!namn.trim()} onClick={() => saveAndAssign('lunch')}>
+                Spara → ☼ Lunch
+              </button>
+              <button type="button" className="mealedit-assign-btn" disabled={!namn.trim()} onClick={() => saveAndAssign('dinner')}>
+                Spara → ☾ Middag
+              </button>
+            </>
+          )}
           <button type="button" className="shop-add-btn" onClick={save} disabled={!namn.trim()}>Spara</button>
         </div>
       </div>

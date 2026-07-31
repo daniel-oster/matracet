@@ -515,8 +515,15 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
           initialName={editorState.mode === 'new' ? editorState.prefill : undefined}
           recipeIndex={recipeIndex}
           existingSlugs={existingMealSlugs}
+          activeDayLabel={active ? `${DAY_NAMES[active.dag] ?? active.dag} ${dateNum(active.datum)}` : undefined}
           onSave={m => {
             upsertMeal(m)
+            setEditorState({ mode: 'closed' })
+            setMealQuery('')
+          }}
+          onSaveAndAssign={(m, kind) => {
+            upsertMeal(m)
+            if (active) setMeal(active.datum, kind, m.slug, m.receptSlug)
             setEditorState({ mode: 'closed' })
             setMealQuery('')
           }}
