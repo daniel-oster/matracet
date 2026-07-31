@@ -24,6 +24,22 @@ export function matchMealByName(name: string, meals: Meal[]): Meal | undefined {
 }
 
 /**
+ * A fresh, collision-free slug for a brand-new meal (see useLocalMeals.ts's "add a meal"
+ * flow) — slugify() alone isn't enough since two differently-named dishes can slugify to
+ * the same string, and a new meal's slug must not collide with an existing meal (git or
+ * local) or a recipe's own slug (recipe-linked "virtual" meals are keyed to the recipe
+ * slug — see resolveMealForRecipe above). Appends -2, -3, … until unique.
+ */
+export function uniqueMealSlug(name: string, takenSlugs: Iterable<string>): string {
+  const base = slugify(name) || 'okand-ratt'
+  const taken = new Set(takenSlugs)
+  if (!taken.has(base)) return base
+  let n = 2
+  while (taken.has(`${base}-${n}`)) n++
+  return `${base}-${n}`
+}
+
+/**
  * Resolve (or virtually construct) the meal behind a recipe-only assignment. meals.json
  * only holds a curated ~30 hand-authored dishes — most of the app's 120 recipes have no
  * matching entry, and Stage 1's plan explicitly says not to bulk-generate one. So a recipe

@@ -8,7 +8,9 @@
 //   feedback, irrelevant-offers, weekplan, category-feedback, stash, shopping list, chaos
 //   mode, sync tasks (matracet:synctasks:v1 — a task queued on one device must be visible to
 //   an interactive Claude Code session working from device-sync regardless of which device
-//   queued it; see CLAUDE.md's Phase 5).
+//   queued it; see CLAUDE.md's Phase 5), local meal overlay (matracet:meals:local:v1 — a meal
+//   added/edited from the Planera "add meal" flow, since there's no backend to write straight
+//   into public/data/meals.json).
 // OUT (documented, not just omitted):
 //   matracet:fynd-collapsed:v1 (useCollapsedCategories) — purely cosmetic per-device UI state
 //   (which Fynd categories are collapsed on this screen), no value in syncing across devices.
@@ -22,6 +24,7 @@ import { stashStore } from '../hooks/useStash'
 import { shoppingListStore } from '../hooks/useShoppingList'
 import { chaosModeStore } from '../hooks/useChaosMode'
 import { syncTasksStore } from '../hooks/useSyncTasks'
+import { localMealsStore } from '../hooks/useLocalMeals'
 
 /** The subset of LocalStore's API the sync engine needs, with `T` erased to `unknown` so a
  * heterogeneous list of differently-typed stores can be held in one array. `set`/`setFromSync`
@@ -55,4 +58,5 @@ export const SYNCED_STORES: SyncableStore[] = [
   asSyncable(shoppingListStore),
   asSyncable(chaosModeStore),
   asSyncable(syncTasksStore),
+  asSyncable(localMealsStore),
 ]
