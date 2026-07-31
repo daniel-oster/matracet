@@ -48,8 +48,10 @@ export default function VeckanOverview({ days, lunches, dayPlans, eaters, recipe
         const dishRecipe = day.receptSlug ? recipeIndex.find(r => r.slug === day.receptSlug) : undefined
 
         // evaluateFit replaces the old hand-rolled refuses-only check (see CLAUDE.md's
-        // Stage 4 note) — recipe: null for the same reason as WeekWarnings: no full Recipe
-        // data loaded here, and refusal never needed it.
+        // Stage 4 note). Passing the lightweight `dishRecipe` (RecipeIndexEntry, not the
+        // full Recipe this view never loads) still gets the kategorier-based vegan verdict
+        // right — ingredient-level undviker checks against a recipe-backed day surface as
+        // an 'ingredients-unavailable' unknown instead (see dietFit.ts's Stage D note).
         const dayMeal = resolveDayMeal(day, meals)
         // Feedback is keyed by meal, not recipe (Stage 5) — dayMeal.slug either way.
         const record = dayMeal ? getFeedback(dayMeal.slug) : null
@@ -57,7 +59,9 @@ export default function VeckanOverview({ days, lunches, dayPlans, eaters, recipe
         const planPresentIds = plan?.presentPersons.map(p => p.id) ?? null
         const presentIds = effectivePresentIds(planPresentIds, dinnerAttendance)
         const presentEaters = presentIds ? eaters.filter(e => presentIds.includes(e.id)) : eaters
-        const conflicts = dayMeal ? evaluateFit(dayMeal, null, presentEaters, record ?? null).conflicts : []
+        const dayFit = dayMeal ? evaluateFit(dayMeal, dishRecipe ?? null, presentEaters, record ?? null) : null
+        const conflicts = dayFit?.conflicts ?? []
+        const unknowns = dayFit?.unknowns ?? []
         const { away: dinnerAway, extra: dinnerExtra } = diffAttendance(planPresentIds, dinnerAttendance)
 
         const lunchLabel = lunch?.recept ?? lunch?.anteckning ?? null
@@ -79,12 +83,21 @@ export default function VeckanOverview({ days, lunches, dayPlans, eaters, recipe
                 <span className="vline-ic">☾</span>
                 <span className="vline-nm">{dishLabel ?? 'middag ledig'}</span>
               </div>
-              {(isExcluded || conflicts.length > 0 || dinnerAway.length > 0 || dinnerExtra.length > 0) && (
+              {(isExcluded || conflicts.length > 0 || unknowns.length > 0 || dinnerAway.length > 0 || dinnerExtra.length > 0) && (
                 <div className="day-flags">
                   {isExcluded && <span className="day-flag day-flag--excluded">Utesluten</span>}
                   {conflicts.map(c => (
                     <span className="day-flag day-flag--refuses" key={`${c.reason}-${c.personId}`}>
                       ⚠️ {eaters.find(e => e.id === c.personId)?.namn ?? c.personId}
+                    </span>
+                  ))}
+                  {unknowns.map(u => (
+                    <span
+                      className="day-flag day-flag--unknown"
+                      key={`${u.reason}-${u.personId}`}
+                      title={u.detail}
+                    >
+                      ? {eaters.find(e => e.id === u.personId)?.namn ?? u.personId}
                     </span>
                   ))}
                   {dinnerAway.map(id => (

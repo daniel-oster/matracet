@@ -22,6 +22,9 @@ interface Warning {
   dateLabel: string
   text: string
   slug?: string
+  /** 'unknown' = couldn't be checked one way or the other (see dietFit.ts's DietUnknown) —
+   *  rendered in a muted, lower-urgency style, distinct from a real conflict. */
+  kind: 'conflict' | 'unknown'
 }
 
 const DAY_SHORT: Record<string, string> = {
@@ -49,12 +52,13 @@ export default function WeekWarnings({ days, lunches, dayPlans, eaters, recipeIn
     // evaluateFit replaces the old hand-rolled "loop feedback.persons, filter refuses,
     // presence-gate" logic — same shared solve suggestions.ts uses, so a meal-only
     // assignment (no recipe at all) gets checked too, not just recipe-backed days. Passing
-    // recipe: null here is a deliberate scope choice, not an oversight: this view has no
-    // full Recipe data loaded (only the lightweight recipeIndex), and the refusal check
-    // that mattered here before never needed ingredient/kategori data anyway — see
-    // CLAUDE.md's Stage 4 note.
+    // the lightweight RecipeIndexEntry (not the full Recipe, which this view never loads)
+    // still gets the kategorier-based vegan verdict right — ingredient-level undviker
+    // checks against a recipe-backed day surface as an 'ingredients-unavailable' unknown
+    // instead (see dietFit.ts's Stage D note).
     const meal = resolveDayMeal(day, meals)
     if (!meal) return
+    const recipeEntry = day.receptSlug ? recipeIndex.find(r => r.slug === day.receptSlug) ?? null : null
     // Feedback is keyed by meal, not recipe (Stage 5).
     const record = getFeedback(meal.slug)
 
@@ -64,19 +68,30 @@ export default function WeekWarnings({ days, lunches, dayPlans, eaters, recipeIn
         dateLabel: dateLabel(day),
         text: `”${day.recept}” är utesluten ur veckoplanen men ändå planerad`,
         slug,
+        kind: 'conflict',
       })
     }
 
     const plan = dayPlans.find(p => p.date === day.datum)
     const presentIds = effectivePresentIds(plan?.presentPersons.map(p => p.id) ?? null, attendance)
     const presentEaters = presentIds ? eaters.filter(e => presentIds.includes(e.id)) : eaters
-    const fit = evaluateFit(meal, null, presentEaters, record ?? null)
+    const fit = evaluateFit(meal, recipeEntry, presentEaters, record ?? null)
     for (const c of fit.conflicts) {
       warnings.push({
         key: `${day.datum}-${kind}-${c.reason}-${c.personId}`,
         dateLabel: dateLabel(day),
         text: c.detail,
         slug,
+        kind: 'conflict',
+      })
+    }
+    for (const u of fit.unknowns) {
+      warnings.push({
+        key: `${day.datum}-${kind}-${u.reason}-${u.personId}`,
+        dateLabel: dateLabel(day),
+        text: u.detail,
+        slug,
+        kind: 'unknown',
       })
     }
   }
@@ -102,18 +117,18 @@ export default function WeekWarnings({ days, lunches, dayPlans, eaters, recipeIn
       {open && (
         <ul className="week-warnings-list">
           {warnings.map(w => (
-            <li key={w.key} className="week-warning-row">
+            <li key={w.key} className={`week-warning-row${w.kind === 'unknown' ? ' week-warning-row--unknown' : ''}`}>
               <span className="week-warning-day">{w.dateLabel}</span>
               {w.slug && onOpenRecipe ? (
                 <button
                   type="button"
-                  className="week-warning-text week-warning-link"
+                  className={`week-warning-text week-warning-link${w.kind === 'unknown' ? ' week-warning-text--unknown' : ''}`}
                   onClick={() => onOpenRecipe(w.slug!)}
                 >
                   {w.text}
                 </button>
               ) : (
-                <span className="week-warning-text">{w.text}</span>
+                <span className={`week-warning-text${w.kind === 'unknown' ? ' week-warning-text--unknown' : ''}`}>{w.text}</span>
               )}
             </li>
           ))}
