@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "slug": "rotfruktsgryta-med-rodbetor-och-morotter",
+  "nummer": 121,
+  "namn": "Rotfruktsgryta med rödbetor och morötter",
+  "tid_min": 45,
+  "portioner": 4,
+  "kategorier": ["vegansk", "glutenfri"],
+  "sasong": ["host", "vinter"],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["gryta", "rotfrukter", "rödbetor", "morötter", "potatis", "billig"],
+  "kalla": "Eget recept",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1547592180-85f173990554?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "potatis", "mangd": 4, "enhet": "st" },
+    { "vara": "morötter", "mangd": 3, "enhet": "st" },
+    { "vara": "rödbetor", "mangd": 3, "enhet": "st" },
+    { "vara": "gul lök", "mangd": 1, "enhet": "st" },
+    { "vara": "vitlök", "mangd": 2, "enhet": "klyftor" },
+    { "vara": "smör eller olja", "mangd": 2, "enhet": "msk" },
+    { "vara": "grönsaksbuljong", "mangd": 1, "enhet": "l" },
+    { "vara": "tomatpuré", "mangd": 1, "enhet": "msk" },
+    { "vara": "torkad timjan", "mangd": 1, "enhet": "tsk" },
+    { "vara": "lagerblad", "mangd": 1, "enhet": "st" },
+    { "vara": "salt", "mangd": 1, "enhet": "tsk" },
+    { "vara": "svartpeppar", "mangd": 0.5, "enhet": "tsk" },
+    { "vara": "färsk persilja", "mangd": 2, "enhet": "msk", "grupp": "garnering" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Fräs löken: Hetta upp smöret/oljan i en stor gryta på medelvärme. Fräs löken och vitlöken tills löken är mjuk och glansig, ca 3–4 minuter.",
+    "Tillsätt rotfrukterna: Skala och skär potatis, morötter och rödbetor i bitar. Lägg i grytan och rör om så allt blandas med löken.",
+    "Häll på buljong: Häll i grönsaksbuljongen och rör ner tomatpurén. Tillsätt timjan, lagerblad, salt och peppar.",
+    "Koka grytan: Låt koka upp, sänk sedan värmen och låt sjuda med lock tills rotfrukterna är mjuka, ca 35 minuter.",
+    "Smaka av och servera: Ta bort lagerbladet, smaka av med extra salt och peppar vid behov. Toppa med persilja och servera varm, gärna med bröd till."
+  ],
+  "servering": ["bröd", "gräddfil eller crème fraîche"],
+  "tips": "Rödbetorna färgar gärna av sig på de andra grönsakerna – helt ofarligt, bara lite rustikt. Vill du ha den lite mer fyllig kan du mosa en del av potatisen mot slutet för att tjockna soppan. Extra gott med en klick gräddfil eller crème fraîche på toppen.",
+  "komplett": true
+}
