@@ -1579,6 +1579,21 @@ lunch, and confirmed `matracet:weekplan:v3` held the right `mealSlug`/`receptSlu
 opened the editor on an existing git meal (Hamburgare) and confirmed its real components/alias/
 taggar pre-filled correctly.
 
+**Bug found immediately after shipping the above**: creating a *new* meal only added it to the
+library — plain "Spara" doesn't assign it anywhere — so from the household's perspective,
+adding a meal while planning tonight's dinner "didn't save": nothing on the active day changed
+until they went back to search and tap ☼/☾ a second time. Fixed by giving `MealEditorModal` two
+extra footer buttons, "Spara → ☼ Lunch"/"Spara → ☾ Middag", shown whenever it's opened with an
+`activeDayLabel` (both the create *and* edit case — editing a meal mid-planning benefits from
+the same one-tap assign) — `onSaveAndAssign(meal, kind)` in `VeckanPlanner` calls `upsertMeal`
+then `setMeal(active.datum, kind, ...)` in one go. Plain "Spara" (library-only, no assign) is
+kept for the case where you're just building out the meal library ahead of time and a hint line
+above the buttons spells out the difference, since both being one tap apart is exactly what
+caused the confusion. Verified with a throwaway Playwright script: created a meal from Planera
+with the active day already selected, tapped "Spara → ☾ Middag", and confirmed in one step both
+`matracet:meals:local:v1` gained the new meal and `matracet:weekplan:v3` recorded it as that
+day's dinner — visible immediately in the active-day slot, no second search needed.
+
 ## Deploy
 
 Pushing to `main` triggers the GitHub Actions workflow (`.github/workflows/deploy.yml`) which runs `npm ci && npm run build` and deploys `dist/` to GitHub Pages. No manual steps needed.
