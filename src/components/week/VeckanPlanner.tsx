@@ -119,13 +119,29 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
     () => [...meals.map(m => m.slug), ...recipeIndex.map(r => r.slug)],
     [meals, recipeIndex],
   )
+  // Search covers both the meal library and the full ~120-recipe bank, so "I remembered a
+  // recipe and want to plan it" works from the same box as "add a quick dish idea" — a
+  // recipe with no meals.json entry resolves to the same virtual meal assign()/the
+  // suggestion cards already use, so picking it here behaves identically either way.
   const mealMatches = useMemo(() => {
     const needle = mealQuery.trim().toLowerCase()
     if (!needle) return []
-    return meals
-      .filter(m => m.namn.toLowerCase().includes(needle) || m.alias.some(a => a.toLowerCase().includes(needle)))
-      .slice(0, 8)
-  }, [mealQuery, meals])
+    const mealHits = meals.filter(
+      m => m.namn.toLowerCase().includes(needle) || m.alias.some(a => a.toLowerCase().includes(needle)),
+    )
+    const linkedReceptSlugs = new Set(meals.map(m => m.receptSlug).filter((s): s is string => !!s))
+    const recipeHits = recipeIndex
+      .filter(r => r.namn.toLowerCase().includes(needle))
+      .filter(r => !linkedReceptSlugs.has(r.slug) && !meals.some(m => m.slug === r.slug))
+      .map(r => resolveMealForRecipe(r.slug, r.namn, meals))
+    return [...mealHits, ...recipeHits].slice(0, 8)
+  }, [mealQuery, meals, recipeIndex])
+  const mealQueryExactMatch = useMemo(
+    () =>
+      matchMealByName(mealQuery, meals) ||
+      recipeIndex.some(r => r.namn.trim().toLowerCase() === mealQuery.trim().toLowerCase()),
+    [mealQuery, meals, recipeIndex],
+  )
 
   const active = enrichedDays.find(d => d.datum === activeDate) ?? enrichedDays[0]
   const activePlanIds = useMemo(() => active?.plan?.presentPersons.map(p => p.id) ?? [], [active])
@@ -445,7 +461,7 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
         <input
           className="tray-search"
           type="search"
-          placeholder="Sök måltid…"
+          placeholder="Sök måltid eller recept…"
           value={mealQuery}
           onChange={e => setMealQuery(e.target.value)}
         />
@@ -454,9 +470,13 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
             {mealMatches.map(m => {
               const isLunch = active?.lunchOverride?.mealSlug === m.slug
               const isDinner = active?.dinnerOverride?.mealSlug === m.slug
+              const isRecipeOnly = !meals.some(x => x.slug === m.slug)
               return (
                 <div key={m.slug} className="meal-chip">
-                  <span className="meal-chip-name">{m.namn}</span>
+                  <span className="meal-chip-name">
+                    {m.namn}
+                    {isRecipeOnly && <span className="meal-chip-kind">recept</span>}
+                  </span>
                   <div className="meal-chip-assign">
                     <button
                       type="button"
@@ -484,8 +504,8 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
                 </div>
               )
             })}
-            {mealMatches.length === 0 && <div className="tray-empty">Inga måltider matchar.</div>}
-            {!matchMealByName(mealQuery, meals) && (
+            {mealMatches.length === 0 && <div className="tray-empty">Inga måltider eller recept matchar.</div>}
+            {!mealQueryExactMatch && (
               <button
                 type="button"
                 className="meal-add-create"
@@ -497,7 +517,7 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
           </div>
         ) : (
           <div className="meal-add-hint-row">
-            <span className="meal-add-hint">Sök en måltid för att lägga till den, eller skapa en ny.</span>
+            <span className="meal-add-hint">Sök en måltid eller ett recept för att lägga till, eller skapa en ny måltid.</span>
             <button
               type="button"
               className="meal-add-new-btn"
