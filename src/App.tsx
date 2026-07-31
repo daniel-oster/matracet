@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { WeekMenu, EatersData, RecipeIndex, RecipeIndexEntry, DayMeal, WeekNote, ScreenName } from './types'
 import type { HistoryEntry, HistoryFile } from './types/history'
 import type { FeedbackFile, FeedbackStore } from './types/feedback'
@@ -23,6 +23,7 @@ import { resolvePresenceRange, addDays } from './presence/resolver'
 import { SEED_STORE } from './presence/seed'
 import type { DayPlan } from './presence/types'
 import { mergeFeedbackBaseline, migrateFeedbackV1 } from './hooks/useFeedback'
+import { useLocalMeals, mergeLocalMeals } from './hooks/useLocalMeals'
 import { pruneSyncTasks } from './hooks/useSyncTasks'
 import { applyTaskOutcome } from './lib/syncTaskOutcomes'
 import { hydrateFromSync } from './lib/syncHydration'
@@ -54,6 +55,11 @@ export default function App() {
   const [screen, setScreen] = useState<ScreenName>('hub')
   const [screenHistory, setScreenHistory] = useState<ScreenName[]>([])
   const [overlaySlug, setOverlaySlug] = useState<string | null>(null)
+  const { localMeals } = useLocalMeals()
+  // Overlays locally added/edited meals (Planera's "add meal"/"edit meal" flow — see
+  // CLAUDE.md's "Meals as the plannable unit" section) onto the git-tracked list at read
+  // time, so every screen that receives `meals` sees them without its own merge logic.
+  const mergedMeals = useMemo(() => mergeLocalMeals(meals, localMeals), [meals, localMeals])
 
   useEffect(() => {
     const today = new Date().toISOString().slice(0, 10)
@@ -208,7 +214,7 @@ export default function App() {
           weekLabel={weekLabel}
           rollingDays={rollingDays}
           recipeIndex={recipeIndex}
-          meals={meals}
+          meals={mergedMeals}
           dayPlans={dayPlans}
           onNavigate={navigate}
           onOpenRecipe={setOverlaySlug}
@@ -223,13 +229,13 @@ export default function App() {
           dayPlans={dayPlans}
           eaters={eaters.eaters}
           recipeIndex={recipeIndex}
-          meals={meals}
+          meals={mergedMeals}
           onOpenRecipe={setOverlaySlug}
         />
       )}
       {screen === 'handla' && <HandlaView onBack={toHub} />}
       {screen === 'recept' && (
-        <ReceptView onBack={toHub} recipeIndex={recipeIndex} meals={meals} eaters={eaters.eaters} onOpenRecipe={setOverlaySlug} />
+        <ReceptView onBack={toHub} recipeIndex={recipeIndex} meals={mergedMeals} eaters={eaters.eaters} onOpenRecipe={setOverlaySlug} />
       )}
       {screen === 'familj' && (
         <FamiljView
@@ -239,7 +245,7 @@ export default function App() {
           rollingDays={rollingDays}
           rollingLunches={rollingLunches}
           recipeIndex={recipeIndex}
-          meals={meals}
+          meals={mergedMeals}
         />
       )}
       {screen === 'anteckningar' && (
@@ -248,7 +254,7 @@ export default function App() {
       {screen === 'fynd' && <FyndView onBack={toHub} />}
       {screen === 'bevaka' && <BevakaView onBack={toHub} />}
       {screen === 'skafferi' && (
-        <SkafferiView onBack={toHub} recipeIndex={recipeIndex} meals={meals} eaters={eaters.eaters} onOpenRecipe={setOverlaySlug} />
+        <SkafferiView onBack={toHub} recipeIndex={recipeIndex} meals={mergedMeals} eaters={eaters.eaters} onOpenRecipe={setOverlaySlug} />
       )}
       {screen === 'historik' && (
         <HistorikView

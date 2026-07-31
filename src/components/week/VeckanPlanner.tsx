@@ -10,12 +10,14 @@ import { usePantry } from '../../hooks/usePantry'
 import { useStash } from '../../hooks/useStash'
 import { useShoppingList } from '../../hooks/useShoppingList'
 import { useChaosMode } from '../../hooks/useChaosMode'
+import { useLocalMeals } from '../../hooks/useLocalMeals'
 import { tagOffers } from '../../lib/bevaka'
 import { rankSuggestions, SuggestionFilter, SuggestionSort } from '../../lib/suggestions'
 import { findUnlockOpportunities } from '../../lib/unlockMatch'
-import { resolveMealForRecipe, resolveComponents, rankComponentOptions, resolveDayMeal } from '../../lib/mealResolve'
+import { resolveMealForRecipe, resolveComponents, rankComponentOptions, resolveDayMeal, matchMealByName } from '../../lib/mealResolve'
 import { evaluateFit } from '../../lib/dietFit'
 import StashPantryPanel from '../StashPantryPanel'
+import MealEditorModal from '../MealEditorModal'
 
 const DAY_SHORT: Record<string, string> = {
   mandag: 'Mån', tisdag: 'Tis', onsdag: 'Ons',
@@ -65,6 +67,7 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
   const pantry = usePantry()
   const { items: stashItems } = useStash()
   const { addOrRestoreByName, isActiveByName } = useShoppingList()
+  const { upsertMeal } = useLocalMeals()
 
   const haveNames = useMemo(() => [
     ...(pantry?.always_have ?? []),
@@ -108,6 +111,21 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
   const [filter, setFilter] = useState<SuggestionFilter>('alla')
   const [sort, setSort] = useState<SuggestionSort>('match')
   const [attendanceOpen, setAttendanceOpen] = useState<MealKind | null>(null)
+  const [mealQuery, setMealQuery] = useState('')
+  const [editorState, setEditorState] = useState<
+    { mode: 'closed' } | { mode: 'new'; prefill: string } | { mode: 'edit'; meal: Meal }
+  >({ mode: 'closed' })
+  const existingMealSlugs = useMemo(
+    () => [...meals.map(m => m.slug), ...recipeIndex.map(r => r.slug)],
+    [meals, recipeIndex],
+  )
+  const mealMatches = useMemo(() => {
+    const needle = mealQuery.trim().toLowerCase()
+    if (!needle) return []
+    return meals
+      .filter(m => m.namn.toLowerCase().includes(needle) || m.alias.some(a => a.toLowerCase().includes(needle)))
+      .slice(0, 8)
+  }, [mealQuery, meals])
 
   const active = enrichedDays.find(d => d.datum === activeDate) ?? enrichedDays[0]
   const activePlanIds = useMemo(() => active?.plan?.presentPersons.map(p => p.id) ?? [], [active])
@@ -422,17 +440,32 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
         </section>
       )}
 
-      {meals.length > 0 && (
-        <section className="meal-quickpick">
-          <h3 className="shop-group-title">🍽️ Måltider</h3>
-          <div className="meal-quickpick-list">
-            {meals.map(m => {
+      <section className="meal-add-section">
+        <h3 className="shop-group-title">🍽️ Måltider</h3>
+        <input
+          className="tray-search"
+          type="search"
+          placeholder="Sök måltid…"
+          value={mealQuery}
+          onChange={e => setMealQuery(e.target.value)}
+        />
+        {mealQuery.trim() ? (
+          <div className="meal-add-results">
+            {mealMatches.map(m => {
               const isLunch = active?.lunchOverride?.mealSlug === m.slug
               const isDinner = active?.dinnerOverride?.mealSlug === m.slug
               return (
                 <div key={m.slug} className="meal-chip">
                   <span className="meal-chip-name">{m.namn}</span>
                   <div className="meal-chip-assign">
+                    <button
+                      type="button"
+                      className="meal-chip-edit"
+                      title="Redigera måltid"
+                      onClick={() => setEditorState({ mode: 'edit', meal: m })}
+                    >
+                      ✎
+                    </button>
                     <button
                       type="button"
                       className={`sugg-assign${isLunch ? ' on' : ''}`}
@@ -451,8 +484,44 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
                 </div>
               )
             })}
+            {mealMatches.length === 0 && <div className="tray-empty">Inga måltider matchar.</div>}
+            {!matchMealByName(mealQuery, meals) && (
+              <button
+                type="button"
+                className="meal-add-create"
+                onClick={() => setEditorState({ mode: 'new', prefill: mealQuery.trim() })}
+              >
+                + Skapa ny måltid: "{mealQuery.trim()}"
+              </button>
+            )}
           </div>
-        </section>
+        ) : (
+          <div className="meal-add-hint-row">
+            <span className="meal-add-hint">Sök en måltid för att lägga till den, eller skapa en ny.</span>
+            <button
+              type="button"
+              className="meal-add-new-btn"
+              onClick={() => setEditorState({ mode: 'new', prefill: '' })}
+            >
+              + Ny måltid
+            </button>
+          </div>
+        )}
+      </section>
+
+      {editorState.mode !== 'closed' && (
+        <MealEditorModal
+          meal={editorState.mode === 'edit' ? editorState.meal : null}
+          initialName={editorState.mode === 'new' ? editorState.prefill : undefined}
+          recipeIndex={recipeIndex}
+          existingSlugs={existingMealSlugs}
+          onSave={m => {
+            upsertMeal(m)
+            setEditorState({ mode: 'closed' })
+            setMealQuery('')
+          }}
+          onClose={() => setEditorState({ mode: 'closed' })}
+        />
       )}
 
       <div className="sugg-list">

@@ -1519,6 +1519,66 @@ so deleting the file didn't lose them:**
 leftover-tracking problem two different ways. Once meals exist, pick one — the pool model is
 the better of the two — and retire the other.
 
+### Add/edit a meal from Planera (2026-07)
+
+First real write path onto the meal library from inside the app — until now `meals.json` was
+purely hand-authored, and the only way to create a dish players couldn't find (most of the
+120 recipes have no meals.json entry at all, see Stage 1 above) was to edit the file directly.
+There's still no backend, so this can't write straight into the git-tracked file; instead
+`src/hooks/useLocalMeals.ts` is a small local overlay store (`matracet:meals:local:v1`,
+`Record<slug, Meal>`) merged onto the fetched `meals.json` list at read time
+(`mergeLocalMeals`, called once in `App.tsx` right after both are loaded, so every screen that
+receives the `meals` prop sees local additions/edits with no per-component merge logic) — a
+local entry whose slug matches a git meal fully *replaces* that meal (an edit); any other slug
+is a brand-new, locally-created meal appended at the end. Registered in `syncStores.ts` so a
+meal added/edited on one device reaches every device via the existing device→GitHub auto-sync,
+same as feedback/weekplan/stash — there's no dedicated merge rule in
+`scripts/merge-device-sync.mjs` yet (it falls into that script's existing generic "no canonical
+merge target" skip-and-log path, same as e.g. stash/shopping-list), consistent with this app's
+local-only-override tier until/unless someone wants meals promoted to a proper git-tracked
+merge like feedback got.
+
+Scoped deliberately narrow, per the household's own framing of this as step one ("just be able
+to add a meal and then edit/administrate it... for now") — offer-driven meal suggestions
+(mentioned as a natural follow-on) are explicitly not part of this pass. Landed only in
+`VeckanPlanner` (Planera), not Skafferi/chaos mode or anywhere else `meals` is read, since that's
+where it was asked for; `StashPantryPanel` still only reads meals, it doesn't create/edit them.
+
+**"Search first, don't show all meals"** was an explicit ask, not just a UX default: the old
+"🍽️ Måltider" quick-pick (added in Stage 3, see above) listed every `meals.json` entry
+up front — fine at 4 seed meals, but the household didn't want that to become a scrolling wall
+as the library grows from real use. Replaced with a `.meal-add-section` search box
+(`.tray-search`, same input styling as the recipe search above it): typing shows up to 8
+namn/alias substring matches (each with the existing ☼/☾ assign buttons plus a new ✎ edit
+button), and — whenever the query doesn't exactly match an existing meal's name — a
+"+ Skapa ny måltid: '‹query›'" option. An empty query shows neither list nor create-prompt, just
+a one-line hint and a bare "+ Ny måltid" button, so browsing the whole library is no longer
+possible from this screen at all (by design — `ReceptView`/Skafferi's recipe browser is still
+there for open-ended browsing; this is specifically an add/find-fast tool).
+
+`src/components/MealEditorModal.tsx` (reusing the existing `.ingpick-backdrop`/`.ingpick-panel`
+modal chrome from `IngredientPickerModal`/`CategoryFeedbackModal`, not a new pattern) is one form
+for both create and edit — `meal: Meal | null` prop, `null` means creating new. Fields: namn,
+alias (comma-separated text, split on save), a component list (vara + alternativ + valfri
+checkbox per row, add/remove rows — same shape as `MealComponent`), a recipe-link search
+(substring match against `recipeIndex.namn`, click a result to set `receptSlug`; linked state
+shows the recipe name with a ✕ unlink button) — this is the "mix in recipes" half of the ask —
+and taggar (comma-separated). `tid_min` only shows when no recipe is linked, matching the
+type's own doc comment ("recipe-linked meals derive from Recipe.tid_min"). Saving a *new* meal
+computes its slug via `mealResolve.ts`'s new `uniqueMealSlug(name, takenSlugs)` — `slugify()`
+plus a `-2`/`-3`… suffix loop against every existing meal *and* recipe slug (not just meals),
+since a recipe-linked "virtual" meal is keyed to its recipe's own slug — so a new meal can never
+silently collide with and overwrite an unrelated existing entry. Editing an existing meal keeps
+its original slug, so the local overlay entry lands as a same-slug replacement, not a new
+sibling entry.
+
+Verified end-to-end with a throwaway Playwright script (not committed): created a new meal
+("Fisktacos test") with a component and a linked recipe from Planera's search, confirmed it
+persisted to `matracet:meals:local:v1`, found it again via the same search box, assigned it to
+lunch, and confirmed `matracet:weekplan:v3` held the right `mealSlug`/`receptSlug` pair; then
+opened the editor on an existing git meal (Hamburgare) and confirmed its real components/alias/
+taggar pre-filled correctly.
+
 ## Deploy
 
 Pushing to `main` triggers the GitHub Actions workflow (`.github/workflows/deploy.yml`) which runs `npm ci && npm run build` and deploys `dist/` to GitHub Pages. No manual steps needed.
