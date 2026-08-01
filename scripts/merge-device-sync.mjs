@@ -11,9 +11,9 @@
  *
  * Deliberately narrow in scope for now: only matracet:feedback:v2 has a canonical merge
  * target implemented here. Every other synced store key (weekplan, shopping list, stash,
- * chaos-mode, category-feedback) is skipped untouched and logged, not silently dropped —
+ * meal pool, category-feedback) is skipped untouched and logged, not silently dropped —
  * see "Still open" in CLAUDE.md's GitHub-backed auto-sync section for why each is out of
- * scope (weekplan/shopping/stash/chaos-mode have no git-tracked canonical file to merge
+ * scope (weekplan/shopping/stash/meal pool have no git-tracked canonical file to merge
  * into at all; category-feedback's mechanical merge, per
  * .claude/skills/sync-category-feedback/SKILL.md's step 2, is real well-specified follow-up
  * work intentionally left for its own pass rather than rushed into this one).

@@ -5,15 +5,18 @@
 // git branch on every edit.
 //
 // IN — real household data another device/person would want to see:
-//   feedback, irrelevant-offers, weekplan, category-feedback, stash, shopping list, chaos
-//   mode, sync tasks (matracet:synctasks:v1 — a task queued on one device must be visible to
-//   an interactive Claude Code session working from device-sync regardless of which device
-//   queued it; see CLAUDE.md's Phase 5), local meal overlay (matracet:meals:local:v1 — a meal
-//   added/edited from the Planera "add meal" flow, since there's no backend to write straight
-//   into public/data/meals.json).
+//   feedback, irrelevant-offers, weekplan, category-feedback, stash, shopping list, meal pool
+//   (matracet:mealpool:v1 — the 2026-08 Planera redesign's flat "meals this week need" list,
+//   see useMealPool.ts; replaces chaos mode, which this redesign deleted), sync tasks
+//   (matracet:synctasks:v1 — a task queued on one device must be visible to an interactive
+//   Claude Code session working from device-sync regardless of which device queued it; see
+//   CLAUDE.md's Phase 5), local meal overlay (matracet:meals:local:v1 — a meal added/edited
+//   from the Planera "add meal" flow, since there's no backend to write straight into
+//   public/data/meals.json).
 // OUT (documented, not just omitted):
-//   matracet:fynd-collapsed:v1 (useCollapsedCategories) — purely cosmetic per-device UI state
-//   (which Fynd categories are collapsed on this screen), no value in syncing across devices.
+//   matracet:fynd-collapsed:v1 (useCollapsedCategories) and matracet:planner-collapsed:v1
+//   (usePlannerCollapse) — purely cosmetic per-device UI state (which sections are collapsed
+//   on this screen), no value in syncing across devices.
 
 import type { LocalStore } from './localStore'
 import { feedbackStore } from '../hooks/useFeedback'
@@ -22,7 +25,7 @@ import { weekPlanStore } from '../hooks/useWeekPlan'
 import { categoryFeedbackStore } from '../hooks/useCategoryFeedback'
 import { stashStore } from '../hooks/useStash'
 import { shoppingListStore } from '../hooks/useShoppingList'
-import { chaosModeStore } from '../hooks/useChaosMode'
+import { mealPoolStore } from '../hooks/useMealPool'
 import { syncTasksStore } from '../hooks/useSyncTasks'
 import { localMealsStore } from '../hooks/useLocalMeals'
 
@@ -56,7 +59,7 @@ export const SYNCED_STORES: SyncableStore[] = [
   asSyncable(categoryFeedbackStore),
   asSyncable(stashStore),
   asSyncable(shoppingListStore),
-  asSyncable(chaosModeStore),
+  asSyncable(mealPoolStore),
   asSyncable(syncTasksStore),
   asSyncable(localMealsStore),
 ]

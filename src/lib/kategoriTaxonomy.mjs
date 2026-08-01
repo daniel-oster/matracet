@@ -213,3 +213,13 @@ export function aisleFor(leafId, form) {
   const g = LEAF_TO_GROUP.get(leafId)
   return g ? g.aisle : 'ovrigt'
 }
+
+/** Groups worth showing while planning meals — see the 2026-08 Planera redesign (issue #93).
+ * "Food only" per the household's own framing ("I don't need to see that tampons are on sale
+ * when I'm planning dinner"): excludes hushall_hygien/barn/djur/ovrigt outright (the first
+ * three are non-food, ovrigt is the genuine remainder), and — a second, narrower cut — also
+ * excludes godis_snacks/glass_dessert/dryck by default: real food, but not meal-building
+ * material. A single named export rather than a scattered inline list so FyndView-adjacent
+ * screens (Planera's offer strip today, possibly Fynd's own default-collapse later) share one
+ * definition instead of drifting apart. */
+export const MEAL_PLANNING_GROUPS = ['frukt_gront', 'protein', 'mejeri_ost', 'brod', 'fardigmat', 'skafferi']
