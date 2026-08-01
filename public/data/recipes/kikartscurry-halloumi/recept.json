@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "slug": "kikartscurry-halloumi",
+  "nummer": 129,
+  "namn": "Kikärtscurry med halloumi",
+  "tid_min": 25,
+  "portioner": 4,
+  "kategorier": ["vegetarisk"],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["curry", "kikärter", "halloumi", "gryta"],
+  "kalla": "ICA receptförslag",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "gul lök", "mangd": 1, "enhet": "st" },
+    { "vara": "vitlöksklyfta", "mangd": 1, "enhet": "st" },
+    { "vara": "spiskummin", "mangd": 1, "enhet": "tsk" },
+    { "vara": "garam masala", "mangd": 2, "enhet": "tsk" },
+    { "vara": "rapsolja", "mangd": 2, "enhet": "msk" },
+    { "vara": "kokta kikärter", "mangd": 400, "enhet": "g" },
+    { "vara": "passerade tomater", "mangd": 500, "enhet": "g" },
+    { "vara": "kycklingbuljongtärning", "mangd": 1, "enhet": "st" },
+    { "vara": "färsk bladspenat", "mangd": 100, "enhet": "g" },
+    { "vara": "halloumiost", "mangd": 400, "enhet": "g" },
+    { "vara": "citronjuice", "mangd": 1, "enhet": "msk" },
+    { "vara": "hackad mynta", "mangd": 1, "enhet": "kruka" },
+    { "vara": "salt och svartpeppar", "mangd": null, "enhet": null }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Skala, dela och hacka löken. Skala och finhacka vitlöken.",
+    "Fräs lök, vitlök, spiskummin och garam masala i hälften av oljan i en gryta.",
+    "Tillsätt kikärter, passerade tomater och buljongtärning. Koka upp och låt koka 5–10 minuter.",
+    "Tillsätt spenaten. Smaka av med salt och peppar.",
+    "Bryt halloumin i grova bitar. Stek bitarna i resterande olja i en stekpanna.",
+    "Ringla över citronjuicen. Strö över mynta på curryn. Servera gärna med ris."
+  ],
+  "servering": ["ris"],
+  "tips": null,
+  "komplett": true
+}
