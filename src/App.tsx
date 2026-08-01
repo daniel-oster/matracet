@@ -4,7 +4,7 @@ import type { HistoryEntry, HistoryFile } from './types/history'
 import type { FeedbackFile, FeedbackStore } from './types/feedback'
 import type { TaskLogFile } from './types/taskLog'
 import type { Meal, MealsFile } from './types/meal'
-import { matchMealByName, resolveMealForRecipe } from './lib/mealResolve'
+import { resolveWeekDayMealSlug } from './lib/mealResolve'
 import { migrateWeekPlanV2 } from './hooks/useWeekPlan'
 import { migrateStashDishesToPool } from './hooks/useMealPool'
 import Hub from './components/Hub'
@@ -122,18 +122,12 @@ export default function App() {
       }
 
       // public/data/weeks/*.json is historical free text (see CLAUDE.md's "Week menus"
-      // section) — resolve each day's `recept` name to a mealSlug by namn/alias where
-      // possible, without touching those files themselves.
+      // section) — resolve each day's `recept` name to a mealSlug, without touching those
+      // files themselves. See resolveWeekDayMealSlug's own doc comment for why every
+      // dish-day must get one, not just meals.json-matched ones.
       function withMealSlug(day: DayMeal): DayMeal {
-        if (!day.recept) return day
-        const matched = matchMealByName(day.recept, mealsList)
-        if (matched) return { ...day, mealSlug: matched.slug }
-        // No meals.json entry matches this static day's display name — still give it a
-        // mealSlug when it's recipe-linked (a virtual meal keyed to the recipe, same as
-        // resolveMealForRecipe everywhere else), so every day with an actual dish has one,
-        // not just days assigned through the planner. See CLAUDE.md's Stage 4 note.
-        if (day.receptSlug) return { ...day, mealSlug: resolveMealForRecipe(day.receptSlug, day.recept, mealsList).slug }
-        return day
+        const mealSlug = resolveWeekDayMealSlug(day, mealsList)
+        return mealSlug ? { ...day, mealSlug } : day
       }
 
       const days = windowDates.map(date =>

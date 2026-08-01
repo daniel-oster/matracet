@@ -1,5 +1,8 @@
 import { describe, expect, it } from 'vitest'
-import { buildPoolRows, computeBudget, reconcilePoolEntries, resolveDisplacedOccupant, sortPoolRows, type BudgetSlotFlags } from './mealPool'
+import {
+  buildPoolRows, checkPoolCompleteness, computeBudget, reconcilePoolEntries,
+  resolveDisplacedOccupant, sortPoolRows, type BudgetSlotFlags, type FilledSlot,
+} from './mealPool'
 import type { MealPoolEntry } from '../hooks/useMealPool'
 import type { WeekPlanStore } from '../hooks/useWeekPlan'
 
@@ -49,11 +52,12 @@ describe('buildPoolRows', () => {
   })
 
   it('synthesizes a derived row for a filled slot with no real pool entry', () => {
-    const rows = buildPoolRows([], [{ date: '2026-08-03', kind: 'dinner', mealSlug: 'tacos', receptSlug: 'tacos-slug' }])
+    const rows = buildPoolRows([], [{ date: '2026-08-03', kind: 'dinner', mealSlug: 'tacos', receptSlug: 'tacos-slug', label: 'Tacos' }])
     expect(rows).toEqual([{
       id: 'derived:2026-08-03:dinner',
       mealSlug: 'tacos',
       receptSlug: 'tacos-slug',
+      mealNamn: 'Tacos',
       addedAt: '',
       slot: { date: '2026-08-03', kind: 'dinner' },
       derived: true,
@@ -62,16 +66,16 @@ describe('buildPoolRows', () => {
 
   it('does not duplicate a filled slot that already has a real pool entry pointing at it', () => {
     const e = entry({ slot: { date: '2026-08-03', kind: 'dinner' } })
-    const rows = buildPoolRows([e], [{ date: '2026-08-03', kind: 'dinner', mealSlug: 'tacos', receptSlug: null }])
+    const rows = buildPoolRows([e], [{ date: '2026-08-03', kind: 'dinner', mealSlug: 'tacos', receptSlug: null, label: 'Tacos' }])
     expect(rows).toEqual([{ ...e, derived: false }])
   })
 })
 
 describe('sortPoolRows', () => {
-  it('puts slotted rows before unslotted rows', () => {
+  it('puts unslotted rows before slotted rows (the "list-first" redesign\'s deliberate reversal of #93)', () => {
     const unslotted = entry({ id: 'u', addedAt: '2026-08-01T00:00:00.000Z' })
     const slotted = entry({ id: 's', slot: { date: '2026-08-05', kind: 'dinner' } })
-    expect(sortPoolRows([unslotted, slotted].map(e => ({ ...e, derived: false }))).map(r => r.id)).toEqual(['s', 'u'])
+    expect(sortPoolRows([unslotted, slotted].map(e => ({ ...e, derived: false }))).map(r => r.id)).toEqual(['u', 's'])
   })
 
   it('orders slotted rows chronologically, lunch before dinner on the same day', () => {
@@ -135,6 +139,46 @@ describe('computeBudget', () => {
   it('counts leftover-planned slots regardless of needsMeal', () => {
     const slots = [slot({ isLeftover: true }), slot({ isLeftover: false })]
     expect(computeBudget(slots).leftoverPlanned).toBe(1)
+  })
+})
+
+// The design's enforced invariant (docs/planera-list-first-2026-08.md): every non-skipped
+// slot with a dish must produce exactly one pool row. filledSlots is built by the caller
+// (VeckanPlanner) as flatSlots.filter(s => s.mealSlug) — a note-only day or a skipped slot
+// never has a mealSlug, so they never appear here at all; this predicate only ever has to
+// reason about slots that already cleared that bar.
+describe('checkPoolCompleteness', () => {
+  const REAL_UNMATCHED_DISH_DAYS: FilledSlot[] = [
+    { date: '2026-05-21', kind: 'dinner', mealSlug: 'ugnsbakad-lax-rotsaker', receptSlug: null, label: 'Ugnsbakad lax & rotsaker' },
+    { date: '2026-05-23', kind: 'dinner', mealSlug: 'stekt-flask-rodbetssallad', receptSlug: null, label: 'Stekt fläsk & rödbetssallad' },
+    { date: '2026-05-24', kind: 'dinner', mealSlug: 'coq-au-vin', receptSlug: null, label: 'Coq au vin' },
+    { date: '2026-07-06', kind: 'lunch', mealSlug: 'fylld-pasta-tortellini-ravioli-med-smorsas-och-parmesan', receptSlug: null, label: 'Fylld pasta (tortellini/ravioli) med smörsås och parmesan' },
+  ]
+
+  it('holds for the four real week-file dish-days once withMealSlug gives each a mealSlug — no pool entries needed', () => {
+    expect(checkPoolCompleteness([], REAL_UNMATCHED_DISH_DAYS)).toEqual([])
+  })
+
+  it('holds for a recipe-linked day', () => {
+    const slots: FilledSlot[] = [{ date: '2026-06-23', kind: 'dinner', mealSlug: 'laxfile-soja-ingefara', receptSlug: 'laxfile-soja-ingefara', label: 'Ugnsbakad lax med soja och ingefära' }]
+    expect(checkPoolCompleteness([], slots)).toEqual([])
+  })
+
+  it('holds for a locally-assigned day with a real pool entry', () => {
+    const e = entry({ slot: { date: '2026-08-03', kind: 'dinner' } })
+    const slots: FilledSlot[] = [{ date: '2026-08-03', kind: 'dinner', mealSlug: e.mealSlug, receptSlug: null, label: 'Tacos' }]
+    expect(checkPoolCompleteness([e], slots)).toEqual([])
+  })
+
+  it('produces no row and no violation for a note-only day or a skipped slot (never in filledSlots)', () => {
+    expect(checkPoolCompleteness([], [])).toEqual([])
+  })
+
+  it('flags a duplicate: two real pool entries pointing at the same slot', () => {
+    const a = entry({ id: 'a', slot: { date: '2026-08-03', kind: 'dinner' } })
+    const b = entry({ id: 'b', slot: { date: '2026-08-03', kind: 'dinner' } })
+    const slots: FilledSlot[] = [{ date: '2026-08-03', kind: 'dinner', mealSlug: a.mealSlug, receptSlug: null, label: 'Tacos' }]
+    expect(checkPoolCompleteness([a, b], slots)).toEqual([{ date: '2026-08-03', kind: 'dinner', count: 2 }])
   })
 })
 

@@ -184,7 +184,9 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
   const budget = useMemo(() => computeBudget(budgetSlotFlags), [budgetSlotFlags])
 
   const filledSlots: FilledSlot[] = useMemo(
-    () => flatSlots.filter(s => s.mealSlug).map(s => ({ date: s.date, kind: s.kind, mealSlug: s.mealSlug!, receptSlug: s.slug })),
+    () => flatSlots.filter(s => s.mealSlug).map(s => ({
+      date: s.date, kind: s.kind, mealSlug: s.mealSlug!, receptSlug: s.slug, label: s.label ?? s.mealSlug!,
+    })),
     [flatSlots],
   )
 
@@ -260,8 +262,53 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
     setExpandedSlot(null)
   }
 
+  /**
+   * Promotes a derived pool row (a git-planned week day, or any slot filled without going
+   * through the pool — see PoolRow's own doc comment) to a real pool entry the moment the
+   * user acts on it, per the 2026-08 "list-first" redesign's lazy-materialization fix
+   * (docs/planera-list-first-2026-08.md, Problem 2). Returns the row's real id — either its
+   * existing entry id (row.derived === false, a no-op) or the freshly created one.
+   *
+   * A derived row is always slotted (buildPoolRows only ever synthesizes one from a
+   * FilledSlot), so materializing one also has to make that slot assignment durable, not just
+   * the pool entry: writing the pool's own `slot` pointer alone isn't enough, because
+   * `reconcilePoolEntries` only trusts a pointer that's backed by a real `WeekPlanOverride` —
+   * a git-planned day has none (that's precisely what "derived" means), so the pointer would
+   * be silently stripped again on the very next read. `setMeal` here writes an override with
+   * the *same* mealSlug/receptSlug the day already (implicitly) shows, so nothing visibly
+   * changes — it only makes the existing assignment explicit and durable.
+   *
+   * This deliberately does not attempt to make "✕ Avboka" (unslot) work for a still-derived
+   * row — doing that would require a way to represent "explicitly cleared, still needs a
+   * meal" distinct from both "no override" (shows the static file's dish again) and
+   * attendance.skip ("no meal needed"), which needs a schema change (`DayOverride` currently
+   * has no such field) touching `applyOverride`'s signature at every call site. The design
+   * doc flags this exact gap as an open, unconfirmed question and this pass explicitly
+   * doesn't touch Hub/VeckanOverview/WeekWarnings/FamiljView — so "Avboka" on a purely
+   * git-planned day stays what it already was before this change (a no-op beyond closing the
+   * detail panel), not a new duplicate-row bug.
+   */
+  function materializeRow(row: PoolRow): string {
+    if (!row.derived) return row.id
+    const id = pool.addEntry(row.mealSlug, row.receptSlug, { mealNamn: row.mealNamn })
+    if (row.slot) {
+      pool.setSlot(id, row.slot)
+      setMeal(row.slot.date, row.slot.kind, row.mealSlug, row.receptSlug)
+    }
+    return id
+  }
+
+  function toggleRowDone(row: PoolRow) {
+    pool.toggleDone(materializeRow(row))
+  }
+
+  function removeRow(row: PoolRow) {
+    pool.removeEntry(materializeRow(row))
+  }
+
   function addLeftover(row: PoolRow) {
-    const newId = pool.addEntry(row.mealSlug, row.receptSlug, { resterAv: row.id })
+    const sourceId = materializeRow(row)
+    const newId = pool.addEntry(row.mealSlug, row.receptSlug, { resterAv: sourceId })
     if (row.slot) {
       const nextDate = addDays(row.slot.date, 1)
       setLeftoverHints(h => ({ ...h, [newId]: nextDate }))
@@ -320,8 +367,6 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }), [daySlots, eaters, pool.entries])
 
-  const [boardExpanded, setBoardExpanded] = useState(false)
-
   const [mealQuery, setMealQuery] = useState('')
   const [editorState, setEditorState] = useState<
     { mode: 'closed' } | { mode: 'new'; prefill: string } | { mode: 'edit'; meal: Meal }
@@ -376,24 +421,101 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
     else addOrRestoreByName(o.namn, { offerRef: { store: o.store, week: o.week } })
   }
 
+  const freeSlotCount = useMemo(() => flatSlots.filter(s => !s.skip && !s.label).length, [flatSlots])
+
   return (
     <div className="planner">
-      <BudgetBar summary={budget} />
-
       <div className="plan-cols">
         <div className="plan-supply">
-          <div className="plan-board-toggle-area">
-            <button type="button" className="plan-board-expand-btn" onClick={() => setBoardExpanded(v => !v)}>
-              {boardExpanded ? '▾' : '▸'} Veckans platser – översikt
-            </button>
-            <SlotBoard
-              rows={boardRows}
-              variant={boardExpanded ? 'grid' : 'strip'}
-              selected={expandedSlot}
-              onSelectCell={boardExpanded ? openSlotDetail : undefined}
+          {/* The list is the top of the screen and owns the header (2026-08 "list-first"
+              redesign, docs/planera-list-first-2026-08.md, Problem 3) — the budget line +
+              definition replace the old always-visible standalone BudgetBar, and add/search
+              sits directly beneath it, since building the list is the primary job. */}
+          <div className="plan-list-card">
+            <div className="plan-list-head-top">
+              <span className="plan-list-title">Veckans måltider</span>
+              <span className="plan-list-count">{budget.filled} av {budget.total} klara</span>
+            </div>
+            <div className="plan-list-def">allt vi behöver kunna laga den här veckan</div>
+            <BudgetBar summary={budget} hideLabel />
+
+            <div className="plan-search-row">
+              <input
+                className="tray-search"
+                type="search"
+                placeholder="Sök måltid eller recept…"
+                value={mealQuery}
+                onChange={e => { setMealQuery(e.target.value); setQuery(e.target.value) }}
+              />
+              <button type="button" className="meal-add-new-btn" onClick={() => setEditorState({ mode: 'new', prefill: mealQuery.trim() })}>
+                + Ny måltid
+              </button>
+            </div>
+
+            {mealQuery.trim() && (
+              <div className="meal-add-results">
+                {mealMatches.map(m => {
+                  const isRecipeOnly = !meals.some(x => x.slug === m.slug)
+                  return (
+                    <div key={m.slug} className="meal-chip">
+                      <span className="meal-chip-name">
+                        {m.namn}
+                        {isRecipeOnly && <span className="meal-chip-kind">recept</span>}
+                      </span>
+                      <button type="button" className="meal-chip-edit" title="Redigera måltid" onClick={() => setEditorState({ mode: 'edit', meal: m })}>
+                        ✎
+                      </button>
+                      {renderAssign(`search:${m.slug}`, m.namn, m.slug, m.receptSlug)}
+                    </div>
+                  )
+                })}
+                {mealMatches.length === 0 && <div className="tray-empty">Inga måltider eller recept matchar.</div>}
+                {!mealQueryExactMatch && (
+                  <button type="button" className="meal-add-create" onClick={() => setEditorState({ mode: 'new', prefill: mealQuery.trim() })}>
+                    + Skapa ny måltid: "{mealQuery.trim()}"
+                  </button>
+                )}
+              </div>
+            )}
+
+            <MealPoolList
+              rows={poolRows}
+              meals={meals}
+              recipeIndex={recipeIndex}
+              fullRecipes={fullRecipes}
+              eaters={eaters}
+              getFeedback={getFeedback}
+              offers={allOffers}
+              dayLabel={dayLabel}
+              onOpenRecipe={onOpenRecipe}
+              onToggleDone={toggleRowDone}
+              onRemove={removeRow}
+              onUnslot={unslotSlot}
+              onAddLeftover={addLeftover}
+              renderAssign={renderAssign}
             />
           </div>
 
+          {/* The board, demoted to a secondary step (Problem 3): no strip above the list
+              anymore — in portrait it lives below the list, collapsed by default; in
+              landscape this whole block is hidden (see plan-board-portrait's media query),
+              since the always-visible sticky column on the right already covers it. */}
+          <div className="plan-board-portrait">
+            <CollapsibleSection
+              id="board"
+              title="📅 Placera på dagar"
+              defaultCollapsed
+              hint={freeSlotCount > 0 ? `${freeSlotCount} platser lediga` : undefined}
+            >
+              <SlotBoard rows={boardRows} selected={expandedSlot} onSelectCell={openSlotDetail} />
+            </CollapsibleSection>
+          </div>
+
+          {/* Deliberately a sibling of plan-board-portrait, not nested inside it — that
+              wrapper is display:none in landscape (the sticky plan-board-col takes over), and
+              a cell tap there still needs to open this somewhere visible. Left in the supply
+              column rather than duplicated into plan-board-col: still reachable, and it keeps
+              a single render path regardless of which board triggered it. */}
           {expandedSlot && expandedInfo && (() => {
             const { away, extra } = diffAttendance(expandedInfo.planPresentIds, expandedInfo.attendance)
             return (
@@ -438,64 +560,6 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
               />
             )
           })()}
-
-          <div className="plan-search-row">
-            <input
-              className="tray-search"
-              type="search"
-              placeholder="Sök måltid eller recept…"
-              value={mealQuery}
-              onChange={e => { setMealQuery(e.target.value); setQuery(e.target.value) }}
-            />
-            <button type="button" className="meal-add-new-btn" onClick={() => setEditorState({ mode: 'new', prefill: mealQuery.trim() })}>
-              + Ny måltid
-            </button>
-          </div>
-
-          {mealQuery.trim() && (
-            <div className="meal-add-results">
-              {mealMatches.map(m => {
-                const isRecipeOnly = !meals.some(x => x.slug === m.slug)
-                return (
-                  <div key={m.slug} className="meal-chip">
-                    <span className="meal-chip-name">
-                      {m.namn}
-                      {isRecipeOnly && <span className="meal-chip-kind">recept</span>}
-                    </span>
-                    <button type="button" className="meal-chip-edit" title="Redigera måltid" onClick={() => setEditorState({ mode: 'edit', meal: m })}>
-                      ✎
-                    </button>
-                    {renderAssign(`search:${m.slug}`, m.namn, m.slug, m.receptSlug)}
-                  </div>
-                )
-              })}
-              {mealMatches.length === 0 && <div className="tray-empty">Inga måltider eller recept matchar.</div>}
-              {!mealQueryExactMatch && (
-                <button type="button" className="meal-add-create" onClick={() => setEditorState({ mode: 'new', prefill: mealQuery.trim() })}>
-                  + Skapa ny måltid: "{mealQuery.trim()}"
-                </button>
-              )}
-            </div>
-          )}
-
-          <CollapsibleSection id="pool" title="Veckans måltider" count={poolRows.length} defaultCollapsed={false}>
-            <MealPoolList
-              rows={poolRows}
-              meals={meals}
-              recipeIndex={recipeIndex}
-              fullRecipes={fullRecipes}
-              eaters={eaters}
-              getFeedback={getFeedback}
-              offers={allOffers}
-              dayLabel={dayLabel}
-              onOpenRecipe={onOpenRecipe}
-              onToggleDone={pool.toggleDone}
-              onRemove={pool.removeEntry}
-              onUnslot={unslotSlot}
-              onAddLeftover={addLeftover}
-              renderAssign={renderAssign}
-            />
-          </CollapsibleSection>
 
           <OffersPanel
             offers={foodOffers}
@@ -609,7 +673,8 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
         </div>
 
         <div className="plan-board-col">
-          <SlotBoard rows={boardRows} variant="grid" selected={expandedSlot} onSelectCell={openSlotDetail} />
+          <div className="plan-board-step">Steg 2 · placera på dagar</div>
+          <SlotBoard rows={boardRows} selected={expandedSlot} onSelectCell={openSlotDetail} />
         </div>
       </div>
 
