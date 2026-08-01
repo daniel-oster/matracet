@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 import type { TaggedOffer } from '../../lib/bevaka'
 import type { RankedSuggestion } from '../../lib/suggestions'
@@ -25,7 +25,10 @@ interface Props {
  */
 export default function OffersPanel({ offers, isActiveForOffer, onToggleOffer, fromOffers, meals, onOpenRecipe, renderAssign }: Props) {
   const [showAll, setShowAll] = useState(false)
-  const ranked = [...offers].sort((a, b) => parseSavings(b.besparing) - parseSavings(a.besparing))
+  const ranked = useMemo(
+    () => [...offers].sort((a, b) => parseSavings(b.besparing) - parseSavings(a.besparing)),
+    [offers],
+  )
   const visible = showAll ? ranked : ranked.slice(0, 8)
 
   return (

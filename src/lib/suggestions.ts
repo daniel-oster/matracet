@@ -8,6 +8,12 @@ import { resolveMealForRecipe } from './mealResolve'
 export type SuggestionFilter = 'alla' | 'fynd' | 'snabbt' | 'vegansk'
 export type SuggestionSort = 'match' | 'savings' | 'favorites' | 'fastest'
 
+/** The "⚡ snabbt" threshold, shared by every ⚡-tagging/filtering call site in the app (the
+ *  ⚡ filter chip and ⚡ tag here, plus Planera's budget "fast" satisfaction check and pool-row
+ *  tag) so the number can't quietly drift between them — flagged in a 2026-08 code review as
+ *  duplicated across VeckanPlanner and MealPoolList. */
+export const FAST_THRESHOLD_MIN = 25
+
 export interface SuggestionTag {
   text: string
   kind: 'offer' | 'fast' | 'warn' | 'vegan' | 'liked' | 'swap'
@@ -103,7 +109,7 @@ export function rankSuggestions({
 
   const ranked = recipeIndex
     .filter(r => matchesQuery(r, query))
-    .filter(r => (filter === 'snabbt' ? r.tid_min <= 25 : true))
+    .filter(r => (filter === 'snabbt' ? r.tid_min <= FAST_THRESHOLD_MIN : true))
     .map((entry): RankedSuggestion => {
       const recipe = fullRecipes[entry.slug]
       const meal = resolveMealForRecipe(entry.slug, entry.namn, meals)
@@ -129,7 +135,7 @@ export function rankSuggestions({
         score += 3
         tags.push({ text: savingsKr > 0 ? `🏷 spara ${savingsKr}kr` : `🏷 ${offerMatch.namn}`, kind: 'offer' })
       }
-      if (entry.tid_min <= 25) { score += 1; tags.push({ text: `⚡ ${entry.tid_min} min`, kind: 'fast' }) }
+      if (entry.tid_min <= FAST_THRESHOLD_MIN) { score += 1; tags.push({ text: `⚡ ${entry.tid_min} min`, kind: 'fast' }) }
       if (veganFriendly) { score += 1; tags.push({ text: '🌱 vegansk', kind: 'vegan' }) }
       score += likers.length
       if (likerNames.length > 0) tags.push({ text: `❤ ${likerNames.join(', ')}`, kind: 'liked' })

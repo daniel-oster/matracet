@@ -5,7 +5,7 @@ import type { PoolRow } from '../../lib/mealPool'
 import type { TaggedOffer } from '../../lib/bevaka'
 import type { UseFeedback } from '../../hooks/useFeedback'
 import { resolveMealForRecipe, resolveMealForName } from '../../lib/mealResolve'
-import { isVeganFriendly, findOfferMatch, parseSavings } from '../../lib/suggestions'
+import { isVeganFriendly, findOfferMatch, parseSavings, FAST_THRESHOLD_MIN } from '../../lib/suggestions'
 import { evaluateFit } from '../../lib/dietFit'
 
 interface Props {
@@ -67,7 +67,7 @@ export default function MealPoolList({
             <span className="pool-name">
               {sourceName ? <>Rester <small>← {sourceName}</small></> : (row.resterAv ? <>Rester <small>(källan borttagen)</small></> : meal.namn)}
             </span>
-            {tidMin != null && tidMin <= 25 && <span className="tray-tag tray-tag--fast">⚡ {tidMin} min</span>}
+            {tidMin != null && tidMin <= FAST_THRESHOLD_MIN && <span className="tray-tag tray-tag--fast">⚡ {tidMin} min</span>}
             {veganOk && <span className="tray-tag tray-tag--vegan">🌱{fit.requiredSwaps.length > 0 ? ' med byte' : ''}</span>}
             {savings > 0 && <span className="tray-tag tray-tag--offer">🏷 spara {savings}kr</span>}
             {refuses && <span className="tray-tag tray-tag--warn">⚠️ vägras</span>}
@@ -82,7 +82,12 @@ export default function MealPoolList({
             {row.slot ? (
               <>
                 <button type="button" className="mini" onClick={() => onUnslot(row.slot!.date, row.slot!.kind)}>✕ Avboka</button>
-                <button type="button" className="mini rest" onClick={() => onAddLeftover(row)}>↩ rester</button>
+                {/* Derived rows have no stable identity for resterAv to point at (see
+                    PoolRow's own doc comment) — offering "rester" here would create a
+                    leftover linked to a positional id, not the meal it was made from. */}
+                {!row.derived && (
+                  <button type="button" className="mini rest" onClick={() => onAddLeftover(row)}>↩ rester</button>
+                )}
               </>
             ) : (
               <>

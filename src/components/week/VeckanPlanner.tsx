@@ -17,14 +17,14 @@ import { useLocalMeals } from '../../hooks/useLocalMeals'
 import { useMealPool } from '../../hooks/useMealPool'
 import { useIrrelevantOffers } from '../../hooks/useIrrelevantOffers'
 import { tagOffers, TaggedOffer } from '../../lib/bevaka'
-import { rankSuggestions, SuggestionFilter, SuggestionSort } from '../../lib/suggestions'
+import { rankSuggestions, SuggestionFilter, SuggestionSort, FAST_THRESHOLD_MIN } from '../../lib/suggestions'
 import { findUnlockOpportunities } from '../../lib/unlockMatch'
 import { matchPantryRecipes } from '../../lib/pantryMatch'
 import {
   resolveMealForRecipe, resolveComponents, resolveDayMeal, matchMealByName,
 } from '../../lib/mealResolve'
 import { evaluateFit, DietFitResult } from '../../lib/dietFit'
-import { buildPoolRows, sortPoolRows, computeBudget, BudgetSlotFlags, FilledSlot, PoolRow } from '../../lib/mealPool'
+import { buildPoolRows, sortPoolRows, computeBudget, resolveDisplacedOccupant, BudgetSlotFlags, FilledSlot, PoolRow } from '../../lib/mealPool'
 import { MEAL_PLANNING_GROUPS, groupOf } from '../../lib/kategoriTaxonomy.mjs'
 import MealEditorModal from '../MealEditorModal'
 import CollapsibleSection from './CollapsibleSection'
@@ -176,7 +176,7 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
       && !s.fit.conflicts.some(c => c.reason === 'vegan')
       && !s.fit.unknowns.some(u => u.reason === 'vegan-unknown')
     const tidMin = s.recipeEntry?.tid_min ?? s.meal?.tid_min
-    const fastSatisfied = !!s.meal && tidMin != null && tidMin <= 25
+    const fastSatisfied = !!s.meal && tidMin != null && tidMin <= FAST_THRESHOLD_MIN
     const poolEntry = pool.entries.find(e => e.slot?.date === s.date && e.slot?.kind === s.kind)
     return { needsMeal, filled: !!s.label, veganRequired, veganSatisfied, fastFlag: s.fast, fastSatisfied, isLeftover: !!poolEntry?.resterAv }
   }), [flatSlots, eaters, pool.entries])
@@ -232,12 +232,21 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
   }
 
   function assignToSlot(date: string, kind: MealKind, mealSlug: string, receptSlug: string | null, reuseEntryId?: string) {
-    const occupantOverride = getOverride(date, kind)
-    if (occupantOverride) {
-      const occupant = pool.findBySlot(date, kind)
-      if (occupant) pool.setSlot(occupant.id, null)
-      else pool.addEntry(occupantOverride.mealSlug, occupantOverride.receptSlug)
-    }
+    // Keyed off the slot's *resolved* current content (flatSlots), not off whether a local
+    // WeekPlanOverride happens to exist — a git-planned static-week day has no override at
+    // all, so keying off the override alone silently dropped exactly that case (a real bug
+    // caught in review: swapping onto an unedited week-JSON day used to lose that meal
+    // outright, contradicting the picker's own "the old meal becomes unplanned again"
+    // promise). See resolveDisplacedOccupant's own doc comment.
+    const currentSlot = flatSlots.find(s => s.date === date && s.kind === kind)
+    const action = resolveDisplacedOccupant(pool.findBySlot(date, kind), {
+      mealSlug: currentSlot?.mealSlug,
+      receptSlug: currentSlot?.slug ?? null,
+      filled: !!currentSlot?.label,
+    })
+    if (action.type === 'unslot-pool-entry') pool.setSlot(action.entryId, null)
+    else if (action.type === 'create-pool-entry') pool.addEntry(action.mealSlug, action.receptSlug)
+
     const entryId = reuseEntryId ?? pool.addEntry(mealSlug, receptSlug)
     pool.setSlot(entryId, { date, kind })
     setMeal(date, kind, mealSlug, receptSlug)

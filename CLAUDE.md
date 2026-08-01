@@ -1711,20 +1711,42 @@ by a swap. `reuseEntryId` is only ever passed for a row that's *already* a real 
 entry (its own "→ plats…"); every other caller (search results, suggestion cards) omits it, so
 `assignToSlot` creates a fresh pool entry for what it's placing.
 
-**Leftovers as linked pool entries.** "↩ rester" on any slotted pool row (`VeckanPlanner`'s
-`addLeftover`) creates a new unslotted entry with `resterAv: <source row id>` and the same
-`mealSlug`/`receptSlug` (a leftover of Korvstroganoff is still Korvstroganoff, just reheated) —
-opens its picker immediately, with the next calendar day's lunch slot sorted first if the
-source was slotted (`leftoverHints` state, a `entryId → preferred ISO date` map consulted by
-`buildSlotChips`). `MealPoolList` renders a rester row as "Rester ← ‹source name›", resolving
-the source through the *current* `poolRows` array. **Disclosed limitation**: when the source
-row is a `derived:` id (not a real stored entry), the lookup re-resolves from whatever slot
-that id's `date:kind` currently holds — if the source slot's own assignment later changes, an
-existing leftover's "Rester ← X" label silently follows the new occupant instead of flagging
-staleness. Orphan detection ("källan borttagen") only reliably fires when the source was a
-*real* pool entry that got removed outright. A true immutable snapshot of the source's name at
-creation time was considered and skipped as more machinery than this pass called for; picked up
-here rather than left as a silent gap.
+**Bug caught in code review, fixed before merge**: the first version of `assignToSlot` decided
+whether to preserve the displaced occupant by checking `getOverride(date, kind)` — which is
+only ever set for a *locally* assigned slot. A slot filled straight from a git-planned
+`public/data/weeks/*.json` day (the single most common kind of filled slot, since most of the
+week starts out that way) has no override at all, so that check silently skipped preservation
+entirely: swapping onto such a day just overwrote it with no pool entry created for the old
+dish, which then vanished from "Veckans måltider" for good — directly contradicting the
+picker's own on-screen promise ("den gamla måltiden blir oplanerad igen"). Fixed by keying off
+the slot's *resolved* current content (`flatSlots`/`SlotInfo`, which reflects an override and
+a static-week day identically via `applyOverride`) instead of the override's mere presence, and
+by extracting the decision into a pure, unit-tested function —
+`src/lib/mealPool.ts::resolveDisplacedOccupant(poolEntryAtSlot, currentSlot) →
+{type: 'unslot-pool-entry' | 'create-pool-entry' | 'none', ...}` — specifically because the
+review also noted the swap path had *no* test coverage at all, and the one Playwright pass
+described below happened to only exercise the branch that already worked (a locally-reassigned
+slot), which is exactly how this shipped unnoticed the first time.
+
+**Leftovers as linked pool entries.** "↩ rester" on a slotted, non-derived pool row
+(`VeckanPlanner`'s `addLeftover`) creates a new unslotted entry with `resterAv: <source row
+id>` and the same `mealSlug`/`receptSlug` (a leftover of Korvstroganoff is still
+Korvstroganoff, just reheated) — opens its picker immediately, with the next calendar day's
+lunch slot sorted first if the source was slotted (`leftoverHints` state, a `entryId →
+preferred ISO date` map consulted by `buildSlotChips`). `MealPoolList` renders a rester row as
+"Rester ← ‹source name›", resolving the source through the *current* `poolRows` array; a
+source that's since been removed renders "källan borttagen" rather than silently disappearing.
+**Bug caught in code review, fixed before merge**: the "↩ rester" button was offered on
+*derived* rows too (a git-planned week day, or any assignment made without going through the
+pool — see `PoolRow`'s own doc comment, which already stated pool-only actions shouldn't apply
+to them) — the `!row.derived` guard existed on the *unslotted* branch's done/remove buttons but
+was missing from the *slotted* branch, which is the only one derived rows ever reach. The
+resulting leftover's `resterAv` pointed at a positional `derived:${date}:${kind}` id with no
+stable identity: if that slot's assignment later changed, the derived id would silently
+re-resolve to the *new* occupant's name instead of flagging staleness. Fixed with the missing
+guard — "↩ rester" simply isn't offered on a derived row at all, matching the invariant the
+type already documented, rather than trying to give a derived row a stable identity it
+structurally can't have.
 
 **Per-slot detail panel.** With the day-strip no longer driving assignment, the old "active
 day" editor's content (attendance override chips, "Ingen måltid behövs" skip, plan-time

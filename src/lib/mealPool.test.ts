@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { buildPoolRows, computeBudget, reconcilePoolEntries, sortPoolRows, type BudgetSlotFlags } from './mealPool'
+import { buildPoolRows, computeBudget, reconcilePoolEntries, resolveDisplacedOccupant, sortPoolRows, type BudgetSlotFlags } from './mealPool'
 import type { MealPoolEntry } from '../hooks/useMealPool'
 import type { WeekPlanStore } from '../hooks/useWeekPlan'
 
@@ -135,5 +135,33 @@ describe('computeBudget', () => {
   it('counts leftover-planned slots regardless of needsMeal', () => {
     const slots = [slot({ isLeftover: true }), slot({ isLeftover: false })]
     expect(computeBudget(slots).leftoverPlanned).toBe(1)
+  })
+})
+
+describe('resolveDisplacedOccupant', () => {
+  it('unslots a real pool entry already pointing at the slot', () => {
+    const occupant = entry({ id: 'occupant-1', slot: { date: '2026-08-03', kind: 'dinner' } })
+    const action = resolveDisplacedOccupant(occupant, { mealSlug: 'tacos', receptSlug: null, filled: true })
+    expect(action).toEqual({ type: 'unslot-pool-entry', entryId: 'occupant-1' })
+  })
+
+  it('creates a pool entry for a filled slot with no real pool entry — e.g. a git-planned week day', () => {
+    // Regression: the first implementation keyed this off whether a local WeekPlanOverride
+    // existed, which a static-week day never has — silently dropping the displaced meal
+    // instead of returning it to the pool. This is exactly that case: no pool entry, but the
+    // slot is filled.
+    const action = resolveDisplacedOccupant(undefined, { mealSlug: 'korvstroganoff', receptSlug: 'korvstroganoff-slug', filled: true })
+    expect(action).toEqual({ type: 'create-pool-entry', mealSlug: 'korvstroganoff', receptSlug: 'korvstroganoff-slug' })
+  })
+
+  it('does nothing for a genuinely empty slot', () => {
+    const action = resolveDisplacedOccupant(undefined, { mealSlug: undefined, receptSlug: null, filled: false })
+    expect(action).toEqual({ type: 'none' })
+  })
+
+  it('prefers unslotting the real pool entry over creating a duplicate, even if the slot also looks filled', () => {
+    const occupant = entry({ id: 'occupant-2', slot: { date: '2026-08-03', kind: 'lunch' } })
+    const action = resolveDisplacedOccupant(occupant, { mealSlug: occupant.mealSlug, receptSlug: null, filled: true })
+    expect(action).toEqual({ type: 'unslot-pool-entry', entryId: 'occupant-2' })
   })
 })

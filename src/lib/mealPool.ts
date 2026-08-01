@@ -20,6 +20,34 @@ export function reconcilePoolEntries(entries: MealPoolEntry[], weekPlan: WeekPla
   })
 }
 
+export type DisplacedOccupantAction =
+  | { type: 'unslot-pool-entry'; entryId: string }
+  | { type: 'create-pool-entry'; mealSlug: string; receptSlug: string | null }
+  | { type: 'none' }
+
+/**
+ * What to do with whatever currently occupies a slot before a new assignment overwrites it
+ * — the slot picker's swap semantics (design's "picking an occupied slot swaps" rule: the
+ * old occupant returns to the pool, never deleted). Keyed off the slot's *resolved* current
+ * content (`currentSlot`, from `flatSlots`/`SlotInfo` — reflects both a local
+ * `WeekPlanOverride` and a git-planned `public/data/weeks/*.json` day identically), not off
+ * whether a `WeekPlanOverride` happens to exist — a static-week day has no override at all,
+ * so keying off the override alone silently dropped exactly that (very common) case. A real
+ * pool entry already pointing at the slot just needs unslotting; anything else the slot is
+ * currently showing needs a fresh pool entry created for it so it isn't lost; a genuinely
+ * empty slot needs nothing.
+ */
+export function resolveDisplacedOccupant(
+  poolEntryAtSlot: MealPoolEntry | undefined,
+  currentSlot: { mealSlug: string | undefined; receptSlug: string | null; filled: boolean },
+): DisplacedOccupantAction {
+  if (poolEntryAtSlot) return { type: 'unslot-pool-entry', entryId: poolEntryAtSlot.id }
+  if (currentSlot.filled && currentSlot.mealSlug) {
+    return { type: 'create-pool-entry', mealSlug: currentSlot.mealSlug, receptSlug: currentSlot.receptSlug }
+  }
+  return { type: 'none' }
+}
+
 export interface PoolRow extends MealPoolEntry {
   /** True for a slot-derived row synthesized purely for display (a git-planned week day, or
    *  an assignment made without going through the pool) — never persisted, and pool-only
