@@ -72,8 +72,20 @@ interface MealPoolEntry {
   addedAt: string          // ISO
   slot: { date: string; kind: MealKind } | null
   done?: boolean           // "we ate this" for unslotted entries (chaos-mode semantics)
+  resterAv?: string        // id of the pool entry this is leftovers of (see below)
 }
 ```
+
+**Leftovers are pool entries too** (household decision 2026-08): a meal that produces
+leftovers gets an "↩ rester" action; tapping it creates a *linked* pool entry
+(`resterAv: <producing entry's id>`, display "Rester ← Korvstroganoff") that counts toward
+the budget and can be slotted like any meal — typically the next day's lunch, which the UI
+suggests as the default slot. The link means the rester entry follows its source: clearing or
+moving the producing meal flags (not silently deletes) its orphaned rester entries. Suggestion
+cards for dishes known to scale well can advertise it ("räcker till 2 luncher ↩"). This is a
+deliberate first step toward the person-meal-pool leftover model flagged in CLAUDE.md's
+"Open question for later" (dagkedja vs `CookingEvent.personMeals`) — the pool link is the
+lightweight version; if it proves out, `dagkedja` retires.
 
 **`useWeekPlan` stays the single source of truth for what's in a slot.** The pool's `slot` field
 is a *pointer*, not a second copy: slotting a pool entry calls the existing `setMeal` and records
@@ -209,12 +221,28 @@ pool.
 7. **Cleanup** — Skafferi decision, delete dead chaos-mode/stash-dish code paths, CLAUDE.md
    architecture section rewrite.
 
+## Decisions from the household (2026-08 follow-up)
+
+- **All meals count in the budget, lunches included.** No dinner-only default — the whole
+  point of the view is to finally make lunch planning workable. "Ingen måltid behövs" per slot
+  is the only way the budget shrinks. Leftover entries (above) are the main tool for actually
+  filling lunch slots without inventing 7 new dishes.
+- **The view's job is to inspire.** The failure mode being fixed is "staring at an empty week
+  with no ideas" — so the supply column is ordered inspiration-first: the week's food offers
+  and "Förslag från fynden" (meals/recipes derivable from what's cheap) are the primary
+  creative trigger, with pantry-match, unlock, and the full recipe browser as collapsed
+  sections you expand to shift mindset *without leaving the view*. Collapse state persists
+  (same `useCollapsedCategories` pattern as Fynd).
+- **Add-meal stays in the planning view** — the search box + "+ Ny måltid" (→
+  `MealEditorModal`, with save-and-assign) is permanent top-of-column UI, not tucked behind a
+  section.
+
+**Mockup**: `docs/prototypes/planera-redesign-mockup.html` — static HTML in the paper design
+language, responsive at the app's real breakpoint. Open it and rotate/resize to see both
+layouts; screenshots were reviewed at 844×390 (landscape) and 390×760 (portrait).
+
 ## Open questions for the household
 
-- **Budget scope for lunches**: should weekday lunches count in the budget by default? Today
-  most weekday lunches are unplanned (leftovers/school). Proposal: count dinner slots always,
-  lunch slots only when the static week file or an override plans one — with skip toggles to
-  adjust either way. Cheap to change later; the budget is computed, never stored.
 - **Godis/dryck in the offer strip**: excluded by default above — right call, or should
   `dryck` be included?
 - **Drag & drop priority**: it's staged last on purpose; if tap-assign in landscape feels good

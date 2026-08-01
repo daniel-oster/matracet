@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Planera – redesign-mockup (2026-08)</title>
+<style>
+:root {
+  --cream: #f7f4ef; --ink: #1a1a1a; --paper: #ffffff;
+  --gold: #c8a96e; --gold2: #b3915a;
+  --green: #4caf50; --green-d: #2e7d32; --green-bg: #e8f5e9;
+  --red: #b5573c; --red-bg: #f7e9e2;
+  --blue: #3f6488; --blue-bg: #eaeff4;
+  --muted: #8a847a; --muted2: #aaa398; --sub: #555;
+  --line: #d5cfc3; --line2: #e6e1d6; --checked: #ece8e0;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  font-family: Georgia, 'Times New Roman', serif;
+  background: var(--cream); color: var(--ink);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+
+/* ---- top bar + budget ---- */
+.topbar {
+  display: flex; align-items: baseline; gap: 10px;
+  padding: 6px 14px 4px;
+}
+.topbar .back { color: var(--muted); font-size: 13px; text-decoration: none; }
+.topbar h1 { font-size: 16px; margin: 0; font-weight: 600; letter-spacing: .02em; }
+.topbar .eyebrow { font-size: 10px; text-transform: uppercase; letter-spacing: .14em; color: var(--gold2); }
+.budget {
+  display: flex; align-items: center; gap: 8px;
+  padding: 0 14px 6px; flex-wrap: wrap;
+}
+.budget-bar {
+  flex: 1 1 140px; height: 6px; border-radius: 3px; background: var(--line2);
+  position: relative; overflow: hidden; min-width: 100px;
+}
+.budget-bar > i { position: absolute; inset: 0 auto 0 0; width: 57%; background: var(--gold); border-radius: 3px; }
+.budget-label { font-size: 12.5px; color: var(--sub); white-space: nowrap; }
+.budget-label strong { color: var(--ink); }
+.constraint-chip {
+  font-size: 11px; padding: 2px 8px; border-radius: 10px; white-space: nowrap;
+  background: var(--red-bg); color: var(--red); border: 1px solid transparent;
+}
+.constraint-chip.ok { background: var(--green-bg); color: var(--green-d); }
+
+/* ---- two columns ---- */
+.cols { flex: 1; min-height: 0; display: grid; grid-template-columns: 1fr; gap: 0 14px; padding: 0 14px 10px; }
+.supply { overflow-y: auto; min-height: 0; padding-right: 2px; }
+.board-col { display: none; overflow-y: auto; min-height: 0; }
+/* ---- collapsed day strip (portrait) ---- */
+.day-strip { display: flex; gap: 6px; overflow-x: auto; padding: 2px 0 8px; }
+@media (orientation: landscape) and (max-height: 600px), (min-width: 860px) {
+  .cols { grid-template-columns: 3fr 2fr; }
+  .board-col { display: block; }
+  .day-strip, .strip-expand { display: none; }
+}
+.day-pill {
+  flex: 0 0 auto; background: var(--paper); border: 1px solid var(--line); border-radius: 10px;
+  padding: 4px 8px; text-align: center; font-size: 11px; color: var(--sub);
+}
+.day-pill.on { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold); }
+.day-pill .dots { display: block; letter-spacing: 2px; font-size: 8px; color: var(--muted2); }
+.day-pill .dots b { color: var(--gold2); }
+.strip-expand { font-size: 11.5px; color: var(--blue); background: none; border: none; font-family: inherit; padding: 2px 0 8px; }
+
+/* ---- slot board (landscape right column) ---- */
+.board { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 8px 10px; }
+.board h2 { font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); margin: 0 0 6px; font-weight: 600; }
+.board-row { display: grid; grid-template-columns: 34px 1fr 1fr; gap: 6px; align-items: stretch; padding: 3px 0; border-top: 1px solid var(--line2); }
+.board-row:first-of-type { border-top: none; }
+.board-day { font-size: 11px; color: var(--sub); padding-top: 6px; }
+.board-day b { display: block; font-size: 12px; color: var(--ink); font-weight: 600; }
+.cell {
+  border: 1px solid var(--line2); border-radius: 8px; padding: 3px 7px;
+  font-size: 12px; min-height: 30px; display: flex; align-items: center; gap: 5px;
+  background: #fdfcfa; overflow: hidden; white-space: nowrap;
+}
+.cell .k { color: var(--muted2); font-size: 10px; flex: 0 0 auto; }
+.cell .dish { overflow: hidden; text-overflow: ellipsis; }
+.cell.empty { color: var(--muted2); font-style: italic; background: transparent; border-style: dashed; }
+.cell.active { border-color: var(--gold); box-shadow: 0 0 0 1.5px var(--gold); background: #fbf6ec; }
+.cell.skip { color: var(--muted2); background: var(--checked); border-style: solid; text-decoration: line-through; }
+.cell .glyph { flex: 0 0 auto; font-size: 10.5px; }
+.cell.rester { color: var(--blue); background: var(--blue-bg); border-color: transparent; }
+.board-foot { font-size: 10.5px; color: var(--muted); padding-top: 6px; }
+
+/* ---- supply column sections ---- */
+section.card { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 8px 10px; margin-bottom: 8px; }
+section.card h2 { font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); margin: 0 0 6px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+section.card h2 .count { color: var(--gold2); }
+section.card h2 .spacer { flex: 1; }
+section.card h2 .toggle { color: var(--muted2); font-weight: 400; }
+
+.searchrow { display: flex; gap: 6px; margin-bottom: 8px; }
+.searchrow input {
+  flex: 1; font-family: inherit; font-size: 13px; padding: 6px 10px;
+  border: 1px solid var(--line); border-radius: 9px; background: var(--paper); color: var(--ink);
+}
+.searchrow input::placeholder { color: var(--muted2); }
+.newbtn {
+  font-family: inherit; font-size: 12.5px; padding: 6px 10px; border-radius: 9px;
+  border: 1px solid var(--gold); background: #fbf6ec; color: var(--gold2); white-space: nowrap;
+}
+
+.pool-row { display: flex; align-items: center; gap: 7px; padding: 5px 0; border-top: 1px solid var(--line2); font-size: 13px; }
+.pool-row:first-of-type { border-top: none; }
+.pool-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pool-name small { color: var(--muted); font-size: 11px; }
+.tag { font-size: 10.5px; padding: 1px 6px; border-radius: 8px; background: var(--cream); color: var(--sub); white-space: nowrap; }
+.tag.veg { background: var(--green-bg); color: var(--green-d); }
+.tag.save { background: var(--red-bg); color: var(--red); }
+.tag.slot { background: var(--blue-bg); color: var(--blue); }
+.tag.none { background: transparent; border: 1px dashed var(--line); color: var(--muted2); }
+.mini {
+  font-family: inherit; font-size: 11.5px; padding: 3px 8px; border-radius: 8px;
+  border: 1px solid var(--line); background: var(--paper); color: var(--sub); white-space: nowrap;
+}
+.mini.gold { border-color: var(--gold); color: var(--gold2); background: #fbf6ec; }
+.mini.rest { color: var(--blue); }
+
+/* offers */
+.offer-strip { display: flex; flex-wrap: wrap; gap: 6px; }
+.offer-chip {
+  font-size: 12px; padding: 4px 9px; border-radius: 12px; border: 1px solid var(--line);
+  background: var(--paper); color: var(--ink); display: inline-flex; gap: 5px; align-items: center;
+}
+.offer-chip .save { color: var(--red); font-size: 11px; }
+.offer-chip.hot { border-color: var(--red); background: var(--red-bg); }
+.offer-chip.in { border-color: var(--green); background: var(--green-bg); }
+.offer-more { font-size: 11.5px; color: var(--blue); background: none; border: none; font-family: inherit; padding: 4px 2px; }
+
+/* suggestion cards from offers */
+.sugg { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-top: 1px solid var(--line2); }
+.sugg:first-of-type { border-top: none; }
+.sugg-img { width: 34px; height: 34px; border-radius: 8px; background: linear-gradient(135deg, var(--line2), var(--checked)); flex: 0 0 auto; }
+.sugg-body { flex: 1; min-width: 0; }
+.sugg-name { font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sugg-tags { display: flex; gap: 4px; margin-top: 2px; flex-wrap: wrap; }
+
+/* collapsed sections */
+.collapsed { color: var(--sub); font-size: 12.5px; padding: 7px 10px; background: var(--paper); border: 1px solid var(--line); border-radius: 12px; margin-bottom: 8px; display: flex; gap: 8px; align-items: baseline; }
+.collapsed .chev { color: var(--muted2); }
+.collapsed .hint { color: var(--muted2); font-size: 11px; margin-left: auto; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="back" href="#">‹ Hem</a>
+  <span class="eyebrow">Veckan · Planera</span>
+  <h1>3–9 aug</h1>
+</div>
+
+<div class="budget">
+  <span class="budget-label"><strong>8 av 14</strong> måltider klara</span>
+  <div class="budget-bar"><i></i></div>
+  <span class="constraint-chip">🌱 3 veganska saknas</span>
+  <span class="constraint-chip">⚡ 1 snabb saknas (mån)</span>
+  <span class="constraint-chip ok">↩ 2 rester planerade</span>
+</div>
+
+<div class="cols">
+
+  <!-- ================= LEFT: supply / inspiration ================= -->
+  <div class="supply">
+
+    <!-- portrait-only collapsed slot board -->
+    <button class="strip-expand">▸ Visa veckans platser</button>
+    <div class="day-strip">
+      <div class="day-pill">Mån 3<span class="dots">○<b>●</b></span></div>
+      <div class="day-pill">Tis 4<span class="dots"><b>●</b><b>●</b></span></div>
+      <div class="day-pill on">Ons 5<span class="dots">○○</span></div>
+      <div class="day-pill">Tor 6<span class="dots">—<b>●</b></span></div>
+      <div class="day-pill">Fre 7<span class="dots">○<b>●</b></span></div>
+      <div class="day-pill">Lör 8<span class="dots"><b>●</b>○</span></div>
+      <div class="day-pill">Sön 9<span class="dots">○○</span></div>
+    </div>
+
+    <div class="searchrow">
+      <input type="search" placeholder="Sök måltid eller recept…">
+      <button class="newbtn">+ Ny måltid</button>
+    </div>
+
+    <section class="card">
+      <h2>Veckans måltider <span class="count">· 10</span><span class="spacer"></span><span class="toggle">▾</span></h2>
+      <div class="pool-row">
+        <span class="pool-name">Korvstroganoff</span>
+        <span class="tag">⚡ 20 min</span>
+        <span class="tag slot">Mån ☾</span>
+        <button class="mini rest">↩ rester</button>
+      </div>
+      <div class="pool-row">
+        <span class="pool-name">Rester <small>← Korvstroganoff</small></span>
+        <span class="tag slot">Tis ☼</span>
+      </div>
+      <div class="pool-row">
+        <span class="pool-name">Tacos</span>
+        <span class="tag veg">🌱 med byte</span>
+        <span class="tag slot">Tis ☾</span>
+      </div>
+      <div class="pool-row">
+        <span class="pool-name">Ugnslax med rostade grönsaker</span>
+        <span class="tag save">🏷 −35 kr</span>
+        <span class="tag slot">Tor ☾</span>
+        <button class="mini rest">↩ rester</button>
+      </div>
+      <div class="pool-row">
+        <span class="pool-name">Tofu stroganoff</span>
+        <span class="tag veg">🌱</span>
+        <span class="tag none">ej inplanerad</span>
+        <button class="mini gold">→ Ons ☾</button>
+      </div>
+      <div class="pool-row">
+        <span class="pool-name">Pastasås <small>(idé)</small></span>
+        <span class="tag none">ej inplanerad</span>
+        <button class="mini gold">→ Ons ☾</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>🏷 Veckans fynd <span class="count">· mat</span><span class="spacer"></span><span class="toggle">▾</span></h2>
+      <div class="offer-strip">
+        <span class="offer-chip hot">Kycklingfilé <span class="save">−40 kr</span></span>
+        <span class="offer-chip in">✓ Laxfilé <span class="save">−35 kr</span></span>
+        <span class="offer-chip hot">Fläskfärs <span class="save">−25 kr</span></span>
+        <span class="offer-chip">Halloumi <span class="save">−15 kr</span></span>
+        <span class="offer-chip">Paprika <span class="save">−10 kr</span></span>
+        <span class="offer-chip">Krossade tomater <span class="save">−8 kr</span></span>
+      </div>
+      <button class="offer-more">visa 14 till ▸ · tryck = inköpslistan</button>
+    </section>
+
+    <section class="card">
+      <h2>💡 Förslag från fynden<span class="spacer"></span><span class="toggle">▾</span></h2>
+      <div class="sugg">
+        <div class="sugg-img"></div>
+        <div class="sugg-body">
+          <div class="sugg-name">Kyckling i ugn med rotfrukter</div>
+          <div class="sugg-tags"><span class="tag save">🏷 kycklingfilé −40 kr</span><span class="tag">⚡ 35 min</span></div>
+        </div>
+        <button class="mini">+ i veckan</button>
+        <button class="mini gold">→ Ons ☾</button>
+      </div>
+      <div class="sugg">
+        <div class="sugg-img"></div>
+        <div class="sugg-body">
+          <div class="sugg-name">Halloumipasta med paprika</div>
+          <div class="sugg-tags"><span class="tag save">🏷 2 fynd</span><span class="tag veg">🌱 med byte</span><span class="tag">⚡ 25 min</span></div>
+        </div>
+        <button class="mini">+ i veckan</button>
+        <button class="mini gold">→ Ons ☾</button>
+      </div>
+      <div class="sugg">
+        <div class="sugg-img"></div>
+        <div class="sugg-body">
+          <div class="sugg-name">Köttfärssås <small>· räcker till 2 luncher ↩</small></div>
+          <div class="sugg-tags"><span class="tag save">🏷 fläskfärs −25 kr</span><span class="tag">❤ Erika</span></div>
+        </div>
+        <button class="mini">+ i veckan</button>
+        <button class="mini gold">→ Ons ☾</button>
+      </div>
+    </section>
+
+    <div class="collapsed"><span class="chev">▸</span> Vad kan vi laga hemma? <span class="hint">5 rätter matchar skafferiet</span></div>
+    <div class="collapsed"><span class="chev">▸</span> 🔓 Ett köp bort <span class="hint">räkor låser upp 3 rätter</span></div>
+    <div class="collapsed"><span class="chev">▸</span> Alla recept <span class="hint">bläddra & filtrera · 120</span></div>
+
+  </div>
+
+  <!-- ================= RIGHT: slot board ================= -->
+  <div class="board-col">
+    <div class="board">
+      <h2>Veckans platser</h2>
+      <div class="board-row">
+        <div class="board-day"><b>Mån</b>3</div>
+        <div class="cell empty"><span class="k">☼</span><span class="dish">ledig</span><span class="glyph">⚡</span></div>
+        <div class="cell"><span class="k">☾</span><span class="dish">Korvstroganoff</span></div>
+      </div>
+      <div class="board-row">
+        <div class="board-day"><b>Tis</b>4</div>
+        <div class="cell rester"><span class="k">☼</span><span class="dish">↩ Rester · Korvstroganoff</span></div>
+        <div class="cell"><span class="k">☾</span><span class="dish">Tacos</span><span class="glyph">🌱</span></div>
+      </div>
+      <div class="board-row">
+        <div class="board-day"><b>Ons</b>5</div>
+        <div class="cell empty"><span class="k">☼</span><span class="dish">ledig</span></div>
+        <div class="cell empty active"><span class="k">☾</span><span class="dish">ledig · väljer…</span><span class="glyph">🌱</span></div>
+      </div>
+      <div class="board-row">
+        <div class="board-day"><b>Tor</b>6</div>
+        <div class="cell skip"><span class="k">☼</span><span class="dish">ingen måltid</span></div>
+        <div class="cell"><span class="k">☾</span><span class="dish">Ugnslax</span></div>
+      </div>
+      <div class="board-row">
+        <div class="board-day"><b>Fre</b>7</div>
+        <div class="cell empty"><span class="k">☼</span><span class="dish">ledig</span></div>
+        <div class="cell"><span class="k">☾</span><span class="dish">Hamburgare</span><span class="glyph">👪 +1</span></div>
+      </div>
+      <div class="board-row">
+        <div class="board-day"><b>Lör</b>8</div>
+        <div class="cell"><span class="k">☼</span><span class="dish">Pannkakor</span></div>
+        <div class="cell empty"><span class="k">☾</span><span class="dish">ledig</span></div>
+      </div>
+      <div class="board-row">
+        <div class="board-day"><b>Sön</b>9</div>
+        <div class="cell empty"><span class="k">☼</span><span class="dish">ledig</span></div>
+        <div class="cell empty"><span class="k">☾</span><span class="dish">ledig</span></div>
+      </div>
+      <div class="board-foot">Tryck på en plats för att välja den · dra en måltid hit</div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
