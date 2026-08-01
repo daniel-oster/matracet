@@ -276,7 +276,7 @@ export default function FyndView({ onBack }: Props) {
           </button>
         </div>
         <p className="fynd-hint">
-          🛒 Dubbelklicka en vara för att lägga den i inköpslistan. ← Svep vänster för att markera som irrelevant.
+          🛒 Tryck en vara för att lägga den i inköpslistan. ← Svep vänster för att markera som irrelevant.
           ✏️ Håll in en vara för att flagga fel kategori.
         </p>
 
@@ -332,8 +332,8 @@ function OfferRow({ o, best, isActiveForOffer, onToggleShoppingList, categoryCor
   return (
     <div
       className={`fynd-row${best ? ' best' : ''}${inList ? ' in-list' : ''}`}
-      onDoubleClick={() => onToggleShoppingList(o)}
-      title={inList ? 'I inköpslistan — dubbelklicka för att ta bort' : 'Dubbelklicka för att lägga i inköpslistan'}
+      onClick={() => onToggleShoppingList(o)}
+      title={inList ? 'I inköpslistan — tryck för att ta bort' : 'Tryck för att lägga i inköpslistan'}
     >
       <span className={`fynd-store ${STORES[o.store]?.klass}`}>{STORES[o.store]?.namn}</span>
       <div className="fynd-info">
@@ -536,8 +536,8 @@ function JamforView({ all, visible, isActiveForOffer, onToggleShoppingList }: Ro
                 <div
                   className={`match-row${best ? ' best' : ''}${inList ? ' in-list' : ''}`}
                   key={e.store}
-                  onDoubleClick={() => onToggleShoppingList(e)}
-                  title={inList ? 'I inköpslistan — dubbelklicka för att ta bort' : 'Dubbelklicka för att lägga i inköpslistan'}
+                  onClick={() => onToggleShoppingList(e)}
+                  title={inList ? 'I inköpslistan — tryck för att ta bort' : 'Tryck för att lägga i inköpslistan'}
                 >
                   <span className={`fynd-store ${STORES[e.store]?.klass}`}>{STORES[e.store]?.namn}</span>
                   <div className="match-info">

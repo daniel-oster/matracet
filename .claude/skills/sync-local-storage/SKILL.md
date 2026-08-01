@@ -36,7 +36,7 @@ shape (`ExportPayload` in `src/lib/exportData.ts`):
     "matracet:weekplan:v3": { /* out of scope for this skill, see below */ },
     "matracet:shopping:v1": { /* out of scope */ },
     "matracet:stash:v1": { /* out of scope */ },
-    "matracet:chaosmode:v1": { /* out of scope */ },
+    "matracet:mealpool:v1": { /* out of scope */ },
     "matracet:irrelevant-offers:v1": { /* out of scope */ }
     // ...and any other matracet:* key present on that device — see below
   }
@@ -44,7 +44,7 @@ shape (`ExportPayload` in `src/lib/exportData.ts`):
 ```
 
 Only `stores['matracet:feedback:v2']` matters to this skill. **Do not touch any
-other key** — weekplan, shopping list, stash, chaos-mode, irrelevant-offers, and
+other key** — weekplan, shopping list, stash, meal pool, irrelevant-offers, and
 anything else under `stores` stay local-only/per-device by design; syncing them
 is explicitly out of scope. Because the export is a generic dump of whatever's
 in `localStorage`, a newly-added store shows up here automatically without this

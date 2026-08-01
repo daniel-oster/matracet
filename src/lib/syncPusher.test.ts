@@ -15,7 +15,7 @@ vi.mock('./githubSync', async importOriginal => {
 
 // Imported after the mock so syncPusher picks up the mocked pushState/fetchState.
 const { startSyncPusher, pushNow, __resetForTests } = await import('./syncPusher')
-const { chaosModeStore } = await import('../hooks/useChaosMode')
+const { mealPoolStore } = await import('../hooks/useMealPool')
 const { irrelevantOffersStore } = await import('../hooks/useIrrelevantOffers')
 
 class MemoryStorage {
@@ -52,11 +52,11 @@ describe('syncPusher', () => {
   it('coalesces rapid consecutive store changes into exactly one push, 20s after the LAST change', async () => {
     const stop = startSyncPusher()
     try {
-      chaosModeStore.set(true)
+      mealPoolStore.set({ entries: [{ id: 'a', mealSlug: 'tacos', receptSlug: null, addedAt: 't1', slot: null }] })
       await vi.advanceTimersByTimeAsync(5_000)
-      chaosModeStore.set(false)
+      mealPoolStore.set({ entries: [] })
       await vi.advanceTimersByTimeAsync(5_000)
-      chaosModeStore.set(true) // resets the debounce window again
+      mealPoolStore.set({ entries: [{ id: 'a', mealSlug: 'tacos', receptSlug: null, addedAt: 't1', slot: null }] }) // resets the debounce window again
 
       await vi.advanceTimersByTimeAsync(19_999)
       expect(pushStateMock).not.toHaveBeenCalled()
@@ -77,7 +77,7 @@ describe('syncPusher', () => {
 
     const stop = startSyncPusher()
     try {
-      chaosModeStore.set(true)
+      mealPoolStore.set({ entries: [{ id: 'a', mealSlug: 'tacos', receptSlug: null, addedAt: 't1', slot: null }] })
       await vi.advanceTimersByTimeAsync(20_000) // fires the first push, which hangs
       expect(pushStateMock).toHaveBeenCalledTimes(1)
 
@@ -86,7 +86,7 @@ describe('syncPusher', () => {
       // pushNow() calls with no edit between them would now correctly dedupe to one PUT —
       // see the "skips the PUT" test below — so this test needs a real content change to
       // actually exercise the coalescing path, not just the dedup path.)
-      chaosModeStore.set(false)
+      mealPoolStore.set({ entries: [] })
       const second = pushNow() // simulates e.g. visibilitychange firing concurrently
       await Promise.resolve() // let pushNow's synchronous "in flight, mark dirty" branch run
       expect(pushStateMock).toHaveBeenCalledTimes(1) // still just the one in-flight call
@@ -98,7 +98,7 @@ describe('syncPusher', () => {
       expect(pushStateMock).toHaveBeenCalledTimes(2)
       // And it actually carried the new edit, not a stale/duplicate snapshot.
       const secondSnapshot = pushStateMock.mock.calls[1][0] as { stores: Record<string, { data: unknown }> }
-      expect(secondSnapshot.stores['matracet:chaosmode:v1'].data).toBe(false)
+      expect(secondSnapshot.stores['matracet:mealpool:v1'].data).toEqual({ entries: [] })
     } finally {
       stop()
     }
@@ -110,14 +110,15 @@ describe('syncPusher', () => {
     stop2() // must not tear down the real (stop1-owned) subscription
     stop1() // the real teardown
 
-    chaosModeStore.set(true)
+    mealPoolStore.set({ entries: [{ id: 'a', mealSlug: 'tacos', receptSlug: null, addedAt: 't1', slot: null }] })
     await vi.advanceTimersByTimeAsync(20_000)
     expect(pushStateMock).not.toHaveBeenCalled() // no lingering listener firing post-teardown
   })
 
   it('PR #83 fix: merges a newer remote value onto local before pushing, per store — never a wholesale overwrite', async () => {
-    // Local: chaosMode is stale (old touchedAt) — remote has a newer value and should win.
-    chaosModeStore.setFromSync(false, '2020-01-01T00:00:00.000Z')
+    const remoteEntries = { entries: [{ id: 'remote', mealSlug: 'tacos', receptSlug: null, addedAt: 't1', slot: null }] }
+    // Local: mealPool is stale (old touchedAt) — remote has a newer value and should win.
+    mealPoolStore.setFromSync({ entries: [] }, '2020-01-01T00:00:00.000Z')
     // Local: irrelevantOffers was just genuinely edited on this device — newer than what the
     // (stale) remote snapshot claims, so it must survive the push untouched.
     irrelevantOffersStore.set({ names: ['local-fresh'] })
@@ -130,7 +131,7 @@ describe('syncPusher', () => {
         deviceId: 'other-device',
         updatedAt: '2026-06-01T00:00:00.000Z',
         stores: {
-          'matracet:chaosmode:v1': { updatedAt: '2026-06-01T00:00:00.000Z', data: true },
+          'matracet:mealpool:v1': { updatedAt: '2026-06-01T00:00:00.000Z', data: remoteEntries },
           'matracet:irrelevant-offers:v1': { updatedAt: '2000-01-01T00:00:00.000Z', data: { names: ['stale-remote'] } },
         },
       },
@@ -138,15 +139,15 @@ describe('syncPusher', () => {
 
     await pushNow()
 
-    // Merged onto local stores: remote won for chaosMode, local won for irrelevantOffers.
-    expect(chaosModeStore.get()).toBe(true)
+    // Merged onto local stores: remote won for mealPool, local won for irrelevantOffers.
+    expect(mealPoolStore.get()).toEqual(remoteEntries)
     expect(irrelevantOffersStore.get()).toEqual({ names: ['local-fresh'] })
 
     // And the snapshot actually pushed reflects that same merge — the max of each, not a
     // blind copy of either side.
     expect(pushStateMock).toHaveBeenCalledTimes(1)
     const pushedSnapshot = pushStateMock.mock.calls[0][0] as { stores: Record<string, { data: unknown }> }
-    expect(pushedSnapshot.stores['matracet:chaosmode:v1'].data).toBe(true)
+    expect(pushedSnapshot.stores['matracet:mealpool:v1'].data).toEqual(remoteEntries)
     expect(pushedSnapshot.stores['matracet:irrelevant-offers:v1'].data).toEqual({ names: ['local-fresh'] })
   })
 

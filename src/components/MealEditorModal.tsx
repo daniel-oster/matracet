@@ -10,13 +10,7 @@ interface Props {
   initialName?: string
   recipeIndex: RecipeIndexEntry[]
   existingSlugs: string[]
-  /** Label for the currently active Planera day (e.g. "Fredag 31") — when set, shows two
-   *  "spara & lägg till" quick-assign buttons alongside plain Spara, so creating a meal you
-   *  need *right now* doesn't require a second search-and-tap round trip afterwards. Omit to
-   *  hide them (e.g. when opened from a context with no active day/slot). */
-  activeDayLabel?: string
   onSave: (meal: Meal) => void
-  onSaveAndAssign?: (meal: Meal, kind: 'lunch' | 'dinner') => void
   onClose: () => void
 }
 
@@ -24,12 +18,14 @@ function splitList(text: string): string[] {
   return text.split(',').map(s => s.trim()).filter(Boolean)
 }
 
-/** Add/edit UI for a meals.json entry, opened from Planera's "Lägg till måltid" search (see
- *  CLAUDE.md's "Meals as the plannable unit" section). Covers the two things asked for as
- *  the first feature — create a meal, and edit one (rename, add/remove components, link or
- *  unlink a recipe) — not yet offer-driven suggestions, which is explicitly a later step. */
+/** Add/edit UI for a meals.json entry, opened from Planera's unified search (see CLAUDE.md's
+ *  "Meals as the plannable unit" and "Planera redesign" sections). Covers the two things
+ *  asked for as the first feature — create a meal, and edit one (rename, add/remove
+ *  components, link or unlink a recipe). Saving a new meal here lands it in this week's meal
+ *  pool unslotted (see VeckanPlanner's onSave) — the pool row's own "→ plats…" picker, not a
+ *  quick-assign shortcut on this modal, is how it gets placed on a day. */
 export default function MealEditorModal({
-  meal, initialName, recipeIndex, existingSlugs, activeDayLabel, onSave, onSaveAndAssign, onClose,
+  meal, initialName, recipeIndex, existingSlugs, onSave, onClose,
 }: Props) {
   const [namn, setNamn] = useState(meal?.namn ?? initialName ?? '')
   const [aliasText, setAliasText] = useState((meal?.alias ?? []).join(', '))
@@ -81,11 +77,6 @@ export default function MealEditorModal({
   function save() {
     const m = buildMeal()
     if (m) onSave(m)
-  }
-
-  function saveAndAssign(kind: 'lunch' | 'dinner') {
-    const m = buildMeal()
-    if (m && onSaveAndAssign) onSaveAndAssign(m, kind)
   }
 
   return (
@@ -209,24 +200,8 @@ export default function MealEditorModal({
           />
         </label>
 
-        {onSaveAndAssign && activeDayLabel && (
-          <div className="mealedit-assign-hint">
-            "Spara" lägger bara till måltiden i biblioteket, utan att schemalägga den. Använd
-            knapparna nedan för att direkt lägga den som {activeDayLabel}s lunch eller middag.
-          </div>
-        )}
         <div className="ingpick-actions mealedit-actions">
           <button type="button" className="export-btn" onClick={onClose}>Avbryt</button>
-          {onSaveAndAssign && activeDayLabel && (
-            <>
-              <button type="button" className="mealedit-assign-btn" disabled={!namn.trim()} onClick={() => saveAndAssign('lunch')}>
-                Spara → ☼ Lunch
-              </button>
-              <button type="button" className="mealedit-assign-btn" disabled={!namn.trim()} onClick={() => saveAndAssign('dinner')}>
-                Spara → ☾ Middag
-              </button>
-            </>
-          )}
           <button type="button" className="shop-add-btn" onClick={save} disabled={!namn.trim()}>Spara</button>
         </div>
       </div>

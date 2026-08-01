@@ -28,11 +28,22 @@ function attendanceKey(kind: MealKind): AttendanceKey {
   return kind === 'lunch' ? 'lunchAttendance' : 'dinnerAttendance'
 }
 
+type FastKey = 'lunchFast' | 'dinnerFast'
+function fastKey(kind: MealKind): FastKey {
+  return kind === 'lunch' ? 'lunchFast' : 'dinnerFast'
+}
+
 export interface DayOverride {
   dinner?: WeekPlanOverride
   lunch?: WeekPlanOverride
   dinnerAttendance?: MealAttendance
   lunchAttendance?: MealAttendance
+  /** Manual "this slot needs a fast meal" flag (2026-08 Planera redesign, issue #93) — a
+   *  slot-level property independent of whatever's assigned (or not yet assigned) to it.
+   *  There's no activity-derived signal for "short evening", so it's a one-tap flag, same
+   *  tier as the attendance override. Additive field, no store version bump. */
+  dinnerFast?: boolean
+  lunchFast?: boolean
 }
 
 export type WeekPlanStore = Record<string, DayOverride>  // nyckel = datum (ISO)
@@ -213,6 +224,27 @@ function setComponentSwap(date: string, kind: MealKind, vara: string, chosen: st
   })
 }
 
+/** Toggle the manual "kort om tid" flag for a slot — independent of whether the slot is
+ *  assigned yet, so it can be set ahead of time on an empty slot too (see DayOverride's
+ *  dinnerFast/lunchFast doc comment). Clearing the flag drops the whole day entry once it's
+ *  otherwise empty, same convention as clearOverride/clearAttendance. */
+function setFast(date: string, kind: MealKind, value: boolean): void {
+  const all = weekPlanStore.get()
+  const day = all[date] ?? {}
+  const key = fastKey(kind)
+  if (!value) {
+    if (!day[key]) return
+    const nextDay = { ...day }
+    delete nextDay[key]
+    const next = { ...all }
+    if (Object.keys(nextDay).length > 0) next[date] = nextDay
+    else delete next[date]
+    weekPlanStore.set(next)
+    return
+  }
+  weekPlanStore.set({ ...all, [date]: { ...day, [key]: true } })
+}
+
 function clearAttendance(date: string, kind: MealKind): void {
   const all = weekPlanStore.get()
   const day = all[date]
@@ -230,11 +262,13 @@ export interface UseWeekPlan {
   data: WeekPlanStore
   getOverride: (date: string, kind: MealKind) => WeekPlanOverride | undefined
   getAttendance: (date: string, kind: MealKind) => MealAttendance | undefined
+  getFast: (date: string, kind: MealKind) => boolean
   setMeal: (date: string, kind: MealKind, mealSlug: string, receptSlug: string | null) => void
   clearOverride: (date: string, kind: MealKind) => void
   setComponentSwap: (date: string, kind: MealKind, vara: string, chosen: string | null) => void
   setAttendance: (date: string, kind: MealKind, attendance: MealAttendance) => void
   clearAttendance: (date: string, kind: MealKind) => void
+  setFast: (date: string, kind: MealKind, value: boolean) => void
 }
 
 export function useWeekPlan(): UseWeekPlan {
@@ -247,10 +281,12 @@ export function useWeekPlan(): UseWeekPlan {
     data,
     getOverride: (date: string, kind: MealKind) => data[date]?.[kind],
     getAttendance: (date: string, kind: MealKind) => data[date]?.[attendanceKey(kind)],
+    getFast: (date: string, kind: MealKind) => !!data[date]?.[fastKey(kind)],
     setMeal,
     clearOverride,
     setComponentSwap,
     setAttendance,
     clearAttendance,
+    setFast,
   }
 }
