@@ -63,6 +63,17 @@ export interface FilledSlot {
   kind: MealKind
   mealSlug: string
   receptSlug: string | null
+  /** The slot's already-resolved display name (SlotInfo.label) — carried onto a derived
+   *  row's `mealNamn` (see MealPoolEntry) so it can render correctly even when `mealSlug` is
+   *  a *freeform* virtual meal (resolveMealForName's slugify() fallback, no meals.json entry
+   *  and no receptSlug — e.g. a git-planned day like "Ugnsbakad lax & rotsaker" with neither).
+   *  Without this, a derived row for such a day has nothing but its own slug to render — see
+   *  docs/planera-list-first-2026-08.md's faithfulness fix, which is what makes this case
+   *  reachable in the first place (before it, such a day had no mealSlug at all and never
+   *  reached the pool). A recipe-linked or meals.json-matched slot's `label` is redundant
+   *  with what MealPoolList already resolves from `meals`/`recipeIndex`, but carrying it
+   *  unconditionally is simpler than a second code path that only sometimes needs it. */
+  label: string
 }
 
 /**
@@ -83,6 +94,7 @@ export function buildPoolRows(entries: MealPoolEntry[], filledSlots: FilledSlot[
       id: `derived:${key}`,
       mealSlug: s.mealSlug,
       receptSlug: s.receptSlug,
+      mealNamn: s.label,
       addedAt: '',
       slot: { date: s.date, kind: s.kind },
       derived: true,
@@ -91,14 +103,47 @@ export function buildPoolRows(entries: MealPoolEntry[], filledSlots: FilledSlot[
   return rows
 }
 
+export interface CompletenessViolation {
+  date: string
+  kind: MealKind
+  /** How many rows buildPoolRows produced for this slot — should always be 1. 0 means the
+   *  slot's dish is missing from the list entirely (the confirmed bug this predicate guards
+   *  against); >1 means a duplicate (e.g. two pool entries both pointing at the same slot). */
+  count: number
+}
+
+/**
+ * The design's own enforced invariant (see docs/planera-list-first-2026-08.md, "make the
+ * invariant enforced, not aspirational"): every non-skipped slot with a dish — every
+ * `FilledSlot` the caller passes in — must produce exactly one row in
+ * `buildPoolRows(entries, filledSlots)`. Returns the violating slots (empty when the
+ * invariant holds) rather than throwing, so a test can assert on it directly. Note-only days
+ * and skipped slots are never in `filledSlots` to begin with (see VeckanPlanner's own
+ * `flatSlots.filter(s => s.mealSlug)` — a skipped slot's mealSlug is undefined), so this
+ * predicate never needs to special-case them.
+ */
+export function checkPoolCompleteness(entries: MealPoolEntry[], filledSlots: FilledSlot[]): CompletenessViolation[] {
+  const rows = buildPoolRows(entries, filledSlots)
+  const violations: CompletenessViolation[] = []
+  for (const s of filledSlots) {
+    const count = rows.filter(r => r.slot?.date === s.date && r.slot?.kind === s.kind).length
+    if (count !== 1) violations.push({ date: s.date, kind: s.kind, count })
+  }
+  return violations
+}
+
 const KIND_ORDER: Record<MealKind, number> = { lunch: 0, dinner: 1 }
 
-/** Slotted rows first (chronological, lunch before dinner), then unslotted rows oldest-added
- *  first — matches the mockup's reading order (this week's plan top-to-bottom, open ideas at
- *  the bottom waiting for a place). */
+/** Unslotted rows first (oldest-added first), then slotted rows (chronological, lunch before
+ *  dinner) — the "list-first" redesign's deliberate reversal of the #93 slotted-first order
+ *  (docs/planera-list-first-2026-08.md, Problem 3): slotted-first made the list read as a
+ *  calendar transcript, whereas unslotted-first reads as what it actually is — the remaining
+ *  work ("Behöver plats"), with the already-decided plan ("Inplanerade") below it. Only the
+ *  presentation order of the two groups flips; chronological order is kept *within* the
+ *  slotted group. */
 export function sortPoolRows(rows: PoolRow[]): PoolRow[] {
   return [...rows].sort((a, b) => {
-    if (!!a.slot !== !!b.slot) return a.slot ? -1 : 1
+    if (!!a.slot !== !!b.slot) return a.slot ? 1 : -1
     if (a.slot && b.slot) {
       if (a.slot.date !== b.slot.date) return a.slot.date < b.slot.date ? -1 : 1
       return KIND_ORDER[a.slot.kind] - KIND_ORDER[b.slot.kind]

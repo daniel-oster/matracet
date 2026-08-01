@@ -19,39 +19,20 @@ export interface BoardDayRow {
 
 interface Props {
   rows: BoardDayRow[]
-  /** 'strip' = compact pills (portrait default, read-only overview). 'grid' = the full 7×2
-   *  table — sticky in landscape, or shown inline in portrait once expanded. */
-  variant: 'strip' | 'grid'
   selected?: { date: string; kind: MealKind } | null
   onSelectCell?: (date: string, kind: MealKind) => void
 }
 
-/** The week's slot board (2026-08 Planera redesign, issue #93) — a read-only overview in the
- *  sense that assignment never starts here (that's the pool rows' "→ plats…" picker); tapping
- *  an occupied cell opens its detail panel (attendance/fast/skip/component swaps) via
- *  onSelectCell, same information the old "active day" editor showed, just triggered from
- *  the board instead of a day-strip selection driving the whole screen. */
-export default function SlotBoard({ rows, variant, selected, onSelectCell }: Props) {
-  if (variant === 'strip') {
-    return (
-      <div className="plan-day-strip">
-        {rows.map(r => (
-          <div key={r.date} className="plan-day-pill">
-            <span className="plan-day-pill-w">{r.dayLabel} {r.dateNum}</span>
-            <span className="plan-day-pill-dots">
-              <span className={`plan-day-dot${r.lunch.label ? ' filled' : ''}`} title="Lunch">
-                {r.lunch.glyphs[0] ?? (r.lunch.label ? '●' : '○')}
-              </span>
-              <span className={`plan-day-dot${r.dinner.label ? ' filled' : ''}`} title="Middag">
-                {r.dinner.glyphs[0] ?? (r.dinner.label ? '●' : '○')}
-              </span>
-            </span>
-          </div>
-        ))}
-      </div>
-    )
-  }
-
+/** The week's slot board (2026-08 Planera redesign, issue #93; demoted to a secondary step by
+ *  the 2026-08 "list-first" pass, docs/planera-list-first-2026-08.md) — a read-only overview
+ *  in the sense that assignment never starts here (that's the pool rows' "→ plats…" picker);
+ *  tapping an occupied cell opens its detail panel (attendance/fast/skip/component swaps) via
+ *  onSelectCell, same information the old "active day" editor showed, just triggered from the
+ *  board instead of a day-strip selection driving the whole screen. The old compact 'strip'
+ *  variant (a read-only row of day pills, shown permanently above the list) was removed along
+ *  with the list-first pass — the board no longer has a permanently-visible portrait form at
+ *  all, only this full grid inside a collapsed-by-default section. */
+export default function SlotBoard({ rows, selected, onSelectCell }: Props) {
   function cell(c: BoardCell) {
     const isSelected = selected?.date === c.date && selected?.kind === c.kind
     const clickable = !!c.label && !c.skip && !!onSelectCell

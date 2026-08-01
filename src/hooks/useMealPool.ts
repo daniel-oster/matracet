@@ -32,6 +32,14 @@ export interface MealPoolEntry {
    *  — see the design's leftover-linking section. Orphaned (source removed/moved) rester
    *  entries are flagged, never silently deleted. */
   resterAv?: string
+  /** Display name to fall back to when `mealSlug` resolves to neither a real meals.json
+   *  entry nor a linked recipe — i.e. a *freeform* virtual meal (resolveMealForName's
+   *  slugify() fallback), whose only durable identity is otherwise its own slug. Set when
+   *  materializing a derived row synthesized from a git-planned day with no meals.json match
+   *  and no receptSlug (see mealPool.ts's FilledSlot.label and VeckanPlanner's
+   *  materializeRow) — every other creation path resolves a real name from meals/recipeIndex
+   *  and never needs this. */
+  mealNamn?: string
 }
 
 export interface MealPoolState {
@@ -52,7 +60,7 @@ function currentEntries(): MealPoolEntry[] {
   return reconcilePoolEntries(mealPoolStore.get().entries, weekPlanStore.get())
 }
 
-function addEntry(mealSlug: string, receptSlug: string | null, opts?: { resterAv?: string }): string {
+function addEntry(mealSlug: string, receptSlug: string | null, opts?: { resterAv?: string; mealNamn?: string }): string {
   const id = genId()
   const entry: MealPoolEntry = {
     id,
@@ -61,6 +69,7 @@ function addEntry(mealSlug: string, receptSlug: string | null, opts?: { resterAv
     addedAt: new Date().toISOString(),
     slot: null,
     ...(opts?.resterAv ? { resterAv: opts.resterAv } : {}),
+    ...(opts?.mealNamn ? { mealNamn: opts.mealNamn } : {}),
   }
   mealPoolStore.set({ entries: [...currentEntries(), entry] })
   return id
@@ -121,7 +130,7 @@ export function migrateStashDishesToPool(): void {
 
 export interface UseMealPool {
   entries: MealPoolEntry[]
-  addEntry: (mealSlug: string, receptSlug: string | null, opts?: { resterAv?: string }) => string
+  addEntry: (mealSlug: string, receptSlug: string | null, opts?: { resterAv?: string; mealNamn?: string }) => string
   removeEntry: (id: string) => void
   toggleDone: (id: string) => void
   setSlot: (id: string, slot: MealPoolSlotPointer | null) => void

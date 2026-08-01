@@ -393,7 +393,9 @@ input, select, textarea { font-family: inherit; }
 .mini.gold { border-color: var(--gold); color: var(--gold2); background: #fbf6ec; }
 .mini.rest { color: var(--blue); }
 
-/* Budget bar — always visible at the top of Planera. */
+/* Budget bar — the list-card's own header content (2026-08 "list-first" redesign; previously
+   an always-visible standalone bar). hideLabel drops the "X av Y klara" text (plan-list-count
+   already shows it), leaving just the bar + constraint chips. */
 .plan-budget { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
 .plan-budget-label { font-size: 12.5px; color: var(--sub); white-space: nowrap; }
 .plan-budget-label strong { color: var(--ink); }
@@ -406,6 +408,27 @@ input, select, textarea { font-family: inherit; }
 .plan-cols { display: block; }
 .plan-supply { min-width: 0; }
 .plan-board-col { display: none; }
+
+/* The list card — the main character (2026-08 "list-first" redesign,
+   docs/planera-list-first-2026-08.md). Not collapsible: unlike every other supply-column
+   section, this is the one thing Planera always shows in full. */
+.plan-list-card {
+  background: var(--paper); border: 2px solid var(--gold); border-radius: 14px;
+  padding: 10px 12px 8px; margin-bottom: 10px; box-shadow: 0 1px 0 var(--line2), 0 6px 18px rgba(0, 0, 0, .05);
+}
+.plan-list-head-top { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.plan-list-title { font-size: 17px; font-weight: 600; letter-spacing: .01em; }
+.plan-list-count { font-size: 13px; color: var(--gold2); }
+.plan-list-def { font-size: 11.5px; color: var(--muted); font-style: italic; margin: 1px 0 7px; }
+
+/* Group boundaries within the list — "Behöver plats" (unslotted, the working set) above
+   "Inplanerade" (slotted). See sortPoolRows/MealPoolList for why unslotted comes first. */
+.plan-group-label {
+  font-size: 10.5px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted);
+  font-weight: 600; margin: 9px 0 2px; display: flex; align-items: center; gap: 6px;
+}
+.plan-group-label-n { color: var(--gold2); }
+.plan-group-label::after { content: ''; flex: 1; height: 1px; background: var(--line2); }
 
 /* Collapsible supply-column sections — same header/chevron pattern as FyndView's categories. */
 .plan-section { margin-bottom: 12px; }
@@ -420,21 +443,12 @@ input, select, textarea { font-family: inherit; }
 .plan-section-chevron { color: var(--muted2); font-weight: 400; }
 .plan-section-body { margin-top: 4px; }
 
-/* Compact read-only day-strip (portrait default) — tapping "▸ Veckans platser" swaps this for the full grid. */
-.plan-board-expand-btn {
-  font-family: inherit; font-size: 11.5px; color: var(--blue); background: none; border: none;
-  padding: 4px 0 8px; cursor: pointer; display: block;
-}
-.plan-day-strip { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; }
-.plan-day-pill {
-  flex: none; display: flex; flex-direction: column; align-items: center; gap: 3px;
-  font-size: 11px; padding: 5px 7px; border-radius: 9px; background: var(--paper); border: 1px solid var(--line2); color: var(--sub);
-}
-.plan-day-pill-w { white-space: nowrap; }
-.plan-day-pill-dots { display: flex; gap: 4px; font-size: 9px; color: var(--muted2); }
-.plan-day-dot.filled { color: var(--gold2); }
+/* The board, demoted to a secondary step (2026-08 "list-first" redesign): in portrait it's a
+   collapsed-by-default section below the list; hidden entirely in landscape, where the
+   always-visible sticky plan-board-col already covers it (see the media query below). */
+.plan-board-portrait { margin-bottom: 8px; }
 
-/* Full 7×2 slot board (expanded in portrait, always-on sticky column in landscape). */
+/* Full 7×2 slot board (inline in portrait once expanded, always-on sticky column in landscape). */
 .plan-board { background: var(--paper); border: 1px solid var(--line2); border-radius: 10px; padding: 8px 10px; }
 .plan-board-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin: 0 0 6px; font-weight: 600; }
 .plan-board-row { display: grid; grid-template-columns: 36px 1fr 1fr; gap: 6px; align-items: stretch; padding: 3px 0; border-top: 1px solid var(--line2); }
@@ -477,7 +491,6 @@ button.plan-cell { cursor: pointer; }
 .pool-name { flex: 1 1 auto; min-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .pool-name small { color: var(--muted); font-size: 11px; }
 .tray-tag--slot { background: var(--blue-bg); color: var(--blue); }
-.tray-tag--none { background: transparent; border: 1px dashed var(--line); color: var(--muted2); }
 
 /* Assign controls (shared "→ plats…" trigger + inline picker) — used by pool rows, search
    results, offer-driven suggestions, and the recipe browser alike. */
@@ -501,10 +514,19 @@ button.plan-cell { cursor: pointer; }
 }
 .plan-slot-picker-hint { font-size: 10.5px; color: var(--muted); padding-top: 5px; }
 
+/* Steg 2-label above the board's sticky landscape column — the board has no such label in
+   portrait, since the "📅 Placera på dagar" collapsible section header already says as much. */
+.plan-board-step { font-size: 10px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted2); font-weight: 600; margin: 2px 0 6px; }
+
 @media (min-width: 860px), (orientation: landscape) and (max-height: 600px) {
-  .plan-cols { display: grid; grid-template-columns: 3fr 2fr; gap: 14px; align-items: start; }
+  /* 5fr 3fr (was 3fr 2fr) — the "list-first" redesign's landscape rebalance: the list must
+     stay clearly dominant even where there's room for a permanent board column. */
+  .plan-cols { display: grid; grid-template-columns: 5fr 3fr; gap: 14px; align-items: start; }
   .plan-board-col { display: block; position: sticky; top: 8px; }
-  .plan-board-toggle-area { display: none; }
+  .plan-board-portrait { display: none; }
+  /* No card chrome here — the board must read as quieter/secondary, not compete visually
+     with the list card. Portrait's collapsible-section board keeps its normal chrome. */
+  .plan-board-col .plan-board { background: transparent; border: none; padding: 0; }
 }
 
 /* ─── Week warnings ────────────────────────────────────────────────────── */

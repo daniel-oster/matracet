@@ -1640,6 +1640,15 @@ pair to `matracet:weekplan:v3`.
 
 ## Planera redesign: meal pool, slot picker, landscape board (2026-08, issue #93)
 
+**Partially superseded by the "Planera pass 2" section further down (issue #96/#97)**: the
+data model described here (`useMealPool`, `useWeekPlan` as the single source of truth for slot
+contents, `reconcilePoolEntries`, the inline slot picker) is unchanged and still accurate. What
+changed in pass 2 is presentation/hierarchy — the day-strip/pill-dot portrait overview and its
+expand toggle described below are deleted (`SlotBoard`'s `'strip'` variant no longer exists),
+`sortPoolRows` now puts unslotted rows first (was slotted-first), and the standalone
+always-visible `<BudgetBar>` became the meal list's own header. Left in place here as history
+rather than rewritten — see the pass 2 section for what's current.
+
 A full rework of Planera (week planning), driven by household feedback that the day-first
 flow was cramped and unintuitive and made lunch planning specifically unworkable. Full design
 spec: `docs/planera-redesign-2026-08.md` (on branch `claude/meal-planning-redesign-8hjl4y` at
@@ -1852,6 +1861,128 @@ trigger); creating a brand-new meal via "+ Skapa ny måltid" and confirming it l
 `matracet:meals:local:v1` and `matracet:mealpool:v1` (unslotted) with no leftover quick-assign
 UI in the modal. `npm run build` (real `tsc -b` type-check) and the full `npm test` suite (154
 tests, including 14 new ones for `src/lib/mealPool.ts`) both pass.
+
+## Planera pass 2: the meal list as the main character (2026-08, issue #96/#97)
+
+Follow-up to the #93 redesign above, driven by household feedback that the calendar/board
+still read as the main thing even though the meal *list* is what actually matters for
+grocery-shopping and cooking ("I need to have all the stuff to cook things... the list should
+be the main thing"), plus a confirmed correctness bug where the list silently disagreed with
+what the week actually showed. Full design spec: `docs/planera-list-first-2026-08.md`; static
+mockup: `docs/prototypes/planera-list-first-mockup.html`. All 5 staged items shipped in one
+pass.
+
+**Stage 1 — faithfulness fix + enforced invariant.** `src/App.tsx`'s boot-time `withMealSlug`
+used to leave a static `public/data/weeks/*.json` day with **no** `mealSlug` when its free-text
+`recept` name matched no `meals.json` entry *and* it had no `receptSlug` — that day still
+rendered on the slot board (which keys off the display name) but was silently excluded from
+`buildPoolRows` (which keys off `mealSlug`), so it never reached "Veckans måltider". Measured
+against real data: 4 of 29 dish-days in the last six week files ("Ugnsbakad lax & rotsaker",
+"Stekt fläsk & rödbetssallad", "Coq au vin", "Fylld pasta..."). Root-cause fix, extracted to a
+new testable `src/lib/mealResolve.ts::resolveWeekDayMealSlug` (was an inline closure in
+`App.tsx`): a meals.json name/alias match still wins first, then a receptSlug-linked virtual
+meal, then a **new third fallback** to `resolveMealForName` — a freeform virtual meal
+(`slugify()`-derived) so every dish-day resolves to *something*. `src/lib/mealPool.ts` gained
+`checkPoolCompleteness(entries, filledSlots)` — a pure predicate asserting the design's own
+invariant ("every non-skipped slot with a dish ⇒ exactly one pool row"), covered in
+`mealPool.test.ts` using the four real week-file dish-days as fixtures, plus duplicate-pointer
+and note-only/skip cases. Not wired into runtime — a test-time assertion, per the design's own
+"a test that fails when it does" framing, not a UI check.
+
+**Stage 1 gap found and fixed in the same pass, not in the original design doc**: giving every
+dish-day a `mealSlug` surfaced a *display* bug the design didn't anticipate — a freeform
+virtual meal's only identity is its `slug` (`slugify("Ugnsbakad lax & rotsaker")` →
+`"ugnsbakad-lax-rotsaker"`), and neither `FilledSlot` nor `MealPoolEntry` had anywhere to keep
+the original display text, so `MealPoolList`'s row rendering fell back to showing the raw slug
+instead of the dish name. This was unreachable before Stage 1 (such a day never got a
+`mealSlug` at all, so it never reached the pool) — Stage 1's own fix is what makes it visible.
+Fixed by threading a `label` field through: `FilledSlot.label` (the slot's already-resolved
+display name, `SlotInfo.label`) → `MealPoolEntry.mealNamn` (set when a derived row is
+materialized, additive field, no store version bump) → `MealPoolList`'s row-name fallback now
+reads `mealNamn` instead of mis-calling `resolveMealForName` with a slug where it expected a
+name.
+
+**Stage 2 — lazy materialization.** `VeckanPlanner`'s new `materializeRow(row)` promotes a
+`derived` row (a git-planned day, or any slot filled without going through the pool — see
+`PoolRow`'s own doc comment) to a real `MealPoolEntry` the moment the user acts on it, so the
+two-tier "derived rows can't be removed/done/rester'd" distinction from #93's review fix
+disappears. A derived row is always slotted (`buildPoolRows` only ever synthesizes one from a
+`FilledSlot`), so materializing one also calls `setMeal` with the *same* mealSlug/receptSlug
+the day already (implicitly) showed — nothing visibly changes, but `reconcilePoolEntries` only
+trusts a slot pointer backed by a real `WeekPlanOverride`, so without this the newly-real
+entry's pointer would be silently stripped on the very next read. `MealPoolList`'s `!row.derived`
+guards on "↩ rester" and "✓/✕" are dropped (materialization runs first instead); the "↩ rester"
+button is the meaningful fix — a git-planned day's leftover is now linked to a stable, real
+entry id rather than the positional `derived:date:kind` id a derived row only has until acted
+on (the exact bug #94's review had guarded against by hiding the button entirely).
+
+**Explicitly not fixed, disclosed rather than silently patched over**: "✕ Avboka" (unslot) on a
+row that's *still* purely derived (a git-planned day with no local override at all) stays a
+no-op beyond closing the detail panel — exactly what it already was before this pass. Making it
+actually clear the slot would need a way to represent "explicitly cleared, still needs a meal"
+distinct from both "no override" (the static file's dish shows through again) and
+`attendance.skip` ("no meal needed") — `DayOverride` has no such field, and adding one would
+touch `applyOverride`'s signature at all 6 of its call sites (`Hub`, `VeckanOverview` ×2,
+`WeekWarnings`, `FamiljView`, `VeckanPlanner`), which this pass's own design doc explicitly
+lists as untouched. The design doc flags this exact gap as an open, unconfirmed question
+("Should a removed derived row write an explicit skip/clear override...") — left open, not
+resolved, matching that framing. Materializing a still-*slotted* row (rester, or any future
+action that doesn't unslot) has no such problem and works correctly.
+
+**Stage 3 — list-first layout.** `VeckanPlanner`'s supply column now opens with a single
+non-collapsible `.plan-list-card` — title + "`X av Y klara`" count, an italic definition line
+("allt vi behöver kunna laga den här veckan"), the budget bar + constraint chips
+(`BudgetBar` gained a `hideLabel` prop so its own "X av Y" text doesn't repeat the header's),
+the search/add row, and the pool list itself — replacing the old always-visible standalone
+`<BudgetBar>` plus a separately-collapsible "Veckans måltider" section. `MealPoolList` now
+renders two groups within one list — **"Behöver plats"** (unslotted, the working set) above
+**"Inplanerade"** (slotted, chronological) — via a `plan-group-label` divider; `sortPoolRows`
+in `mealPool.ts` was flipped to unslotted-first (was slotted-first from #93) to match, since
+slotted-first made the list read as a calendar transcript rather than "the remaining work".
+The board lost its permanent portrait presence entirely (the old `.plan-day-strip`/pill-dot
+compact overview and its expand toggle are deleted, along with `SlotBoard`'s now-unreachable
+`'strip'` variant) — in portrait it's a collapsed-by-default `CollapsibleSection` ("📅 Placera
+på dagar", hinting the count of genuinely free non-skip slots) below the list; in landscape
+that whole wrapper (`plan-board-portrait`) is hidden, since the sticky right column already
+covers it.
+
+**Stage 3 bug found and fixed in the same pass**: the first draft nested `SlotDetail`'s render
+*inside* `plan-board-portrait` (natural, since that's where the portrait board that opens it
+lives) — but that wrapper is `display: none` in landscape, so tapping a filled cell in the
+always-visible sticky landscape column would set `expandedSlot` correctly and then render the
+detail panel somewhere invisible. Fixed by pulling `SlotDetail`'s render out to be a sibling of
+`plan-board-portrait` in the supply column instead (never itself hidden by the landscape media
+query) — verified by seeding a filled slot via a mocked week-file fetch and confirming
+`.plan-slot-detail` is actually visible (not just present in the DOM) after clicking the
+board-column cell at an 844×390 viewport.
+
+**Stage 4 — landscape rebalance.** The landscape/wide `.plan-cols` grid ratio changed from
+`3fr 2fr` to `5fr 3fr` — the list must stay clearly dominant even with the sticky board column
+present. The board loses its card chrome in that column specifically
+(`.plan-board-col .plan-board { background: transparent; border: none; padding: 0; }` —
+portrait's collapsible-section board keeps its normal chrome, since there it's the section's
+own content, not competing with anything) and gains a small uppercase "Steg 2 · placera på
+dagar" label above it, so it reads as an explicit secondary step rather than a peer of the
+list.
+
+**Verified end-to-end** with throwaway Playwright scripts (not committed) against `npm run
+preview`, both 390×900 (portrait) and 844×390 (landscape): the empty-week list-card renders
+with the correct header/definition/budget/search; materializing a derived row via "↩ rester"
+on a mocked git-planned day (localStorage inspected directly — the source entry gained
+`mealNamn`, the new rester entry's `resterAv` pointed at that entry's real id, not a
+`derived:...` id, and the underlying `weekplan` gained a matching explicit override); the
+landscape grid ratio (measured via `getComputedStyle` — 498.75px/299.25px, a true 5:3) and
+transparent board background; and the Stage 3 `SlotDetail`-visibility fix specifically (a
+filled cell tap in the landscape board column now shows the detail panel in the list column,
+confirmed via Playwright's `isVisible()`, not just DOM presence). `npm run build` (real
+`tsc -b` type-check) and the full `npm test` suite (170 tests, up from 154) both pass.
+
+**Stage 5 (this section) — CLAUDE.md updated** for the new hierarchy and the enforced
+invariant; superseded text in the #93 section above (day-strip/pill markup, slotted-first
+sort, the always-visible standalone budget bar) was left in place there as history rather than
+rewritten, consistent with this file's existing convention of marking prior sections
+"superseded" rather than deleting them — see e.g. "Week planning: discover-style suggestion
+list" and "Skafferi & chaos mode" further up for the same pattern.
 
 ## Deploy
 

@@ -110,6 +110,28 @@ export function rankComponentOptions(component: MealComponent, haveNames: string
 }
 
 /**
+ * Resolves the mealSlug for a static public/data/weeks/*.json day at boot time — every
+ * dish-day (non-null `recept`) must end up with a mealSlug, not just ones whose free-text
+ * name happens to match a meals.json namn/alias. Before this fix, a day with a dish name that
+ * matched nothing (no meals.json entry, no receptSlug — e.g. "Ugnsbakad lax & rotsaker",
+ * "Coq au vin") fell through with no mealSlug at all: it still rendered on the slot board
+ * (which keys off the display name) but was silently excluded from the meal pool list (which
+ * keys off mealSlug) — exactly the "list doesn't match the week" bug this closes. Order
+ * matters: a meals.json name/alias match wins even when the day also carries a receptSlug (a
+ * generic meal covers many recipes on purpose), receptSlug is tried next (a recipe-linked
+ * virtual meal), and a freeform virtual meal is the final fallback so every dish-day resolves
+ * to *something*. `public/data/weeks/*.json` itself stays free text; this is never written
+ * back to those files.
+ */
+export function resolveWeekDayMealSlug(day: Pick<DayMeal, 'recept' | 'receptSlug'>, meals: Meal[]): string | undefined {
+  if (!day.recept) return undefined
+  const matched = matchMealByName(day.recept, meals)
+  if (matched) return matched.slug
+  if (day.receptSlug) return resolveMealForRecipe(day.receptSlug, day.recept, meals).slug
+  return resolveMealForName(day.recept, meals).slug
+}
+
+/**
  * The meal behind an already-resolved day/lunch slot (a DayMeal as returned by
  * applyOverride, or the raw static entry) — for callers (WeekWarnings, VeckanOverview)
  * that need the actual Meal object for evaluateFit, not just its display name. Prefers

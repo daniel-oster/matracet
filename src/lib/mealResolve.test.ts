@@ -3,6 +3,7 @@ import { readFileSync, readdirSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import type { MealsFile } from '../types/meal'
+import { resolveWeekDayMealSlug, slugify } from './mealResolve'
 
 // Data-integrity guards for public/data/meals.json — not about evaluateFit itself, but
 // about a real orphaning risk in how it (and feedback, keyed by meal slug since Stage 5)
@@ -47,5 +48,38 @@ describe('meals.json data invariants', () => {
           `feedback/history between two unrelated things.`,
       ).toBe(true)
     }
+  })
+})
+
+// The confirmed bug from docs/planera-list-first-2026-08.md: a static week-day whose recept
+// name matches no meals.json entry and carries no receptSlug used to get no mealSlug at all
+// (App.tsx's old withMealSlug just returned the day unchanged), so it rendered on the slot
+// board but was silently missing from the meal pool list. These four are the real dish-days
+// (from public/data/weeks/2026-W21.json and 2026-W28.json) the design doc measured as broken.
+describe('resolveWeekDayMealSlug', () => {
+  const REAL_UNMATCHED_DISH_DAYS = [
+    'Ugnsbakad lax & rotsaker',
+    'Stekt fläsk & rödbetssallad',
+    'Coq au vin',
+    'Fylld pasta (tortellini/ravioli) med smörsås och parmesan',
+  ]
+
+  it.each(REAL_UNMATCHED_DISH_DAYS)('gives a dish-day with no meals.json match and no receptSlug a virtual mealSlug: %s', recept => {
+    const slug = resolveWeekDayMealSlug({ recept, receptSlug: undefined }, meals)
+    expect(slug).toBe(slugify(recept))
+  })
+
+  it('returns undefined for a note-only day (recept: null)', () => {
+    expect(resolveWeekDayMealSlug({ recept: null, receptSlug: undefined }, meals)).toBeUndefined()
+  })
+
+  it('prefers a meals.json namn/alias match over a receptSlug-derived virtual meal', () => {
+    const slug = resolveWeekDayMealSlug({ recept: 'grillburgare', receptSlug: 'some-other-recipe' }, meals)
+    expect(slug).toBe('hamburgare')
+  })
+
+  it('falls back to a receptSlug-derived virtual meal when no meals.json name matches', () => {
+    const slug = resolveWeekDayMealSlug({ recept: 'Ugnsbakad lax med soja och ingefära', receptSlug: 'laxfile-soja-ingefara' }, meals)
+    expect(slug).toBe('laxfile-soja-ingefara')
   })
 })
