@@ -141,6 +141,30 @@ section.card h2 .toggle { color: var(--muted2); font-weight: 400; }
 .sugg-name { font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .sugg-tags { display: flex; gap: 4px; margin-top: 2px; flex-wrap: wrap; }
 
+/* slot picker (opens under a row from its "→ plats" button) */
+.slot-picker {
+  margin: 4px 0 6px; padding: 8px 10px; border: 1px solid var(--gold);
+  border-radius: 10px; background: #fbf6ec;
+}
+.slot-picker-head { display: flex; align-items: baseline; gap: 6px; font-size: 12px; color: var(--sub); margin-bottom: 6px; }
+.slot-picker-head b { color: var(--ink); }
+.slot-picker-head .x { margin-left: auto; border: none; background: none; color: var(--muted2); font-family: inherit; font-size: 13px; }
+.slot-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+.slot-chip {
+  font-family: inherit; font-size: 12px; padding: 5px 9px; border-radius: 9px;
+  border: 1px solid var(--line); background: var(--paper); color: var(--ink);
+  display: inline-flex; gap: 5px; align-items: center;
+}
+.slot-chip .k { color: var(--gold2); }
+.slot-chip .glyph { font-size: 10.5px; }
+.slot-chip.occ { border-style: dashed; color: var(--sub); background: transparent; }
+.slot-chip.occ .dish { font-size: 11px; color: var(--blue); }
+.slot-occ-toggle {
+  display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--blue);
+  background: none; border: none; font-family: inherit; padding: 7px 0 5px;
+}
+.slot-picker-hint { font-size: 10.5px; color: var(--muted); padding-top: 5px; }
+
 /* collapsed sections */
 .collapsed { color: var(--sub); font-size: 12.5px; padding: 7px 10px; background: var(--paper); border: 1px solid var(--line); border-radius: 12px; margin-bottom: 8px; display: flex; gap: 8px; align-items: baseline; }
 .collapsed .chev { color: var(--muted2); }
@@ -169,11 +193,11 @@ section.card h2 .toggle { color: var(--muted2); font-weight: 400; }
   <div class="supply">
 
     <!-- portrait-only collapsed slot board -->
-    <button class="strip-expand">▸ Visa veckans platser</button>
+    <button class="strip-expand">▸ Veckans platser – översikt</button>
     <div class="day-strip">
       <div class="day-pill">Mån 3<span class="dots">○<b>●</b></span></div>
       <div class="day-pill">Tis 4<span class="dots"><b>●</b><b>●</b></span></div>
-      <div class="day-pill on">Ons 5<span class="dots">○○</span></div>
+      <div class="day-pill">Ons 5<span class="dots">○○</span></div>
       <div class="day-pill">Tor 6<span class="dots">—<b>●</b></span></div>
       <div class="day-pill">Fre 7<span class="dots">○<b>●</b></span></div>
       <div class="day-pill">Lör 8<span class="dots"><b>●</b>○</span></div>
@@ -212,12 +236,33 @@ section.card h2 .toggle { color: var(--muted2); font-weight: 400; }
         <span class="pool-name">Tofu stroganoff</span>
         <span class="tag veg">🌱</span>
         <span class="tag none">ej inplanerad</span>
-        <button class="mini gold">→ Ons ☾</button>
+        <button class="mini gold">→ plats…</button>
+      </div>
+      <div class="slot-picker">
+        <div class="slot-picker-head">Välj plats för <b>Tofu stroganoff</b><button class="x">✕</button></div>
+        <div class="slot-grid">
+          <button class="slot-chip"><span class="k">Mån ☼</span>ledig<span class="glyph">⚡</span></button>
+          <button class="slot-chip"><span class="k">Ons ☼</span>ledig</button>
+          <button class="slot-chip"><span class="k">Ons ☾</span>ledig<span class="glyph">🌱</span></button>
+          <button class="slot-chip"><span class="k">Fre ☼</span>ledig</button>
+          <button class="slot-chip"><span class="k">Lör ☾</span>ledig</button>
+          <button class="slot-chip"><span class="k">Sön ☼</span>ledig</button>
+          <button class="slot-chip"><span class="k">Sön ☾</span>ledig</button>
+        </div>
+        <button class="slot-occ-toggle">⇄ Visa upptagna platser (byte) ▾</button>
+        <div class="slot-grid">
+          <button class="slot-chip occ"><span class="k">Mån ☾</span><span class="dish">Korvstroganoff</span>⇄</button>
+          <button class="slot-chip occ"><span class="k">Tis ☾</span><span class="dish">Tacos</span>⇄</button>
+          <button class="slot-chip occ"><span class="k">Tor ☾</span><span class="dish">Ugnslax</span>⇄</button>
+          <button class="slot-chip occ"><span class="k">Fre ☾</span><span class="dish">Hamburgare</span>⇄</button>
+          <button class="slot-chip occ"><span class="k">Lör ☼</span><span class="dish">Pannkakor</span>⇄</button>
+        </div>
+        <div class="slot-picker-hint">Väljer du en upptagen plats byter de: den gamla måltiden blir oplanerad igen.</div>
       </div>
       <div class="pool-row">
         <span class="pool-name">Pastasås <small>(idé)</small></span>
         <span class="tag none">ej inplanerad</span>
-        <button class="mini gold">→ Ons ☾</button>
+        <button class="mini gold">→ plats…</button>
       </div>
     </section>
 
@@ -243,7 +288,7 @@ section.card h2 .toggle { color: var(--muted2); font-weight: 400; }
           <div class="sugg-tags"><span class="tag save">🏷 kycklingfilé −40 kr</span><span class="tag">⚡ 35 min</span></div>
         </div>
         <button class="mini">+ i veckan</button>
-        <button class="mini gold">→ Ons ☾</button>
+        <button class="mini gold">→ plats…</button>
       </div>
       <div class="sugg">
         <div class="sugg-img"></div>
@@ -252,7 +297,7 @@ section.card h2 .toggle { color: var(--muted2); font-weight: 400; }
           <div class="sugg-tags"><span class="tag save">🏷 2 fynd</span><span class="tag veg">🌱 med byte</span><span class="tag">⚡ 25 min</span></div>
         </div>
         <button class="mini">+ i veckan</button>
-        <button class="mini gold">→ Ons ☾</button>
+        <button class="mini gold">→ plats…</button>
       </div>
       <div class="sugg">
         <div class="sugg-img"></div>
@@ -261,7 +306,7 @@ section.card h2 .toggle { color: var(--muted2); font-weight: 400; }
           <div class="sugg-tags"><span class="tag save">🏷 fläskfärs −25 kr</span><span class="tag">❤ Erika</span></div>
         </div>
         <button class="mini">+ i veckan</button>
-        <button class="mini gold">→ Ons ☾</button>
+        <button class="mini gold">→ plats…</button>
       </div>
     </section>
 
@@ -288,7 +333,7 @@ section.card h2 .toggle { color: var(--muted2); font-weight: 400; }
       <div class="board-row">
         <div class="board-day"><b>Ons</b>5</div>
         <div class="cell empty"><span class="k">☼</span><span class="dish">ledig</span></div>
-        <div class="cell empty active"><span class="k">☾</span><span class="dish">ledig · väljer…</span><span class="glyph">🌱</span></div>
+        <div class="cell empty"><span class="k">☾</span><span class="dish">ledig</span><span class="glyph">🌱</span></div>
       </div>
       <div class="board-row">
         <div class="board-day"><b>Tor</b>6</div>
@@ -310,7 +355,7 @@ section.card h2 .toggle { color: var(--muted2); font-weight: 400; }
         <div class="cell empty"><span class="k">☼</span><span class="dish">ledig</span></div>
         <div class="cell empty"><span class="k">☾</span><span class="dish">ledig</span></div>
       </div>
-      <div class="board-foot">Tryck på en plats för att välja den · dra en måltid hit</div>
+      <div class="board-foot">Dra en måltid hit – eller använd „→ plats…" på raden</div>
     </div>
   </div>
 

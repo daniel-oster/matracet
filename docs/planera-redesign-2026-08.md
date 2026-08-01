@@ -126,15 +126,26 @@ The pattern the household described is the **backlog + calendar side-by-side** p
    the pool/suggestions to candidates that satisfy it.
 2. **Slot board — collapsed by default** (item 8): collapses to roughly today's `day-strip`
    (pills + fill dots, plus constraint glyphs 🌱/⚡ on pills that have unmet constraints).
-   Expanding shows the full 7×2 grid. Tapping a slot makes it the **active slot** (replaces
-   today's "active day" concept — one slot, not a day with two sub-slots), which arms every
-   assign button below. Tapping the active slot again deselects → assign buttons revert to
-   "+ Lägg i veckan" (add to pool, unslotted).
+   Expanding shows the full 7×2 grid. In portrait the strip/board is a **read-only overview**
+   — assignment does not go through selecting a day here (household feedback 2026-08: the
+   old "select a day up top, act down below" flow felt far away and unintuitive).
 3. **The pool list** (the primary element): one row per entry — name, tags (⚡ tid, 🌱 fit via
    `evaluateFit`, 🏷 savings via offer match), slot badge ("Mån ☾") or "ej inplanerad", and
-   actions: assign-to-active-slot / unslot / ✎ edit / remove. Component swaps and fit hints
-   (Stage 3/4 work) render under the *active slot's* entry exactly as today — that machinery
-   is kept, only its container changes.
+   actions: "→ plats…" (slot picker, below) / unslot / ✎ edit / remove. Component swaps and
+   fit hints (Stage 3/4 work) render under a row when expanded — that machinery is kept, only
+   its container changes.
+
+   **Assignment: the inline slot picker (the primary mechanism, both orientations).** Every
+   unassigned row (pool entries, suggestion cards, search results) carries a "→ plats…"
+   button that expands an inline picker directly under the row: **free slots first** as
+   tappable chips ("Ons ☾ ledig 🌱", with the slot's constraint glyphs so the fit is visible
+   at the moment of choice), then a collapsed "⇄ Visa upptagna platser (byte)" toggle
+   revealing occupied slots (dashed chips showing the current dish). **Picking an occupied
+   slot swaps**: the new meal takes the slot, the old occupant returns to the pool as
+   unassigned — never deleted. (If the old occupant was a static-week planned meal with no
+   pool entry yet, the swap creates one, so nothing planned in git can be silently lost.)
+   The picker replaces the old active-day/active-slot selection entirely — the action lives
+   on the meal, not in a far-away day strip.
 4. **One search box** (item 4): merges today's two boxes (`Sök recept…` on the suggestion list
    and `Sök måltid eller recept…` in the meal-add section). One input that simultaneously
    filters the pool list, searches meals + recipes (the existing `mealMatches` union logic,
@@ -174,8 +185,8 @@ At the existing shared breakpoint — `(min-width: 860px), (orientation: landsca
 Landscape-height economics apply as established in the `RecipeOverlay` work: shrink the topbar
 under `(orientation: landscape) and (max-height: 600px)`, no hero imagery, dense rows.
 
-**Drag & drop** (item 8): tap-to-assign (select meal → tap slot, or select slot → tap meal) is
-the **primary** mechanism — it works in portrait, on touch, and matches the app's
+**Drag & drop** (item 8): the inline slot picker (above) is the **primary** mechanism — it
+works identically in portrait and landscape, on touch, and matches the app's
 no-drag-precedent. Drag is a progressive enhancement on top: pointer-events-based (extend the
 `SwipeRow` learnings — axis-lock, click suppression), drag a pool row onto a slot cell or
 between slot cells. Build it *after* tap-assign works, and be prepared to cut it if it fights
@@ -208,9 +219,9 @@ pool.
    migration, chaos-mode toggle removed (`StashPantryPanel` sections fold in as collapsibles),
    the pool list renders above the suggestion list, both search boxes merge. Portrait only;
    slot assignment still via the existing active-day editor. This is the big conceptual merge.
-3. **Slot board + active-slot flow** — replace day-strip/active-day with the collapsible slot
-   board, per-slot ⚡ flag, constraint chips wired to `evaluateFit`, assign flow reworked to
-   active-slot.
+3. **Slot board + slot-picker flow** — replace day-strip/active-day with the read-only
+   collapsible slot board, per-slot ⚡ flag, constraint chips wired to `evaluateFit`, and the
+   inline "→ plats…" slot picker with swap semantics as the assignment mechanism.
 4. **Landscape two-column layout** — the CSS pass: sticky slot board right column at the shared
    wide/landscape breakpoint, topbar shrink, screenshot-verified at 844×390 per the established
    Playwright workflow.
