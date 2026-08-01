@@ -6,6 +6,7 @@ import type { TaskLogFile } from './types/taskLog'
 import type { Meal, MealsFile } from './types/meal'
 import { matchMealByName, resolveMealForRecipe } from './lib/mealResolve'
 import { migrateWeekPlanV2 } from './hooks/useWeekPlan'
+import { migrateStashDishesToPool } from './hooks/useMealPool'
 import Hub from './components/Hub'
 import VeckanView from './components/views/VeckanView'
 import HandlaView from './components/views/HandlaView'
@@ -60,6 +61,10 @@ export default function App() {
   // CLAUDE.md's "Meals as the plannable unit" section) onto the git-tracked list at read
   // time, so every screen that receives `meals` sees them without its own merge logic.
   const mergedMeals = useMemo(() => mergeLocalMeals(meals, localMeals), [meals, localMeals])
+
+  // One-time stash-dish → meal-pool migration (2026-08 Planera redesign, issue #93) —
+  // independent of the static-data fetch below, since it only reads/writes localStorage.
+  useEffect(() => { migrateStashDishesToPool() }, [])
 
   useEffect(() => {
     const today = new Date().toISOString().slice(0, 10)

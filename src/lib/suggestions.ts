@@ -30,7 +30,7 @@ export interface RankedSuggestion {
  *  swappable dish like Hamburgare correctly counts as vegan-friendly. */
 const VEGAN_PROBE: Eater = { id: '__vegan_probe__', namn: '', roll: '', kost: ['vegan'], gillar: [], undviker: [] }
 
-function isVeganFriendly(meal: Meal, recipe: Recipe | undefined): boolean {
+export function isVeganFriendly(meal: Meal, recipe: Recipe | undefined): boolean {
   return evaluateFit(meal, recipe ?? null, [VEGAN_PROBE], null).ok
 }
 
@@ -44,7 +44,7 @@ function isVeganFriendly(meal: Meal, recipe: Recipe | undefined): boolean {
 const TRIVIAL_INGREDIENTS = new Set(['vatten', 'salt', 'peppar', 'svartpeppar', 'vitpeppar', 'salt och peppar', 'is', 'isbitar'])
 
 /** Find a currently-discounted offer whose name plausibly matches one of the recipe's ingredients. */
-function findOfferMatch(recipe: Recipe | undefined, offers: TaggedOffer[]): TaggedOffer | undefined {
+export function findOfferMatch(recipe: Recipe | undefined, offers: TaggedOffer[]): TaggedOffer | undefined {
   if (!recipe) return undefined
   const ingredientNames = recipe.ingredienser
     .map(i => i.vara.trim().toLowerCase())

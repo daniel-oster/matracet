@@ -1,23 +1,40 @@
 import { useMemo, useState } from 'react'
-import { DayMeal, Eater, MealKind, RecipeIndexEntry } from '../../types'
+import { DayMeal, Eater, MealKind, Recipe, RecipeIndexEntry } from '../../types'
 import type { Meal } from '../../types/meal'
 import type { DayPlan } from '../../presence/types'
-import { useWeekPlan, applyOverride, effectivePresentIds, diffAttendance, MealAttendance } from '../../hooks/useWeekPlan'
+import { addDays } from '../../presence/resolver'
+import {
+  useWeekPlan, applyOverride, effectivePresentIds, diffAttendance,
+  MealAttendance, WeekPlanOverride,
+} from '../../hooks/useWeekPlan'
 import { useFeedback } from '../../hooks/useFeedback'
 import { useRecipes } from '../../hooks/useRecipes'
 import { useOffers } from '../../hooks/useOffers'
 import { usePantry } from '../../hooks/usePantry'
 import { useStash } from '../../hooks/useStash'
 import { useShoppingList } from '../../hooks/useShoppingList'
-import { useChaosMode } from '../../hooks/useChaosMode'
 import { useLocalMeals } from '../../hooks/useLocalMeals'
-import { tagOffers } from '../../lib/bevaka'
+import { useMealPool } from '../../hooks/useMealPool'
+import { useIrrelevantOffers } from '../../hooks/useIrrelevantOffers'
+import { tagOffers, TaggedOffer } from '../../lib/bevaka'
 import { rankSuggestions, SuggestionFilter, SuggestionSort } from '../../lib/suggestions'
 import { findUnlockOpportunities } from '../../lib/unlockMatch'
-import { resolveMealForRecipe, resolveComponents, rankComponentOptions, resolveDayMeal, matchMealByName } from '../../lib/mealResolve'
-import { evaluateFit } from '../../lib/dietFit'
-import StashPantryPanel from '../StashPantryPanel'
+import { matchPantryRecipes } from '../../lib/pantryMatch'
+import {
+  resolveMealForRecipe, resolveComponents, resolveDayMeal, matchMealByName,
+} from '../../lib/mealResolve'
+import { evaluateFit, DietFitResult } from '../../lib/dietFit'
+import { buildPoolRows, sortPoolRows, computeBudget, BudgetSlotFlags, FilledSlot, PoolRow } from '../../lib/mealPool'
+import { MEAL_PLANNING_GROUPS, groupOf } from '../../lib/kategoriTaxonomy.mjs'
 import MealEditorModal from '../MealEditorModal'
+import CollapsibleSection from './CollapsibleSection'
+import BudgetBar from './BudgetBar'
+import SlotBoard, { BoardDayRow, BoardCell } from './SlotBoard'
+import SlotDetail from './SlotDetail'
+import MealPoolList from './MealPoolList'
+import OffersPanel from './OffersPanel'
+import AssignControls from './AssignControls'
+import type { SlotChipData } from './SlotPicker'
 
 const DAY_SHORT: Record<string, string> = {
   mandag: 'Mån', tisdag: 'Tis', onsdag: 'Ons',
@@ -46,6 +63,25 @@ const SORTS: { id: SuggestionSort; label: string }[] = [
   { id: 'fastest', label: '⚡ Snabbast' },
 ]
 
+interface SlotInfo {
+  date: string
+  kind: MealKind
+  dag: string
+  label: string | null
+  slug: string | null
+  mealSlug: string | undefined
+  skip: boolean
+  presentIds: string[] | null
+  planPresentIds: string[] | null
+  attendance: MealAttendance | undefined
+  override: WeekPlanOverride | undefined
+  fast: boolean
+  meal: Meal | null
+  recipeEntry: RecipeIndexEntry | null
+  fullRecipe: Recipe | undefined
+  fit: DietFitResult | null
+}
+
 interface Props {
   days: DayMeal[]
   lunches: DayMeal[]
@@ -56,18 +92,31 @@ interface Props {
   onOpenRecipe: (slug: string) => void
 }
 
+/**
+ * Planera — the 2026-08 meal-pool redesign (issue #93). Replaces the old day-first
+ * "select a day, act below" flow: the week's meals are a flat pool first (slotted or not),
+ * assignment happens via an inline slot picker attached to whichever row you're looking at,
+ * and the day board becomes a read-only overview you drill into for per-slot detail
+ * (attendance, "kort om tid", component swaps) rather than the thing that drives assignment.
+ * See CLAUDE.md's "Planera redesign" section for the full data-model writeup.
+ */
 export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeIndex, meals, onOpenRecipe }: Props) {
-  const { getOverride, setMeal, clearOverride, setComponentSwap, getAttendance, setAttendance, clearAttendance } = useWeekPlan()
+  const { getOverride, setMeal, clearOverride, setComponentSwap, getAttendance, setAttendance, clearAttendance, getFast, setFast } = useWeekPlan()
   const { getFeedback } = useFeedback()
   const allSlugs = useMemo(() => recipeIndex.map(r => r.slug), [recipeIndex])
   const fullRecipes = useRecipes(allSlugs)
   const { stores } = useOffers()
-  const offers = useMemo(() => (stores ? tagOffers(stores) : []), [stores])
-  const chaos = useChaosMode()
+  const allOffers = useMemo(() => (stores ? tagOffers(stores) : []), [stores])
+  const { isIrrelevant } = useIrrelevantOffers()
+  const foodOffers = useMemo(
+    () => allOffers.filter(o => MEAL_PLANNING_GROUPS.includes(groupOf(o.kategori)) && !isIrrelevant(o.namn)),
+    [allOffers, isIrrelevant],
+  )
   const pantry = usePantry()
   const { items: stashItems } = useStash()
-  const { addOrRestoreByName, isActiveByName } = useShoppingList()
+  const { addOrRestoreByName, isActiveByName, isActiveForOffer, removeOrMarkForOffer } = useShoppingList()
   const { upsertMeal } = useLocalMeals()
+  const pool = useMealPool()
 
   const haveNames = useMemo(() => [
     ...(pantry?.always_have ?? []),
@@ -81,36 +130,189 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
   )
   const [expandedUnlock, setExpandedUnlock] = useState<string | null>(null)
 
-  const enrichedDays = useMemo(() => days.map(rawDay => {
-    const dinnerAttendance = getAttendance(rawDay.datum, 'dinner')
-    const lunchAttendance = getAttendance(rawDay.datum, 'lunch')
-    const dinner = applyOverride(rawDay, getOverride(rawDay.datum, 'dinner'), meals, recipeIndex, dinnerAttendance)
-    const rawLunch = lunches.find(l => l.datum === rawDay.datum)
-    const lunch = rawLunch ? applyOverride(rawLunch, getOverride(rawDay.datum, 'lunch'), meals, recipeIndex, lunchAttendance) : undefined
+  function buildSlotInfo(rawDay: DayMeal, kind: MealKind, plan: DayPlan | undefined): SlotInfo {
+    const attendance = getAttendance(rawDay.datum, kind)
+    const override = getOverride(rawDay.datum, kind)
+    const fast = getFast(rawDay.datum, kind)
+    const day = applyOverride(rawDay, override, meals, recipeIndex, attendance)
+    const planPresentIds = plan?.presentPersons.map(p => p.id) ?? null
+    const presentIds = effectivePresentIds(planPresentIds, attendance)
+    const presentEaters = presentIds ? eaters.filter(e => presentIds.includes(e.id)) : eaters
+    const meal = attendance?.skip ? null : resolveDayMeal(day, meals)
+    const recipeEntry = day.receptSlug ? recipeIndex.find(r => r.slug === day.receptSlug) ?? null : null
+    const fullRecipe = day.receptSlug ? fullRecipes[day.receptSlug] : undefined
+    const feedback = meal ? getFeedback(meal.slug) : null
+    const fit = meal ? evaluateFit(meal, fullRecipe ?? recipeEntry ?? null, presentEaters, feedback ?? null) : null
     return {
-      datum: rawDay.datum,
-      dag: rawDay.dag,
-      plan: dayPlans.find(p => p.date === rawDay.datum),
-      dinnerLabel: dinner.recept ?? dinner.anteckning ?? null,
-      dinnerSlug: dinner.receptSlug ?? null,
-      lunchLabel: lunch?.recept ?? lunch?.anteckning ?? null,
-      lunchSlug: lunch?.receptSlug ?? null,
-      dinnerOverride: getOverride(rawDay.datum, 'dinner'),
-      lunchOverride: getOverride(rawDay.datum, 'lunch'),
-      dinnerAttendance,
-      lunchAttendance,
+      date: rawDay.datum, kind, dag: rawDay.dag,
+      label: attendance?.skip ? null : (day.recept ?? day.anteckning ?? null),
+      slug: day.receptSlug ?? null,
+      mealSlug: attendance?.skip ? undefined : day.mealSlug,
+      skip: !!attendance?.skip,
+      presentIds, planPresentIds, attendance, override, fast,
+      meal, recipeEntry, fullRecipe, fit,
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }), [days, lunches, dayPlans, meals, recipeIndex, getOverride, getAttendance])
+  }
 
-  const [activeDate, setActiveDate] = useState(() => {
-    const firstEmpty = enrichedDays.find(d => !d.lunchLabel || !d.dinnerLabel)
-    return (firstEmpty ?? enrichedDays[0])?.datum
-  })
+  const daySlots = useMemo(() => days.map(rawDay => {
+    const plan = dayPlans.find(p => p.date === rawDay.datum)
+    const rawLunch = lunches.find(l => l.datum === rawDay.datum) ?? { dag: rawDay.dag, datum: rawDay.datum, recept: null }
+    return {
+      date: rawDay.datum,
+      dag: rawDay.dag,
+      lunch: buildSlotInfo(rawLunch, 'lunch', plan),
+      dinner: buildSlotInfo(rawDay, 'dinner', plan),
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }), [days, lunches, dayPlans, meals, recipeIndex, fullRecipes, getOverride, getAttendance, getFast, eaters])
+
+  const flatSlots = useMemo(() => daySlots.flatMap(d => [d.lunch, d.dinner]), [daySlots])
+
+  const budgetSlotFlags: BudgetSlotFlags[] = useMemo(() => flatSlots.map(s => {
+    const needsMeal = !s.skip && (s.presentIds === null || s.presentIds.length > 0)
+    const veganRequired = (s.presentIds ? eaters.filter(e => s.presentIds!.includes(e.id)) : eaters).some(e => e.kost?.includes('vegan'))
+    const veganSatisfied = !!s.meal && !!s.fit
+      && !s.fit.conflicts.some(c => c.reason === 'vegan')
+      && !s.fit.unknowns.some(u => u.reason === 'vegan-unknown')
+    const tidMin = s.recipeEntry?.tid_min ?? s.meal?.tid_min
+    const fastSatisfied = !!s.meal && tidMin != null && tidMin <= 25
+    const poolEntry = pool.entries.find(e => e.slot?.date === s.date && e.slot?.kind === s.kind)
+    return { needsMeal, filled: !!s.label, veganRequired, veganSatisfied, fastFlag: s.fast, fastSatisfied, isLeftover: !!poolEntry?.resterAv }
+  }), [flatSlots, eaters, pool.entries])
+
+  const budget = useMemo(() => computeBudget(budgetSlotFlags), [budgetSlotFlags])
+
+  const filledSlots: FilledSlot[] = useMemo(
+    () => flatSlots.filter(s => s.mealSlug).map(s => ({ date: s.date, kind: s.kind, mealSlug: s.mealSlug!, receptSlug: s.slug })),
+    [flatSlots],
+  )
+
   const [query, setQuery] = useState('')
-  const [filter, setFilter] = useState<SuggestionFilter>('alla')
-  const [sort, setSort] = useState<SuggestionSort>('match')
-  const [attendanceOpen, setAttendanceOpen] = useState<MealKind | null>(null)
+  const poolRows = useMemo(() => {
+    const rows = sortPoolRows(buildPoolRows(pool.entries, filledSlots))
+    const needle = query.trim().toLowerCase()
+    if (!needle) return rows
+    return rows.filter(r => {
+      const meal = meals.find(m => m.slug === r.mealSlug)
+      const namn = meal?.namn ?? recipeIndex.find(rc => rc.slug === r.receptSlug)?.namn ?? r.mealSlug
+      return namn.toLowerCase().includes(needle)
+    })
+  }, [pool.entries, filledSlots, query, meals, recipeIndex])
+
+  function dayLabel(date: string): string {
+    const dag = days.find(d => d.datum === date)?.dag ?? ''
+    return `${DAY_SHORT[dag] ?? dag} ${dateNum(date)}`
+  }
+
+  const [leftoverHints, setLeftoverHints] = useState<Record<string, string>>({}) // entryId -> preferred ISO date
+
+  function buildSlotChips(preferredKey?: string): { free: SlotChipData[]; occupied: SlotChipData[] } {
+    const free: SlotChipData[] = []
+    const occupied: SlotChipData[] = []
+    for (const s of flatSlots) {
+      if (s.skip) continue
+      const presentEaters = s.presentIds ? eaters.filter(e => s.presentIds!.includes(e.id)) : eaters
+      const glyphs: string[] = []
+      if (presentEaters.some(e => e.kost?.includes('vegan'))) glyphs.push('🌱')
+      if (s.fast) glyphs.push('⚡')
+      const chip: SlotChipData = { date: s.date, kind: s.kind, dayLabel: dayLabel(s.date), free: !s.label, glyphs, occupantLabel: s.label ?? undefined }
+      if (s.label) occupied.push(chip)
+      else free.push(chip)
+    }
+    if (preferredKey && leftoverHints[preferredKey]) {
+      const preferredDate = leftoverHints[preferredKey]
+      const idx = free.findIndex(f => f.date === preferredDate && f.kind === 'lunch')
+      if (idx > 0) {
+        const [item] = free.splice(idx, 1)
+        free.unshift(item)
+      }
+    }
+    return { free, occupied }
+  }
+
+  function assignToSlot(date: string, kind: MealKind, mealSlug: string, receptSlug: string | null, reuseEntryId?: string) {
+    const occupantOverride = getOverride(date, kind)
+    if (occupantOverride) {
+      const occupant = pool.findBySlot(date, kind)
+      if (occupant) pool.setSlot(occupant.id, null)
+      else pool.addEntry(occupantOverride.mealSlug, occupantOverride.receptSlug)
+    }
+    const entryId = reuseEntryId ?? pool.addEntry(mealSlug, receptSlug)
+    pool.setSlot(entryId, { date, kind })
+    setMeal(date, kind, mealSlug, receptSlug)
+    setPickerOpenFor(null)
+  }
+
+  function unslotSlot(date: string, kind: MealKind) {
+    const occupant = pool.findBySlot(date, kind)
+    clearOverride(date, kind)
+    if (occupant) pool.setSlot(occupant.id, null)
+    setExpandedSlot(null)
+  }
+
+  function addLeftover(row: PoolRow) {
+    const newId = pool.addEntry(row.mealSlug, row.receptSlug, { resterAv: row.id })
+    if (row.slot) {
+      const nextDate = addDays(row.slot.date, 1)
+      setLeftoverHints(h => ({ ...h, [newId]: nextDate }))
+    }
+    setPickerOpenFor(newId)
+  }
+
+  const [pickerOpenFor, setPickerOpenFor] = useState<string | null>(null)
+
+  function renderAssign(key: string, namn: string, mealSlug: string, receptSlug: string | null, reuseEntryId?: string) {
+    const { free, occupied } = buildSlotChips(key)
+    return (
+      <AssignControls
+        key={key}
+        namn={namn}
+        isOpen={pickerOpenFor === key}
+        onToggleOpen={() => setPickerOpenFor(o => (o === key ? null : key))}
+        freeSlots={free}
+        occupiedSlots={occupied}
+        onPick={(date, kind) => assignToSlot(date, kind, mealSlug, receptSlug, reuseEntryId)}
+        onAddUnslotted={reuseEntryId ? undefined : () => pool.addEntry(mealSlug, receptSlug)}
+      />
+    )
+  }
+
+  const [expandedSlot, setExpandedSlot] = useState<{ date: string; kind: MealKind } | null>(null)
+  const [attendanceEditorOpen, setAttendanceEditorOpen] = useState(false)
+
+  function openSlotDetail(date: string, kind: MealKind) {
+    setExpandedSlot(prev => (prev?.date === date && prev?.kind === kind ? null : { date, kind }))
+    setAttendanceEditorOpen(false)
+  }
+
+  const expandedInfo = expandedSlot ? flatSlots.find(s => s.date === expandedSlot.date && s.kind === expandedSlot.kind) : undefined
+
+  const boardRows: BoardDayRow[] = useMemo(() => daySlots.map(d => {
+    function toCell(s: SlotInfo): BoardCell {
+      const glyphs: string[] = []
+      if (!s.skip) {
+        const presentEaters = s.presentIds ? eaters.filter(e => s.presentIds!.includes(e.id)) : eaters
+        if (presentEaters.some(e => e.kost?.includes('vegan'))) glyphs.push('🌱')
+        if (s.fast) glyphs.push('⚡')
+        const { extra } = diffAttendance(s.planPresentIds, s.attendance)
+        if (extra.length > 0) glyphs.push(`👪 +${extra.length}`)
+      }
+      const poolEntry = pool.entries.find(e => e.slot?.date === s.date && e.slot?.kind === s.kind)
+      return { date: s.date, kind: s.kind, label: s.label, skip: s.skip, isLeftover: !!poolEntry?.resterAv, glyphs }
+    }
+    return {
+      date: d.date,
+      dayLabel: DAY_SHORT[d.dag] ?? d.dag,
+      dateNum: dateNum(d.date),
+      lunch: toCell(d.lunch),
+      dinner: toCell(d.dinner),
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }), [daySlots, eaters, pool.entries])
+
+  const [boardExpanded, setBoardExpanded] = useState(false)
+
   const [mealQuery, setMealQuery] = useState('')
   const [editorState, setEditorState] = useState<
     { mode: 'closed' } | { mode: 'new'; prefill: string } | { mode: 'edit'; meal: Meal }
@@ -119,10 +321,9 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
     () => [...meals.map(m => m.slug), ...recipeIndex.map(r => r.slug)],
     [meals, recipeIndex],
   )
-  // Search covers both the meal library and the full ~120-recipe bank, so "I remembered a
-  // recipe and want to plan it" works from the same box as "add a quick dish idea" — a
-  // recipe with no meals.json entry resolves to the same virtual meal assign()/the
-  // suggestion cards already use, so picking it here behaves identically either way.
+  // One search box across meals + recipes (2026-08 redesign item 4) — the mealMatches union
+  // logic already covered both before this redesign, this just becomes the screen's one and
+  // only add/search entry point instead of a second, separate box.
   const mealMatches = useMemo(() => {
     const needle = mealQuery.trim().toLowerCase()
     if (!needle) return []
@@ -143,391 +344,265 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
     [mealQuery, meals, recipeIndex],
   )
 
-  const active = enrichedDays.find(d => d.datum === activeDate) ?? enrichedDays[0]
-  const activePlanIds = useMemo(() => active?.plan?.presentPersons.map(p => p.id) ?? [], [active])
-
+  const [browseQuery, setBrowseQuery] = useState('')
+  const [browseFilter, setBrowseFilter] = useState<SuggestionFilter>('alla')
+  const [browseSort, setBrowseSort] = useState<SuggestionSort>('match')
   const suggestions = rankSuggestions({
-    recipeIndex, fullRecipes, meals, query, filter, sort, eaters,
-    presentPersonIds: effectivePresentIds(active?.plan?.presentPersons.map(p => p.id) ?? null, active?.dinnerAttendance),
-    offers, getFeedback,
+    recipeIndex, fullRecipes, meals, query: browseQuery, filter: browseFilter, sort: browseSort, eaters,
+    presentPersonIds: null, offers: allOffers, getFeedback,
   })
 
-  function assign(kind: MealKind, entry: { namn: string; slug: string }) {
-    if (!active) return
-    const meal = resolveMealForRecipe(entry.slug, entry.namn, meals)
-    setMeal(active.datum, kind, meal.slug, entry.slug)
-  }
+  const fromOffers = useMemo(() => rankSuggestions({
+    recipeIndex, fullRecipes, meals, query: '', filter: 'fynd', sort: 'savings', eaters,
+    presentPersonIds: null, offers: foodOffers, getFeedback,
+  }), [recipeIndex, fullRecipes, meals, eaters, foodOffers, getFeedback])
 
-  function attendanceFor(kind: MealKind): MealAttendance | undefined {
-    return kind === 'lunch' ? active?.lunchAttendance : active?.dinnerAttendance
-  }
+  const pantryMatches = useMemo(
+    () => matchPantryRecipes(recipeIndex, fullRecipes, haveNames),
+    [recipeIndex, fullRecipes, haveNames],
+  )
 
-  function toggleAttendee(kind: MealKind, eaterId: string) {
-    if (!active) return
-    const attendance = attendanceFor(kind)
-    const base = attendance?.presentIds ?? activePlanIds
-    const nextIds = base.includes(eaterId) ? base.filter(id => id !== eaterId) : [...base, eaterId]
-    setAttendance(active.datum, kind, { presentIds: nextIds, skip: false, updatedAt: new Date().toISOString() })
-  }
-
-  function toggleSkip(kind: MealKind) {
-    if (!active) return
-    const attendance = attendanceFor(kind)
-    if (attendance?.skip) {
-      clearAttendance(active.datum, kind)
-    } else {
-      setAttendance(active.datum, kind, { presentIds: attendance?.presentIds ?? null, skip: true, updatedAt: new Date().toISOString() })
-    }
-  }
-
-  function resetAttendance(kind: MealKind) {
-    if (!active) return
-    clearAttendance(active.datum, kind)
-    setAttendanceOpen(null)
+  function toggleOffer(o: TaggedOffer) {
+    if (isActiveForOffer(o.namn, o.store)) removeOrMarkForOffer(o.namn, o.store)
+    else addOrRestoreByName(o.namn, { offerRef: { store: o.store, week: o.week } })
   }
 
   return (
     <div className="planner">
-      <button
-        type="button"
-        className={`planmode-toggle${chaos.enabled ? ' on' : ''}`}
-        onClick={chaos.toggle}
-        title="Växla mellan dag-för-dag-planering och skafferi-läge för kaotiska sträckor"
-      >
-        {chaos.enabled ? '🏖️ Kaosläge' : '🗓️ Dag för dag'}
-      </button>
+      <BudgetBar summary={budget} />
 
-      {chaos.enabled ? (
-        <StashPantryPanel recipeIndex={recipeIndex} fullRecipes={fullRecipes} meals={meals} onOpenRecipe={onOpenRecipe} />
-      ) : (
-        <>
-      <div className="day-strip">
-        {enrichedDays.map(d => (
-          <button
-            key={d.datum}
-            type="button"
-            className={`day-pill${d.datum === active?.datum ? ' on' : ''}`}
-            onClick={() => { setActiveDate(d.datum); setAttendanceOpen(null) }}
-          >
-            <span className="day-pill-w">{DAY_SHORT[d.dag] ?? d.dag}</span>
-            <span className="day-pill-n">{dateNum(d.datum)}</span>
-            <span className="day-pill-dots">
-              <span className={`day-dot${d.lunchLabel ? ' filled' : ''}`} title="Lunch" />
-              <span className={`day-dot${d.dinnerLabel ? ' filled' : ''}`} title="Middag" />
-            </span>
-          </button>
-        ))}
-      </div>
-
-      {active && (
-        <div className="active-day">
-          <div className="active-day-name">{DAY_NAMES[active.dag] ?? active.dag}, väljer plats för:</div>
-          <div className="active-day-slots">
-            {(['lunch', 'dinner'] as MealKind[]).map(kind => {
-              const label = kind === 'lunch' ? active.lunchLabel : active.dinnerLabel
-              const slug = kind === 'lunch' ? active.lunchSlug : active.dinnerSlug
-              const override = kind === 'lunch' ? active.lunchOverride : active.dinnerOverride
-              const attendance = attendanceFor(kind)
-              const { away, extra } = diffAttendance(activePlanIds, attendance)
-              const meal = resolveDayMeal({ recept: label, receptSlug: slug ?? undefined, mealSlug: override?.mealSlug }, meals)
-              const presentIds = effectivePresentIds(activePlanIds, attendance)
-              const presentEaters = presentIds ? eaters.filter(e => presentIds.includes(e.id)) : eaters
-              const fit = meal && !attendance?.skip
-                ? evaluateFit(meal, slug ? fullRecipes[slug] ?? null : null, presentEaters, getFeedback(meal.slug) ?? null)
-                : null
-              return (
-                <div key={kind} className="active-slot-group">
-                  <div className="active-slot">
-                    <span className="active-slot-ic">{kind === 'lunch' ? '☼' : '☾'}</span>
-                    <span className={`active-slot-dish${label ? '' : ' empty'}`}>{label ?? 'ledig'}</span>
-                    {slug && (
-                      <button type="button" className="active-slot-open" onClick={() => onOpenRecipe(slug)}>Recept ›</button>
-                    )}
-                    {override && (
-                      <button
-                        type="button"
-                        className="active-slot-clear"
-                        onClick={() => clearOverride(active.datum, kind)}
-                        title="Återställ till ursprunglig plan"
-                      >✕</button>
-                    )}
-                    <button
-                      type="button"
-                      className={`active-slot-people${attendance ? ' edited' : ''}${attendanceOpen === kind ? ' on' : ''}`}
-                      onClick={() => setAttendanceOpen(o => (o === kind ? null : kind))}
-                      title="Vem äter?"
-                    >
-                      👪
-                    </button>
-                  </div>
-                  {!attendance?.skip && (away.length > 0 || extra.length > 0) && (
-                    <div className="active-slot-attendance">
-                      {away.map(id => (
-                        <span key={`away-${id}`} className="day-flag day-flag--away">− {eaters.find(e => e.id === id)?.namn ?? id}</span>
-                      ))}
-                      {extra.map(id => (
-                        <span key={`extra-${id}`} className="day-flag day-flag--extra">+ {eaters.find(e => e.id === id)?.namn ?? id}</span>
-                      ))}
-                    </div>
-                  )}
-                  {override && (() => {
-                    if (!meal || meal.komponenter.length === 0) return null
-                    return (
-                      <div className="active-slot-components">
-                        {meal.komponenter.map(orig => {
-                          const current = override.komponentByten?.[orig.vara] ?? orig.vara
-                          const options = rankComponentOptions(orig, haveNames)
-                          return (
-                            <div className="component-row" key={orig.vara}>
-                              <span className="component-label">{orig.vara}{orig.valfri ? ' · valfri' : ''}</span>
-                              <div className="component-options">
-                                {options.map(opt => (
-                                  <button
-                                    key={opt}
-                                    type="button"
-                                    className={`component-opt${opt === current ? ' on' : ''}`}
-                                    onClick={() => setComponentSwap(active.datum, kind, orig.vara, opt === orig.vara ? null : opt)}
-                                  >
-                                    {opt}
-                                  </button>
-                                ))}
-                              </div>
-                            </div>
-                          )
-                        })}
-                        <button
-                          type="button"
-                          className="component-shop-btn"
-                          onClick={() => {
-                            for (const c of resolveComponents(meal, override.komponentByten)) {
-                              addOrRestoreByName(c.vara, { source: meal.namn })
-                            }
-                          }}
-                        >
-                          🛒 Lägg komponenter i inköpslistan
-                        </button>
-                      </div>
-                    )
-                  })()}
-                  {fit && (fit.conflicts.length > 0 || fit.unknowns.length > 0 || fit.requiredSwaps.length > 0) && (
-                    <div className="fit-hints">
-                      {fit.conflicts.map(c => (
-                        <div className="fit-conflict" key={`${c.reason}-${c.personId}`}>⚠️ {c.detail}</div>
-                      ))}
-                      {fit.unknowns.map(u => (
-                        <div className="fit-unknown" key={`${u.reason}-${u.personId}`}>? {u.detail}</div>
-                      ))}
-                      {fit.requiredSwaps.map(s => {
-                        const canApply = meal?.komponenter.some(
-                          c => (override?.komponentByten?.[c.vara] ?? c.vara) === s.from && c.alternativ.includes(s.to),
-                        )
-                        return (
-                          <div className="fit-swap" key={`${s.from}-${s.to}`}>
-                            <span>🔁 funkar för alla om <strong>{s.from}</strong> byts mot <strong>{s.to}</strong> ({s.reason})</span>
-                            {canApply && meal && (
-                              <button
-                                type="button"
-                                className="fit-swap-apply"
-                                onClick={() => {
-                                  const orig = meal.komponenter.find(c => (override?.komponentByten?.[c.vara] ?? c.vara) === s.from)
-                                  if (orig) setComponentSwap(active.datum, kind, orig.vara, s.to)
-                                }}
-                              >
-                                Använd
-                              </button>
-                            )}
-                          </div>
-                        )
-                      })}
-                    </div>
-                  )}
-                  {attendanceOpen === kind && (
-                    <div className="attendance-editor">
-                      <div className="attendance-eaters">
-                        {eaters.map(e => {
-                          const ids = attendance?.presentIds ?? activePlanIds
-                          const on = ids.includes(e.id)
-                          return (
-                            <button
-                              key={e.id}
-                              type="button"
-                              disabled={attendance?.skip}
-                              className={`attendance-chip${on ? ' on' : ''}`}
-                              onClick={() => toggleAttendee(kind, e.id)}
-                            >
-                              {on ? '✓ ' : '— '}{e.namn}
-                            </button>
-                          )
-                        })}
-                      </div>
-                      <div className="attendance-actions">
-                        <button
-                          type="button"
-                          className={`attendance-skip${attendance?.skip ? ' on' : ''}`}
-                          onClick={() => toggleSkip(kind)}
-                        >
-                          {attendance?.skip ? '✓ Ingen måltid behövs' : 'Ingen måltid behövs'}
-                        </button>
-                        {attendance && (
-                          <button type="button" className="attendance-reset" onClick={() => resetAttendance(kind)}>
-                            Återställ till schema
-                          </button>
-                        )}
-                        <button type="button" className="attendance-close" onClick={() => setAttendanceOpen(null)}>Klar</button>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      )}
-
-      <div className="sugg-controls">
-        <div className="sugg-filters">
-          {FILTERS.map(f => (
-            <button
-              key={f.id}
-              type="button"
-              className={`tray-fbtn${filter === f.id ? ' on' : ''}`}
-              onClick={() => setFilter(f.id)}
-            >
-              {f.label}
+      <div className="plan-cols">
+        <div className="plan-supply">
+          <div className="plan-board-toggle-area">
+            <button type="button" className="plan-board-expand-btn" onClick={() => setBoardExpanded(v => !v)}>
+              {boardExpanded ? '▾' : '▸'} Veckans platser – översikt
             </button>
-          ))}
-        </div>
-        <div className="sugg-sorts">
-          {SORTS.map(s => (
-            <button
-              key={s.id}
-              type="button"
-              className={`sugg-sortbtn${sort === s.id ? ' on' : ''}`}
-              onClick={() => setSort(s.id)}
-            >
-              {s.label}
-            </button>
-          ))}
-        </div>
-        <input
-          className="tray-search"
-          type="search"
-          placeholder="Sök recept…"
-          value={query}
-          onChange={e => setQuery(e.target.value)}
-        />
-      </div>
-
-      {unlockOpportunities.length > 0 && (
-        <section className="unlock-section">
-          <h3 className="shop-group-title">🔓 Ett köp bort</h3>
-          <div className="unlock-list">
-            {unlockOpportunities.slice(0, 6).map(o => (
-              <div className="unlock-chip" key={o.ingredient}>
-                <button
-                  type="button"
-                  className="unlock-chip-main"
-                  onClick={() => setExpandedUnlock(x => (x === o.ingredient ? null : o.ingredient))}
-                >
-                  <span className="unlock-chip-name">{o.ingredient}</span>
-                  <span className="unlock-chip-count">→ {o.recipes.length} rätter</span>
-                </button>
-                <button
-                  type="button"
-                  className="unlock-chip-add"
-                  onClick={() => addOrRestoreByName(o.ingredient)}
-                  title="Lägg till på inköpslistan"
-                  disabled={isActiveByName(o.ingredient)}
-                >
-                  {isActiveByName(o.ingredient) ? '✓' : '+ handla'}
-                </button>
-              </div>
-            ))}
+            <SlotBoard
+              rows={boardRows}
+              variant={boardExpanded ? 'grid' : 'strip'}
+              selected={expandedSlot}
+              onSelectCell={boardExpanded ? openSlotDetail : undefined}
+            />
           </div>
-          {expandedUnlock && (
-            <div className="unlock-recipes">
-              {unlockOpportunities.find(o => o.ingredient === expandedUnlock)?.recipes.map(r => (
-                <button key={r.slug} type="button" className="unlock-recipe-link" onClick={() => onOpenRecipe(r.slug)}>
-                  {r.namn}
-                </button>
-              ))}
-            </div>
-          )}
-        </section>
-      )}
 
-      <section className="meal-add-section">
-        <h3 className="shop-group-title">🍽️ Måltider</h3>
-        <input
-          className="tray-search"
-          type="search"
-          placeholder="Sök måltid eller recept…"
-          value={mealQuery}
-          onChange={e => setMealQuery(e.target.value)}
-        />
-        {mealQuery.trim() ? (
-          <div className="meal-add-results">
-            {mealMatches.map(m => {
-              const isLunch = active?.lunchOverride?.mealSlug === m.slug
-              const isDinner = active?.dinnerOverride?.mealSlug === m.slug
-              const isRecipeOnly = !meals.some(x => x.slug === m.slug)
-              return (
-                <div key={m.slug} className="meal-chip">
-                  <span className="meal-chip-name">
-                    {m.namn}
-                    {isRecipeOnly && <span className="meal-chip-kind">recept</span>}
-                  </span>
-                  <div className="meal-chip-assign">
-                    <button
-                      type="button"
-                      className="meal-chip-edit"
-                      title="Redigera måltid"
-                      onClick={() => setEditorState({ mode: 'edit', meal: m })}
-                    >
-                      ✎
-                    </button>
-                    <button
-                      type="button"
-                      className={`sugg-assign${isLunch ? ' on' : ''}`}
-                      onClick={() => active && setMeal(active.datum, 'lunch', m.slug, m.receptSlug)}
-                    >
-                      {isLunch ? '✓ Lunch' : '☼ Lunch'}
-                    </button>
-                    <button
-                      type="button"
-                      className={`sugg-assign${isDinner ? ' on' : ''}`}
-                      onClick={() => active && setMeal(active.datum, 'dinner', m.slug, m.receptSlug)}
-                    >
-                      {isDinner ? '✓ Middag' : '☾ Middag'}
-                    </button>
-                  </div>
-                </div>
-              )
-            })}
-            {mealMatches.length === 0 && <div className="tray-empty">Inga måltider eller recept matchar.</div>}
-            {!mealQueryExactMatch && (
-              <button
-                type="button"
-                className="meal-add-create"
-                onClick={() => setEditorState({ mode: 'new', prefill: mealQuery.trim() })}
-              >
-                + Skapa ny måltid: "{mealQuery.trim()}"
-              </button>
-            )}
-          </div>
-        ) : (
-          <div className="meal-add-hint-row">
-            <span className="meal-add-hint">Sök en måltid eller ett recept för att lägga till, eller skapa en ny måltid.</span>
-            <button
-              type="button"
-              className="meal-add-new-btn"
-              onClick={() => setEditorState({ mode: 'new', prefill: '' })}
-            >
+          {expandedSlot && expandedInfo && (() => {
+            const { away, extra } = diffAttendance(expandedInfo.planPresentIds, expandedInfo.attendance)
+            return (
+              <SlotDetail
+                kind={expandedSlot.kind}
+                dayLabel={`${DAY_NAMES[expandedInfo.dag] ?? expandedInfo.dag} ${dateNum(expandedInfo.date)}`}
+                label={expandedInfo.label}
+                slug={expandedInfo.slug}
+                meal={expandedInfo.meal}
+                override={expandedInfo.override}
+                attendance={expandedInfo.attendance}
+                away={away}
+                extra={extra}
+                eaters={eaters}
+                activePlanIds={expandedInfo.planPresentIds ?? []}
+                fit={expandedInfo.fit}
+                fast={expandedInfo.fast}
+                haveNames={haveNames}
+                attendanceOpen={attendanceEditorOpen}
+                onOpenRecipe={onOpenRecipe}
+                onClear={() => unslotSlot(expandedSlot.date, expandedSlot.kind)}
+                onToggleAttendanceOpen={() => setAttendanceEditorOpen(o => !o)}
+                onToggleAttendee={eaterId => {
+                  const base = expandedInfo.attendance?.presentIds ?? expandedInfo.planPresentIds ?? []
+                  const nextIds = base.includes(eaterId) ? base.filter(id => id !== eaterId) : [...base, eaterId]
+                  setAttendance(expandedSlot.date, expandedSlot.kind, { presentIds: nextIds, skip: false, updatedAt: new Date().toISOString() })
+                }}
+                onToggleSkip={() => {
+                  if (expandedInfo.attendance?.skip) clearAttendance(expandedSlot.date, expandedSlot.kind)
+                  else setAttendance(expandedSlot.date, expandedSlot.kind, { presentIds: expandedInfo.attendance?.presentIds ?? null, skip: true, updatedAt: new Date().toISOString() })
+                }}
+                onResetAttendance={() => { clearAttendance(expandedSlot.date, expandedSlot.kind); setAttendanceEditorOpen(false) }}
+                onSetFast={value => setFast(expandedSlot.date, expandedSlot.kind, value)}
+                onComponentSwap={(vara, chosen) => setComponentSwap(expandedSlot.date, expandedSlot.kind, vara, chosen)}
+                onShopComponents={() => {
+                  if (!expandedInfo.meal || !expandedInfo.override) return
+                  for (const c of resolveComponents(expandedInfo.meal, expandedInfo.override.komponentByten)) {
+                    addOrRestoreByName(c.vara, { source: expandedInfo.meal.namn })
+                  }
+                }}
+                onClose={() => setExpandedSlot(null)}
+              />
+            )
+          })()}
+
+          <div className="plan-search-row">
+            <input
+              className="tray-search"
+              type="search"
+              placeholder="Sök måltid eller recept…"
+              value={mealQuery}
+              onChange={e => { setMealQuery(e.target.value); setQuery(e.target.value) }}
+            />
+            <button type="button" className="meal-add-new-btn" onClick={() => setEditorState({ mode: 'new', prefill: mealQuery.trim() })}>
               + Ny måltid
             </button>
           </div>
-        )}
-      </section>
+
+          {mealQuery.trim() && (
+            <div className="meal-add-results">
+              {mealMatches.map(m => {
+                const isRecipeOnly = !meals.some(x => x.slug === m.slug)
+                return (
+                  <div key={m.slug} className="meal-chip">
+                    <span className="meal-chip-name">
+                      {m.namn}
+                      {isRecipeOnly && <span className="meal-chip-kind">recept</span>}
+                    </span>
+                    <button type="button" className="meal-chip-edit" title="Redigera måltid" onClick={() => setEditorState({ mode: 'edit', meal: m })}>
+                      ✎
+                    </button>
+                    {renderAssign(`search:${m.slug}`, m.namn, m.slug, m.receptSlug)}
+                  </div>
+                )
+              })}
+              {mealMatches.length === 0 && <div className="tray-empty">Inga måltider eller recept matchar.</div>}
+              {!mealQueryExactMatch && (
+                <button type="button" className="meal-add-create" onClick={() => setEditorState({ mode: 'new', prefill: mealQuery.trim() })}>
+                  + Skapa ny måltid: "{mealQuery.trim()}"
+                </button>
+              )}
+            </div>
+          )}
+
+          <CollapsibleSection id="pool" title="Veckans måltider" count={poolRows.length} defaultCollapsed={false}>
+            <MealPoolList
+              rows={poolRows}
+              meals={meals}
+              recipeIndex={recipeIndex}
+              fullRecipes={fullRecipes}
+              eaters={eaters}
+              getFeedback={getFeedback}
+              offers={allOffers}
+              dayLabel={dayLabel}
+              onOpenRecipe={onOpenRecipe}
+              onToggleDone={pool.toggleDone}
+              onRemove={pool.removeEntry}
+              onUnslot={unslotSlot}
+              onAddLeftover={addLeftover}
+              renderAssign={renderAssign}
+            />
+          </CollapsibleSection>
+
+          <OffersPanel
+            offers={foodOffers}
+            isActiveForOffer={isActiveForOffer}
+            onToggleOffer={toggleOffer}
+            fromOffers={fromOffers}
+            meals={meals}
+            onOpenRecipe={onOpenRecipe}
+            renderAssign={renderAssign}
+          />
+
+          <CollapsibleSection
+            id="pantry-match"
+            title="Vad kan vi laga hemma?"
+            defaultCollapsed
+            hint={pantryMatches.length > 0 ? `${pantryMatches.length} rätter matchar skafferiet` : undefined}
+          >
+            {pantryMatches.length === 0 && <div className="fynd-empty">Inget matchar än — plocka in fynd eller råvaror i skafferiet.</div>}
+            <div className="sugg-list">
+              {pantryMatches.slice(0, 12).map(m => {
+                const meal = resolveMealForRecipe(m.entry.slug, m.entry.namn, meals)
+                return (
+                  <div key={m.entry.slug} className="sugg-card">
+                    {m.entry.bildUrl
+                      ? <img className="sugg-card-img" src={m.entry.bildUrl} alt="" />
+                      : <div className="sugg-card-img sugg-card-img--empty" />}
+                    <div className="sugg-card-body">
+                      <button type="button" className="sugg-card-name" onClick={() => onOpenRecipe(m.entry.slug)}>{m.entry.namn}</button>
+                      <div className="sugg-card-tags">
+                        <span className="tray-tag tray-tag--vegan">🧺 {m.matchedNames.join(', ')}</span>
+                      </div>
+                    </div>
+                    {renderAssign(`pantry:${m.entry.slug}`, m.entry.namn, meal.slug, m.entry.slug)}
+                  </div>
+                )
+              })}
+            </div>
+          </CollapsibleSection>
+
+          <CollapsibleSection
+            id="unlock"
+            title="🔓 Ett köp bort"
+            defaultCollapsed
+            hint={unlockOpportunities[0] ? `${unlockOpportunities[0].ingredient} låser upp ${unlockOpportunities[0].recipes.length} rätter` : undefined}
+          >
+            {unlockOpportunities.length === 0 && <div className="tray-empty">Inga nära-kompletta rätter just nu.</div>}
+            <div className="unlock-list">
+              {unlockOpportunities.slice(0, 6).map(o => (
+                <div className="unlock-chip" key={o.ingredient}>
+                  <button type="button" className="unlock-chip-main" onClick={() => setExpandedUnlock(x => (x === o.ingredient ? null : o.ingredient))}>
+                    <span className="unlock-chip-name">{o.ingredient}</span>
+                    <span className="unlock-chip-count">→ {o.recipes.length} rätter</span>
+                  </button>
+                  <button
+                    type="button"
+                    className="unlock-chip-add"
+                    onClick={() => addOrRestoreByName(o.ingredient)}
+                    title="Lägg till på inköpslistan"
+                    disabled={isActiveByName(o.ingredient)}
+                  >
+                    {isActiveByName(o.ingredient) ? '✓' : '+ handla'}
+                  </button>
+                </div>
+              ))}
+            </div>
+            {expandedUnlock && (
+              <div className="unlock-recipes">
+                {unlockOpportunities.find(o => o.ingredient === expandedUnlock)?.recipes.map(r => (
+                  <button key={r.slug} type="button" className="unlock-recipe-link" onClick={() => onOpenRecipe(r.slug)}>{r.namn}</button>
+                ))}
+              </div>
+            )}
+          </CollapsibleSection>
+
+          <CollapsibleSection id="alla-recept" title="Alla recept" defaultCollapsed hint={`bläddra & filtrera · ${recipeIndex.length}`}>
+            <div className="sugg-controls">
+              <div className="sugg-filters">
+                {FILTERS.map(f => (
+                  <button key={f.id} type="button" className={`tray-fbtn${browseFilter === f.id ? ' on' : ''}`} onClick={() => setBrowseFilter(f.id)}>
+                    {f.label}
+                  </button>
+                ))}
+              </div>
+              <div className="sugg-sorts">
+                {SORTS.map(s => (
+                  <button key={s.id} type="button" className={`sugg-sortbtn${browseSort === s.id ? ' on' : ''}`} onClick={() => setBrowseSort(s.id)}>
+                    {s.label}
+                  </button>
+                ))}
+              </div>
+              <input className="tray-search" type="search" placeholder="Sök recept…" value={browseQuery} onChange={e => setBrowseQuery(e.target.value)} />
+            </div>
+            <div className="sugg-list">
+              {suggestions.map(s => (
+                <div key={s.entry.slug} className={`sugg-card${s.excluded ? ' excluded' : ''}`}>
+                  {s.entry.bildUrl
+                    ? <img className="sugg-card-img" src={s.entry.bildUrl} alt="" />
+                    : <div className="sugg-card-img sugg-card-img--empty" />}
+                  <div className="sugg-card-body">
+                    <button type="button" className="sugg-card-name" onClick={() => onOpenRecipe(s.entry.slug)}>{s.entry.namn}</button>
+                    <div className="sugg-card-tags">
+                      {s.tags.map((t, i) => <span key={i} className={`tray-tag tray-tag--${t.kind}`}>{t.text}</span>)}
+                    </div>
+                  </div>
+                  {renderAssign(`browse:${s.entry.slug}`, s.entry.namn, resolveMealForRecipe(s.entry.slug, s.entry.namn, meals).slug, s.entry.slug)}
+                </div>
+              ))}
+              {suggestions.length === 0 && <div className="tray-empty">Inga recept matchar.</div>}
+            </div>
+          </CollapsibleSection>
+        </div>
+
+        <div className="plan-board-col">
+          <SlotBoard rows={boardRows} variant="grid" selected={expandedSlot} onSelectCell={openSlotDetail} />
+        </div>
+      </div>
 
       {editorState.mode !== 'closed' && (
         <MealEditorModal
@@ -535,53 +610,19 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
           initialName={editorState.mode === 'new' ? editorState.prefill : undefined}
           recipeIndex={recipeIndex}
           existingSlugs={existingMealSlugs}
-          activeDayLabel={active ? `${DAY_NAMES[active.dag] ?? active.dag} ${dateNum(active.datum)}` : undefined}
           onSave={m => {
             upsertMeal(m)
+            // Saving a new meal from Planera's search puts it straight into this week's
+            // pool, unslotted — the picker (already visible on its new pool row) is the one
+            // assignment mechanism, so there's no separate "save & assign to today" shortcut
+            // anymore (there's no "today" selection left to assign to).
+            if (editorState.mode === 'new') pool.addEntry(m.slug, m.receptSlug)
             setEditorState({ mode: 'closed' })
             setMealQuery('')
-          }}
-          onSaveAndAssign={(m, kind) => {
-            upsertMeal(m)
-            if (active) setMeal(active.datum, kind, m.slug, m.receptSlug)
-            setEditorState({ mode: 'closed' })
-            setMealQuery('')
+            setQuery('')
           }}
           onClose={() => setEditorState({ mode: 'closed' })}
         />
-      )}
-
-      <div className="sugg-list">
-        {suggestions.map(s => {
-          const isLunch = active?.lunchSlug === s.entry.slug
-          const isDinner = active?.dinnerSlug === s.entry.slug
-          return (
-            <div key={s.entry.slug} className={`sugg-card${s.excluded ? ' excluded' : ''}`}>
-              {s.entry.bildUrl
-                ? <img className="sugg-card-img" src={s.entry.bildUrl} alt="" />
-                : <div className="sugg-card-img sugg-card-img--empty" />}
-              <div className="sugg-card-body">
-                <button type="button" className="sugg-card-name" onClick={() => onOpenRecipe(s.entry.slug)}>
-                  {s.entry.namn}
-                </button>
-                <div className="sugg-card-tags">
-                  {s.tags.map((t, i) => <span key={i} className={`tray-tag tray-tag--${t.kind}`}>{t.text}</span>)}
-                </div>
-              </div>
-              <div className="sugg-card-assign">
-                <button type="button" className={`sugg-assign${isLunch ? ' on' : ''}`} onClick={() => assign('lunch', s.entry)}>
-                  {isLunch ? '✓ Lunch' : '☼ Lunch'}
-                </button>
-                <button type="button" className={`sugg-assign${isDinner ? ' on' : ''}`} onClick={() => assign('dinner', s.entry)}>
-                  {isDinner ? '✓ Middag' : '☾ Middag'}
-                </button>
-              </div>
-            </div>
-          )
-        })}
-        {suggestions.length === 0 && <div className="tray-empty">Inga recept matchar.</div>}
-      </div>
-        </>
       )}
     </div>
   )

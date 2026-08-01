@@ -223,12 +223,6 @@ input, select, textarea { font-family: inherit; }
 
 .planner { position: relative; }
 
-.planmode-toggle {
-  font-family: inherit; font-size: 12px; padding: 6px 11px; border-radius: 999px; margin-bottom: 10px;
-  border: 1px solid var(--line2); background: var(--paper); color: var(--sub); cursor: pointer;
-}
-.planmode-toggle.on { background: var(--gold); border-color: var(--gold); color: var(--ink); }
-
 /* "Buy X, unlock N dishes" — recipes one missing ingredient away from cookable. */
 .unlock-section { margin: 14px 0; }
 .unlock-list { display: flex; flex-direction: column; gap: 6px; }
@@ -247,10 +241,10 @@ input, select, textarea { font-family: inherit; }
   border: 1px solid var(--line2); background: var(--cream); cursor: pointer;
 }
 .unlock-chip-add:disabled { opacity: 0.55; cursor: default; }
-/* Meal-library row (search results in .meal-add-section below): assign a meals.json entry
-   (often with no recipe at all) straight to the active slot. */
+/* Meal-library row (top search results): assign a meals.json entry (often with no recipe at
+   all) via the shared AssignControls, or edit it. */
 .meal-chip {
-  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;
   background: var(--paper); border: 1px solid var(--line2); border-radius: 8px; padding: 7px 9px;
 }
 .meal-chip-name { font-size: 13.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -258,7 +252,6 @@ input, select, textarea { font-family: inherit; }
   font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.4px; margin-left: 6px;
   padding: 1px 6px; border-radius: 99px; background: var(--blue-bg); color: var(--blue); vertical-align: middle;
 }
-.meal-chip-assign { display: flex; gap: 6px; flex: none; }
 
 .unlock-recipes { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
 .unlock-recipe-link {
@@ -266,32 +259,9 @@ input, select, textarea { font-family: inherit; }
   border: 1px solid var(--line2); background: var(--cream); color: var(--ink); cursor: pointer;
 }
 
-/* Thin week strip: pick which day suggestions get assigned to. */
-.day-strip { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
-.day-pill {
-  flex: none; display: flex; flex-direction: column; align-items: center; gap: 3px;
-  font-family: inherit; width: 44px; padding: 7px 4px; border-radius: 9px; cursor: pointer;
-  background: var(--paper); border: 1px solid var(--line2); color: var(--sub);
-}
-.day-pill.on { background: var(--ink); border-color: var(--ink); color: var(--cream); }
-.day-pill-w { font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.8; }
-.day-pill-n { font-size: 15px; }
-.day-pill-dots { display: flex; gap: 3px; margin-top: 1px; }
-.day-dot { width: 5px; height: 5px; border-radius: 99px; background: rgba(120, 105, 75, 0.3); }
-.day-pill.on .day-dot { background: rgba(255, 255, 255, 0.35); }
-.day-dot.filled { background: var(--gold2); }
-.day-pill.on .day-dot.filled { background: var(--gold); }
-
-/* Active day: where the next tap will land. */
-.active-day {
-  margin-top: 10px; background: var(--paper); border: 1px solid var(--line2);
-  border-radius: 9px; padding: 10px 12px;
-}
-.active-day-name { font-size: 11px; color: var(--muted); margin-bottom: 6px; }
-.active-day-slots { display: flex; flex-direction: column; gap: 5px; }
-.active-slot-group { display: flex; flex-direction: column; gap: 4px; }
-.active-slot { display: flex; align-items: center; gap: 7px; font-size: 13.5px; }
-.active-slot-ic { color: var(--muted2); font-size: 12px; flex: none; width: 14px; }
+/* Per-slot detail panel content — shared with SlotDetail.tsx, opened from a board cell
+   (see the "Planera redesign" section below) rather than a permanently-selected active day. */
+.active-slot { display: flex; align-items: center; gap: 7px; font-size: 13.5px; flex-wrap: wrap; }
 .active-slot-dish { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .active-slot-dish.empty { color: var(--muted2); font-style: italic; }
 .active-slot-open, .active-slot-clear {
@@ -381,7 +351,7 @@ input, select, textarea { font-family: inherit; }
 /* Suggestion list: the main event — a tall vertical scroll, not a sidebar afterthought. */
 .sugg-list { margin-top: 10px; display: flex; flex-direction: column; gap: 8px; }
 .sugg-card {
-  display: flex; align-items: center; gap: 10px; background: var(--paper);
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap; background: var(--paper);
   border: 1px solid var(--line2); border-radius: 9px; padding: 9px 10px;
 }
 .sugg-card.excluded { opacity: 0.5; }
@@ -411,6 +381,130 @@ input, select, textarea { font-family: inherit; }
 @media (min-width: 860px), (orientation: landscape) and (max-height: 600px) {
   .sugg-list { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
   .sugg-card { align-items: flex-start; }
+}
+
+/* ─── Planera redesign: meal pool + slot board (2026-08, issue #93) ───────── */
+
+/* Small trailing-action button shared by pool rows, search results, and suggestion cards. */
+.mini {
+  flex: none; font-family: inherit; font-size: 11px; padding: 5px 9px; border-radius: 7px; white-space: nowrap;
+  border: 1px solid var(--line2); background: var(--cream); color: var(--sub); cursor: pointer;
+}
+.mini.gold { border-color: var(--gold); color: var(--gold2); background: #fbf6ec; }
+.mini.rest { color: var(--blue); }
+
+/* Budget bar — always visible at the top of Planera. */
+.plan-budget { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+.plan-budget-label { font-size: 12.5px; color: var(--sub); white-space: nowrap; }
+.plan-budget-label strong { color: var(--ink); }
+.plan-budget-bar { flex: 1 1 120px; height: 6px; border-radius: 3px; background: var(--line2); position: relative; overflow: hidden; min-width: 80px; }
+.plan-budget-bar > i { display: block; height: 100%; background: var(--gold); border-radius: 3px; }
+.plan-constraint-chip { font-size: 11px; padding: 2px 8px; border-radius: 10px; white-space: nowrap; background: var(--red-bg); color: var(--red); }
+.plan-constraint-chip--ok { background: var(--green-bg); color: var(--green-d); }
+
+/* Two-column layout shell — single column by default, splits at the shared wide/landscape breakpoint. */
+.plan-cols { display: block; }
+.plan-supply { min-width: 0; }
+.plan-board-col { display: none; }
+
+/* Collapsible supply-column sections — same header/chevron pattern as FyndView's categories. */
+.plan-section { margin-bottom: 12px; }
+.plan-section-head {
+  width: 100%; display: flex; align-items: center; gap: 6px; font-family: inherit;
+  background: none; border: none; padding: 4px 0; cursor: pointer; text-align: left;
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); font-weight: 600;
+}
+.plan-section-count { color: var(--gold2); text-transform: none; letter-spacing: normal; }
+.plan-section-spacer { flex: 1; }
+.plan-section-hint { color: var(--muted2); font-size: 10.5px; text-transform: none; letter-spacing: normal; font-weight: 400; }
+.plan-section-chevron { color: var(--muted2); font-weight: 400; }
+.plan-section-body { margin-top: 4px; }
+
+/* Compact read-only day-strip (portrait default) — tapping "▸ Veckans platser" swaps this for the full grid. */
+.plan-board-expand-btn {
+  font-family: inherit; font-size: 11.5px; color: var(--blue); background: none; border: none;
+  padding: 4px 0 8px; cursor: pointer; display: block;
+}
+.plan-day-strip { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; }
+.plan-day-pill {
+  flex: none; display: flex; flex-direction: column; align-items: center; gap: 3px;
+  font-size: 11px; padding: 5px 7px; border-radius: 9px; background: var(--paper); border: 1px solid var(--line2); color: var(--sub);
+}
+.plan-day-pill-w { white-space: nowrap; }
+.plan-day-pill-dots { display: flex; gap: 4px; font-size: 9px; color: var(--muted2); }
+.plan-day-dot.filled { color: var(--gold2); }
+
+/* Full 7×2 slot board (expanded in portrait, always-on sticky column in landscape). */
+.plan-board { background: var(--paper); border: 1px solid var(--line2); border-radius: 10px; padding: 8px 10px; }
+.plan-board-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin: 0 0 6px; font-weight: 600; }
+.plan-board-row { display: grid; grid-template-columns: 36px 1fr 1fr; gap: 6px; align-items: stretch; padding: 3px 0; border-top: 1px solid var(--line2); }
+.plan-board-row:first-of-type { border-top: none; }
+.plan-board-day { font-size: 11px; color: var(--sub); padding-top: 6px; }
+.plan-board-day strong { display: block; font-size: 12px; color: var(--ink); font-weight: 600; }
+.plan-cell {
+  font-family: inherit; text-align: left; border: 1px solid var(--line2); border-radius: 8px; padding: 3px 7px;
+  font-size: 11.5px; min-height: 30px; display: flex; align-items: center; gap: 5px; cursor: default;
+  background: var(--paper); overflow: hidden; white-space: nowrap; color: var(--ink);
+}
+button.plan-cell { cursor: pointer; }
+.plan-cell-k { color: var(--muted2); font-size: 10px; flex: none; }
+.plan-cell-dish { overflow: hidden; text-overflow: ellipsis; }
+.plan-cell-glyph { flex: none; font-size: 10.5px; }
+.plan-cell--empty { color: var(--muted2); font-style: italic; background: transparent; border-style: dashed; }
+.plan-cell--active { border-color: var(--gold); box-shadow: 0 0 0 1.5px var(--gold); background: #fbf6ec; }
+.plan-cell--skip { color: var(--muted); background: var(--checked); text-decoration: line-through; }
+.plan-cell--rester { color: var(--blue); background: var(--blue-bg); border-color: transparent; }
+
+/* Per-slot detail panel — the old "active day" editor, now opened from a board cell. */
+.plan-slot-detail { margin: 4px 0 10px; background: var(--paper); border: 1px solid var(--line2); border-radius: 9px; padding: 10px 12px; }
+.plan-slot-detail-head { display: flex; align-items: baseline; gap: 6px; font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+.plan-slot-detail-day { flex: 1; }
+.plan-fast-toggle {
+  flex: none; font-family: inherit; font-size: 12px; background: none; border: 1px solid transparent;
+  border-radius: 6px; padding: 1px 4px; cursor: pointer; opacity: 0.5;
+}
+.plan-fast-toggle.on { opacity: 1; background: #f4eeda; border-color: #e0cf9a; }
+
+/* Unified search row — permanent top-of-column "add a meal" entry point. */
+.plan-search-row { display: flex; gap: 6px; margin: 4px 0 8px; }
+.plan-search-row .tray-search { flex: 1; }
+.plan-search-row .meal-add-new-btn { flex: none; white-space: nowrap; }
+
+/* Pool list — "Veckans måltider", the primary element. */
+.plan-pool-list { display: flex; flex-direction: column; }
+.pool-row { display: flex; align-items: center; gap: 7px; padding: 6px 0; border-top: 1px solid var(--line2); font-size: 13px; flex-wrap: wrap; }
+.pool-row:first-of-type { border-top: none; }
+.pool-name { flex: 1 1 auto; min-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pool-name small { color: var(--muted); font-size: 11px; }
+.tray-tag--slot { background: var(--blue-bg); color: var(--blue); }
+.tray-tag--none { background: transparent; border: 1px dashed var(--line); color: var(--muted2); }
+
+/* Assign controls (shared "→ plats…" trigger + inline picker) — used by pool rows, search
+   results, offer-driven suggestions, and the recipe browser alike. */
+.plan-assign-controls { flex: 0 0 100%; }
+.plan-assign-buttons { display: flex; gap: 6px; justify-content: flex-end; }
+.plan-slot-picker { margin: 6px 0 4px; padding: 8px 10px; border: 1px solid var(--gold); border-radius: 10px; background: #fbf6ec; }
+.plan-slot-picker-head { display: flex; align-items: baseline; gap: 6px; font-size: 12px; color: var(--sub); margin-bottom: 6px; }
+.plan-slot-picker-close { margin-left: auto; font-family: inherit; border: none; background: none; color: var(--muted2); cursor: pointer; font-size: 13px; }
+.plan-slot-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+.plan-slot-chip {
+  font-family: inherit; font-size: 12px; padding: 5px 9px; border-radius: 9px; cursor: pointer;
+  border: 1px solid var(--line); background: var(--paper); color: var(--ink); display: inline-flex; gap: 5px; align-items: center;
+}
+.plan-slot-chip-k { color: var(--gold2); }
+.plan-slot-chip-glyph { font-size: 10.5px; }
+.plan-slot-chip--occ { border-style: dashed; color: var(--sub); background: transparent; }
+.plan-slot-chip-dish { font-size: 11px; color: var(--blue); }
+.plan-slot-occ-toggle {
+  display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--blue);
+  background: none; border: none; font-family: inherit; padding: 7px 0 5px; cursor: pointer;
+}
+.plan-slot-picker-hint { font-size: 10.5px; color: var(--muted); padding-top: 5px; }
+
+@media (min-width: 860px), (orientation: landscape) and (max-height: 600px) {
+  .plan-cols { display: grid; grid-template-columns: 3fr 2fr; gap: 14px; align-items: start; }
+  .plan-board-col { display: block; position: sticky; top: 8px; }
+  .plan-board-toggle-area { display: none; }
 }
 
 /* ─── Week warnings ────────────────────────────────────────────────────── */
@@ -837,20 +931,9 @@ input, select, textarea { font-family: inherit; }
   align-self: flex-start; font-family: inherit; font-size: 12px; padding: 5px 10px; border-radius: 99px;
   border: 1px solid var(--line2); background: var(--paper); color: var(--gold2); cursor: pointer;
 }
-.mealedit-assign-hint { font-size: 11.5px; color: var(--muted); margin-bottom: 8px; }
 .mealedit-actions { flex-wrap: wrap; }
-.mealedit-assign-btn {
-  font-family: inherit; font-size: 12px; padding: 8px 12px; border-radius: 8px; white-space: nowrap;
-  border: 1px solid var(--gold); background: var(--green-bg); color: var(--green-d); cursor: pointer;
-}
-.mealedit-assign-btn:disabled { opacity: 0.5; cursor: default; }
 
-/* Planera's "add a meal" search — deliberately no full meal list shown up front, per the
-   household's own ask; searching (or "+ Ny måltid") is the way in. */
-.meal-add-section { margin: 14px 0; }
-.meal-add-section > .tray-search { margin-top: 8px; }
-.meal-add-hint-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 8px 0; }
-.meal-add-hint { font-size: 12px; color: var(--muted); }
+/* Planera's unified "add a meal" search row. */
 .meal-add-new-btn {
   font-family: inherit; font-size: 12px; padding: 6px 12px; border-radius: 99px;
   border: 1px solid var(--gold); background: var(--paper); color: var(--ink); cursor: pointer;
@@ -952,6 +1035,7 @@ input, select, textarea { font-family: inherit; }
 .offer-chip--fynd { border-color: var(--red); background: var(--red-bg); color: var(--red); }
 .offer-chip.on { background: var(--green-bg); border-color: var(--green); color: var(--green-d); }
 .offer-chip-save { font-size: 10.5px; opacity: 0.85; }
+.offer-more { font-family: inherit; font-size: 11.5px; color: var(--blue); background: none; border: none; padding: 6px 2px; cursor: pointer; }
 
 .stash-add-form { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
 .stash-kindpicker { display: flex; gap: 6px; }

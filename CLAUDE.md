@@ -125,6 +125,16 @@ sticky toolbar unchanged — plenty of headroom there, not worth touching.
 
 ### Skafferi & chaos mode: the stash pool
 
+**Superseded in part by the 2026-08 Planera redesign** (see "Planera redesign" further down):
+`useChaosMode` and Planera's chaos/day-first mode toggle are deleted — chaos mode's whole
+"flat list of dishes, no days" idea is now just how the meal pool looks when nothing's
+slotted, the normal case rather than a separate mode. **`SkafferiView` and `StashPantryPanel`
+themselves are untouched** (explicit scope control in the redesign — see that section's "What
+happens to the other screens"), so everything below describing them is still accurate; only
+their *appearance inside `VeckanPlanner`* (the `chaos.enabled` toggle rendering
+`StashPantryPanel` as an alternate planner body) is gone. `StashItem` `kind: 'dish'` entries
+migrate once into the new meal pool (`kind: 'stock'` stays exactly as described below).
+
 A deliberately *not*-calendar planning tool for chaotic stretches (summer vacation, "we don't
 know where we'll be or what we'll have") where planning specific days doesn't work, but you
 still want to walk into the kitchen/freezer with real options.
@@ -168,8 +178,15 @@ still want to walk into the kitchen/freezer with real options.
   fragile than drag physics on a mobile-first single-column layout, and consistent with this
   app's no-drag-in-Planera-anymore precedent (see the Planera history above).
 
-**Chaos mode** (`useChaosMode`, `matracet:chaosmode:v1`) is a household-wide local on/off flag,
-flipped by a pill button (`.planmode-toggle`) inside `VeckanPlanner` itself — a second attempt at
+**Chaos mode — deleted in the 2026-08 redesign (issue #93), described here for history only.**
+`useChaosMode`/`matracet:chaosmode:v1`/the `.planmode-toggle` pill are all gone; there is no
+on/off flag left in `VeckanPlanner` at all. The distinction this section drew between "off"
+(day-strip flow) and "on" (`StashPantryPanel` as the whole planner body) was itself the thing
+the redesign's "one mode, not two" decision retired — the paragraphs below describe the
+pre-redesign behavior, kept for context on *why* the merge happened, not what Planera does
+today. **Chaos mode** (`useChaosMode`, `matracet:chaosmode:v1`) was a household-wide local
+on/off flag, flipped by a pill button (`.planmode-toggle`) inside `VeckanPlanner` itself — a
+second attempt at
 the "vacation mode" idea after the first one (a Hub-level toggle that swapped Hub's tonight-glance
 card for a stash preview) was removed for being the wrong altitude: swapping a glance card on the
 *landing screen* didn't change how you actually plan, and the pantry-match logic lived in a
@@ -196,7 +213,17 @@ specifically and changes what Planera *is*, not just what Hub shows:
 
 ### Week planning: discover-style suggestion list
 
-`VeckanPlanner` (`src/components/week/VeckanPlanner.tsx`) went through two redesigns: first
+**Superseded by the 2026-08 Planera redesign** (issue #93, see the "Planera redesign" section
+further down) for the day-selection/assignment mechanism specifically: there is no more
+`activeDate`/day-strip-drives-assignment flow, no `.day-strip`/`.day-pill`/`.active-day`
+markup, and suggestion cards assign via the shared inline slot picker ("→ plats…") instead of
+direct `☼ Lunch`/`☾ Middag` buttons tied to one selected day. **Everything else in this
+section is still accurate and unchanged**: `rankSuggestions`' scoring/tags, the filter/sort
+chips, `WeekPlanOverride`'s `komponentByten`/`MealAttendance`/`diffAttendance`/
+`effectivePresentIds` machinery, and the presence-schedule/attendance-exception surfacing in
+`FamiljView` — the redesign moved *where* assignment happens, not how a slot's contents,
+attendance, or component swaps are represented or computed. `VeckanPlanner`
+(`src/components/week/VeckanPlanner.tsx`) went through three redesigns: first
 replaced the old "⇄ Ersätt" modal with a horizontally-scrollable drag-to-day tray, then (2026-07)
 that tray itself was replaced by a "select day, then tap a suggestion" flow, because the tray
 made the day cards the main event when the actual job was to browse options. The day list now
@@ -1610,6 +1637,199 @@ dish that's actually already in the recipe bank. Verified with a throwaway Playw
 searched "Tofu Stroganoff" (a real recipe, no meals.json entry) from the meal search box,
 confirmed it appeared tagged "recept" and assigning it wrote the correct `mealSlug`/`receptSlug`
 pair to `matracet:weekplan:v3`.
+
+## Planera redesign: meal pool, slot picker, landscape board (2026-08, issue #93)
+
+A full rework of Planera (week planning), driven by household feedback that the day-first
+flow was cramped and unintuitive and made lunch planning specifically unworkable. Full design
+spec: `docs/planera-redesign-2026-08.md` (on branch `claude/meal-planning-redesign-8hjl4y` at
+the time this was implemented) and a static mockup at
+`docs/prototypes/planera-redesign-mockup.html`. Implemented in one pass covering stages 1–5
+and 7 of the issue's staged plan; stage 6 (drag & drop) was explicitly skipped — see "What was
+skipped" below.
+
+**Core reframe — the meal pool.** The plannable unit for a week is now a flat pool of meal
+needs, not a grid of days: chaos mode and day-first mode were always the same activity ("this
+week we need ~N meals; they may or may not be slotted to days") viewed from two ends, and the
+redesign merges them into one. `useMealPool` (`src/hooks/useMealPool.ts`,
+`matracet:mealpool:v1`, registered in `SYNCED_STORES`) holds `MealPoolEntry { id, mealSlug,
+receptSlug, addedAt, slot: {date, kind} | null, done?, resterAv? }`. **`useWeekPlan` stays the
+single source of truth for what's actually in a slot** — a pool entry's `slot` is a *pointer*,
+never a second copy: slotting calls `useWeekPlan.setMeal` and `pool.setSlot` together (see
+`VeckanPlanner`'s `assignToSlot`), never one without the other. `src/lib/mealPool.ts`'s
+`reconcilePoolEntries(entries, weekPlan)` drops any pointer whose slot no longer actually holds
+that entry's `mealSlug` — applied fresh on every read/write inside `useMealPool` (never trusted,
+never silently persisted as a "fix" of its own), so a stale pointer (e.g. from a device-sync
+merge that touched weekplan but not the pool) self-heals the moment it's next observed.
+
+Days with a dish that have **no** real pool entry pointing at them (a git-planned
+`public/data/weeks/*.json` day, or any assignment made before this system existed) still need
+to show up in the pool list — `buildPoolRows(entries, filledSlots)` synthesizes a `derived:
+true` row for those, computed fresh at render, never written to storage. `sortPoolRows` puts
+slotted rows first (chronological, lunch before dinner), then unslotted rows oldest-added
+first. All three functions, plus `computeBudget`, are pure and unit-tested in
+`src/lib/mealPool.test.ts` against plain fixture data — no React, no localStorage.
+
+**Stash migration.** `StashItem` `kind: 'dish'` entries are exactly unslotted pool entries (same
+`mealSlug`/`receptSlug`/`done` shape) — `migrateStashDishesToPool()` (in `useMealPool.ts`) copies
+them into the pool once per device, called from `App.tsx` on every boot but guarded by a small
+marker key (`matracet:mealpool:stashmigrated:v1`, not "pool non-empty" — a device could
+legitimately end up with an empty pool after migrating zero items). `kind: 'stock'` items are
+untouched — they stay pantry state in `useStash`, still feeding `haveNames` for pantry-match
+and component ranking exactly as before.
+
+**Budget.** "N av M måltider klara" (`BudgetBar`, `src/lib/mealPool.ts::computeBudget`) counts
+every non-skipped slot in the rolling 7-day window with ≥1 eater present — lunches included,
+no dinner-only default, since the whole point of this redesign is making lunch planning
+workable. `VeckanPlanner` builds one `SlotInfo` per lunch/dinner slot (14 total) carrying the
+resolved meal/recipe/attendance/fit already needed elsewhere, then reduces that to the plain
+boolean `BudgetSlotFlags` shape `computeBudget` actually consumes. Unmet-constraint chips:
+`🌱 N veganska saknas` (a present eater needs vegan and the assigned dish's `evaluateFit`
+still reports a vegan conflict/unknown, or the slot is simply unfilled), `⚡ N snabba saknas`
+(a slot flagged "kort om tid" — see below — whose dish's `tid_min` isn't ≤25 or is unfilled),
+`↩ N rester planerade` (informational, not a deficit).
+
+**Per-slot "kort om tid" flag.** There's no activity-derived signal for "short evening", so
+`useWeekPlan` gained a manual one-tap flag: `DayOverride.dinnerFast?`/`lunchFast?` (additive
+fields, no store version bump — same convention as `storeAssignments` on the shopping list) and
+`getFast`/`setFast`. Independent of whether the slot is assigned yet, so it can be set ahead of
+time on an empty slot. Toggled from the per-slot detail panel (see below).
+
+**Assignment — the inline slot picker, the one mechanism everywhere.** The old "select a day
+in a strip, then act below" flow (`activeDate`, `.day-strip`/`.day-pill`/`.active-day`) is
+gone entirely. Every unassigned row — pool rows, the unified search's meal/recipe results,
+offer-driven suggestions, and the demoted recipe browser — carries a "→ plats…" trigger via
+the shared `AssignControls`/`SlotPicker` components (`src/components/week/`). Free slots render
+first as tappable chips with constraint glyphs (🌱/⚡) computed from that slot's actual presence
+group and fast flag; a collapsed "⇄ Visa upptagna platser (byte)" toggle reveals occupied slots.
+**Picking an occupied slot swaps**: `VeckanPlanner`'s `assignToSlot(date, kind, mealSlug,
+receptSlug, reuseEntryId?)` looks up any current occupant via `pool.findBySlot`, returns it to
+the pool unslotted (`pool.setSlot(id, null)`) — or, if it was a static-week/legacy assignment
+with no pool entry yet, creates one first — before writing the new assignment via `setMeal` and
+`pool.setSlot`. Nothing planned in git or made before this system existed can be silently lost
+by a swap. `reuseEntryId` is only ever passed for a row that's *already* a real unslotted pool
+entry (its own "→ plats…"); every other caller (search results, suggestion cards) omits it, so
+`assignToSlot` creates a fresh pool entry for what it's placing.
+
+**Leftovers as linked pool entries.** "↩ rester" on any slotted pool row (`VeckanPlanner`'s
+`addLeftover`) creates a new unslotted entry with `resterAv: <source row id>` and the same
+`mealSlug`/`receptSlug` (a leftover of Korvstroganoff is still Korvstroganoff, just reheated) —
+opens its picker immediately, with the next calendar day's lunch slot sorted first if the
+source was slotted (`leftoverHints` state, a `entryId → preferred ISO date` map consulted by
+`buildSlotChips`). `MealPoolList` renders a rester row as "Rester ← ‹source name›", resolving
+the source through the *current* `poolRows` array. **Disclosed limitation**: when the source
+row is a `derived:` id (not a real stored entry), the lookup re-resolves from whatever slot
+that id's `date:kind` currently holds — if the source slot's own assignment later changes, an
+existing leftover's "Rester ← X" label silently follows the new occupant instead of flagging
+staleness. Orphan detection ("källan borttagen") only reliably fires when the source was a
+*real* pool entry that got removed outright. A true immutable snapshot of the source's name at
+creation time was considered and skipped as more machinery than this pass called for; picked up
+here rather than left as a silent gap.
+
+**Per-slot detail panel.** With the day-strip no longer driving assignment, the old "active
+day" editor's content (attendance override chips, "Ingen måltid behövs" skip, plan-time
+component swaps, `evaluateFit` conflict/swap hints) moved into `SlotDetail`
+(`src/components/week/SlotDetail.tsx`) — same JSX/logic, just parameterized by whichever
+`{date, kind}` the household taps on the slot board instead of a single permanently-selected
+day. Tapping an *occupied* board cell opens it; empty cells are inert placeholders (assignment
+never starts from the board — only from a row's own picker). `SlotDetail` also carries the new
+⚡ fast-flag toggle.
+
+**The slot board** (`SlotBoard.tsx`) is one component with two variants sharing the same
+per-day/per-kind cell data: `'strip'` (compact read-only pills, portrait default — a
+`▸ Veckans platser – översikt` button swaps it for `'grid'`, the full 7×2 table, inline) and
+`'grid'` again as the **always-visible sticky right column in landscape**
+(`.plan-board-col`, `position: sticky`), at the app's existing shared wide/landscape
+breakpoint (`(min-width: 860px), (orientation: landscape) and (max-height: 600px)`). Grid ratio
+`3fr 2fr` (`.plan-cols`). Cell glyphs: 🌱 (a present eater needs vegan), ⚡ (fast-flagged),
+`👪 +N` (attendance override adds N eaters beyond the day's presence-schedule default, via the
+existing `diffAttendance`). `.plan-cell--skip`/`--rester`/`--empty`/`--active` mirror the
+mockup's dashed/struck-through/highlighted states.
+
+**Offers panel** (`OffersPanel.tsx`). `🏷 Veckans fynd`: food-only offers, ranked by
+`parseSavings` descending, top 8 with a "visa N till" expander; **single tap toggles the
+shopping list** (`{store, week}` `offerRef`, same convention as Bevaka/Skafferi) — this is also
+where the confirmed Fynd bug got fixed (see below). Food-only filtering uses a new
+`MEAL_PLANNING_GROUPS` constant exported from `src/lib/kategoriTaxonomy.mjs`:
+`['frukt_gront', 'protein', 'mejeri_ost', 'brod', 'fardigmat', 'skafferi']` — excludes
+`hushall_hygien`/`barn`/`djur`/`ovrigt` outright and, as a second narrower cut, also
+`godis_snacks`/`glass_dessert`/`dryck` by default (real food, not meal-building material; no
+in-app toggle to include them back — left as the design's own open question, not silently
+decided). Below it, `💡 Förslag från fynden`: `rankSuggestions` seeded with only the food-offer
+list and `filter: 'fynd', sort: 'savings'`, same card shape as the recipe browser, assignable
+via the shared `AssignControls`.
+
+**Unified search.** One input (`.plan-search-row`, permanently visible at the top of the supply
+column, `+ Ny måltid` beside it) replaces the two previous boxes — the `mealMatches` union
+logic (meals.json namn/alias + unmatched recipes, resolved to their virtual meal) already
+covered both, this just makes it the screen's one add/search entry point. Also filters the pool
+list live (name substring against each row's resolved meal). "+ Skapa ny måltid: '…'" on a
+miss opens `MealEditorModal`. **Behavior change**: saving a *new* meal now lands it directly in
+this week's pool, unslotted (`pool.addEntry`) — there's no more "save & assign to today"
+quick-shortcut on the modal (`activeDayLabel`/`onSaveAndAssign` were removed from
+`MealEditorModal` entirely, since there's no "active day" left to assign to and nothing else
+called it). Placing the new pool row is one more tap via its own "→ plats…", consistent with
+the redesign's single assignment mechanism rather than a special-cased second one.
+
+**Inspiration-first collapsible sections**, supply-column order: budget → board
+strip/toggle → unified search → pool list ("Veckans måltider") → offers → "Förslag från
+fynden" → collapsed-by-default "Vad kan vi laga hemma?" (pantry match, `matchPantryRecipes`,
+now rendered directly in `VeckanPlanner` rather than via `StashPantryPanel`) → "🔓 Ett köp
+bort" (unchanged logic, now collapsed rather than always-open) → "Alla recept" (the full
+recipe browser — same filter/sort/search toolbar as before, just demoted). Collapse state
+persists via `usePlannerCollapse` (`matracet:planner-collapsed:v1`) — a separate store from
+`useCollapsedCategories`/`matracet:fynd-collapsed:v1` since the two screens' section ids live
+in different namespaces and shouldn't ever collide. `CollapsibleSection.tsx` is the shared
+header/chevron wrapper.
+
+**The confirmed Fynd bug (stage 1).** `FyndView`'s `AllView` rows and `JamforView` match rows
+added an offer to the shopping list on `onDoubleClick` — double-tap doesn't reliably fire on
+touch (iOS treats it as a zoom/selection gesture, and the rows are wrapped in `SwipeRow`'s
+pointer handling), so on the phone this effectively never worked. Single tap was unused on
+these rows (long-press = category flag, swipe = irrelevant), so switching to plain `onClick`
+was free — `SwipeRow`'s existing `onClickCapture` drag-suppression (built for the swipe/
+long-press gestures) already covers a real drag not also firing the click, verified by
+re-reading `SwipeRow.tsx` rather than assuming.
+
+**What was skipped, on purpose.** Stage 6 (pointer-based drag & drop from a pool row onto a
+board cell) was not built — the design's own plan explicitly stages it last and says to skip it
+if the picker feels good enough in landscape, matching this app's standing no-drag-in-Planera
+precedent (the tray-drag flow was removed once before for exactly this reason). Not a silent
+gap: revisit only if real usage shows the picker genuinely isn't enough. `SkafferiView`/
+`StashPantryPanel` are untouched, per the design's explicit scope control — most of Skafferi's
+pantry-match/offer-cloud/stash-pool logic is now duplicated by Planera's own sections, and
+whether Skafferi becomes a thin alias or is retired is an intentional later decision, not
+addressed here. `varutyp`-style deeper offer-comparison work, drag & drop, and the open
+"should `dryck` be in the offer strip" question are all left exactly as open as the design
+left them.
+
+**Cleanup.** `useChaosMode.ts` deleted; `chaosModeStore` removed from `SYNCED_STORES` (replaced
+by `mealPoolStore` — see `src/lib/syncStores.ts`'s updated IN list) and from
+`.claude/skills/sync-local-storage/SKILL.md`'s "out of scope" example and
+`scripts/merge-device-sync.mjs`'s doc comments. `src/lib/syncPusher.test.ts` (which used
+`chaosModeStore` purely as a generic "some boolean-shaped synced store" fixture for testing the
+debounce/merge/dedup mechanics, nothing chaos-mode-specific) was ported to use `mealPoolStore`
+instead — same tests, same assertions, just against real object payloads instead of a bare
+boolean. Dead CSS removed alongside the dead markup: `.planmode-toggle`, the old
+`.day-strip`/`.day-pill*`/`.day-dot*`/`.active-day`/`.active-day-name`/`.active-day-slots`/
+`.active-slot-group`/`.active-slot-ic`, `.meal-chip-assign`, `.meal-add-section`/
+`.meal-add-hint*`, and `MealEditorModal`'s now-unreachable `.mealedit-assign-hint`/
+`.mealedit-assign-btn`. `.active-slot`/`.active-slot-dish`/`.attendance-*`/`.component-*`/
+`.fit-*` were all *kept* — `SlotDetail.tsx` reuses that exact markup/classes unchanged, just
+under a new trigger.
+
+**Verified end-to-end** with throwaway Playwright scripts (not committed) against `npm run
+preview`, at both 390×900 (portrait) and 844×390 (landscape): search → assign a meal to a free
+slot (confirmed both `matracet:weekplan:v3` and `matracet:mealpool:v1` updated consistently);
+picking an *occupied* slot for a second meal (confirmed the swap — old occupant's pool entry
+reverted to `slot: null`, new one took the slot, verified via direct `localStorage` reads, not
+just visually); expanding the portrait board and the always-visible landscape sticky column;
+tapping a board cell to open `SlotDetail` and exercising its attendance/fast-flag/component-
+swap controls (all pre-existing logic, confirmed still reachable and correct through the new
+trigger); creating a brand-new meal via "+ Skapa ny måltid" and confirming it landed in both
+`matracet:meals:local:v1` and `matracet:mealpool:v1` (unslotted) with no leftover quick-assign
+UI in the modal. `npm run build` (real `tsc -b` type-check) and the full `npm test` suite (154
+tests, including 14 new ones for `src/lib/mealPool.ts`) both pass.
 
 ## Deploy
 
