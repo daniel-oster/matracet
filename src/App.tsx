@@ -29,6 +29,7 @@ import { pruneSyncTasks } from './hooks/useSyncTasks'
 import { applyTaskOutcome } from './lib/syncTaskOutcomes'
 import { hydrateFromSync } from './lib/syncHydration'
 import { startSyncPusher, seedKnownSha } from './lib/syncPusher'
+import { parseRecipeHash, recipeHash } from './lib/recipeLink'
 
 function getISOWeekString(isoDate: string): string {
   const d = new Date(isoDate + 'T00:00:00Z')
@@ -55,7 +56,11 @@ export default function App() {
   const [historyEntries, setHistoryEntries] = useState<HistoryEntry[]>([])
   const [screen, setScreen] = useState<ScreenName>('hub')
   const [screenHistory, setScreenHistory] = useState<ScreenName[]>([])
-  const [overlaySlug, setOverlaySlug] = useState<string | null>(null)
+  // A shared recipe link (#recept/<slug>) opens the overlay straight away on boot — see
+  // src/lib/recipeLink.ts for why the deep link is a hash rather than a real path.
+  const [overlaySlug, setOverlaySlug] = useState<string | null>(
+    () => (typeof window === 'undefined' ? null : parseRecipeHash(window.location.hash)),
+  )
   const { localMeals } = useLocalMeals()
   // Overlays locally added/edited meals (Planera's "add meal"/"edit meal" flow — see
   // CLAUDE.md's "Meals as the plannable unit" section) onto the git-tracked list at read
@@ -65,6 +70,25 @@ export default function App() {
   // One-time stash-dish → meal-pool migration (2026-08 Planera redesign, issue #93) —
   // independent of the static-data fetch below, since it only reads/writes localStorage.
   useEffect(() => { migrateStashDishesToPool() }, [])
+
+  // Keep the location hash in step with whichever recipe is open, so the address bar always
+  // holds a link worth sharing. replaceState (not pushState) deliberately: it doesn't fire
+  // hashchange, so the listener below can't loop back into this effect, and opening/closing
+  // recipes doesn't pile up back-stack entries.
+  useEffect(() => {
+    const want = recipeHash(overlaySlug)
+    if (window.location.hash === want) return
+    // An empty hash still leaves a bare "#" behind unless the full URL is rewritten.
+    window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}${want}`)
+  }, [overlaySlug])
+
+  // The other direction: a link pasted into the address bar of an already-open tab, or a
+  // back/forward navigation across hashes.
+  useEffect(() => {
+    function onHashChange() { setOverlaySlug(parseRecipeHash(window.location.hash)) }
+    window.addEventListener('hashchange', onHashChange)
+    return () => window.removeEventListener('hashchange', onHashChange)
+  }, [])
 
   useEffect(() => {
     const today = new Date().toISOString().slice(0, 10)

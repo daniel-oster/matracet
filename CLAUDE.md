@@ -121,7 +121,46 @@ now-invisible full-width row doesn't block clicks/scroll-drag on the ingredient/
 underneath it) and `pointer-events: auto` restored on the two buttons themselves so they stay
 clickable. The recipe title is hidden in this mode (no room, and the column headers "Ingredienser"
 /"Tillagning" already say what you're looking at). Portrait/mobile mode keeps the original solid
-sticky toolbar unchanged — plenty of headroom there, not worth touching.
+sticky toolbar unchanged — plenty of headroom there, not worth touching. (The wake-lock toggle
+now sits in an `.overlay-toolbar-actions` flex group alongside the share button — see below — so
+landscape's `justify-content: space-between` still puts close on the left and everything else on
+the right; the group carries `pointer-events: none` with `auto` restored on the buttons, same
+click-through reasoning as the row itself.)
+
+### Deep links: sharing a single recipe (2026-08)
+
+`RecipeOverlay`'s toolbar has a share/copy button, and — the actual prerequisite for it to mean
+anything — the app finally has one deep-linkable URL. There's no router (navigation is a `screen`
+state in `App.tsx`), and GitHub Pages serves this as a static build with **no SPA rewrite**, so
+any real path other than `/matracet/` would 404 before the app ever loads. The link is therefore
+a hash: `https://daniel-oster.github.io/matracet/#recept/<slug>`.
+
+`src/lib/recipeLink.ts` holds the pure half (`buildRecipeUrl(slug, origin, base)` /
+`parseRecipeHash(hash)` / `recipeHash(slug|null)`, unit-tested in `recipeLink.test.ts`) plus a
+thin `currentRecipeUrl(slug)` browser wrapper. The URL is rebuilt from `origin` +
+`import.meta.env.BASE_URL` rather than by mutating the current location, specifically so a copied
+link never carries along Hub's `?_r=<timestamp>` cache-buster. `App.tsx` wires it up in two
+directions: `overlaySlug`'s `useState` initializer reads the hash (so a shared link opens the
+recipe on boot — after the usual `Laddar…` gate, since the static-data fetch still gates render),
+one effect mirrors `overlaySlug` back into the hash via `history.replaceState`, and a
+`hashchange` listener covers a link pasted into an already-open tab. `replaceState` is deliberate
+on both counts: it doesn't fire `hashchange` (so the two effects can't loop) and it doesn't pile
+up back-stack entries for every recipe opened.
+
+The button itself is `navigator.share` when the browser has it (the phone's own share sheet,
+which already includes "Copy" on iOS/Android), falling back to `navigator.clipboard.writeText`
+with a throwaway-textarea + `execCommand` last resort — the same fallback chain `HandlaView`'s
+"Kopiera lista" uses — and an inline `✓ Kopierad` button state rather than a toast (toast only
+on outright failure). One button, not a separate copy icon *and* share button: the toolbar is
+tight in portrait and the share sheet covers copying anyway. **Non-obvious detail worth keeping**:
+an `AbortError` from `navigator.share` means the user dismissed the sheet — it must *not* fall
+through to the clipboard path, or dismissing a share would silently copy the thing you just
+decided not to share. Every other share failure does fall through, so the tap is never a no-op.
+
+`src/vite-env.d.ts` (`/// <reference types="vite/client" />`) was added for this — nothing in
+`src/` had touched `import.meta.env` before, so `tsc -b` had no type for it. Added as the
+standard reference-file rather than a `"types"` array in `tsconfig.app.json`, since that field
+is a whitelist and would have silently dropped every other ambient type package.
 
 ### Skafferi & chaos mode: the stash pool
 
