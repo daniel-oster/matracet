@@ -854,8 +854,11 @@ button.plan-cell { cursor: pointer; }
 }
 .overlay-close { width: 32px; height: 32px; border-radius: 8px; border: 1px solid #3a3a3a; background: #252525; color: var(--cream); font-size: 16px; cursor: pointer; flex: none; }
 .overlay-recipe-title { font-size: 15px; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.overlay-wakelock-btn { font-family: inherit; font-size: 11px; padding: 6px 10px; border-radius: 7px; border: 1px solid #3a3a3a; background: #252525; color: #cfc7b8; cursor: pointer; white-space: nowrap; }
+.overlay-toolbar-actions { display: flex; align-items: center; gap: 8px; flex: none; }
+.overlay-wakelock-btn, .overlay-share-btn { font-family: inherit; font-size: 11px; padding: 6px 10px; border-radius: 7px; border: 1px solid #3a3a3a; background: #252525; color: #cfc7b8; cursor: pointer; white-space: nowrap; }
 .overlay-wakelock-btn.active { background: var(--gold); color: #201a0d; border-color: var(--gold); }
+.overlay-share-btn.copied { background: var(--green-d); color: #fff; border-color: var(--green-d); }
+.overlay-share-btn:disabled { opacity: 0.5; cursor: default; }
 /* In two-column mode, height is scarce (a landscape phone is ~380-430px tall total), so the
    full-width dark toolbar bar is dropped in favour of small floating circular controls that
    sit on top of the content instead of reserving their own row. */
@@ -865,7 +868,9 @@ button.plan-cell { cursor: pointer; }
     background: transparent; padding: 0; justify-content: space-between; pointer-events: none;
   }
   .overlay-recipe-title { display: none; }
-  .overlay-close, .overlay-wakelock-btn { border-radius: 99px; background: rgba(20, 16, 10, 0.78); pointer-events: auto; }
+  .overlay-toolbar-actions { pointer-events: none; }
+  .overlay-close, .overlay-wakelock-btn, .overlay-share-btn { border-radius: 99px; background: rgba(20, 16, 10, 0.78); pointer-events: auto; }
+  .overlay-share-btn.copied { background: var(--green-d); }
 }
 .overlay-hero { flex: none; }
 @media (min-width: 860px), (orientation: landscape) and (max-height: 600px) { .overlay-hero { display: none; } }
