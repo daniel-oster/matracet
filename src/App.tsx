@@ -29,7 +29,7 @@ import { pruneSyncTasks } from './hooks/useSyncTasks'
 import { applyTaskOutcome } from './lib/syncTaskOutcomes'
 import { hydrateFromSync } from './lib/syncHydration'
 import { startSyncPusher, seedKnownSha } from './lib/syncPusher'
-import { parseRecipeHash, recipeHash } from './lib/recipeLink'
+import { parseRecipeHash, parseRecipePath, recipePath } from './lib/recipeLink'
 
 function getISOWeekString(isoDate: string): string {
   const d = new Date(isoDate + 'T00:00:00Z')
@@ -56,11 +56,15 @@ export default function App() {
   const [historyEntries, setHistoryEntries] = useState<HistoryEntry[]>([])
   const [screen, setScreen] = useState<ScreenName>('hub')
   const [screenHistory, setScreenHistory] = useState<ScreenName[]>([])
-  // A shared recipe link (#recept/<slug>) opens the overlay straight away on boot — see
-  // src/lib/recipeLink.ts for why the deep link is a hash rather than a real path.
-  const [overlaySlug, setOverlaySlug] = useState<string | null>(
-    () => (typeof window === 'undefined' ? null : parseRecipeHash(window.location.hash)),
-  )
+  // A shared recipe link (/matracet/recept/<slug>/, or an old #recept/<slug> hash link) opens
+  // the overlay straight away on boot — see src/lib/recipeLink.ts for why it's a real path now.
+  const [overlaySlug, setOverlaySlug] = useState<string | null>(() => {
+    if (typeof window === 'undefined') return null
+    return (
+      parseRecipePath(window.location.pathname, import.meta.env.BASE_URL) ??
+      parseRecipeHash(window.location.hash)
+    )
+  })
   const { localMeals } = useLocalMeals()
   // Overlays locally added/edited meals (Planera's "add meal"/"edit meal" flow — see
   // CLAUDE.md's "Meals as the plannable unit" section) onto the git-tracked list at read
@@ -71,19 +75,20 @@ export default function App() {
   // independent of the static-data fetch below, since it only reads/writes localStorage.
   useEffect(() => { migrateStashDishesToPool() }, [])
 
-  // Keep the location hash in step with whichever recipe is open, so the address bar always
-  // holds a link worth sharing. replaceState (not pushState) deliberately: it doesn't fire
-  // hashchange, so the listener below can't loop back into this effect, and opening/closing
-  // recipes doesn't pile up back-stack entries.
+  // Keep the location path in step with whichever recipe is open, so the address bar always
+  // holds a link worth sharing (and a link crawler gets a real per-recipe file — see
+  // scripts/build-recipe-pages.mjs). replaceState (not pushState) deliberately: it doesn't fire
+  // popstate/hashchange, so the listener below can't loop back into this effect, and
+  // opening/closing recipes doesn't pile up back-stack entries. This also drops any leftover
+  // #recept/<slug> hash from an old-style link, since the new URL is written wholesale.
   useEffect(() => {
-    const want = recipeHash(overlaySlug)
-    if (window.location.hash === want) return
-    // An empty hash still leaves a bare "#" behind unless the full URL is rewritten.
-    window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}${want}`)
+    const want = recipePath(overlaySlug, import.meta.env.BASE_URL)
+    if (window.location.pathname === want) return
+    window.history.replaceState(null, '', `${want}${window.location.search}`)
   }, [overlaySlug])
 
-  // The other direction: a link pasted into the address bar of an already-open tab, or a
-  // back/forward navigation across hashes.
+  // The other direction: an old #recept/<slug> link pasted into the address bar of an
+  // already-open tab, or a back/forward navigation across hashes.
   useEffect(() => {
     function onHashChange() { setOverlaySlug(parseRecipeHash(window.location.hash)) }
     window.addEventListener('hashchange', onHashChange)

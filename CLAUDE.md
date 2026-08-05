@@ -129,6 +129,12 @@ click-through reasoning as the row itself.)
 
 ### Deep links: sharing a single recipe (2026-08)
 
+**Superseded by "Recipe link preview cards" below**: the link is a real path now
+(`/matracet/recept/<slug>/`), not a hash — see that section for why and what changed. Left here
+for history; `buildRecipeUrl`/`recipeHash` and the hash-based flow it describes are the *old*
+mechanism, though `parseRecipeHash`/`recipeHash` themselves are still live code (old shared links
+must keep working).
+
 `RecipeOverlay`'s toolbar has a share/copy button, and — the actual prerequisite for it to mean
 anything — the app finally has one deep-linkable URL. There's no router (navigation is a `screen`
 state in `App.tsx`), and GitHub Pages serves this as a static build with **no SPA rewrite**, so
@@ -161,6 +167,62 @@ decided not to share. Every other share failure does fall through, so the tap is
 `src/` had touched `import.meta.env` before, so `tsc -b` had no type for it. Added as the
 standard reference-file rather than a `"types"` array in `tsconfig.app.json`, since that field
 is a whitelist and would have silently dropped every other ambient type package.
+
+### Recipe link preview cards (2026-08, issue #101)
+
+The hash-based deep link from the previous section worked (tapping it opened the right recipe)
+but shared a useless preview card in iMessage/Slack/etc: just "Matracet" + the bare domain, no
+recipe name or image. Two compounding causes, both now fixed: a `#` fragment never reaches the
+server, so a crawler fetching `/matracet/` saw the same page regardless of which recipe was
+shared; and `index.html` had no OpenGraph tags at all (`navigator.share({ title })` doesn't help
+here — iOS builds the card from the page's own metadata, not from what the app passes to the
+share sheet).
+
+**The link is now a real path**, `https://daniel-oster.github.io/matracet/recept/<slug>/`
+(trailing slash — GitHub Pages 301-redirects `/recept/<slug>` → `/recept/<slug>/` otherwise, an
+extra round trip crawlers may not follow). `src/lib/recipeLink.ts` gained `recipePath(slug, base)`
+(the pure path builder `buildRecipeUrl` now wraps) and `parseRecipePath(pathname, base)`, mirroring
+the existing `recipeHash`/`parseRecipeHash` pair — both kept, unchanged, since old shared links
+must keep working. `App.tsx` checks path first, hash second on boot (`parseRecipePath(...) ??
+parseRecipeHash(...)`), and the effect that mirrors `overlaySlug` back into the URL now writes
+the path via `history.replaceState` instead of the hash — writing the full URL wholesale also
+drops any leftover `#recept/<slug>` fragment from an old-style link the moment a recipe is
+opened/closed, so the address bar never shows a stale path+hash combination. The `hashchange`
+listener is untouched, still covering a hash link pasted into an already-open tab.
+
+**A real path needs a real file to exist**, or GitHub Pages 404s before the SPA ever loads (no
+server-side rewrite is configured, and adding one was out of scope). `scripts/build-recipe-pages.mjs`
+(new, runs postbuild after `prerender.mjs` in the `build` npm script) writes
+`dist/recept/<slug>/index.html` per recipe — reads `public/data/recipes/_index.json` (already has
+everything a card needs: `namn`, `tid_min`, `kategorier`, `bildUrl`), not each recipe's own
+`recept.json`. Each page **is** the app — same JS bundle, same `<div id="root">` — with a
+recipe-specific `<head>`; verified (not assumed) that `dist/index.html` references its assets
+absolutely (`/matracet/assets/main-*.js`), so a copy at any depth loads correctly with zero path
+rewriting. The client picks the slug back up from the URL path once JS runs, via the same
+`overlaySlug` init `App.tsx` already had.
+
+Tag injection uses a **swap-a-comment-delimited-block** approach rather than per-tag regex
+surgery: `index.html`'s `<head>` has a base OG tag set (title/og:title/og:description/og:type=
+website/og:site_name/og:url/twitter:card=summary) wrapped in `<!-- BEGIN OG: ... --> ... <!-- END
+OG -->`, present so sharing the bare app URL also looks reasonable. The build script matches that
+whole block with one regex and replaces it with a freshly generated block per recipe
+(`og:type=article`, `twitter:card=summary_large_image`, `og:image` only when `bildUrl` exists —
+2 of 129 recipes lack one; not an error, just a card without an image) — far more robust than
+trying to regex-replace each tag's `content=` attribute individually, and the script throws
+loudly if the marker block is ever missing from the template rather than silently no-op'ing.
+**Everything injected is HTML-escaped** (`&`/`<`/`>`/`"`) — real recipe names contain literal `&`
+(e.g. "Ägg & avokado på rostat bröd"), and Unsplash `bildUrl`s contain unescaped `&` in their own
+query string that would otherwise break the `content="..."` attribute.
+
+**Verified, not just built**: `curl`'d a generated file directly (`og:title`/`og:image`/`og:url`
+all correct, `&` correctly rendered as `&amp;`, asset `<script>` tag still absolute) and ran a
+throwaway Playwright script (not committed) against `npm run preview` confirming three things
+end-to-end: a direct load of `/matracet/recept/<slug>/` opens the right recipe in the overlay: an
+old `#recept/<slug>` hash link, pasted into an open tab, correctly rewrites to the new path form
+and clears the hash; and the home page URL has no leftover recipe path. Real end-to-end
+crawler-facing verification (iMessage actually rendering the rich card) isn't possible from a
+local preview — it needs a public URL and, per iMessage's own per-URL caching, a recipe not
+previously shared — so that check is deferred to after deploy, per the issue's own instruction.
 
 ### Skafferi & chaos mode: the stash pool
 
