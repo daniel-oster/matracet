@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "slug": "tacogratang",
+  "nummer": 130,
+  "namn": "Tacogratäng",
+  "tid_min": 50,
+  "portioner": 4,
+  "kategorier": [
+    "kott",
+    "glutenfri"
+  ],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": [
+    "tacofredag",
+    "gratäng",
+    "nötfärs",
+    "mexikanskt"
+  ],
+  "kalla": "recepten.se",
+  "kallaUrl": "https://www.recepten.se/recept/tacogratang.html",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    {
+      "vara": "gul lök",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "paprika",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "nötfärs",
+      "mangd": 500,
+      "enhet": "g"
+    },
+    {
+      "vara": "tacokrydda",
+      "mangd": 28,
+      "enhet": "g"
+    },
+    {
+      "vara": "vatten",
+      "mangd": 1,
+      "enhet": "dl"
+    },
+    {
+      "vara": "tacosås",
+      "mangd": 230,
+      "enhet": "g"
+    },
+    {
+      "vara": "crème fraiche",
+      "mangd": 2,
+      "enhet": "dl"
+    },
+    {
+      "vara": "körsbärstomater",
+      "mangd": 250,
+      "enhet": "g"
+    },
+    {
+      "vara": "riven ost",
+      "mangd": 125,
+      "enhet": "g"
+    }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Hacka löken och skär paprikan. Hetta upp en stekpanna med smör. Lägg i nötfärsen och stek tillsammans med lök och paprika tills löken blir genomskinlig.",
+    "Tillsätt tacokrydda och vatten. Rör om och låt steka på medelhög värme tills vattnet kokat bort, ca 5 minuter.",
+    "Häll tacofärsen i en ugnssäker form. Häll på tacosåsen och bred ut den jämnt.",
+    "Häll på crème fraiche ovanpå och bred ut till ett jämnt lager.",
+    "Skär körsbärstomaterna i halvor och fördela dem ovanpå.",
+    "Strö över riven ost.",
+    "Ställ in i ugnen på 200°C i mitten (över- och undervärme) i ca 25 minuter tills osten smält och fått färg."
+  ],
+  "servering": [
+    "majs",
+    "avokado",
+    "sallad",
+    "nachochips"
+  ],
+  "tips": "Paprikan kan vara valfri färg. Mängden riven ost är ca 100–150 g, justera efter smak och önskad gratinering.",
+  "komplett": true
+}

@@ -127,6 +127,7 @@
     {"slug":"jumeokbap-tonfisk-majonnas","nummer":126,"namn":"Jumeokbap med tonfisk och majonnäs","tid_min":20,"kategorier":["fisk"],"bildUrl":"https://images.unsplash.com/photo-1580476262798-bddd9f4b7369?w=400&auto=format&fit=crop"},
     {"slug":"jumeokbap-naturell","nummer":127,"namn":"Jumeokbap naturell","tid_min":10,"kategorier":[],"bildUrl":"https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400&auto=format&fit=crop"},
     {"slug":"jumeokbap-notkott-ost-kimchi","nummer":128,"namn":"Jumeokbap med nötkött, ost och kimchi","tid_min":20,"kategorier":["kott"],"bildUrl":"https://images.unsplash.com/photo-1569058242567-93de6f36f8e6?w=400&auto=format&fit=crop"},
-    {"slug":"kikartscurry-halloumi","nummer":129,"namn":"Kikärtscurry med halloumi","tid_min":25,"kategorier":["vegetarisk"],"bildUrl":"https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&auto=format&fit=crop"}
+    {"slug":"kikartscurry-halloumi","nummer":129,"namn":"Kikärtscurry med halloumi","tid_min":25,"kategorier":["vegetarisk"],"bildUrl":"https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&auto=format&fit=crop"},
+    {"slug":"tacogratang","nummer":130,"namn":"Tacogratäng","tid_min":50,"kategorier":["kott","glutenfri"],"bildUrl":"https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=400&auto=format&fit=crop"}
   ]
 }
