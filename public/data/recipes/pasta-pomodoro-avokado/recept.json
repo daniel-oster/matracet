@@ -12,6 +12,7 @@
   "taggar": ["pasta", "tomat", "avokado", "lunch", "snabb"],
   "kalla": "Eget recept",
   "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1751151497799-8b4057a2638e?w=800&auto=format&fit=crop",
   "ingredienser": [
     { "vara": "pasta", "mangd": 300, "enhet": "g" },
     { "vara": "krossade tomater", "mangd": 400, "enhet": "g" },

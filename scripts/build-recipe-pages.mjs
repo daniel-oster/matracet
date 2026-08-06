@@ -44,19 +44,33 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;')
 }
 
+/**
+ * _index.json's bildUrl is the ?w=400 thumbnail used for in-app cards (recipe list, Hub glance).
+ * A shared link's preview card wants a larger image — bump to 800 wide, matching what each
+ * recipe's own recept.json already stores for its in-overlay hero image. No extra file read
+ * needed: same Unsplash photo, just a different query param.
+ */
+function bumpImageWidth(url) {
+  return url.replace(/([?&]w=)\d+/, '$1800')
+}
+
 function buildOgBlock({ namn, tid_min, kategorier, bildUrl, url }) {
-  const title = escapeHtml(`${namn} · Matracet`)
+  // og:site_name already says "Matracet" — repeating it in og:title would show the name twice
+  // on the card (title line + site-name line). The page's own <title> keeps the suffix, since
+  // that's what shows in a browser tab, not a share-card renderer.
+  const pageTitle = escapeHtml(`${namn} · Matracet`)
+  const ogTitle = escapeHtml(namn)
   const descriptionParts = [`${tid_min} min`, ...kategorier.map((k) => KATEGORI_LABELS[k] ?? k)]
   const description = escapeHtml(descriptionParts.join(' · '))
   const lines = [
-    '<title>' + title + '</title>',
-    `<meta property="og:title" content="${title}" />`,
+    '<title>' + pageTitle + '</title>',
+    `<meta property="og:title" content="${ogTitle}" />`,
     `<meta property="og:description" content="${description}" />`,
     `<meta property="og:type" content="article" />`,
     `<meta property="og:site_name" content="Matracet" />`,
     `<meta property="og:url" content="${escapeHtml(url)}" />`,
   ]
-  if (bildUrl) lines.push(`<meta property="og:image" content="${escapeHtml(bildUrl)}" />`)
+  if (bildUrl) lines.push(`<meta property="og:image" content="${escapeHtml(bumpImageWidth(bildUrl))}" />`)
   lines.push(`<meta name="twitter:card" content="summary_large_image" />`)
   return lines.join('\n    ')
 }
