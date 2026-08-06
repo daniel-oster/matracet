@@ -12,6 +12,7 @@
   "taggar": ["ägg", "avokado", "bröd", "lunch", "snabb"],
   "kalla": "Eget recept",
   "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1515041761709-f9fc96e04cd3?w=800&auto=format&fit=crop",
   "ingredienser": [
     { "vara": "bröd", "mangd": 4, "enhet": "skivor" },
     { "vara": "ägg", "mangd": 4, "enhet": "st" },

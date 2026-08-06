@@ -224,6 +224,58 @@ crawler-facing verification (iMessage actually rendering the rich card) isn't po
 local preview — it needs a public URL and, per iMessage's own per-URL caching, a recipe not
 previously shared — so that check is deferred to after deploy, per the issue's own instruction.
 
+### Preview-card polish + build-timestamp diagnostic (2026-08, issue #103)
+
+After #101/PR #102 deployed, a report came in that a shared card still showed the generic
+"Matracet" card with no recipe name/image. A from-scratch investigation against the **live**
+site (not just a local build) found **no bug** in the generated pages or the app's link logic —
+every `dist/recept/<slug>/index.html` served correct `og:title`/`og:description`/`og:image`/
+`og:url`, crawler and browser user-agents both got the same `200`, and the deployed bundle
+genuinely builds path URLs, not hashes. The card shown was byte-for-byte what the *root* URL
+renders, so the conclusion was that the actually-shared link probably wasn't a path URL in the
+first place — most likely an iOS home-screen icon (no service worker, its own storage/cache
+container per the existing "Lessons learned" entry) still running a pre-#101 bundle that built
+`#recept/<slug>` hash links, which iMessage resolves to the bare `/matracet/` root card. Not
+fixable from app code (documented as OS-level caching already); what *was* fixable, and shipped
+in this pass regardless of which cache-cause it turns out to be, were three real polish gaps the
+investigation surfaced along the way:
+
+1. **`og:image` was only 400px wide.** `build-recipe-pages.mjs` read `bildUrl` straight from
+   `_index.json`, which stores the `?w=400` thumbnail used for in-app cards — too small for a
+   `twitter:card=summary_large_image` card. Fixed with `bumpImageWidth()`, a regex swap of the
+   `w=` query param to `800` (matching what each recipe's own `recept.json` already stores for
+   its in-overlay hero image) — no extra file read needed, same photo either way.
+2. **`og:title` repeated the site name.** The generated title was `"<namn> · Matracet"`, and
+   `og:site_name` is already `"Matracet"` — link-preview renderers show both lines, so the card
+   read "Tofu Stroganoff · Matracet" over "Matracet" twice. `og:title` is now just `namn`; the
+   `" · Matracet"` suffix stays in the page's own `<title>` (the browser-tab string, not what a
+   share-card renderer reads).
+3. **2 of 129 recipes still had no `bildUrl` at all** (`pasta-pomodoro-avokado`,
+   `agg-avokado-rostat-brod` — down from the "4 of 130" the original #101 issue text cited;
+   two had already picked up images since). Added one each (`public/data/recipes/<slug>/
+   recept.json` at `?w=800`, mirrored into `_index.json` at `?w=400`, same two-file convention
+   every other recipe already follows) — sourced via web search for a real, on-topic Unsplash
+   photo, then **fetched and visually confirmed** (not just trusted from a search snippet) that
+   each one actually shows the right dish before using it: a tomato-sauce spaghetti pan for
+   "Pasta pomodoro med avokado", sliced avocado toast for "Ägg & avokado på rostat bröd".
+
+**Also added, as a standing diagnostic for exactly the ambiguity this issue ran into**: Synka
+now shows "Appversion byggd: `<timestamp>`" alongside its existing last-push/last-hydration
+stats. `vite.config.ts`'s `define: { __BUILD_TIME__: JSON.stringify(new Date().toISOString()) }`
+bakes the build time into the bundle at build time (declared in `src/vite-env.d.ts` as an
+ambient `const`, same pattern as the file's existing `import.meta.env` reference); comparing it
+against "when did I last actually push a deploy" is a five-second way to tell "this device is
+stale" from "the feature is genuinely broken" — the exact judgment call issue #103's own writeup
+had to make indirectly, from card appearance alone, because nothing in the app surfaced this
+before.
+
+**Verified, not just built**: rebuilt and diffed a generated recipe page directly — `og:title`
+is now bare `namn`, `og:image` carries `w=800`, `<title>` still keeps the suffix, both new
+recipes' pages have a populated `og:image`, and `(0 without og:image)` in the build script's own
+summary line (down from 2). A throwaway Playwright script (not committed) against `npm run
+preview` confirmed the Synka screen renders the build timestamp, and that both newly-imaged
+recipes open with their new hero images at the correct URLs.
+
 ### Skafferi & chaos mode: the stash pool
 
 **Superseded in part by the 2026-08 Planera redesign** (see "Planera redesign" further down):

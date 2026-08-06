@@ -110,6 +110,12 @@ export default function SynkaView({ onBack }: Props) {
         </div>
 
         <div className="synka-stats synka-status">
+          {/* Diagnostic for stale-cache confusion (issue #103): an iOS home-screen icon has no
+              service worker to bust its own cache, so it can keep running an old bundle for a
+              long time after a real deploy. Comparing this against "when did I last actually
+              push" is the fastest way to tell "this device is stale" from "the feature is
+              broken" without guessing from symptoms alone. */}
+          <div className="synka-stat">Appversion byggd: <strong>{formatTimestamp(__BUILD_TIME__)}</strong></div>
           <div className="synka-stat">Senaste push: <strong>{formatTimestamp(status.lastPushAt)}</strong></div>
           <div className="synka-stat">Senaste hämtning: <strong>{formatTimestamp(status.lastHydrationAt)}</strong></div>
           {status.lastError && <div className="synka-stat synka-stat--error">Senaste fel: {status.lastError}</div>}
