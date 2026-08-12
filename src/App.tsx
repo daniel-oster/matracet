@@ -54,6 +54,12 @@ export default function App() {
   const [meals, setMeals] = useState<Meal[]>([])
   const [dayPlans, setDayPlans] = useState<DayPlan[]>([])
   const [historyEntries, setHistoryEntries] = useState<HistoryEntry[]>([])
+  // Set when the boot fetch for the app's two hard-required files (eaters.json,
+  // recipes/_index.json) fails — without this, a failed request left the app stuck on
+  // "Laddar…" forever with no way to recover short of a manual reload. `reloadAttempt`
+  // re-runs the boot effect below when the retry button is tapped.
+  const [loadError, setLoadError] = useState(false)
+  const [reloadAttempt, setReloadAttempt] = useState(0)
   const [screen, setScreen] = useState<ScreenName>('hub')
   const [screenHistory, setScreenHistory] = useState<ScreenName[]>([])
   // A shared recipe link (/matracet/recept/<slug>/, or an old #recept/<slug> hash link) opens
@@ -96,6 +102,7 @@ export default function App() {
   }, [])
 
   useEffect(() => {
+    setLoadError(false)
     const today = new Date().toISOString().slice(0, 10)
     const windowDates = Array.from({ length: 7 }, (_, i) => addDays(today, i))
     const weeksNeeded = [...new Set(windowDates.map(getISOWeekString))]
@@ -107,8 +114,17 @@ export default function App() {
     )
 
     Promise.all([
-      fetch('/matracet/data/eaters.json').then(r => r.json()),
-      fetch('/matracet/data/recipes/_index.json').then(r => r.json()),
+      // These two are the only files the app genuinely cannot start without — unlike every
+      // other fetch in this chain, a failure here must surface as a real error state (see
+      // the .catch on the whole Promise.all below), not silently fall back to null.
+      fetch('/matracet/data/eaters.json').then(r => {
+        if (!r.ok) throw new Error(`eaters.json fetch failed: ${r.status}`)
+        return r.json() as Promise<EatersData>
+      }),
+      fetch('/matracet/data/recipes/_index.json').then(r => {
+        if (!r.ok) throw new Error(`recipes/_index.json fetch failed: ${r.status}`)
+        return r.json() as Promise<RecipeIndex>
+      }),
       fetch('/matracet/data/meals.json').then(r => r.ok ? r.json() as Promise<MealsFile> : null).catch(() => null),
       fetch('/matracet/data/history.json').then(r => r.ok ? r.json() as Promise<HistoryFile> : null).catch(() => null),
       fetch('/matracet/data/feedback.json').then(r => r.ok ? r.json() as Promise<FeedbackFile> : null).catch(() => null),
@@ -179,8 +195,11 @@ export default function App() {
       setWeekLabel(`${month.charAt(0).toUpperCase() + month.slice(1)} ${year} · Vecka ${isoWeek}`)
 
       setDayPlans(resolvePresenceRange(today, addDays(today, 6), SEED_STORE))
+    }).catch(err => {
+      console.error('[matracet] boot data load failed:', err)
+      setLoadError(true)
     })
-  }, [])
+  }, [reloadAttempt])
 
   // GitHub-sync hydration (see CLAUDE.md's "GitHub-backed auto-sync" section) — a fully
   // independent effect on purpose: it never sets any state the loading gate below depends
@@ -204,6 +223,15 @@ export default function App() {
   // effects above for the same reason hydration is: it must never block app boot. No token
   // stored → every push attempt no-ops with zero network calls (pushState's own guard).
   useEffect(() => startSyncPusher(), [])
+
+  if (loadError) {
+    return (
+      <div className="app-loading app-load-error">
+        <p>Kunde inte ladda appen. Kontrollera internetanslutningen.</p>
+        <button type="button" onClick={() => setReloadAttempt(n => n + 1)}>Försök igen</button>
+      </div>
+    )
+  }
 
   if (!eaters || rollingDays.length === 0) {
     return <div className="app-loading">Laddar…</div>

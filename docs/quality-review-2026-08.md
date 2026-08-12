@@ -4,6 +4,10 @@ A quality review of the whole repo at commit `967ba42` (post-#101/#102), plus a 
 to fix what it found. Written to be actionable without re-deriving the evidence — every
 finding below was verified by running something, not by reading code and guessing.
 
+**Status: all four stages implemented in the same session the review was written.** See
+"What shipped" at the end of this document for exactly what changed and how each fix was
+verified.
+
 ## Baseline: what's actually healthy
 
 Worth stating first, because most of this repo is in good shape and the plan below should
@@ -260,3 +264,73 @@ emphatic that a fixture derived from the code under test proves nothing.
   work isn't repaid.
 - **No restructuring of the sync/classifier architecture.** Both are extensively reasoned about
   in CLAUDE.md, and this review found no evidence contradicting those decisions.
+
+---
+
+## What shipped
+
+All four stages were implemented in the same session, in order, each verified before moving
+to the next. 241 tests pass (up from 187), `npm run build` (real `tsc -b`) is clean.
+
+**Stage 1 — fetch resilience.**
+- `App.tsx`'s `eaters.json`/`_index.json` fetches now check `r.ok` and throw on failure; the
+  whole boot `Promise.all` has a `.catch` that sets a new `loadError` state instead of an
+  unhandled rejection.
+- A real error screen ("Kunde inte ladda appen… Försök igen") replaces the eternal "Laddar…"
+  — the retry button re-runs the boot effect via a `reloadAttempt` counter.
+- `usePantry`, `useBevakningslista`, and `useOffers`'s `loadIndex`/`loadLatest` all clear their
+  module-level cache on a failed fetch, so a later call retries instead of replaying the same
+  rejection forever (mirrors the pattern `useRecipes`/`useMeals` already used correctly).
+- `src/components/ErrorBoundary.tsx` (new) wraps `<App />` in `main.tsx` — a render-time
+  exception now shows a reload button (which appends `?_r=<timestamp>`, the same cache-buster
+  `Hub.hardRefresh()` uses) instead of a white screen.
+- Verified with a throwaway Playwright script (not committed): mocked `eaters.json` to 500,
+  confirmed the error UI appears; un-mocked it and confirmed the retry button recovers into
+  the normal app shell.
+
+**Stage 2 — `findOfferMatch` precision.**
+- `src/lib/suggestions.test.ts` (new, 16 tests) written *first*, capturing the four documented
+  mid-word false positives (`ägg`/`Smörgåspålägg`, `ris`/`Frisco`, `bröd`/`Wienerbröd`,
+  `olja`/`Olivolja`) as failing cases against the un-fixed implementation — confirmed they
+  actually failed (6 of 16) before touching the implementation.
+- `findOfferMatch` now requires a real word boundary on both match directions
+  (`containsWord`, anchored on literal non-word characters rather than JS's `\b`, which
+  doesn't treat å/ä/ö as word characters — same trap as CLAUDE.md's `\böl\b` lesson), and
+  returns the candidate with the highest `parseSavings`, not the first array match.
+- Re-measured against the real 2026-W31 corpus (129 recipes × 377 offers) after the fix: 116
+  of 129 recipes still get a match (down slightly from 121), but every one of the 116 was
+  hand-checked and is a genuine whole-word ingredient↔offer pairing (butter, olive oil,
+  ground beef, coconut milk, …) — zero mid-word false positives remain. The fix mainly
+  changed *which* offer wins per recipe, not how many recipes match at all, which in
+  hindsight is the right outcome: most recipes in this library really do share a plausible
+  ingredient with at least one of 377 real offers.
+- All 16 new tests pass; full suite green.
+
+**Stage 3 — test coverage.**
+- `src/hooks/useWeekPlan.test.ts` (new, 16 tests): `applyOverride` (meal resolution, virtual
+  vs. real meals, `varianter` clearing, skip-attendance priority), `effectivePresentIds`,
+  `diffAttendance` (away/extra in both directions, null-plan edge case).
+- `src/lib/bevaka.test.ts` (new, 11 tests): `matchesBevakning` (keyword match, brand-field
+  match, `undvik_marken`, the empty-`sok` category-wide case and its interaction with
+  `undvik_marken`), `tagOffers`, `toOfferRef`, `findBevakaHits`.
+- `src/lib/storeOrder.test.ts` (new, 11 tests): `guessAisleId` regression tests for all three
+  documented collision families (`färs`/`färsk`, `mjöl`/`mjölk`, `fil`/`filé`), `aisleRank`,
+  `aisleLabel`, `sortByAisle`, `groupByAisle` — using real classifier output as fixtures, not
+  invented strings, per CLAUDE.md's repeated "verify against the real corpus" lesson.
+- One test-authoring mistake caught by running the suite, not assumed: an initial
+  `sortByAisle`/`groupByAisle` test expected plain ASCII alphabetical order
+  (Äpplen before Bananer); Swedish `localeCompare` collation sorts Å/Ä/Ö *after* Z, so the
+  code was right and the test's expectation was fixed, not the code.
+
+**Stage 4 — opportunistic cleanups.**
+- `guessAisleId` now memoizes by name in a `Map`, eliminating the ~196 `classify()` calls per
+  HandlaView render measured during the review (cheap either way at ~5µs/call, but free to
+  remove entirely).
+- `src/hooks/useEscapeToClose.ts` (new) extracts the Escape-key-dismiss behavior
+  `RecipeOverlay` already had into a shared hook, now also used by
+  `IngredientPickerModal`, `CategoryFeedbackModal`, and `MealEditorModal` — previously only
+  outside-click/backdrop-tap could dismiss those three.
+- Verified with a throwaway Playwright script (not committed): opened the ingredient picker
+  from a real recipe card, pressed Escape, confirmed the modal actually closed.
+- `VeckanPlanner.tsx`'s size (F8) was left as-is per the plan — a maintainability note, not a
+  defect, to split only when a feature already touches that file.

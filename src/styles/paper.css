@@ -44,6 +44,24 @@ body {
   letter-spacing: 0.5px;
 }
 
+.app-load-error {
+  flex-direction: column;
+  gap: 16px;
+  text-align: center;
+  padding: 24px;
+}
+
+.app-load-error button {
+  background: var(--gold);
+  color: var(--ink);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 15px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
 .app-shell {
   max-width: 460px;
   margin: 0 auto;
