@@ -121,6 +121,14 @@ export default function RecipeOverlay({ slug, onClose }: Props) {
   }
 
 
+  /* "Flera kolumner om det behövs" (print): a landscape page is far wider than one
+     readable column of text, but splitting a three-step recipe across two columns just
+     looks broken. CSS can't branch on content length, so decide it here from the actual
+     instructions — a long method gets two columns and fills the page, a short one stays
+     a single column. */
+  const instructionWeight = (recipe?.instruktioner ?? []).join(' ').length
+  const printCols = recipe && (recipe.instruktioner.length >= 5 || instructionWeight >= 400) ? 2 : 1
+
   const main: Recipe['ingredienser'] = []
   const groups: Record<string, Recipe['ingredienser']> = {}
   recipe?.ingredienser.forEach(ing => {
@@ -142,6 +150,15 @@ export default function RecipeOverlay({ slug, onClose }: Props) {
           <button className="overlay-close" onClick={onClose} aria-label="Stäng">✕</button>
           <span className="overlay-recipe-title">{recipe?.namn ?? '…'}</span>
           <div className="overlay-toolbar-actions">
+            <button
+              className="overlay-print-btn"
+              onClick={() => window.print()}
+              disabled={!recipe}
+              title="Skriv ut receptet"
+              aria-label="Skriv ut receptet"
+            >
+              🖨
+            </button>
             <button
               className={`overlay-share-btn${copied ? ' copied' : ''}`}
               onClick={shareRecipe}
@@ -166,6 +183,18 @@ export default function RecipeOverlay({ slug, onClose }: Props) {
         {recipe?.bildUrl && (
           <div className="overlay-hero">
             <img className="overlay-hero-img" src={recipe.bildUrl} alt={recipe.namn} />
+          </div>
+        )}
+
+        {/* Print-only header: the on-screen toolbar (dark bar, buttons) is dropped when
+            printing, so the recipe still needs a name/portions/time line on paper. */}
+        {recipe && (
+          <div className="overlay-print-head">
+            <h1 className="print-title">{recipe.namn}</h1>
+            <div className="print-meta">
+              {recipe.tid_min} min · {recipe.portioner} portioner
+              {recipe.kategorier.length > 0 && ` · ${recipe.kategorier.join(', ')}`}
+            </div>
           </div>
         )}
 
@@ -202,7 +231,7 @@ export default function RecipeOverlay({ slug, onClose }: Props) {
               </ul>
             </div>
 
-            <div className="overlay-instructions-col">
+            <div className="overlay-instructions-col" data-print-cols={printCols}>
               <div className="overlay-section-head">Tillagning</div>
               <ol className="overlay-steps">
                 {recipe.instruktioner.map((step, i) => (

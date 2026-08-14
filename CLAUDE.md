@@ -2176,6 +2176,53 @@ rewritten, consistent with this file's existing convention of marking prior sect
 "superseded" rather than deleting them — see e.g. "Week planning: discover-style suggestion
 list" and "Skafferi & chaos mode" further up for the same pattern.
 
+## Printing a recipe (2026-08)
+
+A 🖨 button in `RecipeOverlay`'s toolbar calls `window.print()`; everything else lives in the
+`@media print` block at the **end of `src/styles/paper.css`**. Only the open recipe overlay is
+printable — every other screen is a tool, not a document — enforced with
+`.app-shell > *:not(.recipe-overlay) { display: none }` (the overlay is a *child* of
+`.app-shell`, so hiding the shell itself would hide the recipe too).
+
+Layout, per the household's ask: `@page { size: landscape }` (bare `landscape`, not
+`A4 landscape`, so the user's own paper size is respected), a `25% 1fr` grid with ingredients
+left and instructions right, `align-items: start` so the ingredient divider stops at its own
+content instead of ruling down an empty page. The screen overlay is a fixed, `100dvh`,
+internally-scrolling shell whose two columns scroll independently — none of that survives
+pagination, so the print block flattens `.recipe-overlay`/`.overlay-panel` back to plain
+flowing content. The dark toolbar is hidden and replaced by a print-only
+`.overlay-print-head` (`display: none` on screen) carrying name/time/portions/kategorier,
+since otherwise the printout has no title. The hero image is dropped — it eats a third of the
+page and tells the cook nothing.
+
+**"Flera kolumner om det behövs" is decided in JS, not CSS** (`printCols` in
+`RecipeOverlay.tsx` → `data-print-cols` on the instructions column). Two approaches were tried
+and rejected first, both verified by rendering real PDFs rather than reasoning about them:
+`column-fill: auto` + a fixed page-height column *never fires* for this library (no recipe's
+method is tall enough to overflow one 88mm column at 162mm), so the second column stayed empty
+and ~40% of the landscape page was permanently blank; plain `columns: 2` with default balance
+fires *always*, splitting a two-step recipe into two one-step columns. CSS can't branch on
+content length, so the count comes from the actual instructions
+(`instruktioner.length >= 5 || joined.length >= 400`) — long methods fill the page in two
+balanced columns, short ones stay single with a `max-width: 125mm` so the line length stays
+readable instead of running the full page width.
+
+**Ingredients are set smaller than the steps (9.5pt vs 11.5pt) on purpose** — that gap is
+what keeps the worst case on one sheet. The height bottleneck is the *ingredient* column, not
+the method: bumping ingredients to 10.5pt alongside the steps pushed the 21-ingredient
+Marockansk fusktagine onto a second page for one row. Verified with `page.pdf()` +
+`pdfinfo`/`pdftoppm` (poppler, per the store-flyer lesson above) at **both** letter and A4 —
+A4 landscape is ~6mm shorter than letter, and the 25-ingredient
+`asiatiska-kycklingkottbullar` fit letter while spilling A4, so **always check A4
+specifically**; a letter-only pass is not proof. The 15 heaviest recipes (ranked by
+ingredients + instruction length) all render as exactly 1 A4 page.
+
+**Gotcha worth keeping**: `.app-shell` carries `min-height: 100vh; background: var(--cream)`,
+which prints as a phone-shaped cream block down the page under the recipe — reset both in any
+print block, not just `max-width`/`padding`. Found by rendering with
+`page.pdf({ printBackground: true })`; a real printer usually drops backgrounds by default, so
+this is exactly the class of bug an on-screen check never surfaces.
+
 ## Deploy
 
 Pushing to `main` triggers the GitHub Actions workflow (`.github/workflows/deploy.yml`) which runs `npm ci && npm run build` and deploys `dist/` to GitHub Pages. No manual steps needed.
