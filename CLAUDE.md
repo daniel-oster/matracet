@@ -570,6 +570,43 @@ meal is an explicit, one-off act (a "Fika" meal pointing at a bake is legitimate
 suggestion the app makes on its own — so it stays unfiltered rather than being silently
 narrowed.
 
+#### Follow-up: a default-on filter must never let search fail silently (2026-08)
+
+The first version of the above shipped a real bug, reported immediately: searching
+Receptbiblioteket for **the recipe's own name** returned "Inga recept matchar" — the
+default-off baking chip filtered the only hit out *after* the query matched it, and nothing
+on screen said so. The household also couldn't find the chip ("I couldn't find a tab to
+actually make them show"). Both halves matter, and the second is what made the first
+unrecoverable: a hidden hit plus an invisible way to unhide it is indistinguishable from the
+recipe simply not existing.
+
+**The general rule, worth applying to any future default-on filter in this app**: a filter
+that hides content by default owes the user two things — a visible control that says what's
+hidden, and an explicit signal when *their current query* has matches the filter is
+suppressing. A bare "no matches" for a query that did match something is a lie, not an empty
+state.
+
+`src/lib/recipeSearch.ts` is where that's enforced, as pure/testable logic rather than JSX
+conditions: `partitionRecipes(entries, filter, query)` returns `{visible, hiddenMatches}` —
+the caller cannot get the visible list without also being handed what it suppressed.
+`matchesRecipeQuery` also widened search from name-only to **name + `taggar` + `kategorier`**,
+so the words the filter is *named after* (`bakning`, `efterrätt`, `fika`) actually find
+things — searching "bakning" previously matched nothing at all.
+`recipeSearch.test.ts` pins the original bug as an explicit regression case.
+
+`ReceptView` accordingly replaced the single subtle chip with three always-visible tabs
+carrying counts — `🍽️ Måltider` / `🧁 Bakning & fest` / `Alla`, still defaulting to Måltider —
+plus a tappable callout above the list ("Sökningen ger 1 träff under 🧁 bakning & fest ·
+Visa alla ›") shown only when `hiddenMatches` is non-empty **and** a query is active (with no
+query the tabs already say everything, and the callout was just noise reading "129 träffar
+till under måltiderna").
+
+**Index-tag gotcha this surfaced**: `_index.json` carries only a *subset* of a recipe's
+`taggar`, so searching a tag that exists in `recept.json` but wasn't copied into the index
+silently finds nothing — "fika" failed this way even after search learned to read tags. When
+tagging a recipe non-meal, copy **every** `NON_MEAL_TAGS` value it carries into the index
+entry, not just one, since each is a word someone might search by.
+
 ### Week menus
 
 `public/data/weeks/YYYY-Www.json` — one file per week. The `recept` field in each day entry contains the **display name** of the meal (free text), not the recipe slug. Set `recept: null` and use `anteckning` for nights out.
