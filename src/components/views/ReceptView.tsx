@@ -4,6 +4,7 @@ import type { Meal } from '../../types/meal'
 import { useFeedback } from '../../hooks/useFeedback'
 import { resolveMealForRecipe } from '../../lib/mealResolve'
 import { isNonMealRecipe, nonMealLabel } from '../../lib/recipeKind'
+import { partitionRecipes, type RecipeLibraryFilter } from '../../lib/recipeSearch'
 import RecipeFeedbackBar from '../feedback/RecipeFeedbackBar'
 import TopBar from '../TopBar'
 
@@ -29,53 +30,84 @@ function categoryText(kategorier: string[]): string {
   return kategorier[0] ?? ''
 }
 
+/** Copy for the "your search has matches you can't see" callout. Reads differently when the
+ *  visible list is empty ("the hits are over there") vs. non-empty ("there are more"). */
+function hiddenMatchText(hidden: RecipeIndexEntry[], visibleCount: number): string {
+  const where = hidden.some(isNonMealRecipe) ? '🧁 bakning & fest' : '🍽️ måltiderna'
+  const n = hidden.length
+  const traffar = n === 1 ? '1 träff' : `${n} träffar`
+  return visibleCount === 0
+    ? `Sökningen ger ${traffar} under ${where}`
+    : `${traffar} till under ${where}`
+}
+
 export default function ReceptView({ onBack, recipeIndex, meals, eaters, onOpenRecipe }: Props) {
   const [query, setQuery] = useState('')
-  // Baking/dessert recipes are hidden by default, here and in every planning surface — this
-  // chip is the one place in the app that shows them again (src/lib/recipeKind.ts). Plain
-  // useState, not a persisted store: "show the cakes" is a per-visit intent, not a setting.
-  const [showBaking, setShowBaking] = useState(false)
+  // Which slice of the library is on screen. Defaults to 'maltider' (baking hidden), but the
+  // three tabs are always visible with counts — the previous single subtle toggle chip was
+  // not findable, and a search whose only hit was filtered out reported a flat "no matches".
+  // Plain useState, not a persisted store: "show the cakes" is a per-visit intent.
+  const [filter, setFilter] = useState<RecipeLibraryFilter>('maltider')
   const { getFeedback, setExcludeFromWeekPlan } = useFeedback()
 
-  const q = query.trim().toLowerCase()
+  const q = query.trim()
   const bakingCount = recipeIndex.filter(isNonMealRecipe).length
-  const filtered = recipeIndex
-    .filter(r => showBaking || !isNonMealRecipe(r))
-    .filter(r => !q || r.namn.toLowerCase().includes(q))
+  const mealCount = recipeIndex.length - bakingCount
+  const { visible, hiddenMatches } = partitionRecipes(recipeIndex, filter, q)
+
+  const tabs: { id: RecipeLibraryFilter; label: string; count: number }[] = [
+    { id: 'maltider', label: '🍽️ Måltider', count: mealCount },
+    { id: 'bakning', label: '🧁 Bakning & fest', count: bakingCount },
+    { id: 'alla', label: 'Alla', count: recipeIndex.length },
+  ]
 
   return (
     <div className="screen screen--recept">
-      <TopBar onBack={onBack} eyebrow={`${filtered.length} recept`} title="Receptbiblioteket" />
+      <TopBar onBack={onBack} eyebrow={`${visible.length} recept`} title="Receptbiblioteket" />
       <div className="screen-body">
         <div className="recipe-scroll-list">
           <input
             className="recipe-search"
             type="search"
-            placeholder="Sök recept…"
+            placeholder="Sök recept, tagg eller kategori…"
             value={query}
             onChange={e => setQuery(e.target.value)}
           />
-          {bakingCount > 0 && (
-            <div className="recipe-filterbar">
+          <div className="recipe-tabs" role="tablist" aria-label="Visa recept">
+            {tabs.map(t => (
               <button
+                key={t.id}
                 type="button"
-                className={`fynd-chip${showBaking ? ' on' : ''}`}
-                aria-pressed={showBaking}
-                onClick={() => setShowBaking(v => !v)}
+                role="tab"
+                aria-selected={filter === t.id}
+                className={`recipe-tab${filter === t.id ? ' on' : ''}`}
+                onClick={() => setFilter(t.id)}
               >
-                🧁 Bakning & fest ({bakingCount})
+                {t.label} <span className="recipe-tab-count">{t.count}</span>
               </button>
-              <span className="recipe-filter-hint">
-                {showBaking ? 'Visas i listan – men aldrig i matplaneringen.' : 'Dolda som standard.'}
-              </span>
+            ))}
+          </div>
+          {filter === 'bakning' && (
+            <div className="recipe-filter-hint">
+              Bak-, efterrätts- och fikarecept. De finns alltid här, men föreslås aldrig när du planerar mat.
             </div>
           )}
-          {filtered.length === 0 && (
+          {/* A query whose matches are all filtered out must say so and offer a way through —
+              never a bare "inga recept matchar", which is indistinguishable from the recipe
+              not existing at all. This is the exact dead end that made a freshly-tagged
+              baking recipe unfindable by its own name. */}
+          {q !== '' && hiddenMatches.length > 0 && (
+            <button type="button" className="recipe-hidden-hint" onClick={() => setFilter('alla')}>
+              <span>{hiddenMatchText(hiddenMatches, visible.length)}</span>
+              <span className="recipe-hidden-hint-cta">Visa alla ›</span>
+            </button>
+          )}
+          {visible.length === 0 && hiddenMatches.length === 0 && (
             <div className="recipe-search-empty">
               {q ? `Inga recept matchar "${query}".` : 'Inga recept att visa.'}
             </div>
           )}
-          {filtered.map(r => {
+          {visible.map(r => {
             // Feedback is keyed by meal, not recipe (see CLAUDE.md's Stage 5 note) — most
             // recipes have no meals.json entry, so this resolves to a virtual meal keyed
             // to the recipe's own slug, which is why this still reads/writes correctly for

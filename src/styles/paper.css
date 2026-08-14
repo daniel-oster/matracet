@@ -728,8 +728,22 @@ button.plan-cell { cursor: pointer; }
   margin-bottom: 10px; font-family: inherit;
 }
 .recipe-search-empty { color: var(--muted); font-size: 13px; padding: 10px 2px; }
-.recipe-filterbar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
-.recipe-filter-hint { font-size: 11px; color: var(--muted); }
+.recipe-tabs { display: flex; gap: 6px; margin-bottom: 8px; }
+.recipe-tab {
+  flex: 1; font-family: inherit; font-size: 12px; padding: 7px 6px; border-radius: 8px;
+  border: 1px solid var(--line); background: var(--cream); color: var(--sub); cursor: pointer;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.recipe-tab.on { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+.recipe-tab-count { opacity: 0.6; font-size: 11px; }
+.recipe-filter-hint { font-size: 11.5px; color: var(--muted); margin-bottom: 10px; }
+.recipe-hidden-hint {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%;
+  font-family: inherit; font-size: 12.5px; text-align: left; cursor: pointer;
+  background: var(--blue-bg); color: var(--ink);
+  border: 1px solid var(--line); border-radius: 8px; padding: 9px 12px; margin-bottom: 10px;
+}
+.recipe-hidden-hint-cta { color: var(--gold2); white-space: nowrap; }
 .recipe-card-badge {
   font-size: 10.5px; padding: 1px 7px; border-radius: 999px;
   background: var(--gold); color: var(--ink); white-space: nowrap;
