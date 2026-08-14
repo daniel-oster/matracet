@@ -18,9 +18,10 @@
 //     carry no absolute price (just a splash like "10 % rabatt"). Per the
 //     README's existing convention for these: klubbpris stays false and the
 //     coupon nature goes in `notering`, not `klubbpris`.
-// The promo splash's `title` attribute doubles as the price-type signal:
-// "Klubbpris" -> klubbpris: true, "Bara för dig" -> personal coupon,
-// "Erbjudande" -> plain offer (klubbpris: false).
+// Price and price-type are read from stable `data-testid` markers only —
+// never from the styled-components hash classes (`sc-<hash>-N`), which change
+// on any Hemköp redeploy: the price string comes from `screen-reader-text`
+// and klubbpris from an explicit `<p>Klubbpris</p>` label on the card.
 //
 // No explicit "Ordinarie pris"/"Spara X kr" savings line exists on most
 // cards — `ordinary-price` is present only on some (see `ord_pris`).
@@ -50,8 +51,14 @@ function decodeEntities(s) {
     .trim();
 }
 
-function stripTags(s) {
-  return decodeEntities(s.replace(/<[^>]+>/g, '')).replace(/\s+/g, ' ').trim();
+// The card's own accessible price string, e.g. "15,00 /st", "129,00 /kg",
+// "2 för 28 kr". Read from `data-testid="screen-reader-text"` — a stable
+// testid, unlike the styled-components hash class (`sc-<hash>-1`) this used
+// to key off, which silently stopped matching when Hemköp redeployed (the
+// 2026-W33 import parsed 0 offers from 67 intact blocks because of it).
+function extractPriceText(chunk) {
+  const m = chunk.match(/data-testid="screen-reader-text"[^>]*>([^<]*)</);
+  return m ? decodeEntities(m[1]).replace(/\s+/g, ' ').trim() : null;
 }
 
 function parsePriceText(text) {
@@ -64,8 +71,10 @@ function parsePriceText(text) {
   if ((m = text.match(/^([\d,.\s-]+?)\s*%\s*rabatt$/i))) {
     return { pris_typ: 'rabatt', pris: null, pris_text: `${m[1].trim()}% rabatt`, unit: null };
   }
-  if ((m = text.match(/^([\d,.-]+)\/(st|kg)$/i))) {
-    const unit = m[2].toLowerCase();
+  // "15,00 /st" / "129,00/kg" — the accessible string separates value and
+  // unit with a space, the old price block did not; accept both.
+  if ((m = text.match(/^([\d,.-]+)\s*\/\s*(st|kg|l|liter)$/i))) {
+    const unit = m[2].toLowerCase() === 'liter' ? 'l' : m[2].toLowerCase();
     return { pris_typ: 'st', pris: toNumber(m[1]), pris_text: `${toNumber(m[1]).toFixed(2)}/${unit}`, unit };
   }
   return null;
@@ -81,15 +90,20 @@ function parseProductContainer(chunk) {
   const volM = chunk.match(/data-testid="display-volume"[^>]*>([^<]*)</);
   const storlek = volM ? tightenUnit(decodeEntities(volM[1])) : null;
 
-  const priceBlockM = chunk.match(/class="sc-7d7c3adf-1[^"]*">(.*?)<\/div>/s);
-  if (!priceBlockM) return null;
-  const parsed = parsePriceText(stripTags(priceBlockM[1]));
+  const priceText = extractPriceText(chunk);
+  if (!priceText) return null;
+  const parsed = parsePriceText(priceText);
   if (!parsed) return null;
 
-  const splashM = chunk.match(/data-testid="(?:splash|pricebomb)-[a-z]+"\s+title="([^"]+)"/);
-  const splashTitle = splashM ? splashM[1] : null;
-  const klubbpris = splashTitle === 'Klubbpris';
-  const notering = splashTitle === 'Bara för dig' ? 'Bara för dig (kräver aktivering i appen)' : null;
+  // The splash no longer carries a `title="Klubbpris"` attribute; the card
+  // renders an explicit `<p>Klubbpris</p>` label instead. Splash *colour*
+  // (splash-yellow/splash-red/pricebomb-splash) looks like it correlates but
+  // does not: 2026-W33 had 2 yellow multi-buy cards with no Klubbpris label,
+  // so match the label itself, never the colour.
+  const klubbpris = /<p[^>]*>Klubbpris<\/p>/.test(chunk);
+  const notering = /<p[^>]*>Bara för dig<\/p>/.test(chunk)
+    ? 'Bara för dig (kräver aktivering i appen)'
+    : null;
 
   const ordM = chunk.match(/data-testid="ordinary-price"[\s\S]*?data-testid="presentation-text"[^>]*>([^<]*)</);
   const ord_pris = ordM ? ordExtract(ordM[1]) : null;
@@ -161,8 +175,8 @@ function parsePersonalCoupon(chunk) {
   const namn = nameM ? decodeEntities(nameM[1]) : null;
   if (!namn) return null;
 
-  const priceBlockM = chunk.match(/class="sc-7d7c3adf-1[^"]*">(.*?)<\/div>/s);
-  const parsed = priceBlockM ? parsePriceText(stripTags(priceBlockM[1])) : null;
+  const priceText = extractPriceText(chunk);
+  const parsed = priceText ? parsePriceText(priceText) : null;
   if (!parsed) return null;
 
   const mfrM = chunk.match(/data-testid="display-manufacturer"[^>]*>([^<]*)</);

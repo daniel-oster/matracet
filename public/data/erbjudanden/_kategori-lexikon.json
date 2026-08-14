@@ -703,6 +703,16 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "bavaria blu~bergader": {
+    "kategori": "ost_fars_mjuk",
+    "form": "kyld",
+    "varutyp": "ost_fars_mjuk",
+    "markeringar": [],
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Bergader Bavaria Blu ar en mjuk gradd-/adelost, inte hardost.",
+    "updated": "2026-08-14"
+  },
   "bbq allround grillolja barbeque buddies~johnnys": {
     "kategori": "olja_vinager",
     "form": "torr",
@@ -990,6 +1000,16 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-31"
+  },
+  "blodpudding~geas": {
+    "kategori": "charkuterier",
+    "form": "kyld",
+    "varutyp": "charkuterier",
+    "markeringar": [],
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Samma produkt som Gea´s blodpudding hos ICA, annan stavning av markesnamnet hos Willys.",
+    "updated": "2026-08-14"
   },
   "blojor~babblarna": {
     "kategori": "bloja_babyvard",
@@ -1620,6 +1640,16 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "chocoflakes~eldorado": {
+    "kategori": "flingor_musli",
+    "form": "torr",
+    "varutyp": "flingor_musli",
+    "markeringar": [],
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Chokladflingor till frukost — frukostflingor.",
+    "updated": "2026-08-14"
   },
   "chocolate protein milkshake lactose free~valio": {
     "kategori": "lask_vatten",
@@ -2930,6 +2960,16 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "ekologiska chiafron~garant eko": {
+    "kategori": "notter_torkat",
+    "form": "torr",
+    "varutyp": "notter_torkat",
+    "markeringar": [],
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Chiafron — torkade fron, samma lov som notter/torkad frukt.",
+    "updated": "2026-08-14"
+  },
   "ekologiska halkidiki oliver~garant eko": {
     "kategori": "inlagt_delikatess",
     "form": "torr",
@@ -3222,13 +3262,14 @@
     "updated": "2026-07-17"
   },
   "familjefavoriter~arla": {
-    "kategori": "fil_yoghurt",
+    "kategori": "ost_hard",
     "form": "kyld",
-    "varutyp": "fil_yoghurt",
+    "varutyp": "ost_hard",
     "markeringar": [],
     "confidence": "lag",
     "kalla": "model",
-    "updated": "2026-07-31"
+    "motivering": "Variabel vikt (Ca 750-1200 g) och kilopris 79,90 kr/kg — styckad ost. Fil/yoghurt saljs aldrig i variabel vikt och ligger runt 15-25 kr/kg, sa den tidigare fil_yoghurt-gissningen (confidence lag) motsags av prisbilden.",
+    "updated": "2026-08-14"
   },
   "fankal~": {
     "kategori": "gronsaker",
@@ -4148,6 +4189,16 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "fryst krogarpytt~felix": {
+    "kategori": "enportionsratt",
+    "form": "fryst",
+    "varutyp": "enportionsratt",
+    "markeringar": [],
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Fryst pyttipanna, samma produkttyp som lexikonets oxpytt~findus (enportionsratt/fryst).",
+    "updated": "2026-08-14"
+  },
   "fryst kryddad kyckling~guldfageln": {
     "kategori": "fagel",
     "form": "fryst",
@@ -4377,6 +4428,16 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "gardsgoda~valio": {
+    "kategori": "ost_hard",
+    "form": "kyld",
+    "varutyp": "ost_hard",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "model",
+    "motivering": "Valio-mejeriprodukt i 400-500 g till 29,90 kr = 60-75 kr/kg, vilket ar ostprisniva; yoghurt i den storleken skulle ligga en tredjedel sa hogt. Grupp (Mejeri & Ost) ar saker aven om exakt osttyp inte ar det.",
+    "updated": "2026-08-14"
+  },
   "getingspray~raid": {
     "kategori": "skadedjur",
     "form": null,
@@ -4583,6 +4644,16 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "gott blandat~malaco": {
+    "kategori": "godis",
+    "form": null,
+    "varutyp": "godis",
+    "markeringar": [],
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Malaco Gott & Blandat ar en godispase.",
+    "updated": "2026-08-14"
   },
   "gourmetskinka rokt skivad~parsons": {
     "kategori": "palagg_pastej",
@@ -5378,6 +5449,16 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "haricot verts~eldorado": {
+    "kategori": "gronsaker",
+    "form": "fryst",
+    "varutyp": "gronsaker",
+    "markeringar": [],
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Frysta harico verts i 1 kg-pase — gronsak, fryst form.",
+    "updated": "2026-08-14"
+  },
   "havrefralla kvarngoda havrerundel~fazer": {
     "kategori": "frallor_tunnbrod",
     "form": null,
@@ -5431,6 +5512,16 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "havreringar kuddar~frebaco kvarn": {
+    "kategori": "flingor_musli",
+    "form": "torr",
+    "varutyp": "flingor_musli",
+    "markeringar": [],
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Frukostflingor (havreringar/havrekuddar) fran en kvarn.",
+    "updated": "2026-08-14"
   },
   "havssalt chips~gotlandschips": {
     "kategori": "chips_snacks",
@@ -5711,6 +5802,16 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "hundpasar~ica": {
+    "kategori": "djurgodis_tillbehor",
+    "form": null,
+    "varutyp": "djurgodis_tillbehor",
+    "markeringar": [],
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Hundbajspasar — samma lov som lexikonets ovriga hundbajspasar/tuggben.",
+    "updated": "2026-08-14"
+  },
   "hushallsost~arla": {
     "kategori": "ost_hard",
     "form": "kyld",
@@ -5782,6 +5883,16 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "ica baby~ica": {
+    "kategori": "bloja_babyvard",
+    "form": null,
+    "varutyp": "bloja_babyvard",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "model",
+    "motivering": "Sortimentserbjudande over hela ICA Baby-serien (ord.pris 19:90-47:90 spanner bade barnmat och blojor/vatservetter); babyvard ar den bredare av de tva loven.",
+    "updated": "2026-08-14"
   },
   "ice coffee frapp~nescaf": {
     "kategori": "kaffe_te",
@@ -6710,6 +6821,16 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "klammisar~minstingen": {
+    "kategori": "barnmat",
+    "form": null,
+    "varutyp": "barnmat",
+    "markeringar": [],
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Minstingen ar ett barnmatsmarke; klammisar ar fruktpuré i pip-pase for sma barn.",
+    "updated": "2026-08-14"
+  },
   "klassiker 18pack~gb glace": {
     "kategori": "glass",
     "form": "fryst",
@@ -7015,6 +7136,16 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "krondill~sverige": {
+    "kategori": "farska_kryddor",
+    "form": "farsk",
+    "varutyp": "farska_kryddor",
+    "markeringar": [],
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Farsk dill i 25 g-knippe.",
+    "updated": "2026-08-14"
   },
   "krossade passerade tomater~eldorado": {
     "kategori": "konserv_tomat",
@@ -9050,6 +9181,16 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "nutella~nutella": {
+    "kategori": "palagg_pastej",
+    "form": null,
+    "varutyp": "palagg_pastej",
+    "markeringar": [],
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Chokladnotkram som brepalagg.",
+    "updated": "2026-08-14"
+  },
   "nypressad juice~bramhults": {
     "kategori": "juice_saft",
     "form": null,
@@ -9392,6 +9533,26 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "panini~km bake": {
+    "kategori": "frallor_tunnbrod",
+    "form": null,
+    "varutyp": "frallor_tunnbrod",
+    "markeringar": [],
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Paninibrod i 150 g — smabrod/frallor.",
+    "updated": "2026-08-14"
+  },
+  "pannkakor 12pack~eldorado": {
+    "kategori": "enportionsratt",
+    "form": null,
+    "varutyp": "enportionsratt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "model",
+    "motivering": "Fardiga pannkakor att varma — hor hemma i Fardigmat-gruppen; taxonomin har inget eget pannkakslov, sa gruppens generella fardigrattslov far ta det.",
+    "updated": "2026-08-14"
+  },
   "pannkakor~pop bakery myprotein": {
     "kategori": "ovrigt",
     "form": null,
@@ -9652,6 +9813,16 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "peroni~peroni": {
+    "kategori": "ol_cider",
+    "form": null,
+    "varutyp": "ol_cider",
+    "markeringar": [],
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Peroni i 33 cl — ol (alkoholfri variant saljs i svensk livsmedelsbutik).",
+    "updated": "2026-08-14"
   },
   "persika~": {
     "kategori": "frukt",
@@ -10256,6 +10427,16 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "proteinpudding shake mousse~valio": {
+    "kategori": "fil_yoghurt",
+    "form": "kyld",
+    "varutyp": "fil_yoghurt",
+    "markeringar": [],
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Kylda mejeribaserade proteinmellanmal (pudding/shake/mousse) — samma hylla och lov som propud/kvarg.",
+    "updated": "2026-08-14"
+  },
   "proteinpudding shake~valio 150": {
     "kategori": "ovrigt",
     "form": null,
@@ -10364,6 +10545,16 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "quattrocento~granarolo": {
+    "kategori": "ost_hard",
+    "form": "kyld",
+    "varutyp": "ost_hard",
+    "markeringar": [],
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Granarolo Quattrocento ar en italiensk hardostblandning; Ca 1 kg till 149 kr/kg ar ostprisniva.",
+    "updated": "2026-08-14"
+  },
   "radisor i knippe~": {
     "kategori": "gronsaker",
     "form": "farsk",
@@ -10471,6 +10662,16 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "refill ultramax~vileda": {
+    "kategori": "stad_disk_tvatt",
+    "form": null,
+    "varutyp": "stad_disk_tvatt",
+    "markeringar": [],
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Refill till Vileda UltraMax-mopp — stadartikel.",
+    "updated": "2026-08-14"
   },
   "regnbagslax 4pack~hofseth": {
     "kategori": "fisk",
