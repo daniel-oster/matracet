@@ -13,6 +13,7 @@
   "kalla": "Broma Bakery",
   "kallaUrl": "https://bromabakery.com/lemon-brownies/",
   "dagkedja": null,
+  "bildUrl": "https://bromabakery.com/wp-content/uploads/2024/04/Lemon-Brownies-3-500x700.jpg",
   "ingredienser": [
     { "vara": "strösocker", "mangd": 2, "enhet": "dl", "grupp": "brownies" },
     { "vara": "citron (rivet skal)", "mangd": 2, "enhet": "st", "grupp": "brownies" },
