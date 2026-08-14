@@ -42,6 +42,13 @@ function sequenceFor(store?: string | null): string[] {
   return (store && AISLE_SEQUENCES[store]) || AISLE_ORDER
 }
 
+// guessAisleId is called from inside sort comparators (aisleRank, used by both sortByAisle
+// and groupByAisle, which itself calls sortByAisle then re-derives the id per item) — a
+// shopping-list render can run the full classify() cascade well over a hundred times for the
+// same handful of names. Cheap (~5µs/call) but free to avoid entirely: same name always
+// classifies to the same aisle, so memoize by name.
+const aisleIdCache = new Map<string, string>()
+
 /** Best-effort aisle guess for a grocery item name — used for items that only carry a
  * plain name (a hand-typed "Eget tillägg" list entry, or a recipe ingredient that
  * hasn't been backfilled with its own `kategori` yet, see Ingredient.kategori in
@@ -49,8 +56,12 @@ function sequenceFor(store?: string | null): string[] {
  * recipe ingredient authored with `kategori` set) should call `aisleFor()` directly
  * instead of re-classifying its name here. */
 export function guessAisleId(name: string): string {
+  const cached = aisleIdCache.get(name)
+  if (cached !== undefined) return cached
   const { kategori, form } = classify(name, null, '')
-  return aisleFor(kategori, form)
+  const id = aisleFor(kategori, form)
+  aisleIdCache.set(name, id)
+  return id
 }
 
 /** Rank within one store's walk order (or the shared placeholder order if `store` is

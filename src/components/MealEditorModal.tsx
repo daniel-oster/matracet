@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import type { Meal, MealComponent } from '../types/meal'
 import type { RecipeIndexEntry } from '../types'
 import { uniqueMealSlug } from '../lib/mealResolve'
+import { useEscapeToClose } from '../hooks/useEscapeToClose'
 
 interface Props {
   /** null = creating a brand-new meal. */
@@ -27,6 +28,7 @@ function splitList(text: string): string[] {
 export default function MealEditorModal({
   meal, initialName, recipeIndex, existingSlugs, onSave, onClose,
 }: Props) {
+  useEscapeToClose(onClose)
   const [namn, setNamn] = useState(meal?.namn ?? initialName ?? '')
   const [aliasText, setAliasText] = useState((meal?.alias ?? []).join(', '))
   const [taggarText, setTaggarText] = useState((meal?.taggar ?? []).join(', '))

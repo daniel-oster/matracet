@@ -49,17 +49,43 @@ export function isVeganFriendly(meal: Meal, recipe: Recipe | undefined): boolean
  */
 const TRIVIAL_INGREDIENTS = new Set(['vatten', 'salt', 'peppar', 'svartpeppar', 'vitpeppar', 'salt och peppar', 'is', 'isbitar'])
 
-/** Find a currently-discounted offer whose name plausibly matches one of the recipe's ingredients. */
+/** Not a "word" character for the purposes of `containsWord` below — anything that isn't a
+ *  Swedish letter or digit. Kept as its own predicate rather than JS's `\b`, which silently
+ *  fails around å/ä/ö (they aren't ASCII word characters) — the exact trap documented in
+ *  CLAUDE.md under the `\böl\b` lesson, just hit again here. */
+function isWordChar(ch: string | undefined): boolean {
+  return ch !== undefined && /[a-zåäö0-9]/.test(ch)
+}
+
+/** Whole-word substring match: true when `word` appears in `haystack` with a non-word
+ *  character (or a string edge) on both sides — so "ägg" matches "Ägg 12-pack" but not the
+ *  "ägg" inside "Smörgåspålägg", and "ris" matches "Ris" but not the "ris" inside "Frisco".
+ *  Both haystack and word are expected already-lowercased. */
+function containsWord(haystack: string, word: string): boolean {
+  const idx = haystack.indexOf(word)
+  if (idx === -1) return false
+  return !isWordChar(haystack[idx - 1]) && !isWordChar(haystack[idx + word.length])
+}
+
+/** Find the currently-discounted offer, of any that plausibly match one of the recipe's
+ *  ingredients, with the biggest savings — see docs/quality-review-2026-08.md (finding F3)
+ *  for how the previous bare substring-either-direction test false-positived on ~94% of the
+ *  recipe library (half of those matches mid-word, e.g. "ägg" inside "Smörgåspålägg"). Both
+ *  directions are checked at whole-word granularity instead: does an ingredient word appear
+ *  as a whole word in the offer name, or does the (usually short) offer name appear as a
+ *  whole word inside a longer ingredient phrase like "pasta, gärna tagliatelle". */
 export function findOfferMatch(recipe: Recipe | undefined, offers: TaggedOffer[]): TaggedOffer | undefined {
   if (!recipe) return undefined
   const ingredientNames = recipe.ingredienser
     .map(i => i.vara.trim().toLowerCase())
     .filter(name => name && !TRIVIAL_INGREDIENTS.has(name))
   if (ingredientNames.length === 0) return undefined
-  return offers.find(o => {
+  const candidates = offers.filter(o => {
     const hay = o.namn.toLowerCase()
-    return ingredientNames.some(name => hay.includes(name) || name.includes(hay))
+    return ingredientNames.some(name => containsWord(hay, name) || containsWord(name, hay))
   })
+  if (candidates.length === 0) return undefined
+  return candidates.reduce((best, o) => (parseSavings(o.besparing) > parseSavings(best.besparing) ? o : best))
 }
 
 /** "10.80-14.58kr" / "1.30kr" → the largest kr figure in the string, or 0 if unparseable. */

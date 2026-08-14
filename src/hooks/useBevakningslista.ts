@@ -3,10 +3,20 @@ import { Bevakningslista, BevakningItem } from '../types'
 
 const URL = '/matracet/data/erbjudanden/bevakningslista.json'
 
-let cache: Promise<BevakningItem[]> | null = null
+let cache: Promise<BevakningItem[] | null> | null = null
 
-function load(): Promise<BevakningItem[]> {
-  if (!cache) cache = fetch(URL).then(r => (r.json() as Promise<Bevakningslista>).then(d => d.varor))
+function load(): Promise<BevakningItem[] | null> {
+  if (!cache) {
+    cache = fetch(URL)
+      .then(r => (r.ok ? (r.json() as Promise<Bevakningslista>).then(d => d.varor) : null))
+      .catch(() => null)
+      .then(result => {
+        // See usePantry.ts's identical comment: a failed fetch must not poison this
+        // module-level cache forever.
+        if (result === null) cache = null
+        return result
+      })
+  }
   return cache
 }
 

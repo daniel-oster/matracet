@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Recipe } from '../types'
 import { usePantry } from '../hooks/usePantry'
 import { useShoppingList } from '../hooks/useShoppingList'
+import { useEscapeToClose } from '../hooks/useEscapeToClose'
 import { formatAmount } from '../lib/shoppingList'
 
 interface Props {
@@ -14,6 +15,7 @@ interface Props {
  * want, per this app's manual-only shopping list philosophy (see CLAUDE.md). Items already
  * covered by pantry.json start unchecked as a helpful default, not a hidden skip. */
 export default function IngredientPickerModal({ recipe, onClose }: Props) {
+  useEscapeToClose(onClose)
   const pantry = usePantry()
   const { addOrRestoreByName } = useShoppingList()
 

@@ -1,5 +1,6 @@
 import { KATEGORI_OPTIONS, kategoriLabel } from '../lib/categories'
 import { CategoryFeedbackEntry } from '../hooks/useCategoryFeedback'
+import { useEscapeToClose } from '../hooks/useEscapeToClose'
 
 interface Props {
   namn: string
@@ -15,6 +16,7 @@ interface Props {
  * changed in the actual offer data here); it's meant to be exported and fed to the
  * sync-category-feedback skill later. */
 export default function CategoryFeedbackModal({ namn, currentCategory, existing, onPick, onClear, onClose }: Props) {
+  useEscapeToClose(onClose)
   return (
     <div className="ingpick-backdrop" onClick={e => { if (e.target === e.currentTarget) onClose() }}>
       <div className="ingpick-panel">

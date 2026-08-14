@@ -3,6 +3,7 @@ import { Recipe } from '../types'
 import IngredientPickerModal from './IngredientPickerModal'
 import { currentRecipeUrl } from '../lib/recipeLink'
 import { showToast } from '../lib/toastStore'
+import { useEscapeToClose } from '../hooks/useEscapeToClose'
 
 interface WakeLockSentinel {
   release(): Promise<void>
@@ -56,12 +57,7 @@ export default function RecipeOverlay({ slug, onClose }: Props) {
     }
   }, [])
 
-  // Dismiss on Escape key
-  useEffect(() => {
-    function onKey(e: KeyboardEvent) { if (e.key === 'Escape') onClose() }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [onClose])
+  useEscapeToClose(onClose)
 
   async function toggleWakeLock() {
     const wl = (navigator as Navigator & { wakeLock?: { request(t: string): Promise<WakeLockSentinel> } }).wakeLock
