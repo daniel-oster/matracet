@@ -56,7 +56,14 @@ function buildOgBlock({ namn, tid_min, kategorier, bildUrl, url }) {
     `<meta property="og:site_name" content="Matracet" />`,
     `<meta property="og:url" content="${escapeHtml(url)}" />`,
   ]
-  if (bildUrl) lines.push(`<meta property="og:image" content="${escapeHtml(bildUrl)}" />`)
+  // og:image must be absolute — a crawler (iMessage, Slack, …) fetches it out of context and
+  // will not resolve a site-relative path like "/matracet/data/recipes/<slug>/bild.jpg".
+  // Resolving against SITE_URL leaves an already-absolute URL untouched, so both a
+  // repo-hosted image and a remote one work through the same line.
+  if (bildUrl) {
+    const absolute = new URL(bildUrl, SITE_URL).href
+    lines.push(`<meta property="og:image" content="${escapeHtml(absolute)}" />`)
+  }
   lines.push(`<meta name="twitter:card" content="summary_large_image" />`)
   return lines.join('\n    ')
 }
