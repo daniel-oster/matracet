@@ -893,7 +893,11 @@ button.plan-cell { cursor: pointer; }
 .overlay-close { width: 32px; height: 32px; border-radius: 8px; border: 1px solid #3a3a3a; background: #252525; color: var(--cream); font-size: 16px; cursor: pointer; flex: none; }
 .overlay-recipe-title { font-size: 15px; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .overlay-toolbar-actions { display: flex; align-items: center; gap: 8px; flex: none; }
-.overlay-wakelock-btn, .overlay-share-btn { font-family: inherit; font-size: 11px; padding: 6px 10px; border-radius: 7px; border: 1px solid #3a3a3a; background: #252525; color: #cfc7b8; cursor: pointer; white-space: nowrap; }
+.overlay-wakelock-btn, .overlay-share-btn, .overlay-print-btn { font-family: inherit; font-size: 11px; padding: 6px 10px; border-radius: 7px; border: 1px solid #3a3a3a; background: #252525; color: #cfc7b8; cursor: pointer; white-space: nowrap; }
+.overlay-print-btn { font-size: 14px; padding: 4px 9px; }
+.overlay-print-btn:disabled { opacity: 0.5; cursor: default; }
+/* Only ever rendered on paper — see the @media print block at the end of this file. */
+.overlay-print-head { display: none; }
 .overlay-wakelock-btn.active { background: var(--gold); color: #201a0d; border-color: var(--gold); }
 .overlay-share-btn.copied { background: var(--green-d); color: #fff; border-color: var(--green-d); }
 .overlay-share-btn:disabled { opacity: 0.5; cursor: default; }
@@ -907,7 +911,7 @@ button.plan-cell { cursor: pointer; }
   }
   .overlay-recipe-title { display: none; }
   .overlay-toolbar-actions { pointer-events: none; }
-  .overlay-close, .overlay-wakelock-btn, .overlay-share-btn { border-radius: 99px; background: rgba(20, 16, 10, 0.78); pointer-events: auto; }
+  .overlay-close, .overlay-wakelock-btn, .overlay-share-btn, .overlay-print-btn { border-radius: 99px; background: rgba(20, 16, 10, 0.78); pointer-events: auto; }
   .overlay-share-btn.copied { background: var(--green-d); }
 }
 .overlay-hero { flex: none; }
@@ -1164,3 +1168,70 @@ button.plan-cell { cursor: pointer; }
 .toast--info { background: var(--paper); color: var(--ink); border: 1px solid var(--line); }
 
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+/* ─── Utskrift: liggande sida, ingredienser ~25% till vänster ───────────────
+   Only the open RecipeOverlay is printable — everything else in the app is a
+   screen tool, not a document. The overlay on screen is a fixed, 100dvh shell
+   whose two columns scroll independently; none of that survives pagination, so
+   printing flattens it back to plain flowing content laid out on a grid. */
+
+@media print {
+  @page { size: landscape; margin: 10mm 12mm; }
+
+  html, body { background: #fff; color: #000; }
+  body { font-size: 11pt; }
+  .toast-host, .floating-nav { display: none !important; }
+  .app-shell > *:not(.recipe-overlay) { display: none !important; }
+  /* min-height: 100vh + the cream background would otherwise paint a phone-shaped
+     block down the page under the recipe. */
+  .app-shell { max-width: none; min-height: 0; padding: 0; margin: 0; background: none; }
+
+  .recipe-overlay { position: static; inset: auto; display: block; background: #fff; }
+  .overlay-panel {
+    display: block; width: auto; height: auto; max-height: none;
+    overflow: visible; background: #fff;
+  }
+  /* Screen chrome and interactive bits have no meaning on paper. The hero image is
+     dropped too — it eats a third of the page and tells the cook nothing. */
+  .overlay-toolbar, .overlay-hero, .overlay-add-shop-btn,
+  .ingpick-backdrop, .overlay-loading { display: none !important; }
+
+  .overlay-print-head {
+    display: block; border-bottom: 1.5pt solid #000;
+    padding-bottom: 2.5mm; margin-bottom: 4mm;
+  }
+  .print-title { font-family: inherit; font-size: 24pt; font-weight: normal; margin: 0; letter-spacing: 0.2pt; }
+  .print-meta { font-size: 10.5pt; color: #333; margin-top: 1.5mm; }
+
+  /* align-items: start so each column is only as tall as its own content — otherwise
+     the ingredient divider runs to the bottom of an otherwise empty page. */
+  .overlay-body {
+    display: grid !important; grid-template-columns: 25% 1fr;
+    column-gap: 9mm; padding: 0; overflow: visible; align-items: start;
+  }
+  .overlay-ingredients-col, .overlay-instructions-col {
+    padding: 0; height: auto; overflow: visible; border: none;
+  }
+  .overlay-ingredients-col { border-right: 0.5pt solid #bbb; padding-right: 7mm; }
+
+  .overlay-section-head { font-size: 9pt; color: #000; margin-bottom: 3mm; }
+  /* Time/portions already sit in the print header — don't repeat them mid-column. */
+  .overlay-recipe-meta { display: none; }
+  .overlay-ing-list { break-inside: auto; }
+  .overlay-ing-item { font-size: 9.5pt; padding: 0.8mm 0; border-bottom: 0.4pt solid #ddd; break-inside: avoid; }
+  .overlay-ing-amount { color: #444; }
+  .overlay-ing-group { margin-top: 2.5mm; }
+  .overlay-ing-group-label { font-size: 9.5pt; color: #000; font-weight: bold; margin-bottom: 1mm; }
+
+  /* Column count comes from RecipeOverlay's data-print-cols (see the comment there) —
+     a long method fills the landscape page in two balanced columns, a short one stays
+     single and just gets a readable line length instead of a page-wide one. */
+  .overlay-instructions-col[data-print-cols="2"] { columns: 2; column-gap: 9mm; }
+  .overlay-instructions-col[data-print-cols="1"] { max-width: 125mm; }
+  .overlay-instructions-col .overlay-section-head { column-span: all; }
+  .overlay-steps { padding-left: 6mm; }
+  .overlay-step { font-size: 11.5pt; line-height: 1.5; padding: 1.6mm 0; break-inside: avoid; }
+  .overlay-serving, .overlay-tips, .overlay-source { font-size: 10pt; margin-top: 4mm; break-inside: avoid; }
+  .overlay-tips { background: none; border: 0.5pt solid #999; padding: 2.5mm 3mm; border-radius: 0; }
+  .overlay-source, .overlay-source a { color: #444; text-decoration: none; }
+}
