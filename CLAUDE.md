@@ -519,7 +519,56 @@ Category values: `vegansk`, `vegetarisk`, `fisk`, `kott`, `glutenfri`, `laktosfr
 
 ### Recipe index
 
-`public/data/recipes/_index.json` is a manually maintained list of all recipes with lightweight fields only (slug, nummer, namn, tid_min, kategorier, bildUrl). **When adding a new recipe, add an entry here too.**
+`public/data/recipes/_index.json` is a manually maintained list of all recipes with lightweight fields only (slug, nummer, namn, tid_min, kategorier, bildUrl, and the optional `taggar` described below). **When adding a new recipe, add an entry here too.**
+
+### Non-meal recipes: baking/dessert are tagged out of meal planning (2026-08)
+
+Not every recipe is a dinner. A cake, dessert or fika bake belongs in the recipe library
+(you want to find it, open it, rate it, share its link) but must never show up while planning
+lunch/middag — the household's ask was literally "flagga det som bakning och festligt … och
+det ska inte synas när man planerar mat".
+
+`src/lib/recipeKind.ts` is the one place this is decided: `NON_MEAL_TAGS`
+(`bakning`/`bakverk`/`efterrätt`/`dessert`/`fika`/`godis`), `isNonMealRecipe(entry)`,
+`filterPlannableRecipes(entries)` and `nonMealLabel(entry)`. Tag a recipe by putting one of
+those in its `taggar` — **and repeating the relevant ones in its `_index.json` entry**, since
+every planning surface reads the lightweight index, not the full recipe file.
+`RecipeIndexEntry.taggar` is therefore documented as an optional *subset* of the real tag list
+— present only when a tag changes list behaviour — never as the complete set; read
+`recept.json` if you need all of them.
+
+Three deliberate decisions worth not re-litigating:
+- **A tag, not a new schema field.** `kategorier` is the closed dietary set
+  (vegansk/vegetarisk/fisk/kott/glutenfri/laktosfri) that `dietFit.ts` and `suggestions.ts`
+  read as a *diet* signal — putting `bakning` there would poison that. `taggar` is already the
+  free-form classification channel, so this needed no schema change beyond surfacing `taggar`
+  in the index.
+- **`festligt` is deliberately NOT a gate.** A festive *dinner* is still a dinner; only tags
+  meaning "not a main meal at all" exclude a recipe. `festligt` stays purely descriptive
+  (asserted in `recipeKind.test.ts` so a future session doesn't "helpfully" add it).
+- **Untagged ⇒ plannable.** The failure mode is "an untagged cake shows up in suggestions
+  until someone tags it", not "a real dinner silently vanishes from planning".
+
+Applied in the pure libs rather than per call site, so every consumer is covered by one
+filter: `rankSuggestions` (→ Planera's recipe browser, its offer-driven "Förslag från fynden",
+and `SkafferiView`), `matchPantryRecipes`, `findUnlockOpportunities`, plus `VeckanPlanner`'s
+unified meal/recipe search box (both `mealMatches` *and* `mealQueryExactMatch` — filtering
+only the former makes an exact-name query a dead end: no hit and no "+ Skapa ny måltid"
+either). `scripts/build-brief.ts` excludes them from the brief's `recipeIndex` too, noted in
+the brief's own `meta.assumptions`.
+
+`ReceptView` is the one screen that shows them, hidden behind a default-off
+`🧁 Bakning & fest (N)` chip (plain `useState`, not a persisted store — "show the cakes" is a
+per-visit intent, not a setting), with a `🧁 Bakning`/`🍰 Efterrätt` badge on the card. That
+card's "Använd inte i veckoplan" checkbox is replaced by static "Ingår aldrig i veckoplanen"
+text, since the per-recipe exclude flag would be a no-op on something already excluded
+everywhere. Deep links (`/matracet/recept/<slug>/`) and `RecipeOverlay` are untouched — a
+baking recipe opens and shares exactly like any other.
+
+**Deliberately not filtered**: `MealEditorModal`'s recipe-link search. Linking a recipe to a
+meal is an explicit, one-off act (a "Fika" meal pointing at a bake is legitimate), not a
+suggestion the app makes on its own — so it stays unfiltered rather than being silently
+narrowed.
 
 ### Week menus
 

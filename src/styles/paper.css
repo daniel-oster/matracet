@@ -728,6 +728,12 @@ button.plan-cell { cursor: pointer; }
   margin-bottom: 10px; font-family: inherit;
 }
 .recipe-search-empty { color: var(--muted); font-size: 13px; padding: 10px 2px; }
+.recipe-filterbar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+.recipe-filter-hint { font-size: 11px; color: var(--muted); }
+.recipe-card-badge {
+  font-size: 10.5px; padding: 1px 7px; border-radius: 999px;
+  background: var(--gold); color: var(--ink); white-space: nowrap;
+}
 .recipe-scroll-list { display: block; }
 @media (min-width: 860px), (orientation: landscape) and (max-height: 600px) { .recipe-scroll-list { max-width: 640px; margin: 0 auto; } }
 

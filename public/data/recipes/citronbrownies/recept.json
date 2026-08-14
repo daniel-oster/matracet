@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "slug": "citronbrownies",
+  "nummer": 131,
+  "namn": "Citronbrownies med citronglasyr",
+  "tid_min": 60,
+  "portioner": 16,
+  "kategorier": ["vegetarisk"],
+  "sasong": ["vår", "sommar"],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["bakning", "festligt", "efterrätt", "fika", "citron", "amerikansk"],
+  "kalla": "Broma Bakery",
+  "kallaUrl": "https://bromabakery.com/lemon-brownies/",
+  "dagkedja": null,
+  "ingredienser": [
+    { "vara": "strösocker", "mangd": 2, "enhet": "dl", "grupp": "brownies" },
+    { "vara": "citron (rivet skal)", "mangd": 2, "enhet": "st", "grupp": "brownies" },
+    { "vara": "osaltat smör", "mangd": 115, "enhet": "g", "grupp": "brownies" },
+    { "vara": "ägg", "mangd": 2, "enhet": "st", "grupp": "brownies" },
+    { "vara": "vaniljextrakt", "mangd": 1, "enhet": "tsk", "grupp": "brownies" },
+    { "vara": "citronextrakt", "mangd": 1, "enhet": "tsk", "grupp": "brownies" },
+    { "vara": "vetemjöl", "mangd": 2.5, "enhet": "dl", "grupp": "brownies" },
+    { "vara": "salt", "mangd": 0.5, "enhet": "tsk", "grupp": "brownies" },
+    { "vara": "bakpulver", "mangd": 1, "enhet": "krm", "grupp": "brownies" },
+    { "vara": "citronjuice", "mangd": 1, "enhet": "msk", "grupp": "glasyr" },
+    { "vara": "florsocker", "mangd": 1.2, "enhet": "dl", "grupp": "glasyr" },
+    { "vara": "vaniljextrakt", "mangd": 0.25, "enhet": "tsk", "grupp": "glasyr" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Sätt ugnen på 175°. Klä en form på ca 20x20 cm med bakplåtspapper och ställ åt sidan.",
+    "Lägg socker och rivet citronskal i en stor, mikrovågssäker bunke. Gnid in skalet i sockret med fingrarna. Lägg i smöret och kör i mikron tills det smält helt och smeten är varm, ca 1 minut. Vispa ihop. Kör ytterligare 15 sekunder och vispa igen om det behövs.",
+    "Tillsätt ägg, vaniljextrakt och citronextrakt. Vispa kraftigt tills smeten är blank och ljusare, ca 30 sekunder.",
+    "Tillsätt mjöl, salt och bakpulver. Vänd ihop med slickepott tills allt precis gått samman och inga mjölränder syns — rör inte för mycket. Bred ut smeten jämnt i formen.",
+    "Grädda tills kanterna stannat och en kniv instucken i mitten kommer ut nästan ren, 20–25 minuter. Låt kallna helt.",
+    "Rör under tiden ihop citronjuice, florsocker och vaniljextrakt i en liten skål tills glasyren är slät. Häll glasyren över de kalla kakorna och bred ut den till kanterna. Låt stelna innan servering."
+  ],
+  "servering": ["kaffe", "te"],
+  "tips": "Har du inget citronextrakt går det bra att öka mängden rivet citronskal i stället — smaken blir lite mildare men fräschare. Glasyren stelnar snabbare i kylen.",
+  "komplett": true
+}

@@ -15,6 +15,7 @@ import { resolve } from 'path'
 import { resolvePresence } from '../src/presence/resolver.ts'
 import { SEED_STORE, PERSONS } from '../src/presence/seed.ts'
 import { matchMealByName, resolveMealForRecipe } from '../src/lib/mealResolve.ts'
+import { filterPlannableRecipes } from '../src/lib/recipeKind.ts'
 import type { Meal, MealsFile } from '../src/types/meal.ts'
 
 /** Derive vegan status from a recipe's kategorier array — true = marked vegansk,
@@ -92,6 +93,7 @@ interface IndexEntry {
   tid_min: number
   kategorier: string[]
   bildUrl?: string
+  taggar?: string[]
 }
 
 interface WeekDay {
@@ -309,7 +311,9 @@ const mealLibrarySlim = mealLibrary.map(meal => {
 
 // ── Slimmat receptregister ──────────────────────────────────────────────────────
 
-const recipeIndexSlim = recipeIndex.map(r => ({
+// Bak-/efterrättsrecept är inte planerbara måltider (src/lib/recipeKind.ts) och ska därför
+// inte ligga i briefens receptregister, som uttryckligen är underlaget för veckoplanering.
+const recipeIndexSlim = filterPlannableRecipes(recipeIndex).map(r => ({
   id: r.slug,
   title: r.namn,
   protein: deriveProtein(r.kategorier),
@@ -370,6 +374,7 @@ const brief = {
       'mealLibrary.antalGanger/senastAten är beräknade, inte hand-underhållna fält i meals.json — se matchesHistoryEntry.',
       'feedback.json (och därmed sentiment/exclusions) är nu nyckelt på måltid, inte recept — mealIdFor löser ut vilken måltid ett recept tillhör (sin egen virtuella måltid om ingen meals.json-post länkar det).',
       'recipeIndex.tags = kategorier (slimmade indexet bär inte de fria taggarna).',
+      'recipeIndex utesluter bak-/efterrättsrecept (taggar bakning/efterrätt/fika m.fl., se src/lib/recipeKind.ts) — de är inte planerbara måltider.',
       'maxRepeatProteinPerWeek = null (ingen gräns, per användarens val).',
     ],
     // Fält som varken finns i git-datan eller i localStorage-exporten.

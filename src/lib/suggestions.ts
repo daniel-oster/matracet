@@ -4,6 +4,7 @@ import type { UseFeedback } from '../hooks/useFeedback'
 import type { TaggedOffer } from './bevaka'
 import { evaluateFit } from './dietFit'
 import { resolveMealForRecipe } from './mealResolve'
+import { filterPlannableRecipes } from './recipeKind'
 
 export type SuggestionFilter = 'alla' | 'fynd' | 'snabbt' | 'vegansk'
 export type SuggestionSort = 'match' | 'savings' | 'favorites' | 'fastest'
@@ -133,7 +134,10 @@ export function rankSuggestions({
 }: RankOptions): RankedSuggestion[] {
   const present = presentPersonIds ? eaters.filter(e => presentPersonIds.includes(e.id)) : eaters
 
-  const ranked = recipeIndex
+  // Baking/dessert recipes are never meal suggestions — see src/lib/recipeKind.ts. Applied
+  // here rather than at each call site so every consumer of the suggestion list (Planera's
+  // browser, its offer-driven "Förslag från fynden", Skafferi) is covered by one filter.
+  const ranked = filterPlannableRecipes(recipeIndex)
     .filter(r => matchesQuery(r, query))
     .filter(r => (filter === 'snabbt' ? r.tid_min <= FAST_THRESHOLD_MIN : true))
     .map((entry): RankedSuggestion => {

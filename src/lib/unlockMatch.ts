@@ -1,5 +1,6 @@
 import type { Recipe, RecipeIndexEntry } from '../types'
 import { looselyMatches } from './pantryMatch'
+import { filterPlannableRecipes } from './recipeKind'
 
 export interface UnlockOpportunity {
   ingredient: string
@@ -23,7 +24,9 @@ export function findUnlockOpportunities(
 ): UnlockOpportunity[] {
   const groups = new Map<string, RecipeIndexEntry[]>()
 
-  for (const entry of recipeIndex) {
+  // Same exclusion as matchPantryRecipes — "one purchase away from cookable" is a
+  // meal-planning question, so baking/dessert recipes never count (src/lib/recipeKind.ts).
+  for (const entry of filterPlannableRecipes(recipeIndex)) {
     const recipe = fullRecipes[entry.slug]
     if (!recipe || recipe.ingredienser.length === 0) continue
     const missing = recipe.ingredienser.filter(i => !haveNames.some(have => looselyMatches(i.vara, have)))

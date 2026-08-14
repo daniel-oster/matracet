@@ -154,6 +154,11 @@ export interface RecipeIndexEntry {
   tid_min: number
   kategorier: string[]
   bildUrl?: string
+  /** Optional *subset* of the full recipe's `taggar`, carried in the index only when a tag
+   *  changes how the recipe behaves in lists — today that means the non-meal tags in
+   *  src/lib/recipeKind.ts (bakning/efterrätt/…), which keep a recipe out of meal planning.
+   *  Never treat this as the complete tag list; read the recipe's own recept.json for that. */
+  taggar?: string[]
 }
 
 export interface RecipeIndex {
