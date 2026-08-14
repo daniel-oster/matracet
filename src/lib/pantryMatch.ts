@@ -1,4 +1,5 @@
 import type { Recipe, RecipeIndexEntry } from '../types'
+import { filterPlannableRecipes } from './recipeKind'
 
 export interface PantryMatch {
   entry: RecipeIndexEntry
@@ -25,7 +26,9 @@ export function matchPantryRecipes(
   fullRecipes: Record<string, Recipe>,
   haveNames: string[],
 ): PantryMatch[] {
-  const matches = recipeIndex
+  // Baking/dessert recipes are excluded — this answers "what can we cook for a meal",
+  // and a cake sharing "smör" with the pantry isn't an answer to that (src/lib/recipeKind.ts).
+  const matches = filterPlannableRecipes(recipeIndex)
     .map((entry): PantryMatch | null => {
       const recipe = fullRecipes[entry.slug]
       if (!recipe) return null

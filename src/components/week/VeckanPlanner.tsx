@@ -19,6 +19,7 @@ import { useIrrelevantOffers } from '../../hooks/useIrrelevantOffers'
 import { tagOffers, TaggedOffer } from '../../lib/bevaka'
 import { rankSuggestions, SuggestionFilter, SuggestionSort, FAST_THRESHOLD_MIN } from '../../lib/suggestions'
 import { findUnlockOpportunities } from '../../lib/unlockMatch'
+import { filterPlannableRecipes } from '../../lib/recipeKind'
 import { matchPantryRecipes } from '../../lib/pantryMatch'
 import {
   resolveMealForRecipe, resolveComponents, resolveDayMeal, matchMealByName,
@@ -385,7 +386,9 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
       m => m.namn.toLowerCase().includes(needle) || m.alias.some(a => a.toLowerCase().includes(needle)),
     )
     const linkedReceptSlugs = new Set(meals.map(m => m.receptSlug).filter((s): s is string => !!s))
-    const recipeHits = recipeIndex
+    // Baking/dessert recipes never surface here — this box exists to put something in a
+    // lunch/middag slot (src/lib/recipeKind.ts). They're still findable in Receptbiblioteket.
+    const recipeHits = filterPlannableRecipes(recipeIndex)
       .filter(r => r.namn.toLowerCase().includes(needle))
       .filter(r => !linkedReceptSlugs.has(r.slug) && !meals.some(m => m.slug === r.slug))
       .map(r => resolveMealForRecipe(r.slug, r.namn, meals))
@@ -394,7 +397,9 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
   const mealQueryExactMatch = useMemo(
     () =>
       matchMealByName(mealQuery, meals) ||
-      recipeIndex.some(r => r.namn.trim().toLowerCase() === mealQuery.trim().toLowerCase()),
+      // Same plannable filter as mealMatches above — otherwise typing a baking recipe's exact
+      // name is a dead end: no hit (it's filtered out) and no "+ Skapa ny måltid" either.
+      filterPlannableRecipes(recipeIndex).some(r => r.namn.trim().toLowerCase() === mealQuery.trim().toLowerCase()),
     [mealQuery, meals, recipeIndex],
   )
 
