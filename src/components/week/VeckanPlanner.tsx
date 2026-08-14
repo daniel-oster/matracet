@@ -191,17 +191,14 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
     [flatSlots],
   )
 
-  const [query, setQuery] = useState('')
-  const poolRows = useMemo(() => {
-    const rows = sortPoolRows(buildPoolRows(pool.entries, filledSlots))
-    const needle = query.trim().toLowerCase()
-    if (!needle) return rows
-    return rows.filter(r => {
-      const meal = meals.find(m => m.slug === r.mealSlug)
-      const namn = meal?.namn ?? recipeIndex.find(rc => rc.slug === r.receptSlug)?.namn ?? r.mealSlug
-      return namn.toLowerCase().includes(needle)
-    })
-  }, [pool.entries, filledSlots, query, meals, recipeIndex])
+  // "Veckans måltider" always shows every planned/pool meal regardless of the search box
+  // above it — the search box is for finding something new to add, not for narrowing what
+  // you've already added (a household report: typing to search for a new dish was hiding
+  // already-planned meals that didn't match, reading as if they'd been removed).
+  const poolRows = useMemo(
+    () => sortPoolRows(buildPoolRows(pool.entries, filledSlots)),
+    [pool.entries, filledSlots],
+  )
 
   function dayLabel(date: string): string {
     const dag = days.find(d => d.datum === date)?.dag ?? ''
@@ -450,7 +447,7 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
                 type="search"
                 placeholder="Sök måltid eller recept…"
                 value={mealQuery}
-                onChange={e => { setMealQuery(e.target.value); setQuery(e.target.value) }}
+                onChange={e => setMealQuery(e.target.value)}
               />
               <button type="button" className="meal-add-new-btn" onClick={() => setEditorState({ mode: 'new', prefill: mealQuery.trim() })}>
                 + Ny måltid
@@ -698,7 +695,6 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
             if (editorState.mode === 'new') pool.addEntry(m.slug, m.receptSlug)
             setEditorState({ mode: 'closed' })
             setMealQuery('')
-            setQuery('')
           }}
           onClose={() => setEditorState({ mode: 'closed' })}
         />
