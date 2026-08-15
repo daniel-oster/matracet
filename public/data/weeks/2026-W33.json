@@ -1,32 +1,22 @@
 {
   "vecka": "2026-W33",
-  "middagar": [
-    {
-      "dag": "lordag",
-      "datum": "2026-08-15",
-      "recept": null,
-      "anteckning": "Middag behövs — förslag: fläskkarré i ugn (eko fläskkarré på extrapris, Willys) eller sprödbakad fiskfilé (Findus, snabbt)"
-    },
-    {
-      "dag": "sondag",
-      "datum": "2026-08-16",
-      "recept": null,
-      "anteckning": "Middag behövs — förslag: pasta med köttfärssås (fläskfärs på extrapris, vegansk för Annabelle med tomatsås+vegoost) eller färdiga köttbullar"
-    }
-  ],
+  "middagar": [],
   "luncher": [
     {
       "dag": "lordag",
       "datum": "2026-08-15",
       "recept": "Risbollar"
-    },
-    {
-      "dag": "sondag",
-      "datum": "2026-08-16",
-      "recept": null,
-      "anteckning": "Snabb lunch behövs — kalas kl 14, ska hinna baka innan"
     }
   ],
-  "anteckningar": [],
+  "anteckningar": [
+    {
+      "nar": "Lördag 15/8",
+      "text": "Middag ej vald ännu. Förslag: fläskkarré i ugn med äpple och ingefära (eko fläskkarré på extrapris hos Willys, spar 5 kr) eller sprödbakad fiskfilé (Findus, spar 6,60 kr, snabbt)."
+    },
+    {
+      "nar": "Söndag 16/8",
+      "text": "Kalas kl 14 — snabb lunch behövs, ska hinna baka innan. Middag ej vald ännu, förslag: pasta med köttfärssås (fläskfärs på extrapris hos Willys, vegansk för Annabelle med tomatsås+vegoost) eller färdiga ekologiska köttbullar (spar 7,86 kr)."
+    }
+  ],
   "skapad": "2026-08-15T00:00:00Z"
 }

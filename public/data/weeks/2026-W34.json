@@ -7,13 +7,12 @@
       "recept": "Hamburgare",
       "kommentar": "Nötfärs på extrapris hos Willys (spar 20 kr) — vegansk biff till Annabelle"
     },
+  ],
+  "anteckningar": [
     {
-      "dag": "onsdag",
-      "datum": "2026-08-19",
-      "recept": null,
-      "anteckning": "Middag behövs — barnvecka"
+      "nar": "Onsdag 19/8",
+      "text": "Middag ej vald ännu (barnvecka). Förslag: krämig kycklinggryta med soltorkade tomater (30 min) eller kyckling på plåt med ugnsrostade rotsaker (45 min) — kycklingfilé på extrapris hos Willys, spar 15 kr. Ingen vegansk variant definierad ännu för kyckling — Annabelle behöver separat protein den kvällen."
     }
   ],
-  "anteckningar": [],
   "skapad": "2026-08-15T00:00:00Z"
 }
