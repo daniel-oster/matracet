@@ -1,0 +1,32 @@
+{
+  "vecka": "2026-W33",
+  "middagar": [
+    {
+      "dag": "lordag",
+      "datum": "2026-08-15",
+      "recept": null,
+      "anteckning": "Middag behövs — förslag: fläskkarré i ugn (eko fläskkarré på extrapris, Willys) eller sprödbakad fiskfilé (Findus, snabbt)"
+    },
+    {
+      "dag": "sondag",
+      "datum": "2026-08-16",
+      "recept": null,
+      "anteckning": "Middag behövs — förslag: pasta med köttfärssås (fläskfärs på extrapris, vegansk för Annabelle med tomatsås+vegoost) eller färdiga köttbullar"
+    }
+  ],
+  "luncher": [
+    {
+      "dag": "lordag",
+      "datum": "2026-08-15",
+      "recept": "Risbollar"
+    },
+    {
+      "dag": "sondag",
+      "datum": "2026-08-16",
+      "recept": null,
+      "anteckning": "Snabb lunch behövs — kalas kl 14, ska hinna baka innan"
+    }
+  ],
+  "anteckningar": [],
+  "skapad": "2026-08-15T00:00:00Z"
+}
