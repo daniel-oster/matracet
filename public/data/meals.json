@@ -73,6 +73,20 @@
       ],
       "receptSlug": null,
       "taggar": ["köpt", "snabbt"]
+    },
+    {
+      "slug": "jumeokbap",
+      "namn": "Jumeokbap",
+      "alias": ["risbollar", "koreanska risbollar"],
+      "komponenter": [
+        { "vara": "sushiris", "alternativ": [] },
+        { "vara": "fyllning", "alternativ": ["tonfisk och majonnäs", "nötkött, ost och kimchi"], "valfri": true },
+        { "vara": "furikake eller smulad nori", "alternativ": [], "valfri": true },
+        { "vara": "garnering (salladslök, japansk majonnäs, tonkatsusås)", "alternativ": [], "valfri": true }
+      ],
+      "receptSlug": null,
+      "taggar": ["koreanskt", "risbollar", "snabbt", "barnvänligt"],
+      "tid_min": 20
     }
   ]
 }
