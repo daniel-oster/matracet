@@ -1184,7 +1184,7 @@ button.plan-cell { cursor: pointer; }
   .app-shell > *:not(.recipe-overlay) { display: none !important; }
   /* min-height: 100vh + the cream background would otherwise paint a phone-shaped
      block down the page under the recipe. */
-  .app-shell { max-width: none; min-height: 0; padding: 0; margin: 0; background: none; }
+  .app-shell { max-width: none; min-height: 0; padding: 0; margin: 0; background: none; overflow: visible; }
 
   .recipe-overlay { position: static; inset: auto; display: block; background: #fff; }
   .overlay-panel {
@@ -1226,7 +1226,11 @@ button.plan-cell { cursor: pointer; }
   /* Column count comes from RecipeOverlay's data-print-cols (see the comment there) —
      a long method fills the landscape page in two balanced columns, a short one stays
      single and just gets a readable line length instead of a page-wide one. */
-  .overlay-instructions-col[data-print-cols="2"] { columns: 2; column-gap: 9mm; }
+  /* `columns: <min-width> <max-count>` rather than a bare count: Safari ignores the
+     @page size descriptor entirely, so this can land on a portrait page too — there the
+     instruction area is only ~135mm and two columns would be unreadably narrow, so the
+     width floor collapses it back to one. A landscape page has room and gets two. */
+  .overlay-instructions-col[data-print-cols="2"] { columns: 78mm 2; column-gap: 9mm; }
   .overlay-instructions-col[data-print-cols="1"] { max-width: 125mm; }
   .overlay-instructions-col .overlay-section-head { column-span: all; }
   .overlay-steps { padding-left: 6mm; }

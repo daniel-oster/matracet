@@ -40,6 +40,10 @@ export default function RecipeOverlay({ slug, onClose }: Props) {
   const [pickerOpen, setPickerOpen] = useState(false)
   const [copied, setCopied] = useState(false)
   const copiedTimer = useRef<number | null>(null)
+  /** Whether the gesture that produced the current click actually started on the backdrop.
+   *  iOS delivers a stray click to whatever sits under a native sheet (print/share) once it
+   *  is dismissed — without this, closing the print sheet also closed the whole recipe. */
+  const pressedBackdrop = useRef(false)
 
   useEffect(() => {
     setLoading(true)
@@ -143,7 +147,11 @@ export default function RecipeOverlay({ slug, onClose }: Props) {
   return (
     <div
       className="recipe-overlay"
-      onClick={e => { if (e.target === e.currentTarget) onClose() }}
+      onPointerDown={e => { pressedBackdrop.current = e.target === e.currentTarget }}
+      onClick={e => {
+        if (e.target === e.currentTarget && pressedBackdrop.current) onClose()
+        pressedBackdrop.current = false
+      }}
     >
       <div className="overlay-panel">
         <div className="overlay-toolbar">
@@ -151,8 +159,16 @@ export default function RecipeOverlay({ slug, onClose }: Props) {
           <span className="overlay-recipe-title">{recipe?.namn ?? '…'}</span>
           <div className="overlay-toolbar-actions">
             <button
+              type="button"
               className="overlay-print-btn"
-              onClick={() => window.print()}
+              /* Deferred out of the tap handler: calling print() synchronously from a touch
+                 gesture is where iOS is most likely to swallow it, and the stray click the
+                 native sheet leaves behind must not reach anything else. */
+              onClick={e => {
+                e.preventDefault()
+                e.stopPropagation()
+                window.setTimeout(() => window.print(), 0)
+              }}
               disabled={!recipe}
               title="Skriv ut receptet"
               aria-label="Skriv ut receptet"

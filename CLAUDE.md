@@ -2217,11 +2217,35 @@ A4 landscape is ~6mm shorter than letter, and the 25-ingredient
 specifically**; a letter-only pass is not proof. The 15 heaviest recipes (ranked by
 ingredients + instruction length) all render as exactly 1 A4 page.
 
+**Safari ignores `@page { size }` — so the layout must survive a portrait sheet too.**
+WebKit has never implemented the `size` descriptor, so an iPhone paginates this as portrait
+no matter what `@page` asks for (and if the printer is then set to landscape by hand, the two
+disagree and the sheet comes out cropped — that's what a real household print looked like).
+The multi-column rule is therefore `columns: 78mm 2` (min-width + max-count), not a bare
+`columns: 2`: a landscape page has room for two columns, a portrait one (~135mm of instruction
+area) collapses to a single readable column on its own, with no media query involved.
+**Rotating the content a quarter turn onto the portrait sheet was tried and reverted** — the
+gate for it would have to be `@media print and (orientation: portrait)`, and that block matched
+even on a genuinely landscape page during `page.pdf()`, producing a sideways, cropped,
+two-page print. The `orientation` media feature is not trustworthy during pagination; don't
+build on it. Verified by rendering all three page shapes (CSS landscape, A4 portrait, letter
+portrait — the latter two by appending a later `@page` rule via `addStyleTag`, which wins the
+cascade and simulates Safari) for the 15 heaviest recipes: 45/45 came out as exactly one page.
+
+**iOS drops a stray click on whatever is under a native sheet.** Tapping 🖨 opened the print
+sheet and, on dismissal, closed the whole recipe overlay — the click landed on the backdrop,
+whose handler only checked `e.target === e.currentTarget`. `RecipeOverlay` now also requires
+the gesture to have *started* on the backdrop (a `pointerdown` ref), so a click with no
+matching press can't dismiss it. `window.print()` is likewise deferred out of the tap handler
+with `setTimeout(..., 0)`, since calling it synchronously from a touch gesture is where iOS is
+most likely to swallow it.
+
 **Gotcha worth keeping**: `.app-shell` carries `min-height: 100vh; background: var(--cream)`,
 which prints as a phone-shaped cream block down the page under the recipe — reset both in any
 print block, not just `max-width`/`padding`. Found by rendering with
 `page.pdf({ printBackground: true })`; a real printer usually drops backgrounds by default, so
-this is exactly the class of bug an on-screen check never surfaces.
+this is exactly the class of bug an on-screen check never surfaces. `.app-shell` also carries
+`overflow-x: hidden`, which can clip printed content — reset it in the print block as well.
 
 ## Deploy
 
