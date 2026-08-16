@@ -37,6 +37,11 @@ export default function RecipeOverlay({ slug, onClose }: Props) {
   const [loading, setLoading] = useState(true)
   const [wakeLockActive, setWakeLockActive] = useState(false)
   const wakeLockRef = useRef<WakeLockSentinel | null>(null)
+  /** User intent, separate from wakeLockActive: the OS can silently release the sentinel
+   *  (most reliably reproduced by rotating a phone to landscape, which briefly flips
+   *  document visibility on many mobile browsers) without the user having asked for that.
+   *  This stays true across such a release so we know to reacquire once visible again. */
+  const wantWakeLockRef = useRef(false)
   const [pickerOpen, setPickerOpen] = useState(false)
   const [copied, setCopied] = useState(false)
   const copiedTimer = useRef<number | null>(null)
@@ -59,27 +64,53 @@ export default function RecipeOverlay({ slug, onClose }: Props) {
 
   useEscapeToClose(onClose)
 
-  async function toggleWakeLock() {
-    const wl = (navigator as Navigator & { wakeLock?: { request(t: string): Promise<WakeLockSentinel> } }).wakeLock
+  function getWakeLock() {
+    return (navigator as Navigator & { wakeLock?: { request(t: string): Promise<WakeLockSentinel> } }).wakeLock
+  }
+
+  async function acquireWakeLock() {
+    const wl = getWakeLock()
     if (!wl) return
+    try {
+      const sentinel = await wl.request('screen')
+      wakeLockRef.current = sentinel
+      setWakeLockActive(true)
+      sentinel.addEventListener('release', () => {
+        setWakeLockActive(false)
+        wakeLockRef.current = null
+      })
+    } catch {
+      // unsupported or permission denied
+    }
+  }
+
+  async function toggleWakeLock() {
+    if (!getWakeLock()) return
     if (wakeLockActive) {
+      wantWakeLockRef.current = false
       await wakeLockRef.current?.release()
       wakeLockRef.current = null
       setWakeLockActive(false)
     } else {
-      try {
-        const sentinel = await wl.request('screen')
-        wakeLockRef.current = sentinel
-        setWakeLockActive(true)
-        sentinel.addEventListener('release', () => {
-          setWakeLockActive(false)
-          wakeLockRef.current = null
-        })
-      } catch {
-        // unsupported or permission denied
-      }
+      wantWakeLockRef.current = true
+      await acquireWakeLock()
     }
   }
+
+  /* Rotating the phone can flip document.visibilityState to "hidden" and back on many
+     mobile browsers, which silently releases the Screen Wake Lock sentinel (per spec, any
+     visibility change to hidden releases it) — this is why "Håll tänd" appeared to stop
+     working after switching to landscape. Reacquire it once the page is visible again, as
+     long as the user still wants it on. */
+  useEffect(() => {
+    function onVisibilityChange() {
+      if (document.visibilityState === 'visible' && wantWakeLockRef.current && !wakeLockRef.current) {
+        acquireWakeLock()
+      }
+    }
+    document.addEventListener('visibilitychange', onVisibilityChange)
+    return () => document.removeEventListener('visibilitychange', onVisibilityChange)
+  }, [])
 
   const supportsWakeLock = 'wakeLock' in navigator
   const canShare = typeof navigator.share === 'function'
