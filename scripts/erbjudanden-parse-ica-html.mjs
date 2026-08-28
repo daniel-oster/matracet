@@ -80,6 +80,9 @@ function splitBrandSize(boldText, ursprung) {
   // only removes the "Ursprung X." phrasing, so also drop any leftover
   // segment that's exactly the detected country name.
   if (ursprung) segments = segments.filter((s) => s.toLowerCase() !== ursprung.toLowerCase());
+  // ICA sometimes ships a degenerate bold block (literally ",. ") for a card with no
+  // brand — a segment with no letters or digits is punctuation, not a brand name.
+  segments = segments.filter((s) => /[\p{L}\p{N}]/u.test(s));
   if (!segments.length) return { marke: null, storlek: null };
   if (/^\d/.test(segments[0]) || /^ca\b/i.test(segments[0])) {
     return { marke: null, storlek: tightenUnit(segments.join(', ')) };
@@ -97,12 +100,21 @@ function parseArticle(chunk) {
   const namn = titleM ? decodeEntities(titleM[1]) : null;
   if (!namn) return null;
 
+  // Pick the two spans by their own class, never by position: a card whose
+  // data-promotion-brand is empty renders the bold brand/size span as a bare
+  // `<!---->` placeholder, so the detail span ("Ord.pris ... 30dgr.pris ...")
+  // lands at index 0. Reading spans[0] as the brand/size text turned 55 of 306
+  // offers in the 2026-W35 import into `marke: "Ord"` / `storlek: "pris 179:00
+  // kr, ..."` while silently dropping their real ord_pris/pris_30dgr/jamforpris.
   const textBlockM = chunk.match(/offer-card__text">(.*?)<\/p>/s);
   const spans = textBlockM
-    ? [...textBlockM[1].matchAll(/<span[^>]*>([^<]*)<\/span>/g)].map((m) => decodeEntities(m[1]))
+    ? [...textBlockM[1].matchAll(/<span([^>]*)>([^<]*)<\/span>/g)].map((m) => ({
+        bold: /offer-card__text--bold/.test(m[1]),
+        text: decodeEntities(m[2]),
+      }))
     : [];
-  const boldText = spans[0] || '';
-  const detailText = spans[1] || '';
+  const boldText = spans.find((s) => s.bold)?.text || '';
+  const detailText = spans.filter((s) => !s.bold).map((s) => s.text).join(' ');
 
   const ursprung = extractUrsprung(boldText) || extractUrsprung(detailText);
   const { marke, storlek } = splitBrandSize(boldText, ursprung);
