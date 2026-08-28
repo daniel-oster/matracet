@@ -54,6 +54,10 @@ const BRAND_OVERRIDES = [
   // Kinder is primarily a chocolate brand (Kinder Chocolate/Bueno/Surprise), not
   // boiled-sweets/gummy godis — moved here from the godis line above.
   [/marabou|\bdaim\b|kitkat|\blion\b|smarties|noblesse|\bkinder\b/i, 'choklad'],
+  // Lavazza makes coffee and nothing else — "Hela bönor | LAVAZZA" (whole coffee
+  // beans) otherwise lands in baljvaxter, since the existing "kaffe AND böna" check
+  // needs the word "kaffe" and this product's coffee-ness is only in the brand.
+  [/\blavazza\b/i, 'kaffe_te'],
   [/\bbregott\b/i, 'smor_margarin'],
   // "Produkter från gräddhyllan | Flora • Flora by Milda" has no product name at
   // all beyond a generic aisle description ("products from the cream shelf") — the
@@ -109,7 +113,7 @@ const NON_FOOD_LEAF_RULES = [
   // "fluorskölj" (a fluoride mouth rinse) was here until a blind random-sample audit
   // caught it — it's dental hygiene, not laundry/cleaning; "sköljmedel" (fabric
   // softener) is the unrelated word this rule actually means to catch.
-  [/rengör|städ|disk(?:medel|borste|svamp|trasa|duk)|tvättmedel|tvättkapsl|tvättsvamp|badsvamp|sköljmedel|mjukmedel|fläckborttag|\bwettex\b|\bmopp\b|maskindisk|doftblock|damastduk/i, 'stad_disk_tvatt'],
+  [/(?<!ansikts)rengör|städ|disk(?:medel|borste|svamp|trasa|duk)|tvättmedel|tvättkapsl|tvättsvamp|badsvamp|sköljmedel|mjukmedel|fläckborttag|\bwettex\b|\bmopp\b|maskindisk|doftblock|damastduk/i, 'stad_disk_tvatt'],
   [/vätskeersättning|\bresorb\b|kosttillskott|vitamintablett/i, 'halsa'],
   // This rule was missing entirely until a blind-random-sample audit caught it (see
   // CLAUDE.md's post-mortem) — every one of these words was already in
@@ -117,7 +121,7 @@ const NON_FOOD_LEAF_RULES = [
   // with no matching leaf rule here, `firstMatch` returned null and every one of them
   // silently fell through to the `?? 'stad_disk_tvatt'` default below instead of
   // `hygien` — shampoo, toothpaste, deodorant, sanitary products, sun/skin care, razors.
-  [/schampo|balsam\b|tvål\b|tandkräm|tandborst|tandvård|munskölj|fluorskölj|deo(?:dorant)?|rakhyvel|rakblad|rakgel|rakvård|\btwin lady\b|engångshyvel|\bhyvel\b|bindor|trosskydd|tampong|våtservett|solskydd|solvård|\bspf\b|hårfärg|hudkräm|ansiktskräm|ansiktstvätt|ansikts\s*scrub|ansiktsvård|ansiktsmask|kroppslotion|(?:dag|natt|ögon)creme|dusch(?:kräm|creme|gel)?/i, 'hygien'],
+  [/schampo|balsam\b|tvål\b|tandkräm|tandborst|tandvård|munskölj|fluorskölj|deo(?:dorant)?|rakhyvel|rakblad|rakgel|rakvård|\btwin lady\b|engångshyvel|\bhyvel\b|bindor|trosskydd|tampong|våtservett|solskydd|solvård|\bspf\b|hårfärg|hudkräm|ansiktskräm|ansiktstvätt|ansikts\s*scrub|ansiktsvård|ansiktsmask|ansiktsrengör|kroppslotion|(?:dag|natt|ögon)creme|dusch(?:kräm|creme|gel)?/i, 'hygien'],
 ]
 
 // ---------------------------------------------------------------------------
@@ -161,13 +165,13 @@ const MEATBALL_RE = /köttbullar|nötfärs|fläskfärs|köttfärs|kycklingfärs|
 // BROD_RE at all, fell through to SNACKS_RE's bare "kex" instead, and landed on that
 // branch's "?? 'godis'" fallback since no SNACKS_LEAF_RULES pattern matched either
 // (found via a full lexicon review).
-const BROD_RE = /bröd|limpa|frall|baguett(?!esallad)|tortilla(?!\s*chips)|pitabröd|knäckebröd|skorp|croissant|bull(?:ar)?|giffl|levain|bâtard|kavring|rågbröd|sportbröd|surdeg|tannour|hönökaka|knäcke|orientbrd|kladdkaka|tårta|muffin|donut|brownie|wienerbröd|(?<!choklad)(?<!kola)kaka(?!o)|jubileum|franska|roast.?n.?toast|smörgåsrån|pane napoletano|saltiner|kanellängd|kardemummalängd|kex/i
+const BROD_RE = /majskak|riskak|bröd|limpa|frall|baguett(?!esallad)|tortilla(?!\s*chips)|pitabröd|knäckebröd|skorp|croissant|bull(?:ar)?|giffl|levain|bâtard|kavring|rågbröd|sportbröd|surdeg|tannour|hönökaka|knäcke|orientbrd|kladdkaka|tårta|muffin|donut|brownie|wienerbröd|(?<!choklad)(?<!kola)kaka(?!o)|jubileum|franska|roast.?n.?toast|smörgåsrån|pane napoletano|saltiner|kanellängd|kardemummalängd|kex/i
 const BROD_LEAF_RULES = [
   [/kex|digestive|\btuc\b|\boreo\b|mariekex|saltiner/i, 'kex'],
   [/tårta|kladdkaka|muffin|donut|(?<!choklad)(?<!kola)kaka(?!o)|brownie/i, 'tarta_kaka'],
   [/bull(?:ar)?|giffl|wienerbröd\b|kanellängd|kardemummalängd/i, 'fikabrod'],
   [/korvbröd|hamburgerbröd|brioche/i, 'korv_hamburgerbrod'],
-  [/knäcke|skorp|hönökaka|smörgåsrån/i, 'knackebrod'],
+  [/knäcke|skorp|hönökaka|smörgåsrån|majskak|riskak/i, 'knackebrod'],
   [/frall|baguett(?!esallad)|tortilla(?!\s*chips)|pitabröd|croissant|somun|roast.?n.?toast|pane napoletano/i, 'frallor_tunnbrod'],
 ]
 
@@ -216,7 +220,7 @@ const STARCH_LEAF_RULES = [
 const DAIRY_GATE_RE = /gräddfil|cr[eè]me fraiche|(?:^| )fil(?:en)?(?: |,|$)|yoghurt|yogurt|kvarg|keso|philadelphia|färskost|mjukost|ricotta|mascarpone|burrata|\bbrie\b|feta\b|halloumi|grillost|apetina|norrloumi|cheddar|gouda|jarlsberg|grana padano|hårdost|ost(?!ron)|(?<!jordnöts)smör(?!gås)|margarin|matfett|(?<!kokos)mjölk(?!choklad)|(?<!kokos)grädd(?!fil)|skyr|kefir/i
 const DAIRY_LEAF_RULES = [
   [/gräddfil|cr[eè]me fraiche|(?:^| )fil(?:en)?(?: |,|$)|yoghurt|yogurt|kvarg|skyr|kefir/i, 'fil_yoghurt'],
-  [/philadelphia|färskost|mjukost|keso|ricotta|mascarpone|burrata|\bbrie\b|räkost/i, 'ost_fars_mjuk'],
+  [/philadelphia|färskost|mjukost|smältost|keso|ricotta|mascarpone|burrata|\bbrie\b|räkost/i, 'ost_fars_mjuk'],
   [/feta\b|halloumi|grillost|apetina|norrloumi/i, 'ost_vit_grill'],
   [/cheddar|gouda|jarlsberg|grana padano|hårdost/i, 'ost_hard'],
   [/(?<!jordnöts)smör(?!gås)|margarin|matfett/i, 'smor_margarin'],
@@ -464,11 +468,14 @@ export function classify(namn, marke, details) {
     // "Ostbågar"/"ostsnacks" (cheese-puff crisps) are a snack, not a cheese — the
     // generic dairy "ost" fallback would otherwise win first since it's checked
     // before the snacks pass (found via the golden set: "Chips, ostbågar").
-    .replace(/ostbåg\w*|ostsnacks/gi, 'snacks')
+    .replace(/ostbåg\w*|ostkrok\w*|ostsnacks/gi, 'snacks')
     // Same shape, a different compound: cheese-flavoured tortilla chips ("Tortillachips
     // Ost") were landing in ost_hard via the same generic "ost" fallback (found via a
     // full lexicon review) — the flavour word is redundant once "chips" is present.
     .replace(/tortillachips ost/gi, 'tortillachips')
+    // "Plommontomat" (plum tomato) is a tomato, not a plum — FRUIT_RE's "plommon"
+    // otherwise wins over VEG_RE's "tomat" ("Babyplommontomater" landed in frukt).
+    .replace(/plommontomat\w*/gi, 'tomat')
 
   // "Mikropopcorn ... Smör" (butter-flavoured microwave popcorn) was landing in
   // smor_margarin via the "smör" flavour word, ahead of ever reaching SNACKS_RE's
