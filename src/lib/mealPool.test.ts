@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import {
-  buildPoolRows, checkPoolCompleteness, computeBudget, reconcilePoolEntries,
+  buildPoolRows, checkPoolCompleteness, computeBudget, filterEntriesToWindow, reconcilePoolEntries,
   resolveDisplacedOccupant, sortPoolRows, type BudgetSlotFlags, type FilledSlot,
 } from './mealPool'
 import type { MealPoolEntry } from '../hooks/useMealPool'
@@ -42,6 +42,25 @@ describe('reconcilePoolEntries', () => {
   it('drops a pointer whose slot has been cleared entirely', () => {
     const e = entry({ slot: { date: '2026-08-03', kind: 'dinner' } })
     expect(reconcilePoolEntries([e], {})).toEqual([{ ...e, slot: null }])
+  })
+})
+
+describe('filterEntriesToWindow', () => {
+  const windowDates = ['2026-08-24', '2026-08-25', '2026-08-26']
+
+  it('keeps an unslotted entry regardless of how old it is', () => {
+    const e = entry({ addedAt: '2026-08-01T00:00:00.000Z' })
+    expect(filterEntriesToWindow([e], windowDates)).toEqual([e])
+  })
+
+  it('keeps a slotted entry whose date is inside the window', () => {
+    const e = entry({ slot: { date: '2026-08-25', kind: 'dinner' } })
+    expect(filterEntriesToWindow([e], windowDates)).toEqual([e])
+  })
+
+  it('drops a slotted entry whose date has scrolled out of the window (the reported bug)', () => {
+    const e = entry({ slot: { date: '2026-08-10', kind: 'dinner' } })
+    expect(filterEntriesToWindow([e], windowDates)).toEqual([])
   })
 })
 

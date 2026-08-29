@@ -2181,6 +2181,32 @@ rewritten, consistent with this file's existing convention of marking prior sect
 "superseded" rather than deleting them — see e.g. "Week planning: discover-style suggestion
 list" and "Skafferi & chaos mode" further up for the same pattern.
 
+### Follow-up bug: an old plan lingered forever — the pool had no concept of "week" (2026-08)
+
+Household report: a meal planned a couple of weeks ago was still showing in "Veckans
+måltider" long after that week had passed. Root cause: `mealPoolStore` (`matracet:mealpool:v1`)
+entries never expire, and Planera has no week switcher at all — "this week" is always the
+rolling 7-day window computed fresh from today (`App.tsx`). `VeckanPlanner`'s `poolRows` fed
+**every** stored entry straight into `buildPoolRows`, including a *slotted* entry whose
+`slot.date` had long since scrolled out of that window — it kept rendering in "Inplanerade"
+indefinitely, since nothing ever removed or hid it once its date passed.
+
+Fixed with `src/lib/mealPool.ts::filterEntriesToWindow(entries, windowDates)` — a pure,
+tested filter applied to `pool.entries` before `buildPoolRows` in `VeckanPlanner` (`windowDates
+= days.map(d => d.datum)`, the same dates the rolling window already builds `flatSlots` from).
+Deliberately narrow: only **slotted** entries are checked against the window and hidden once
+their date falls outside it — an **unslotted** entry (a backlog meal idea with no day yet) is
+kept regardless of age, since that's a different thing entirely (a queued idea, not a stale
+plan) and clearing it out unprompted was never reported or asked for. This only affects the
+*display* list — nothing is deleted from storage, matching `reconcilePoolEntries`' existing
+"reconcile on read, never mutate as a side effect" precedent right above it in the same file.
+
+Verified end-to-end with a throwaway Playwright script (not committed): seeded
+`matracet:weekplan:v3`/`matracet:mealpool:v1` with three entries — one slotted two-and-a-half
+weeks in the past, one slotted to today, one unslotted with an old `addedAt` — and confirmed
+only the stale slotted one disappeared from "Veckans måltider"; today's dish and the unslotted
+backlog idea both still rendered correctly.
+
 ## Printing a recipe (2026-08)
 
 A 🖨 button in `RecipeOverlay`'s toolbar calls `window.print()`; everything else lives in the
