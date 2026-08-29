@@ -20,6 +20,22 @@ export function reconcilePoolEntries(entries: MealPoolEntry[], weekPlan: WeekPla
   })
 }
 
+/**
+ * Planera has no week switcher — "this week" is always the rolling 7-day window computed
+ * fresh from today (see App.tsx). A pool entry has no such reset built in, so a *slotted*
+ * entry whose date has scrolled out of that window (a meal planned days/weeks ago, now in
+ * the past) would otherwise keep rendering in "Veckans måltider" forever — the reported bug
+ * ("what I planned a couple weeks ago still lingers in the plan"). Filters those out of the
+ * *display* list only (never mutates storage — see reconcilePoolEntries for the actual
+ * stale-pointer cleanup, a different concern). An **unslotted** entry (no day assigned yet)
+ * is deliberately kept regardless of age — it's a backlog meal idea, not tied to any one
+ * week, and clearing it out from under the user was never reported or asked for.
+ */
+export function filterEntriesToWindow(entries: MealPoolEntry[], windowDates: string[]): MealPoolEntry[] {
+  const inWindow = new Set(windowDates)
+  return entries.filter(e => !e.slot || inWindow.has(e.slot.date))
+}
+
 export type DisplacedOccupantAction =
   | { type: 'unslot-pool-entry'; entryId: string }
   | { type: 'create-pool-entry'; mealSlug: string; receptSlug: string | null }

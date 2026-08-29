@@ -25,7 +25,7 @@ import {
   resolveMealForRecipe, resolveComponents, resolveDayMeal, matchMealByName,
 } from '../../lib/mealResolve'
 import { evaluateFit, DietFitResult } from '../../lib/dietFit'
-import { buildPoolRows, sortPoolRows, computeBudget, resolveDisplacedOccupant, BudgetSlotFlags, FilledSlot, PoolRow } from '../../lib/mealPool'
+import { buildPoolRows, sortPoolRows, computeBudget, resolveDisplacedOccupant, filterEntriesToWindow, BudgetSlotFlags, FilledSlot, PoolRow } from '../../lib/mealPool'
 import { MEAL_PLANNING_GROUPS, groupOf } from '../../lib/kategoriTaxonomy.mjs'
 import MealEditorModal from '../MealEditorModal'
 import CollapsibleSection from './CollapsibleSection'
@@ -195,9 +195,10 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
   // above it — the search box is for finding something new to add, not for narrowing what
   // you've already added (a household report: typing to search for a new dish was hiding
   // already-planned meals that didn't match, reading as if they'd been removed).
+  const windowDates = useMemo(() => days.map(d => d.datum), [days])
   const poolRows = useMemo(
-    () => sortPoolRows(buildPoolRows(pool.entries, filledSlots)),
-    [pool.entries, filledSlots],
+    () => sortPoolRows(buildPoolRows(filterEntriesToWindow(pool.entries, windowDates), filledSlots)),
+    [pool.entries, filledSlots, windowDates],
   )
 
   function dayLabel(date: string): string {
