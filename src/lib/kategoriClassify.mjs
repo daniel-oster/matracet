@@ -34,6 +34,8 @@ import { aisleFor, LEAF_TO_GROUP } from './kategoriTaxonomy.mjs'
 // 0. Known brand facts — names with no generic word left for any regex to catch.
 // ---------------------------------------------------------------------------
 const BRAND_OVERRIDES = [
+  [/after eight/i, 'choklad'],
+  [/ella'?s kitchen/i, 'barnmat'],
   // no \b after "grevé" — JS regex \b treats accented letters as non-word chars, so a
   // boundary check right after "é" silently never matches (same class of bug as the
   // documented \böl\b trap); this substring is distinctive enough without one.
@@ -99,22 +101,26 @@ const BRAND_OVERRIDES = [
 // 1. Edibility test — non-food first, so a food word borrowed as a scent/shape/brand
 //    (svamp="sponge" or "mushroom", äpple-scented wipes) never reaches a food branch.
 // ---------------------------------------------------------------------------
-export const NON_FOOD_GATE_RE = /rengör|städ|disk(?:medel|borste|svamp|trasa|duk)|tvättmedel|tvättkapsl|tvättsvamp|badsvamp|sköljmedel|fluorskölj|mjukmedel|fläckborttag|toalettpapper|toapapper|hushållspapper|servett|avfallspåse|fryspås|plastpås|ugnsfolie|grillfolie|plastfolie|aluminiumfolie|sopsäck|bakplåtspapper|dammsugarpås|papptallrik|papperstallrik|\btallrik\b|pappmugg|bestick\b|\bgaffel\b|dricksglas|grillkol|grillbrikett|grillpinnar|engångsgrill|kolgrill|myggmedel|mygg(?:spray|lotion)|insektsspray|getingspray|myrdosa|\bmyrr\b|flugsmäll|schampo|balsam\b|tvål\b|tandkräm|tandborst|tandvård|munskölj|deo(?:dorant)?|rakhyvel|rakblad|rakgel|rakvård|\btwin lady\b|engångshyvel|\bhyvel\b|bindor|trosskydd|tampong|våtservett|solskydd|solvård|\bspf\b|hårfärg|hudkräm|ansiktskräm|ansiktstvätt|ansikts\s*scrub|ansiktsvård|ansiktsmask|kroppslotion|(?:dag|natt|ögon)creme|dusch(?:kräm|creme|gel)?|vätskeersättning|\bresorb\b|kosttillskott|vitamintablett|blöj|byxblöj|babytvätt|babyvård|nappflaska|hundmat|kattmat|torrfoder|våtfoder|hundben|tuggben|dentastick|kattsand|kattgodis|hundgodis|djurgodis|snittblomm|bukett|krukväxt|calandiva|tulpan|orkidé|\brosor\b|margerit|midsommarstång|gröna växter|barnmat|välling|\bwettex\b|\bmopp\b|maskindisk|doftblock|damastduk/i
+export const NON_FOOD_GATE_RE = /rengör|städ|disk(?:medel|borste|svamp|trasa|duk)|tvättmedel|tvättkapsl|tvättsvamp|badsvamp|sköljmedel|fluorskölj|mjukmedel|fläckborttag|toalettpapper|toapapper|hushållspapper|servett|avfallspåse|fryspås|plastpås|ugnsfolie|grillfolie|plastfolie|aluminiumfolie|sopsäck|bakplåtspapper|dammsugarpås|papptallrik|papperstallrik|\btallrik\b|pappmugg|bestick\b|\bgaffel\b|dricksglas|grillkol|grillbrikett|tändbrikett|tändvätska|grillpinnar|engångsgrill|kolgrill|myggmedel|mygg(?:spray|lotion)|insektsspray|getingspray|myrdosa|\bmyrr\b|flugsmäll|schampo|balsam\b|tvål\b|tandkräm|tandborst|tandvård|munskölj|deo(?:dorant)?|rakhyvel|rakblad|rakgel|rakvård|\btwin lady\b|engångshyvel|\bhyvel\b|bindor|trosskydd|tampong|våtservett|solskydd|solvård|\bspf\b|hårfärg|hudkräm|ansiktskräm|ansiktstvätt|ansikts\s*scrub|ansiktsvård|ansiktsmask|kroppslotion|(?:dag|natt|ögon)creme|dusch(?:kräm|creme|gel)?|vätskeersättning|\bresorb\b|kosttillskott|hälsokost|vitamintablett|blöj|byxblöj|babytvätt|babyvård|nappflaska|hundmat|kattmat|torrfoder|våtfoder|hundben|tuggben|tuggpinn|dentastick|kattsand|kattgodis|hundgodis|djurgodis|snittblomm|bukett|krukväxt|calandiva|tulpan|orkidé|\brosor\b|margerit|midsommarstång|gröna växter|barnmat|välling|\bwettex\b|\bmopp\b|golvmopp|dammvippa|moppduk|swiffer|maskindisk|doftblock|damastduk/i
 
 const NON_FOOD_LEAF_RULES = [
   [/blöj|byxblöj|babyschampo|babytvätt|babyvård|nappflaska|(?=.*baby)(?=.*servett)/i, 'bloja_babyvard'],
   [/barnmat|välling/i, 'barnmat'],
-  [/hundben|tuggben|dentastick|kattsand|kattgodis|hundgodis|djurgodis|chew rolls|hundbajspås\w*/i, 'djurgodis_tillbehor'],
+  [/hundben|tuggben|tuggpinn|dentastick|kattsand|kattgodis|hundgodis|djurgodis|chew rolls|hundbajspås\w*/i, 'djurgodis_tillbehor'],
   [/hundmat|kattmat|torrfoder|våtfoder/i, 'djurmat'],
   [/snittblomm|bukett|krukväxt|calandiva|tulpan|orkidé|\brosor\b|margerit|midsommarstång|gröna växter/i, 'blommor_vaxter'],
   [/myggmedel|mygg(?:spray|lotion)|insektsspray|getingspray|myrdosa|\bmyrr\b|flugsmäll/i, 'skadedjur'],
-  [/papptallrik|papperstallrik|\btallrik\b|pappmugg|bestick\b|\bgaffel\b|dricksglas|grillkol|grillbrikett|grillpinnar|engångsgrill|kolgrill/i, 'engangs_grill'],
+  [/papptallrik|papperstallrik|\btallrik\b|pappmugg|bestick\b|\bgaffel\b|dricksglas|grillkol|grillbrikett|tändbrikett|tändvätska|grillpinnar|engångsgrill|kolgrill/i, 'engangs_grill'],
   [/toalettpapper|toapapper|hushållspapper|servett|avfallspåse|fryspås|plastpås|ugnsfolie|grillfolie|plastfolie|aluminiumfolie|sopsäck|bakplåtspapper|dammsugarpås/i, 'papper_pasar_folie'],
   // "fluorskölj" (a fluoride mouth rinse) was here until a blind random-sample audit
   // caught it — it's dental hygiene, not laundry/cleaning; "sköljmedel" (fabric
   // softener) is the unrelated word this rule actually means to catch.
-  [/(?<!ansikts)rengör|städ|disk(?:medel|borste|svamp|trasa|duk)|tvättmedel|tvättkapsl|tvättsvamp|badsvamp|sköljmedel|mjukmedel|fläckborttag|\bwettex\b|\bmopp\b|maskindisk|doftblock|damastduk/i, 'stad_disk_tvatt'],
-  [/vätskeersättning|\bresorb\b|kosttillskott|vitamintablett/i, 'halsa'],
+  [/(?<!ansikts)rengör|städ|disk(?:medel|borste|svamp|trasa|duk)|tvättmedel|tvättkapsl|tvättsvamp|badsvamp|sköljmedel|mjukmedel|fläckborttag|\bwettex\b|\bmopp\b|golvmopp|dammvippa|moppduk|swiffer|maskindisk|doftblock|damastduk/i, 'stad_disk_tvatt'],
+  // "Hälsokost" (a supplement brand's shelf label) embeds "ost" and was landing in
+  // ost_hard via DAIRY_GATE_RE's generic cheese fallback — the same substring-collision
+  // shape as "rostbiff"/"Costa Rica", but resolvable here as a real leaf rule
+  // (found by eye-reading the 2026-W36 import's own categorised output).
+  [/vätskeersättning|\bresorb\b|kosttillskott|hälsokost|vitamintablett/i, 'halsa'],
   // This rule was missing entirely until a blind-random-sample audit caught it (see
   // CLAUDE.md's post-mortem) — every one of these words was already in
   // NON_FOOD_GATE_RE (so the item correctly bailed out of the food branches), but
@@ -144,6 +150,10 @@ const NON_FOOD_LEAF_RULES = [
 const NON_FOOD_DURABLE_RE = /bryggare|brödrost|svamptork|frukttork|stavmixer|\bblender\b|airfryer|matberedare|vattenkokare|elvisp|smörgåsgrill|våffeljärn|stekpanna|kastrull|skärbräda|förvaringsburk|matlåda|termosmugg|dammsugare|strykjärn|hårklippare|högtalare|hörlurar|personvåg|\bbrio\b/i
 
 const CANNED_TOMAT_RE = /(?=.*tomat)(?=.*(?:kross|passerad|puré))/i
+// Same two-lookahead AND shape as CANNED_TOMAT_RE, for the same reason: the word
+// that makes "Skivade rödbetor" a pickled pantry product rather than a raw root
+// vegetable can sit on either side of "rödbet", so no fixed-width lookaround works.
+const PICKLED_VEG_RE = /(?=.*rödbet)(?=.*(?:skivad|inlagd|syrad|ättik))/i
 const SAUCE_RE = /sås|sauce|dressing|marinad|majo(?:nnäs)?|\bmayo\b|mayonnaise|ketchup|pesto|bearnaise|aioli|senap|vinägrett/i
 const BAK_HEAD_RE = /pizzamjöl|pizzadeg|pizzabotten/i
 
@@ -158,16 +168,19 @@ const BAK_HEAD_RE = /pizzamjöl|pizzadeg|pizzabotten/i
 // cut isn't ground/formed the way mince or meatballs are, and the taxonomy's own
 // fars_kottbullar examples don't include it; moved to PROTEIN_GENERIC_RE's plain
 // "kott" below (found via a full lexicon review: "Lammgrytbitar" was landing here).
-const MEATBALL_RE = /köttbullar|nötfärs|fläskfärs|köttfärs|kycklingfärs|blandfärs|vegofärs|vegobullar|delikatessbullar|färs(?!k)/i
+const MEATBALL_RE = /köttbullar|bifteki|nötfärs|fläskfärs|köttfärs|kycklingfärs|blandfärs|vegofärs|vegobullar|delikatessbullar|färs(?!k)/i
 // Bare "kex" added to the gate (not \b-bounded — needs to also catch it glued onto
 // another word, e.g. "Mariakex") — the leaf rule below already listed it, but with no
 // matching gate trigger "Kex Maria"/"Mariakex"/"Tux kex"/"Zoo kex" never reached
 // BROD_RE at all, fell through to SNACKS_RE's bare "kex" instead, and landed on that
 // branch's "?? 'godis'" fallback since no SNACKS_LEAF_RULES pattern matched either
 // (found via a full lexicon review).
-const BROD_RE = /majskak|riskak|bröd|limpa|frall|baguett(?!esallad)|tortilla(?!\s*chips)|pitabröd|knäckebröd|skorp|croissant|bull(?:ar)?|giffl|levain|bâtard|kavring|rågbröd|sportbröd|surdeg|tannour|hönökaka|knäcke|orientbrd|kladdkaka|tårta|muffin|donut|brownie|wienerbröd|(?<!choklad)(?<!kola)kaka(?!o)|jubileum|franska|roast.?n.?toast|smörgåsrån|pane napoletano|saltiner|kanellängd|kardemummalängd|kex/i
+const BROD_RE = /majskak|riskak|(?:^| )kakor(?: |,|$)|bröd|limpa|frall|baguett(?!esallad)|tortilla(?!\s*chips)|pitabröd|knäckebröd|skorp|croissant|bull(?:ar)?|giffl|levain|bâtard|kavring|rågbröd|sportbröd|surdeg|tannour|hönökaka|knäcke|orientbrd|kladdkaka|tårta|muffin|donut|brownie|wienerbröd|(?<!choklad)(?<!kola)kaka(?!o)|jubileum|franska|roast.?n.?toast|smörgåsrån|pane napoletano|saltiner|kanellängd|kardemummalängd|kex/i
 const BROD_LEAF_RULES = [
-  [/kex|digestive|\btuc\b|\boreo\b|mariekex|saltiner/i, 'kex'],
+  // Bare standalone "Kakor" is always biscuits ("Kakor | Filipinos"); the word is only
+  // matched on its own so compound plurals keep their own, better verdicts
+  // (riskakor → knackebrod, chokladkakor → choklad, pannkakor → enportionsrätt).
+  [/kex|digestive|\btuc\b|\boreo\b|mariekex|saltiner|(?:^| )kakor(?: |,|$)/i, 'kex'],
   [/tårta|kladdkaka|muffin|donut|(?<!choklad)(?<!kola)kaka(?!o)|brownie/i, 'tarta_kaka'],
   [/bull(?:ar)?|giffl|wienerbröd\b|kanellängd|kardemummalängd/i, 'fikabrod'],
   [/korvbröd|hamburgerbröd|brioche/i, 'korv_hamburgerbrod'],
@@ -177,7 +190,7 @@ const BROD_LEAF_RULES = [
 
 // "schnitzel" (breaded cutlet) is a heat-and-eat ready meal, not raw protein — same
 // protective role as the rest of FARDIGMAT_RE (checked before PROTEIN_RE).
-const FARDIGMAT_RE = /pizza|pinsa|surdegspizza|efterrätt|paj\b|gratäng|quiche|matpaj|pommes|frites|rösti|husmans|enportionsrätt|matvete\s*rätt|soppa|potatissallad|krämiga? sallad|salladsbaren|caesarsallad|baguettesallad|wrap\b|schnitzel|mac\s*&?\s*cheese|snabbnudlar|kelda|\boxpytt\b|(?=.*potatis)(?=.*strips)/i
+const FARDIGMAT_RE = /pizza|pinsa|surdegspizza|efterrätt|paj\b|gratäng|quiche|matpaj|pommes|frites|rösti|husmans|enportionsrätt|matvete\s*rätt|soppa|potatissallad|krämiga? sallad|salladsbaren|caesarsallad|baguettesallad|wrap\b|schnitzel|mac\s*(?:&|and|n)?\s*cheese|vårrull|dumpling|gyoza|wonton|thaibox|pannkak(?:a|or)|snabbnudlar|kelda|\boxpytt\b|(?=.*potatis)(?=.*strips)/i
 const FARDIGMAT_LEAF_RULES = [
   [/pizza|pinsa|surdegspizza/i, 'pizza'],
   [/gratäng|paj\b|quiche|matpaj/i, 'gratang_paj'],
@@ -207,10 +220,10 @@ const GLASS_LEAF_RULES = [
   [/efterrätt|dessert(?!sås)(?!ost)|pannacotta|barattolino/i, 'dessert'],
 ]
 
-const STARCH_HEAD_RE = /pasta|spag(?:h)?etti|risottoris|arborio|avorio|makaron|macaroni|fettuccine|lasagne|risoni|tortelloni|ravioli|gnocchi|penne|fusilli|rigatoni|chitarra|maniche|orecchiette|farfalle|tagliatelle|nudlar|noodle|äggnudlar|äggpasta|\bris\b|jasminris|basmatiris|rismål|rislunsj|bulgur|couscous|quinoa|matvete(?!\s*rätt)/i
+const STARCH_HEAD_RE = /havreris|pasta|spag(?:h)?etti|risottoris|arborio|avorio|makaron|macaroni|fettuccine|lasagne|risoni|tortelloni|ravioli|gnocchi|penne|fusilli|rigatoni|chitarra|maniche|orecchiette|farfalle|tagliatelle|nudlar|noodle|äggnudlar|äggpasta|\bris\b|jasminris|basmatiris|rismål|rislunsj|bulgur|couscous|quinoa|matvete(?!\s*rätt)/i
 const STARCH_LEAF_RULES = [
   [/pasta|spagetti|makaron|macaroni|fettuccine|lasagne|risoni|tortelloni|ravioli|gnocchi|penne|fusilli|rigatoni|chitarra|maniche|orecchiette|farfalle|tagliatelle|nudlar|noodle|äggnudlar|äggpasta/i, 'pasta'],
-  [/\bris\b|jasminris|basmatiris|risottoris|arborio|avorio|rismål|rislunsj|bulgur|couscous|quinoa|matvete/i, 'ris_gryn'],
+  [/\bris\b|havreris|jasminris|basmatiris|risottoris|arborio|avorio|rismål|rislunsj|bulgur|couscous|quinoa|matvete/i, 'ris_gryn'],
 ]
 
 // Dairy checked as an explicit head noun (not a late fallback) so a flavour prefix
@@ -219,7 +232,10 @@ const STARCH_LEAF_RULES = [
 // milk chocolate both carry a real dairy word (smör/mjölk) that isn't the product.
 const DAIRY_GATE_RE = /gräddfil|cr[eè]me fraiche|(?:^| )fil(?:en)?(?: |,|$)|yoghurt|yogurt|kvarg|keso|philadelphia|färskost|mjukost|ricotta|mascarpone|burrata|\bbrie\b|feta\b|halloumi|grillost|apetina|norrloumi|cheddar|gouda|jarlsberg|grana padano|hårdost|ost(?!ron)|(?<!jordnöts)smör(?!gås)|margarin|matfett|(?<!kokos)mjölk(?!choklad)|(?<!kokos)grädd(?!fil)|skyr|kefir/i
 const DAIRY_LEAF_RULES = [
-  [/gräddfil|cr[eè]me fraiche|(?:^| )fil(?:en)?(?: |,|$)|yoghurt|yogurt|kvarg|skyr|kefir/i, 'fil_yoghurt'],
+  // "filmjölk" is soured milk, not milk — the mjolk_gradde rule below matches its
+  // "mjölk" half, so it has to be claimed explicitly here first (the corpus already
+  // held both verdicts for the same Verum product line).
+  [/gräddfil|filmjölk|cr[eè]me fraiche|(?:^| )fil(?:en)?(?: |,|$)|yoghurt|yogurt|kvarg|skyr|kefir/i, 'fil_yoghurt'],
   [/philadelphia|färskost|mjukost|smältost|keso|ricotta|mascarpone|burrata|\bbrie\b|räkost/i, 'ost_fars_mjuk'],
   [/feta\b|halloumi|grillost|apetina|norrloumi/i, 'ost_vit_grill'],
   [/cheddar|gouda|jarlsberg|grana padano|hårdost/i, 'ost_hard'],
@@ -273,9 +289,12 @@ const PROTEIN_LEAF_RULES = [
   // stronger signal than the charcuterie-style "salsiccia" on its own (found via a
   // blind random-sample audit: it was landing in charkuterier ahead of the korv\b
   // rule below purely because this line is checked first).
-  [/salami|salame|pros?c[iu]{2}tto|mortadella|medwurst|lufttorkat|ölkorv|\bfuet\b|serrano|\bparma\b|picanha|salsiccia(?!korv)/i, 'charkuterier'],
+  [/salami|salame|pros?c[iu]{2}tto|mortadella|medwurst|lufttorkat|ölkorv|\bfuet\b|serrano|\bparma\b|salsiccia(?!korv)/i, 'charkuterier'],
   [/bacon|skinka|kassler|stekfläsk|pancetta/i, 'bacon_skinka'],
-  [/korv\b/i, 'korv'],
+  // korv(?:ar|en)? — "Vegetariska korvar" (a vego sausage, which by this taxonomy's own
+  // vego rule belongs under the product it mimics) matched nothing at all while this
+  // pattern required a boundary straight after "korv".
+  [/korv(?:ar|en)?\b/i, 'korv'],
   [/kyckling|kalkon|(?:^| )anka(?: |,|$)/i, 'fagel'],
   [/(?:^| )ägg(?:et|en|ar)?(?: |,|$)/i, 'agg'],
   // Fallback for a bare Quorn product with no more specific signal above — closest
@@ -293,7 +312,7 @@ const PROTEIN_LEAF_RULES = [
 // old pre-rework classifier's protein_farsk verdict for it was carried over here
 // unexamined; a real butcher-counter product would normally say "oxkött i tärningar" or
 // "grytbitar" instead).
-const PROTEIN_GENERIC_RE = /entrec[oô]te|karré|filé|\bbiff\b|kotlett|revben|spareribs|\bribs\b|grillspett|grillrulle|grytbitar|lamm|tomahawk|oxfilé|högrev|nötkött|nötstek|nötspett|nötgrytbitar|fläsk(?!färs)|\bvilt\b|pluma|flankstek|flintastek|t-?bone|kamben|club\s*steak|griskött|ytterlår|innanlår|rimmad|kalv(?!sylta)?|gyros|kebab|\boumph\b|pulled\s*pork/i
+const PROTEIN_GENERIC_RE = /entrec[oô]te|karré|filé|\bbiff\b|kotlett|ryggbiff|lövbiff|picanha|revben|spareribs|\bribs\b|grillspett|grillrulle|grytbitar|lamm|tomahawk|oxfilé|högrev|nötkött|nötstek|nötspett|nötgrytbitar|fläsk(?!färs)|\bvilt\b|pluma|flankstek|flintastek|t-?bone|kamben|club\s*steak|griskött|ytterlår|innanlår|rimmad|kalv(?!sylta)?|gyros|kebab|\boumph\b|pulled\s*pork/i
 
 // ---------------------------------------------------------------------------
 // 4. Fruit (checked before veg/snacks so the produce keyword wins its own category
@@ -301,7 +320,7 @@ const PROTEIN_GENERIC_RE = /entrec[oô]te|karré|filé|\bbiff\b|kotlett|revben|s
 //    first, same as the pre-existing FRUIT_DAIRY/DRINK/SNACK exclusions).
 // ---------------------------------------------------------------------------
 const BAR_RE = /jordgubb|blåbär|hallon|björnbär|körsbär|bigarrå|vinbär|smultron|(?:^| )bär(?: |,|$)/i
-const FRUIT_RE = /frukt|äpple|banan|apelsin|citron|clementin|(?:^| )lime(?: |,|$)|avokado|melon|druv|persik|paraguayos|nektarin|mango|ananas|päron|kiwi|plommon|aprikos|fikon|granatäpple|citrus/i
+const FRUIT_RE = /frukt|äpple|royal gala|granny smith|pink lady|jonagold|banan|apelsin|citron|clementin|(?:^| )lime(?: |,|$)|avokado|melon|druv|persik|paraguayos|nektarin|mango|ananas|päron|kiwi|plommon|aprikos|fikon|granatäpple|citrus/i
 const FRUIT_SNACK_RE = /klämmis|stång/i
 const FRUIT_DAIRY_RE = /yoghurt|yogurt|kvarg|(?:^| )fil(?: |,|$)|grädd/i
 // "kolsyrat" — flavoured sparkling water ("Citron kolsyrat vatten", "Päron kolsyrat
@@ -324,7 +343,7 @@ const BABY_AGE_RE = /från \d+ månader/i
 // (?<!s)kola guards "s*kola*n"/"skolstart" (school) — ICA's back-to-school flyer put
 // "Börja skolan" in godis. Real caramel compounds ("gräddkola", "kolakaka", bare
 // "Kola") never carry a preceding "s", so the lookbehind costs nothing.
-const SNACKS_RE = /chips|godis|snacks|choklad|kex|nöt|nötter|proteinbar|müslibar|\bcorny\b|propud|gainomax|(?<!s)kola(?!dricka)|lakrits|popcorn|tuggummi|marshmallow|toffifee|mentos|estrella|cashew|valnöt|pinjenöt|jordnöt|mandel(?!mjölk)|russin|torkad frukt|cheez doodles|ostbåg|salta pinnar|kalaspuff|mikropop/i
+const SNACKS_RE = /chips|godis|snacks|choklad|kex|nöt|nötter|pumpakärn|solroskärn|solrosfrö|linfrö|chiafrö|sesamfrö|protein\s*wafer|proteinbar|müslibar|\bcorny\b|propud|gainomax|(?<!s)kola(?!dricka)|lakrits|popcorn|tuggummi|marshmallow|toffifee|mentos|estrella|cashew|valnöt|pinjenöt|jordnöt|mandel(?!mjölk)|russin|torkad frukt|cheez doodles|ostbåg|salta pinnar|kalaspuff|mikropop/i
 const SNACKS_LEAF_RULES = [
   // Checked first — a specific bar/nut *product* word should win over the generic
   // "choklad"/brand-only matches below it (found via a blind random-sample audit:
@@ -334,8 +353,12 @@ const SNACKS_LEAF_RULES = [
   // shouldn't outrank an explicit "jordnötter" ingredient word. "jordnötsringar" (a
   // peanut-*flavoured puffed snack*, not real nuts) stays chips_snacks below, since
   // that's the compound word, not the bare ingredient).
-  [/proteinbar|müslibar|\bcorny\b|propud|gainomax/i, 'bars'],
-  [/jordnötter|jordnöt(?!sring)|\bcashew\b|\bvalnöt\b|pinjenöt|\bmandel\b(?!mjölk)|\brussin\b/i, 'notter_torkat'],
+  [/proteinbar|protein\s*wafer|müslibar|\bcorny\b|propud|gainomax/i, 'bars'],
+  // "valnöt" is unanchored (was \bvalnöt\b, which the plural "Valnötter" never
+  // matched — it fell to chips_snacks purely because the brand is "Exotic Snacks").
+  // Seeds live here too: "pumpakärnor" was landing in gronsaker via VEG_GENERIC_RE's
+  // "pumpa", and "linfrö" matched nothing at all.
+  [/jordnötter|jordnöt(?!sring)|\bcashew\b|valnöt|pinjenöt|\bmandel\b(?!mjölk)|\brussin\b|pumpakärn|solroskärn|solrosfrö|linfrö|chiafrö|sesamfrö/i, 'notter_torkat'],
   [/choklad/i, 'choklad'],
   [/godis|lakrits|tuggummi|marshmallow|toffifee|mentos|(?<!s)kola(?!dricka)/i, 'godis'],
   [/chips|snacks|popcorn|estrella|cheez doodles|ostbåg|salta pinnar|kalaspuff|mikropop/i, 'chips_snacks'],
@@ -350,7 +373,7 @@ const VEG_LEAF_RULES = [
   [/\bdill\b|persilja|basilika|gräslök|koriander|mynta\b/i, 'farska_kryddor'],
   [/svamp|champinjon|kantarell|karljohan/i, 'svamp'],
   [/lök|purjolök|salladslök|vitlök|schalottenlök/i, 'lok'],
-  [/potatis|morot|morötter|rödbeta|sötpotatis|palsternacka|kålrot/i, 'potatis_rotfrukt'],
+  [/potatis|morot|morötter|rödbet(?:a|or)|sötpotatis|palsternacka|kålrot/i, 'potatis_rotfrukt'],
 ]
 // "salla" (stem, covers sallad/sallader/sallater) — the plain "sallad" pattern
 // doesn't match the plural "sallater" (a real, if slightly nonstandard, plural form
@@ -386,10 +409,10 @@ const SKAFFERI_LEAF_RULES = [
   // oliv(?!olja) — "Olivolja" is an oil, not the olives themselves (found via a blind
   // random-sample audit: it was landing here ahead of the olja_vinager rule below
   // purely because this line is checked first).
-  [/(?<!palm)oliv(?!olja)|cornichon|hummus|kimchi|antipasti|tapas|soltorkade tomater|delikatess|bruschetta/i, 'inlagt_delikatess'],
+  [/(?<!palm)oliv(?!olja)|cornichon|hummus|kimchi|antipasti|tapas|soltorkade tomater|delikatess|bruschetta|kronärtskockshjärt|\bröror\b/i, 'inlagt_delikatess'],
   [/vinäger|ättiksprit|balsamvinäger|olja/i, 'olja_vinager'],
-  [/krydd|buljong|\bfond\b|marinad|grillkrydda/i, 'kryddor_buljong'],
-  [/mjöl(?!k)|socker|honung|sirap|marmelad|sylt|pajdeg|bladdeg|vetemjöl|matvete|ströbröd/i, 'bak_sott'],
+  [/krydd|buljong|\bfond\b|marinad|grillkrydda|matmix|middagsmix/i, 'kryddor_buljong'],
+  [/mjöl(?!k)|socker|honung|sirap|marmelad|sylt|pajdeg|bladdeg|vetemjöl|matvete|ströbröd|panko/i, 'bak_sott'],
   [/konserv|soja(?!dryck)/i, 'inlagt_delikatess'],
 ]
 
@@ -448,15 +471,17 @@ export function classify(namn, marke, details) {
   // narrow, targeted exception here is lower-risk than reordering brand facts behind
   // every head-noun guard, which could affect brand overrides this audit didn't check.
   if (/dessertglass/i.test(raw)) return finish('dessert', raw)
-  // "automat" hides "tomat"; "salladsost" (a cheese) hides "sallad" — kept as "ost" so
-  // the dairy pass still catches it; "rostad"/"mellanrost"/"mörkrost" (roast/roasted,
+  // "automat" hides "tomat"; "salladsost" (a feta-style white cheese in brine) hides
+  // "sallad" — rewritten to "feta" so the dairy pass lands it in ost_vit_grill rather
+  // than the generic ost_hard fallback; "dessertost" is kept as plain "ost"; "rostad"/"mellanrost"/"mörkrost" (roast/roasted,
   // e.g. a coffee roast level) all contain "ost" as a substring with no product
   // meaning of their own, so they're stripped entirely — but "rostbiff" (roast beef)
   // is a real meat product, so it's rewritten to "biff" (kept meaningful) rather than
   // deleted outright, unlike its purely-adjectival cousins.
   let haystack = raw
     .replace(/automat\w*/gi, '')
-    .replace(/salladsost|dessertost/gi, 'ost')
+    .replace(/salladsost/gi, 'feta')
+    .replace(/dessertost/gi, 'ost')
     .replace(/rostbiff/gi, 'biff')
     // "Rosta" (Pågen's toast-bread line, no trailing "d") also embeds "ost" — same
     // shape as "rostad"/"mellanrost"/"mörkrost" below, just missing the "d".
@@ -508,6 +533,7 @@ export function classify(namn, marke, details) {
   }
 
   if (CANNED_TOMAT_RE.test(haystack)) return finish('konserv_tomat', haystack)
+  if (PICKLED_VEG_RE.test(haystack)) return finish('inlagt_delikatess', haystack)
   if (BAK_HEAD_RE.test(haystack)) return finish('bak_sott', haystack)
   // Checked before SAUCE_RE — "Glassås" ends in the substring "sås" and would
   // otherwise be claimed by the generic sauce pattern before ever reaching here.
