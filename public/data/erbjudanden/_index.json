@@ -4,5 +4,5 @@
     { "id": "maxi-ica-stormarknad-borlange", "kalla": "ica", "namn": "ICA Maxi", "fullnamn": "Maxi ICA Stormarknad Borlänge" },
     { "id": "hemkop-borlange-sodra-backa", "kalla": "hemkop", "namn": "Hemköp", "fullnamn": "Hemköp Borlänge Södra Backa" }
   ],
-  "veckor": ["2026-W25", "2026-W26", "2026-W27", "2026-W28", "2026-W29", "2026-W31", "2026-W33", "2026-W35"]
+  "veckor": ["2026-W25", "2026-W26", "2026-W27", "2026-W28", "2026-W29", "2026-W31", "2026-W33", "2026-W35", "2026-W36"]
 }

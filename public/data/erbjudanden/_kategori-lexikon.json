@@ -53,6 +53,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "after eight~nestle": {
+    "kategori": "choklad",
+    "form": null,
+    "varutyp": "choklad",
+    "markeringar": [],
+    "confidence": "hog",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "after shave~nivea men": {
     "kategori": "hygien",
     "form": null,
@@ -135,6 +144,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "alaska pollock~royal foods": {
+    "kategori": "fisk",
+    "form": null,
+    "varutyp": "fisk",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "alkoholfri cider ol~mariestads": {
     "kategori": "ol_cider",
@@ -243,6 +261,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "allrengoringssvamp~fixa": {
+    "kategori": "stad_disk_tvatt",
+    "form": null,
+    "varutyp": "stad_disk_tvatt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "allrengoring~fixa": {
     "kategori": "stad_disk_tvatt",
@@ -464,6 +491,15 @@
     "kalla": "regel",
     "updated": "2026-08-28"
   },
+  "asiatiska kryddmix~santa maria": {
+    "kategori": "kryddor_buljong",
+    "form": "torr",
+    "varutyp": "kryddor_buljong",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "atklar classic kyckling skivad~kronfagel": {
     "kategori": "fagel",
     "form": null,
@@ -626,6 +662,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "babyplommontomater i ask~ica": {
+    "kategori": "gronsaker",
+    "form": "farsk",
+    "varutyp": "gronsaker",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "babyplommontomater~": {
     "kategori": "gronsaker",
     "form": "farsk",
@@ -680,6 +725,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "bacon~ica": {
+    "kategori": "bacon_skinka",
+    "form": null,
+    "varutyp": "bacon_skinka",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "bacon~scan": {
     "kategori": "bacon_skinka",
@@ -789,6 +843,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "barista havredryck~oddlygood": {
+    "kategori": "vaxtdryck",
+    "form": null,
+    "varutyp": "vaxtdryck",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "barista~oddlygood": {
     "kategori": "vaxtdryck",
     "form": null,
@@ -824,6 +887,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-08-28"
+  },
+  "barnsnacks~goodies": {
+    "kategori": "chips_snacks",
+    "form": null,
+    "varutyp": "chips_snacks",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "barntandkram~tepe": {
     "kategori": "hygien",
@@ -1015,6 +1087,15 @@
     "kalla": "regel",
     "updated": "2026-07-31"
   },
+  "bifteki~ica": {
+    "kategori": "fars_kottbullar",
+    "form": null,
+    "varutyp": "fars_kottbullar",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "bigarraer~turkiet grekland": {
     "kategori": "bar",
     "form": "farsk",
@@ -1167,6 +1248,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "bladpersilja~sverige": {
+    "kategori": "farska_kryddor",
+    "form": "farsk",
+    "varutyp": "farska_kryddor",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "blandade morka bonor ekologiska~zeta 380": {
     "kategori": "baljvaxter",
@@ -1322,6 +1412,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-08-28"
+  },
+  "boilinbag ris~bens original": {
+    "kategori": "ris_gryn",
+    "form": "torr",
+    "varutyp": "ris_gryn",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "bollkrysantemum orientaliska liljor 3pack~": {
     "kategori": "blommor_vaxter",
@@ -1559,6 +1658,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "brytbonor~tyskland nederlanderna": {
+    "kategori": "baljvaxter",
+    "form": null,
+    "varutyp": "bonor",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "btard campagne~la lorraine": {
     "kategori": "matbrod",
     "form": null,
@@ -1586,6 +1694,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "buljong buljongtarning~maggi": {
+    "kategori": "kryddor_buljong",
+    "form": "torr",
+    "varutyp": "kryddor_buljong",
+    "markeringar": [],
+    "confidence": "hog",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "buljongtarningar~knorr": {
     "kategori": "kryddor_buljong",
     "form": "torr",
@@ -1594,6 +1711,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-08-28"
+  },
+  "buljong~eldorado": {
+    "kategori": "kryddor_buljong",
+    "form": "torr",
+    "varutyp": "kryddor_buljong",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "bullar 10pack~skogaholm": {
     "kategori": "fikabrod",
@@ -1811,6 +1937,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "cheddar gouda havarti~castello": {
+    "kategori": "ost_hard",
+    "form": "kyld",
+    "varutyp": "ost_hard",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "cheddar vit~garant": {
     "kategori": "ost_hard",
     "form": "kyld",
@@ -1965,6 +2100,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "chips~garant": {
+    "kategori": "chips_snacks",
+    "form": null,
+    "varutyp": "chips_snacks",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "chips~gardschips": {
     "kategori": "chips_snacks",
     "form": null,
@@ -1991,6 +2135,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "chistorra kabanoss lammkorv~kottkultur": {
+    "kategori": "korv",
+    "form": null,
+    "varutyp": "korv",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "chocoflakes~eldorado": {
     "kategori": "flingor_musli",
@@ -2029,6 +2182,15 @@
     "kalla": "regel",
     "updated": "2026-08-28"
   },
+  "chokladbitar~snickers": {
+    "kategori": "choklad",
+    "form": null,
+    "varutyp": "choklad",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "chokladcookies~eldorado": {
     "kategori": "choklad",
     "form": null,
@@ -2056,6 +2218,15 @@
     "kalla": "regel",
     "updated": "2026-08-28"
   },
+  "chokladkaka~lindt excellence": {
+    "kategori": "choklad",
+    "form": null,
+    "varutyp": "choklad",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "chokladkaka~marabou": {
     "kategori": "choklad",
     "form": null,
@@ -2073,6 +2244,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "chokladkakor~fazer": {
+    "kategori": "choklad",
+    "form": null,
+    "varutyp": "choklad",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "chokladkakor~marabou": {
     "kategori": "choklad",
@@ -2110,6 +2290,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "choklad~smash olw": {
+    "kategori": "godis",
+    "form": null,
+    "varutyp": "godis",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "choko crunch smash~smash olw": {
     "kategori": "godis",
     "form": null,
@@ -2129,13 +2318,14 @@
     "updated": "2026-07-17"
   },
   "cinelle~dafgards": {
-    "kategori": "mjolk_gradde",
-    "form": "kyld",
-    "varutyp": "mjolk_gradde",
+    "kategori": "fikabrod",
+    "form": null,
+    "varutyp": "fikabrod",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-07-17"
+    "confidence": "hog",
+    "kalla": "manuell",
+    "motivering": "Dafgårds Cinelle är ett wienerbröd/bakverk (bekräftat via produktbilden i veckans webarchive), inte en mejeriprodukt.",
+    "updated": "2026-08-31"
   },
   "citron kolsyrat vatten pet~loka": {
     "kategori": "lask_vatten",
@@ -2163,6 +2353,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "citroner~sydafrika": {
+    "kategori": "frukt",
+    "form": "farsk",
+    "varutyp": "frukt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "citron~": {
     "kategori": "frukt",
@@ -2480,6 +2679,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "dagcreme nattcreme~loral wrinkle expert triple active": {
+    "kategori": "hygien",
+    "form": null,
+    "varutyp": "hygien",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "daily kids 06ar tandkram~tepe": {
     "kategori": "hygien",
     "form": null,
@@ -2515,6 +2723,24 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "dammvippa refill 5pack~swiffer": {
+    "kategori": "stad_disk_tvatt",
+    "form": null,
+    "varutyp": "stad_disk_tvatt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
+  "dammvippa~swiffer": {
+    "kategori": "stad_disk_tvatt",
+    "form": null,
+    "varutyp": "stad_disk_tvatt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "delad ananas~": {
     "kategori": "frukt",
@@ -2877,6 +3103,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "dishmatic diskborste 3pack refill~dishmatic": {
+    "kategori": "stad_disk_tvatt",
+    "form": null,
+    "varutyp": "stad_disk_tvatt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "diskborste~fixa": {
     "kategori": "stad_disk_tvatt",
     "form": null,
@@ -3111,6 +3346,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "dumplings~vici": {
+    "kategori": "enportionsratt",
+    "form": null,
+    "varutyp": "enportionsratt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "duschcream handtval deo rollon~palmolive": {
     "kategori": "hygien",
     "form": null,
@@ -3227,6 +3471,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-08-28"
+  },
+  "ekologisk biff~garant eko": {
+    "kategori": "kott",
+    "form": null,
+    "varutyp": "kott",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "ekologisk bregott laktosfritt bregott~bregott": {
     "kategori": "smor_margarin",
@@ -3446,6 +3699,15 @@
     "kalla": "regel",
     "updated": "2026-07-31"
   },
+  "ekologisk rodvinsvinager vitvinsvinager~garant eko": {
+    "kategori": "olja_vinager",
+    "form": "torr",
+    "varutyp": "olja_vinager",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "ekologisk saft~tillmans": {
     "kategori": "juice_saft",
     "form": null,
@@ -3463,6 +3725,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "ekologisk skivat smorgaspalagg~garant eko": {
+    "kategori": "palagg_pastej",
+    "form": null,
+    "varutyp": "palagg_pastej",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "ekologisk skyr~dairy food": {
     "kategori": "fil_yoghurt",
@@ -3508,6 +3779,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "ekologiska arter~garant eko": {
+    "kategori": "gronsaker",
+    "form": "farsk",
+    "varutyp": "gronsaker",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "ekologiska bar~garant eko": {
     "kategori": "bar",
@@ -3666,6 +3946,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "ekologiska lasagneplattor~garant eko": {
+    "kategori": "pasta",
+    "form": "torr",
+    "varutyp": "pasta",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "ekologiska linser~garant eko": {
     "kategori": "baljvaxter",
     "form": null,
@@ -3674,6 +3963,16 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "ekologiska majskrokar majssnacks~minstingen": {
+    "kategori": "barnmat",
+    "form": null,
+    "varutyp": "barnmat",
+    "markeringar": [],
+    "confidence": "hog",
+    "kalla": "manuell",
+    "motivering": "Minstingen-snacks märkta 6+ månader är barnmat (samma verdict som klammisar~minstingen); varumärket säljer även blöjor, så ingen blanket brand-override.",
+    "updated": "2026-08-31"
   },
   "ekologiska majssnacks~minstingen": {
     "kategori": "chips_snacks",
@@ -3710,6 +4009,24 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "ekologiska pumpakarnor~garant eko": {
+    "kategori": "notter_torkat",
+    "form": null,
+    "varutyp": "notter_torkat",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
+  "ekologiska riskakor majskakor~garant eko": {
+    "kategori": "knackebrod",
+    "form": null,
+    "varutyp": "knackebrod",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "ekologiska vita bonor i tomatsas~garant eko": {
     "kategori": "baljvaxter",
@@ -3819,6 +4136,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "energidryck~nocco": {
+    "kategori": "energidryck",
+    "form": null,
+    "varutyp": "energidryck",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "energidryck~red bull": {
     "kategori": "energidryck",
     "form": null,
@@ -3856,6 +4182,15 @@
     "kalla": "model",
     "motivering": "Frysta pajer — paj-lovet, inte generell enportionsratt.",
     "updated": "2026-08-28"
+  },
+  "enportionsratter la carte~dafgards": {
+    "kategori": "enportionsratt",
+    "form": null,
+    "varutyp": "enportionsratt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "enportionsratter~dafgards": {
     "kategori": "enportionsratt",
@@ -3931,6 +4266,15 @@
     "confidence": "hog",
     "kalla": "model",
     "updated": "2026-07-31"
+  },
+  "falukorv~garant": {
+    "kategori": "korv",
+    "form": null,
+    "varutyp": "korv",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "falukorv~prime patrol": {
     "kategori": "korv",
@@ -4040,6 +4384,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "farsk korv~garant": {
+    "kategori": "korv",
+    "form": null,
+    "varutyp": "korv",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "farsk kycklingbrostfil~guldfageln": {
     "kategori": "fagel",
@@ -4401,6 +4754,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "finkrossade tomater 4pack~mutti": {
+    "kategori": "konserv_tomat",
+    "form": "torr",
+    "varutyp": "konserv_tomat",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "finkrossade tomater~ica": {
     "kategori": "konserv_tomat",
     "form": "torr",
@@ -4491,6 +4853,15 @@
     "kalla": "regel",
     "updated": "2026-08-28"
   },
+  "flackborttagning oxi action~vanish": {
+    "kategori": "stad_disk_tvatt",
+    "form": null,
+    "varutyp": "stad_disk_tvatt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "flackborttagning~vanish": {
     "kategori": "stad_disk_tvatt",
     "form": null,
@@ -4535,6 +4906,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "flaskfil~ica": {
+    "kategori": "kott",
+    "form": null,
+    "varutyp": "kott",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "flasksida med ben~ica": {
     "kategori": "kott",
@@ -4599,6 +4979,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "flerpack glass~triumf glass": {
+    "kategori": "glass",
+    "form": "fryst",
+    "varutyp": "glass",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "flerpacksglass~sia glass": {
     "kategori": "glass",
     "form": "fryst",
@@ -4625,6 +5014,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "flingor~nestl": {
+    "kategori": "flingor_musli",
+    "form": "torr",
+    "varutyp": "flingor_musli",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "flintastek~dalsjofors": {
     "kategori": "kott",
@@ -4905,6 +5303,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "fruktdryck~lowcaly": {
+    "kategori": "juice_saft",
+    "form": null,
+    "varutyp": "juice_saft",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "fruktdryck~proviva": {
     "kategori": "fil_yoghurt",
     "form": "kyld",
@@ -5077,6 +5484,18 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "fryst vegetariskt~anamma": {
+    "kategori": "kott",
+    "form": "fryst",
+    "varutyp": "kott",
+    "markeringar": [
+      "vegansk"
+    ],
+    "confidence": "hog",
+    "kalla": "manuell",
+    "motivering": "Anamma spänner över flera produkttyper; ett vegoprodukt som härmar kött filas som kött (samma praxis som Oumph och Hälsans Kök).",
+    "updated": "2026-08-31"
+  },
   "fryst vegetariskt~quorn": {
     "kategori": "tofu_tempeh",
     "form": "fryst",
@@ -5171,6 +5590,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "frysta rakor~leroy": {
+    "kategori": "skaldjur",
+    "form": "fryst",
+    "varutyp": "skaldjur",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "frysta rakor~royal greenland": {
     "kategori": "skaldjur",
     "form": "fryst",
@@ -5188,6 +5616,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "frysta varrullar~daloon": {
+    "kategori": "enportionsratt",
+    "form": "fryst",
+    "varutyp": "enportionsratt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "frysta vegoprodukter~halsans kok": {
     "kategori": "kott",
@@ -5209,6 +5646,25 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "fullkorns spagetti~kungsornen": {
+    "kategori": "pasta",
+    "form": "torr",
+    "varutyp": "pasta",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
+  "fullkornsgott~garant": {
+    "kategori": "matbrod",
+    "form": null,
+    "varutyp": "matbrod",
+    "markeringar": [],
+    "confidence": "hog",
+    "kalla": "manuell",
+    "motivering": "Garant Fullkornsgott är en fullkornslimpa (bekräftat via produktbilden); namnet i sig ger ingen ledtråd.",
+    "updated": "2026-08-31"
   },
   "fullkornsmakaroner~kungsornen": {
     "kategori": "pasta",
@@ -5265,14 +5721,14 @@
     "updated": "2026-07-17"
   },
   "gardsgoda~valio": {
-    "kategori": "ost_hard",
+    "kategori": "smor_margarin",
     "form": "kyld",
-    "varutyp": "ost_hard",
+    "varutyp": "smor_margarin",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "model",
-    "motivering": "Valio-mejeriprodukt i 400-500 g till 29,90 kr = 60-75 kr/kg, vilket ar ostprisniva; yoghurt i den storleken skulle ligga en tredjedel sa hogt. Grupp (Mejeri & Ost) ar saker aven om exakt osttyp inte ar det.",
-    "updated": "2026-08-14"
+    "confidence": "hog",
+    "kalla": "manuell",
+    "motivering": "Valio Gårdsgoda är en smör- och rapsblandning (bekräftat via produktbilden), inte ost.",
+    "updated": "2026-08-31"
   },
   "getingspray~raid": {
     "kategori": "skadedjur",
@@ -5318,6 +5774,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "glass 4pack~haagendazs": {
+    "kategori": "glass",
+    "form": "fryst",
+    "varutyp": "glass",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "glass 4pack~kar kar": {
     "kategori": "glass",
@@ -5472,6 +5937,15 @@
     "kalla": "regel",
     "updated": "2026-08-28"
   },
+  "glutenfri pasta~zeta": {
+    "kategori": "pasta",
+    "form": "torr",
+    "varutyp": "pasta",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "glutenfritt korvbrod hamburgerbrod~fria": {
     "kategori": "korv_hamburgerbrod",
     "form": null,
@@ -5517,6 +5991,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "godisstang~toms": {
+    "kategori": "godis",
+    "form": null,
+    "varutyp": "godis",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "godis~vidal scandi candy": {
     "kategori": "godis",
     "form": null,
@@ -5525,6 +6008,24 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "golvmopp refill~swiffer": {
+    "kategori": "stad_disk_tvatt",
+    "form": null,
+    "varutyp": "stad_disk_tvatt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
+  "golvmopp startkit~": {
+    "kategori": "stad_disk_tvatt",
+    "form": null,
+    "varutyp": "stad_disk_tvatt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "gott blandat~malaco": {
     "kategori": "godis",
@@ -5670,6 +6171,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-31"
+  },
+  "granola~paulns": {
+    "kategori": "flingor_musli",
+    "form": "torr",
+    "varutyp": "flingor_musli",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "granola~pauluns": {
     "kategori": "flingor_musli",
@@ -5877,6 +6387,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "grillkorv kryddkorv~sibylla": {
+    "kategori": "korv",
+    "form": null,
+    "varutyp": "korv",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "grillkorv skinnfri~harryda karlss": {
     "kategori": "korv",
@@ -6167,6 +6686,15 @@
     "motivering": "Grytbas/wok-sas.",
     "updated": "2026-08-28"
   },
+  "grytbitar av gris~ica": {
+    "kategori": "kott",
+    "form": null,
+    "varutyp": "kott",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "guacamole~calito": {
     "kategori": "inlagt_delikatess",
     "form": "kyld",
@@ -6277,6 +6805,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "halsokost~biosalma": {
+    "kategori": "halsa",
+    "form": null,
+    "varutyp": "halsa",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "halstabletter~fishermans": {
     "kategori": "halsa",
@@ -6432,6 +6969,24 @@
     "kalla": "regel",
     "updated": "2026-08-28"
   },
+  "hardost~granarolo": {
+    "kategori": "ost_hard",
+    "form": "kyld",
+    "varutyp": "ost_hard",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
+  "hardost~wernersson ost": {
+    "kategori": "ost_hard",
+    "form": "kyld",
+    "varutyp": "ost_hard",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "harfarg root retoucher~schwarzkopf natural easy men perfect root retoucher": {
     "kategori": "hygien",
     "form": null,
@@ -6524,6 +7079,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "havregryn~axa": {
+    "kategori": "flingor_musli",
+    "form": "torr",
+    "varutyp": "flingor_musli",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "havregryn~ica": {
     "kategori": "flingor_musli",
     "form": "torr",
@@ -6551,6 +7115,15 @@
     "kalla": "model",
     "motivering": "Frukostflingor (havreringar/havrekuddar) fran en kvarn.",
     "updated": "2026-08-14"
+  },
+  "havreris~frebaco kvarn": {
+    "kategori": "ris_gryn",
+    "form": "torr",
+    "varutyp": "ris_gryn",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "havskraftor~falkenberg": {
     "kategori": "skaldjur",
@@ -6687,6 +7260,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "hel vitkal~sverige": {
+    "kategori": "gronsaker",
+    "form": "farsk",
+    "varutyp": "gronsaker",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "hela bonor kaffe~zogas": {
     "kategori": "kaffe_te",
     "form": null,
@@ -6695,6 +7277,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "hela bonor~arvidnordquist": {
+    "kategori": "baljvaxter",
+    "form": null,
+    "varutyp": "bonor",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "hela bonor~gevalia": {
     "kategori": "baljvaxter",
@@ -6786,6 +7377,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "hot sauce~valentina": {
+    "kategori": "sas_dressing",
+    "form": "torr",
+    "varutyp": "sas_dressing",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "hots grillkorv~lithells": {
     "kategori": "korv",
@@ -6895,6 +7495,15 @@
     "confidence": "hog",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "hundmat~smart pets": {
+    "kategori": "djurmat",
+    "form": null,
+    "varutyp": "djurmat",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "hundmat~vov": {
     "kategori": "djurmat",
@@ -7052,6 +7661,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "idealmakaroner~kungsornen": {
+    "kategori": "pasta",
+    "form": "torr",
+    "varutyp": "pasta",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "ikaffe barista edition havredryck~oatly": {
     "kategori": "vaxtdryck",
     "form": null,
@@ -7069,6 +7687,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "indisk sas~pataks": {
+    "kategori": "sas_dressing",
+    "form": "torr",
+    "varutyp": "sas_dressing",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "inlagd stromming~falkenberg": {
     "kategori": "inlagd_fisk_kaviar",
@@ -7141,6 +7768,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "iskaffe~lofbergs": {
+    "kategori": "kaffe_te",
+    "form": null,
+    "varutyp": "kaffe_te",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "iskuber~ica": {
     "kategori": "ovrigt",
@@ -7503,6 +8139,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "kaffekapslar 10pack~lor": {
+    "kategori": "kaffe_te",
+    "form": null,
+    "varutyp": "kaffe_te",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "kaffekapslar 10pack~starbucks": {
     "kategori": "kaffe_te",
     "form": null,
@@ -7520,6 +8165,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "kaffe~arvid nordquist": {
+    "kategori": "kaffe_te",
+    "form": null,
+    "varutyp": "kaffe_te",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "kaffe~gevalia": {
     "kategori": "kaffe_te",
@@ -7547,6 +8201,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "kakor~filipinos": {
+    "kategori": "kex",
+    "form": null,
+    "varutyp": "kex",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "kakor~oreo": {
     "kategori": "kex",
@@ -7592,6 +8255,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "kalmix rodkal gronkal~garant": {
+    "kategori": "gronsaker",
+    "form": "farsk",
+    "varutyp": "gronsaker",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "kamben bbq~scan": {
     "kategori": "kott",
@@ -7692,6 +8364,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "katt torrfoder~best friend": {
+    "kategori": "djurmat",
+    "form": null,
+    "varutyp": "djurmat",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "kattgodis 5pack~smart pets": {
     "kategori": "djurmat",
     "form": null,
@@ -7746,6 +8427,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "kattmat~mjau": {
+    "kategori": "djurmat",
+    "form": null,
+    "varutyp": "djurmat",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "kattmat~purina": {
     "kategori": "djurmat",
     "form": null,
@@ -7772,6 +8462,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-08-28"
+  },
+  "kattmat~smart pets": {
+    "kategori": "djurmat",
+    "form": null,
+    "varutyp": "djurmat",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "kattsand~best friend": {
     "kategori": "djurgodis_tillbehor",
@@ -8043,6 +8742,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "kinder maxi 6pack~ferrero": {
+    "kategori": "choklad",
+    "form": null,
+    "varutyp": "choklad",
+    "markeringar": [],
+    "confidence": "hog",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "kitkat lion smarties~nestl": {
     "kategori": "choklad",
     "form": null,
@@ -8088,6 +8796,15 @@
     "kalla": "model",
     "motivering": "Luddrulle for klader.",
     "updated": "2026-08-28"
+  },
+  "klammisar~ellas kitchen": {
+    "kategori": "barnmat",
+    "form": null,
+    "varutyp": "barnmat",
+    "markeringar": [],
+    "confidence": "hog",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "klammisar~minstingen": {
     "kategori": "barnmat",
@@ -8179,6 +8896,24 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "kokosmjolk~santa maria": {
+    "kategori": "inlagt_delikatess",
+    "form": "torr",
+    "varutyp": "inlagt_delikatess",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
+  "kokosmjolk~spicefield": {
+    "kategori": "inlagt_delikatess",
+    "form": "torr",
+    "varutyp": "inlagt_delikatess",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "kolakaka proteinbar~propud": {
     "kategori": "bars",
@@ -8414,6 +9149,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "kronartskockshjartan~garant": {
+    "kategori": "inlagt_delikatess",
+    "form": "torr",
+    "varutyp": "inlagt_delikatess",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "krondill~sverige": {
     "kategori": "farska_kryddor",
     "form": "farsk",
@@ -8523,6 +9267,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "kryddor i smaglasburkar~kockens": {
+    "kategori": "kryddor_buljong",
+    "form": "torr",
+    "varutyp": "kryddor_buljong",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "kryddor i smaglas~santa maria": {
     "kategori": "kryddor_buljong",
     "form": "torr",
@@ -8612,6 +9365,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "kycklingbrostfil~eldorado": {
+    "kategori": "fagel",
+    "form": null,
+    "varutyp": "fagel",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "kycklingbrostfil~garant": {
     "kategori": "fagel",
@@ -8775,6 +9537,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "kycklingsnacks~findus": {
+    "kategori": "fagel",
+    "form": "fryst",
+    "varutyp": "fagel",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "kycklingsnacks~guldfageln": {
     "kategori": "fagel",
     "form": null,
@@ -8873,6 +9644,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "kylda roror~zeinas": {
+    "kategori": "inlagt_delikatess",
+    "form": "torr",
+    "varutyp": "inlagt_delikatess",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "kylda saser~garant": {
     "kategori": "sas_dressing",
@@ -9117,6 +9897,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "lask 20pack~pepsi": {
+    "kategori": "lask_vatten",
+    "form": null,
+    "varutyp": "lask_vatten",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "lask 4pack~cocacola fanta": {
     "kategori": "lask_vatten",
     "form": null,
@@ -9179,6 +9968,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "lask~cocacola zero": {
+    "kategori": "lask_vatten",
+    "form": null,
+    "varutyp": "lask_vatten",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "lask~dr pepper": {
     "kategori": "lask_vatten",
@@ -9471,6 +10269,15 @@
     "motivering": "Saftkoncentrat att spada — saft, inte lask.",
     "updated": "2026-08-28"
   },
+  "lightdryck~zeroh": {
+    "kategori": "lask_vatten",
+    "form": null,
+    "varutyp": "lask_vatten",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "lime~": {
     "kategori": "frukt",
     "form": "farsk",
@@ -9506,6 +10313,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "linfro~gogreen": {
+    "kategori": "notter_torkat",
+    "form": null,
+    "varutyp": "notter_torkat",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "lingon grovt brod~garant": {
     "kategori": "matbrod",
@@ -9570,6 +10386,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "mac and cheese~mississippi": {
+    "kategori": "enportionsratt",
+    "form": null,
+    "varutyp": "enportionsratt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "macaroni and cheese~mississippi": {
     "kategori": "pasta",
@@ -9943,6 +10768,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "maskinrengoring spolglans disktillbehor~finish": {
+    "kategori": "stad_disk_tvatt",
+    "form": null,
+    "varutyp": "stad_disk_tvatt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "mat bakfett~carlshamn mejeri": {
     "kategori": "smor_margarin",
     "form": "kyld",
@@ -10034,6 +10868,15 @@
     "kalla": "model",
     "motivering": "Laktosfri matlagnings-/vispgradde.",
     "updated": "2026-08-28"
+  },
+  "matmix 3pack~knorr": {
+    "kategori": "kryddor_buljong",
+    "form": "torr",
+    "varutyp": "kryddor_buljong",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "matpaj~garant": {
     "kategori": "gratang_paj",
@@ -10207,6 +11050,15 @@
     "kalla": "model",
     "motivering": "Snacksost/smaltost i portionsbitar — samma produkt som ICAs Babybel-erbjudande.",
     "updated": "2026-08-28"
+  },
+  "minimajs bambuskott~spicefield": {
+    "kategori": "gronsaker",
+    "form": "farsk",
+    "varutyp": "gronsaker",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "minivattenmeloner~": {
     "kategori": "frukt",
@@ -10605,6 +11457,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "narurella valnotter~exotic snacks": {
+    "kategori": "notter_torkat",
+    "form": null,
+    "varutyp": "notter_torkat",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "naturell kefir~garant": {
     "kategori": "fil_yoghurt",
     "form": "kyld",
@@ -10636,15 +11497,6 @@
     "kategori": "notter_torkat",
     "form": null,
     "varutyp": "notter_torkat",
-    "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-07-17"
-  },
-  "naturella valnotter~exotic snacks": {
-    "kategori": "chips_snacks",
-    "form": null,
-    "varutyp": "chips_snacks",
     "markeringar": [],
     "confidence": "lag",
     "kalla": "regel",
@@ -10767,6 +11619,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "not gront burgare~garant": {
+    "kategori": "fars_kottbullar",
+    "form": null,
+    "varutyp": "fars_kottbullar",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "not pat delikatesspat hundmat~doggy delikat": {
     "kategori": "djurmat",
     "form": null,
@@ -10857,6 +11718,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "nudlar~twin dragon": {
+    "kategori": "pasta",
+    "form": "torr",
+    "varutyp": "pasta",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "nutella~nutella": {
     "kategori": "palagg_pastej",
     "form": null,
@@ -10911,6 +11781,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "oliver~fontana": {
+    "kategori": "inlagt_delikatess",
+    "form": "torr",
+    "varutyp": "inlagt_delikatess",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "oliver~zeta": {
     "kategori": "inlagt_delikatess",
@@ -11046,6 +11925,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "oreo~oreo": {
+    "kategori": "kex",
+    "form": null,
+    "varutyp": "kex",
+    "markeringar": [],
+    "confidence": "hog",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "orientaliskt brod 4pack~garant": {
     "kategori": "matbrod",
@@ -11228,6 +12116,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "pan pizza 9pack~billys": {
+    "kategori": "pizza",
+    "form": null,
+    "varutyp": "pizza",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "pan pizza~garant": {
     "kategori": "pizza",
     "form": null,
@@ -11265,6 +12162,15 @@
     "motivering": "Paninibrod i 150 g — smabrod/frallor.",
     "updated": "2026-08-14"
   },
+  "panko~garant": {
+    "kategori": "bak_sott",
+    "form": "torr",
+    "varutyp": "bak_sott",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "pannkakor 12pack~eldorado": {
     "kategori": "enportionsratt",
     "form": null,
@@ -11274,6 +12180,15 @@
     "kalla": "model",
     "motivering": "Fardiga pannkakor att varma — hor hemma i Fardigmat-gruppen; taxonomin har inget eget pannkakslov, sa gruppens generella fardigrattslov far ta det.",
     "updated": "2026-08-14"
+  },
+  "pannkakor~garant": {
+    "kategori": "enportionsratt",
+    "form": null,
+    "varutyp": "enportionsratt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "pannkakor~pop bakery myprotein": {
     "kategori": "enportionsratt",
@@ -11348,6 +12263,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "paprika somborka~makedonien": {
+    "kategori": "gronsaker",
+    "form": "farsk",
+    "varutyp": "gronsaker",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "paprikamix~nederlanderna": {
     "kategori": "gronsaker",
     "form": "farsk",
@@ -11403,6 +12327,33 @@
     "kalla": "model",
     "motivering": "Hardost (parmesan).",
     "updated": "2026-08-28"
+  },
+  "paron conference~": {
+    "kategori": "frukt",
+    "form": "farsk",
+    "varutyp": "frukt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
+  "paron conference~ica": {
+    "kategori": "frukt",
+    "form": "farsk",
+    "varutyp": "frukt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
+  "paron conference~nederlanderna belgien": {
+    "kategori": "frukt",
+    "form": "farsk",
+    "varutyp": "frukt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "paron kolsyrat vatten pet~bonaqua": {
     "kategori": "lask_vatten",
@@ -11566,6 +12517,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "pasta~monte castello": {
+    "kategori": "pasta",
+    "form": "torr",
+    "varutyp": "pasta",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "pasta~zeta": {
     "kategori": "pasta",
     "form": "torr",
@@ -11675,6 +12635,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "pesto~barilla": {
+    "kategori": "sas_dressing",
+    "form": "torr",
+    "varutyp": "sas_dressing",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "pesto~garant": {
     "kategori": "sas_dressing",
     "form": "torr",
@@ -11703,13 +12672,13 @@
     "updated": "2026-07-17"
   },
   "picanha~prime": {
-    "kategori": "charkuterier",
+    "kategori": "kott",
     "form": null,
-    "varutyp": "charkuterier",
+    "varutyp": "kott",
     "markeringar": [],
     "confidence": "lag",
     "kalla": "regel",
-    "updated": "2026-07-17"
+    "updated": "2026-08-31"
   },
   "piccolinitomater i ask~ica selection": {
     "kategori": "gronsaker",
@@ -12099,6 +13068,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "potatis~garant": {
+    "kategori": "potatis_rotfrukt",
+    "form": "farsk",
+    "varutyp": "potatis_rotfrukt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "prast herrgard grev rike ara~allerum": {
     "kategori": "ost_hard",
     "form": "kyld",
@@ -12261,6 +13239,24 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "protein milkshake~propud": {
+    "kategori": "bars",
+    "form": null,
+    "varutyp": "bars",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
+  "protein wafer~nicks": {
+    "kategori": "bars",
+    "form": null,
+    "varutyp": "bars",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "proteinbar proteindryck~gainomax": {
     "kategori": "bars",
     "form": null,
@@ -12325,6 +13321,16 @@
     "motivering": "Kyld mejeribaserad proteindryck — samma hylla som drickkvarg.",
     "updated": "2026-08-28"
   },
+  "proteindryck~valio": {
+    "kategori": "fil_yoghurt",
+    "form": "kyld",
+    "varutyp": "fil_yoghurt",
+    "markeringar": [],
+    "confidence": "hog",
+    "kalla": "manuell",
+    "motivering": "Valios proteindryck är en mejeridryck (samma verdict som proteinpudding shake mousse~valio), inte läsk.",
+    "updated": "2026-08-31"
+  },
   "proteinpudding shake mousse~valio": {
     "kategori": "fil_yoghurt",
     "form": "kyld",
@@ -12352,6 +13358,15 @@
     "confidence": "hog",
     "kalla": "model",
     "updated": "2026-07-31"
+  },
+  "proteinpudding~propud": {
+    "kategori": "bars",
+    "form": null,
+    "varutyp": "bars",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "proteinshake~arla": {
     "kategori": "fil_yoghurt",
@@ -12672,6 +13687,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "rapsolja~ica": {
+    "kategori": "olja_vinager",
+    "form": "torr",
+    "varutyp": "olja_vinager",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "rapssmorolja flytande 80~garant": {
     "kategori": "smor_margarin",
     "form": "kyld",
@@ -12799,6 +13823,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "rismal~rice n go": {
+    "kategori": "ris_gryn",
+    "form": "torr",
+    "varutyp": "ris_gryn",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "risnudlar~bamboo tree": {
     "kategori": "pasta",
     "form": "torr",
@@ -12816,6 +13849,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "risnudlar~santa maria": {
+    "kategori": "pasta",
+    "form": "torr",
+    "varutyp": "pasta",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "risoni pasta~garant": {
     "kategori": "pasta",
@@ -12888,6 +13930,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "rod grapefrukt~ica": {
+    "kategori": "frukt",
+    "form": "farsk",
+    "varutyp": "frukt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "rod grape~sydafrika": {
     "kategori": "frukt",
@@ -13079,6 +14130,24 @@
     "kalla": "regel",
     "updated": "2026-07-31"
   },
+  "royal gala granny smith~italien": {
+    "kategori": "frukt",
+    "form": "farsk",
+    "varutyp": "frukt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
+  "rye snacks~finn crisp": {
+    "kategori": "chips_snacks",
+    "form": null,
+    "varutyp": "chips_snacks",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "ryggbiff i bit~hacksta kottdisk": {
     "kategori": "kott",
     "form": "farsk",
@@ -13088,6 +14157,15 @@
     "kalla": "model",
     "motivering": "Notkott fran kottdisk.",
     "updated": "2026-08-28"
+  },
+  "ryggbiff i bit~ica": {
+    "kategori": "kott",
+    "form": null,
+    "varutyp": "kott",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "ryggfil alaska pollock~royal foods": {
     "kategori": "fisk",
@@ -13242,6 +14320,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "salladslok i knippe~sverige": {
+    "kategori": "lok",
+    "form": "farsk",
+    "varutyp": "lok",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "salladslok knippe~": {
     "kategori": "lok",
     "form": "farsk",
@@ -13251,23 +14338,14 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
-  "salladsost 21~eldorado": {
-    "kategori": "ost_hard",
-    "form": "kyld",
-    "varutyp": "ost_hard",
-    "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-07-17"
-  },
   "salladsost~eldorado": {
-    "kategori": "ost_hard",
+    "kategori": "ost_vit_grill",
     "form": "kyld",
-    "varutyp": "ost_hard",
+    "varutyp": "ost_vit_grill",
     "markeringar": [],
     "confidence": "lag",
     "kalla": "regel",
-    "updated": "2026-07-17"
+    "updated": "2026-08-31"
   },
   "sallad~redo": {
     "kategori": "gronsaker",
@@ -13395,6 +14473,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "schalottenlok~frankrike": {
+    "kategori": "lok",
+    "form": "farsk",
+    "varutyp": "lok",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "schampo balsam duschcreme~barnangen": {
     "kategori": "hygien",
     "form": null,
@@ -13466,6 +14553,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "schampo balsam~ogx": {
+    "kategori": "hygien",
+    "form": null,
+    "varutyp": "hygien",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "schampo balsam~tresemm": {
     "kategori": "hygien",
@@ -13601,6 +14697,24 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "shot~herrljunga": {
+    "kategori": "ovrigt",
+    "form": null,
+    "varutyp": "ovrigt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
+  "sidflask i bit~garant": {
+    "kategori": "kott",
+    "form": null,
+    "varutyp": "kott",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "signalkraftor~fiskeriet": {
     "kategori": "skaldjur",
@@ -13828,6 +14942,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "skivade rodbetor~garant": {
+    "kategori": "inlagt_delikatess",
+    "form": "torr",
+    "varutyp": "inlagt_delikatess",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "skivat bacon 3pack~eldorado": {
     "kategori": "bacon_skinka",
     "form": null,
@@ -13854,6 +14977,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "skivat bacon 5pack~tulip": {
+    "kategori": "bacon_skinka",
+    "form": null,
+    "varutyp": "bacon_skinka",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "skivat bacon~garant": {
     "kategori": "bacon_skinka",
@@ -13999,6 +15131,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "smaksatt barista havdredryck~oddlygood": {
+    "kategori": "vaxtdryck",
+    "form": null,
+    "varutyp": "vaxtdryck",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "smaksatt barista~oddlygood": {
     "kategori": "vaxtdryck",
     "form": null,
@@ -14007,6 +15148,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "smaksatt crme fraiche~arla": {
+    "kategori": "fil_yoghurt",
+    "form": "kyld",
+    "varutyp": "fil_yoghurt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "smaksatt crme fraiche~arla koket arla": {
     "kategori": "fil_yoghurt",
@@ -14043,6 +15193,15 @@
     "confidence": "hog",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "smaksatta krossade tomater~garant": {
+    "kategori": "konserv_tomat",
+    "form": "torr",
+    "varutyp": "konserv_tomat",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "smaltost 8pack~den skrattande kon": {
     "kategori": "ost_fars_mjuk",
@@ -14200,6 +15359,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "smor~valio": {
+    "kategori": "smor_margarin",
+    "form": "kyld",
+    "varutyp": "smor_margarin",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "snabbkaffe mellanrost refill~eldorado": {
     "kategori": "kaffe_te",
     "form": null,
@@ -14253,6 +15421,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "snabbkaffe~nescaf": {
+    "kategori": "kaffe_te",
+    "form": null,
+    "varutyp": "kaffe_te",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "snabbkaffe~nescaf gold": {
     "kategori": "kaffe_te",
@@ -14362,6 +15539,15 @@
     "kalla": "regel",
     "updated": "2026-08-28"
   },
+  "sojasas~twin dragon": {
+    "kategori": "sas_dressing",
+    "form": "torr",
+    "varutyp": "sas_dressing",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "solskydd~nivea sun": {
     "kategori": "hygien",
     "form": null,
@@ -14389,6 +15575,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "sommargronsaker artormajspaprika~apetit": {
+    "kategori": "gronsaker",
+    "form": "farsk",
+    "varutyp": "gronsaker",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "sommarpotatis estelle i pase~ica": {
     "kategori": "potatis_rotfrukt",
     "form": "farsk",
@@ -14406,6 +15601,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "soppa~kelda": {
+    "kategori": "kyld_soppa",
+    "form": "kyld",
+    "varutyp": "kyld_soppa",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "sopsack med handtag~fixa": {
     "kategori": "papper_pasar_folie",
@@ -14433,6 +15637,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "spaghetti~barilla": {
+    "kategori": "pasta",
+    "form": "torr",
+    "varutyp": "pasta",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "spaghetti~monte castello": {
     "kategori": "pasta",
@@ -14478,6 +15691,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "spareribs~ica": {
+    "kategori": "kott",
+    "form": null,
+    "varutyp": "kott",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "spareribs~tulip": {
     "kategori": "kott",
@@ -14541,6 +15763,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "sportdryck~powerade": {
+    "kategori": "lask_vatten",
+    "form": null,
+    "varutyp": "lask_vatten",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "spraygradde~chantibic": {
     "kategori": "mjolk_gradde",
@@ -14849,6 +16080,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "svensk lovbiff~garant": {
+    "kategori": "kott",
+    "form": null,
+    "varutyp": "kott",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "svensk majskycklingbrostfil~garant": {
     "kategori": "fagel",
     "form": null,
@@ -14857,6 +16097,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "svensk notfars~garant": {
+    "kategori": "fars_kottbullar",
+    "form": null,
+    "varutyp": "fars_kottbullar",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "svensk notfars~smak av gotland": {
     "kategori": "fars_kottbullar",
@@ -14930,6 +16179,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "swiffer~swiffer": {
+    "kategori": "stad_disk_tvatt",
+    "form": null,
+    "varutyp": "stad_disk_tvatt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "sylt squeezy~bob": {
     "kategori": "bak_sott",
     "form": "torr",
@@ -14956,6 +16214,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-08-28"
+  },
+  "taco kryddmix 3pack~santa maria": {
+    "kategori": "kryddor_buljong",
+    "form": "torr",
+    "varutyp": "kryddor_buljong",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "taco kryddmix~ica": {
     "kategori": "kryddor_buljong",
@@ -15001,6 +16268,33 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-08-28"
+  },
+  "tacosas~santa maria": {
+    "kategori": "sas_dressing",
+    "form": "torr",
+    "varutyp": "sas_dressing",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
+  "tagliatelle~garant garant eko": {
+    "kategori": "pasta",
+    "form": "torr",
+    "varutyp": "pasta",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
+  "talleggio dop~wernersson ost": {
+    "kategori": "ost_hard",
+    "form": "kyld",
+    "varutyp": "ost_hard",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "tallrik 22cm flat~tallrik 22cm flat fixa": {
     "kategori": "engangs_grill",
@@ -15100,6 +16394,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "tandbriketter~solstickan": {
+    "kategori": "engangs_grill",
+    "form": null,
+    "varutyp": "engangs_grill",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "tandkram~colgate": {
     "kategori": "hygien",
@@ -15218,6 +16521,24 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "te 20pack~clipper": {
+    "kategori": "kaffe_te",
+    "form": null,
+    "varutyp": "kaffe_te",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
+  "thaiboxar~spicefield": {
+    "kategori": "enportionsratt",
+    "form": null,
+    "varutyp": "enportionsratt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "the original pirog frysta10pack~gorbys": {
     "kategori": "enportionsratt",
     "form": "fryst",
@@ -15271,6 +16592,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "toalettpapper 6pack hushallspapper 4pack~fixa": {
+    "kategori": "papper_pasar_folie",
+    "form": null,
+    "varutyp": "papper_pasar_folie",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "toalettpapper classic~lambi": {
     "kategori": "papper_pasar_folie",
@@ -15746,6 +17076,24 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "tuggpinnar~best friend": {
+    "kategori": "djurgodis_tillbehor",
+    "form": null,
+    "varutyp": "djurgodis_tillbehor",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
+  "tuggummi i burk~extra": {
+    "kategori": "godis",
+    "form": null,
+    "varutyp": "godis",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "tuggummi~extra": {
     "kategori": "godis",
     "form": null,
@@ -15754,6 +17102,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "tuggummi~stimorol": {
+    "kategori": "godis",
+    "form": null,
+    "varutyp": "godis",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "tunna skivor~parsons": {
     "kategori": "palagg_pastej",
@@ -15965,14 +17322,14 @@
     "kalla": "regel",
     "updated": "2026-08-28"
   },
-  "valnotter naturella~exotic snacks": {
-    "kategori": "chips_snacks",
+  "varmeljus stora~ica": {
+    "kategori": "ovrigt",
     "form": null,
-    "varutyp": "chips_snacks",
+    "varutyp": "ovrigt",
     "markeringar": [],
     "confidence": "lag",
     "kalla": "regel",
-    "updated": "2026-07-17"
+    "updated": "2026-08-31"
   },
   "varmeljus~ica": {
     "kategori": "ovrigt",
@@ -16028,6 +17385,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "varrullar 8pack~daloon": {
+    "kategori": "enportionsratt",
+    "form": null,
+    "varutyp": "enportionsratt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "vasterbottensost~norrmejerier": {
     "kategori": "ost_hard",
     "form": "kyld",
@@ -16073,6 +17439,15 @@
     "kalla": "model",
     "motivering": "Liberos vatservetter ar babyvard.",
     "updated": "2026-08-28"
+  },
+  "vatservetter 70pack~eldorado": {
+    "kategori": "papper_pasar_folie",
+    "form": null,
+    "varutyp": "papper_pasar_folie",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "vatservetter~eldorado": {
     "kategori": "papper_pasar_folie",
@@ -16170,6 +17545,17 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "vegetariska korvar~peas of heaven": {
+    "kategori": "korv",
+    "form": null,
+    "varutyp": "korv",
+    "markeringar": [
+      "vegansk"
+    ],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "vegetariska maltidsdelar~quorn": {
     "kategori": "tofu_tempeh",
     "form": null,
@@ -16214,6 +17600,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "vegoschnitzel vegonuggets~ica": {
+    "kategori": "enportionsratt",
+    "form": null,
+    "varutyp": "enportionsratt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "vegoskivor~parsons": {
     "kategori": "palagg_pastej",
     "form": null,
@@ -16222,6 +17617,15 @@
     "confidence": "hog",
     "kalla": "regel",
     "updated": "2026-07-31"
+  },
+  "verum filmjolk~verum": {
+    "kategori": "fil_yoghurt",
+    "form": "kyld",
+    "varutyp": "fil_yoghurt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "vetekaka 12pack~garant": {
     "kategori": "frallor_tunnbrod",
@@ -16324,6 +17728,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "vispgradde~arla koket": {
+    "kategori": "mjolk_gradde",
+    "form": "kyld",
+    "varutyp": "mjolk_gradde",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
+  },
   "vispgradde~garant": {
     "kategori": "mjolk_gradde",
     "form": "kyld",
@@ -16422,6 +17835,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "wc rengoring~duck": {
+    "kategori": "stad_disk_tvatt",
+    "form": null,
+    "varutyp": "stad_disk_tvatt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-08-31"
   },
   "wcrengoring~wc bref": {
     "kategori": "stad_disk_tvatt",

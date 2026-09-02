@@ -45,20 +45,28 @@ function decodeEntities(s) {
 
 function parseSplash(text) {
   let m;
+  // A deposit-bearing item appends "+pant" to the splash, in two spellings seen so
+  // far: "29,90 kr +pant" / "3 för 42 kr +pant" (2026-W36) and "29,90 kr/+pant"
+  // (earlier weeks). Strip it here and record it in pris_text, so a drinks offer
+  // isn't silently dropped as an unparseable splash.
+  let pant = false;
+  const pantM = text.match(/\s*(?:\/\s*)?\+\s*pant$/i);
+  if (pantM) {
+    pant = true;
+    text = text.slice(0, pantM.index).replace(/\/$/, '').trim();
+  }
+  const pantSuffix = pant ? ' +pant' : '';
   if ((m = text.match(/^(\d+)\s*för\s*([\d,.-]+)\s*kr$/i))) {
     const multiN = parseInt(m[1], 10);
     const total = toNumber(m[2]);
-    return { pris_typ: 'multi', pris: Math.round((total / multiN) * 100) / 100, pris_text: `${multiN} för ${total.toFixed(2)}kr`, unit: null };
-  }
-  if ((m = text.match(/^([\d,.-]+)\s*kr\/\+pant$/i))) {
-    return { pris_typ: 'st', pris: toNumber(m[1]), pris_text: `${toNumber(m[1]).toFixed(2)}/st +pant`, unit: null };
+    return { pris_typ: 'multi', pris: Math.round((total / multiN) * 100) / 100, pris_text: `${multiN} för ${total.toFixed(2)}kr${pantSuffix}`, unit: null };
   }
   if ((m = text.match(/^([\d,.-]+)\s*kr\/(kg|st|liter)$/i))) {
     const unit = m[2].toLowerCase() === 'liter' ? 'l' : m[2].toLowerCase();
-    return { pris_typ: 'st', pris: toNumber(m[1]), pris_text: `${toNumber(m[1]).toFixed(2)}/${unit}`, unit };
+    return { pris_typ: 'st', pris: toNumber(m[1]), pris_text: `${toNumber(m[1]).toFixed(2)}/${unit}${pantSuffix}`, unit };
   }
   if ((m = text.match(/^([\d,.-]+)\s*kr$/i))) {
-    return { pris_typ: 'st', pris: toNumber(m[1]), pris_text: `${toNumber(m[1]).toFixed(2)}/st`, unit: null };
+    return { pris_typ: 'st', pris: toNumber(m[1]), pris_text: `${toNumber(m[1]).toFixed(2)}/st${pantSuffix}`, unit: null };
   }
   if ((m = text.match(/^(\d+)\s*%\s*rabatt$/i))) {
     return { pris_typ: 'rabatt', pris: null, pris_text: `${m[1]}% rabatt`, unit: null };
