@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Offer, OffersIndex, OffersLatest, StoreOffers } from '../types'
+import { candidateWeeks, filterStoresToRange, staleWeekNote, type DateRange } from '../lib/offerValidity'
 
 const BASE = '/matracet/data/erbjudanden'
 
@@ -90,6 +91,57 @@ export function useOffers(week?: string | null): OffersResult {
       active = false
     }
   }, [week])
+
+  return result
+}
+
+export interface ValidOffersResult {
+  /** Offers valid at some point during the requested period, or null while loading. */
+  stores: StoreOffers[] | null
+  /** Set when nothing covers the period and there *is* older data, e.g. "senast sparade
+   * veckan (v.35) gick ut sön 30/8" — so a screen can say why it's empty instead of just
+   * rendering nothing. Null while loading, and whenever offers were found. */
+  staleNote: string | null
+}
+
+const EMPTY_VALID: ValidOffersResult = { stores: null, staleNote: null }
+
+/**
+ * Offers actually valid during `from`..`to` (inclusive ISO dates) — what every "what's cheap
+ * for the days I'm planning" screen wants, as opposed to `useOffers()`'s "whichever week
+ * `_latest.json` names", which lags after a week ends and runs ahead when next week's flyer
+ * is imported early.
+ *
+ * Loads only the saved weeks that could overlap the period (see candidateWeeks) rather than
+ * one hardcoded week — a rolling 7-day window straddles two ISO weeks most of the time, and
+ * both halves are real offers. The module-level week cache above is shared with `useOffers`,
+ * so a week already fetched for the Fynd screen costs nothing here.
+ */
+export function useOffersValidDuring(from: string, to: string): ValidOffersResult {
+  const [result, setResult] = useState<ValidOffersResult>(EMPTY_VALID)
+
+  useEffect(() => {
+    if (!from || !to) return
+    let active = true
+    const range: DateRange = { from, to }
+    setResult(EMPTY_VALID)
+    loadIndex()
+      .then(async idx => {
+        const weeks = candidateWeeks(range, idx.veckor)
+        const loaded = await Promise.all(weeks.map(w => loadWeek(w, idx.butiker)))
+        if (!active) return
+        const all = loaded.flat()
+        const valid = filterStoresToRange(all, range)
+        setResult({ stores: valid, staleNote: valid.length === 0 ? staleWeekNote(all, range) : null })
+      })
+      .catch(() => {
+        // Same reasoning as useOffers: the caches cleared themselves on failure, so leave
+        // `stores` at its loading value and let the next mount retry.
+      })
+    return () => {
+      active = false
+    }
+  }, [from, to])
 
   return result
 }

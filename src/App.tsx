@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
+import { getISOWeekString } from './lib/isoWeek'
 import { WeekMenu, EatersData, RecipeIndex, RecipeIndexEntry, DayMeal, WeekNote, ScreenName } from './types'
 import type { HistoryEntry, HistoryFile } from './types/history'
 import type { FeedbackFile, FeedbackStore } from './types/feedback'
@@ -30,14 +31,6 @@ import { applyTaskOutcome } from './lib/syncTaskOutcomes'
 import { hydrateFromSync } from './lib/syncHydration'
 import { startSyncPusher, seedKnownSha } from './lib/syncPusher'
 import { parseRecipeHash, parseRecipePath, recipePath } from './lib/recipeLink'
-
-function getISOWeekString(isoDate: string): string {
-  const d = new Date(isoDate + 'T00:00:00Z')
-  d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7))
-  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1))
-  const weekNo = Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7)
-  return `${d.getUTCFullYear()}-W${String(weekNo).padStart(2, '0')}`
-}
 
 function dagFromDate(isoDate: string): string {
   const names = ['sondag', 'mandag', 'tisdag', 'onsdag', 'torsdag', 'fredag', 'lordag']

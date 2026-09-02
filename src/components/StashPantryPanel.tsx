@@ -2,7 +2,8 @@ import { useMemo, useState } from 'react'
 import { Recipe, RecipeIndexEntry } from '../types'
 import type { Meal } from '../types/meal'
 import { usePantry } from '../hooks/usePantry'
-import { useOffers } from '../hooks/useOffers'
+import { useOffersValidDuring } from '../hooks/useOffers'
+import { todayISO } from '../lib/offerValidity'
 import { useStash, StashKind } from '../hooks/useStash'
 import { useShoppingList } from '../hooks/useShoppingList'
 import { useIrrelevantOffers } from '../hooks/useIrrelevantOffers'
@@ -36,7 +37,9 @@ export default function StashPantryPanel({ recipeIndex, fullRecipes, meals, onOp
   const pantry = usePantry()
   const { addOrRestoreByName, removeOrMarkForOffer } = useShoppingList()
   const { isIrrelevant, markIrrelevant } = useIrrelevantOffers()
-  const { stores } = useOffers()
+  // Offers valid today, not whichever week _latest.json names — see offerValidity.ts.
+  const today = todayISO()
+  const { stores } = useOffersValidDuring(today, today)
   const taggedOffers = useMemo(() => (stores ? tagOffers(stores) : []), [stores])
   const offers = useMemo(() => taggedOffers.filter(o => !isIrrelevant(o.namn)), [taggedOffers, isIrrelevant])
 

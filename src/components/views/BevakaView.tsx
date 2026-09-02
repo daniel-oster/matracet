@@ -1,8 +1,8 @@
-import { StoreOffers } from '../../types'
-import { useOffers } from '../../hooks/useOffers'
+import { useOffersValidDuring } from '../../hooks/useOffers'
 import { useBevakningslista } from '../../hooks/useBevakningslista'
 import { useShoppingList } from '../../hooks/useShoppingList'
-import { STORES, CATEGORY_EMOJI, TaggedOffer, findBevakaHits, toOfferRef } from '../../lib/bevaka'
+import { STORES, CATEGORY_EMOJI, TaggedOffer, findBevakaHits, tagOffers, toOfferRef } from '../../lib/bevaka'
+import { todayISO } from '../../lib/offerValidity'
 import TopBar from '../TopBar'
 
 interface Props {
@@ -11,7 +11,9 @@ interface Props {
 
 export default function BevakaView({ onBack }: Props) {
   const items = useBevakningslista()
-  const { stores } = useOffers()
+  // "Fynd nu" has to mean now: an expired flyer must not keep ringing the 🔔 bell.
+  const today = todayISO()
+  const { stores, staleNote } = useOffersValidDuring(today, today)
   const { isActiveForOffer, addOrRestoreByName, removeOrMarkForOffer } = useShoppingList()
 
   if (!items || !stores) {
@@ -23,9 +25,7 @@ export default function BevakaView({ onBack }: Props) {
     )
   }
 
-  const all: TaggedOffer[] = stores.flatMap((s: StoreOffers) =>
-    s.erbjudanden.map(o => ({ ...o, store: s.kalla, week: s.vecka })),
-  )
+  const all: TaggedOffer[] = tagOffers(stores)
   const hits = findBevakaHits(items, all)
   const hitIds = new Set(hits.map(h => h.item.id))
 
@@ -64,7 +64,11 @@ export default function BevakaView({ onBack }: Props) {
         <div className="bevaka-col">
           <h3 className="shop-group-title">Fynd nu</h3>
           {hits.length === 0 && (
-            <div className="fynd-empty">Inget på bevakningslistan är på extrapris just nu.</div>
+            <div className="fynd-empty">
+              {staleNote
+                ? `Inga aktuella erbjudanden – ${staleNote}.`
+                : 'Inget på bevakningslistan är på extrapris just nu.'}
+            </div>
           )}
           {hits.map(({ item, offers }) => (
             <div className="match-group" key={item.id}>

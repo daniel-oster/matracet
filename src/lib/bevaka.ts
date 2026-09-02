@@ -1,4 +1,5 @@
 import { BevakningItem, Offer, StoreOffers } from '../types'
+import { fileRange, offerRange, type DateRange } from './offerValidity'
 import { ShoppingOfferRef } from '../hooks/useShoppingList'
 import { GROUPS, groupOf } from './kategoriTaxonomy.mjs'
 
@@ -25,6 +26,10 @@ export const CATEGORY_EMOJI: Record<string, string> = Object.fromEntries([
 export interface TaggedOffer extends Offer {
   store: string
   week: string
+  /** The days this offer is actually valid on — its own giltigt_fran/giltigt_till when it
+   * states them, otherwise the flyer file's. Resolved here because the file is the only
+   * place those dates live, and a TaggedOffer has left its file behind. */
+  giltig: DateRange
 }
 
 export interface BevakaHit {
@@ -33,7 +38,10 @@ export interface BevakaHit {
 }
 
 export function tagOffers(stores: StoreOffers[]): TaggedOffer[] {
-  return stores.flatMap(s => s.erbjudanden.map(o => ({ ...o, store: s.kalla, week: s.vecka })))
+  return stores.flatMap(s => {
+    const file = fileRange(s)
+    return s.erbjudanden.map(o => ({ ...o, store: s.kalla, week: s.vecka, giltig: offerRange(o, file) }))
+  })
 }
 
 /** Points a shopping-list item at the exact offer it was pulled from — see ShoppingOfferRef
