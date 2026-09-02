@@ -9,7 +9,7 @@ import {
 } from '../../hooks/useWeekPlan'
 import { useFeedback } from '../../hooks/useFeedback'
 import { useRecipes } from '../../hooks/useRecipes'
-import { useOffers } from '../../hooks/useOffers'
+import { useOffersValidDuring } from '../../hooks/useOffers'
 import { usePantry } from '../../hooks/usePantry'
 import { useStash } from '../../hooks/useStash'
 import { useShoppingList } from '../../hooks/useShoppingList'
@@ -106,7 +106,13 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
   const { getFeedback } = useFeedback()
   const allSlugs = useMemo(() => recipeIndex.map(r => r.slug), [recipeIndex])
   const fullRecipes = useRecipes(allSlugs)
-  const { stores } = useOffers()
+  // The days being planned, not "whichever week _latest.json names" — an imported flyer that
+  // has expired (or hasn't started) must not show up as this week's fynd. See offerValidity.ts.
+  const planningPeriod = useMemo(
+    () => ({ from: days[0]?.datum ?? '', to: days[days.length - 1]?.datum ?? '' }),
+    [days],
+  )
+  const { stores, staleNote: offersStaleNote } = useOffersValidDuring(planningPeriod.from, planningPeriod.to)
   const allOffers = useMemo(() => (stores ? tagOffers(stores) : []), [stores])
   const { isIrrelevant } = useIrrelevantOffers()
   const foodOffers = useMemo(
@@ -566,6 +572,9 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
 
           <OffersPanel
             offers={foodOffers}
+            period={planningPeriod}
+            staleNote={offersStaleNote}
+            loading={stores === null}
             isActiveForOffer={isActiveForOffer}
             onToggleOffer={toggleOffer}
             fromOffers={fromOffers}

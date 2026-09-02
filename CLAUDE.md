@@ -1090,6 +1090,67 @@ keep claiming the expensive version. Every round of review here caught exactly t
 between claimed and actual rigor; the fix each time was the same shape — either do the
 real work, or shrink the claim to fit it.
 
+### Offer validity: only what's actually valid for the days being planned (2026-09)
+
+Household report: last week's fynd were still showing while planning, and a flyer imported
+ahead of time showed as if it were live. Root cause: every "what's cheap right now" screen
+read whichever week `_latest.json` names — a file repointed by hand at import time, so it
+lags after a week ends and runs ahead when next week's flyer lands early. The
+`giltigt_fran`/`giltigt_till` fields were in every flyer file from the very first import;
+nothing read them.
+
+`src/lib/offerValidity.ts` is the whole decision, pure and unit-tested
+(`offerValidity.test.ts`): `rangesOverlap`, `offerRange` (an offer's effective dates),
+`filterStoresToRange`, `candidateWeeks`, `validityNote`, `staleWeekNote`, `todayISO`.
+`useOffersValidDuring(from, to)` (`useOffers.ts`) is the hook over it — it loads the saved
+weeks that *could* overlap the period rather than one hardcoded week, reusing the same
+module-level week cache `useOffers` already had.
+
+Which screen asks what:
+- **Planera** asks for the rolling 7-day window it is planning (`days[0].datum` …
+  `days[6].datum`) — a window straddles two ISO weeks most of the time, and both halves are
+  real offers, which is why the hook loads a set of weeks rather than one.
+- **Bevaka**, **Skafferi** and `StashPantryPanel` ask for **today** — "Fynd nu" has to mean
+  now, and an expired flyer must not keep ringing the 🔔 bell.
+- **Fynd** is deliberately unchanged: it is a browser of *saved* weeks and still shows
+  whichever week you pick. It now just says so in its eyebrow — `· gick ut` / `· gäller
+  senare` — so an expired flyer doesn't read as current.
+
+`candidateWeeks` asks for the ISO weeks the period touches **plus the one before it**, then
+intersects with `_index.json`'s `veckor` so a week nobody imported is never fetched. The
+look-back is deliberate: stores don't all run Mon–Sun, so a flyer filed under week N can
+still be running on week N+1's first days. Cost is at most one extra week's files, shared
+across every screen through the existing cache.
+
+**Per-offer dates**: `Offer.giltigt_fran`/`giltigt_till` are new, **optional**, and only set
+when that one offer runs on a different clock than the flyer around it — Hemköp states an end
+date per product and its personal "Bara för dig" coupons routinely end mid-week or outlive the
+flyer. `erbjudanden-parse-hemkop-html.mjs` now reads them, drops the majority date (that one is
+the *file's* `giltigt_till`, which it reports on stderr for the import step) and keeps only the
+outliers, so the JSON doesn't carry 57 copies of one date and an outlier stands out on sight.
+
+**Non-obvious rule worth keeping** (`offerRange`, pinned by its own test): a *single* stated
+bound is taken at its word even when it lands on the wrong side of the file's other bound — a
+coupon whose `giltigt_till` predates the flyer's own start is simply one that had already
+expired when the flyer was captured, so the range collapses to that date and correctly fails
+to overlap. Only when *both* bounds are stated and inverted is it treated as bad data and the
+file's window used, rather than silently dropping the offer.
+
+**UI**: a shared end date appears once as a line above the chips ("Fynden gäller t.o.m. sön
+6/9") — repeating it on all 190 chips was noise — and a chip carries its own note
+(`t.o.m. …` / `från …`) only when it differs from that shared one, which is exactly the
+mid-week coupon this exists to surface. When nothing is valid, the panel says why
+("Inga erbjudanden gäller de här dagarna – senast sparade veckan (v.36) gick ut fre 7/8")
+rather than rendering an ambiguous empty list; while the files are still loading it says
+`Laddar erbjudanden…`, since "no offers" and "not fetched yet" had looked identical.
+
+**Type-change trap this hit, exactly as CLAUDE.md predicted it would**: adding the resolved
+`giltig` range to `TaggedOffer` broke compilation in *four* places that each rebuilt a
+`TaggedOffer` by hand — `FyndView` (which also kept a private duplicate of the interface),
+`BevakaView`, and two test fixtures. All of them now go through `tagOffers()`, and FyndView
+uses the shared type, so the next field added there can't silently miss a call site. Run
+`npx tsc --noEmit -p tsconfig.app.json`, never a bare `tsc`, to see this class of error.
+
 ### Watch-list ("Bevaka" tab)
 
 `public/data/erbjudanden/bevakningslista.json` holds a standing list of products to bulk-buy whenever they're a genuine bargain (e.g. a coffee brand, toilet paper in the usual big pack, a specific toothpaste). Each entry (`BevakningItem` in `types.ts`) has `sok` (lowercase keyword substrings matched against an offer's `namn`/`marke`), `undvik_marken` (brand substrings that disqualify a match — e.g. "not Gevalia"), and optional `onskat_marke`/`storlek_hint`/`troskel_kr`/`anteckning` for extra context. `BevakaView.tsx` cross-references this list against the current week's offers (via `useOffers`, same hook as Fynd): the left page shows the full watch-list with a 🔔 badge on any item currently matched, the right page shows the matched offers grouped by item — clicking a matched offer row (`.match-row`, same "whole row is the control" convention as `FyndView`'s double-click, `.in-list`/`🛒` shown once added) explicitly adds it to the shopping list via `useShoppingList`'s `addOrRestoreByName`/`removeOrMarkByName`/`isActiveByName`; clicking an already-added one removes it again (see the Shopping list section above — a bevaka match no longer lands on the list just by existing). **When adding a watch-list item, add an entry to `bevakningslista.json`** — there's no in-app "add" UI (consistent with this app's no-backend/JSON-in-git model), so new items or refinements (e.g. filling in a specific brand once decided) go straight into the file. Note four entries (`frukt`, `gront_farskt`, `gront_fryst`, `snacks_godis`) have an empty `sok`, meaning "watch the whole category" rather than a specific keyword (see `matchesBevakning` in `bevaka.ts`) — these can surface dozens of matches in one week, which is fine now that surfacing a match and adding it to the shopping list are two separate, explicit steps.

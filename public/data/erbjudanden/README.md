@@ -150,6 +150,7 @@ Supersättning — varje butik fyller i det den exponerar, resten är `null`.
 | `form` | Förvaring/färskhet: `farsk` \| `kyld` \| `fryst` \| `torr` \| `konserv` \| `null` — se nedan |
 | `varutyp` | Finare gruppering än `kategori`, för Jämför-läget — se nedan |
 | `kategori_kalla` | `regel` \| `model` \| `manuell` — varifrån klassificeringen kommer; `manuell` är en spärr som aldrig skrivs över automatiskt |
+| `giltigt_fran` / `giltigt_till` | **Valfria**, sätts bara när just det här erbjudandet gäller andra dagar än filens egen period — t.ex. en personlig Hemköp-kupong som går ut mitt i veckan eller löper en vecka längre. Utelämnas i normalfallet; appen faller då tillbaka på filens datum. Läses av `src/lib/offerValidity.ts`, som avgör vilka erbjudanden som visas när veckan planeras. |
 
 ### Kategorier (omarbetad 2026-07 — se designdokumentet i det GitHub-issue som drev om arbetet)
 

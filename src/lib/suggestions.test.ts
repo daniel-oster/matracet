@@ -25,6 +25,7 @@ function makeRecipe(vara: string[]): Recipe {
 
 function makeOffer(namn: string, besparing: string | null = null): TaggedOffer {
   return {
+    giltig: { from: '2026-07-27', to: '2026-08-02' },
     namn,
     marke: null,
     storlek: null,

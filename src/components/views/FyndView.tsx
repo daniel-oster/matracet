@@ -1,11 +1,12 @@
 import { useState } from 'react'
-import { Offer, StoreOffers } from '../../types'
+import { Offer } from '../../types'
 import { useOffers } from '../../hooks/useOffers'
 import { useShoppingList } from '../../hooks/useShoppingList'
 import { useIrrelevantOffers } from '../../hooks/useIrrelevantOffers'
 import { useCollapsedCategories } from '../../hooks/useCollapsedCategories'
 import { useCategoryFeedback, CategoryFeedbackEntry } from '../../hooks/useCategoryFeedback'
-import { toOfferRef } from '../../lib/bevaka'
+import { tagOffers, toOfferRef, type TaggedOffer } from '../../lib/bevaka'
+import { todayISO } from '../../lib/offerValidity'
 import { kategoriLabel } from '../../lib/categories'
 import { GROUPS, GROUP_ORDER } from '../../lib/kategoriTaxonomy.mjs'
 import SwipeRow from '../SwipeRow'
@@ -53,10 +54,6 @@ const FLAGS: Record<string, string> = {
   'Nya Zeeland': '🇳🇿',
 }
 
-interface TaggedOffer extends Offer {
-  store: string
-  week: string
-}
 
 interface MatchGroup {
   key: string
@@ -185,10 +182,22 @@ export default function FyndView({ onBack }: Props) {
   const shownWeek = stores[0]?.vecka.split('-W')[1] ?? ''
   const range = stores[0] ? `${dm(stores[0].giltigt_fran)}–${dm(stores[0].giltigt_till)}` : ''
   const otherWeeks = availableWeeks.filter(w => w !== latestWeek).slice().reverse()
+  // Fynd is a browser of saved weeks, so it deliberately still shows whichever week is
+  // selected — but it says so when that week isn't running right now, rather than letting an
+  // expired flyer (or one imported early) read as current.
+  const today = todayISO()
+  const shownStatus = !stores[0]
+    ? ''
+    : stores[0].giltigt_till < today
+      ? ' · gick ut'
+      : stores[0].giltigt_fran > today
+        ? ' · gäller senare'
+        : ''
 
-  const all: TaggedOffer[] = stores.flatMap((s: StoreOffers) =>
-    s.erbjudanden.map(o => ({ ...o, store: s.kalla, week: s.vecka })),
-  )
+  // tagOffers(), not a hand-rolled literal: this exact reconstruction silently missed the
+  // `week` field when it was added (see CLAUDE.md) and would have missed `giltig` the same
+  // way. There is one place that builds a TaggedOffer.
+  const all: TaggedOffer[] = tagOffers(stores)
 
   const q = query.trim().toLowerCase()
 
@@ -204,7 +213,7 @@ export default function FyndView({ onBack }: Props) {
     <div className="screen">
       <TopBar
         onBack={onBack}
-        eyebrow={`v.${shownWeek} · ${range} · ${stores.length} butiker`}
+        eyebrow={`v.${shownWeek} · ${range}${shownStatus} · ${stores.length} butiker`}
         title={mode === 'jamfor' ? 'Jämför' : 'Fynd'}
         right={
           <div className="fynd-mode-bar">

@@ -114,6 +114,15 @@ function parseProductContainer(chunk) {
   const p30M = chunk.match(/Lägsta 30-dagarspris[\s\S]*?data-testid="presentation-text"[^>]*>([^<]*)</);
   const pris_30dgr = p30M ? p30Extract(p30M[1]) : null;
 
+  // Hemköp states an end date per product ("Gäller t.o.m. 06/09-2026"). Almost always the
+  // flyer's own last day, but a personal "Bara för dig" coupon routinely runs on a different
+  // clock — shorter or longer — and the app now filters/labels offers by validity (see
+  // src/lib/offerValidity.ts), so carry it through when it differs from the majority date
+  // the caller writes as the file's giltigt_till. Emitted verbatim as an ISO date; the
+  // caller decides which value is the file-level one.
+  const endM = chunk.match(/data-testid="end-date"[^>]*>[^<]*?(\d{2})\/(\d{2})-(\d{4})/);
+  const giltigt_till = endM ? `${endM[3]}-${endM[2]}-${endM[1]}` : null;
+
   const haystack = `${namn} ${marke ?? ''} ${storlek ?? ''}`;
   const ursprung = extractUrsprung(haystack);
   const cls = classify(namn, marke, haystack);
@@ -134,6 +143,7 @@ function parseProductContainer(chunk) {
     markeringar: markeringarFromUrsprung(ursprung, cls.markeringar),
     ursprung,
     notering,
+    giltigt_till,
     kategori: cls.kategori,
     form: cls.form,
     varutyp: cls.varutyp,
@@ -228,5 +238,28 @@ for (let i = 0; i < couponStarts.length; i++) {
   if (offer) offers.push(offer);
 }
 
+// Every card states its own end date, and normally they all state the flyer's. Only an
+// offer running on a *different* clock (a personal coupon that ends mid-week or outlives the
+// flyer) is worth carrying per-offer, so the majority date is dropped from the individual
+// offers here and reported instead as the file's giltigt_till. Two things fall out of this:
+// the JSON stays free of 57 copies of one date, and an outlier stands out on sight.
+const endCounts = new Map();
+for (const o of offers) {
+  if (o.giltigt_till) endCounts.set(o.giltigt_till, (endCounts.get(o.giltigt_till) ?? 0) + 1);
+}
+let fileEnd = null;
+for (const [date, n] of endCounts) {
+  if (fileEnd === null || n > endCounts.get(fileEnd)) fileEnd = date;
+}
+const outliers = [];
+for (const o of offers) {
+  if (o.giltigt_till === fileEnd) o.giltigt_till = null;
+  else if (o.giltigt_till) outliers.push(`${o.namn}: ${o.giltigt_till}`);
+}
+
 console.log(JSON.stringify(offers, null, 2));
 console.error(`Parsed ${offers.length} offers (${pcStarts.length} in-store + ${couponStarts.length} personal-coupon blocks scanned).`);
+if (fileEnd) console.error(`Majority end date (use as the file's giltigt_till): ${fileEnd}`);
+// A large share of outliers means the capture is of the *outgoing* week, not a couple of
+// coupons on their own schedule — see CLAUDE.md's Hemköp end-date lesson.
+if (outliers.length) console.error(`${outliers.length} offer(s) with their own end date:\n  ${outliers.join('\n  ')}`);

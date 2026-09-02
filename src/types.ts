@@ -40,6 +40,13 @@ export interface Offer {
    * been made yet (see design issue §3.5) — never assume it differs from kategori. */
   varutyp?: string
   kategori_kalla?: KategoriKalla
+  /** Per-offer validity, when this one runs on a different clock than the flyer it was
+   * captured with — Hemköp's personal "Bara för dig" coupons routinely end mid-week or run
+   * a week longer than the surrounding flyer (their source page states an end date per
+   * product). Absent on the ordinary case, where the file's own giltigt_fran/giltigt_till
+   * apply; see src/lib/offerValidity.ts, which is the only thing that reads these. */
+  giltigt_fran?: string | null
+  giltigt_till?: string | null
 }
 
 /** One entry in public/data/erbjudanden/_kategori-lexikon.json, keyed by a normalized
