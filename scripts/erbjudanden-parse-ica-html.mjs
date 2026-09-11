@@ -18,6 +18,23 @@
 // cards (class "ids-article-card") — filtered out by requiring the
 // "offer-card" class token before offer-card__title is even looked up.
 //
+// Every class-based lookup below allows extra attributes between the class
+// attribute and the tag's ">" (`class="offer-card__title"[^>]*>`): as of the
+// 2026-W37 capture ICA ships a Vue scoped-style attribute on part of its
+// cards (`<p class="offer-card__title" data-v-2aa9b146="">`) and not on the
+// rest. A regex requiring `offer-card__title">` matched only the latter, so
+// 22 of 138 offer cards parsed as "no title" and were dropped with no error
+// — the same silent-total-failure shape as the 2026-W33 Hemköp hash-class
+// break. Match the stable class token, never the exact attribute spelling.
+//
+// Each card's own end date is not in the card markup at all — it lives in the
+// page's Nuxt state blob, keyed by the same id the card carries as
+// `data-promotion-id` ("validTo":"2026-09-13T00:00:00"). ICA staggers these:
+// in the 2026-W37 capture 89 of 138 cards ended with the flyer week and 49 ran
+// one to three weeks longer. Same convention as the Hemköp parser: the majority
+// date is the *file's* giltigt_till (reported on stderr) and is dropped from the
+// individual offers, so only an offer on its own clock carries one.
+//
 // Usage:
 //   node scripts/erbjudanden-parse-ica-html.mjs page.html > draft.json
 
@@ -31,6 +48,14 @@ if (!input) {
 }
 
 const html = readFileSync(input, 'utf8');
+
+// id -> ISO end date, from the page state blob (not the card markup).
+const validToById = new Map(
+  [...html.matchAll(/"id":"(\d+)","details":\{[\s\S]{0,900}?"validTo":"(\d{4}-\d{2}-\d{2})/g)].map((m) => [
+    m[1],
+    m[2],
+  ]),
+);
 
 function decodeEntities(s) {
   return s
@@ -104,7 +129,7 @@ function parseArticle(chunk) {
   const classes = classM ? classM[1].split(/\s+/) : [];
   if (!classes.includes('offer-card')) return null;
 
-  const titleM = chunk.match(/offer-card__title">([^<]*)</);
+  const titleM = chunk.match(/offer-card__title"[^>]*>([^<]*)</);
   const namn = titleM ? decodeEntities(titleM[1]) : null;
   if (!namn) return null;
 
@@ -114,7 +139,7 @@ function parseArticle(chunk) {
   // lands at index 0. Reading spans[0] as the brand/size text turned 55 of 306
   // offers in the 2026-W35 import into `marke: "Ord"` / `storlek: "pris 179:00
   // kr, ..."` while silently dropping their real ord_pris/pris_30dgr/jamforpris.
-  const textBlockM = chunk.match(/offer-card__text">(.*?)<\/p>/s);
+  const textBlockM = chunk.match(/offer-card__text"[^>]*>(.*?)<\/p>/s);
   const spans = textBlockM
     ? [...textBlockM[1].matchAll(/<span([^>]*)>([^<]*)<\/span>/g)].map((m) => ({
         bold: /offer-card__text--bold/.test(m[1]),
@@ -132,7 +157,7 @@ function parseArticle(chunk) {
   const ordM = detailText.match(/Ord\.pris ([\d:,.\-\s]+?) kr/);
   const p30M = detailText.match(/30dgr\.pris ([\d:,.\-\s]+?) kr/);
 
-  const srM = chunk.match(/sr-only">([^<]*)<\/span>/);
+  const srM = chunk.match(/sr-only"[^>]*>([^<]*)<\/span>/);
   const splash = srM ? parseSplash(decodeEntities(srM[1])) : null;
   if (!splash) return null; // decorative/no-price card slipped through
 
@@ -145,6 +170,9 @@ function parseArticle(chunk) {
   }
 
   const cls = classify(namn, marke, `${boldText} ${detailText}`);
+
+  const idM = chunk.match(/data-promotion-id="(\d+)"/);
+  const giltigt_till = idM ? validToById.get(idM[1]) ?? null : null;
 
   return {
     namn,
@@ -166,6 +194,7 @@ function parseArticle(chunk) {
     form: cls.form,
     varutyp: cls.varutyp,
     kategori_kalla: cls.kategori_kalla,
+    giltigt_till,
   };
 }
 
@@ -178,5 +207,22 @@ for (const chunk of chunks) {
   if (offer) offers.push(offer);
 }
 
+// Keep only the offers whose end date differs from the flyer's own (see header).
+const endCounts = new Map();
+for (const o of offers) {
+  if (o.giltigt_till) endCounts.set(o.giltigt_till, (endCounts.get(o.giltigt_till) ?? 0) + 1);
+}
+let fileEnd = null;
+for (const [date, n] of endCounts) {
+  if (fileEnd === null || n > endCounts.get(fileEnd)) fileEnd = date;
+}
+const outliers = [];
+for (const o of offers) {
+  if (o.giltigt_till === fileEnd) o.giltigt_till = null;
+  else if (o.giltigt_till) outliers.push(`${o.namn}: ${o.giltigt_till}`);
+}
+
 console.log(JSON.stringify(offers, null, 2));
 console.error(`Parsed ${offers.length} offers from ${chunks.length} article blocks.`);
+if (fileEnd) console.error(`Majority end date (use as the file's giltigt_till): ${fileEnd}`);
+if (outliers.length) console.error(`${outliers.length} offer(s) with their own end date.`);

@@ -13,11 +13,14 @@
 //     "X,XX/kg", "N för X kr", or "N % rabatt"), and — when present —
 //     ordinary-price / promotion-compare-price (jämförpris) /
 //     "Lägsta 30-dagarspris" (pris_30dgr) blocks.
-//   - `data-testid="product-main-link"` (rare — 2 of 61 this week): Hemköp's
-//     personal "Bara för dig" coupons, which require in-app activation and
-//     carry no absolute price (just a splash like "10 % rabatt"). Per the
-//     README's existing convention for these: klubbpris stays false and the
-//     coupon nature goes in `notering`, not `klubbpris`.
+//   - a standalone card above the grid with the same testids but no
+//     product-container wrapper (2026-W37): Hemköp's personal "Bara för dig"
+//     coupons, which require in-app activation and carry no absolute price
+//     (just a splash like "10 % rabatt"). Per the README's existing convention
+//     for these: klubbpris stays false and the coupon nature goes in
+//     `notering`, not `klubbpris`.
+//   - `data-testid="product-main-link"` (the 2026-W29 spelling of the same
+//     coupons; kept so an older capture still parses).
 // Price and price-type are read from stable `data-testid` markers only —
 // never from the styled-components hash classes (`sc-<hash>-N`), which change
 // on any Hemköp redeploy: the price string comes from `screen-reader-text`
@@ -223,17 +226,48 @@ function parsePersonalCoupon(chunk) {
 const offers = [];
 
 const pcStarts = [...html.matchAll(/data-testid="product-container"/g)].map((m) => m.index);
-for (let i = 0; i < pcStarts.length; i++) {
-  const chunk = html.slice(pcStarts[i], pcStarts[i + 1] ?? pcStarts[i] + 6000);
-  const offer = parseProductContainer(chunk);
+// The last container runs to the end of the document, not to a fixed window: the
+// 2026-W37 capture put 9042 chars between the final container's start and its own
+// product-title, so a 6000-char cap silently dropped that one card ("Pitabröd
+// 5-pack") — parseProductContainer reads the *first* match of each testid, so a
+// generous tail costs nothing.
+const pcRanges = pcStarts.map((start, i) => [start, pcStarts[i + 1] ?? html.length]);
+for (const [start, end] of pcRanges) {
+  const offer = parseProductContainer(html.slice(start, end));
   if (offer) offers.push(offer);
 }
 
-const couponStarts = [...html.matchAll(/data-testid="product-main-link"/g)].map((m) => m.index);
-for (let i = 0; i < couponStarts.length; i++) {
+// Hemköp's personal "Bara för dig" coupons have rendered in three different
+// shapes across captures: a `product-main-link` <a> (2026-W29), and — as of
+// 2026-W37 — a plain card above the `offline-promotion-products` grid carrying
+// the same testids a product-container card does (screen-reader-text price,
+// product-title, display-manufacturer/-volume, end-date) but *without* the
+// product-container wrapper. Rather than key off either specific shape, treat any
+// product-title no container range covers as its own card: bounded backwards to
+// its own price (the preceding screen-reader-text, since the price renders before
+// the title) and forwards to the next such card or the grid. Both shapes then
+// parse through the same code path.
+const srStarts = [...html.matchAll(/data-testid="screen-reader-text"/g)].map((m) => m.index);
+const covered = (i) => pcRanges.some(([start, end]) => i >= start && i < end);
+const orphanTitles = [...html.matchAll(/data-testid="product-title"/g)]
+  .map((m) => m.index)
+  .filter((i) => !covered(i));
+for (let n = 0; n < orphanTitles.length; n++) {
+  const t = orphanTitles[n];
+  const priceStart = srStarts.filter((i) => i < t).pop();
+  const start = priceStart ?? t;
+  const nextTitle = orphanTitles[n + 1];
+  const nextPrice = nextTitle ? srStarts.filter((i) => i < nextTitle && i > t).pop() : undefined;
+  const end = nextPrice ?? nextTitle ?? pcStarts.find((i) => i > t) ?? t + 4000;
+  const offer = parseProductContainer(html.slice(start, end));
+  if (offer) offers.push(offer);
+}
+
+const legacyCouponStarts = [...html.matchAll(/data-testid="product-main-link"/g)].map((m) => m.index);
+for (let i = 0; i < legacyCouponStarts.length; i++) {
   // The title attribute sits right before this testid on the same <a> tag.
-  const tagStart = html.lastIndexOf('<a ', couponStarts[i]);
-  const chunk = html.slice(tagStart, couponStarts[i + 1] ?? couponStarts[i] + 4000);
+  const tagStart = html.lastIndexOf('<a ', legacyCouponStarts[i]);
+  const chunk = html.slice(tagStart, legacyCouponStarts[i + 1] ?? legacyCouponStarts[i] + 4000);
   const offer = parsePersonalCoupon(chunk);
   if (offer) offers.push(offer);
 }
@@ -258,7 +292,9 @@ for (const o of offers) {
 }
 
 console.log(JSON.stringify(offers, null, 2));
-console.error(`Parsed ${offers.length} offers (${pcStarts.length} in-store + ${couponStarts.length} personal-coupon blocks scanned).`);
+console.error(
+  `Parsed ${offers.length} offers (${pcStarts.length} in-store + ${orphanTitles.length} standalone-card + ${legacyCouponStarts.length} legacy-coupon blocks scanned).`,
+);
 if (fileEnd) console.error(`Majority end date (use as the file's giltigt_till): ${fileEnd}`);
 // A large share of outliers means the capture is of the *outgoing* week, not a couple of
 // coupons on their own schedule — see CLAUDE.md's Hemköp end-date lesson.
