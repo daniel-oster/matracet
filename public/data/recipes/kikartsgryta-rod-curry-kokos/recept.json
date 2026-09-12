@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "slug": "kikartsgryta-rod-curry-kokos",
+  "nummer": 132,
+  "namn": "Kikärtsgryta med röd curry och kokosmjölk",
+  "tid_min": 25,
+  "portioner": 4,
+  "kategorier": [
+    "vegansk"
+  ],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "delvis",
+  "taggar": [
+    "gryta",
+    "curry",
+    "kokos",
+    "kikärtor",
+    "thailändskt",
+    "snabbt",
+    "vardagsmat",
+    "ris"
+  ],
+  "kalla": "Wonder Vegan",
+  "kallaUrl": "https://wondervegan.se/sv/kikartsgryta-med-rod-curry-och-kokosmjolk/",
+  "dagkedja": null,
+  "bildUrl": "/matracet/data/recipes/kikartsgryta-rod-curry-kokos/bild.jpg",
+  "ingredienser": [
+    { "vara": "kokosmjölk", "mangd": 400, "enhet": "ml" },
+    { "vara": "kikärtor (konserv, avrunna)", "mangd": 400, "enhet": "g" },
+    { "vara": "basilika", "mangd": 1, "enhet": "kruka" },
+    { "vara": "vitlök", "mangd": 2, "enhet": "klyftor" },
+    { "vara": "gul lök", "mangd": 1, "enhet": "st" },
+    { "vara": "röd currypasta", "mangd": 2, "enhet": "msk" },
+    { "vara": "curry (pulver)", "mangd": 0.5, "enhet": "msk" },
+    { "vara": "cocktailtomater", "mangd": 200, "enhet": "g" },
+    { "vara": "lime", "mangd": 0.25, "enhet": "st" },
+    { "vara": "salt", "mangd": 1, "enhet": "krm" },
+    { "vara": "olja till stekning", "mangd": 1, "enhet": "msk" },
+    { "vara": "ris", "mangd": 4, "enhet": "port", "grupp": "servering" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Koka riset enligt anvisningarna på paketet.",
+    "Hacka lök och vitlök och fräs i olja.",
+    "Hacka basilikan och tillsätt tillsammans med kokosmjölk, curry, currypasta och kikärtor. Smaka av med salt.",
+    "Koka upp och låt puttra i ca 5 minuter.",
+    "Dela tomaterna på mitten och häll i grytan.",
+    "Tillsätt saften från 1/4 lime.",
+    "Låt koka tills tomaterna är mjuka.",
+    "Servera med ris och toppa med färsk basilika."
+  ],
+  "servering": [
+    "ris",
+    "färsk basilika",
+    "limeklyfta"
+  ],
+  "tips": "Byt gärna tomaterna mot paprika, eller hoppa över dem helt om du vill frysa in grytan i matlådor – tomaterna blir bäst tillagade färska vid uppvärmningen. Thaibasilika i stället för vanlig basilika ger mer asiatisk smak.",
+  "komplett": true
+}
