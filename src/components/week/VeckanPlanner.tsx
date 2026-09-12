@@ -25,6 +25,7 @@ import {
   resolveMealForRecipe, resolveComponents, resolveDayMeal, matchMealByName,
 } from '../../lib/mealResolve'
 import { evaluateFit, DietFitResult } from '../../lib/dietFit'
+import { scheduleSkipsMeal, SCHEDULE_SKIP_SHORT } from '../../lib/mealNeed'
 import { buildPoolRows, sortPoolRows, computeBudget, resolveDisplacedOccupant, filterEntriesToWindow, BudgetSlotFlags, FilledSlot, PoolRow } from '../../lib/mealPool'
 import { MEAL_PLANNING_GROUPS, groupOf } from '../../lib/kategoriTaxonomy.mjs'
 import MealEditorModal from '../MealEditorModal'
@@ -72,6 +73,11 @@ interface SlotInfo {
   slug: string | null
   mealSlug: string | undefined
   skip: boolean
+  /** The *schedule* says no meal is needed here — today only "term weekday lunch with the
+   *  kids home" (see src/lib/mealNeed.ts). Unlike `skip` (the manual "Ingen måltid behövs"
+   *  toggle) this never clears an assignment: it only stops the slot being counted as
+   *  outstanding work and being offered as a plain free slot. */
+  scheduleSkip: boolean
   presentIds: string[] | null
   planPresentIds: string[] | null
   attendance: MealAttendance | undefined
@@ -145,6 +151,7 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
     const planPresentIds = plan?.presentPersons.map(p => p.id) ?? null
     const presentIds = effectivePresentIds(planPresentIds, attendance)
     const presentEaters = presentIds ? eaters.filter(e => presentIds.includes(e.id)) : eaters
+    const scheduleSkip = scheduleSkipsMeal(rawDay.datum, kind, presentIds)
     const meal = attendance?.skip ? null : resolveDayMeal(day, meals)
     const recipeEntry = day.receptSlug ? recipeIndex.find(r => r.slug === day.receptSlug) ?? null : null
     const fullRecipe = day.receptSlug ? fullRecipes[day.receptSlug] : undefined
@@ -156,6 +163,7 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
       slug: day.receptSlug ?? null,
       mealSlug: attendance?.skip ? undefined : day.mealSlug,
       skip: !!attendance?.skip,
+      scheduleSkip,
       presentIds, planPresentIds, attendance, override, fast,
       meal, recipeEntry, fullRecipe, fit,
     }
@@ -177,7 +185,10 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
   const flatSlots = useMemo(() => daySlots.flatMap(d => [d.lunch, d.dinner]), [daySlots])
 
   const budgetSlotFlags: BudgetSlotFlags[] = useMemo(() => flatSlots.map(s => {
-    const needsMeal = !s.skip && (s.presentIds === null || s.presentIds.length > 0)
+    // A schedule-skipped slot (term-weekday lunch, kids at school) is not outstanding work
+    // — but if something *is* planned there anyway it still counts, so the budget never
+    // reads as fewer meals than the week actually holds.
+    const needsMeal = !s.skip && (!s.scheduleSkip || !!s.label) && (s.presentIds === null || s.presentIds.length > 0)
     const veganRequired = (s.presentIds ? eaters.filter(e => s.presentIds!.includes(e.id)) : eaters).some(e => e.kost?.includes('vegan'))
     const veganSatisfied = !!s.meal && !!s.fit
       && !s.fit.conflicts.some(c => c.reason === 'vegan')
@@ -223,10 +234,17 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
       const glyphs: string[] = []
       if (presentEaters.some(e => e.kost?.includes('vegan'))) glyphs.push('🌱')
       if (s.fast) glyphs.push('⚡')
-      const chip: SlotChipData = { date: s.date, kind: s.kind, dayLabel: dayLabel(s.date), free: !s.label, glyphs, occupantLabel: s.label ?? undefined }
+      const chip: SlotChipData = {
+        date: s.date, kind: s.kind, dayLabel: dayLabel(s.date), free: !s.label, glyphs,
+        occupantLabel: s.label ?? undefined,
+        note: !s.label && s.scheduleSkip ? SCHEDULE_SKIP_SHORT : undefined,
+      }
       if (s.label) occupied.push(chip)
       else free.push(chip)
     }
+    // Schedule-skipped slots stay pickable (a day off, a lov, leftovers to take along) but
+    // sort last and read "skoldag" instead of "ledig" — they're an exception, not a gap.
+    free.sort((a, b) => Number(!!a.note) - Number(!!b.note))
     if (preferredKey && leftoverHints[preferredKey]) {
       const preferredDate = leftoverHints[preferredKey]
       const idx = free.findIndex(f => f.date === preferredDate && f.kind === 'lunch')
@@ -360,7 +378,7 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
         if (extra.length > 0) glyphs.push(`👪 +${extra.length}`)
       }
       const poolEntry = pool.entries.find(e => e.slot?.date === s.date && e.slot?.kind === s.kind)
-      return { date: s.date, kind: s.kind, label: s.label, skip: s.skip, isLeftover: !!poolEntry?.resterAv, glyphs }
+      return { date: s.date, kind: s.kind, label: s.label, skip: s.skip, scheduleSkip: s.scheduleSkip, isLeftover: !!poolEntry?.resterAv, glyphs }
     }
     return {
       date: d.date,
@@ -430,7 +448,7 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
     else addOrRestoreByName(o.namn, { offerRef: { store: o.store, week: o.week } })
   }
 
-  const freeSlotCount = useMemo(() => flatSlots.filter(s => !s.skip && !s.label).length, [flatSlots])
+  const freeSlotCount = useMemo(() => flatSlots.filter(s => !s.skip && !s.scheduleSkip && !s.label).length, [flatSlots])
 
   return (
     <div className="planner">
@@ -541,6 +559,7 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
                 eaters={eaters}
                 activePlanIds={expandedInfo.planPresentIds ?? []}
                 fit={expandedInfo.fit}
+                scheduleSkip={expandedInfo.scheduleSkip}
                 fast={expandedInfo.fast}
                 haveNames={haveNames}
                 attendanceOpen={attendanceEditorOpen}

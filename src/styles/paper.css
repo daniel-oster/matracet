@@ -525,12 +525,23 @@ button.plan-cell { cursor: pointer; }
 .plan-slot-chip-k { color: var(--gold2); }
 .plan-slot-chip-glyph { font-size: 10.5px; }
 .plan-slot-chip--occ { border-style: dashed; color: var(--sub); background: transparent; }
+/* A free slot the schedule says needs no meal (term-weekday lunch) — still pickable, just
+   muted and sorted last, so it reads as an exception rather than an outstanding gap. */
+.plan-slot-chip--note { border-style: dotted; color: var(--muted); background: transparent; }
 .plan-slot-chip-dish { font-size: 11px; color: var(--blue); }
 .plan-slot-occ-toggle {
   display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--blue);
   background: none; border: none; font-family: inherit; padding: 7px 0 5px; cursor: pointer;
 }
 .plan-slot-picker-hint { font-size: 10.5px; color: var(--muted); padding-top: 5px; }
+.plan-slot-schedule-note {
+  font-size: 11px;
+  color: var(--sub);
+  background: var(--blue-bg);
+  border-radius: 6px;
+  padding: 6px 8px;
+  margin-bottom: 8px;
+}
 
 /* Steg 2-label above the board's sticky landscape column — the board has no such label in
    portrait, since the "📅 Placera på dagar" collapsible section header already says as much. */

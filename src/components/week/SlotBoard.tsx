@@ -5,6 +5,10 @@ export interface BoardCell {
   kind: MealKind
   label: string | null
   skip: boolean
+  /** Schedule says no meal is needed here (term-weekday lunch — see src/lib/mealNeed.ts).
+   *  Rendered like a skipped cell, but only when nothing is actually planned: a dish
+   *  assigned to such a slot always wins and shows normally. */
+  scheduleSkip: boolean
   isLeftover: boolean
   glyphs: string[]
 }
@@ -38,15 +42,17 @@ export default function SlotBoard({ rows, selected, onSelectCell }: Props) {
     const clickable = !!c.label && !c.skip && !!onSelectCell
     const cls = [
       'plan-cell',
-      !c.label && !c.skip ? 'plan-cell--empty' : '',
-      c.skip ? 'plan-cell--skip' : '',
+      !c.label && !c.skip && !c.scheduleSkip ? 'plan-cell--empty' : '',
+      c.skip || (c.scheduleSkip && !c.label) ? 'plan-cell--skip' : '',
       c.isLeftover ? 'plan-cell--rester' : '',
       isSelected ? 'plan-cell--active' : '',
     ].filter(Boolean).join(' ')
     const content = (
       <>
         <span className="plan-cell-k">{c.kind === 'lunch' ? '☼' : '☾'}</span>
-        <span className="plan-cell-dish">{c.skip ? 'ingen måltid' : c.label ?? 'ledig'}</span>
+        <span className="plan-cell-dish">
+          {c.skip ? 'ingen måltid' : c.label ?? (c.scheduleSkip ? 'skoldag' : 'ledig')}
+        </span>
         {c.glyphs.map(g => <span key={g} className="plan-cell-glyph">{g}</span>)}
       </>
     )

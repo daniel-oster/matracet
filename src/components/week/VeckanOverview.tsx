@@ -5,6 +5,7 @@ import { useWeekPlan, applyOverride, effectivePresentIds, diffAttendance } from 
 import { useFeedback } from '../../hooks/useFeedback'
 import { evaluateFit } from '../../lib/dietFit'
 import { resolveDayMeal } from '../../lib/mealResolve'
+import { scheduleSkipsMeal } from '../../lib/mealNeed'
 import WeekWarnings from './WeekWarnings'
 
 const DAY_NAMES: Record<string, string> = {
@@ -65,6 +66,10 @@ export default function VeckanOverview({ days, lunches, dayPlans, eaters, recipe
         const { away: dinnerAway, extra: dinnerExtra } = diffAttendance(planPresentIds, dinnerAttendance)
 
         const lunchLabel = lunch?.recept ?? lunch?.anteckning ?? null
+        // A term-weekday lunch with the kids at school isn't a gap — don't render it as one
+        // ("lunch ledig"). An actually planned lunch still shows, whatever the schedule says.
+        const lunchPresentIds = effectivePresentIds(planPresentIds, lunchAttendance)
+        const lunchNotNeeded = !lunchLabel && scheduleSkipsMeal(day.datum, 'lunch', lunchPresentIds)
         const dishLabel = day.recept ?? day.anteckning ?? null
 
         return (
@@ -75,10 +80,12 @@ export default function VeckanOverview({ days, lunches, dayPlans, eaters, recipe
             </div>
             <div className="vcard-body">
               <div className="vcard-dayname">{DAY_NAMES[day.dag] ?? day.dag}</div>
-              <div className={`vline${lunchLabel ? '' : ' empty'}`}>
-                <span className="vline-ic">☼</span>
-                <span className="vline-nm">{lunchLabel ?? 'lunch ledig'}</span>
-              </div>
+              {!lunchNotNeeded && (
+                <div className={`vline${lunchLabel ? '' : ' empty'}`}>
+                  <span className="vline-ic">☼</span>
+                  <span className="vline-nm">{lunchLabel ?? 'lunch ledig'}</span>
+                </div>
+              )}
               <div className={`vline${dishLabel ? '' : ' empty'}`}>
                 <span className="vline-ic">☾</span>
                 <span className="vline-nm">{dishLabel ?? 'middag ledig'}</span>

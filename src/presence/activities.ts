@@ -1,9 +1,19 @@
 import type { Activity } from './types'
 
-/** This term's activity schedule. validFrom/validUntil scope the entries so the
- *  model survives term changes without rewriting logic. Spring term ended
- *  2026-06-01 (validUntil below) — bump validFrom on each entry (or add new ones)
- *  once the autumn term's schedule is known. */
+/** The activity schedule, scoped by validFrom/validUntil so the model survives term
+ *  changes without rewriting logic — the same spring/summer/autumn split the presence
+ *  rules use (see seed.ts's mon-weekly → mon-weekly-summer → mon-weekly-autumn2026).
+ *
+ *  Two generations live here:
+ *    · the spring-2026 entries (validUntil 2026-06-01), kept so past weeks still resolve
+ *      correctly rather than being retroactively rewritten;
+ *    · the autumn-2026 entries (`*-ht26`, validFrom 2026-08-17, open-ended), added
+ *      2026-09-12 when the household reported being back on the term schedule.
+ *
+ *  Over the summer (2026-06-02 – 2026-08-16) no entry is valid at all, which is correct:
+ *  none of these classes ran. The autumn set is a straight reinstatement of the spring
+ *  weekly schedule ("vi har gått tillbaka till det veckoschema vi har under terminerna")
+ *  — times and days assumed unchanged; correct any that actually shifted. */
 export const ACTIVITIES: Activity[] = [
 
   // ── Sarah ──────────────────────────────────────────────────────────────────
@@ -191,6 +201,192 @@ export const ACTIVITIES: Activity[] = [
     affectsWindow: true,
     validFrom: '2026-01-01',
     validUntil: '2026-06-01',
+    notes: null,
+  },
+
+  // ── Höstterminen 2026 (från 2026-08-17) ──────────────────────────────────
+  // Samma veckoschema som vårterminen; öppna slutdatum tills VT2027 är känd.
+
+  {
+    id: 'sarah-fri-idrott-ht26',
+    personId: 'sarah',
+    label: 'Skola: Idrott',
+    weekday: 5,
+    startTime: null,
+    arriveBy: null,
+    leaveBy: null,
+    endTime: null,
+    affectsWindow: false,
+    validFrom: '2026-08-17',
+    validUntil: null,
+    notes: 'dagtid',
+  },
+  {
+    id: 'sarah-fri-hiphop-ht26',
+    personId: 'sarah',
+    label: 'Hiphop t/v nivå 1',
+    weekday: 5,
+    startTime: '17:30',
+    arriveBy: '17:15',
+    leaveBy: null,
+    endTime: '18:45',
+    affectsWindow: true,
+    validFrom: '2026-08-17',
+    validUntil: null,
+    notes: null,
+  },
+  {
+    id: 'sarah-sun-feminine-ht26',
+    personId: 'sarah',
+    label: 'Feminine vibe t/v nivå 2',
+    weekday: 7,
+    startTime: '12:00',
+    arriveBy: '11:45',
+    leaveBy: null,
+    endTime: '13:30',
+    affectsWindow: true,
+    validFrom: '2026-08-17',
+    validUntil: null,
+    notes: 'middag',
+  },
+  {
+    id: 'sarah-sun-jazz-ht26',
+    personId: 'sarah',
+    label: 'Jazz t/v nivå 2',
+    weekday: 7,
+    startTime: '17:45',
+    arriveBy: '17:30',
+    leaveBy: null,
+    endTime: '19:15',
+    affectsWindow: true,
+    validFrom: '2026-08-17',
+    validUntil: null,
+    notes: null,
+  },
+  {
+    id: 'sarah-mon-idrott-ht26',
+    personId: 'sarah',
+    label: 'Skola: Idrott',
+    weekday: 1,
+    startTime: null,
+    arriveBy: null,
+    leaveBy: null,
+    endTime: null,
+    affectsWindow: false,
+    validFrom: '2026-08-17',
+    validUntil: null,
+    notes: 'dagtid',
+  },
+  {
+    id: 'sarah-mon-teater-ht26',
+    personId: 'sarah',
+    label: 'Teater',
+    weekday: 1,
+    startTime: '18:00',
+    arriveBy: null,
+    leaveBy: null,
+    endTime: '20:00',
+    affectsWindow: true,
+    validFrom: '2026-08-17',
+    validUntil: null,
+    notes: 'preliminärt; ingen arrive/leave → startTime gäller som cutoff',
+  },
+  {
+    id: 'sarah-wed-twerk-ht26',
+    personId: 'sarah',
+    label: 'Girly Twerk/Dancehall',
+    weekday: 3,
+    startTime: '18:45',
+    arriveBy: '18:30',
+    leaveBy: null,
+    endTime: '20:15',
+    affectsWindow: true,
+    validFrom: '2026-08-17',
+    validUntil: null,
+    notes: null,
+  },
+  {
+    id: 'annabelle-fri-idrott-ht26',
+    personId: 'annabelle',
+    label: 'Skola: Idrott',
+    weekday: 5,
+    startTime: null,
+    arriveBy: null,
+    leaveBy: null,
+    endTime: null,
+    affectsWindow: false,
+    validFrom: '2026-08-17',
+    validUntil: null,
+    notes: 'dagtid',
+  },
+  {
+    id: 'annabelle-fri-ridning-ht26',
+    personId: 'annabelle',
+    label: 'Ridning',
+    weekday: 5,
+    startTime: '16:00',
+    arriveBy: '15:30',
+    leaveBy: null,
+    endTime: '17:00',
+    affectsWindow: true,
+    validFrom: '2026-08-17',
+    validUntil: null,
+    notes: 'senast 15:30',
+  },
+  {
+    id: 'annabelle-sun-trav-ht26',
+    personId: 'annabelle',
+    label: 'Trav',
+    weekday: 7,
+    startTime: '14:15',
+    arriveBy: null,
+    leaveBy: null,
+    endTime: '16:15',
+    affectsWindow: true,
+    validFrom: '2026-08-17',
+    validUntil: null,
+    notes: 'middag/eftermiddag',
+  },
+  {
+    id: 'annabelle-mon-klarinett-ht26',
+    personId: 'annabelle',
+    label: 'Skola: Klarinett',
+    weekday: 1,
+    startTime: null,
+    arriveBy: null,
+    leaveBy: null,
+    endTime: null,
+    affectsWindow: false,
+    validFrom: '2026-08-17',
+    validUntil: null,
+    notes: 'dagtid',
+  },
+  {
+    id: 'annabelle-mon-idrott-ht26',
+    personId: 'annabelle',
+    label: 'Skola: Idrott',
+    weekday: 1,
+    startTime: null,
+    arriveBy: null,
+    leaveBy: null,
+    endTime: null,
+    affectsWindow: false,
+    validFrom: '2026-08-17',
+    validUntil: null,
+    notes: 'dagtid',
+  },
+  {
+    id: 'annabelle-mon-modern-ht26',
+    personId: 'annabelle',
+    label: 'Modern 10–12',
+    weekday: 1,
+    startTime: '17:30',
+    arriveBy: '17:15',
+    leaveBy: null,
+    endTime: '18:30',
+    affectsWindow: true,
+    validFrom: '2026-08-17',
+    validUntil: null,
     notes: null,
   },
 ]

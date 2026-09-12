@@ -6,6 +6,10 @@ export interface SlotChipData {
   dayLabel: string
   free: boolean
   occupantLabel?: string
+  /** Set on a free slot the schedule says needs no meal (term-weekday lunch — see
+   *  src/lib/mealNeed.ts). Still pickable, just labelled with the reason instead of
+   *  "ledig" and sorted after the genuinely open slots. */
+  note?: string
   glyphs: string[]
 }
 
@@ -37,11 +41,11 @@ export default function SlotPicker({ targetLabel, freeSlots, occupiedSlots, onPi
           <button
             key={`${s.date}-${s.kind}`}
             type="button"
-            className="plan-slot-chip"
+            className={`plan-slot-chip${s.note ? ' plan-slot-chip--note' : ''}`}
             onClick={() => onPick(s.date, s.kind)}
           >
             <span className="plan-slot-chip-k">{s.dayLabel} {s.kind === 'lunch' ? '☼' : '☾'}</span>
-            ledig
+            {s.note ?? 'ledig'}
             {s.glyphs.map(g => <span key={g} className="plan-slot-chip-glyph">{g}</span>)}
           </button>
         ))}
