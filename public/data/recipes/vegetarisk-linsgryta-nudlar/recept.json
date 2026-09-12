@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "slug": "vegetarisk-linsgryta-nudlar",
+  "nummer": 133,
+  "namn": "Vegetarisk linsgryta med nudlar, kokosmjölk och zucchini",
+  "tid_min": 35,
+  "portioner": 4,
+  "kategorier": ["vegetarisk"],
+  "sasong": ["vår", "sommar", "höst"],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["gryta", "asiatiskt", "nudlar", "linser", "kokosmjölk", "zucchini", "vardagsmat"],
+  "kalla": "Landleys Kök (ur kokboken Grytor – lättlagat till vardag och helg)",
+  "kallaUrl": "https://www.landleyskok.se/recept/vegetarisk-linsgryta-med-nudlar-kokosmjolk-och-zucchini",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=400&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "gul lök", "mangd": 1, "enhet": "st", "grupp": "gryta" },
+    { "vara": "zucchini (ca 375 g)", "mangd": 1, "enhet": "st", "grupp": "gryta" },
+    { "vara": "sesamolja", "mangd": 0.5, "enhet": "dl", "grupp": "gryta" },
+    { "vara": "majs på burk (160 g)", "mangd": 1, "enhet": "burk", "grupp": "gryta" },
+    { "vara": "vitlöksklyftor", "mangd": 3, "enhet": "st", "grupp": "gryta" },
+    { "vara": "tomatpuré", "mangd": 0.5, "enhet": "dl", "grupp": "gryta" },
+    { "vara": "chipotlepasta", "mangd": 1, "enhet": "msk", "grupp": "gryta" },
+    { "vara": "lime (saft och rivet skal)", "mangd": 0.5, "enhet": "st", "grupp": "gryta" },
+    { "vara": "kokosmjölk (400 g)", "mangd": 1, "enhet": "burk", "grupp": "gryta" },
+    { "vara": "vatten", "mangd": 4, "enhet": "dl", "grupp": "gryta" },
+    { "vara": "gröna linser", "mangd": 2, "enhet": "dl", "grupp": "gryta" },
+    { "vara": "ramennudlar eller äggnudlar", "mangd": 150, "enhet": "g", "grupp": "gryta" },
+    { "vara": "salt och svartpeppar", "mangd": 1, "enhet": "tsk", "grupp": "gryta" },
+    { "vara": "färsk koriander", "mangd": 0.5, "enhet": "kruka", "grupp": "till servering" },
+    { "vara": "salladslök", "mangd": 2, "enhet": "st", "grupp": "till servering" },
+    { "vara": "grön chilifrukt", "mangd": 1, "enhet": "st", "grupp": "till servering" },
+    { "vara": "röd chilifrukt", "mangd": 1, "enhet": "st", "grupp": "till servering" }
+  ],
+  "varianter": {
+    "vegansk": {
+      "byt": {
+        "ramennudlar eller äggnudlar": "ramennudlar (kontrollera att märket är äggfritt)"
+      }
+    },
+    "glutenfri": {
+      "byt": {
+        "ramennudlar eller äggnudlar": "risnudlar eller glasnudlar (blandas i på slutet)"
+      }
+    }
+  },
+  "instruktioner": [
+    "Hacka löken och skär zucchinin till centimeterstora kuber. Hetta upp sesamolja i en gryta och lägg i zucchini och lök. Stek under omrörning några minuter så det får lite yta. Ha sedan ner avrunnen majs och finhackad vitlök.",
+    "Stek ytterligare någon minut och rör sedan i tomatpuré, chipotlepasta, saften och rivet skal från en halv lime, kokosmjölk och vatten (skölj ur förpackningen med lite av vattnet och ha ner i grytan).",
+    "Koka upp saltat vatten och häll i linserna. Låt dem sjuda i 10 minuter. Slå av vattnet och ha ner linserna i grytan.",
+    "Koka nudlarna enligt anvisningen på förpackningen men dra av en minut på koktiden. Skölj nudlarna i kallt vatten och ha sedan ner dem i grytan. Smaka av med salt och peppar och låt puttra ihop några minuter.",
+    "Servera med färsk koriander och skivad salladslök. Dekorera gärna med skivad grön och röd chili om du gillar het mat."
+  ],
+  "tips": "Välj ramennudlar för ett helt vegetariskt och veganskt recept – observera att vissa märken använder ägg i sina ramennudlar. Risnudlar eller glasnudlar gör grytan glutenfri. Vill du ha mer crunch kan du hacka saltade jordnötter och strö över på tallriken.",
+  "komplett": true
+}
