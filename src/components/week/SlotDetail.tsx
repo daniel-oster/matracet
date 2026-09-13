@@ -17,6 +17,9 @@ interface Props {
   eaters: Eater[]
   activePlanIds: string[]
   fit: DietFitResult | null
+  /** Schedule says no meal is needed in this slot (term-weekday lunch — see
+   *  src/lib/mealNeed.ts). Shown as a note, never a block: planning one anyway is fine. */
+  scheduleSkip: boolean
   fast: boolean
   haveNames: string[]
   attendanceOpen: boolean
@@ -42,7 +45,7 @@ interface Props {
  */
 export default function SlotDetail({
   kind, dayLabel, label, slug, meal, override, attendance, away, extra, eaters, activePlanIds,
-  fit, fast, haveNames, attendanceOpen,
+  fit, scheduleSkip, fast, haveNames, attendanceOpen,
   onOpenRecipe, onClear, onToggleAttendanceOpen, onToggleAttendee, onToggleSkip, onResetAttendance,
   onSetFast, onComponentSwap, onShopComponents, onClose,
 }: Props) {
@@ -52,6 +55,11 @@ export default function SlotDetail({
         <span className="plan-slot-detail-day">{dayLabel} · {kind === 'lunch' ? '☼ Lunch' : '☾ Middag'}</span>
         <button type="button" className="plan-slot-picker-close" onClick={onClose}>✕</button>
       </div>
+      {scheduleSkip && !label && (
+        <div className="plan-slot-schedule-note">
+          Skoldag – ingen lunch behövs hemma. Planera ändå om ni är hemma den här dagen.
+        </div>
+      )}
       <div className="active-slot">
         <span className={`active-slot-dish${label ? '' : ' empty'}`}>{attendance?.skip ? 'ingen måltid behövs' : label ?? 'ledig'}</span>
         {slug && <button type="button" className="active-slot-open" onClick={() => onOpenRecipe(slug)}>Recept ›</button>}

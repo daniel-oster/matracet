@@ -2276,6 +2276,58 @@ weeks in the past, one slotted to today, one unslotted with an old `addedAt` —
 only the stale slotted one disappeared from "Veckans måltider"; today's dish and the unslotted
 backlog idea both still rendered correctly.
 
+## Schedule-driven meal need: no weekday lunch during term (2026-09)
+
+Household report once the autumn term started: Planera nagged about ~5 weekday lunches
+nobody eats at home, and the budget ("N av M måltider klara") could therefore never reach M.
+Until now every one of the rolling window's 14 slots counted as needing a meal as long as
+someone was present — the only way to say otherwise was `MealAttendance.skip`, a *manual*
+per-slot toggle meant for one-off nights out, not a recurring fact about the calendar.
+
+`src/lib/mealNeed.ts` is the whole decision, pure and unit-tested (`mealNeed.test.ts`):
+`TERM_PERIODS` (VT2026 + HT2026 from `2026-08-17`, mirroring the presence rules' own
+spring/summer/autumn split), `SCHOOL_CHILD_IDS`, `isoWeekday`/`isTermDate`/`isSchoolDay`, and
+`scheduleSkipsMeal(date, kind, presentIds)`.
+
+Three deliberate scope decisions worth not re-litigating:
+- **Scoped to barnveckor, exactly as asked.** The rule fires only when a school-age child is
+  among the day's eaters. A weekday lunch on a mother-week (Daniel, or Daniel + Erika) is
+  left alone — nobody said those aren't wanted, and widening the rule would hide slots the
+  household may well use.
+- **A default, never a lock.** `scheduleSkip` never clears an assignment and never blocks
+  one: a slot that already holds a dish still counts toward the budget (`needsMeal =
+  !skip && (!scheduleSkip || !!label) && …`), the slot stays pickable in the assign picker
+  (chip reads `skoldag`, dotted border, sorted after the genuinely open slots), the board
+  cell renders like a skipped one only while empty, and `SlotDetail` explains why with
+  "Planera ändå om ni är hemma den här dagen". `VeckanOverview` simply omits the lunch line
+  on such a day rather than printing "lunch ledig" at it.
+- **`presentIds === null` (unknown attendance) never skips.** The safe direction is to keep
+  asking for a meal.
+
+**Known gap, stated rather than silently assumed**: school breaks *inside* a term (höstlov,
+jullov, sportlov) aren't modelled — on those weekdays the app still says no lunch is needed.
+Add them to `TERM_PERIODS` (split a period, or add an exclusion list) once the real dates are
+known; until then a break week is handled like any other exception, by planning the lunch
+anyway from the picker.
+
+**Also in this pass: the term activity schedule was reinstated.** Every entry in
+`src/presence/activities.ts` had `validUntil: '2026-06-01'`, so from the moment spring term
+ended *no* activity constrained any dinner window — every day resolved `OPEN`, and the
+household's "vi har gått tillbaka till det veckoschema vi har under terminerna" was simply
+not represented anywhere in the data. Added a second generation of entries (`*-ht26`,
+`validFrom: '2026-08-17'`, open-ended), a straight reinstatement of the spring weekly
+schedule, following the same duplicate-don't-rewrite convention `seed.ts`'s presence rules
+already use (`mon-weekly` → `mon-weekly-summer` → `mon-weekly-autumn2026`) so past weeks keep
+resolving correctly. Times/days are assumed unchanged from spring — verified only that they
+now bind again (Sun `↓ senast 17:30`, Mon `⚠ mat senast 17:15`, Wed `↓ senast 18:30` all
+reappear in Vecka), not that the real 2026 autumn class times are identical.
+
+Verified end-to-end with a throwaway Playwright script (not committed) against `npm run
+preview` at the 2026-09-12 rolling window (Sat 12 – Fri 18, a barnvecka Sat–Thu): budget
+`0 av 10 klara` (was 14), Mon–Thu lunch cells read `skoldag` while Fri's Erika-week lunch
+stays `ledig`, the four skoldag chips sort last in the picker and are still clickable, and
+the Vecka read view drops those lunch lines entirely.
+
 ## Printing a recipe (2026-08)
 
 A 🖨 button in `RecipeOverlay`'s toolbar calls `window.print()`; everything else lives in the
