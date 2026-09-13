@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "slug": "italienska-frikadeller-tomat-paprikasas",
+  "nummer": 134,
+  "namn": "Italienska frikadeller i tomat- och paprikasås",
+  "tid_min": 50,
+  "portioner": 4,
+  "kategorier": [
+    "kott"
+  ],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": [
+    "köttfärs",
+    "pasta",
+    "italienskt",
+    "vardag"
+  ],
+  "kalla": "Coop",
+  "kallaUrl": "https://www.coop.se/recept/italienska-frikadeller-i-tomat-och-paprikasas/",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1632808664408-f8ab196b0523?w=800&auto=format&fit=crop",
+  "ingredienser": [
+    { "vara": "nötfärs", "mangd": 500, "enhet": "g" },
+    { "vara": "ägg", "mangd": 1, "enhet": "st" },
+    { "vara": "tomatpuré", "mangd": 0.5, "enhet": "dl" },
+    { "vara": "finriven parmesan", "mangd": 4, "enhet": "dl" },
+    { "vara": "persilja", "mangd": 1, "enhet": "dl" },
+    { "vara": "svartpeppar", "mangd": 0.5, "enhet": "tsk" },
+    { "vara": "salt", "mangd": 1, "enhet": "tsk" },
+    { "vara": "grillad paprika i olja (ca 290 g)", "mangd": 1, "enhet": "burk", "grupp": "tomat- och paprikasås" },
+    { "vara": "hackad gul lök", "mangd": 1, "enhet": "st", "grupp": "tomat- och paprikasås" },
+    { "vara": "rivna vitlöksklyftor", "mangd": 3, "enhet": "st", "grupp": "tomat- och paprikasås" },
+    { "vara": "tomatpuré", "mangd": 2, "enhet": "msk", "grupp": "tomat- och paprikasås" },
+    { "vara": "krossade tomater", "mangd": 500, "enhet": "g", "grupp": "tomat- och paprikasås" },
+    { "vara": "vatten", "mangd": 1, "enhet": "dl", "grupp": "tomat- och paprikasås" },
+    { "vara": "salt, efter smak", "mangd": 1, "enhet": "krm", "grupp": "tomat- och paprikasås" },
+    { "vara": "hackad persilja", "mangd": 1, "enhet": "dl", "grupp": "topping" },
+    { "vara": "riven parmesan", "mangd": 1, "enhet": "dl", "grupp": "topping" },
+    { "vara": "citron, finrivet skal (valfritt)", "mangd": 0.5, "enhet": "st", "grupp": "topping" },
+    { "vara": "spagetti", "mangd": 4, "enhet": "portioner", "grupp": "servering" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Hacka de grillade paprikorna om de är i stora bitar. Stek lök, vitlök och paprika i lite olja från paprikan.",
+    "Tillsätt tomatpurén och stek någon minut under omrörning. Häll i krossade tomater och vatten och låt sjuda i 10 minuter. Smaka av med salt. Mixa gärna såsen slät om du vill.",
+    "Blanda färsen med ägg, tomatpuré, parmesan, persilja, salt och peppar. Rulla ca 10 stora köttbullar.",
+    "Lägg ner köttbullarna i tomatsåsen och låt koka klart under lock, cirka 25 minuter.",
+    "Koka pastan enligt anvisning på förpackningen. Servera med den nykokta pastan och toppa med persilja, parmesan och gärna lite rivet citronskal."
+  ],
+  "servering": [],
+  "tips": "Gör sås och frikadeller dagen innan och koka bara pastan till servering.",
+  "komplett": true
+}
