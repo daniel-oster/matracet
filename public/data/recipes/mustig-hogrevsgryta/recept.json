@@ -1,0 +1,162 @@
+{
+  "schema_version": "1.0",
+  "slug": "mustig-hogrevsgryta",
+  "nummer": 135,
+  "namn": "Mustig högrevsgryta",
+  "tid_min": 150,
+  "portioner": 6,
+  "kategorier": [
+    "kott"
+  ],
+  "sasong": [
+    "host",
+    "vinter"
+  ],
+  "svarighet": "medel",
+  "barnvanlig": "delvis",
+  "taggar": [
+    "nötkött",
+    "högrev",
+    "gryta",
+    "långkok",
+    "svamp",
+    "festligt"
+  ],
+  "kalla": "Köket.se",
+  "kallaUrl": "https://www.koket.se/mustig-hogrevsgryta",
+  "dagkedja": null,
+  "bildUrl": "https://images.unsplash.com/photo-1534939561126-855b8675edd7?w=800&h=600&auto=format&fit=crop&crop=top",
+  "ingredienser": [
+    {
+      "vara": "högrev",
+      "mangd": 1.2,
+      "enhet": "kg"
+    },
+    {
+      "vara": "smör",
+      "mangd": 1,
+      "enhet": "msk"
+    },
+    {
+      "vara": "rapsolja",
+      "mangd": 1,
+      "enhet": "msk"
+    },
+    {
+      "vara": "morot",
+      "mangd": 2,
+      "enhet": "st"
+    },
+    {
+      "vara": "palsternacka, stor",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "gul lök, stor",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "vitlök",
+      "mangd": 3,
+      "enhet": "klyftor"
+    },
+    {
+      "vara": "tomatpuré",
+      "mangd": 4,
+      "enhet": "msk"
+    },
+    {
+      "vara": "vetemjöl",
+      "mangd": 2,
+      "enhet": "msk"
+    },
+    {
+      "vara": "rött vin",
+      "mangd": 5,
+      "enhet": "dl"
+    },
+    {
+      "vara": "färsk timjan",
+      "mangd": 3,
+      "enhet": "kvistar"
+    },
+    {
+      "vara": "lagerblad",
+      "mangd": 4,
+      "enhet": "st"
+    },
+    {
+      "vara": "kalvfond, koncentrerad",
+      "mangd": 4,
+      "enhet": "msk"
+    },
+    {
+      "vara": "grönsaksfond, koncentrerad",
+      "mangd": 2,
+      "enhet": "msk"
+    },
+    {
+      "vara": "vatten",
+      "mangd": 5,
+      "enhet": "dl"
+    },
+    {
+      "vara": "steklök, små",
+      "mangd": 500,
+      "enhet": "g"
+    },
+    {
+      "vara": "champinjoner, små",
+      "mangd": 250,
+      "enhet": "g"
+    },
+    {
+      "vara": "rökt sidfläsk (el. bacon)",
+      "mangd": 200,
+      "enhet": "g"
+    },
+    {
+      "vara": "salt",
+      "mangd": null,
+      "enhet": null
+    },
+    {
+      "vara": "peppar",
+      "mangd": null,
+      "enhet": null
+    },
+    {
+      "vara": "persilja",
+      "mangd": null,
+      "enhet": null,
+      "grupp": "servering"
+    },
+    {
+      "vara": "potatis eller lantbröd",
+      "mangd": 6,
+      "enhet": "port",
+      "grupp": "servering"
+    }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Skär köttet i bitar och bryn det i en het stekpanna med smör och olja. Krydda med salt och peppar och lägg över i en stor gryta.",
+    "Skär morötter och palsternacka i grova bitar. Skiva löken i 1 cm ringar och vitlöken tunt. Fräs allt i stekpannan – inte i grytan – och rör ner tomatpuré och vetemjöl.",
+    "Häll på vinet, lägg i timjankvistar och lagerblad. Koka upp och låt puttra ca 5 minuter i pannan.",
+    "Häll över allt i grytan med köttet. Tillsätt fonderna och sedan vatten så att det täcker (4–5 dl, mer om grytan är stor).",
+    "Låt puttra tills köttet är mört, ca 1–2 timmar.",
+    "Under tiden: skala steklökarna och skiva champinjonerna grovt. Tärna sidfläsket (eller strimla baconet) och stek det. När det nästan är klart, tillsätt champinjoner och de hela steklökarna.",
+    "När köttet är mört, rör ner lök, svamp och fläsk och låt puttra ytterligare 20–30 minuter.",
+    "Är grytan för tunn, red av med lite maizenamjöl; är den för tjock, späd med utspädd buljong. Smaka av med salt och peppar.",
+    "Garnera med persilja och servera med potatis eller ett gott lantbröd."
+  ],
+  "servering": [
+    "potatis",
+    "lantbröd",
+    "persilja"
+  ],
+  "tips": "En svensk Boeuf Bourguignon – fräs grönsakerna i pannan, inte i grytan, så får såsen mer smak. Blir ännu godare dagen efter.",
+  "komplett": true
+}
