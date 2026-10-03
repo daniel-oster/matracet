@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Offer, OffersIndex, OffersLatest, StoreOffers } from '../types'
 import { candidateWeeks, filterStoresToRange, staleWeekNote, type DateRange } from '../lib/offerValidity'
+import { fetchData } from '../lib/dataFetch'
 
 const BASE = '/matracet/data/erbjudanden'
 
@@ -11,7 +12,7 @@ const weekCache = new Map<string, Promise<StoreOffers[]>>()
 
 function loadIndex(): Promise<OffersIndex> {
   if (!indexCache) {
-    indexCache = fetch(`${BASE}/_index.json`)
+    indexCache = fetchData(`${BASE}/_index.json`)
       .then(r => {
         if (!r.ok) throw new Error(`_index.json fetch failed: ${r.status}`)
         return r.json() as Promise<OffersIndex>
@@ -29,7 +30,7 @@ function loadIndex(): Promise<OffersIndex> {
 
 function loadLatest(): Promise<OffersLatest> {
   if (!latestCache) {
-    latestCache = fetch(`${BASE}/_latest.json`)
+    latestCache = fetchData(`${BASE}/_latest.json`)
       .then(r => {
         if (!r.ok) throw new Error(`_latest.json fetch failed: ${r.status}`)
         return r.json() as Promise<OffersLatest>
@@ -48,7 +49,7 @@ function loadWeek(vecka: string, butiker: { id: string }[]): Promise<StoreOffers
       vecka,
       Promise.all(
         butiker.map(b =>
-          fetch(`${BASE}/${b.id}/${vecka}.json`)
+          fetchData(`${BASE}/${b.id}/${vecka}.json`)
             .then(r => (r.ok ? (r.json() as Promise<StoreOffers>) : null))
             .catch(() => null),
         ),

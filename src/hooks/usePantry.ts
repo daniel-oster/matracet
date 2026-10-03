@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Pantry } from '../types'
+import { fetchData } from '../lib/dataFetch'
 
 const URL = '/matracet/data/pantry.json'
 
@@ -7,7 +8,7 @@ let cache: Promise<Pantry | null> | null = null
 
 function load(): Promise<Pantry | null> {
   if (!cache) {
-    cache = fetch(URL)
+    cache = fetchData(URL)
       .then(r => (r.ok ? (r.json() as Promise<Pantry>) : null))
       .catch(() => null)
       .then(result => {

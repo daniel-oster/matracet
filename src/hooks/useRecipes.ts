@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Recipe } from '../types'
+import { fetchData } from '../lib/dataFetch'
 
 // Module-level cache so every hook instance shares one fetch per slug.
 const cache = new Map<string, Promise<Recipe | null>>()
@@ -8,7 +9,7 @@ function loadRecipe(slug: string): Promise<Recipe | null> {
   if (!cache.has(slug)) {
     cache.set(
       slug,
-      fetch(`/matracet/data/recipes/${slug}/recept.json`)
+      fetchData(`/matracet/data/recipes/${slug}/recept.json`)
         .then(r => (r.ok ? (r.json() as Promise<Recipe>) : null))
         .catch(() => null),
     )

@@ -31,6 +31,7 @@ import { applyTaskOutcome } from './lib/syncTaskOutcomes'
 import { hydrateFromSync } from './lib/syncHydration'
 import { startSyncPusher, seedKnownSha } from './lib/syncPusher'
 import { parseRecipeHash, parseRecipePath, recipePath } from './lib/recipeLink'
+import { fetchData } from './lib/dataFetch'
 
 function dagFromDate(isoDate: string): string {
   const names = ['sondag', 'mandag', 'tisdag', 'onsdag', 'torsdag', 'fredag', 'lordag']
@@ -101,7 +102,7 @@ export default function App() {
     const weeksNeeded = [...new Set(windowDates.map(getISOWeekString))]
 
     const weekFetches = weeksNeeded.map(w =>
-      fetch(`/matracet/data/weeks/${w}.json`)
+      fetchData(`/matracet/data/weeks/${w}.json`)
         .then(r => r.ok ? r.json() as Promise<WeekMenu> : null)
         .catch(() => null),
     )
@@ -110,18 +111,18 @@ export default function App() {
       // These two are the only files the app genuinely cannot start without — unlike every
       // other fetch in this chain, a failure here must surface as a real error state (see
       // the .catch on the whole Promise.all below), not silently fall back to null.
-      fetch('/matracet/data/eaters.json').then(r => {
+      fetchData('/matracet/data/eaters.json').then(r => {
         if (!r.ok) throw new Error(`eaters.json fetch failed: ${r.status}`)
         return r.json() as Promise<EatersData>
       }),
-      fetch('/matracet/data/recipes/_index.json').then(r => {
+      fetchData('/matracet/data/recipes/_index.json').then(r => {
         if (!r.ok) throw new Error(`recipes/_index.json fetch failed: ${r.status}`)
         return r.json() as Promise<RecipeIndex>
       }),
-      fetch('/matracet/data/meals.json').then(r => r.ok ? r.json() as Promise<MealsFile> : null).catch(() => null),
-      fetch('/matracet/data/history.json').then(r => r.ok ? r.json() as Promise<HistoryFile> : null).catch(() => null),
-      fetch('/matracet/data/feedback.json').then(r => r.ok ? r.json() as Promise<FeedbackFile> : null).catch(() => null),
-      fetch('/matracet/data/task-log.json').then(r => r.ok ? r.json() as Promise<TaskLogFile> : null).catch(() => null),
+      fetchData('/matracet/data/meals.json').then(r => r.ok ? r.json() as Promise<MealsFile> : null).catch(() => null),
+      fetchData('/matracet/data/history.json').then(r => r.ok ? r.json() as Promise<HistoryFile> : null).catch(() => null),
+      fetchData('/matracet/data/feedback.json').then(r => r.ok ? r.json() as Promise<FeedbackFile> : null).catch(() => null),
+      fetchData('/matracet/data/task-log.json').then(r => r.ok ? r.json() as Promise<TaskLogFile> : null).catch(() => null),
       ...weekFetches,
     ]).then(([eatersData, indexData, mealsData, historyData, feedbackData, taskLogData, ...weekResults]: [EatersData, RecipeIndex, MealsFile | null, HistoryFile | null, FeedbackFile | null, TaskLogFile | null, ...(WeekMenu | null)[]]) => {
       setEaters(eatersData)
