@@ -12,7 +12,7 @@
   "taggar": ["gryta", "rotfrukter", "rödbetor", "morötter", "potatis", "billig"],
   "kalla": "Eget recept",
   "dagkedja": null,
-  "bildUrl": "https://images.unsplash.com/photo-1547592180-85f173990554?w=800&auto=format&fit=crop",
+  "bildUrl": "https://images.unsplash.com/photo-1526401363794-c96708fb8089?w=800&auto=format&fit=crop",
   "ingredienser": [
     { "vara": "potatis", "mangd": 4, "enhet": "st" },
     { "vara": "morötter", "mangd": 3, "enhet": "st" },
