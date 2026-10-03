@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Bevakningslista, BevakningItem } from '../types'
+import { fetchData } from '../lib/dataFetch'
 
 const URL = '/matracet/data/erbjudanden/bevakningslista.json'
 
@@ -7,7 +8,7 @@ let cache: Promise<BevakningItem[] | null> | null = null
 
 function load(): Promise<BevakningItem[] | null> {
   if (!cache) {
-    cache = fetch(URL)
+    cache = fetchData(URL)
       .then(r => (r.ok ? (r.json() as Promise<Bevakningslista>).then(d => d.varor) : null))
       .catch(() => null)
       .then(result => {

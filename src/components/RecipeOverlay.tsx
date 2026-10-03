@@ -4,6 +4,7 @@ import IngredientPickerModal from './IngredientPickerModal'
 import { currentRecipeUrl } from '../lib/recipeLink'
 import { showToast } from '../lib/toastStore'
 import { useEscapeToClose } from '../hooks/useEscapeToClose'
+import { fetchData } from '../lib/dataFetch'
 
 interface WakeLockSentinel {
   release(): Promise<void>
@@ -44,7 +45,7 @@ export default function RecipeOverlay({ slug, onClose }: Props) {
   useEffect(() => {
     setLoading(true)
     setRecipe(null)
-    fetch(`/matracet/data/recipes/${slug}/recept.json`)
+    fetchData(`/matracet/data/recipes/${slug}/recept.json`)
       .then(r => r.json())
       .then((data: Recipe) => { setRecipe(data); setLoading(false) })
       .catch(() => setLoading(false))

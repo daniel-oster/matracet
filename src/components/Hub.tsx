@@ -61,7 +61,7 @@ export default function Hub({ weekLabel, rollingDays, recipeIndex, meals, dayPla
           <button
             className="hub-refresh-btn"
             onClick={hardRefresh}
-            title="Hämta senaste versionen av appen (rensar inte dina sparade val)"
+            title="Hämta senaste versionen av appen och dess data (rensar inte dina sparade val)"
           >
             ⟳
           </button>

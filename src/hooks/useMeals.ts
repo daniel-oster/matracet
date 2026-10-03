@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import type { Meal, MealsFile } from '../types/meal'
+import { fetchData } from '../lib/dataFetch'
 
 const URL = '/matracet/data/meals.json'
 
@@ -7,7 +8,7 @@ let cache: Promise<Meal[]> | null = null
 
 function load(): Promise<Meal[]> {
   if (!cache) {
-    cache = fetch(URL)
+    cache = fetchData(URL)
       .then(r => (r.ok ? (r.json() as Promise<MealsFile>) : null))
       .then(f => f?.meals ?? [])
       .catch(() => [])
