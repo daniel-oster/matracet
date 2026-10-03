@@ -78,10 +78,10 @@
     {"slug":"tacos-kottfars","nummer":76,"namn":"Tacos med köttfärs","tid_min":30,"kategorier":["kott"],"bildUrl":"https://images.unsplash.com/photo-1529042410759-befb1204b468?w=400&auto=format&fit=crop"},
     {"slug":"flaskfile-ugn","nummer":77,"namn":"Fläskfilé i ugn","tid_min":55,"kategorier":["kott","glutenfri"],"bildUrl":"https://images.unsplash.com/photo-1580476262798-bddd9f4b7369?w=400&auto=format&fit=crop"},
     {"slug":"kramig-kycklinggryta-soltorkade-tomater","nummer":78,"namn":"Krämig kycklinggryta med soltorkade tomater","tid_min":30,"kategorier":["kott","glutenfri"],"bildUrl":"https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=400&auto=format&fit=crop"},
-    {"slug":"lammgryta","nummer":79,"namn":"Lammgryta med rosmarin","tid_min":120,"kategorier":["kott","glutenfri"],"bildUrl":"https://images.unsplash.com/photo-1602470520998-f4a52199a3d6?w=400&auto=format&fit=crop"},
+    {"slug":"lammgryta","nummer":79,"namn":"Lammgryta med rosmarin","tid_min":120,"kategorier":["kott","glutenfri"],"bildUrl":"https://images.unsplash.com/photo-1608500219063-e5164085cd6f?w=400&auto=format&fit=crop"},
     {"slug":"kyckling-plat-rotsaker","nummer":80,"namn":"Kyckling på plåt med ugnsrostade rotsaker","tid_min":45,"kategorier":["kott","glutenfri"],"bildUrl":"https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=400&auto=format&fit=crop"},
     {"slug":"flygande-jakob","nummer":81,"namn":"Flygande Jakob","tid_min":45,"kategorier":["kott","glutenfri"],"bildUrl":"https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=400&auto=format&fit=crop"},
-    {"slug":"biff-stroganoff","nummer":82,"namn":"Biff Stroganoff","tid_min":90,"kategorier":["kott","glutenfri"],"bildUrl":"https://images.unsplash.com/photo-1546964124-0cce460f38ef?w=400&auto=format&fit=crop"},
+    {"slug":"biff-stroganoff","nummer":82,"namn":"Biff Stroganoff","tid_min":90,"kategorier":["kott","glutenfri"],"bildUrl":"https://images.unsplash.com/photo-1644592219048-5c070fd3c91c?w=400&auto=format&fit=crop"},
     {"slug":"falukorv-stuvade-makaroner","nummer":83,"namn":"Falukorv med stuvade makaroner","tid_min":30,"kategorier":["kott"],"bildUrl":"https://images.unsplash.com/photo-1611599537845-1c7aca0091c0?w=400&auto=format&fit=crop"},
     {"slug":"flaskkarre-apple-ingefara","nummer":84,"namn":"Fläskkarré i ugn med äpple och ingefära","tid_min":90,"kategorier":["kott","glutenfri","laktosfri"],"bildUrl":"https://images.unsplash.com/photo-1580476262798-bddd9f4b7369?w=400&auto=format&fit=crop"},
     {"slug":"asiatiska-kycklingkottbullar","nummer":85,"namn":"Asiatiska kycklingköttbullar i röd curry med kokosris","tid_min":45,"kategorier":["kott"],"bildUrl":"https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=400&auto=format&fit=crop"},
@@ -133,6 +133,6 @@
     {"slug":"kikartsgryta-rod-curry-kokos","nummer":132,"namn":"Kikärtsgryta med röd curry och kokosmjölk","tid_min":25,"kategorier":["vegansk"],"bildUrl":"/matracet/data/recipes/kikartsgryta-rod-curry-kokos/bild.jpg"},
     {"slug":"vegetarisk-linsgryta-nudlar","nummer":133,"namn":"Vegetarisk linsgryta med nudlar, kokosmjölk och zucchini","tid_min":35,"kategorier":["vegetarisk"],"bildUrl":"https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=400&auto=format&fit=crop"},
     {"slug":"italienska-frikadeller-tomat-paprikasas","nummer":134,"namn":"Italienska frikadeller i tomat- och paprikasås","tid_min":50,"kategorier":["kott"],"bildUrl":"https://images.unsplash.com/photo-1632808664408-f8ab196b0523?w=400&auto=format&fit=crop"},
-    {"slug":"mustig-hogrevsgryta","nummer":135,"namn":"Mustig högrevsgryta","tid_min":150,"kategorier":["kott"],"bildUrl":"https://images.unsplash.com/photo-1534939561126-855b8675edd7?w=400&h=300&auto=format&fit=crop&crop=top"}
+    {"slug":"mustig-hogrevsgryta","nummer":135,"namn":"Mustig högrevsgryta","tid_min":150,"kategorier":["kott"],"bildUrl":"https://images.unsplash.com/photo-1608500218919-0df503673764?w=400&auto=format&fit=crop"}
   ]
 }
