@@ -3182,6 +3182,15 @@
     "kalla": "regel",
     "updated": "2026-10-24"
   },
+  "dammvippa startkit~": {
+    "kategori": "stad_disk_tvatt",
+    "form": null,
+    "varutyp": "stad_disk_tvatt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-10-24"
+  },
   "dammvippa~": {
     "kategori": "stad_disk_tvatt",
     "form": null,
@@ -8122,6 +8131,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-08-31"
+  },
+  "harfarg root concealer~loral casting cream gloss excellence prfrence magic retoucher": {
+    "kategori": "hygien",
+    "form": null,
+    "varutyp": "hygien",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-10-24"
   },
   "harfarg root retoucher~schwarzkopf natural easy men perfect root retoucher": {
     "kategori": "hygien",

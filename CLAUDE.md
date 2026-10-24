@@ -1151,6 +1151,35 @@ rather than rendering an ambiguous empty list; while the files are still loading
 uses the shared type, so the next field added there can't silently miss a call site. Run
 `npx tsc --noEmit -p tsconfig.app.json`, never a bare `tsc`, to see this class of error.
 
+### Weekly offer import is automatic (2026-10)
+
+`.github/workflows/erbjudanden-weekly.yml` runs `scripts/erbjudanden-weekly.mjs` every Monday
+04:17 UTC (and on `workflow_dispatch`): fetches all three stores (see the "Store offers can be
+fetched directly" lesson below), classifies lexicon-first, drops what the household never buys
+on a grocery run, writes `<store>/<vecka>.json` + `_index.json` + `_latest.json`, runs
+`erbjudanden-verify.mjs`, commits straight to `main` and dispatches `deploy.yml` (a
+`GITHUB_TOKEN` push never triggers it on its own — same gap as the device-sync merge
+workflow). No LLM involved. Re-running the script is idempotent.
+
+**What gets dropped, decided with the household (2026-10)**: blöjor/babyvård and
+djurmat/djurtillbehör at every store (`DROP_LEAVES` — they don't want either), candles/lanterns/
+socks/batteries by name (`DROP_NAME_RE`), and at ICA everything in ICA's own "Hem & fritid" /
+"Hälsa & skönhet" department unless it classifies as a consumable (`KEEP_FROM_ICA_HOME`:
+städ, papper/påsar, hygien, hälsa, engångs/grill, skadedjur, blommor). That department rule
+reproduced the manual W43 review on 136 of 143 items; the misses were gränsfall (mopp
+startkits, hårfärg kept; a krukväxt the rules misread as frukt dropped). `barnmat` is kept —
+it's food.
+
+**The LLM part is a separate, later step**: products the lexicon has never seen get a
+`kalla:'regel'`, `confidence:'lag'` rule verdict — usually right, occasionally confidently
+wrong ("Tomater på burk" → färska grönsaker). A scheduled Claude Code session (claude.ai
+scheduled task "Granska veckans nya erbjudanden", Mondays after the job) reviews just those,
+following `.claude/skills/import-erbjudanden/klassificering.md`, writes `kalla:'model'`
+corrections into the lexicon, re-runs `erbjudanden-recategorize.mjs` + verify on the week's
+files and merges a PR. If that session doesn't run, the week still shows — just with a few
+unreviewed categories. If the job itself fails (a store changed its markup/endpoint), the
+Safari-webarchive path in the import skill still works.
+
 ### Watch-list ("Bevaka" tab)
 
 `public/data/erbjudanden/bevakningslista.json` holds a standing list of products to bulk-buy whenever they're a genuine bargain (e.g. a coffee brand, toilet paper in the usual big pack, a specific toothpaste). Each entry (`BevakningItem` in `types.ts`) has `sok` (lowercase keyword substrings matched against an offer's `namn`/`marke`), `undvik_marken` (brand substrings that disqualify a match — e.g. "not Gevalia"), and optional `onskat_marke`/`storlek_hint`/`troskel_kr`/`anteckning` for extra context. `BevakaView.tsx` cross-references this list against the current week's offers (via `useOffers`, same hook as Fynd): the left page shows the full watch-list with a 🔔 badge on any item currently matched, the right page shows the matched offers grouped by item — clicking a matched offer row (`.match-row`, same "whole row is the control" convention as `FyndView`'s double-click, `.in-list`/`🛒` shown once added) explicitly adds it to the shopping list via `useShoppingList`'s `addOrRestoreByName`/`removeOrMarkByName`/`isActiveByName`; clicking an already-added one removes it again (see the Shopping list section above — a bevaka match no longer lands on the list just by existing). **When adding a watch-list item, add an entry to `bevakningslista.json`** — there's no in-app "add" UI (consistent with this app's no-backend/JSON-in-git model), so new items or refinements (e.g. filling in a specific brand once decided) go straight into the file. Note four entries (`frukt`, `gront_farskt`, `gront_fryst`, `snacks_godis`) have an empty `sok`, meaning "watch the whole category" rather than a specific keyword (see `matchesBevakning` in `bevaka.ts`) — these can surface dozens of matches in one week, which is fine now that surfacing a match and adding it to the shopping list are two separate, explicit steps.

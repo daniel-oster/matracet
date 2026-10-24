@@ -1,0 +1,50 @@
+name: Hämta veckans erbjudanden
+
+# Fetches Willys/Hemköp/ICA offers for the current week, classifies them lexicon-first,
+# drops non-grocery items and commits to main — see scripts/erbjudanden-weekly.mjs.
+# New products land in the lexicon as kalla:'regel'/confidence:'lag'; a scheduled
+# Claude Code session reviews those afterwards (see CLAUDE.md, "Weekly offer import").
+on:
+  schedule:
+    - cron: '17 4 * * 1' # Mondays 04:17 UTC ≈ 06:17 svensk tid
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  actions: write # dispatch deploy.yml — a GITHUB_TOKEN push never triggers it
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Hämta och klassificera
+        run: node scripts/erbjudanden-weekly.mjs
+
+      - name: Commit and push if changed
+        id: commit
+        run: |
+          if git diff --quiet && [ -z "$(git ls-files --others --exclude-standard public/data/erbjudanden)" ]; then
+            echo "Inga ändringar."
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
+          else
+            git config user.name "matracet-erbjudanden-bot"
+            git config user.email "actions@users.noreply.github.com"
+            git add public/data/erbjudanden
+            git commit -m "erbjudanden: $(node -p "require('./public/data/erbjudanden/_latest.json').vecka") hämtad automatiskt"
+            git push origin HEAD:main
+            echo "pushed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Trigger deploy
+        if: steps.commit.outputs.pushed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy.yml --ref main
