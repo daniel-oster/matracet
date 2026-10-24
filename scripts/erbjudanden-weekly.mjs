@@ -15,7 +15,10 @@
 //        unless it classifies as a consumable (KEEP_FROM_ICA_HOME). Matched the manual
 //        2026-W43 review on 136 of 143 items, the misses being gränsfall.
 //   4. Write <store>/<vecka>.json, add the week to _index.json, point _latest.json at it,
-//      then run erbjudanden-verify.mjs. Exits non-zero on a verify FAIL or when no store
+//      then run erbjudanden-verify.mjs.
+//   5. Log what changed to public/data/nyheter.json (the app's "Nytt" screen) and, when it's
+//      worth a push notification (a new week, or a bevakad vara newly on offer), write the
+//      notification to $NOTIS_FILE for scripts/send-push.mjs. Exits non-zero on a verify FAIL or when no store
 //      could be fetched at all; a single store failing is reported and skipped.
 //
 // Usage: node scripts/erbjudanden-weekly.mjs [--dry-run]
@@ -78,6 +81,19 @@ function addDays(dateStr, n) {
 const today = new Date().toISOString().slice(0, 10);
 const lexikon = loadLexikon();
 const results = [];
+const STORE_NAMN = { willys: 'Willys', hemkop: 'Hemköp', ica: 'ICA' };
+const offerKey = (o) => `${o.namn}|${o.marke ?? ''}`.toLowerCase();
+// Same rule as src/lib/bevaka.ts matchesBevakning, but only for keyword watches — a
+// category-wide watch (empty `sok`) matches dozens of offers and would make every
+// notification noise.
+const bevakning = JSON.parse(readFileSync(join(DATA, 'bevakningslista.json'), 'utf8')).varor.filter((v) => v.sok.length);
+function bevakaHit(o) {
+  const hay = `${o.namn} ${o.marke ?? ''}`.toLowerCase();
+  return bevakning.find(
+    (v) => !v.undvik_marken.some((b) => hay.includes(b.toLowerCase())) && v.sok.some((k) => hay.includes(k.toLowerCase())),
+  );
+}
+const changes = []; // { store, newWeek, total, nya: offer[] }
 
 for (const s of STORES) {
   let raw;
@@ -161,6 +177,9 @@ for (const { s, kept, dropped, newProducts, start, end, total } of results) {
   } catch {}
   const same = previous && JSON.stringify({ ...previous, hamtad: null }) === JSON.stringify({ ...file, hamtad: null });
   if (same) console.log(`  (${s.butik}: oförändrad sedan ${previous.hamtad})`);
+  const before = new Set((previous?.erbjudanden ?? []).map(offerKey));
+  const nya = kept.filter((o) => !before.has(offerKey(o)));
+  if (nya.length) changes.push({ store: s.kalla, newWeek: !previous, total: kept.length, nya });
   if (!dryRun && !same) {
     mkdirSync(join(DATA, s.id), { recursive: true });
     writeFileSync(path, JSON.stringify(file, null, 2) + '\n');
@@ -186,3 +205,42 @@ writeFileSync(join(DATA, '_latest.json'), JSON.stringify({ vecka }, null, 2) + '
 console.log(`Vecka ${vecka} skriven.`);
 
 execFileSync('node', [join(ROOT, 'scripts/erbjudanden-verify.mjs'), ...files], { stdio: 'inherit' });
+
+// ── Nytt + notification ───────────────────────────────────────────────────────
+if (changes.length) {
+  const weekNr = vecka.split('-W')[1].replace(/^0/, '');
+  const hits = [];
+  for (const c of changes) {
+    for (const o of c.nya) {
+      const item = bevakaHit(o);
+      if (item) hits.push(`🔔 ${item.vara}: ${STORE_NAMN[c.store]} – ${o.namn}${o.marke ? ` (${o.marke})` : ''}, ${o.pris_text}`);
+    }
+  }
+  const newWeek = changes.some((c) => c.newWeek);
+  const rader = changes.map((c) =>
+    c.newWeek
+      ? `${STORE_NAMN[c.store]}: ${c.total} erbjudanden`
+      : `${STORE_NAMN[c.store]}: ${c.nya.length} nya – ${c.nya.slice(0, 4).map((o) => o.namn).join(', ')}${c.nya.length > 4 ? ' …' : ''}`,
+  );
+  const nyhet = {
+    id: `erbjudanden-${new Date().toISOString()}`,
+    datum: new Date().toISOString(),
+    titel: newWeek ? `Veckans erbjudanden v.${weekNr}` : 'Nya fynd',
+    rader: [...hits, ...rader],
+    notis: newWeek || hits.length > 0,
+    vy: hits.length ? 'bevaka' : 'fynd',
+  };
+  const nyheterPath = join(ROOT, 'public/data/nyheter.json');
+  let nyheter = { nyheter: [] };
+  try {
+    nyheter = JSON.parse(readFileSync(nyheterPath, 'utf8'));
+  } catch {}
+  nyheter.nyheter = [nyhet, ...nyheter.nyheter].slice(0, 60);
+  writeFileSync(nyheterPath, JSON.stringify(nyheter, null, 2) + '\n');
+  console.log(`Nytt: ${nyhet.titel} (${nyhet.rader.length} rader, notis: ${nyhet.notis})`);
+
+  if (nyhet.notis && process.env.NOTIS_FILE) {
+    const body = (hits.length ? hits : rader).slice(0, 2).join('\n') + (nyhet.rader.length > 2 ? '\n…' : '');
+    writeFileSync(process.env.NOTIS_FILE, JSON.stringify({ title: nyhet.titel, body, url: '/matracet/?vy=nytt', tag: nyhet.id }));
+  }
+}

@@ -1249,3 +1249,15 @@ button.plan-cell { cursor: pointer; }
   .overlay-tips { background: none; border: 0.5pt solid #999; padding: 2.5mm 3mm; border-radius: 0; }
   .overlay-source, .overlay-source a { color: #444; text-decoration: none; }
 }
+
+/* ── Nytt: update log + push-notification opt-in (NyttView) ───────────────── */
+.nytt-notis { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 14px; margin-bottom: 18px; }
+.nytt-notis-title { font-size: 15px; margin-bottom: 6px; }
+.nytt-hint { font-size: 13px; color: var(--muted2); margin: 0 0 10px; line-height: 1.45; }
+.nytt-code { width: 100%; height: 70px; margin-top: 10px; font: 11px/1.3 ui-monospace, monospace; color: var(--muted2); border: 1px solid var(--line); border-radius: 6px; padding: 6px; box-sizing: border-box; }
+.nytt-item { border-bottom: 1px solid var(--line); padding: 12px 2px; }
+.nytt-item-top { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+.nytt-item-title { font-size: 15px; }
+.nytt-item-date { font-size: 11.5px; color: var(--muted); white-space: nowrap; }
+.nytt-rader { margin: 6px 0 0; padding-left: 18px; font-size: 13.5px; color: var(--muted2); line-height: 1.5; }
+.nytt-goto { margin-top: 8px; background: none; border: none; padding: 0; color: var(--gold2); font: inherit; font-size: 13px; cursor: pointer; }
