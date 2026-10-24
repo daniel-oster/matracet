@@ -19,6 +19,7 @@ import BevakaView from './components/views/BevakaView'
 import SkafferiView from './components/views/SkafferiView'
 import HistorikView from './components/views/HistorikView'
 import SynkaView from './components/views/SynkaView'
+import NyttView from './components/views/NyttView'
 import RecipeOverlay from './components/RecipeOverlay'
 import FloatingNav from './components/FloatingNav'
 import { resolvePresenceRange, addDays } from './presence/resolver'
@@ -54,8 +55,19 @@ export default function App() {
   // re-runs the boot effect below when the retry button is tapped.
   const [loadError, setLoadError] = useState(false)
   const [reloadAttempt, setReloadAttempt] = useState(0)
-  const [screen, setScreen] = useState<ScreenName>('hub')
+  // A tapped push notification opens /matracet/?vy=nytt (public/sw.js) — start on that screen.
+  const [screen, setScreen] = useState<ScreenName>(() =>
+    typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('vy') === 'nytt' ? 'nytt' : 'hub',
+  )
   const [screenHistory, setScreenHistory] = useState<ScreenName[]>([])
+  // …and drop ?vy= once read, so a later ⟳ reload doesn't jump back to Nytt.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    if (!params.has('vy')) return
+    params.delete('vy')
+    const qs = params.toString()
+    window.history.replaceState(null, '', `${window.location.pathname}${qs ? `?${qs}` : ''}${window.location.hash}`)
+  }, [])
   // A shared recipe link (/matracet/recept/<slug>/, or an old #recept/<slug> hash link) opens
   // the overlay straight away on boot — see src/lib/recipeLink.ts for why it's a real path now.
   const [overlaySlug, setOverlaySlug] = useState<string | null>(() => {
@@ -316,6 +328,7 @@ export default function App() {
         />
       )}
       {screen === 'synka' && <SynkaView onBack={toHub} />}
+      {screen === 'nytt' && <NyttView onBack={toHub} onNavigate={navigate} />}
 
       {screen !== 'hub' && !overlaySlug && (
         <FloatingNav

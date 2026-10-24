@@ -111,6 +111,7 @@ export default function Hub({ weekLabel, rollingDays, recipeIndex, meals, dayPla
           <Tile em="📝" tn="Anteckningar" ts="idéer & noteringar" onClick={() => onNavigate('anteckningar')} />
           <Tile em="📜" tn="Historik" ts="vad vi ätit" onClick={() => onNavigate('historik')} />
           <Tile em="🔄" tn="Synka" ts="betyg → backend" onClick={() => onNavigate('synka')} />
+          <Tile em="📣" tn="Nytt" ts="uppdateringar & notiser" onClick={() => onNavigate('nytt')} />
         </div>
       </div>
     </div>

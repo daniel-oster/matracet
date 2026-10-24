@@ -4,6 +4,9 @@ import './styles/paper.css'
 import App from './App'
 import ToastHost from './components/ToastHost'
 import { ErrorBoundary } from './components/ErrorBoundary'
+import { registerServiceWorker } from './lib/push'
+
+registerServiceWorker()
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

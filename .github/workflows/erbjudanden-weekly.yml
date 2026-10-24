@@ -35,18 +35,20 @@ jobs:
           node-version: 22
 
       - name: Hämta och klassificera
+        env:
+          NOTIS_FILE: ${{ runner.temp }}/notis.json
         run: node scripts/erbjudanden-weekly.mjs
 
       - name: Commit and push if changed
         id: commit
         run: |
-          if git diff --quiet && [ -z "$(git ls-files --others --exclude-standard public/data/erbjudanden)" ]; then
+          if git diff --quiet && [ -z "$(git ls-files --others --exclude-standard public/data)" ]; then
             echo "Inga ändringar."
             echo "pushed=false" >> "$GITHUB_OUTPUT"
           else
             git config user.name "matracet-erbjudanden-bot"
             git config user.email "actions@users.noreply.github.com"
-            git add public/data/erbjudanden
+            git add public/data/erbjudanden public/data/nyheter.json
             git commit -m "erbjudanden: $(node -p "require('./public/data/erbjudanden/_latest.json').vecka") hämtad automatiskt"
             git push origin HEAD:main
             echo "pushed=true" >> "$GITHUB_OUTPUT"
@@ -57,3 +59,18 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: gh workflow run deploy.yml --ref main
+
+      # Only after a successful push, so a notification never points at data the app
+      # doesn't have yet — and after a pause for deploy.yml to publish it (~1–2 min).
+      # Skipped (logged) when the VAPID_PRIVATE_KEY secret is missing.
+      - name: Skicka notis
+        if: steps.commit.outputs.pushed == 'true'
+        env:
+          VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+          NOTIS_FILE: ${{ runner.temp }}/notis.json
+        run: |
+          if [ ! -f "$NOTIS_FILE" ]; then echo "Inget notisvärt den här gången."; exit 0; fi
+          npm ci --no-audit --no-fund
+          sleep 150
+          node scripts/send-push.mjs "$NOTIS_FILE"

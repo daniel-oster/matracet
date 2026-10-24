@@ -1183,6 +1183,41 @@ files and merges a PR. If that session doesn't run, the week still shows — jus
 unreviewed categories. If the job itself fails (a store changed its markup/endpoint), the
 Safari-webarchive path in the import skill still works.
 
+### Push notifications + the "Nytt" screen (2026-10)
+
+The home-screen app can get web-push notifications (iOS 16.4+, **only** when opened from the
+home screen — `src/lib/push.ts`'s `pushSupport()` says so in the UI otherwise). Pieces:
+- `public/manifest.webmanifest` (+ `icon-192/512.png`, rendered from an SVG with Playwright
+  since the sandbox has no image tools) and `apple-mobile-web-app-*` metas in `index.html` make
+  it an installable standalone app. **Adding these means an existing home-screen icon must be
+  re-added** to pick them up — and a re-added icon gets a fresh, empty localStorage (see the
+  iOS lesson below).
+- `public/sw.js` — push + notificationclick only, **deliberately no fetch handler** (must never
+  cache the app). A tap opens `/matracet/?vy=nytt`; `App.tsx` starts on the `nytt` screen for
+  that and then strips `?vy=` so a later ⟳ reload doesn't jump back.
+- `NyttView` (Hub → 📣 Nytt) lists `public/data/nyheter.json` and holds the opt-in button.
+- `scripts/erbjudanden-weekly.mjs` appends a nyhet whenever offers changed (new week, or new
+  offers mid-week) and writes the notification to `$NOTIS_FILE` **only** when it's worth
+  one: a new week, or a keyword watch from `bevakningslista.json` newly on offer (category-
+  wide watches with empty `sok` are ignored — they'd fire every time). The workflow commits,
+  dispatches deploy, waits ~150 s, then runs `scripts/send-push.mjs`.
+
+**Connecting a phone**: there's no backend and the phone may have no sync token, so after
+"Slå på notiser" the app shows a code `{"matracetPush":1,…,"subscription":{…}}` to paste into
+a Claude chat. Add it to `push-subscriptions.json` (repo root) as
+`{ "namn": "<whose phone>", "subscription": <the subscription object> }`, commit and merge —
+`.github/workflows/push-test.yml` then sends a "Testnotis" to every subscription. The repo
+is public, so the endpoint is public too; harmless without the key.
+
+**Keys**: the VAPID public key is `VAPID_PUBLIC_KEY` in `src/lib/push.ts` (`send-push.mjs` reads
+it from there, one source); the private key exists only as the `VAPID_PRIVATE_KEY` GitHub
+secret — never commit it. Without the secret `send-push.mjs` logs and exits 0. Rotating keys
+invalidates every subscription (each phone must re-subscribe). Not verifiable from the
+sandbox: `web-push` refuses plain-http endpoints, so a local fake push service can't receive
+anything; `generateRequestDetails()` was used to check the encrypted request + VAPID JWT
+instead, and the real end-to-end check is the Testnotis on a phone. Also: never `pkill -f`
+a pattern that appears in your own command line in this sandbox — it kills the shell running it.
+
 ### Watch-list ("Bevaka" tab)
 
 `public/data/erbjudanden/bevakningslista.json` holds a standing list of products to bulk-buy whenever they're a genuine bargain (e.g. a coffee brand, toilet paper in the usual big pack, a specific toothpaste). Each entry (`BevakningItem` in `types.ts`) has `sok` (lowercase keyword substrings matched against an offer's `namn`/`marke`), `undvik_marken` (brand substrings that disqualify a match — e.g. "not Gevalia"), and optional `onskat_marke`/`storlek_hint`/`troskel_kr`/`anteckning` for extra context. `BevakaView.tsx` cross-references this list against the current week's offers (via `useOffers`, same hook as Fynd): the left page shows the full watch-list with a 🔔 badge on any item currently matched, the right page shows the matched offers grouped by item — clicking a matched offer row (`.match-row`, same "whole row is the control" convention as `FyndView`'s double-click, `.in-list`/`🛒` shown once added) explicitly adds it to the shopping list via `useShoppingList`'s `addOrRestoreByName`/`removeOrMarkByName`/`isActiveByName`; clicking an already-added one removes it again (see the Shopping list section above — a bevaka match no longer lands on the list just by existing). **When adding a watch-list item, add an entry to `bevakningslista.json`** — there's no in-app "add" UI (consistent with this app's no-backend/JSON-in-git model), so new items or refinements (e.g. filling in a specific brand once decided) go straight into the file. Note four entries (`frukt`, `gront_farskt`, `gront_fryst`, `snacks_godis`) have an empty `sok`, meaning "watch the whole category" rather than a specific keyword (see `matchesBevakning` in `bevaka.ts`) — these can surface dozens of matches in one week, which is fine now that surfacing a match and adding it to the shopping list are two separate, explicit steps.
