@@ -10,7 +10,7 @@ source format doesn't match what's described here (flyer formats drift between w
 ## 1. Identify the source
 
 **Normally nothing to do (2026-10):** `.github/workflows/erbjudanden-weekly.yml` imports
-every Monday on its own via `scripts/erbjudanden-weekly.mjs` (fetch → lexicon-first classify →
+every morning on its own via `scripts/erbjudanden-weekly.mjs` (fetch → lexicon-first classify →
 drop non-grocery → write → verify). Run `node scripts/erbjudanden-weekly.mjs` by hand to
 import the current week right now. The manual paths below are for when that breaks.
 

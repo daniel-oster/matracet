@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // The whole weekly store-offer import in one deterministic step — no upload, no LLM.
-// Run by .github/workflows/erbjudanden-weekly.yml every Monday; safe to run by hand.
+// Run by .github/workflows/erbjudanden-weekly.yml every morning; safe to run by hand.
+// A day where no store's offers changed writes nothing (only `hamtad` would differ).
 //
 //   1. Fetch: Willys + Hemköp via erbjudanden-fetch-axfood.mjs, ICA's store page via
 //      erbjudanden-parse-ica-html.mjs (state-blob path).
@@ -119,8 +120,8 @@ for (const s of STORES) {
     kept.push(offer);
   }
 
-  // The file is the current Mon–Sun week: the job runs on Monday and fetches what the
-  // stores show right now. Offers on their own clock keep their own dates (the parsers
+  // The file is the current Mon–Sun week, as the stores show it right now (re-fetched
+  // daily, so mid-week additions/removals land too). Offers on their own clock keep their own dates (the parsers
   // already strip the majority date, so only real outliers carry one).
   const start = mondayOf(today);
   const end = addDays(start, 6);
@@ -152,7 +153,15 @@ for (const { s, kept, dropped, newProducts, start, end, total } of results) {
   const path = join(DATA, s.id, `${vecka}.json`);
   files.push(path);
   console.log(`✓ ${s.butik}: ${kept.length} med, ${dropped.length} utsorterade, ${newProducts} nya produkter`);
-  if (!dryRun) {
+  // Runs daily: leave the file alone when nothing but `hamtad` would change, so an
+  // unchanged day produces no commit and no redeploy.
+  let previous = null;
+  try {
+    previous = JSON.parse(readFileSync(path, 'utf8'));
+  } catch {}
+  const same = previous && JSON.stringify({ ...previous, hamtad: null }) === JSON.stringify({ ...file, hamtad: null });
+  if (same) console.log(`  (${s.butik}: oförändrad sedan ${previous.hamtad})`);
+  if (!dryRun && !same) {
     mkdirSync(join(DATA, s.id), { recursive: true });
     writeFileSync(path, JSON.stringify(file, null, 2) + '\n');
   }

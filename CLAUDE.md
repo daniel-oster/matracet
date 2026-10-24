@@ -1153,8 +1153,10 @@ uses the shared type, so the next field added there can't silently miss a call s
 
 ### Weekly offer import is automatic (2026-10)
 
-`.github/workflows/erbjudanden-weekly.yml` runs `scripts/erbjudanden-weekly.mjs` every Monday
-04:17 UTC (and on `workflow_dispatch`): fetches all three stores (see the "Store offers can be
+`.github/workflows/erbjudanden-weekly.yml` runs `scripts/erbjudanden-weekly.mjs` every day
+04:17 UTC (and on `workflow_dispatch`) — daily, at the household's request, so mid-week offers
+land and a broken store shows up within a day; a day where nothing changed writes nothing
+(the file is left alone when only `hamtad` would differ), so there's no daily commit/redeploy: fetches all three stores (see the "Store offers can be
 fetched directly" lesson below), classifies lexicon-first, drops what the household never buys
 on a grocery run, writes `<store>/<vecka>.json` + `_index.json` + `_latest.json`, runs
 `erbjudanden-verify.mjs`, commits straight to `main` and dispatches `deploy.yml` (a
@@ -1173,7 +1175,8 @@ it's food.
 **The LLM part is a separate, later step**: products the lexicon has never seen get a
 `kalla:'regel'`, `confidence:'lag'` rule verdict — usually right, occasionally confidently
 wrong ("Tomater på burk" → färska grönsaker). A scheduled Claude Code session (claude.ai
-scheduled task "Granska veckans nya erbjudanden", Mondays after the job) reviews just those,
+scheduled task "Granska veckans nya erbjudanden", daily after the job; also runs the script
+with `--dry-run` as a health check so a store breaking is reported the same day) reviews just those,
 following `.claude/skills/import-erbjudanden/klassificering.md`, writes `kalla:'model'`
 corrections into the lexicon, re-runs `erbjudanden-recategorize.mjs` + verify on the week's
 files and merges a PR. If that session doesn't run, the week still shows — just with a few
