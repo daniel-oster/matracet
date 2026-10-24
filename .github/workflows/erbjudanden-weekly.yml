@@ -8,6 +8,15 @@ on:
   schedule:
     - cron: '17 4 * * *' # every day 04:17 UTC ≈ 06:17 svensk tid — a day with no changes commits nothing
   workflow_dispatch: {}
+  # Also run when the job or its fetch/parse scripts change, so a change is tested live
+  # right away instead of at the next 04:17. (Its own GITHUB_TOKEN commit never retriggers.)
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/erbjudanden-weekly.yml
+      - scripts/erbjudanden-weekly.mjs
+      - scripts/erbjudanden-fetch-axfood.mjs
+      - scripts/erbjudanden-parse-ica-html.mjs
 
 permissions:
   contents: write
