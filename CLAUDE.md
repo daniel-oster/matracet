@@ -1196,10 +1196,13 @@ home screen — `src/lib/push.ts`'s `pushSupport()` says so in the UI otherwise)
   cache the app). A tap opens `/matracet/?vy=nytt`; `App.tsx` starts on the `nytt` screen for
   that and then strips `?vy=` so a later ⟳ reload doesn't jump back.
 - `NyttView` (Hub → 📣 Nytt) lists `public/data/nyheter.json` and holds the opt-in button.
-- `scripts/erbjudanden-weekly.mjs` appends a nyhet whenever offers changed (new week, or new
-  offers mid-week) and writes the notification to `$NOTIS_FILE` **only** when it's worth
-  one: a new week, or a keyword watch from `bevakningslista.json` newly on offer (category-
-  wide watches with empty `sok` are ignored — they'd fire every time). The workflow commits,
+- `scripts/erbjudanden-weekly.mjs` appends a nyhet and writes a notification to `$NOTIS_FILE`
+  whenever an offer is **new** (name+brand not in that store's file before this run): a new
+  week, or mid-week/weekend additions — the household explicitly wants those, since stores
+  add weekend specials. Nothing new ⇒ no nyhet, no notification; category fixes and removed
+  offers never count. Keyword watches from `bevakningslista.json` that hit a new offer are put
+  first in the text (category-wide watches with empty `sok` are ignored — they'd hit every
+  time). The workflow commits,
   dispatches deploy, waits ~150 s, then runs `scripts/send-push.mjs`.
 
 **Connecting a phone**: there's no backend and the phone may have no sync token, so after

@@ -16,9 +16,10 @@
 //        2026-W43 review on 136 of 143 items, the misses being gränsfall.
 //   4. Write <store>/<vecka>.json, add the week to _index.json, point _latest.json at it,
 //      then run erbjudanden-verify.mjs.
-//   5. Log what changed to public/data/nyheter.json (the app's "Nytt" screen) and, when it's
-//      worth a push notification (a new week, or a bevakad vara newly on offer), write the
-//      notification to $NOTIS_FILE for scripts/send-push.mjs. Exits non-zero on a verify FAIL or when no store
+//   5. Log what changed to public/data/nyheter.json (the app's "Nytt" screen) and write a
+//      push notification to $NOTIS_FILE for scripts/send-push.mjs — whenever an offer is
+//      new (a new week, or mid-week/weekend additions), never for a day with nothing new.
+//      Category fixes and removed offers don't count: they change no offer's name+brand. Exits non-zero on a verify FAIL or when no store
 //      could be fetched at all; a single store failing is reported and skipped.
 //
 // Usage: node scripts/erbjudanden-weekly.mjs [--dry-run]
@@ -227,7 +228,7 @@ if (changes.length) {
     datum: new Date().toISOString(),
     titel: newWeek ? `Veckans erbjudanden v.${weekNr}` : 'Nya fynd',
     rader: [...hits, ...rader],
-    notis: newWeek || hits.length > 0,
+    notis: true, // only reached when some offer is genuinely new (see `changes`)
     vy: hits.length ? 'bevaka' : 'fynd',
   };
   const nyheterPath = join(ROOT, 'public/data/nyheter.json');
