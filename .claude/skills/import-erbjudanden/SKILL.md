@@ -9,6 +9,19 @@ source format doesn't match what's described here (flyer formats drift between w
 
 ## 1. Identify the source
 
+**Fastest path (2026-10): fetch it yourself — no upload needed.**
+- Willys / Hemköp (both Axfood): `node scripts/erbjudanden-fetch-axfood.mjs willys 2353 --save-raw w-raw.json > w.json`
+  and `... hemkop 4638 ...` — reads the same JSON endpoint the store's own erbjudanden page
+  uses (`/search/campaigns/offline?q=<storeId>`). Prints the file window
+  (giltigt_fran/giltigt_till) on stderr. Undocumented endpoint: if it breaks, fall back to
+  the webarchive path below.
+- ICA: `curl -sS -A "Mozilla/5.0" https://www.ica.se/erbjudanden/maxi-ica-stormarknad-borlange-1004119/ -o ica.html`
+  then `node scripts/erbjudanden-parse-ica-html.mjs ica.html`. A curl'd page server-renders
+  only ~20 cards, so the parser reads the page's Nuxt state blob instead (all offers). Each
+  offer then carries a temporary `_ica_avdelning` (ICA's own department) — "Hem & fritid",
+  "Hälsa & skönhet" is where the non-food lives; review those by name, keep consumables,
+  and strip the field before saving.
+
 - **Best case**: a structured product-list export (e-handel/webshop list), not the
   graphic flyer. It has a real, clean text layer.
 - **All three stores can now arrive as a Safari `.webarchive`** of the store's live
