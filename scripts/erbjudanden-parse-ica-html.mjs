@@ -198,12 +198,75 @@ function parseArticle(chunk) {
   };
 }
 
+// A page fetched straight from ica.se (curl, not Safari) server-renders only the
+// first ~20 cards; the rest are lazy-rendered client-side. Every offer is still
+// in the Nuxt state blob, with the same text the card would show, so when the
+// blob has more entries than the markup has cards, parse the blob instead.
+// (2026-W43: 21 rendered cards vs 215 blob entries.)
+function blobString(entry, key) {
+  const m = entry.match(new RegExp(`"${key}":"((?:[^"\\\\]|\\\\.)*)"`));
+  return m ? JSON.parse(`"${m[1]}"`).trim() : '';
+}
+
+function parseStateEntry(entry) {
+  const namn = blobString(entry, 'name');
+  const splash = parseSplash(blobString(entry, 'mechanicInfo'));
+  if (!namn || !splash) return null;
+  const marke = blobString(entry, 'brand') || null;
+  const storlek = tightenUnit(blobString(entry, 'packageInformation')) || null;
+  const info = blobString(entry, 'customerInformation');
+  const restriction = blobString(entry, 'restriction');
+  const ursprung = extractUrsprung(`${info} ${marke ?? ''}`);
+
+  const cmp = blobString(entry, 'comparisonPrice').match(/([\d:,.\-\s]+)\/(kg|liter|st)/i);
+  let jamforpris = null;
+  if (cmp) jamforpris = `${cmp[1].replace(/:/g, '.').replace(/,/g, '.').replace(/\s+/g, '')}/${cmp[2].toLowerCase() === 'liter' ? 'l' : cmp[2].toLowerCase()}`;
+  else if (splash.unit) jamforpris = `${splash.pris.toFixed(2)}/${splash.unit}`;
+
+  const ordM = blobString(entry, 'referencePriceText').match(/Ord\.pris ([\d:,.\-\s]+?) kr/);
+  const maxM = restriction.match(/Max (\d+) köp/);
+  const group = blobString(entry, 'articleGroupName');
+  const cls = classify(namn, marke, `${marke ?? ''} ${storlek ?? ''} ${info}`);
+  const notering = [info || null, splash.notering ?? null].filter(Boolean).join(' • ') || null;
+
+  return {
+    namn,
+    marke,
+    storlek,
+    pris_text: splash.pris_text,
+    pris: splash.pris,
+    pris_typ: splash.pris_typ,
+    jamforpris,
+    ord_pris: ordM ? ordM[1].replace(/:/g, '.').replace(/\s+/g, '') : null,
+    pris_30dgr: null,
+    besparing: null,
+    klubbpris: false,
+    max_kop: maxM ? parseInt(maxM[1], 10) : null,
+    markeringar: markeringarFromUrsprung(ursprung, cls.markeringar),
+    ursprung,
+    notering,
+    kategori: cls.kategori,
+    form: cls.form,
+    varutyp: cls.varutyp,
+    kategori_kalla: cls.kategori_kalla,
+    giltigt_till: (entry.match(/"validTo":"(\d{4}-\d{2}-\d{2})/) ?? [])[1] ?? null,
+    // ICA's own department name — not a schema field; the import step uses it to
+    // spot non-food (e.g. "Fritid", "Hem & Inredning") and strips it before saving.
+    _ica_avdelning: group || null,
+  };
+}
+
 const articleRe = /<article[^>]*>.*?<\/article>/gs;
-const chunks = html.match(articleRe) ?? [];
+const articleChunks = html.match(articleRe) ?? [];
+const blobStarts = [...html.matchAll(/"id":"\d+","details":\{/g)].map((m) => m.index);
+const useBlob = blobStarts.length > articleChunks.filter((c) => /offer-card__title/.test(c)).length;
+const chunks = useBlob
+  ? blobStarts.map((s, i) => html.slice(s, blobStarts[i + 1] ?? s + 6000))
+  : articleChunks;
 
 const offers = [];
 for (const chunk of chunks) {
-  const offer = parseArticle(chunk);
+  const offer = useBlob ? parseStateEntry(chunk) : parseArticle(chunk);
   if (offer) offers.push(offer);
 }
 
@@ -223,6 +286,6 @@ for (const o of offers) {
 }
 
 console.log(JSON.stringify(offers, null, 2));
-console.error(`Parsed ${offers.length} offers from ${chunks.length} article blocks.`);
+console.error(`Parsed ${offers.length} offers from ${chunks.length} ${useBlob ? "state-blob entries" : "article blocks"}.`);
 if (fileEnd) console.error(`Majority end date (use as the file's giltigt_till): ${fileEnd}`);
 if (outliers.length) console.error(`${outliers.length} offer(s) with their own end date.`);

@@ -62,7 +62,8 @@ for (const file of files) {
       fail(`${where} — matches a non-food keyword but is filed under food kategori "${o.kategori}"`)
     }
 
-    if (FROZEN_WORD_RE.test(haystack) && o.form !== 'fryst') {
+    // Non-food ("Fryspåsar" = freezer bags) has no form to get wrong.
+    if (inFoodCategory && FROZEN_WORD_RE.test(haystack) && o.form !== 'fryst') {
       fail(`${where} — name says frozen but form is "${o.form}", not "fryst"`)
     }
     if (groupOf(o.kategori) === 'glass_dessert' && o.kategori !== 'dessertsas' && o.form !== 'fryst') {
