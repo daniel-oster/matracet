@@ -6,10 +6,10 @@
   "vecka": "2026-W43",
   "giltigt_fran": "2026-10-19",
   "giltigt_till": "2026-10-25",
-  "hamtad": "2026-10-23",
+  "hamtad": "2026-10-24",
   "kalla_url": "https://www.hemkop.se/erbjudanden/4638",
-  "urval": "samtliga butikserbjudanden for Hemkop Borlange Sodra Backa (butik 4638), hamtade fran butikssidans egen datakalla (hemkop.se/search/campaigns/offline); gravljus utelamnat (av 78 aterstar 77)",
-  "antal": 77,
+  "urval": "automatiskt hämtad (erbjudanden-weekly.mjs): livsmedel och hushåll; 4 av 78 erbjudanden utsorterade (blöjor, djurmat, ljus, kläder, m.m.)",
+  "antal": 74,
   "erbjudanden": [
     {
       "namn": "Bacon",
@@ -469,29 +469,6 @@
       "kategori_kalla": "regel"
     },
     {
-      "namn": "Blöjor",
-      "marke": "Libero",
-      "storlek": "20-47-PACK",
-      "pris_text": "2 FÖR 169.00",
-      "pris": 84.5,
-      "pris_typ": "multi",
-      "jamforpris": "1.80-4.23/st",
-      "ord_pris": "109.00",
-      "pris_30dgr": null,
-      "besparing": "29.00-41.00kr",
-      "klubbpris": true,
-      "max_kop": null,
-      "markeringar": [
-        "svanen"
-      ],
-      "ursprung": null,
-      "notering": "gäller Comfort 2-7, Up & Go 3-8",
-      "kategori": "bloja_babyvard",
-      "form": null,
-      "varutyp": "bloja_babyvard",
-      "kategori_kalla": "regel"
-    },
-    {
       "namn": "Bindor, Trosskydd",
       "marke": "Always",
       "storlek": "12-60-PACK",
@@ -618,29 +595,6 @@
       "form": null,
       "varutyp": "hygien",
       "kategori_kalla": "regel"
-    },
-    {
-      "namn": "Våtservetter 64-pack",
-      "marke": "Libero",
-      "storlek": "64P",
-      "pris_text": "20.00/st",
-      "pris": 20,
-      "pris_typ": "st",
-      "jamforpris": "0.31/st",
-      "ord_pris": "29.95",
-      "pris_30dgr": "29.95kr/st",
-      "besparing": "7.95kr",
-      "klubbpris": true,
-      "max_kop": null,
-      "markeringar": [
-        "svanen"
-      ],
-      "ursprung": null,
-      "notering": null,
-      "kategori": "bloja_babyvard",
-      "form": null,
-      "varutyp": "bloja_babyvard",
-      "kategori_kalla": "model"
     },
     {
       "namn": "Varmrökt lax",
@@ -1351,29 +1305,6 @@
       "form": "torr",
       "varutyp": "pasta",
       "kategori_kalla": "regel"
-    },
-    {
-      "namn": "Babyolja",
-      "marke": "Libero",
-      "storlek": "150ML",
-      "pris_text": "39.95/st",
-      "pris": 39.95,
-      "pris_typ": "st",
-      "jamforpris": "266.33/l",
-      "ord_pris": "51.95",
-      "pris_30dgr": "51.95kr/st",
-      "besparing": "10.00kr",
-      "klubbpris": false,
-      "max_kop": null,
-      "markeringar": [
-        "svanen"
-      ],
-      "ursprung": null,
-      "notering": null,
-      "kategori": "bloja_babyvard",
-      "form": null,
-      "varutyp": "bloja_babyvard",
-      "kategori_kalla": "model"
     },
     {
       "namn": "Riven Gouda",

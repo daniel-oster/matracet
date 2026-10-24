@@ -9,7 +9,12 @@ source format doesn't match what's described here (flyer formats drift between w
 
 ## 1. Identify the source
 
-**Fastest path (2026-10): fetch it yourself — no upload needed.**
+**Normally nothing to do (2026-10):** `.github/workflows/erbjudanden-weekly.yml` imports
+every Monday on its own via `scripts/erbjudanden-weekly.mjs` (fetch → lexicon-first classify →
+drop non-grocery → write → verify). Run `node scripts/erbjudanden-weekly.mjs` by hand to
+import the current week right now. The manual paths below are for when that breaks.
+
+**Fastest manual path: fetch it yourself — no upload needed.**
 - Willys / Hemköp (both Axfood): `node scripts/erbjudanden-fetch-axfood.mjs willys 2353 --save-raw w-raw.json > w.json`
   and `... hemkop 4638 ...` — reads the same JSON endpoint the store's own erbjudanden page
   uses (`/search/campaigns/offline?q=<storeId>`). Prints the file window
