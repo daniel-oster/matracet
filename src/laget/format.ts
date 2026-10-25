@@ -1,5 +1,5 @@
 import type { DayPlan } from '../presence/types'
-import type { KlartMap } from './types'
+import type { DayView, KlartMap } from './types'
 
 const dateFmt = new Intl.DateTimeFormat('sv-SE', { weekday: 'long', day: 'numeric', month: 'short', timeZone: 'UTC' })
 
@@ -23,4 +23,13 @@ export function withKlart(klart: KlartMap, key: string, on: boolean, stamp: stri
   if (klart[key] === undefined) return klart
   const { [key]: _removed, ...rest } = klart
   return rest
+}
+
+/** "tacos, ät senast 17:15" — the dish (when Matracet has one planned) with the eating window.
+ *  Falls back to just the window, then to nothing. */
+export function dinnerText(view: DayView): string | null {
+  const window = windowLine(view.presence)
+  const lower = window ? window.charAt(0).toLowerCase() + window.slice(1) : null
+  if (!view.dinner) return lower
+  return lower && view.dinner.eatBy ? `${view.dinner.title}, ${lower}` : view.dinner.title
 }

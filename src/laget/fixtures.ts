@@ -1,4 +1,5 @@
 import { TEST_STORE } from '../presence/__fixtures__/testStore'
+import type { DinnerSources } from './dinner'
 import type { LagetData, LagetEvent } from './types'
 
 // Test data for Läget: the anonymised presence fixture plus invented events/periods. Sample dates
@@ -42,5 +43,20 @@ export function makeData(overrides: Partial<LagetData> = {}): LagetData {
     todos: [],
     klart: {},
     ...overrides,
+  }
+}
+
+/** Matracet's plan as Läget reads it: Wed 4 Nov is planned in Planera (tacos), Mon 2 Nov comes from
+ *  the week file, Tue 3 Nov is marked "no meal needed". */
+export function makeDinner(over: Partial<DinnerSources> = {}): DinnerSources {
+  return {
+    weekplan: {
+      '2026-11-04': { dinner: { mealSlug: 'tacos', receptSlug: null } },
+      '2026-11-03': { dinnerAttendance: { skip: true } },
+    },
+    weeks: [{ vecka: '2026-W45', skapad: '2026-10-25', anteckningar: [], middagar: [{ dag: 'Måndag', datum: '2026-11-02', recept: 'Ugnsbakad lax' }, { dag: 'Fredag', datum: '2026-11-06', recept: null }] }],
+    meals: [{ slug: 'tacos', namn: 'Tacos', alias: [], komponenter: [], receptSlug: null, taggar: [] }],
+    recipeIndex: [],
+    ...over,
   }
 }

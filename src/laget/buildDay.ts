@@ -1,6 +1,7 @@
 import { addDays, effectiveLeaveBy, resolvePresence } from '../presence/resolver'
 import type { Activity, DayPlan, Period, Weekday } from '../presence/types'
 import { isoWeekday } from '../lib/mealNeed'
+import { dinnerFor } from './dinner'
 import type { DayView, LagetData, LagetEvent, PrepItem, TimelineItem } from './types'
 
 // The one place that turns the data files into a day. Pure and deterministic: the app and the
@@ -136,7 +137,7 @@ export function buildDay(date: string, data: LagetData): DayView {
     timeline: timelineFor(date, plan, data),
     todos: data.todos.filter(t => t.done === null && t.due <= date),
     prepareTonight,
-    dinner: null,
+    dinner: data.dinner ? dinnerFor(date, data.dinner, presence.windowStatus === 'BOUNDED' ? presence.windowEndsBy : presence.windowStatus === 'CONFLICT' ? presence.eatEarlyBy : null) : null,
     tomorrowTeaser: open > 0 ? `${open} att förbereda` : null,
   }
 }

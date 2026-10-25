@@ -1,5 +1,5 @@
 import type { DayView, TimelineItem } from './types'
-import { dateLabel, windowLine } from './format'
+import { dateLabel, dinnerText } from './format'
 import { topLines } from './summary'
 
 // The three day screens. Pure presentation over a DayView — buildDay does the thinking.
@@ -27,7 +27,7 @@ function TimelineRow({ view, t }: { view: DayView; t: TimelineItem }) {
 
 export function Shield({ view, nowTime, onOpen }: { view: DayView; nowTime: string; onOpen: () => void }) {
   const lines = topLines(view, 3, nowTime)
-  const dinner = windowLine(view.presence)
+  const dinner = dinnerText(view)
   return (
     <button className="laget-shield" onClick={onOpen}>
       <span className="laget-shield-q">Vad gäller idag?</span>
@@ -38,7 +38,7 @@ export function Shield({ view, nowTime, onOpen }: { view: DayView; nowTime: stri
         {lines.map((l, i) => (
           <li key={i}>{l.text}</li>
         ))}
-        {dinner && <li>Middag: {dinner.charAt(0).toLowerCase() + dinner.slice(1)}</li>}
+        {dinner && <li>Middag: {dinner}</li>}
         {lines.length === 0 && !dinner && <li className="laget-muted">Inget som styr dagen.</li>}
       </ul>
       <span className="laget-shield-more">Tryck för hela dagen →</span>
@@ -59,7 +59,7 @@ export function Idag({
   onTickTodo: (id: string) => void
   error: string | null
 }) {
-  const dinner = windowLine(view.presence)
+  const dinner = dinnerText(view)
   return (
     <>
       <h2 className="laget-h">{dateLabel(view.date)}</h2>
@@ -100,7 +100,7 @@ export function Idag({
 
       <section className="laget-card">
         <h3>Middag</h3>
-        <p>{dinner ?? (view.presence.presentPersons.length ? 'Ätfönstret är öppet.' : 'Ingen hemma.')}</p>
+        <p>{dinner ?? (view.presence.presentPersons.length ? 'Inget planerat. Ätfönstret är öppet.' : 'Ingen hemma.')}</p>
       </section>
 
       <button className="laget-link" onClick={onTomorrow}>
@@ -158,7 +158,7 @@ export function Imorgon({
             {tomorrow.timeline.map(t => <TimelineRow key={t.id} view={tomorrow} t={t} />)}
           </ul>
         )}
-        {windowLine(tomorrow.presence) && <p className="laget-sub">Middag: {windowLine(tomorrow.presence)?.toLowerCase()}</p>}
+        {dinnerText(tomorrow) && <p className="laget-sub">Middag: {dinnerText(tomorrow)}</p>}
       </section>
     </>
   )

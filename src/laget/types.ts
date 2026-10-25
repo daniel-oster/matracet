@@ -1,4 +1,5 @@
 import type { DayPlan, Period, Prepare, PresenceStore } from '../presence/types'
+import type { DinnerSources } from './dinner'
 
 // Läget's data model — see docs/laget-spec-2026-10.md ("Datamodell"). Everything here is pure
 // data; no DOM, no localStorage. The same module runs in the app and in the notification job.
@@ -57,6 +58,8 @@ export interface LagetData {
   events: LagetEvent[]
   todos: Todo[]
   klart: KlartMap
+  /** Matracet's plan, for the dinner line. Absent (e.g. in the notification job) = no dinner. */
+  dinner?: DinnerSources
 }
 
 export interface TimelineItem {
@@ -101,7 +104,7 @@ export interface DayView {
   /** Preparations to do TODAY for what happens in the next days — ticked ones included,
    *  with `done: true`, so the app can show and undo them. */
   prepareTonight: PrepItem[]
-  /** From Matracet's week plan — step 2; always null in step 1. */
+  /** From Matracet's plan; null when nothing is planned or `data.dinner` isn't loaded. */
   dinner: DinnerLine | null
   tomorrowTeaser: string | null
 }

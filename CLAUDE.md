@@ -2572,6 +2572,12 @@ asking for a meal, no eating window), and Hub shows a `.hub-note` pointing to Ha
   `dueNotifications` (key `${date}|pam|${id}|${before}`). `src/laget/validate.ts` checks events and
   to-dos (Claude writes both from free text); `verify-schedule.ts` runs it, and the notification job
   *drops* an invalid events/todos file loudly instead of letting it silence the morning notification.
+- **Läget step 2 — dinner line**: `dinner.ts` `dinnerFor(date, sources, eatBy)` — a slot assigned in Planera
+  (`matracet:weekplan:v3` from the device-sync snapshot, names via `meals.json` + the snapshot's
+  `matracet:meals:local:v1` + the recipe index) wins, else the dish in that day's `matracet/weeks/` file;
+  `attendance.skip` → "Ingen måltid behövs". `buildDay` only has a dinner when `LagetData.dinner` is set
+  (the app loads it in `useLagetData`; the notification job doesn't). `format.ts::dinnerText` makes
+  "Tacos, ät senast 17:15". Läget never plans meals — it only reads Matracet's plan.
 - Spec and build order: `docs/laget-spec-2026-10.md`.
 
 ## Deploy

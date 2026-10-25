@@ -4,6 +4,13 @@ import type { LagetData, KlartMap, LagetEvent, Todo } from './types'
 import type { Period, PresenceStore } from '../presence/types'
 import { withKlart } from './format'
 import { completeTodo } from './todos'
+import { mergeMeals, type DinnerSources, type WeekPlanDay } from './dinner'
+import { addDays } from '../presence/resolver'
+import { getISOWeekString } from '../lib/isoWeek'
+import { stockholmNow } from './time'
+import type { SyncState } from '../lib/githubSync'
+import type { Meal, MealsFile } from '../types/meal'
+import type { RecipeIndex, WeekMenu } from '../types'
 
 // Loads Läget's data files from livet-data (cached + offline fallback, see privateData.ts) and
 // refreshes when the app is brought back to the foreground — an iOS home-screen app is resumed,
@@ -30,6 +37,18 @@ export function useLagetData(): LagetState {
 
   const load = useCallback(async () => {
     lastLoad.current = Date.now()
+    // Matracet's plan, for the dinner line: the device-sync snapshot, the public meal library and
+    // the week files covering the next two weeks. Any of it missing just means no dinner line.
+    const today = stockholmNow(new Date()).date
+    const weeks = [...new Set(Array.from({ length: 14 }, (_, i) => getISOWeekString(addDays(today, i))))]
+    const base = import.meta.env.BASE_URL
+    const json = <T,>(url: string): Promise<T | null> => fetch(url).then(r => (r.ok ? (r.json() as Promise<T>) : null)).catch(() => null)
+    const dinnerFetch = Promise.all([
+      fetchPrivateJson<SyncState>('matracet/sync/state.json', 'device-sync'),
+      json<MealsFile>(`${base}data/meals.json`),
+      json<RecipeIndex>(`${base}data/recipes/_index.json`),
+      Promise.all(weeks.map(w => fetchPrivateJson<WeekMenu>(`matracet/weeks/${w}.json`))),
+    ])
     const [schema, periods, events, todos, klart] = await Promise.all([
       fetchPrivateJson<PresenceStore>('data/schema.json'),
       fetchPrivateJson<Period[]>('data/perioder.json'),
@@ -37,11 +56,19 @@ export function useLagetData(): LagetState {
       fetchPrivateJson<Todo[]>('data/attgora.json'),
       fetchPrivateJson<KlartMap>('data/klart.json'),
     ])
+    const [sync, mealsFile, recipeIndex, weekFiles] = await dinnerFetch
+    const stores = sync.data?.stores
+    const dinner: DinnerSources = {
+      weekplan: ((stores?.['matracet:weekplan:v3']?.data as Record<string, WeekPlanDay> | undefined) ?? {}),
+      weeks: weekFiles.map(w => w.data).filter((w): w is WeekMenu => w !== null),
+      meals: mergeMeals(mealsFile?.meals ?? [], stores?.['matracet:meals:local:v1']?.data as Record<string, Meal> | undefined),
+      recipeIndex: recipeIndex?.recipes ?? [],
+    }
     setStatus(schema.status)
     setStale(schema.stale)
     setData(
       schema.data
-        ? { schema: schema.data, periods: periods.data ?? [], events: events.data ?? [], todos: todos.data ?? [], klart: klart.data ?? {} }
+        ? { schema: schema.data, periods: periods.data ?? [], events: events.data ?? [], todos: todos.data ?? [], klart: klart.data ?? {}, dinner }
         : null,
     )
   }, [])
