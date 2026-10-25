@@ -14,7 +14,7 @@ import type { Period } from '../presence/types'
  *
  * Deliberately narrow, matching what was actually asked ("lunch på barnveckor behöver vi inte
  * på vardagar"): it fires only when a school-age child (a person with a `termin` period, see below) is among the day's eaters. A weekday
- * lunch on a mother-week (Daniel, or Daniel + Erika) is left alone — nobody has said those
+ * lunch on a mother-week (Vuxen A, or Vuxen A + Vuxen B) is left alone — nobody has said those
  * aren't wanted, and silently widening the rule would hide slots the household may well use.
  *
  * This is a *default*, never a lock: a slot that already has a dish still counts, the slot

@@ -58,10 +58,10 @@ export default function PresenceSection() {
       <table className="field-table" style={{ marginBottom: 20 }}>
         <thead><tr><th>id</th><th>Namn</th><th>Roll</th></tr></thead>
         <tbody>
-          <tr><td><span className="field-name">daniel</span></td><td>Daniel</td><td>Förälder</td></tr>
-          <tr><td><span className="field-name">sarah</span></td><td>Sarah</td><td>Dotter, 15 år</td></tr>
-          <tr><td><span className="field-name">annabelle</span></td><td>Annabelle</td><td>Dotter, 11 år</td></tr>
-          <tr><td><span className="field-name">erika</span></td><td>Erika</td><td>Daniels flickvän</td></tr>
+          <tr><td><span className="field-name">vuxen-a</span></td><td>Vuxen A</td><td>Förälder</td></tr>
+          <tr><td><span className="field-name">barn-a</span></td><td>Barn A</td><td>Barn</td></tr>
+          <tr><td><span className="field-name">barn-b</span></td><td>Barn B</td><td>Barn</td></tr>
+          <tr><td><span className="field-name">vuxen-b</span></td><td>Vuxen B</td><td>Vuxen</td></tr>
         </tbody>
       </table>
 
@@ -73,9 +73,9 @@ export default function PresenceSection() {
       <table className="field-table" style={{ marginBottom: 20 }}>
         <thead><tr><th>id</th><th>Namn</th><th>Medlemmar</th></tr></thead>
         <tbody>
-          <tr><td><span className="field-name">daniel-barn</span></td><td>Daniel + barn</td><td>Daniel, Sarah, Annabelle</td></tr>
-          <tr><td><span className="field-name">daniel-erika</span></td><td>Daniel + Erika</td><td>Daniel, Erika</td></tr>
-          <tr><td><span className="field-name">daniel</span></td><td>Daniel</td><td>Daniel (solo)</td></tr>
+          <tr><td><span className="field-name">grupp-barn</span></td><td>Vuxen A + barn</td><td>Vuxen A, Barn A, Barn B</td></tr>
+          <tr><td><span className="field-name">grupp-vuxen-b</span></td><td>Vuxen A + Vuxen B</td><td>Vuxen A, Vuxen B</td></tr>
+          <tr><td><span className="field-name">vuxen-a</span></td><td>Vuxen A</td><td>Vuxen A (solo)</td></tr>
         </tbody>
       </table>
 
@@ -111,23 +111,23 @@ export default function PresenceSection() {
           <tr>
             <td><span className="field-name">wed-biweekly</span></td>
             <td>BIWEEKLY</td>
-            <td>Ons (Daniels veckor)</td>
+            <td>Ons (Vuxen A:s veckor)</td>
             <td>{'{'} 3: "19:00" {'}'}</td>
           </tr>
           <tr>
             <td><span className="field-name">weekend-biweekly</span></td>
             <td>BIWEEKLY</td>
-            <td>Fre, Lör, Sön (Daniels veckor)</td>
+            <td>Fre, Lör, Sön (Vuxen A:s veckor)</td>
             <td>— (fredag­byte varierar; använd Override)</td>
           </tr>
           <tr>
-            <td><span className="field-name">erika-week-biweekly</span></td>
+            <td><span className="field-name">b-week-biweekly</span></td>
             <td>BIWEEKLY</td>
-            <td>Tis–Sön (Erika-veckor)</td>
+            <td>Tis–Sön (Vuxen B-veckor)</td>
             <td>—</td>
           </tr>
           <tr>
-            <td><span className="field-name">daniel-solo</span></td>
+            <td><span className="field-name">solo-baseline</span></td>
             <td>WEEKLY</td>
             <td>Alla dagar (baslinje, lägst prioritet)</td>
             <td>—</td>
@@ -135,8 +135,8 @@ export default function PresenceSection() {
         </tbody>
       </table>
       <p style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 20 }}>
-        Prioritet: barn-reglerna (2) slår Erika-veckoregeln (1) som slår{' '}
-        <code>daniel-solo</code>-baslinjen (0). Varje dag landar därför i en bestämd
+        Prioritet: barn-reglerna (2) slår Vuxen B-veckoregeln (1) som slår{' '}
+        <code>solo-baseline</code>-baslinjen (0). Varje dag landar därför i en bestämd
         grupp — inga "okända" dagar.
       </p>
 
@@ -184,7 +184,7 @@ export default function PresenceSection() {
         <thead><tr><th>Fält</th><th>Typ</th><th>Beskrivning</th></tr></thead>
         <tbody>
           <tr><td><span className="field-name">personId</span></td><td>string</td><td>Ägare — styr närvaro-gating</td></tr>
-          <tr><td><span className="field-name">label</span></td><td>string</td><td>Namn, t.ex. "Teater", "Ridning"</td></tr>
+          <tr><td><span className="field-name">label</span></td><td>string</td><td>Namn, t.ex. "Aktivitet E", "Aktivitet G"</td></tr>
           <tr><td><span className="field-name">weekday</span></td><td>1–7</td><td>Veckodag</td></tr>
           <tr><td><span className="field-name">startTime</span></td><td>HH:MM | null</td><td>När aktiviteten börjar. <strong>Enda obligatoriska tidsangivelse.</strong> null = tidlös.</td></tr>
           <tr><td><span className="field-name">arriveBy</span></td><td>HH:MM | null</td><td>Frivillig: när man ska vara där (smalnar cutoff)</td></tr>
@@ -217,11 +217,11 @@ export default function PresenceSection() {
       <table className="field-table" style={{ marginBottom: 20 }}>
         <thead><tr><th>Aktivitet</th><th>Eff. avgång</th><th>Binder middag?</th><th>Motivering</th></tr></thead>
         <tbody>
-          <tr><td>Sarah: Feminine vibe (Sön 12:00)</td><td>11:45</td><td>Nej</td><td>Klart långt innan middag</td></tr>
-          <tr><td>Annabelle: Trav (Sön 14:15)</td><td>14:15</td><td>Nej</td><td>Tillbaka 16:15, hinner middagen</td></tr>
-          <tr><td>Annabelle: Ridning (Fre 16:00)</td><td>15:30</td><td>Ja</td><td>≥ 15:00, binder fönstret</td></tr>
-          <tr><td>Sarah: Hiphop (Fre 17:30)</td><td>17:15</td><td>Ja</td><td>Kvällstid</td></tr>
-          <tr><td>Sarah: Teater (Mån 18:00)</td><td>18:00</td><td>Ja</td><td>Kvällstid, skapar CONFLICT</td></tr>
+          <tr><td>Barn A: Aktivitet C (Sön 12:00)</td><td>11:45</td><td>Nej</td><td>Klart långt innan middag</td></tr>
+          <tr><td>Barn B: Aktivitet H (Sön 14:15)</td><td>14:15</td><td>Nej</td><td>Tillbaka 16:15, hinner middagen</td></tr>
+          <tr><td>Barn B: Aktivitet G (Fre 16:00)</td><td>15:30</td><td>Ja</td><td>≥ 15:00, binder fönstret</td></tr>
+          <tr><td>Barn A: Aktivitet B (Fre 17:30)</td><td>17:15</td><td>Ja</td><td>Kvällstid</td></tr>
+          <tr><td>Barn A: Aktivitet E (Mån 18:00)</td><td>18:00</td><td>Ja</td><td>Kvällstid, skapar CONFLICT</td></tr>
         </tbody>
       </table>
 
@@ -266,30 +266,30 @@ export default function PresenceSection() {
         Kolumnen <em>Binder middag</em> visar om aktiviteten ingår i fönsterberäkningen.
       </p>
 
-      <h5 style={{ marginTop: 12, marginBottom: 4 }}>Sarah</h5>
+      <h5 style={{ marginTop: 12, marginBottom: 4 }}>Barn A</h5>
       <table className="field-table" style={{ marginBottom: 12 }}>
         <thead><tr><th>Dag</th><th>Aktivitet</th><th>Start</th><th>arriveBy</th><th>end</th><th>Binder middag</th></tr></thead>
         <tbody>
           <tr><td>Fre</td><td>Skola: Idrott</td><td>—</td><td>—</td><td>—</td><td>Nej (tidlös)</td></tr>
-          <tr><td>Fre</td><td>Hiphop t/v nivå 1</td><td>17:30</td><td>17:15</td><td>18:45</td><td>Ja → cutoff 17:15</td></tr>
-          <tr><td>Sön</td><td>Feminine vibe t/v nivå 2</td><td>12:00</td><td>11:45</td><td>13:30</td><td>Nej (dagtid)</td></tr>
-          <tr><td>Sön</td><td>Jazz t/v nivå 2</td><td>17:45</td><td>17:30</td><td>19:15</td><td>Ja → cutoff 17:30</td></tr>
+          <tr><td>Fre</td><td>Aktivitet B</td><td>17:30</td><td>17:15</td><td>18:45</td><td>Ja → cutoff 17:15</td></tr>
+          <tr><td>Sön</td><td>Aktivitet C</td><td>12:00</td><td>11:45</td><td>13:30</td><td>Nej (dagtid)</td></tr>
+          <tr><td>Sön</td><td>Aktivitet D</td><td>17:45</td><td>17:30</td><td>19:15</td><td>Ja → cutoff 17:30</td></tr>
           <tr><td>Mån</td><td>Skola: Idrott</td><td>—</td><td>—</td><td>—</td><td>Nej (tidlös)</td></tr>
-          <tr><td>Mån</td><td>Teater</td><td>18:00</td><td>—</td><td>20:00</td><td>Ja → cutoff 18:00 → CONFLICT</td></tr>
-          <tr><td>Ons</td><td>Girly Twerk/Dancehall</td><td>18:45</td><td>18:30</td><td>20:15</td><td>Ja → cutoff 18:30 → CONFLICT</td></tr>
+          <tr><td>Mån</td><td>Aktivitet E</td><td>18:00</td><td>—</td><td>20:00</td><td>Ja → cutoff 18:00 → CONFLICT</td></tr>
+          <tr><td>Ons</td><td>Aktivitet F</td><td>18:45</td><td>18:30</td><td>20:15</td><td>Ja → cutoff 18:30 → CONFLICT</td></tr>
         </tbody>
       </table>
 
-      <h5 style={{ marginTop: 12, marginBottom: 4 }}>Annabelle</h5>
+      <h5 style={{ marginTop: 12, marginBottom: 4 }}>Barn B</h5>
       <table className="field-table" style={{ marginBottom: 24 }}>
         <thead><tr><th>Dag</th><th>Aktivitet</th><th>Start</th><th>arriveBy</th><th>end</th><th>Binder middag</th></tr></thead>
         <tbody>
           <tr><td>Fre</td><td>Skola: Idrott</td><td>—</td><td>—</td><td>—</td><td>Nej (tidlös)</td></tr>
-          <tr><td>Fre</td><td>Ridning</td><td>16:00</td><td>15:30</td><td>17:00</td><td>Ja → cutoff 15:30</td></tr>
-          <tr><td>Sön</td><td>Trav</td><td>14:15</td><td>—</td><td>16:15</td><td>Nej (dagtid, eff. 14:15 &lt; 15:00)</td></tr>
-          <tr><td>Mån</td><td>Skola: Klarinett</td><td>—</td><td>—</td><td>—</td><td>Nej (tidlös)</td></tr>
+          <tr><td>Fre</td><td>Aktivitet G</td><td>16:00</td><td>15:30</td><td>17:00</td><td>Ja → cutoff 15:30</td></tr>
+          <tr><td>Sön</td><td>Aktivitet H</td><td>14:15</td><td>—</td><td>16:15</td><td>Nej (dagtid, eff. 14:15 &lt; 15:00)</td></tr>
+          <tr><td>Mån</td><td>Skola: Ämne 2</td><td>—</td><td>—</td><td>—</td><td>Nej (tidlös)</td></tr>
           <tr><td>Mån</td><td>Skola: Idrott</td><td>—</td><td>—</td><td>—</td><td>Nej (tidlös)</td></tr>
-          <tr><td>Mån</td><td>Modern 10–12</td><td>17:30</td><td>17:15</td><td>18:30</td><td>Ja → cutoff 17:15</td></tr>
+          <tr><td>Mån</td><td>Aktivitet I</td><td>17:30</td><td>17:15</td><td>18:30</td><td>Ja → cutoff 17:15</td></tr>
         </tbody>
       </table>
 
@@ -332,17 +332,17 @@ export default function PresenceSection() {
       <h3>Verkligt mönster — kanonisk 14-dagarscykel</h3>
       <table className="field-table" style={{ marginBottom: 24 }}>
         <thead>
-          <tr><th>Dag</th><th>Daniels vecka</th><th>Erika-vecka</th><th>Matfönster (Daniels v.)</th></tr>
+          <tr><th>Dag</th><th>Vuxen A:s vecka</th><th>Vuxen B-vecka</th><th>Matfönster (Vuxen A:s v.)</th></tr>
         </thead>
         <tbody>
           {([
-            ['Mån', 'Daniel + barn', 'Daniel + barn', 'CONFLICT — ät senast 17:15 (Modern + Teater + överlämn. 19:00)'],
-            ['Tis', 'Daniel (ensam)', 'Daniel + Erika', '—'],
-            ['Ons', 'Daniel + barn', 'Daniel + Erika', 'CONFLICT — ät senast 18:30 (Twerk + överlämn. 19:00)'],
-            ['Tor', 'Daniel (ensam)', 'Daniel + Erika', '—'],
-            ['Fre', 'Daniel + barn', 'Daniel + Erika', 'BOUNDED — senast 15:30 (Ridning)'],
-            ['Lör', 'Daniel + barn', 'Daniel + Erika', 'OPEN'],
-            ['Sön', 'Daniel + barn', 'Daniel + Erika', 'BOUNDED — senast 17:30 (Jazz)'],
+            ['Mån', 'Vuxen A + barn', 'Vuxen A + barn', 'CONFLICT — ät senast 17:15 (Modern + Aktivitet E + överlämn. 19:00)'],
+            ['Tis', 'Vuxen A (ensam)', 'Vuxen A + Vuxen B', '—'],
+            ['Ons', 'Vuxen A + barn', 'Vuxen A + Vuxen B', 'CONFLICT — ät senast 18:30 (Aktivitet F + överlämn. 19:00)'],
+            ['Tor', 'Vuxen A (ensam)', 'Vuxen A + Vuxen B', '—'],
+            ['Fre', 'Vuxen A + barn', 'Vuxen A + Vuxen B', 'BOUNDED — senast 15:30 (Aktivitet G)'],
+            ['Lör', 'Vuxen A + barn', 'Vuxen A + Vuxen B', 'OPEN'],
+            ['Sön', 'Vuxen A + barn', 'Vuxen A + Vuxen B', 'BOUNDED — senast 17:30 (Aktivitet D)'],
           ] as [string, string, string, string][]).map(([day, danielWeek, offWeek, window]) => (
             <tr key={day}>
               <td><strong>{day}</strong></td>
@@ -376,7 +376,7 @@ export default function PresenceSection() {
         <span className="callout-icon">🚧</span>
         <div className="callout-body">
           <strong>Planeras i Prompt 3 (Side B — Måltider):</strong>{' '}
-          måltidslogik, koklogik, rester, preferenser (inkl. Annabelles vegankost som funktionell
+          måltidslogik, koklogik, rester, preferenser (inkl. ett barns vegankost som funktionell
           regel), och "ät sent"-alternativet baserat på aktiviteternas <code>endTime</code>.
         </div>
       </div>

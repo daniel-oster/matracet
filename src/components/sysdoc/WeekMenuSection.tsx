@@ -90,7 +90,7 @@ export default function WeekMenuSection() {
             <span className="callout-icon">📅</span>
             <div className="callout-body">
               <strong>Konvention</strong>
-              Varje vecka skapar Claude en ny JSON-fil baserat på Daniel's preferenser och familjens rutiner. Filen commitas direkt till repot.
+              Varje vecka skapar Claude en ny JSON-fil baserat på familjens preferenser och familjens rutiner. Filen commitas direkt till repot.
             </div>
           </div>
           <table className="field-table">

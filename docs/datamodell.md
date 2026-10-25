@@ -113,7 +113,7 @@ Strukturen `varianter.<namn>.byt` är ett enkelt key→value-map som säger "nä
       "datum": "2026-05-18",
       "recept": "svamprisotto",
       "portioner": 4,
-      "kommentar": "Sarah har träning kl 18"
+      "kommentar": "Barn A har träning kl 18"
     },
     {
       "dag": "tisdag",
@@ -133,7 +133,7 @@ Strukturen `varianter.<namn>.byt` är ett enkelt key→value-map som säger "nä
       "datum": "2026-05-21",
       "recept": "lax-rotsaker",
       "portioner": 4,
-      "varianter": { "sarah": "vegansk" }
+      "varianter": { "barn-a": "vegansk" }
     },
     {
       "dag": "fredag",
@@ -157,8 +157,8 @@ Strukturen `varianter.<namn>.byt` är ett enkelt key→value-map som säger "nä
   ],
   "anteckningar": [
     { "nar": "denna-vecka", "text": "Mormor & morfar kommer på lördag — fixa något lite festligt!" },
-    { "nar": "vecka-22", "text": "Sarah åker på lägret onsdag–söndag. Mindre vegoplanering." },
-    { "nar": "ide", "text": "Indisk linsgryta med kokosmjölk — Sarah gillade på restaurang." }
+    { "nar": "vecka-22", "text": "Barn A åker på lägret onsdag–söndag. Mindre vegoplanering." },
+    { "nar": "ide", "text": "Indisk linsgryta med kokosmjölk — Barn A gillade på restaurang." }
   ],
   "extra_inkop": [
     "toalettpapper",
@@ -192,8 +192,8 @@ Strukturen `varianter.<namn>.byt` är ett enkelt key→value-map som säger "nä
 {
   "eaters": [
     {
-      "id": "daniel",
-      "namn": "Daniel",
+      "id": "vuxen-a",
+      "namn": "Vuxen A",
       "roll": "Pappa",
       "kost": [],
       "halsa": ["lågt natrium", "högt blodtryck"],
@@ -201,8 +201,8 @@ Strukturen `varianter.<namn>.byt` är ett enkelt key→value-map som säger "nä
       "undviker": []
     },
     {
-      "id": "sarah",
-      "namn": "Sarah",
+      "id": "barn-a",
+      "namn": "Barn A",
       "roll": "Dotter · år 9",
       "kost": ["vegan"],
       "halsa": [],
@@ -222,7 +222,7 @@ Strukturen `varianter.<namn>.byt` är ett enkelt key→value-map som säger "nä
   "veckorutin": {
     "vardag_max_min": 35,
     "specialer": [
-      { "dag": "tisdag", "anteckning": "Sarah har träning 18 — snabbmat" },
+      { "dag": "tisdag", "anteckning": "Barn A har träning 18 — snabbmat" },
       { "dag": "fredag", "anteckning": "Oftast pizza-utflykt" }
     ]
   }

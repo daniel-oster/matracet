@@ -3,7 +3,7 @@ import TopBar from '../TopBar'
 
 const NOTES_CURRENT: WeekNote[] = [
   { nar: 'Den här veckan', text: 'Mormor & morfar kommer på lördag — fixa något lite festligt!' },
-  { nar: 'Vecka 22',       text: 'Sarah åker på lägret onsdag–söndag. Mindre vegoplanering.' },
+  { nar: 'Vecka 22',       text: 'Barn A åker på lägret onsdag–söndag. Mindre vegoplanering.' },
   { nar: 'Idé',            text: 'Indisk linsgryta med kokosmjölk!' },
 ]
 

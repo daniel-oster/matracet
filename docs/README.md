@@ -8,14 +8,14 @@
 
 ## 1. Bakgrund
 
-Daniel (Trafikverket, Observe-teamet, .NET-bakgrund, vana att hantera kod via Claude Code) vill bygga något han kallat **"Life - as it should be"** — en app som hjälper med det praktiska i livet, gör det svåra lättare. Han började brett, men ringade snabbt in **matplanering** som rätt första domän, eftersom det är där han själv sliter mest.
+Utvecklaren (vana att hantera kod via Claude Code) vill bygga något han kallat **"Life - as it should be"** — en app som hjälper med det praktiska i livet, gör det svåra lättare. Han började brett, men ringade snabbt in **matplanering** som rätt första domän, eftersom det är där han själv sliter mest.
 
 Hushållet har olika kostpreferenser samtidigt:
 
-- **Daniel**: förälder, lågt natrium (högt blodtryck), gillar svamp, fisk, starka smaker
-- **Sarah** (dotter, 15 år): vegan, gillar pasta/curry/avokado
-- **Annabelle** (dotter, 11 år): "vanlig mat", gillar kött och potatismos
-- **Erika**: Daniels flickvän
+- **Vuxen A**: förälder, lågt natrium (högt blodtryck), gillar svamp, fisk, starka smaker
+- **Barn A** (dotter, 15 år): vegan, gillar pasta/curry/avokado
+- **Barn B** (dotter, 11 år): "vanlig mat", gillar kött och potatismos
+- **Vuxen B**: Vuxen
 
 Utöver det: morgnar är stressiga, mat har blivit dyrt, säsongstänk är viktigt, och vardagsschemat (träningar, läxor) påverkar hur mycket tid det finns för matlagning.
 
@@ -33,11 +33,11 @@ Utöver det: morgnar är stressiga, mat har blivit dyrt, säsongstänk är vikti
 
 ## 3. Filosofi: Personal MVP
 
-Detta är **inte en kommersiell produkt** — i alla fall inte än. Det är en app Daniel bygger åt sin egen familj först. Den ska:
+Detta är **inte en kommersiell produkt** — i alla fall inte än. Det är en app utvecklaren bygger åt sin egen familj först. Den ska:
 
 - **Vara körbar inom dagar**, inte månader
 - **Kosta noll i månaden** att underhålla
-- **Lösa ett verkligt problem i Daniels eget kök** först
+- **Lösa ett verkligt problem i Vuxen A:s eget kök** först
 - Bli en kommersiell produkt **endast om värdet bevisas i hans eget liv**
 
 ### Konsekvenser
@@ -90,15 +90,15 @@ Ren funktion — ingen sido-effekt.
 
 Verkligt vårdnadsmönster (kanoniskt exempel, anchor 2026-05-22):
 
-| Dag | Daniels vecka | Frisvecka |
+| Dag | Vuxen A:s vecka | Frisvecka |
 |---|---|---|
-| Mån | Daniel + barn | Daniel + barn |
+| Mån | Vuxen A + barn | Vuxen A + barn |
 | Tis | (mamman) | (mamman) |
-| Ons | Daniel + barn | Daniel + barn |
+| Ons | Vuxen A + barn | Vuxen A + barn |
 | Tor | (mamman) | (mamman) |
-| Fre | Daniel + barn | (mamman) |
-| Lör | Daniel + barn | (mamman) |
-| Sön | Daniel + barn | (mamman) |
+| Fre | Vuxen A + barn | (mamman) |
+| Lör | Vuxen A + barn | (mamman) |
+| Sön | Vuxen A + barn | (mamman) |
 
 Måndag och onsdag täcks av en `WEEKLY`-regel; fredag–söndag av en `BIWEEKLY`-regel med
 samma anchor. Erikas alternering och barnens aktiviteter läggs till i Prompt 2 som ytterligare
@@ -142,7 +142,7 @@ matracet/
 │   │       ├── recept.md
 │   │       ├── bild.jpg
 │   │       └── steg-3.jpg          ← framtida möjlighet
-│   ├── eaters.json                  ← Daniel, Sarah, yngsta barnet
+│   ├── eaters.json                  ← Vuxen A, Barn A, yngsta barnet
 │   ├── pantry.json                  ← "saker jag alltid har hemma"
 │   ├── weeks/
 │   │   ├── 2026-W21.json
@@ -238,7 +238,7 @@ man pratar bort dagen.
       "dag": "mandag",
       "datum": "2026-05-18",
       "recept": "svamprisotto",
-      "kommentar": "Sarah har träning kl 18"
+      "kommentar": "Barn A har träning kl 18"
     },
     {
       "dag": "tisdag",
@@ -266,16 +266,16 @@ man pratar bort dagen.
 {
   "eaters": [
     {
-      "id": "daniel",
-      "namn": "Daniel",
+      "id": "vuxen-a",
+      "namn": "Vuxen A",
       "roll": "Pappa",
       "halsa": ["lågt natrium", "högt blodtryck"],
       "gillar": ["svamp", "fisk", "starka smaker"],
       "undviker": []
     },
     {
-      "id": "sarah",
-      "namn": "Sarah",
+      "id": "barn-a",
+      "namn": "Barn A",
       "roll": "Dotter · år 9",
       "kost": ["vegan"],
       "gillar": ["pasta", "curry", "avokado"],
@@ -344,7 +344,7 @@ Allt detta finns implementerat i `prototypes/filofax-prototyp.html` — det är 
 
 ## 8. MVP-scope
 
-### Vad som faktiskt ska byggas (för att vara körbar i Daniels kök)
+### Vad som faktiskt ska byggas (för att vara körbar i Vuxen A:s kök)
 
 | Funktion | Komplexitet | Manuell eller automatisk? |
 |---|---|---|

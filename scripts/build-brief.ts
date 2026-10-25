@@ -1,7 +1,7 @@
 /**
  * build-brief — deterministisk datafogning för veckoplanering.
  *
- * Löser ut den KOMMANDE veckan och skriver planning-brief.json. Allt underlag
+ * Löser ut den KOMMANDE veckan och skriver planning-brief.json till livet-data/matracet/ (innehåller närvaro och måltidshistorik — aldrig i det publika repot). Allt underlag
  * härleds enbart från committad git-data (public/data) plus närvaro-/preferens-
  * modellen i src/. Ingen LLM, inga nätverksanrop, ingen säsongslogik, ingen
  * slump — samma referensdatum in ger byte-identisk brief ut.
@@ -207,7 +207,7 @@ function veganRequiredFor(presentIds: Set<string>): boolean {
 // ── Bygg veckan ─────────────────────────────────────────────────────────────────
 
 const referenceDate = process.argv[2] ?? iso(new Date())
-const outPath = process.argv[3] ?? 'planning-brief.json'
+const outPath = process.argv[3] ?? resolve(LIVET_DATA_DIR!, 'matracet/planning-brief.json')
 
 // KOMMANDE vecka = nästa ISO-veckas måndag relativt referensdatumet.
 const upcomingMonday = addDays(isoWeekMonday(referenceDate), 7)
@@ -385,7 +385,7 @@ const brief = {
         : 'feedback.json är tom — exportera "Ladda ner mina data" i appen och committa för att fylla sentiment + exclusions.',
     ],
     assumptions: [
-      'present[] och portioner härleds helt ur vårdnadsschemat (src/presence/seed.ts): barn=3, Daniel+Erika=2, Daniel ensam=1. Varje dag har en bestämd uppsättning — inga okända dagar.',
+      'present[] och portioner härleds helt ur vårdnadsschemat (src/presence/seed.ts): barn=3, Vuxen A+Vuxen B=2, Vuxen A ensam=1. Varje dag har en bestämd uppsättning — inga okända dagar.',
       'protein härleds ur recept-kategorier (kott>fisk>vegansk>vegetarisk); inget eget proteinfält finns.',
       'veganRequired = sant när en person med kost:"vegan" (eaters.json) är hemma (presence-gated).',
       'mealLibrary.antalGanger/senastAten är beräknade, inte hand-underhållna fält i meals.json — se matchesHistoryEntry.',
