@@ -6,10 +6,15 @@
 import { readFileSync } from 'node:fs'
 import webpush from 'web-push'
 
-/** Tolerate what a pasted GitHub secret usually picks up: whitespace/newlines and wrapping
- *  quotes or backticks. A real VAPID private key is 43 base64url chars (32 bytes). */
+/** Tolerate what a pasted GitHub secret usually picks up: whitespace/newlines, wrapping quotes or
+ *  backticks, and a `NAME=` / `"privateKey":` prefix around the key. A real VAPID private key is
+ *  43 base64url chars (32 bytes); when the value isn't one but holds exactly one 43-char token
+ *  (the public key is 87, so it can't be mistaken for it), that token is the key. */
 export function normalizePrivateKey(raw) {
-  return (raw ?? '').replace(/\s+/g, '').replace(/^[`'"]+|[`'"]+$/g, '')
+  const cleaned = (raw ?? '').replace(/\s+/g, '').replace(/^[`'"]+|[`'"]+$/g, '')
+  if (cleaned.length === 43) return cleaned
+  const tokens = cleaned.match(/(?<![\w-])[\w-]{43}(?![\w-])/g)
+  return tokens?.length === 1 ? tokens[0] : cleaned
 }
 
 /** The VAPID public key is committed in src/lib/push.ts (one source for app and senders). */
@@ -17,10 +22,14 @@ export function readPublicKey(pushTsUrl) {
   return readFileSync(pushTsUrl, 'utf8').match(/'(B[\w-]{80,})'/)?.[1]
 }
 
-/** null when fine, otherwise a message that never contains the key itself. */
+/** null when fine, otherwise a message that never contains the key itself — only its shape. */
 export function privateKeyProblem(privateKey) {
   if (Buffer.from(privateKey, 'base64url').length === 32) return null
-  return `VAPID_PRIVATE_KEY har fel längd (${privateKey.length} tecken, väntat 43). Klistra in den igen i repots Actions-secrets.`
+  const other = (privateKey.match(/[^A-Za-z0-9_-]/g) ?? []).length
+  const hint = privateKey.length === 87 && privateKey.startsWith('B')
+    ? ' Det ser ut som den PUBLIKA nyckeln – den privata är den andra, 43 tecken.'
+    : ''
+  return `VAPID_PRIVATE_KEY har fel längd (${privateKey.length} tecken, väntat 43; ${other} tecken utanför A–Z a–z 0–9 - _).${hint} Klistra in den igen i repots Actions-secrets.`
 }
 
 /**
