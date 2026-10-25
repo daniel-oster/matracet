@@ -76,7 +76,7 @@ function authHeaders(token: string): HeadersInit {
  * for no reason (PR #83 review fix). A rate-limited response carries `x-ratelimit-remaining:
  * 0` (primary) or a `retry-after` header (secondary/abuse detection); classify only those as
  * the retryable 'network' status, everything else 403 as genuinely 'unauthorized'. */
-function classifyAuthFailure(res: Response): 'unauthorized' | 'network' {
+export function classifyAuthFailure(res: Response): 'unauthorized' | 'network' {
   if (res.status === 401) return 'unauthorized'
   if (res.headers.get('x-ratelimit-remaining') === '0' || res.headers.get('retry-after')) {
     return 'network'
