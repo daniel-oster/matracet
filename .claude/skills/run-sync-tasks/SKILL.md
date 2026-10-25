@@ -38,8 +38,10 @@ placement is the entire cost model for this half of the pipeline — keep it int
 
 ## 1. Get the pending tasks
 
-Fetch `sync/state.json` from the `device-sync` branch (GitHub MCP `get_file_contents` with
-`ref: "device-sync"`, or `git show origin/device-sync:sync/state.json` in a clone) and read
+Fetch `matracet/sync/state.json` from the `device-sync` branch of the **private** repo
+`daniel-oster/livet-data` (moved there from this repo in 2026-10; GitHub MCP
+`get_file_contents` with `ref: "device-sync"`, or `git show origin/device-sync:matracet/sync/state.json`
+in a livet-data clone) and read
 its `stores['matracet:synctasks:v1'].data.tasks` array — each entry is
 `{ id, type, createdAt, payload }` (see `src/hooks/useSyncTasks.ts`'s `SyncTask`).
 

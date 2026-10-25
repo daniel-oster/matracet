@@ -1487,7 +1487,15 @@ correctly. The apply+prune half is covered by `src/hooks/useSyncTasks.test.ts`'s
 hydration with tasks present" cases (mirroring `App.tsx`'s exact `applyTaskOutcome` →
 `pruneSyncTasks` sequence) and `src/lib/syncTaskOutcomes.test.ts`.
 
-**Repo visibility: decided, staying public (2026-07).** The plan's own risk section flagged
+**Moved to the private repo (2026-10): device-sync now lives in `daniel-oster/livet-data`**
+(branch `device-sync`, file `matracet/sync/state.json`) — `githubSync.ts`'s `REPO_NAME`/`SYNC_PATH`
+are the only code that knows. This reverses the decision below; see `docs/laget-spec-2026-10.md`
+("Integritet"). The old public `device-sync` branch is deleted once a device has pushed to the new
+location. `merge-device-sync.yml` is out of date until feedback.json moves too. A phone's
+localStorage is the source of truth, so the first push after upgrading repopulates the new
+branch by itself; a copy of the last public state was also committed there at the switch.
+
+**(Superseded — see above) Repo visibility: decided, staying public (2026-07).** The plan's own risk section flagged
 that auto-push inherits the repo's visibility — ratings, per-meal attendance overrides, and
 the custody-derived weekplan flow to a public `device-sync` branch the moment a real token is
 entered on a real device. Raised explicitly with the household; the decision is to accept that
