@@ -4,6 +4,7 @@ import { dateLabel, dinnerText } from './format'
 import { dayLines } from './summary'
 import type { Installningar } from './notiser'
 import type { DayView } from './types'
+import { hardRefresh } from '../lib/hardRefresh'
 
 // Veckan (seven rows), and the read-mostly screens behind the menu: Schema, Lov och perioder, Notiser.
 
@@ -155,6 +156,12 @@ export function Meny({ onGo }: { onGo: (view: 'schema' | 'aktiviteter' | 'period
             <span className="laget-tile-title">Matracet</span>
             <span className="laget-tile-sub">Veckans mat och inköp</span>
           </a>
+        </li>
+        <li>
+          <button className="laget-tile" onClick={hardRefresh}>
+            <span className="laget-tile-title">⟳ Hämta senaste versionen</span>
+            <span className="laget-tile-sub">Laddar om appen utan att röra det som sparats</span>
+          </button>
         </li>
       </ul>
     </>
