@@ -9,7 +9,7 @@
   "hamtad": "2026-10-24",
   "kalla_url": "https://www.willys.se/erbjudanden/butik",
   "urval": "automatiskt hämtad (erbjudanden-weekly.mjs): livsmedel och hushåll; 15 av 238 erbjudanden utsorterade (blöjor, djurmat, ljus, kläder, m.m.)",
-  "antal": 223,
+  "antal": 222,
   "erbjudanden": [
     {
       "namn": "Lyxrosor 12-pack",
@@ -54,9 +54,9 @@
       "ursprung": "Brasilien",
       "notering": null,
       "kategori": "kott",
-      "form": null,
+      "form": "farsk",
       "varutyp": "kott",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-10-22"
     },
     {
@@ -100,7 +100,7 @@
       "kategori": "kaffe_te",
       "form": null,
       "varutyp": "kaffe_te",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Läsk 1,5l",
@@ -121,7 +121,7 @@
       "kategori": "lask_vatten",
       "form": null,
       "varutyp": "lask_vatten",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -145,7 +145,7 @@
       "kategori": "gronsaker",
       "form": "farsk",
       "varutyp": "gronsaker",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Levain",
@@ -166,7 +166,7 @@
       "kategori": "matbrod",
       "form": null,
       "varutyp": "matbrod",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Läsk 4-pack",
@@ -187,7 +187,7 @@
       "kategori": "lask_vatten",
       "form": null,
       "varutyp": "lask_vatten",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Präst®, grevé ®, herrgård®",
@@ -252,7 +252,7 @@
       "kategori": "frallor_tunnbrod",
       "form": null,
       "varutyp": "frallor_tunnbrod",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -274,7 +274,7 @@
       "kategori": "ost_hard",
       "form": "kyld",
       "varutyp": "ost_hard",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Vitost",
@@ -295,7 +295,7 @@
       "kategori": "ost_vit_grill",
       "form": "kyld",
       "varutyp": "ost_vit_grill",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Tacosås",
@@ -316,7 +316,7 @@
       "kategori": "sas_dressing",
       "form": "torr",
       "varutyp": "sas_dressing",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Jalapeño",
@@ -358,7 +358,7 @@
       "kategori": "sas_dressing",
       "form": "torr",
       "varutyp": "sas_dressing",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Tacokryddmix 3-pack",
@@ -379,7 +379,7 @@
       "kategori": "kryddor_buljong",
       "form": "torr",
       "varutyp": "kryddor_buljong",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Majs 3-pack",
@@ -400,7 +400,7 @@
       "kategori": "gronsaker",
       "form": "farsk",
       "varutyp": "gronsaker",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Salsa, guacamole",
@@ -421,7 +421,7 @@
       "kategori": "inlagt_delikatess",
       "form": "torr",
       "varutyp": "inlagt_delikatess",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Lammstek med ben",
@@ -442,7 +442,7 @@
       "kategori": "kott",
       "form": "fryst",
       "varutyp": "kott",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Karré, kotlett",
@@ -466,7 +466,7 @@
       "kategori": "kott",
       "form": null,
       "varutyp": "kott",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Pesto",
@@ -487,7 +487,7 @@
       "kategori": "sas_dressing",
       "form": "torr",
       "varutyp": "sas_dressing",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -514,7 +514,7 @@
       "kategori": "kott",
       "form": null,
       "varutyp": "kott",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Buffalo wings",
@@ -562,7 +562,7 @@
       "kategori": "kott",
       "form": null,
       "varutyp": "kott",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Kycklingbröstfilé",
@@ -585,7 +585,7 @@
       "kategori": "fagel",
       "form": null,
       "varutyp": "fagel",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Kycklingben",
@@ -606,7 +606,7 @@
       "kategori": "fagel",
       "form": null,
       "varutyp": "fagel",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Ribs",
@@ -630,7 +630,7 @@
       "kategori": "kott",
       "form": null,
       "varutyp": "kott",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Svensk rostbiff",
@@ -654,7 +654,7 @@
       "kategori": "kott",
       "form": null,
       "varutyp": "kott",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Ribs",
@@ -678,7 +678,7 @@
       "kategori": "kott",
       "form": null,
       "varutyp": "kott",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Bolognesefärs, tacofärs",
@@ -702,7 +702,7 @@
       "kategori": "fars_kottbullar",
       "form": null,
       "varutyp": "fars_kottbullar",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Croissant",
@@ -723,7 +723,7 @@
       "kategori": "frallor_tunnbrod",
       "form": null,
       "varutyp": "frallor_tunnbrod",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Skivat smörgåspålägg",
@@ -747,7 +747,7 @@
       "kategori": "palagg_pastej",
       "form": null,
       "varutyp": "palagg_pastej",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Limpan, frölimpa",
@@ -770,7 +770,7 @@
       "kategori": "matbrod",
       "form": null,
       "varutyp": "matbrod",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Te",
@@ -791,7 +791,7 @@
       "kategori": "kaffe_te",
       "form": null,
       "varutyp": "kaffe_te",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Juice, nektar",
@@ -812,7 +812,7 @@
       "kategori": "juice_saft",
       "form": null,
       "varutyp": "juice_saft",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Skivat bacon 3-pack",
@@ -836,7 +836,7 @@
       "kategori": "bacon_skinka",
       "form": null,
       "varutyp": "bacon_skinka",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Ekologisk bregott, laktosfri bregott",
@@ -884,7 +884,7 @@
       "kategori": "palagg_pastej",
       "form": null,
       "varutyp": "palagg_pastej",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Müsli",
@@ -908,7 +908,7 @@
       "kategori": "flingor_musli",
       "form": "torr",
       "varutyp": "flingor_musli",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Smaksatt yoghurt",
@@ -931,7 +931,7 @@
       "kategori": "fil_yoghurt",
       "form": "kyld",
       "varutyp": "fil_yoghurt",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Formaggio duro",
@@ -973,7 +973,7 @@
       "kategori": "inlagt_delikatess",
       "form": "torr",
       "varutyp": "inlagt_delikatess",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Salame milano, salame ventricina",
@@ -994,7 +994,7 @@
       "kategori": "charkuterier",
       "form": null,
       "varutyp": "charkuterier",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Färskost",
@@ -1015,7 +1015,7 @@
       "kategori": "ost_fars_mjuk",
       "form": "kyld",
       "varutyp": "ost_fars_mjuk",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Smaksatt olivolja",
@@ -1038,7 +1038,7 @@
       "kategori": "olja_vinager",
       "form": "torr",
       "varutyp": "olja_vinager",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Mjukost",
@@ -1059,7 +1059,7 @@
       "kategori": "ost_fars_mjuk",
       "form": "kyld",
       "varutyp": "ost_fars_mjuk",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Surimi formade som räkor",
@@ -1079,10 +1079,10 @@
       ],
       "ursprung": null,
       "notering": "Djupfrysta • Olika sorter • Tillfälligt parti",
-      "kategori": "skaldjur",
+      "kategori": "fisk",
       "form": "fryst",
-      "varutyp": "skaldjur",
-      "kategori_kalla": "regel"
+      "varutyp": "fisk",
+      "kategori_kalla": "model"
     },
     {
       "namn": "Vitlöksbröd",
@@ -1103,7 +1103,7 @@
       "kategori": "matbrod",
       "form": "fryst",
       "varutyp": "matbrod",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Chips",
@@ -1124,7 +1124,7 @@
       "kategori": "chips_snacks",
       "form": null,
       "varutyp": "chips_snacks",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Chips, ostsnacks",
@@ -1145,7 +1145,7 @@
       "kategori": "chips_snacks",
       "form": null,
       "varutyp": "chips_snacks",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Dippmix",
@@ -1187,7 +1187,7 @@
       "kategori": "juice_saft",
       "form": null,
       "varutyp": "juice_saft",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Smör",
@@ -1208,7 +1208,7 @@
       "kategori": "smor_margarin",
       "form": "kyld",
       "varutyp": "smor_margarin",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Kycklingvingar",
@@ -1232,7 +1232,7 @@
       "kategori": "fagel",
       "form": "fryst",
       "varutyp": "fagel",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Mayonnaise",
@@ -1253,7 +1253,7 @@
       "kategori": "sas_dressing",
       "form": "torr",
       "varutyp": "sas_dressing",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Ekologisk agavesirap, blomsterhonung",
@@ -1274,7 +1274,7 @@
       "kategori": "bak_sott",
       "form": "torr",
       "varutyp": "bak_sott",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -1298,7 +1298,7 @@
       "kategori": "fisk",
       "form": "fryst",
       "varutyp": "fisk",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Vita bönor 4-pack",
@@ -1319,7 +1319,7 @@
       "kategori": "baljvaxter",
       "form": null,
       "varutyp": "bonor",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -1341,7 +1341,7 @@
       "kategori": "ris_gryn",
       "form": "torr",
       "varutyp": "ris_gryn",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Basmatiris",
@@ -1362,7 +1362,7 @@
       "kategori": "ris_gryn",
       "form": "torr",
       "varutyp": "ris_gryn",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Köttbullar",
@@ -1386,7 +1386,7 @@
       "kategori": "fars_kottbullar",
       "form": null,
       "varutyp": "fars_kottbullar",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Räkor med skal",
@@ -1410,7 +1410,7 @@
       "kategori": "skaldjur",
       "form": "fryst",
       "varutyp": "skaldjur",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Oxpytt",
@@ -1431,7 +1431,7 @@
       "kategori": "enportionsratt",
       "form": "fryst",
       "varutyp": "enportionsratt",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Duschtvål",
@@ -1474,7 +1474,7 @@
       "kategori": "enportionsratt",
       "form": "fryst",
       "varutyp": "enportionsratt",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Brioche hamburgerbröd 4-pack",
@@ -1495,7 +1495,7 @@
       "kategori": "korv_hamburgerbrod",
       "form": null,
       "varutyp": "korv_hamburgerbrod",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Majskakor",
@@ -1516,7 +1516,7 @@
       "kategori": "knackebrod",
       "form": null,
       "varutyp": "knackebrod",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Fish & crisp",
@@ -1539,7 +1539,7 @@
       "kategori": "fisk",
       "form": "fryst",
       "varutyp": "fisk",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Proteinbar",
@@ -1560,7 +1560,7 @@
       "kategori": "bars",
       "form": null,
       "varutyp": "bars",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-08"
     },
     {
@@ -1604,7 +1604,7 @@
       "kategori": "kryddor_buljong",
       "form": "torr",
       "varutyp": "kryddor_buljong",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -1647,7 +1647,7 @@
       "kategori": "fars_kottbullar",
       "form": "fryst",
       "varutyp": "fars_kottbullar",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-08"
     },
     {
@@ -1695,7 +1695,7 @@
       "kategori": "kaffe_te",
       "form": null,
       "varutyp": "kaffe_te",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -1719,7 +1719,7 @@
       "kategori": "baljvaxter",
       "form": null,
       "varutyp": "kikartor",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Flytande handtvål",
@@ -1742,7 +1742,7 @@
       "kategori": "hygien",
       "form": null,
       "varutyp": "hygien",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -1764,7 +1764,7 @@
       "kategori": "pasta",
       "form": "torr",
       "varutyp": "pasta",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -1807,7 +1807,7 @@
       "kategori": "hygien",
       "form": null,
       "varutyp": "hygien",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -1831,7 +1831,7 @@
       "kategori": "kaffe_te",
       "form": null,
       "varutyp": "kaffe_te",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -1896,7 +1896,7 @@
       "kategori": "pizza",
       "form": "fryst",
       "varutyp": "pizza",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Deo roll-on, deospray",
@@ -1960,7 +1960,7 @@
       "kategori": "hygien",
       "form": null,
       "varutyp": "hygien",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -1982,7 +1982,7 @@
       "kategori": "pasta",
       "form": "torr",
       "varutyp": "pasta",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Schampo, balsam",
@@ -2003,7 +2003,7 @@
       "kategori": "hygien",
       "form": null,
       "varutyp": "hygien",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -2028,7 +2028,7 @@
       "kategori": "fisk",
       "form": null,
       "varutyp": "fisk",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Färsk fylld pasta",
@@ -2047,9 +2047,9 @@
       "ursprung": null,
       "notering": "Olika sorter",
       "kategori": "pasta",
-      "form": "torr",
+      "form": "kyld",
       "varutyp": "pasta",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Sås",
@@ -2070,7 +2070,7 @@
       "kategori": "sas_dressing",
       "form": "torr",
       "varutyp": "sas_dressing",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Soppa",
@@ -2091,7 +2091,7 @@
       "kategori": "enportionsratt",
       "form": null,
       "varutyp": "enportionsratt",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Delikatessfalukorv",
@@ -2115,7 +2115,7 @@
       "kategori": "korv",
       "form": null,
       "varutyp": "korv",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Sushilax",
@@ -2138,7 +2138,7 @@
       "kategori": "fisk",
       "form": null,
       "varutyp": "fisk",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Lax pokétärningar",
@@ -2161,7 +2161,7 @@
       "kategori": "fisk",
       "form": null,
       "varutyp": "fisk",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Frukt, grötklämmisar",
@@ -2208,29 +2208,6 @@
       "kategori_kalla": "model"
     },
     {
-      "namn": "Våtservetter",
-      "marke": "LIBERO",
-      "storlek": "64P",
-      "pris_text": "19.90/st",
-      "pris": 19.9,
-      "pris_typ": "st",
-      "jamforpris": "0.31/st",
-      "ord_pris": "24.90",
-      "pris_30dgr": "24.90kr/st",
-      "besparing": "5.00kr",
-      "klubbpris": false,
-      "max_kop": null,
-      "markeringar": [
-        "svanen"
-      ],
-      "ursprung": null,
-      "notering": "Oparfymerade",
-      "kategori": "papper_pasar_folie",
-      "form": null,
-      "varutyp": "papper_pasar_folie",
-      "kategori_kalla": "regel"
-    },
-    {
       "namn": "Jätten",
       "marke": "JÄTTEN",
       "storlek": "250G",
@@ -2272,7 +2249,7 @@
       "kategori": "barnmat",
       "form": null,
       "varutyp": "barnmat",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Sandwich 2-pack",
@@ -2314,7 +2291,7 @@
       "kategori": "hygien",
       "form": null,
       "varutyp": "hygien",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -2338,7 +2315,7 @@
       "kategori": "papper_pasar_folie",
       "form": null,
       "varutyp": "papper_pasar_folie",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Laktosfri yoghurt",
@@ -2359,7 +2336,7 @@
       "kategori": "fil_yoghurt",
       "form": "kyld",
       "varutyp": "fil_yoghurt",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Rakvård",
@@ -2380,7 +2357,7 @@
       "kategori": "hygien",
       "form": null,
       "varutyp": "hygien",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -2402,7 +2379,7 @@
       "kategori": "juice_saft",
       "form": null,
       "varutyp": "juice_saft",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Make-up remover",
@@ -2447,7 +2424,7 @@
       "kategori": "gronsaker",
       "form": "farsk",
       "varutyp": "gronsaker",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Panini",
@@ -2513,7 +2490,7 @@
       "kategori": "frukt",
       "form": "farsk",
       "varutyp": "frukt",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Finkornig rom, caviarmix",
@@ -2536,7 +2513,7 @@
       "kategori": "inlagd_fisk_kaviar",
       "form": null,
       "varutyp": "inlagd_fisk_kaviar",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Rakgel",
@@ -2557,7 +2534,7 @@
       "kategori": "hygien",
       "form": null,
       "varutyp": "hygien",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -2581,7 +2558,7 @@
       "kategori": "frukt",
       "form": "farsk",
       "varutyp": "frukt",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Drickyoghurt",
@@ -2602,7 +2579,7 @@
       "kategori": "fil_yoghurt",
       "form": "kyld",
       "varutyp": "fil_yoghurt",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Tandborstar",
@@ -2623,7 +2600,7 @@
       "kategori": "hygien",
       "form": null,
       "varutyp": "hygien",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -2650,7 +2627,7 @@
       "kategori": "potatis_rotfrukt",
       "form": "farsk",
       "varutyp": "potatis_rotfrukt",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Smörgåspålägg",
@@ -2674,7 +2651,7 @@
       "kategori": "palagg_pastej",
       "form": null,
       "varutyp": "palagg_pastej",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Schampo",
@@ -2695,7 +2672,7 @@
       "kategori": "hygien",
       "form": null,
       "varutyp": "hygien",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -2720,7 +2697,7 @@
       "kategori": "gronsaker",
       "form": "farsk",
       "varutyp": "gronsaker",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Biscoff sandwich",
@@ -2762,7 +2739,7 @@
       "kategori": "hygien",
       "form": null,
       "varutyp": "hygien",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -2784,7 +2761,7 @@
       "kategori": "svamp",
       "form": "farsk",
       "varutyp": "svamp",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Lättdryck",
@@ -2805,7 +2782,7 @@
       "kategori": "lask_vatten",
       "form": null,
       "varutyp": "lask_vatten",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-08"
     },
     {
@@ -2852,7 +2829,7 @@
       "kategori": "frukt",
       "form": "farsk",
       "varutyp": "frukt",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Marmelad",
@@ -2873,7 +2850,7 @@
       "kategori": "bak_sott",
       "form": "torr",
       "varutyp": "bak_sott",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-08"
     },
     {
@@ -2917,7 +2894,7 @@
       "kategori": "blommor_vaxter",
       "form": null,
       "varutyp": "blommor_vaxter",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Snabbkaffe",
@@ -2938,7 +2915,7 @@
       "kategori": "kaffe_te",
       "form": null,
       "varutyp": "kaffe_te",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-08"
     },
     {
@@ -2962,7 +2939,7 @@
       "kategori": "matbrod",
       "form": null,
       "varutyp": "matbrod",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Diskduk 4-pack",
@@ -2983,7 +2960,7 @@
       "kategori": "stad_disk_tvatt",
       "form": null,
       "varutyp": "stad_disk_tvatt",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -3007,7 +2984,7 @@
       "kategori": "gronsaker",
       "form": "farsk",
       "varutyp": "gronsaker",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Helgbukett",
@@ -3028,7 +3005,7 @@
       "kategori": "blommor_vaxter",
       "form": null,
       "varutyp": "blommor_vaxter",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Godispåsar",
@@ -3049,7 +3026,7 @@
       "kategori": "godis",
       "form": null,
       "varutyp": "godis",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-08"
     },
     {
@@ -3073,7 +3050,7 @@
       "kategori": "stad_disk_tvatt",
       "form": null,
       "varutyp": "stad_disk_tvatt",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -3095,7 +3072,7 @@
       "kategori": "kaffe_te",
       "form": null,
       "varutyp": "kaffe_te",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-08"
     },
     {
@@ -3117,9 +3094,9 @@
       "ursprung": null,
       "notering": "Olika sorter",
       "kategori": "papper_pasar_folie",
-      "form": "fryst",
+      "form": null,
       "varutyp": "papper_pasar_folie",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -3163,7 +3140,7 @@
       "kategori": "kaffe_te",
       "form": null,
       "varutyp": "kaffe_te",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-08"
     },
     {
@@ -3185,7 +3162,7 @@
       "kategori": "stad_disk_tvatt",
       "form": null,
       "varutyp": "stad_disk_tvatt",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -3207,7 +3184,7 @@
       "kategori": "stad_disk_tvatt",
       "form": null,
       "varutyp": "stad_disk_tvatt",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -3251,7 +3228,7 @@
       "kategori": "stad_disk_tvatt",
       "form": null,
       "varutyp": "stad_disk_tvatt",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -3273,7 +3250,7 @@
       "kategori": "ost_hard",
       "form": "kyld",
       "varutyp": "ost_hard",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Avfallspåse 25-pack",
@@ -3294,7 +3271,7 @@
       "kategori": "papper_pasar_folie",
       "form": null,
       "varutyp": "papper_pasar_folie",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -3313,10 +3290,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Olika sorter",
-      "kategori": "frallor_tunnbrod",
-      "form": null,
-      "varutyp": "frallor_tunnbrod",
-      "kategori_kalla": "regel"
+      "kategori": "deli_sallad_wrap",
+      "form": "kyld",
+      "varutyp": "deli_sallad_wrap",
+      "kategori_kalla": "model"
     },
     {
       "namn": "Ahlgrens bilar",
@@ -3359,7 +3336,7 @@
       "kategori": "charkuterier",
       "form": null,
       "varutyp": "charkuterier",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Getost",
@@ -3380,7 +3357,7 @@
       "kategori": "ost_hard",
       "form": "kyld",
       "varutyp": "ost_hard",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Chokladkaka",
@@ -3448,7 +3425,7 @@
       "kategori": "palagg_pastej",
       "form": null,
       "varutyp": "palagg_pastej",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Energidryck",
@@ -3493,7 +3470,7 @@
       "kategori": "frukt",
       "form": "farsk",
       "varutyp": "frukt",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-08"
     },
     {
@@ -3559,7 +3536,7 @@
       "kategori": "notter_torkat",
       "form": null,
       "varutyp": "notter_torkat",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -3581,7 +3558,7 @@
       "kategori": "lask_vatten",
       "form": null,
       "varutyp": "lask_vatten",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -3603,7 +3580,7 @@
       "kategori": "lask_vatten",
       "form": null,
       "varutyp": "lask_vatten",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -3625,7 +3602,7 @@
       "kategori": "bars",
       "form": null,
       "varutyp": "bars",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-08"
     },
     {
@@ -3649,7 +3626,7 @@
       "kategori": "godis",
       "form": null,
       "varutyp": "godis",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -3676,7 +3653,7 @@
       "kategori": "ris_gryn",
       "form": "torr",
       "varutyp": "ris_gryn",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -3698,7 +3675,7 @@
       "kategori": "fikabrod",
       "form": null,
       "varutyp": "fikabrod",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-08"
     },
     {
@@ -3720,7 +3697,7 @@
       "kategori": "sas_dressing",
       "form": "torr",
       "varutyp": "sas_dressing",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -3742,7 +3719,7 @@
       "kategori": "frallor_tunnbrod",
       "form": null,
       "varutyp": "frallor_tunnbrod",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -3764,7 +3741,7 @@
       "kategori": "sas_dressing",
       "form": "torr",
       "varutyp": "sas_dressing",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-08"
     },
     {
@@ -3806,9 +3783,9 @@
       "ursprung": null,
       "notering": null,
       "kategori": "inlagt_delikatess",
-      "form": "torr",
+      "form": "konserv",
       "varutyp": "inlagt_delikatess",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -3830,7 +3807,7 @@
       "kategori": "sas_dressing",
       "form": "torr",
       "varutyp": "sas_dressing",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-08"
     },
     {
@@ -3852,7 +3829,7 @@
       "kategori": "pasta",
       "form": "torr",
       "varutyp": "pasta",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -3898,7 +3875,7 @@
       "kategori": "knackebrod",
       "form": null,
       "varutyp": "knackebrod",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-08"
     },
     {
@@ -3920,7 +3897,7 @@
       "kategori": "matbrod",
       "form": null,
       "varutyp": "matbrod",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -3964,7 +3941,7 @@
       "kategori": "chips_snacks",
       "form": null,
       "varutyp": "chips_snacks",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -3988,7 +3965,7 @@
       "kategori": "notter_torkat",
       "form": null,
       "varutyp": "notter_torkat",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-08"
     },
     {
@@ -4010,7 +3987,7 @@
       "kategori": "kex",
       "form": null,
       "varutyp": "kex",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-08"
     },
     {
@@ -4032,7 +4009,7 @@
       "kategori": "ost_hard",
       "form": "kyld",
       "varutyp": "ost_hard",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -4054,7 +4031,7 @@
       "kategori": "enportionsratt",
       "form": "fryst",
       "varutyp": "enportionsratt",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -4076,7 +4053,7 @@
       "kategori": "enportionsratt",
       "form": null,
       "varutyp": "enportionsratt",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -4098,7 +4075,7 @@
       "kategori": "sas_dressing",
       "form": "torr",
       "varutyp": "sas_dressing",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -4142,7 +4119,7 @@
       "kategori": "glass",
       "form": "fryst",
       "varutyp": "glass",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -4166,7 +4143,7 @@
       "kategori": "kaffe_te",
       "form": null,
       "varutyp": "kaffe_te",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -4188,7 +4165,7 @@
       "kategori": "pasta",
       "form": "torr",
       "varutyp": "pasta",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -4210,7 +4187,7 @@
       "kategori": "pasta",
       "form": "torr",
       "varutyp": "pasta",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -4232,7 +4209,7 @@
       "kategori": "kaffe_te",
       "form": null,
       "varutyp": "kaffe_te",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -4254,7 +4231,7 @@
       "kategori": "sas_dressing",
       "form": "torr",
       "varutyp": "sas_dressing",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -4278,7 +4255,7 @@
       "kategori": "stad_disk_tvatt",
       "form": null,
       "varutyp": "stad_disk_tvatt",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -4300,7 +4277,7 @@
       "kategori": "sas_dressing",
       "form": "torr",
       "varutyp": "sas_dressing",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -4346,7 +4323,7 @@
       "kategori": "notter_torkat",
       "form": null,
       "varutyp": "notter_torkat",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -4365,10 +4342,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Olika sorter",
-      "kategori": "chips_snacks",
+      "kategori": "notter_torkat",
       "form": null,
-      "varutyp": "chips_snacks",
-      "kategori_kalla": "regel",
+      "varutyp": "notter_torkat",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -4410,9 +4387,9 @@
       "ursprung": null,
       "notering": null,
       "kategori": "inlagt_delikatess",
-      "form": "torr",
+      "form": "kyld",
       "varutyp": "inlagt_delikatess",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -4456,7 +4433,7 @@
       "kategori": "frallor_tunnbrod",
       "form": null,
       "varutyp": "frallor_tunnbrod",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -4478,7 +4455,7 @@
       "kategori": "inlagt_delikatess",
       "form": "torr",
       "varutyp": "inlagt_delikatess",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -4546,7 +4523,7 @@
       "kategori": "sas_dressing",
       "form": "torr",
       "varutyp": "sas_dressing",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -4570,7 +4547,7 @@
       "kategori": "stad_disk_tvatt",
       "form": null,
       "varutyp": "stad_disk_tvatt",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -4619,7 +4596,7 @@
       "kategori": "flingor_musli",
       "form": "torr",
       "varutyp": "flingor_musli",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -4641,7 +4618,7 @@
       "kategori": "chips_snacks",
       "form": null,
       "varutyp": "chips_snacks",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -4665,7 +4642,7 @@
       "kategori": "stad_disk_tvatt",
       "form": null,
       "varutyp": "stad_disk_tvatt",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -4689,7 +4666,7 @@
       "kategori": "stad_disk_tvatt",
       "form": null,
       "varutyp": "stad_disk_tvatt",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -4711,7 +4688,7 @@
       "kategori": "notter_torkat",
       "form": null,
       "varutyp": "notter_torkat",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -4752,10 +4729,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Olika sorter",
-      "kategori": "energidryck",
+      "kategori": "lask_vatten",
       "form": null,
-      "varutyp": "energidryck",
-      "kategori_kalla": "regel",
+      "varutyp": "lask_vatten",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -4777,7 +4754,7 @@
       "kategori": "svamp",
       "form": "farsk",
       "varutyp": "svamp",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -4799,7 +4776,7 @@
       "kategori": "sas_dressing",
       "form": "torr",
       "varutyp": "sas_dressing",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -4843,7 +4820,7 @@
       "kategori": "pasta",
       "form": "torr",
       "varutyp": "pasta",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -4865,7 +4842,7 @@
       "kategori": "papper_pasar_folie",
       "form": null,
       "varutyp": "papper_pasar_folie",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {
@@ -4931,7 +4908,7 @@
       "kategori": "stad_disk_tvatt",
       "form": null,
       "varutyp": "stad_disk_tvatt",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-01"
     },
     {

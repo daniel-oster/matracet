@@ -33,7 +33,7 @@
       "kategori": "bacon_skinka",
       "form": null,
       "varutyp": "bacon_skinka",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Svensk nötfärs",
@@ -55,9 +55,9 @@
       "ursprung": "Sverige",
       "notering": "färsk, fetthalt max 12%",
       "kategori": "fars_kottbullar",
-      "form": null,
+      "form": "farsk",
       "varutyp": "fars_kottbullar",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Kycklingbröstfilé",
@@ -80,7 +80,7 @@
       "kategori": "fagel",
       "form": "fryst",
       "varutyp": "fagel",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Gravad, kallrökt lax",
@@ -104,7 +104,7 @@
       "kategori": "fisk",
       "form": null,
       "varutyp": "fisk",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Styckglass",
@@ -127,7 +127,7 @@
       "kategori": "glass",
       "form": "fryst",
       "varutyp": "glass",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Ägg 12-pack",
@@ -150,7 +150,7 @@
       "kategori": "agg",
       "form": null,
       "varutyp": "agg",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Guldkorn, Lingongrova",
@@ -194,7 +194,7 @@
       "kategori": "smor_margarin",
       "form": "kyld",
       "varutyp": "smor_margarin",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Majskorn 3-pack",
@@ -242,7 +242,7 @@
       "kategori": "palagg_pastej",
       "form": null,
       "varutyp": "palagg_pastej",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Minutkyckling",
@@ -265,9 +265,9 @@
       "ursprung": "Sverige",
       "notering": "flera sorter, färsk",
       "kategori": "fagel",
-      "form": null,
+      "form": "farsk",
       "varutyp": "fagel",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Ekologiska kikärtor",
@@ -291,7 +291,7 @@
       "kategori": "baljvaxter",
       "form": null,
       "varutyp": "kikartor",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Grötlimpa, Lantbröd",
@@ -312,7 +312,7 @@
       "kategori": "matbrod",
       "form": null,
       "varutyp": "matbrod",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Läsk 10-pack",
@@ -333,7 +333,7 @@
       "kategori": "lask_vatten",
       "form": null,
       "varutyp": "lask_vatten",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Ekologiskt ris",
@@ -356,7 +356,7 @@
       "kategori": "ris_gryn",
       "form": "torr",
       "varutyp": "ris_gryn",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Wokgrönsaker",
@@ -380,7 +380,7 @@
       "kategori": "gronsaker",
       "form": "fryst",
       "varutyp": "gronsaker",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Juice",
@@ -401,7 +401,7 @@
       "kategori": "juice_saft",
       "form": null,
       "varutyp": "juice_saft",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Granola",
@@ -422,7 +422,7 @@
       "kategori": "flingor_musli",
       "form": "torr",
       "varutyp": "flingor_musli",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Tacobåtar 8-pack",
@@ -466,7 +466,7 @@
       "kategori": "papper_pasar_folie",
       "form": null,
       "varutyp": "papper_pasar_folie",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Bindor, Trosskydd",
@@ -487,7 +487,7 @@
       "kategori": "hygien",
       "form": null,
       "varutyp": "hygien",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Hushållsost",
@@ -508,7 +508,7 @@
       "kategori": "ost_hard",
       "form": "kyld",
       "varutyp": "ost_hard",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Halloumi",
@@ -529,7 +529,7 @@
       "kategori": "ost_vit_grill",
       "form": "kyld",
       "varutyp": "ost_vit_grill",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Ketchup, Majonnäs",
@@ -550,7 +550,7 @@
       "kategori": "sas_dressing",
       "form": "torr",
       "varutyp": "sas_dressing",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Avokado",
@@ -573,7 +573,7 @@
       "kategori": "frukt",
       "form": "fryst",
       "varutyp": "frukt",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Duschkräm",
@@ -618,7 +618,7 @@
       "kategori": "fisk",
       "form": null,
       "varutyp": "fisk",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Kaffe",
@@ -639,7 +639,7 @@
       "kategori": "kaffe_te",
       "form": null,
       "varutyp": "kaffe_te",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-10-23"
     },
     {
@@ -661,7 +661,7 @@
       "kategori": "stad_disk_tvatt",
       "form": null,
       "varutyp": "stad_disk_tvatt",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Salsicciafärs",
@@ -680,9 +680,9 @@
       "ursprung": "Italien",
       "notering": "flera sorter, färsk, gäller även Chorizofärs",
       "kategori": "fars_kottbullar",
-      "form": null,
+      "form": "farsk",
       "varutyp": "fars_kottbullar",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-10-23"
     },
     {
@@ -729,7 +729,7 @@
       "kategori": "korv",
       "form": null,
       "varutyp": "korv",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-10-23"
     },
     {
@@ -754,7 +754,7 @@
       "kategori": "frukt",
       "form": "farsk",
       "varutyp": "frukt",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-10-23"
     },
     {
@@ -778,7 +778,7 @@
       "kategori": "frukt",
       "form": "farsk",
       "varutyp": "frukt",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-10-23"
     },
     {
@@ -802,7 +802,7 @@
       "kategori": "frukt",
       "form": "farsk",
       "varutyp": "frukt",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Vitlöksbaguetter 2-pack",
@@ -823,7 +823,7 @@
       "kategori": "frallor_tunnbrod",
       "form": "fryst",
       "varutyp": "frallor_tunnbrod",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-10-23"
     },
     {
@@ -847,7 +847,7 @@
       "kategori": "frukt",
       "form": "farsk",
       "varutyp": "frukt",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Svensk fläskfilé",
@@ -869,9 +869,9 @@
       "ursprung": "Sverige",
       "notering": "färsk",
       "kategori": "kott",
-      "form": null,
+      "form": "farsk",
       "varutyp": "kott",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-10-23"
     },
     {
@@ -895,7 +895,7 @@
       "kategori": "skaldjur",
       "form": null,
       "varutyp": "skaldjur",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Gårdsgoda",
@@ -938,7 +938,7 @@
       "kategori": "pizza",
       "form": null,
       "varutyp": "pizza",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-10-23"
     },
     {
@@ -960,7 +960,7 @@
       "kategori": "juice_saft",
       "form": null,
       "varutyp": "juice_saft",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Halv baguette",
@@ -981,7 +981,7 @@
       "kategori": "frallor_tunnbrod",
       "form": null,
       "varutyp": "frallor_tunnbrod",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Kanelbulle, Vaniljbulle",
@@ -1002,7 +1002,7 @@
       "kategori": "fikabrod",
       "form": null,
       "varutyp": "fikabrod",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-10-23"
     },
     {
@@ -1023,10 +1023,10 @@
       ],
       "ursprung": null,
       "notering": "flera sorter, i påse",
-      "kategori": "kex",
+      "kategori": "choklad",
       "form": null,
-      "varutyp": "kex",
-      "kategori_kalla": "regel"
+      "varutyp": "choklad",
+      "kategori_kalla": "model"
     },
     {
       "namn": "Tacosås, Tortilla 8-pack",
@@ -1047,7 +1047,7 @@
       "kategori": "sas_dressing",
       "form": "torr",
       "varutyp": "sas_dressing",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Grön jalapeño",
@@ -1110,7 +1110,7 @@
       "kategori": "chips_snacks",
       "form": null,
       "varutyp": "chips_snacks",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Energidryck",
@@ -1131,7 +1131,7 @@
       "kategori": "energidryck",
       "form": null,
       "varutyp": "energidryck",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Sås",
@@ -1152,7 +1152,7 @@
       "kategori": "sas_dressing",
       "form": "torr",
       "varutyp": "sas_dressing",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Salami",
@@ -1173,7 +1173,7 @@
       "kategori": "charkuterier",
       "form": null,
       "varutyp": "charkuterier",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Chokladbitar",
@@ -1196,7 +1196,7 @@
       "kategori": "choklad",
       "form": null,
       "varutyp": "choklad",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Ekologiska havregryn",
@@ -1220,7 +1220,7 @@
       "kategori": "flingor_musli",
       "form": "torr",
       "varutyp": "flingor_musli",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Snacks",
@@ -1241,7 +1241,7 @@
       "kategori": "chips_snacks",
       "form": null,
       "varutyp": "chips_snacks",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Tacokrydda 3-pack",
@@ -1262,7 +1262,7 @@
       "kategori": "kryddor_buljong",
       "form": "torr",
       "varutyp": "kryddor_buljong",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Chicken Shop 2-pack",
@@ -1302,9 +1302,9 @@
       "ursprung": null,
       "notering": "flera sorter, fylld",
       "kategori": "pasta",
-      "form": "torr",
+      "form": "kyld",
       "varutyp": "pasta",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Riven Gouda",
@@ -1325,7 +1325,7 @@
       "kategori": "ost_hard",
       "form": "kyld",
       "varutyp": "ost_hard",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Deodorant roll-on",
@@ -1346,7 +1346,7 @@
       "kategori": "hygien",
       "form": null,
       "varutyp": "hygien",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Ekologisk biff",
@@ -1372,7 +1372,7 @@
       "kategori": "kott",
       "form": null,
       "varutyp": "kott",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Chilli",
@@ -1419,7 +1419,7 @@
       "kategori": "lok",
       "form": "farsk",
       "varutyp": "lok",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Svenska kvisttomater",
@@ -1443,7 +1443,7 @@
       "kategori": "gronsaker",
       "form": "farsk",
       "varutyp": "gronsaker",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Lime",
@@ -1466,7 +1466,7 @@
       "kategori": "frukt",
       "form": "farsk",
       "varutyp": "frukt",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Säsongsbukett",
@@ -1487,7 +1487,7 @@
       "kategori": "blommor_vaxter",
       "form": null,
       "varutyp": "blommor_vaxter",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Aubergine, Zucchini",
@@ -1510,7 +1510,7 @@
       "kategori": "gronsaker",
       "form": "farsk",
       "varutyp": "gronsaker",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Halloweenpumpa",
@@ -1534,7 +1534,7 @@
       "kategori": "gronsaker",
       "form": "farsk",
       "varutyp": "gronsaker",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Tepåsar 17-pack",
@@ -1604,9 +1604,9 @@
       "ursprung": "Sverige",
       "notering": "färsk",
       "kategori": "fagel",
-      "form": null,
+      "form": "farsk",
       "varutyp": "fagel",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Maxi 6-pack",
@@ -1648,7 +1648,7 @@
       "kategori": "bak_sott",
       "form": "torr",
       "varutyp": "bak_sott",
-      "kategori_kalla": "regel"
+      "kategori_kalla": "model"
     },
     {
       "namn": "Mini taco tubs 10-pack",
