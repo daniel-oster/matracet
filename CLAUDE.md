@@ -2488,130 +2488,24 @@ notis settings were spread over two screens. What changed:
 - To stop a background `vite preview` in this sandbox, use `kill <pid>` from `pgrep -x`/`ss -lptn`
   — never `pkill -f "vite preview"`: the pattern is in your own command line and kills the shell.
 
-## Läget: planned second module (2026-10, not started)
+## Läget: the second module — built (2026-10, steps 1 and 2)
 
-Spec: `docs/laget-spec-2026-10.md` — read it before touching anything Läget-related, and work
-one step of its "Byggordning" at a time. Decisions already made there, so don't re-litigate:
-name is **Läget**; two home-screen icons for now (own manifest/scope/service worker, same
-codebase); the app *is* the calendar (no ICS feed for now; keep Cloudflare out of it);
-Claude only runs on free-text input, via a Claude Code routine fired from a GitHub Action.
-Sensitive data (schedule, events, inbox) goes in a separate **private** data repo,
-`daniel-oster/livet-data`, never here — this repo is public. **This reverses the 2026-07
-"Repo visibility: decided, staying public" note below**: device-sync and Matracet's household
-files (feedback, history, eaters, weeks, task-log) move to `livet-data` too — see the spec's
-"Integritet" section for the full list and the order to do it in.
+Spec: `docs/laget-spec-2026-10.md` (decided; question it, don't edit it on your own). Läget is its own
+home-screen app from this codebase (`/matracet/laget/`, own manifest/service worker/push subscription),
+the "Läget" sections above and under "Schedule lives in the private repo" describe what exists. All
+household data — schedule, periods, events, to-dos, inbox, plus Matracet's own family files — lives in the
+**private** repo `daniel-oster/livet-data`; nothing personal goes in this public repo.
 
-## Schedule lives in the private repo (2026-10)
+**Built**: schedule/periods/household files read privately; `buildDay`; start page (shield), Idag, Imorgon,
+Veckan, menu (schema, activities form, periods, notification times, connection); to-dos with reminders and
+repeat; dinner line from Matracet's plan; inbox text field → `inkorg/` → routine → data → confirmation push;
+`notiser.yml` / `inkorg.yml` / `verifiera-schema.yml` / `merge-device-sync.yml` in livet-data (they run this
+repo's code at a pinned `MATRACET_REF`; bump it in a livet-data PR whenever a script here changes).
 
-The custody schedule, recurring activities and school terms/breaks are no longer in this repo:
-`src/presence/seed.ts` and `activities.ts` are gone. They live in `daniel-oster/livet-data`
-(`data/schema.json` = a `PresenceStore`, `data/perioder.json` = `Period[]`) and the app fetches
-them with the device's token (`src/hooks/useSchedule.ts` → `src/lib/privateData.ts`). Without a
-token `dayPlans` is empty, which every consumer already reads as "unknown attendance" (keep
-asking for a meal, no eating window), and Hub shows a `.hub-note` pointing to Hantera appen.
-- **Never put the real schedule, names or activities in this repo again**, tests included:
-  `src/presence/__fixtures__/testStore.ts` is an anonymised copy of the *structure* (invented
-  ids/labels, same anchors/handovers/times) that resolver and activities tests run against.
-- `scripts/build-brief.ts` needs `LIVET_DATA_DIR=/path/to/livet-data`. `scripts/presence-check.ts`
-  was already broken (imported the deleted Side B module) and was removed.
-- `scripts/verify-schedule.ts <livet-data-dir>` validates `schema.json`/`perioder.json`
-  (`src/presence/validate.ts`) and compares every day up to `data/schema.golden.json`'s `through`
-  date against a snapshot — run by `verifiera-schema.yml` in livet-data, and **run it by hand
-  whenever you touch `resolver.ts`** (it is the only check that sees the real schedule). The golden
-  is a snapshot, not an oracle: it catches that a past day *changed*, not that it was right;
-  `--update-golden` is for deliberate corrections only.
-- `src/laget/` is Läget's pure core (no DOM/localStorage, so the app and the notification job
-  import the same files): `buildDay(date, data)` → `DayView`, `headline`/`topLines` for the texts,
-  `stockholmNow` for wall-clock time (the job runs in UTC, the household in Europe/Stockholm).
-  One-off events and `pausedOnBreak` are folded into the resolver call as synthetic `ev:` activities
-  for that date only; `prepareTonight` keeps ticked items (`done: true`) so the UI can undo.
-  Tests use `src/laget/fixtures.ts` (anonymised); never real data.
-- **Läget is its own home-screen app from this codebase** (`laget/index.html` = second Vite input
-  → `/matracet/laget/`; `src/laget/main.tsx`/`LagetApp.tsx`; own `public/laget/manifest.webmanifest`
-  with scope `/matracet/laget/`, own `public/laget/sw.js`, own icon). Its service worker has a
-  longer scope than Matracet's, so on a Läget page the Läget worker is the controller and each app
-  has its own push subscription (`LAGET_PUSH` vs `MATRACET_PUSH` in `src/lib/push.ts`; verified in
-  Chromium: two registrations, controller = laget/sw.js). The token is entered in each app (iOS
-  gives a home-screen app its own storage). A device writes its subscription itself into
-  livet-data's `push-subscriptions.json` (`src/laget/subscriptions.ts` →
-  `updatePrivateJson`, a read-modify-write with one retry on 409) — nothing is pasted into a chat.
-- **Läget's screens (step 1)**: `LagetApp.tsx` (state-based view: hem / idag / imorgon / koppling, no
-  router; `?vy=idag|imorgon` from a notification, stripped after read), `Dagen.tsx` (Shield, Idag,
-  Imorgon — presentation over a `DayView`), `KopplingView.tsx`, `useLagetData.ts` (the five data files,
-  refetched on resume; a missing `attgora.json` = empty). Ticking a preparation writes
-  `data/klart.json` via `updatePrivateJson` (optimistic, rolled back on failure; the update is a pure
-  set/delete of one key so a retry on fresher data merges correctly). Veckan, the menu and the
-  to-do tick are step 2. When driving it in Playwright use `page.clock.install({ time })` to pin
-  "now" and route-mock `api.github.com` (raw `Accept` → file body, JSON `Accept` → `{content, sha}`).
-- **Läget's notifications**: `src/laget/notiser.ts` decides (pure, tested) what is due *now* —
-  `dueNotifications(now, data, settings, log)`, times from `data/installningar.json` (default
-  06:40 idag / 15:40 imorgon), dedupe via `data/notislogg.json`, a 90-minute grace so a late cron run
-  doesn't ping at lunch, and "imorgon" stays silent when tomorrow is empty. `scripts/laget-notiser.ts
-  --data <livet-data>` does the I/O (`--now <ISO> --dry-run` to try it); it logs a notification only
-  once ≥1 phone received it and refuses to send if `schema.json` fails `validateSchema`. Sending is
-  `scripts/lib/push-send.mjs`, shared with `scripts/send-push.mjs`. Verified end-to-end against a
-  local https server posing as the push service (`NODE_TLS_REJECT_UNAUTHORIZED=0`, random VAPID key).
-  The job itself is `notiser.yml` in livet-data (next PR there).
-- **Household files moved too (2026-10)**: `eaters.json`, `feedback.json`, `history.json`,
-  `task-log.json` and `weeks/` are in `livet-data/matracet/`, fetched in `App.tsx` with
-  `fetchPrivateJson` (the `priv` helper). Without a token the app boots on the public data only (no eaters,
-  empty weeks, no schedule; Hub shows `.hub-note`) instead of sticking on "Laddar…". Anything that used
-  `public/data/{eaters,history,feedback,task-log}.json` or `weeks/` now reads `LIVET_DATA_DIR/matracet/…`
-  (`build-brief.ts`) or `FEEDBACK_FILE` (`merge-device-sync.mjs`, run by `merge-device-sync.yml` in
-  livet-data, still manual-dispatch only). Skills point at livet-data. Tests must not read household files.
-- **Personal details scrubbed from this repo (2026-10)**: docs, prototypes, the sysdoc page, comments
-  and CLAUDE.md now say Vuxen A/B and Barn A/B (and "Aktivitet X") instead of names, ages, diets and
-  hobbies; `planning-brief.json` is no longer committed (gitignored; `build-brief.ts` writes it to
-  `livet-data/matracet/`). Keep it that way: **no names, ages, diets, activities or custody dates in
-  this public repo — prose, tests or fixtures.** Git history still has the old text (accepted in the spec).
-- **Läget step 2 — to-dos**: `data/attgora.json` (`Todo` in `src/laget/types.ts`). `todos.ts`:
-  `completeTodo` ticks and, for `repeat`, appends the next occurrence (`<series>@<due>`; `from: 'done'`
-  counts from the Stockholm date it was ticked, `'due'` from the due date, past catch-up occurrences are
-  skipped; idempotent so a 409 retry can't double-create); `reminders(todo)` turns `remind` into
-  dates/times. `duration.ts` = ISO durations (`P3D/P1W/P1M/P1Y`, month-end clamping). Reminders fire from
-  `dueNotifications` (key `${date}|pam|${id}|${before}`). `src/laget/validate.ts` checks events and
-  to-dos (Claude writes both from free text); `verify-schedule.ts` runs it, and the notification job
-  *drops* an invalid events/todos file loudly instead of letting it silence the morning notification.
-- **Läget step 2 — dinner line**: `dinner.ts` `dinnerFor(date, sources, eatBy)` — a slot assigned in Planera
-  (`matracet:weekplan:v3` from the device-sync snapshot, names via `meals.json` + the snapshot's
-  `matracet:meals:local:v1` + the recipe index) wins, else the dish in that day's `matracet/weeks/` file;
-  `attendance.skip` → "Ingen måltid behövs". `buildDay` only has a dinner when `LagetData.dinner` is set
-  (the app loads it in `useLagetData`; the notification job doesn't). `format.ts::dinnerText` makes
-  "Tacos, ät senast 17:15". Läget never plans meals — it only reads Matracet's plan.
-- **Läget step 2 — Veckan and the menu**: `LagetApp.tsx` now has views hem / idag / imorgon / vecka / meny
-  and, behind ☰, schema (next 14 days, read-only) / aktiviteter / perioder (read-only) / notiser (the two
-  notification times, written to `data/installningar.json`) / koppling, plus a plain link to Matracet
-  (same window). `buildWeek(start, data, n)` = `n` independent `buildDay`s; a day tapped in Veckan opens the
-  Idag screen for that date (back returns to Veckan). Custody rules and periods are deliberately *not*
-  editable in a form (exact but hard to make legible) — changes go through the text field / Claude.
-- **Läget step 2 — activity form** (`Aktiviteter.tsx`, logic in `activityForm.ts`, written with
-  `changeSchema` → `updatePrivateJson('data/schema.json')`, validated by `validateSchema` before and on
-  the fresh file): editing an activity that has already started **ends it yesterday and starts a new
-  one today** (past days must not change — the schedule's "duplicate, don't rewrite" rule, enforced by
-  `data/schema.golden.json`); only a not-yet-started one or a validity-only change is edited in place;
-  "Avsluta" sets `validUntil`, never deletes. Tested that every pre-today day resolves identically after an
-  edit, and that the app's written file passes `verify-schedule.ts` against real data.
-- **Läget step 2 — the inbox (app side)**: the text field on the start page (`Inkorg.tsx`) writes one file
-  per message, `inkorg/<id>.json` (`i-YYYYMMDD-HHMM-xxx`, Stockholm time so ids sort by when sent), with
-  `status: 'ny'` via `updatePrivateJson` (create-only: `current ?? msg`). The reply lines show the three
-  newest (`statusLine`: Skickat / Inlagt / Oklart / Gick inte); while one is `ny` the start page polls the
-  inbox every 20 s (`listPrivateDir('inkorg')` + three `fetchPrivateJson`s — the listing isn't cached, the
-  files use ETags). Processing is the Claude routine's job (livet-data `.claude/skills/inkorg`), triggered
-  by `inkorg.yml`; `staleNew()` is the pure helper for the safety net that re-fires a message still `ny`
-  after 15 minutes. The phone keyboard's microphone is the speech input.
-- **Läget step 2 — inbox jobs** (`src/laget/inkorgJobb.ts` pure + `scripts/laget-inkorg.ts` + `scripts/lib/routine.mjs`):
-  `--mode push --before --after` (run by `inkorg.yml` in livet-data on a push touching `inkorg/**`):
-  `classifyChange` fires the routine only for a brand-new `ny` file and sends the confirmation push when a `ny`
-  file becomes klar/oklar/fel — Claude's own ny→klar commit can never fire again (no loop).
-  `--mode stale` (from `notiser.yml`): a message still `ny` after 15 min is re-fired at most twice
-  (`…|fire|<id>|n` keys in `data/notislogg.json`), then marked `fel` and the phone is told directly (a
-  `GITHUB_TOKEN` commit starts no workflow). The fire API: `POST <LAGET_ROUTINE_URL>` with `Authorization: Bearer`,
-  `anthropic-beta: experimental-cc-routine-2026-04-01`, `anthropic-version: 2023-06-01`, body `{"text"}`; the text
-  reaches the routine wrapped in `<routine-fire-payload>` as *untrusted data*, so the routine's prompt must
-  explicitly say to act on it (see livet-data `.claude/skills/inkorg`). Research-preview API — the beta header
-  lives in `routine.mjs` only. Verified against a local https server posing as the API and a real git repo.
-  The spec's separate `bekrafta.yml` is folded into `inkorg.yml` (one job per push, fewer Actions minutes).
-- Spec and build order: `docs/laget-spec-2026-10.md`.
+**Not built / needs the owner**: the Claude routine "Läget-inkorg" and its two Actions secrets can only be
+created on claude.ai (steps in livet-data's README) — until then messages just wait as `ny`. Step 3 (photo of
+the school letter, a calendar view) is not started. Decisions already made, don't re-litigate: name Läget; two
+icons; the app *is* the calendar (no ICS feed, no Cloudflare); Claude only runs on free text.
 
 ## Deploy
 
