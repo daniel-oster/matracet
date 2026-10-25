@@ -7,6 +7,14 @@ describe('normalizePrivateKey', () => {
     expect(normalizePrivateKey('"abc"')).toBe('abc')
     expect(normalizePrivateKey(undefined)).toBe('')
   })
+
+  it('finds the one 43-char token inside a NAME=value or JSON paste, never the 87-char public key', () => {
+    const key = Buffer.alloc(32, 7).toString('base64url')
+    const pub = 'B' + 'x'.repeat(86)
+    expect(normalizePrivateKey(`VAPID_PRIVATE_KEY=${key}`)).toBe(key)
+    expect(normalizePrivateKey(`{"publicKey":"${pub}","privateKey":"${key}"}`)).toBe(key)
+    expect(normalizePrivateKey(pub)).toBe(pub)
+  })
 })
 
 describe('privateKeyProblem', () => {
