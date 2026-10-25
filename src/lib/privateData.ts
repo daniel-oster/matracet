@@ -9,7 +9,7 @@
 // The cache is deliberately NOT under the `matracet:` prefix: exportData.ts dumps every
 // `matracet:*` key into the manual export file, and private data shouldn't end up in it.
 
-import { classifyAuthFailure, getToken } from './githubSync'
+import { classifyAuthFailure, decodeBase64, encodeBase64, getToken } from './githubSync'
 
 const OWNER = 'daniel-oster'
 const REPO = 'livet-data'
@@ -112,4 +112,74 @@ export async function fetchPrivateJson<T>(path: string, ref?: string): Promise<P
   } catch {
     return fallback('network')
   }
+}
+
+export type UpdateStatus = 'ok' | 'no-token' | 'unauthorized' | 'network' | 'conflict'
+
+/**
+ * Read–modify–write one JSON file in livet-data through the Contents API. `update` gets the
+ * current value (null when the file doesn't exist yet) and returns the new one; returning the
+ * same reference means "nothing to change" and skips the write. A 409 (the file changed since we
+ * read it — another device, or a workflow) re-reads and retries once, so `update` must be safe to
+ * run again on fresher data; a second conflict is reported rather than looped on.
+ */
+export async function updatePrivateJson<T>(
+  path: string,
+  update: (current: T | null) => T,
+  message: string,
+  ref?: string,
+): Promise<UpdateStatus> {
+  const token = getToken()
+  if (!token) return 'no-token'
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    Accept: 'application/vnd.github+json',
+    'X-GitHub-Api-Version': '2022-11-28',
+  }
+
+  for (let attempt = 0; attempt < 2; attempt++) {
+    let current: T | null = null
+    let sha: string | undefined
+    try {
+      const res = await fetch(fileUrl(path, ref), { headers, cache: 'no-store' })
+      if (res.status === 401 || res.status === 403) {
+        return classifyAuthFailure(res) === 'network' ? 'network' : 'unauthorized'
+      }
+      if (res.ok) {
+        const body = (await res.json()) as { content: string; sha: string }
+        current = JSON.parse(decodeBase64(body.content)) as T
+        sha = body.sha
+      } else if (res.status !== 404) {
+        return 'network'
+      }
+    } catch {
+      return 'network'
+    }
+
+    const next = update(current)
+    if (next === current) return 'ok'
+
+    const payload: Record<string, unknown> = {
+      message,
+      content: encodeBase64(JSON.stringify(next, null, 2) + '\n'),
+    }
+    if (sha) payload.sha = sha
+    if (ref) payload.branch = ref
+
+    let put: Response
+    try {
+      put = await fetch(fileUrl(path), { method: 'PUT', headers: { ...headers, 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+    } catch {
+      return 'network'
+    }
+    if (put.status === 200 || put.status === 201) {
+      writeCache(path, { etag: null, data: next })
+      return 'ok'
+    }
+    if (put.status === 401 || put.status === 403) return classifyAuthFailure(put) === 'network' ? 'network' : 'unauthorized'
+    // 409 = stale sha; 422 = "sha wasn't supplied" when the file appeared since our 404. Re-read once.
+    if (put.status === 409 || put.status === 422) continue
+    return 'network'
+  }
+  return 'conflict'
 }
