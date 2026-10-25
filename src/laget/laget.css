@@ -84,3 +84,11 @@ a.laget-tile { color: var(--ink); background: var(--paper); border: 1px solid va
 .laget-weekrow-type { font-size: 12px; color: var(--muted); }
 .laget-weekrow-line { font-size: 14px; color: var(--sub); }
 .laget-field { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 10px; }
+
+.laget-field--stack { flex-direction: column; align-items: stretch; }
+.laget input[type=text], .laget input[type=date], .laget input[type=time], .laget select, .laget textarea { font: inherit; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line2); background: var(--cream); color: var(--ink); max-width: 60%; }
+.laget-field--stack textarea { max-width: none; width: 100%; box-sizing: border-box; }
+.laget .laget-secondary { background: transparent; color: var(--ink); border: 1px solid var(--line2); }
+.laget-act { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.laget-act-buttons { display: flex; gap: 6px; flex: none; }
+.laget-act-buttons button { padding: 6px 10px; font-size: 14px; }

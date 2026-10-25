@@ -41,7 +41,7 @@ export default function LagetApp() {
   const [view, setView] = useState<View>(initialView)
   const [openDate, setOpenDate] = useState<string | null>(null) // a day picked from Veckan; null = today
   const [tickError, setTickError] = useState<string | null>(null)
-  const { data, settings, status, stale, setPrepDone, setTodoDone, saveNotisTimes, reload } = useLagetData()
+  const { data, settings, status, stale, setPrepDone, setTodoDone, saveNotisTimes, changeSchema, reload } = useLagetData()
   const now = useNow()
 
   // Drop ?vy= once read so a later reload doesn't jump back to it.
@@ -137,7 +137,7 @@ export default function LagetApp() {
           {view === 'imorgon' && <Imorgon today={today} tomorrow={tomorrow} onTick={tick} error={tickError} />}
           {view === 'vecka' && <Vecka days={week} onOpenDay={openDay} />}
           {view === 'schema' && <Schema days={fortnight} />}
-          {view === 'aktiviteter' && <Aktiviteter schema={data.schema} today={now.date} />}
+          {view === 'aktiviteter' && <Aktiviteter schema={data.schema} today={now.date} onChange={changeSchema} />}
           {view === 'perioder' && <Perioder periods={data.periods} names={names} />}
         </>
       ) : null}
