@@ -3,6 +3,7 @@ import { fetchPrivateJson, updatePrivateJson, type PrivateStatus } from '../lib/
 import type { LagetData, KlartMap, LagetEvent, Todo } from './types'
 import type { Period, PresenceStore } from '../presence/types'
 import { withKlart } from './format'
+import { completeTodo } from './todos'
 
 // Loads Läget's data files from livet-data (cached + offline fallback, see privateData.ts) and
 // refreshes when the app is brought back to the foreground — an iOS home-screen app is resumed,
@@ -14,6 +15,8 @@ export interface LagetState {
   stale: boolean
   /** Tick or un-tick a preparation; optimistic, rolled back if the write fails. Resolves to an error text or null. */
   setPrepDone: (key: string, on: boolean) => Promise<string | null>
+  /** Tick a to-do (a repeating one spawns its next occurrence). Optimistic; resolves to an error text or null. */
+  setTodoDone: (id: string) => Promise<string | null>
   reload: () => void
 }
 
@@ -65,5 +68,19 @@ export function useLagetData(): LagetState {
     return result === 'no-token' || result === 'unauthorized' ? 'Token saknar skrivrätt till livet-data.' : 'Kunde inte spara – försök igen.'
   }, [])
 
-  return { data, status, stale, setPrepDone, reload: () => void load() }
+  const setTodoDone = useCallback(async (id: string): Promise<string | null> => {
+    const now = new Date()
+    let before: Todo[] | null = null
+    setData(d => {
+      if (!d) return d
+      before = d.todos
+      return { ...d, todos: completeTodo(d.todos, id, now) }
+    })
+    const result = await updatePrivateJson<Todo[]>('data/attgora.json', current => completeTodo(current ?? [], id, now), 'Läget: att göra bockad')
+    if (result === 'ok') return null
+    setData(d => (d && before ? { ...d, todos: before } : d))
+    return result === 'no-token' || result === 'unauthorized' ? 'Token saknar skrivrätt till livet-data.' : 'Kunde inte spara – försök igen.'
+  }, [])
+
+  return { data, status, stale, setPrepDone, setTodoDone, reload: () => void load() }
 }

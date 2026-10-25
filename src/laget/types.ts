@@ -22,14 +22,30 @@ export interface LagetEvent {
   inboxId?: string
 }
 
-/** Something with a due date (data/attgora.json). Reminders and repeat arrive in step 2. */
+/** A reminder relative to the due date: `before` is an ISO duration ("P3D", "P0D" = the day itself). */
+export interface TodoRemind {
+  before: string
+  at: string                 // HH:MM, Stockholm time
+}
+
+/** `from: 'done'` counts from the day it was ticked, `'due'` from the due date. */
+export interface TodoRepeat {
+  every: string              // ISO duration
+  from: 'done' | 'due'
+}
+
+/** Something with a due date (data/attgora.json). */
 export interface Todo {
   id: string
   title: string
   due: string                // ISO date
   dueTime: string | null
+  remind?: TodoRemind[]
+  repeat?: TodoRepeat | null
   done: string | null        // ISO timestamp when ticked
   personIds?: string[]
+  source?: string
+  inboxId?: string
 }
 
 /** data/klart.json: which preparations are ticked. Key = `${prepDate}|${sourceId}|${index}`. */

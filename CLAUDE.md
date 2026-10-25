@@ -2564,6 +2564,14 @@ asking for a meal, no eating window), and Hub shows a `.hub-note` pointing to Ha
   hobbies; `planning-brief.json` is no longer committed (gitignored; `build-brief.ts` writes it to
   `livet-data/matracet/`). Keep it that way: **no names, ages, diets, activities or custody dates in
   this public repo — prose, tests or fixtures.** Git history still has the old text (accepted in the spec).
+- **Läget step 2 — to-dos**: `data/attgora.json` (`Todo` in `src/laget/types.ts`). `todos.ts`:
+  `completeTodo` ticks and, for `repeat`, appends the next occurrence (`<series>@<due>`; `from: 'done'`
+  counts from the Stockholm date it was ticked, `'due'` from the due date, past catch-up occurrences are
+  skipped; idempotent so a 409 retry can't double-create); `reminders(todo)` turns `remind` into
+  dates/times. `duration.ts` = ISO durations (`P3D/P1W/P1M/P1Y`, month-end clamping). Reminders fire from
+  `dueNotifications` (key `${date}|pam|${id}|${before}`). `src/laget/validate.ts` checks events and
+  to-dos (Claude writes both from free text); `verify-schedule.ts` runs it, and the notification job
+  *drops* an invalid events/todos file loudly instead of letting it silence the morning notification.
 - Spec and build order: `docs/laget-spec-2026-10.md`.
 
 ## Deploy

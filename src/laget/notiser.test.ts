@@ -90,3 +90,39 @@ describe('recordSent', () => {
     expect(out.skickade.map(s => s.key)).toEqual(['2026-10-25|imorgon', '2026-11-04|idag'])
   })
 })
+
+describe('dueNotifications: to-do reminders', () => {
+  // The spec's example: due 25 Nov, reminded 3 days before and on the day, both at 07:30.
+  const busskort = {
+    id: 't-busskort', title: 'Förnya busskortet', due: '2026-11-25', dueTime: null, done: null,
+    remind: [{ before: 'P3D', at: '07:30' }, { before: 'P0D', at: '07:30' }],
+  }
+  const data = () => makeData({ todos: [busskort] })
+  const names = (d: ReturnType<typeof dueNotifications>) => d.filter(n => n.title === 'Påminnelse')
+
+  it('fires on the reminder day at its time, naming how far off the due date is', () => {
+    const [n] = names(dueNotifications(at('2026-11-22T06:35:00Z'), data(), DEFAULT_INSTALLNINGAR, EMPTY)) // Sun 07:35
+    expect(n).toEqual({
+      key: '2026-11-22|pam|t-busskort|P3D',
+      title: 'Påminnelse',
+      body: 'Förnya busskortet – om 3 dagar',
+      url: '/matracet/laget/?vy=idag',
+      tag: 'laget-pam-t-busskort',
+    })
+    const [same] = names(dueNotifications(at('2026-11-25T06:35:00Z'), data(), DEFAULT_INSTALLNINGAR, EMPTY))
+    expect(same.body).toBe('Förnya busskortet – idag')
+  })
+  it('does not fire on other days, before its time, once logged, or when done', () => {
+    expect(names(dueNotifications(at('2026-11-23T06:35:00Z'), data(), DEFAULT_INSTALLNINGAR, EMPTY))).toEqual([])
+    expect(names(dueNotifications(at('2026-11-22T06:25:00Z'), data(), DEFAULT_INSTALLNINGAR, EMPTY))).toEqual([])
+    const log = { skickade: [{ key: '2026-11-22|pam|t-busskort|P3D', sent: 'x' }] }
+    expect(names(dueNotifications(at('2026-11-22T06:35:00Z'), data(), DEFAULT_INSTALLNINGAR, log))).toEqual([])
+    const done = makeData({ todos: [{ ...busskort, done: '2026-11-21T10:00:00Z' }] })
+    expect(names(dueNotifications(at('2026-11-22T06:35:00Z'), done, DEFAULT_INSTALLNINGAR, EMPTY))).toEqual([])
+  })
+  it('adds the time for something due today at a set time', () => {
+    const t = makeData({ todos: [{ ...busskort, dueTime: '16:00' }] })
+    const [n] = names(dueNotifications(at('2026-11-25T06:35:00Z'), t, DEFAULT_INSTALLNINGAR, EMPTY))
+    expect(n.body).toBe('Förnya busskortet – idag 16:00')
+  })
+})

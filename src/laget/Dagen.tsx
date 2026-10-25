@@ -46,7 +46,19 @@ export function Shield({ view, nowTime, onOpen }: { view: DayView; nowTime: stri
   )
 }
 
-export function Idag({ view, tomorrow, onTomorrow }: { view: DayView; tomorrow: DayView; onTomorrow: () => void }) {
+export function Idag({
+  view,
+  tomorrow,
+  onTomorrow,
+  onTickTodo,
+  error,
+}: {
+  view: DayView
+  tomorrow: DayView
+  onTomorrow: () => void
+  onTickTodo: (id: string) => void
+  error: string | null
+}) {
   const dinner = windowLine(view.presence)
   return (
     <>
@@ -69,9 +81,20 @@ export function Idag({ view, tomorrow, onTomorrow }: { view: DayView; tomorrow: 
           <h3>Att göra</h3>
           <ul className="laget-list">
             {view.todos.map(t => (
-              <li key={t.id}>{t.title}{t.due < view.date ? ' (försenad)' : ''}</li>
+              <li key={t.id}>
+                <label className="laget-check">
+                  <input type="checkbox" checked={false} onChange={() => onTickTodo(t.id)} />
+                  <span>
+                    {t.title}
+                    <span className="laget-tl-sub">
+                      {t.due < view.date ? `försenad sedan ${dateLabel(t.due)}` : t.dueTime ? `kl ${t.dueTime}` : 'idag'}
+                    </span>
+                  </span>
+                </label>
+              </li>
             ))}
           </ul>
+          {error && <p className="laget-status laget-status--unauthorized">{error}</p>}
         </section>
       )}
 

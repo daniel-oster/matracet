@@ -4,7 +4,8 @@
  *   npx tsx scripts/verify-schedule.ts <livet-data-dir>                  # kontrollera
  *   npx tsx scripts/verify-schedule.ts <livet-data-dir> --update-golden  # skriv om golden-filen
  *
- * 1. Strukturkontroll av data/schema.json + data/perioder.json (src/presence/validate.ts).
+ * 1. Strukturkontroll av data/schema.json, perioder.json, handelser.json och attgora.json
+ *    (src/presence/validate.ts, src/laget/validate.ts) — Claude skriver de två sista från fritext.
  * 2. Golden: data/schema.golden.json håller hur varje dag FRAM TILL golden-filens slutdatum
  *    löstes ut (grupp, ätfönster, portioner). Regler följer "duplicera, skriv inte om"
  *    (se CLAUDE.md om "duplicate-don.t-rewrite"), så en ändring som flyttar en redan
@@ -19,7 +20,10 @@ import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { addDays, resolvePresenceRange } from '../src/presence/resolver.ts'
 import { validatePeriods, validateSchema } from '../src/presence/validate.ts'
+import { validateEvents, validateTodos } from '../src/laget/validate.ts'
+import type { LagetEvent, Todo } from '../src/laget/types.ts'
 import type { Period, PresenceStore } from '../src/presence/types.ts'
+import { existsSync } from 'node:fs'
 
 const FIRST_DAY = '2026-01-01'
 const dir = process.argv[2]
@@ -33,7 +37,14 @@ const read = <T>(f: string): T => JSON.parse(readFileSync(resolve(dir, f), 'utf8
 const store = read<PresenceStore>('data/schema.json')
 const periods = read<Period[]>('data/perioder.json')
 
-const errors = [...validateSchema(store), ...validatePeriods(periods, store)]
+const optional = <T>(f: string): T[] => (existsSync(resolve(dir, f)) ? read<T[]>(f) : [])
+const personIds = store.persons.map(p => p.id)
+const errors = [
+  ...validateSchema(store),
+  ...validatePeriods(periods, store),
+  ...validateEvents(optional<LagetEvent>('data/handelser.json'), personIds),
+  ...validateTodos(optional<Todo>('data/attgora.json'), personIds),
+]
 if (errors.length) {
   console.error(`Strukturfel (${errors.length}):\n- ${errors.join('\n- ')}`)
   process.exit(1)

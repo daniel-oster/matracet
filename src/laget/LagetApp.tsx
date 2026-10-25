@@ -32,7 +32,7 @@ function useNow() {
 export default function LagetApp() {
   const [view, setView] = useState<View>(initialView)
   const [tickError, setTickError] = useState<string | null>(null)
-  const { data, status, stale, setPrepDone, reload } = useLagetData()
+  const { data, status, stale, setPrepDone, setTodoDone, reload } = useLagetData()
   const now = useNow()
 
   // Drop ?vy= once read so a later reload doesn't jump back to it.
@@ -48,6 +48,7 @@ export default function LagetApp() {
   const tomorrow = useMemo(() => (data ? buildDay(addDays(now.date, 1), data) : null), [data, now.date])
 
   const tick = async (key: string, on: boolean) => setTickError(await setPrepDone(key, on))
+  const tickTodo = async (id: string) => setTickError(await setTodoDone(id))
 
   return (
     <div className="laget">
@@ -91,7 +92,7 @@ export default function LagetApp() {
               </button>
             </>
           )}
-          {view === 'idag' && <Idag view={today} tomorrow={tomorrow} onTomorrow={() => setView('imorgon')} />}
+          {view === 'idag' && <Idag view={today} tomorrow={tomorrow} onTomorrow={() => setView('imorgon')} onTickTodo={tickTodo} error={tickError} />}
           {view === 'imorgon' && <Imorgon today={today} tomorrow={tomorrow} onTick={tick} error={tickError} />}
         </>
       )}
