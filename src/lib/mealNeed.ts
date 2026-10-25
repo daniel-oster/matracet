@@ -1,4 +1,5 @@
 import type { MealKind } from '../types'
+import type { Period } from '../presence/types'
 
 /**
  * Which meal slots the *schedule* says nobody needs at home — as opposed to
@@ -12,7 +13,7 @@ import type { MealKind } from '../types'
  * the budget ("N av M måltider klara") could never reach M.
  *
  * Deliberately narrow, matching what was actually asked ("lunch på barnveckor behöver vi inte
- * på vardagar"): it fires only when a school-age child is among the day's eaters. A weekday
+ * på vardagar"): it fires only when a school-age child (a person with a `termin` period, see below) is among the day's eaters. A weekday
  * lunch on a mother-week (Daniel, or Daniel + Erika) is left alone — nobody has said those
  * aren't wanted, and silently widening the rule would hide slots the household may well use.
  *
@@ -21,37 +22,6 @@ import type { MealKind } from '../types'
  * clears an assignment. See VeckanPlanner's `scheduleSkip` wiring.
  */
 
-/** A school term. Outside every period (summer, and any break added later) weekday lunches
- *  are needed at home again, which is exactly how it worked over the 2026 summer. */
-export interface TermPeriod {
-  id: string
-  label: string
-  /** ISO date, inclusive. */
-  from: string
-  /** ISO date, inclusive; null = open-ended. */
-  until: string | null
-}
-
-/**
- * Term windows. Mirrors the presence rules' own spring/summer/autumn split in
- * `src/presence/seed.ts` (`mon-weekly` → `mon-weekly-summer` → `mon-weekly-autumn2026`) and
- * uses the same autumn start date, 2026-08-17.
- *
- * Known gap, stated rather than silently assumed: school breaks *inside* a term (höstlov,
- * jullov, sportlov) aren't modelled — on those weekdays the app will still say no lunch is
- * needed. Add them as gaps here (split a period, or add an exclusion list) once the actual
- * dates are known; until then a break week is handled the same way any other exception is,
- * by planning the lunch anyway from the picker.
- */
-export const TERM_PERIODS: TermPeriod[] = [
-  { id: 'vt2026', label: 'Vårterminen 2026', from: '2026-01-07', until: '2026-06-01' },
-  { id: 'ht2026', label: 'Höstterminen 2026', from: '2026-08-17', until: null },
-]
-
-/** The school-age children — the eaters whose presence makes a weekday a "school day" here.
- *  Ids match `public/data/eaters.json` / `src/presence/seed.ts`. */
-export const SCHOOL_CHILD_IDS = ['sarah', 'annabelle']
-
 /** ISO weekday, 1 = Monday … 7 = Sunday. Parsed as UTC so a local timezone can never shift
  *  a date string onto the neighbouring day. */
 export function isoWeekday(date: string): number {
@@ -59,30 +29,38 @@ export function isoWeekday(date: string): number {
   return d === 0 ? 7 : d
 }
 
-export function isTermDate(date: string, periods: TermPeriod[] = TERM_PERIODS): boolean {
-  return periods.some(p => date >= p.from && (p.until === null || date <= p.until))
+function covers(p: Period, date: string): boolean {
+  return date >= p.from && (p.to === null || date <= p.to)
 }
 
-/** A term weekday (Mon–Fri) — i.e. a day the kids are at school and the adults at work. */
-export function isSchoolDay(date: string, periods: TermPeriod[] = TERM_PERIODS): boolean {
-  return isoWeekday(date) <= 5 && isTermDate(date, periods)
+/**
+ * Whether `personId` has school on `date`: a Mon–Fri date inside one of their `termin`
+ * periods and not inside one of their `lov` periods. The periods come from the private repo
+ * (`data/perioder.json`) — which children go to school, and when, is not something this
+ * public code knows. A break inside a term (höstlov, jullov) therefore gives lunch at home
+ * again without splitting the term in two.
+ */
+export function isSchoolDayFor(date: string, personId: string, periods: Period[]): boolean {
+  if (isoWeekday(date) > 5) return false
+  const mine = periods.filter(p => p.personIds.includes(personId) && covers(p, date))
+  return mine.some(p => p.kind === 'termin') && !mine.some(p => p.kind === 'lov')
 }
 
 /**
  * Whether the schedule says this slot needs no meal at home. `presentIds` is the day's
  * effective attendance (`effectivePresentIds`); `null` means "unknown / assume everyone", in
- * which case nothing is skipped — the safe direction is to keep asking for a meal.
+ * which case nothing is skipped — the safe direction is to keep asking for a meal. So does a
+ * missing `periods` (no token, not loaded yet).
  */
 export function scheduleSkipsMeal(
   date: string,
   kind: MealKind,
   presentIds: string[] | null,
-  periods: TermPeriod[] = TERM_PERIODS,
+  periods: Period[] | null,
 ): boolean {
   if (kind !== 'lunch') return false
-  if (presentIds === null) return false
-  if (!isSchoolDay(date, periods)) return false
-  return presentIds.some(id => SCHOOL_CHILD_IDS.includes(id))
+  if (presentIds === null || !periods) return false
+  return presentIds.some(id => isSchoolDayFor(date, id, periods))
 }
 
 /** Short reason shown on a schedule-skipped slot chip in the assign picker. */

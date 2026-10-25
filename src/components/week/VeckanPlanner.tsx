@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { DayMeal, Eater, MealKind, Recipe, RecipeIndexEntry } from '../../types'
 import type { Meal } from '../../types/meal'
-import type { DayPlan } from '../../presence/types'
+import type { DayPlan, Period } from '../../presence/types'
 import { addDays } from '../../presence/resolver'
 import {
   useWeekPlan, applyOverride, effectivePresentIds, diffAttendance,
@@ -93,6 +93,7 @@ interface Props {
   days: DayMeal[]
   lunches: DayMeal[]
   dayPlans: DayPlan[]
+  periods: Period[] | null
   eaters: Eater[]
   recipeIndex: RecipeIndexEntry[]
   meals: Meal[]
@@ -107,7 +108,7 @@ interface Props {
  * (attendance, "kort om tid", component swaps) rather than the thing that drives assignment.
  * See CLAUDE.md's "Planera redesign" section for the full data-model writeup.
  */
-export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeIndex, meals, onOpenRecipe }: Props) {
+export default function VeckanPlanner({ days, lunches, dayPlans, periods, eaters, recipeIndex, meals, onOpenRecipe }: Props) {
   const { getOverride, setMeal, clearOverride, setComponentSwap, getAttendance, setAttendance, clearAttendance, getFast, setFast } = useWeekPlan()
   const { getFeedback } = useFeedback()
   const allSlugs = useMemo(() => recipeIndex.map(r => r.slug), [recipeIndex])
@@ -151,7 +152,7 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
     const planPresentIds = plan?.presentPersons.map(p => p.id) ?? null
     const presentIds = effectivePresentIds(planPresentIds, attendance)
     const presentEaters = presentIds ? eaters.filter(e => presentIds.includes(e.id)) : eaters
-    const scheduleSkip = scheduleSkipsMeal(rawDay.datum, kind, presentIds)
+    const scheduleSkip = scheduleSkipsMeal(rawDay.datum, kind, presentIds, periods)
     const meal = attendance?.skip ? null : resolveDayMeal(day, meals)
     const recipeEntry = day.receptSlug ? recipeIndex.find(r => r.slug === day.receptSlug) ?? null : null
     const fullRecipe = day.receptSlug ? fullRecipes[day.receptSlug] : undefined
@@ -180,7 +181,7 @@ export default function VeckanPlanner({ days, lunches, dayPlans, eaters, recipeI
       dinner: buildSlotInfo(rawDay, 'dinner', plan),
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }), [days, lunches, dayPlans, meals, recipeIndex, fullRecipes, getOverride, getAttendance, getFast, eaters])
+  }), [days, lunches, dayPlans, periods, meals, recipeIndex, fullRecipes, getOverride, getAttendance, getFast, eaters])
 
   const flatSlots = useMemo(() => daySlots.flatMap(d => [d.lunch, d.dinner]), [daySlots])
 
