@@ -31,3 +31,41 @@
 .laget-status--ok { color: var(--green-d); }
 .laget-status--unauthorized, .laget-status--network, .laget-status--not-found { color: var(--red); }
 .laget-foot { color: var(--muted); font-size: 13px; text-align: center; }
+
+.laget-head { display: flex; justify-content: space-between; align-items: flex-start; }
+.laget .laget-gear, .laget .laget-back { background: transparent; color: var(--ink); border: none; padding: 6px 8px; font-size: 20px; }
+.laget .laget-back { font-size: 17px; padding-left: 0; }
+.laget-card h3 { margin: 0 0 8px; font-size: 15px; }
+.laget-h { margin: 4px 0 2px; font-size: 24px; }
+.laget-sub { margin: 0 0 12px; color: var(--sub); font-size: 14px; }
+.laget-muted { color: var(--muted); }
+.laget-stale { margin: 0 0 10px; font-size: 13px; color: var(--muted); }
+.laget-list { list-style: none; margin: 0; padding: 0; }
+.laget-list > li { padding: 6px 0; border-top: 1px solid var(--line); }
+.laget-list > li:first-child { border-top: none; }
+.laget-tl { display: flex; gap: 12px; }
+.laget-tl-time { width: 44px; flex: none; font-variant-numeric: tabular-nums; color: var(--sub); }
+.laget-tl-body { display: flex; flex-direction: column; }
+.laget-tl-title { font-weight: 600; }
+.laget-tl-sub { display: block; font-size: 13px; color: var(--muted); font-weight: 400; }
+.laget-check { display: flex; gap: 10px; align-items: flex-start; }
+.laget-check input { width: 22px; height: 22px; margin-top: 1px; flex: none; }
+.laget-check--done > span { text-decoration: line-through; color: var(--checked); }
+.laget .laget-shield {
+  display: block; width: 100%; text-align: left; margin-bottom: 12px; padding: 18px 18px 14px;
+  background: var(--ink); color: var(--cream); border: none; border-radius: 16px;
+}
+.laget-shield-q { display: block; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold2); }
+.laget-shield-date { display: block; font-size: 22px; margin: 4px 0 10px; }
+.laget-shield-lines { margin: 0 0 12px; padding: 0; list-style: none; font-size: 17px; line-height: 1.5; }
+.laget-shield-more { font-size: 13px; color: var(--gold2); }
+.laget .laget-tile {
+  display: flex; flex-direction: column; align-items: flex-start; width: 100%; text-align: left; padding: 14px 16px;
+  background: var(--paper); color: var(--ink); border: 1px solid var(--line); border-radius: 12px;
+}
+.laget-tile-title { font-size: 18px; font-weight: 600; }
+.laget-tile-sub { font-size: 14px; color: var(--sub); }
+.laget .laget-link { background: transparent; color: var(--ink); border: none; padding: 8px 0; text-decoration: underline; }
+@media (orientation: landscape) and (max-height: 600px) {
+  .laget { max-width: 860px; }
+}

@@ -2535,6 +2535,14 @@ asking for a meal, no eating window), and Hub shows a `.hub-note` pointing to Ha
   gives a home-screen app its own storage). A device writes its subscription itself into
   livet-data's `push-subscriptions.json` (`src/laget/subscriptions.ts` →
   `updatePrivateJson`, a read-modify-write with one retry on 409) — nothing is pasted into a chat.
+- **Läget's screens (step 1)**: `LagetApp.tsx` (state-based view: hem / idag / imorgon / koppling, no
+  router; `?vy=idag|imorgon` from a notification, stripped after read), `Dagen.tsx` (Shield, Idag,
+  Imorgon — presentation over a `DayView`), `KopplingView.tsx`, `useLagetData.ts` (the five data files,
+  refetched on resume; a missing `attgora.json` = empty). Ticking a preparation writes
+  `data/klart.json` via `updatePrivateJson` (optimistic, rolled back on failure; the update is a pure
+  set/delete of one key so a retry on fresher data merges correctly). Veckan, the menu and the
+  to-do tick are step 2. When driving it in Playwright use `page.clock.install({ time })` to pin
+  "now" and route-mock `api.github.com` (raw `Accept` → file body, JSON `Accept` → `{content, sha}`).
 - Spec and build order: `docs/laget-spec-2026-10.md`.
 
 ## Deploy

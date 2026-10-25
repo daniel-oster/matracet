@@ -1,112 +1,100 @@
-import { useCallback, useEffect, useState } from 'react'
-import { clearToken, getToken, setToken } from '../lib/githubSync'
-import { clearPrivateCache, fetchPrivateJson, type PrivateStatus } from '../lib/privateData'
-import { LAGET_PUSH, currentSubscription, pushSupport, subscribe } from '../lib/push'
-import { saveLagetSubscription } from './subscriptions'
+import { useEffect, useMemo, useState } from 'react'
+import { addDays } from '../presence/resolver'
+import { buildDay } from './buildDay'
+import { stockholmNow } from './time'
+import { Idag, Imorgon, Shield } from './Dagen'
+import KopplingView from './KopplingView'
+import { useLagetData } from './useLagetData'
 
-// Step 1 shell: the home-screen app exists, can be connected to the private data with a token,
-// and can subscribe to its own notifications. Idag / Imorgon arrive in the next PR.
+type View = 'hem' | 'idag' | 'imorgon' | 'koppling'
 
-const STATUS_TEXT: Record<PrivateStatus | 'loading' | 'none', string> = {
-  none: 'Ingen token – klistra in din token för att koppla Läget till datan.',
-  loading: 'Kollar kopplingen…',
-  ok: 'Kopplad till livet-data ✓',
-  unauthorized: 'Token avvisades eller saknar åtkomst till livet-data.',
-  'no-token': 'Ingen token.',
-  'not-found': 'Kopplingen fungerar men data/schema.json finns inte.',
-  network: 'Kunde inte nå GitHub – försök igen.',
+/** A notification opens /matracet/laget/?vy=idag|imorgon (see the notification job). */
+function initialView(): View {
+  const vy = new URLSearchParams(window.location.search).get('vy')
+  return vy === 'idag' || vy === 'imorgon' ? vy : 'hem'
+}
+
+/** Wall-clock "now" in Stockholm, refreshed every 30 s and when the app is resumed. */
+function useNow() {
+  const [now, setNow] = useState(() => stockholmNow(new Date()))
+  useEffect(() => {
+    const tick = () => setNow(stockholmNow(new Date()))
+    const id = window.setInterval(tick, 30_000)
+    document.addEventListener('visibilitychange', tick)
+    return () => {
+      window.clearInterval(id)
+      document.removeEventListener('visibilitychange', tick)
+    }
+  }, [])
+  return now
 }
 
 export default function LagetApp() {
-  const [token, setTokenState] = useState(() => getToken() ?? '')
-  const [saved, setSaved] = useState(() => getToken() !== null)
-  const [status, setStatus] = useState<PrivateStatus | 'loading' | 'none'>(saved ? 'loading' : 'none')
-  const [pushOn, setPushOn] = useState(false)
-  const [pushMsg, setPushMsg] = useState<string | null>(null)
+  const [view, setView] = useState<View>(initialView)
+  const [tickError, setTickError] = useState<string | null>(null)
+  const { data, status, stale, setPrepDone, reload } = useLagetData()
+  const now = useNow()
 
-  const check = useCallback(async () => {
-    if (!getToken()) return setStatus('none')
-    setStatus('loading')
-    setStatus((await fetchPrivateJson('data/schema.json')).status)
+  // Drop ?vy= once read so a later reload doesn't jump back to it.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    if (!params.has('vy')) return
+    params.delete('vy')
+    const qs = params.toString()
+    window.history.replaceState(null, '', `${window.location.pathname}${qs ? `?${qs}` : ''}${window.location.hash}`)
   }, [])
 
-  useEffect(() => {
-    void check()
-    void currentSubscription(LAGET_PUSH).then(s => setPushOn(s !== null))
-  }, [check])
+  const today = useMemo(() => (data ? buildDay(now.date, data) : null), [data, now.date])
+  const tomorrow = useMemo(() => (data ? buildDay(addDays(now.date, 1), data) : null), [data, now.date])
 
-  const saveToken = () => {
-    if (!token.trim()) return
-    setToken(token)
-    setSaved(true)
-    void check()
-  }
-  const removeToken = () => {
-    clearToken()
-    clearPrivateCache()
-    setTokenState('')
-    setSaved(false)
-    setStatus('none')
-  }
-
-  const enablePush = async () => {
-    setPushMsg(null)
-    try {
-      const sub = await subscribe(LAGET_PUSH)
-      const result = await saveLagetSubscription(sub.toJSON())
-      if (result === 'ok') setPushOn(true)
-      else setPushMsg(result === 'no-token' ? 'Lägg in token först.' : 'Kunde inte spara prenumerationen (' + result + ').')
-    } catch (err) {
-      setPushMsg(err instanceof Error ? err.message : 'Kunde inte slå på notiser.')
-    }
-  }
-
-  const support = pushSupport()
+  const tick = async (key: string, on: boolean) => setTickError(await setPrepDone(key, on))
 
   return (
     <div className="laget">
       <header className="laget-head">
-        <div className="laget-eyebrow">Life – as it should be</div>
-        <h1 className="laget-title">Läget</h1>
+        <div>
+          {view === 'hem' ? (
+            <>
+              <div className="laget-eyebrow">Life – as it should be</div>
+              <h1 className="laget-title">Läget</h1>
+            </>
+          ) : (
+            <button className="laget-back" onClick={() => setView('hem')}>‹ Läget</button>
+          )}
+        </div>
+        {view !== 'koppling' && (
+          <button className="laget-gear" onClick={() => setView('koppling')} aria-label="Koppling och notiser">⚙︎</button>
+        )}
       </header>
 
-      <section className="laget-card">
-        <h2>Koppling</h2>
-        <p className={`laget-status laget-status--${status}`}>{STATUS_TEXT[status]}</p>
-        {saved ? (
-          <div className="laget-row">
-            <button onClick={() => void check()}>Kolla igen</button>
-            <button onClick={removeToken}>Ta bort token</button>
-          </div>
-        ) : (
-          <div className="laget-row">
-            <input
-              type="password"
-              autoComplete="off"
-              placeholder="GitHub-token"
-              value={token}
-              onChange={e => setTokenState(e.target.value)}
-            />
-            <button onClick={saveToken} disabled={!token.trim()}>Spara</button>
-          </div>
-        )}
-      </section>
-
-      <section className="laget-card">
-        <h2>Notiser</h2>
-        {pushOn ? (
-          <p className="laget-status laget-status--ok">Notiser är på för den här appen ✓</p>
-        ) : support === 'ok' ? (
-          <button onClick={() => void enablePush()} disabled={!saved}>Slå på notiser</button>
-        ) : support === 'not-installed' ? (
-          <p>Lägg till Läget på hemskärmen och öppna det därifrån för att kunna slå på notiser.</p>
-        ) : (
-          <p>Den här webbläsaren stöder inte notiser.</p>
-        )}
-        {pushMsg && <p className="laget-status laget-status--unauthorized">{pushMsg}</p>}
-      </section>
-
-      <p className="laget-foot">Idag och Imorgon kommer i nästa steg.</p>
+      {view === 'koppling' ? (
+        <KopplingView onChanged={reload} />
+      ) : !today || !tomorrow ? (
+        <section className="laget-card">
+          <h3>{status === 'loading' ? 'Hämtar läget…' : 'Läget är inte kopplat'}</h3>
+          {status !== 'loading' && (
+            <>
+              <p>Utan token går det inte att läsa schemat.</p>
+              <button onClick={() => setView('koppling')}>Koppla</button>
+            </>
+          )}
+        </section>
+      ) : (
+        <>
+          {stale && <p className="laget-stale">Visar sparad data – kunde inte nå GitHub.</p>}
+          {view === 'hem' && (
+            <>
+              <Shield view={today} nowTime={now.time} onOpen={() => setView('idag')} />
+              <button className="laget-tile" onClick={() => setView('imorgon')}>
+                <span className="laget-tile-title">Imorgon</span>
+                <span className="laget-tile-sub">{today.tomorrowTeaser ?? 'inget att förbereda'}</span>
+              </button>
+            </>
+          )}
+          {view === 'idag' && <Idag view={today} tomorrow={tomorrow} onTomorrow={() => setView('imorgon')} />}
+          {view === 'imorgon' && <Imorgon today={today} tomorrow={tomorrow} onTick={tick} error={tickError} />}
+        </>
+      )}
     </div>
   )
 }
