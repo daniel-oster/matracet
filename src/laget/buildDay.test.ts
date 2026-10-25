@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { buildDay } from './buildDay'
+import { buildDay, buildWeek } from './buildDay'
 import { DENTIST, makeData, makeDinner } from './fixtures'
 import type { LagetEvent } from './types'
 
@@ -153,5 +153,15 @@ describe('buildDay: dinner', () => {
     const view = buildDay('2026-11-10', makeData({ dinner: makeDinner({ weekplan: { '2026-11-10': { dinner: { mealSlug: 'tacos', receptSlug: null } } } }) }))
     expect(view.presence.windowStatus).toBe('OPEN')
     expect(view.dinner).toEqual({ title: 'Tacos', eatBy: null })
+  })
+})
+
+describe('buildWeek', () => {
+  it('builds consecutive days, each the same as buildDay on its own', () => {
+    const data = makeData()
+    const week = buildWeek(MON, data)
+    expect(week.map(d => d.date)).toEqual(['2026-11-02', '2026-11-03', '2026-11-04', '2026-11-05', '2026-11-06', '2026-11-07', '2026-11-08'])
+    expect(week[2]).toEqual(buildDay(WED, data))
+    expect(buildWeek(MON, data, 14)).toHaveLength(14)
   })
 })

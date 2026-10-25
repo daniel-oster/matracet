@@ -4,6 +4,7 @@ import type { LagetData, KlartMap, LagetEvent, Todo } from './types'
 import type { Period, PresenceStore } from '../presence/types'
 import { withKlart } from './format'
 import { completeTodo } from './todos'
+import { DEFAULT_INSTALLNINGAR, withNotisTimes, type Installningar } from './notiser'
 import { mergeMeals, type DinnerSources, type WeekPlanDay } from './dinner'
 import { addDays } from '../presence/resolver'
 import { getISOWeekString } from '../lib/isoWeek'
@@ -18,12 +19,15 @@ import type { RecipeIndex, WeekMenu } from '../types'
 
 export interface LagetState {
   data: LagetData | null
+  settings: Installningar
   status: PrivateStatus | 'loading'
   stale: boolean
   /** Tick or un-tick a preparation; optimistic, rolled back if the write fails. Resolves to an error text or null. */
   setPrepDone: (key: string, on: boolean) => Promise<string | null>
   /** Tick a to-do (a repeating one spawns its next occurrence). Optimistic; resolves to an error text or null. */
   setTodoDone: (id: string) => Promise<string | null>
+  /** Save the notification times (data/installningar.json). Resolves to an error text or null. */
+  saveNotisTimes: (idag: string, imorgon: string) => Promise<string | null>
   reload: () => void
 }
 
@@ -31,6 +35,7 @@ const REFRESH_MIN_MS = 30_000
 
 export function useLagetData(): LagetState {
   const [data, setData] = useState<LagetData | null>(null)
+  const [settings, setSettings] = useState<Installningar>(DEFAULT_INSTALLNINGAR)
   const [status, setStatus] = useState<PrivateStatus | 'loading'>('loading')
   const [stale, setStale] = useState(false)
   const lastLoad = useRef(0)
@@ -49,12 +54,13 @@ export function useLagetData(): LagetState {
       json<RecipeIndex>(`${base}data/recipes/_index.json`),
       Promise.all(weeks.map(w => fetchPrivateJson<WeekMenu>(`matracet/weeks/${w}.json`))),
     ])
-    const [schema, periods, events, todos, klart] = await Promise.all([
+    const [schema, periods, events, todos, klart, installningar] = await Promise.all([
       fetchPrivateJson<PresenceStore>('data/schema.json'),
       fetchPrivateJson<Period[]>('data/perioder.json'),
       fetchPrivateJson<LagetEvent[]>('data/handelser.json'),
       fetchPrivateJson<Todo[]>('data/attgora.json'),
       fetchPrivateJson<KlartMap>('data/klart.json'),
+      fetchPrivateJson<Installningar>('data/installningar.json'),
     ])
     const [sync, mealsFile, recipeIndex, weekFiles] = await dinnerFetch
     const stores = sync.data?.stores
@@ -64,6 +70,7 @@ export function useLagetData(): LagetState {
       meals: mergeMeals(mealsFile?.meals ?? [], stores?.['matracet:meals:local:v1']?.data as Record<string, Meal> | undefined),
       recipeIndex: recipeIndex?.recipes ?? [],
     }
+    setSettings(installningar.data?.notiser ? installningar.data : DEFAULT_INSTALLNINGAR)
     setStatus(schema.status)
     setStale(schema.stale)
     setData(
@@ -109,5 +116,17 @@ export function useLagetData(): LagetState {
     return result === 'no-token' || result === 'unauthorized' ? 'Token saknar skrivrätt till livet-data.' : 'Kunde inte spara – försök igen.'
   }, [])
 
-  return { data, status, stale, setPrepDone, setTodoDone, reload: () => void load() }
+  const saveNotisTimes = useCallback(async (idag: string, imorgon: string): Promise<string | null> => {
+    if (!withNotisTimes(DEFAULT_INSTALLNINGAR, idag, imorgon)) return 'Tiderna måste vara på formen HH:MM.'
+    const result = await updatePrivateJson<Installningar>(
+      'data/installningar.json',
+      current => withNotisTimes(current?.notiser ? current : DEFAULT_INSTALLNINGAR, idag, imorgon)!,
+      'Läget: notistider',
+    )
+    if (result !== 'ok') return result === 'no-token' || result === 'unauthorized' ? 'Token saknar skrivrätt till livet-data.' : 'Kunde inte spara – försök igen.'
+    setSettings(s => withNotisTimes(s, idag, imorgon) ?? s)
+    return null
+  }, [])
+
+  return { data, settings, status, stale, setPrepDone, setTodoDone, saveNotisTimes, reload: () => void load() }
 }

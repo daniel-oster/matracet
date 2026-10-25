@@ -103,3 +103,11 @@ export function recordSent(log: NotisLogg, keys: string[], now: Date): NotisLogg
   const kept = log.skickade.filter(s => s.key.slice(0, 10) >= cutoff)
   return { skickade: [...kept, ...keys.map(key => ({ key, sent: now.toISOString() }))] }
 }
+
+const TIME = /^([01]\d|2[0-3]):[0-5]\d$/
+
+/** New notification times, or null when either isn't a valid HH:MM (the settings form refuses it). */
+export function withNotisTimes(s: Installningar, idag: string, imorgon: string): Installningar | null {
+  if (!TIME.test(idag) || !TIME.test(imorgon)) return null
+  return { ...s, notiser: { ...s.notiser, idag, imorgon } }
+}

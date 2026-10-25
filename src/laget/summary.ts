@@ -41,3 +41,13 @@ export function tomorrowHeadline(today: DayView, tomorrow: DayView): string | nu
   if (prep > 0) parts.push(`${prep} att förbereda`)
   return parts.join(' · ')
 }
+
+/** One short line per thing happening that day, for the week list: timed items, open to-dos, dinner. */
+export function dayLines(view: DayView): string[] {
+  const lines: string[] = view.timeline
+    .filter(t => t.startTime !== null)
+    .map(t => `${t.title} ${t.startTime}`)
+  for (const todo of view.todos) lines.push(`${todo.title} (att göra)`)
+  if (view.dinner) lines.push(`Middag: ${view.dinner.title}`)
+  return lines
+}

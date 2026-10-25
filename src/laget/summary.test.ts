@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { buildDay } from './buildDay'
-import { makeData } from './fixtures'
-import { headline, topLines } from './summary'
+import { makeData, makeDinner } from './fixtures'
+import { dayLines, headline, topLines } from './summary'
 
 describe('headline', () => {
   it('names the week type and counts timed things', () => {
@@ -33,5 +33,23 @@ describe('topLines', () => {
     const data = makeData({ todos: [{ id: 't', title: 'Lämna boken', due: '2026-11-01', dueTime: null, done: null }] })
     const lines = topLines(buildDay('2026-11-04', data))
     expect(lines[lines.length - 1]).toEqual({ kind: 'gora', text: 'Lämna boken (försenad)', time: null })
+  })
+})
+
+describe('dayLines', () => {
+  it('lists timed items, open to-dos and the dinner, one short line each', () => {
+    const data = makeData({
+      dinner: makeDinner(),
+      todos: [{ id: 't', title: 'Lämna boken', due: '2026-11-04', dueTime: null, done: null }],
+    })
+    expect(dayLines(buildDay('2026-11-04', data))).toEqual([
+      'Tandläkare 14:30',
+      expect.stringMatching(/^Aktivitet F 18:45$/),
+      'Lämna boken (att göra)',
+      'Middag: Tacos',
+    ])
+  })
+  it('is empty on a day with nothing', () => {
+    expect(dayLines(buildDay('2026-11-10', makeData({ events: [] })))).toEqual([])
   })
 })
