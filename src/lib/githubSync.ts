@@ -153,7 +153,9 @@ async function putOnce(token: string, state: SyncState, sha: string | null): Pro
     )
   }
   const payload: Record<string, unknown> = {
-    message: `sync: update device state (${state.deviceId} @ ${state.updatedAt})`,
+    // `state.updatedAt` is the newest *edit* in the snapshot, not the push time — say both,
+    // or a push today of data last edited weeks ago reads like a sync from weeks ago.
+    message: `sync: synkad ${new Date().toISOString()} · senast ändrad ${state.updatedAt} (${state.deviceId.slice(0, 8)})`,
     content,
     branch: SYNC_BRANCH,
   }
