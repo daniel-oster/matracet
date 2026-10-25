@@ -60,7 +60,7 @@ export default function App() {
   // Set when the boot fetch for the app's hard-required file (recipes/_index.json) fails — without this, a failed request left the app stuck on
   // "Laddar…" forever with no way to recover short of a manual reload. `reloadAttempt`
   // re-runs the boot effect below when the retry button is tapped.
-  const [loadError, setLoadError] = useState(false)
+  const [loadError, setLoadError] = useState<string | null>(null)
   const [reloadAttempt, setReloadAttempt] = useState(0)
   // A tapped push notification opens /matracet/?vy=nytt (public/sw.js) — start on that screen.
   const [screen, setScreen] = useState<ScreenName>(() =>
@@ -115,7 +115,7 @@ export default function App() {
   }, [])
 
   useEffect(() => {
-    setLoadError(false)
+    setLoadError(null)
     const today = new Date().toISOString().slice(0, 10)
     const windowDates = Array.from({ length: 7 }, (_, i) => addDays(today, i))
     const weeksNeeded = [...new Set(windowDates.map(getISOWeekString))]
@@ -208,7 +208,7 @@ export default function App() {
 
     }).catch(err => {
       console.error('[matracet] boot data load failed:', err)
-      setLoadError(true)
+      setLoadError(err instanceof Error ? err.message : String(err))
     })
   }, [reloadAttempt])
 
@@ -252,10 +252,11 @@ export default function App() {
     return () => document.removeEventListener('visibilitychange', onVisible)
   }, [])
 
-  if (loadError) {
+  if (loadError !== null) {
     return (
       <div className="app-loading app-load-error">
         <p>Kunde inte ladda appen. Kontrollera internetanslutningen.</p>
+        <p className="app-load-error-detail">{loadError}</p>
         <button type="button" onClick={() => setReloadAttempt(n => n + 1)}>Försök igen</button>
       </div>
     )

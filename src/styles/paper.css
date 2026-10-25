@@ -1307,3 +1307,5 @@ button.plan-cell { cursor: pointer; }
   border: 1px solid var(--line);
   border-radius: 10px;
 }
+
+.app-load-error-detail { font-size: 12px; opacity: 0.6; word-break: break-word; max-width: 80%; }
