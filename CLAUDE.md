@@ -2482,6 +2482,16 @@ notis settings were spread over two screens. What changed:
 - To stop a background `vite preview` in this sandbox, use `kill <pid>` from `pgrep -x`/`ss -lptn`
   — never `pkill -f "vite preview"`: the pattern is in your own command line and kills the shell.
 
+## Läget: planned second module (2026-10, not started)
+
+Spec: `docs/laget-spec-2026-10.md` — read it before touching anything Läget-related, and work
+one step of its "Byggordning" at a time. Decisions already made there, so don't re-litigate:
+name is **Läget**; two home-screen icons for now (own manifest/scope/service worker, same
+codebase); the app *is* the calendar (no ICS feed for now; keep Cloudflare out of it);
+Claude only runs on free-text input, via a Claude Code routine fired from a GitHub Action.
+Sensitive data (schedule, events, inbox) goes in a separate **private** data repo, never here —
+this repo is public.
+
 ## Deploy
 
 Pushing to `main` triggers the GitHub Actions workflow (`.github/workflows/deploy.yml`) which runs `npm ci && npm run build` and deploys `dist/` to GitHub Pages. No manual steps needed.
