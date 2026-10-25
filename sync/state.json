@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "deviceId": "f71cb36a-ee72-4b51-8f70-bc0b02f5e846",
-  "updatedAt": "2026-10-03T10:55:55.320Z",
+  "deviceId": "c5a20af2-5085-4fb5-bec6-5f1afe465f9e",
+  "updatedAt": "2026-10-25T09:25:35.050Z",
   "stores": {
     "matracet:category-feedback:v1": {
       "updatedAt": "1970-01-01T00:00:00.000Z",
@@ -233,7 +233,7 @@
       }
     },
     "matracet:shopping:v1": {
-      "updatedAt": "2026-10-03T10:55:55.320Z",
+      "updatedAt": "2026-10-25T09:25:35.050Z",
       "data": {
         "removedIds": [
           "ing:kycklingfilé, tärnad|g",
@@ -812,6 +812,15 @@
             "id": "manual:1791020721158:lg2n6",
             "vara": "Skinka",
             "addedAt": "2026-10-03T09:45:21.158Z"
+          },
+          {
+            "id": "manual:1792920335049:y4ylu",
+            "vara": "Fryst vego",
+            "addedAt": "2026-10-25T09:25:35.049Z",
+            "offerRef": {
+              "store": "ica",
+              "week": "2026-W43"
+            }
           }
         ],
         "history": [
@@ -883,7 +892,8 @@
           "manual:1787939352484:q145f": "willys",
           "manual:1787939357644:dt7z3": "willys",
           "manual:1787939384518:ygw34": "hemkop",
-          "manual:1788789848160:v92b8": "willys"
+          "manual:1788789848160:v92b8": "willys",
+          "manual:1792920335049:y4ylu": "ica"
         }
       }
     },
