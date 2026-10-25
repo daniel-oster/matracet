@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { dateLabel, windowLine, withKlart } from './format'
+import { dateLabel, dinnerText, windowLine, withKlart } from './format'
+import type { DayView } from './types'
 import type { DayPlan } from '../presence/types'
 
 const plan = (over: Partial<DayPlan>): DayPlan => ({
@@ -37,5 +38,20 @@ describe('withKlart', () => {
     const a = { k: 't' }
     withKlart(a, 'k', false, 'x')
     expect(a).toEqual({ k: 't' })
+  })
+})
+
+describe('dinnerText', () => {
+  const view = (dinner: DayView['dinner'], presence: Partial<DayPlan>): DayView => ({
+    date: '2026-11-04', presence: plan(presence), isChildWeek: true, timeline: [], todos: [], prepareTonight: [], dinner, tomorrowTeaser: null,
+  })
+  it('combines the dish with the eating window', () => {
+    expect(dinnerText(view({ title: 'Tacos', eatBy: '17:15' }, { windowStatus: 'CONFLICT', eatEarlyBy: '17:15' }))).toBe('Tacos, ät tidigt – senast 17:15')
+    expect(dinnerText(view({ title: 'Tacos', eatBy: '18:30' }, { windowStatus: 'BOUNDED', windowEndsBy: '18:30' }))).toBe('Tacos, ät senast 18:30')
+  })
+  it('is just the dish on an open day, just the window with no dish, nothing with neither', () => {
+    expect(dinnerText(view({ title: 'Tacos', eatBy: null }, {}))).toBe('Tacos')
+    expect(dinnerText(view(null, { windowStatus: 'BOUNDED', windowEndsBy: '18:30' }))).toBe('ät senast 18:30')
+    expect(dinnerText(view(null, {}))).toBeNull()
   })
 })

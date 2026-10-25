@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { buildDay } from './buildDay'
-import { DENTIST, makeData } from './fixtures'
+import { DENTIST, makeData, makeDinner } from './fixtures'
 import type { LagetEvent } from './types'
 
 const MON = '2026-11-02'
@@ -137,5 +137,21 @@ describe('buildDay: purity', () => {
     const v = buildDay(MON, data)
     expect(v.dinner).toBeNull()
     expect(v.prepareTonight).toEqual([])
+  })
+})
+
+describe('buildDay: dinner', () => {
+  it('is null without Matracet data (as in the notification job)', () => {
+    expect(buildDay(WED, makeData()).dinner).toBeNull()
+  })
+  it('carries the planned dish and the day’s eating window', () => {
+    const view = buildDay(WED, makeData({ dinner: makeDinner() }))
+    expect(view.dinner).toEqual({ title: 'Tacos', eatBy: view.presence.eatEarlyBy })
+    expect(view.dinner?.eatBy).not.toBeNull()
+  })
+  it('has no eating window to report on an open day', () => {
+    const view = buildDay('2026-11-10', makeData({ dinner: makeDinner({ weekplan: { '2026-11-10': { dinner: { mealSlug: 'tacos', receptSlug: null } } } }) }))
+    expect(view.presence.windowStatus).toBe('OPEN')
+    expect(view.dinner).toEqual({ title: 'Tacos', eatBy: null })
   })
 })
