@@ -2591,6 +2591,14 @@ asking for a meal, no eating window), and Hub shows a `.hub-note` pointing to Ha
   `data/schema.golden.json`); only a not-yet-started one or a validity-only change is edited in place;
   "Avsluta" sets `validUntil`, never deletes. Tested that every pre-today day resolves identically after an
   edit, and that the app's written file passes `verify-schedule.ts` against real data.
+- **Läget step 2 — the inbox (app side)**: the text field on the start page (`Inkorg.tsx`) writes one file
+  per message, `inkorg/<id>.json` (`i-YYYYMMDD-HHMM-xxx`, Stockholm time so ids sort by when sent), with
+  `status: 'ny'` via `updatePrivateJson` (create-only: `current ?? msg`). The reply lines show the three
+  newest (`statusLine`: Skickat / Inlagt / Oklart / Gick inte); while one is `ny` the start page polls the
+  inbox every 20 s (`listPrivateDir('inkorg')` + three `fetchPrivateJson`s — the listing isn't cached, the
+  files use ETags). Processing is the Claude routine's job (livet-data `.claude/skills/inkorg`), triggered
+  by `inkorg.yml`; `staleNew()` is the pure helper for the safety net that re-fires a message still `ny`
+  after 15 minutes. The phone keyboard's microphone is the speech input.
 - Spec and build order: `docs/laget-spec-2026-10.md`.
 
 ## Deploy

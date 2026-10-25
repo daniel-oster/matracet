@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { fetchPrivateJson, updatePrivateJson, type PrivateStatus } from '../lib/privateData'
+import { fetchPrivateJson, listPrivateDir, updatePrivateJson, type PrivateStatus } from '../lib/privateData'
+import { latestMessages, newMessage, type InkorgMeddelande } from './inkorg'
 import type { LagetData, KlartMap, LagetEvent, Todo } from './types'
 import type { Period, PresenceStore } from '../presence/types'
 import { withKlart } from './format'
@@ -20,6 +21,12 @@ import type { RecipeIndex, WeekMenu } from '../types'
 export interface LagetState {
   data: LagetData | null
   settings: Installningar
+  /** The three newest inbox messages, newest first. */
+  inbox: InkorgMeddelande[]
+  /** Write a message to inkorg/. Resolves to an error text or null. */
+  sendMessage: (text: string) => Promise<string | null>
+  /** Re-read just the inbox (cheap) — used while a message is waiting for Claude. */
+  reloadInbox: () => Promise<void>
   status: PrivateStatus | 'loading'
   stale: boolean
   /** Tick or un-tick a preparation; optimistic, rolled back if the write fails. Resolves to an error text or null. */
@@ -38,12 +45,21 @@ const REFRESH_MIN_MS = 30_000
 export function useLagetData(): LagetState {
   const [data, setData] = useState<LagetData | null>(null)
   const [settings, setSettings] = useState<Installningar>(DEFAULT_INSTALLNINGAR)
+  const [inbox, setInbox] = useState<InkorgMeddelande[]>([])
   const [status, setStatus] = useState<PrivateStatus | 'loading'>('loading')
   const [stale, setStale] = useState(false)
   const lastLoad = useRef(0)
 
+  const loadInbox = useCallback(async () => {
+    const { names } = await listPrivateDir('inkorg')
+    const newest = names.filter(n => n.endsWith('.json')).sort().slice(-3)
+    const files = await Promise.all(newest.map(n => fetchPrivateJson<InkorgMeddelande>(`inkorg/${n}`)))
+    setInbox(latestMessages(files.map(f => f.data).filter((m): m is InkorgMeddelande => m !== null)))
+  }, [])
+
   const load = useCallback(async () => {
     lastLoad.current = Date.now()
+    void loadInbox()
     // Matracet's plan, for the dinner line: the device-sync snapshot, the public meal library and
     // the week files covering the next two weeks. Any of it missing just means no dinner line.
     const today = stockholmNow(new Date()).date
@@ -80,7 +96,7 @@ export function useLagetData(): LagetState {
         ? { schema: schema.data, periods: periods.data ?? [], events: events.data ?? [], todos: todos.data ?? [], klart: klart.data ?? {}, dinner }
         : null,
     )
-  }, [])
+  }, [loadInbox])
 
   useEffect(() => {
     void load()
@@ -155,5 +171,16 @@ export function useLagetData(): LagetState {
     return null
   }, [load])
 
-  return { data, settings, status, stale, setPrepDone, setTodoDone, saveNotisTimes, changeSchema, reload: () => void load() }
+  const sendMessage = useCallback(async (text: string): Promise<string | null> => {
+    const msg = newMessage(text, new Date())
+    if (!msg) return text.trim() ? 'Meddelandet är för långt.' : 'Skriv något först.'
+    // Show it at once; the real file arrives with the next read.
+    setInbox(prev => latestMessages([msg, ...prev]))
+    const result = await updatePrivateJson<InkorgMeddelande>(`inkorg/${msg.id}.json`, current => current ?? msg, 'Läget: nytt meddelande')
+    if (result === 'ok') return null
+    setInbox(prev => prev.filter(m => m.id !== msg.id))
+    return result === 'no-token' || result === 'unauthorized' ? 'Token saknar skrivrätt till livet-data.' : 'Kunde inte skicka – försök igen.'
+  }, [])
+
+  return { data, settings, inbox, sendMessage, reloadInbox: loadInbox, status, stale, setPrepDone, setTodoDone, saveNotisTimes, changeSchema, reload: () => void load() }
 }

@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { setToken } from './githubSync'
-import { clearPrivateCache, fetchPrivateJson, updatePrivateJson } from './privateData'
+import { clearPrivateCache, fetchPrivateJson, listPrivateDir, updatePrivateJson } from './privateData'
 
 class MemoryStorage {
   private store = new Map<string, string>()
@@ -196,5 +196,27 @@ describe('updatePrivateJson', () => {
     expect(await updatePrivateJson('f.json', () => ({}), 'm')).toBe('unauthorized')
     fetchMock.mockRejectedValueOnce(new TypeError('offline'))
     expect(await updatePrivateJson('f.json', () => ({}), 'm')).toBe('network')
+  })
+})
+
+describe('listPrivateDir', () => {
+  it('lists file names, not subdirectories', async () => {
+    setToken('tok')
+    fetchMock.mockResolvedValueOnce(res(200, [{ name: 'a.json', type: 'file' }, { name: 'sub', type: 'dir' }, { name: 'b.json', type: 'file' }]))
+    expect(await listPrivateDir('inkorg')).toEqual({ status: 'ok', names: ['a.json', 'b.json'] })
+    expect(fetchMock.mock.calls[0][0]).toBe('https://api.github.com/repos/daniel-oster/livet-data/contents/inkorg')
+  })
+  it('treats a missing directory as empty, and maps auth and network failures', async () => {
+    setToken('tok')
+    fetchMock.mockResolvedValueOnce(res(404))
+    expect(await listPrivateDir('inkorg')).toEqual({ status: 'ok', names: [] })
+    fetchMock.mockResolvedValueOnce(res(401))
+    expect((await listPrivateDir('inkorg')).status).toBe('unauthorized')
+    fetchMock.mockRejectedValueOnce(new TypeError('offline'))
+    expect((await listPrivateDir('inkorg')).status).toBe('network')
+  })
+  it('does nothing without a token', async () => {
+    expect(await listPrivateDir('inkorg')).toEqual({ status: 'no-token', names: [] })
+    expect(fetchMock).not.toHaveBeenCalled()
   })
 })
