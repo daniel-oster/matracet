@@ -35,6 +35,7 @@ import { startSyncPusher, seedKnownSha, adoptRemoteState } from './lib/syncPushe
 import SyncIndicator from './components/SyncIndicator'
 import { parseRecipeHash, parseRecipePath, recipePath } from './lib/recipeLink'
 import { fetchData } from './lib/dataFetch'
+import { hardRefresh } from './lib/hardRefresh'
 
 function dagFromDate(isoDate: string): string {
   const names = ['sondag', 'mandag', 'tisdag', 'onsdag', 'torsdag', 'fredag', 'lordag']
@@ -258,6 +259,7 @@ export default function App() {
         <p>Kunde inte ladda appen. Kontrollera internetanslutningen.</p>
         <p className="app-load-error-detail">{loadError}</p>
         <button type="button" onClick={() => setReloadAttempt(n => n + 1)}>Försök igen</button>
+        <button type="button" onClick={hardRefresh}>⟳ Hämta senaste versionen</button>
       </div>
     )
   }
