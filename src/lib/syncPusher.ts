@@ -33,7 +33,10 @@ import { applyRemoteSnapshot, collectSnapshot, stableStoresKey } from './syncSna
 import { SYNCED_STORES } from './syncStores'
 import { reportSyncFailure, recordPushSuccess } from './syncStatus'
 
-const DEBOUNCE_MS = 20_000
+// Short on purpose: the household should never feel a need to "press sync" — an edit is on
+// its way to GitHub a few seconds after the last tap (and immediately when the app is put
+// away, see the visibilitychange flush below). Rapid edits still coalesce into one push.
+const DEBOUNCE_MS = 4_000
 
 let debounceTimer: ReturnType<typeof setTimeout> | null = null
 let pushInFlight = false
@@ -42,8 +45,37 @@ let knownSha: string | null | undefined // undefined = unknown, (re)discover-and
 let lastKnownStoresKey: string | null = null // null = unknown — never skip until established
 let started = false
 
+/** What the pusher is doing right now, for the small on-screen save indicator
+ * (SyncIndicator.tsx). 'pending' = a real local change is waiting for the debounce;
+ * 'pushing' = a PUT is actually on the wire. A no-op push (content already on the branch)
+ * never shows as either. */
+export type PushActivity = 'idle' | 'pending' | 'pushing'
+let activity: PushActivity = 'idle'
+const activityListeners = new Set<() => void>()
+
+function setActivity(next: PushActivity): void {
+  if (next === activity) return
+  activity = next
+  activityListeners.forEach(l => l())
+}
+
+export function getPushActivity(): PushActivity {
+  return activity
+}
+
+export function subscribePushActivity(listener: () => void): () => void {
+  activityListeners.add(listener)
+  return () => activityListeners.delete(listener)
+}
+
 function scheduleDebounced(): void {
   if (debounceTimer) clearTimeout(debounceTimer)
+  // Only flag 'pending' for content that actually differs from what the branch is known to
+  // hold — a hydration adopting remote data notifies stores too, and must not read as
+  // "saving…". Unknown (null) means we can't tell yet, so stay quiet.
+  if (!pushInFlight && lastKnownStoresKey !== null && stableStoresKey(collectSnapshot().stores) !== lastKnownStoresKey) {
+    setActivity('pending')
+  }
   debounceTimer = setTimeout(() => {
     debounceTimer = null
     void pushNow()
@@ -107,6 +139,7 @@ export async function pushNow(): Promise<void> {
         continue
       }
 
+      setActivity('pushing')
       result = await pushState(snapshot, knownSha)
 
       if (result.status === 'ok') {
@@ -124,6 +157,23 @@ export async function pushNow(): Promise<void> {
     } while (dirtyDuringFlight)
   } finally {
     pushInFlight = false
+    setActivity(debounceTimer ? 'pending' : 'idle')
+  }
+}
+
+/** A later (non-boot) hydration — e.g. the app coming back to the foreground — hands the
+ * branch state it just merged to the pusher, so the next push neither conflicts on a stale
+ * sha nor re-pushes what was just fetched. No-op while a push is in flight (that push's own
+ * result is the fresher truth). If the only pending "change" was that hydration itself,
+ * the debounce is cancelled so nothing is pushed and the indicator doesn't flash. */
+export function adoptRemoteState(sha: string | null, storesKey?: string): void {
+  if (pushInFlight) return
+  knownSha = sha
+  if (storesKey !== undefined) lastKnownStoresKey = storesKey
+  if (debounceTimer && lastKnownStoresKey !== null && stableStoresKey(collectSnapshot().stores) === lastKnownStoresKey) {
+    clearTimeout(debounceTimer)
+    debounceTimer = null
+    setActivity('idle')
   }
 }
 
@@ -149,6 +199,7 @@ export function seedKnownSha(sha: string | null, storesKey?: string): void {
 export function __resetForTests(): void {
   knownSha = undefined
   lastKnownStoresKey = null
+  activity = 'idle'
 }
 
 /** Subscribe to every synced store and start the debounce/visibilitychange machinery.

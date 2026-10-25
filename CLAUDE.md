@@ -85,7 +85,8 @@ Navigation is a simple `screen: ScreenName` state in `App.tsx` (`'hub' | TabName
 | `fynd` | Store offers, all categories in one scroll (2-col grid on wide) |
 | `skafferi` | Semesterläge: pantry-match cooking ideas, the stash pool, this week's offer cloud, manual add, recipe browser |
 | `historik` | Read-only log of meals actually eaten (`public/data/history.json`), newest first |
-| `synka` | Export this device's local ratings/changes as a file to paste into a Claude Code chat for backend sync |
+| `nytt` | News feed from `public/data/nyheter.json` (new offers etc.); nudges to Hantera appen if notiser are off |
+| `hantera` | "Hantera appen": sync status/token, push-notis opt-in, ⟳ fetch latest version, manual export fallback (replaced the old `synka` screen, 2026-10) |
 
 ### Recipe viewing: converged on the shared full-screen overlay (2026-07)
 
@@ -2453,6 +2454,33 @@ which prints as a phone-shaped cream block down the page under the recipe — re
 print block, not just `max-width`/`padding`. Found by rendering with
 `page.pdf({ printBackground: true })`; a real printer usually drops backgrounds by default, so
 this is exactly the class of bug an on-screen check never surfaces.
+
+## Sync without a sync button: "Hantera appen" (2026-10)
+
+Household feedback: having to visit a Synka screen and press a button felt odd, and the sync +
+notis settings were spread over two screens. What changed:
+- **Push was already automatic** — the debounce just went 20 s → 4 s (`DEBOUNCE_MS` in
+  `syncPusher.ts`), plus the existing flush when the app is put away. No per-screen save
+  buttons: they'd be one more thing to forget, and every edit is already persisted locally the
+  instant it happens.
+- **Feedback instead of a button**: `SyncIndicator.tsx` is a small bottom-right pill —
+  `Sparar…` → `✓ Sparat` (1.8 s), or a persistent `⚠ Ej synkat` (tap → Hantera appen). Driven by
+  `syncPusher.ts`'s `getPushActivity`/`subscribePushActivity` (`idle|pending|pushing`); `pending`
+  is only raised when local content actually differs from what the branch is known to hold, so
+  a hydration adopting remote data never reads as "saving". Nothing renders without a token.
+- **Pull on resume**: an iOS home-screen app is resumed, not reloaded, so boot-time hydration
+  alone left other devices' changes invisible until a manual reload — which is what the sync
+  button was really being used for. `App.tsx` now re-hydrates on `visibilitychange → visible`
+  (throttled to once per 30 s) and hands the result to `adoptRemoteState(sha, storesKey)`, which
+  also cancels a pending push whose only "change" was that hydration.
+- `recordHydration()` now clears `lastError` too (a successful fetch means sync is reachable).
+- **One settings screen**: `HanteraView` (`hantera`, Hub → ⚙️ Hantera appen) holds sync status +
+  token (token field collapsed once set), `NotisSettings.tsx` (moved out of `NyttView`; the
+  subscription code is behind a "Koppla in telefonen" disclosure once notiser are on), the ⟳
+  fetch-latest-version button (`src/lib/hardRefresh.ts`, shared with Hub), and the manual
+  export `<details>`. `↻ Synka nu ändå` stays as a small secondary escape hatch.
+- To stop a background `vite preview` in this sandbox, use `kill <pid>` from `pgrep -x`/`ss -lptn`
+  — never `pkill -f "vite preview"`: the pattern is in your own command line and kills the shell.
 
 ## Deploy
 

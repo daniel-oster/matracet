@@ -1,12 +1,12 @@
 ---
 name: sync-local-storage
-description: Merge an exported Matracet localStorage payload (from the app's Synka screen / "⬇ Exportera data" button) into the git-tracked public/data/feedback.json backend, so per-person meal ratings (gillar/ogillar/vägrar) entered on one device become visible on every device. Use whenever the user pastes or uploads a matracet-data-*.json export, or asks to "sync my ratings" / "synka appen".
+description: Merge an exported Matracet localStorage payload (from the app's Hantera appen screen → Manuell export / "⬇ Exportera data" button) into the git-tracked public/data/feedback.json backend, so per-person meal ratings (gillar/ogillar/vägrar) entered on one device become visible on every device. Use whenever the user pastes or uploads a matracet-data-*.json export, or asks to "sync my ratings" / "synka appen".
 ---
 
 Matracet has no backend — per-person feedback (`useFeedback`,
 `matracet:feedback:v2`) lives only in the browser's `localStorage`, so it doesn't
-travel between the household's devices on its own. The **Synka** screen in the
-app (Hub → 🔄 Synka, built on `src/lib/exportData.ts`'s `downloadLocalData`)
+travel between the household's devices on its own. The **Hantera appen** screen in the
+app (Hub → ⚙️ Hantera appen → "Manuell export", built on `src/lib/exportData.ts`'s `downloadLocalData`)
 downloads a `matracet-data-<date>.json` file containing **every** `matracet:*`
 localStorage key on that device (see `ExportPayload` — the export is generic, so
 it automatically includes any store added after this skill was written). The

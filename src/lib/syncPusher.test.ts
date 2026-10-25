@@ -14,7 +14,8 @@ vi.mock('./githubSync', async importOriginal => {
 })
 
 // Imported after the mock so syncPusher picks up the mocked pushState/fetchState.
-const { startSyncPusher, pushNow, __resetForTests } = await import('./syncPusher')
+const { startSyncPusher, pushNow, __resetForTests, getPushActivity, seedKnownSha, adoptRemoteState } = await import('./syncPusher')
+const { collectSnapshot, stableStoresKey } = await import('./syncSnapshot')
 const { mealPoolStore } = await import('../hooks/useMealPool')
 const { irrelevantOffersStore } = await import('../hooks/useIrrelevantOffers')
 
@@ -49,16 +50,16 @@ afterEach(() => {
 })
 
 describe('syncPusher', () => {
-  it('coalesces rapid consecutive store changes into exactly one push, 20s after the LAST change', async () => {
+  it('coalesces rapid consecutive store changes into exactly one push, 4s after the LAST change', async () => {
     const stop = startSyncPusher()
     try {
       mealPoolStore.set({ entries: [{ id: 'a', mealSlug: 'tacos', receptSlug: null, addedAt: 't1', slot: null }] })
-      await vi.advanceTimersByTimeAsync(5_000)
+      await vi.advanceTimersByTimeAsync(3_000)
       mealPoolStore.set({ entries: [] })
-      await vi.advanceTimersByTimeAsync(5_000)
+      await vi.advanceTimersByTimeAsync(3_000)
       mealPoolStore.set({ entries: [{ id: 'a', mealSlug: 'tacos', receptSlug: null, addedAt: 't1', slot: null }] }) // resets the debounce window again
 
-      await vi.advanceTimersByTimeAsync(19_999)
+      await vi.advanceTimersByTimeAsync(3_999)
       expect(pushStateMock).not.toHaveBeenCalled()
 
       await vi.advanceTimersByTimeAsync(1)
@@ -78,7 +79,7 @@ describe('syncPusher', () => {
     const stop = startSyncPusher()
     try {
       mealPoolStore.set({ entries: [{ id: 'a', mealSlug: 'tacos', receptSlug: null, addedAt: 't1', slot: null }] })
-      await vi.advanceTimersByTimeAsync(20_000) // fires the first push, which hangs
+      await vi.advanceTimersByTimeAsync(4_000) // fires the first push, which hangs
       expect(pushStateMock).toHaveBeenCalledTimes(1)
 
       // A genuine edit landing while the first push is still in flight — this is the case
@@ -111,7 +112,7 @@ describe('syncPusher', () => {
     stop1() // the real teardown
 
     mealPoolStore.set({ entries: [{ id: 'a', mealSlug: 'tacos', receptSlug: null, addedAt: 't1', slot: null }] })
-    await vi.advanceTimersByTimeAsync(20_000)
+    await vi.advanceTimersByTimeAsync(4_000)
     expect(pushStateMock).not.toHaveBeenCalled() // no lingering listener firing post-teardown
   })
 
@@ -167,5 +168,36 @@ describe('syncPusher', () => {
     expect(fetchStateMock).toHaveBeenCalledTimes(1)
     // ...but since local now matches it exactly, no PUT should follow.
     expect(pushStateMock).not.toHaveBeenCalled()
+  })
+
+  it('reports pending → pushing → idle for a real edit, so the save indicator can follow along', async () => {
+    seedKnownSha('sha-0', stableStoresKey(collectSnapshot().stores))
+    const stop = startSyncPusher()
+    try {
+      expect(getPushActivity()).toBe('idle')
+      mealPoolStore.set({ entries: [{ id: 'a', mealSlug: 'tacos', receptSlug: null, addedAt: 't1', slot: null }] })
+      expect(getPushActivity()).toBe('pending')
+      await vi.advanceTimersByTimeAsync(4_000)
+      expect(pushStateMock).toHaveBeenCalledTimes(1)
+      expect(getPushActivity()).toBe('idle')
+    } finally {
+      stop()
+    }
+  })
+
+  it('a foreground hydration that only adopted remote data cancels the pending push and never shows as saving', async () => {
+    seedKnownSha('sha-0', stableStoresKey(collectSnapshot().stores))
+    const stop = startSyncPusher()
+    try {
+      // Simulates applyRemoteSnapshot writing a newer remote value into a local store...
+      mealPoolStore.setFromSync({ entries: [{ id: 'r', mealSlug: 'tacos', receptSlug: null, addedAt: 't1', slot: null }] }, '2026-06-01T00:00:00.000Z')
+      // ...and the hydration then handing the branch's state to the pusher.
+      adoptRemoteState('sha-1', stableStoresKey(collectSnapshot().stores))
+      expect(getPushActivity()).toBe('idle')
+      await vi.advanceTimersByTimeAsync(4_000)
+      expect(pushStateMock).not.toHaveBeenCalled()
+    } finally {
+      stop()
+    }
   })
 })

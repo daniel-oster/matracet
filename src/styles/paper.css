@@ -1181,6 +1181,29 @@ button.plan-cell { cursor: pointer; }
 .toast--error { background: var(--red-bg); color: var(--red); border: 1px solid var(--red); }
 .toast--info { background: var(--paper); color: var(--ink); border: 1px solid var(--line); }
 
+/* Quiet save indicator (SyncIndicator.tsx) — bottom-right, out of the floating nav's way. */
+.sync-pill {
+  position: fixed; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); z-index: 40;
+  padding: 5px 11px; border-radius: 999px; font: inherit; font-size: 12px;
+  background: var(--paper); color: var(--muted2); border: 1px solid var(--line);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12); pointer-events: none;
+}
+.sync-pill--ok { color: var(--green-d); border-color: var(--green); }
+.sync-pill--error { color: var(--red); border-color: var(--red); background: var(--red-bg); pointer-events: auto; cursor: pointer; }
+
+/* Hantera appen */
+.hantera-card { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 14px; margin-bottom: 14px; }
+.hantera-card-title { font-size: 15px; margin-bottom: 6px; }
+.hantera-card .synka-stats { margin: 8px 0 12px; }
+.hantera-secondary-btn {
+  background: none; border: 1px solid var(--line2); border-radius: 8px; padding: 8px 14px;
+  font: inherit; font-size: 13.5px; color: var(--ink); cursor: pointer;
+}
+.hantera-secondary-btn:disabled { opacity: 0.5; cursor: default; }
+.hantera-details { margin-top: 12px; }
+.hantera-details summary { cursor: pointer; color: var(--muted); font-size: 13px; }
+.hantera-details[open] summary { margin-bottom: 8px; }
+
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 
 /* ─── Utskrift: liggande sida, ingredienser ~25% till vänster ───────────────
@@ -1194,7 +1217,7 @@ button.plan-cell { cursor: pointer; }
 
   html, body { background: #fff; color: #000; }
   body { font-size: 11pt; }
-  .toast-host, .floating-nav { display: none !important; }
+  .toast-host, .floating-nav, .sync-pill { display: none !important; }
   .app-shell > *:not(.recipe-overlay) { display: none !important; }
   /* min-height: 100vh + the cream background would otherwise paint a phone-shaped
      block down the page under the recipe. */
@@ -1252,6 +1275,7 @@ button.plan-cell { cursor: pointer; }
 
 /* ── Nytt: update log + push-notification opt-in (NyttView) ───────────────── */
 .nytt-notis { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 14px; margin-bottom: 18px; }
+.nytt-notis--nudge { display: block; width: 100%; text-align: left; font: inherit; font-size: 13.5px; color: var(--ink); cursor: pointer; }
 .nytt-notis-title { font-size: 15px; margin-bottom: 6px; }
 .nytt-hint { font-size: 13px; color: var(--muted2); margin: 0 0 10px; line-height: 1.45; }
 .nytt-code { width: 100%; height: 70px; margin-top: 10px; font: 11px/1.3 ui-monospace, monospace; color: var(--muted2); border: 1px solid var(--line); border-radius: 6px; padding: 6px; box-sizing: border-box; }

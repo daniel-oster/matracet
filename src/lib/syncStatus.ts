@@ -32,7 +32,8 @@ export function recordPushSuccess(): void {
 }
 
 export function recordHydration(): void {
-  syncStatusStore.setSilently({ ...syncStatusStore.get(), lastHydrationAt: new Date().toISOString() })
+  // A successful fetch means sync is reachable again, so the stale error goes too.
+  syncStatusStore.setSilently({ ...syncStatusStore.get(), lastHydrationAt: new Date().toISOString(), lastError: null })
   failureEpisodeActive = false
 }
 

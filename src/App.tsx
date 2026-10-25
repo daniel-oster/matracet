@@ -18,7 +18,7 @@ import FyndView from './components/views/FyndView'
 import BevakaView from './components/views/BevakaView'
 import SkafferiView from './components/views/SkafferiView'
 import HistorikView from './components/views/HistorikView'
-import SynkaView from './components/views/SynkaView'
+import HanteraView from './components/views/HanteraView'
 import NyttView from './components/views/NyttView'
 import RecipeOverlay from './components/RecipeOverlay'
 import FloatingNav from './components/FloatingNav'
@@ -30,7 +30,8 @@ import { useLocalMeals, mergeLocalMeals } from './hooks/useLocalMeals'
 import { pruneSyncTasks } from './hooks/useSyncTasks'
 import { applyTaskOutcome } from './lib/syncTaskOutcomes'
 import { hydrateFromSync } from './lib/syncHydration'
-import { startSyncPusher, seedKnownSha } from './lib/syncPusher'
+import { startSyncPusher, seedKnownSha, adoptRemoteState } from './lib/syncPusher'
+import SyncIndicator from './components/SyncIndicator'
 import { parseRecipeHash, parseRecipePath, recipePath } from './lib/recipeLink'
 import { fetchData } from './lib/dataFetch'
 
@@ -230,6 +231,23 @@ export default function App() {
   // stored → every push attempt no-ops with zero network calls (pushState's own guard).
   useEffect(() => startSyncPusher(), [])
 
+  // Fetch other devices' changes whenever the app comes back to the foreground — a
+  // home-screen app on iOS is usually resumed, not reloaded, so boot-time hydration alone
+  // would leave it showing stale data until a manual reload. Throttled so flicking between
+  // apps doesn't hammer GitHub.
+  useEffect(() => {
+    let lastAt = Date.now()
+    function onVisible() {
+      if (document.visibilityState !== 'visible' || Date.now() - lastAt < 30_000) return
+      lastAt = Date.now()
+      hydrateFromSync().then(outcome => {
+        if (outcome.sha !== undefined) adoptRemoteState(outcome.sha, outcome.storesKey)
+      })
+    }
+    document.addEventListener('visibilitychange', onVisible)
+    return () => document.removeEventListener('visibilitychange', onVisible)
+  }, [])
+
   if (loadError) {
     return (
       <div className="app-loading app-load-error">
@@ -327,7 +345,7 @@ export default function App() {
           onOpenRecipe={setOverlaySlug}
         />
       )}
-      {screen === 'synka' && <SynkaView onBack={toHub} />}
+      {screen === 'hantera' && <HanteraView onBack={toHub} />}
       {screen === 'nytt' && <NyttView onBack={toHub} onNavigate={navigate} />}
 
       {screen !== 'hub' && !overlaySlug && (
@@ -343,6 +361,8 @@ export default function App() {
       {overlaySlug && (
         <RecipeOverlay slug={overlaySlug} onClose={() => setOverlaySlug(null)} />
       )}
+
+      {!overlaySlug && screen !== 'hantera' && <SyncIndicator onOpenSettings={() => navigate('hantera')} />}
     </div>
   )
 }

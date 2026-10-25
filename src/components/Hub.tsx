@@ -2,16 +2,11 @@ import { DayMeal, RecipeIndexEntry, ScreenName } from '../types'
 import type { Meal } from '../types/meal'
 import { useWeekPlan, applyOverride } from '../hooks/useWeekPlan'
 import type { DayPlan } from '../presence/types'
+import { hardRefresh } from '../lib/hardRefresh'
 
 const DAY_NAMES: Record<string, string> = {
   mandag: 'Måndag', tisdag: 'Tisdag', onsdag: 'Onsdag',
   torsdag: 'Torsdag', fredag: 'Fredag', lordag: 'Lördag', sondag: 'Söndag',
-}
-
-function hardRefresh() {
-  const url = new URL(window.location.href)
-  url.searchParams.set('_r', Date.now().toString())
-  window.location.href = url.toString()
 }
 
 function todayLabel(): string {
@@ -110,8 +105,8 @@ export default function Hub({ weekLabel, rollingDays, recipeIndex, meals, dayPla
           <Tile em="🔔" tn="Bevaka" ts="bulk-fynd" onClick={() => onNavigate('bevaka')} />
           <Tile em="📝" tn="Anteckningar" ts="idéer & noteringar" onClick={() => onNavigate('anteckningar')} />
           <Tile em="📜" tn="Historik" ts="vad vi ätit" onClick={() => onNavigate('historik')} />
-          <Tile em="🔄" tn="Synka" ts="betyg → backend" onClick={() => onNavigate('synka')} />
-          <Tile em="📣" tn="Nytt" ts="uppdateringar & notiser" onClick={() => onNavigate('nytt')} />
+          <Tile em="📣" tn="Nytt" ts="veckans uppdateringar" onClick={() => onNavigate('nytt')} />
+          <Tile em="⚙️" tn="Hantera appen" ts="synk, notiser & export" onClick={() => onNavigate('hantera')} />
         </div>
       </div>
     </div>
