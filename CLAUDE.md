@@ -2599,6 +2599,18 @@ asking for a meal, no eating window), and Hub shows a `.hub-note` pointing to Ha
   files use ETags). Processing is the Claude routine's job (livet-data `.claude/skills/inkorg`), triggered
   by `inkorg.yml`; `staleNew()` is the pure helper for the safety net that re-fires a message still `ny`
   after 15 minutes. The phone keyboard's microphone is the speech input.
+- **Läget step 2 — inbox jobs** (`src/laget/inkorgJobb.ts` pure + `scripts/laget-inkorg.ts` + `scripts/lib/routine.mjs`):
+  `--mode push --before --after` (run by `inkorg.yml` in livet-data on a push touching `inkorg/**`):
+  `classifyChange` fires the routine only for a brand-new `ny` file and sends the confirmation push when a `ny`
+  file becomes klar/oklar/fel — Claude's own ny→klar commit can never fire again (no loop).
+  `--mode stale` (from `notiser.yml`): a message still `ny` after 15 min is re-fired at most twice
+  (`…|fire|<id>|n` keys in `data/notislogg.json`), then marked `fel` and the phone is told directly (a
+  `GITHUB_TOKEN` commit starts no workflow). The fire API: `POST <LAGET_ROUTINE_URL>` with `Authorization: Bearer`,
+  `anthropic-beta: experimental-cc-routine-2026-04-01`, `anthropic-version: 2023-06-01`, body `{"text"}`; the text
+  reaches the routine wrapped in `<routine-fire-payload>` as *untrusted data*, so the routine's prompt must
+  explicitly say to act on it (see livet-data `.claude/skills/inkorg`). Research-preview API — the beta header
+  lives in `routine.mjs` only. Verified against a local https server posing as the API and a real git repo.
+  The spec's separate `bekrafta.yml` is folded into `inkorg.yml` (one job per push, fewer Actions minutes).
 - Spec and build order: `docs/laget-spec-2026-10.md`.
 
 ## Deploy
