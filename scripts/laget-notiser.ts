@@ -19,6 +19,7 @@ import type { LagetData, KlartMap, LagetEvent, Todo } from '../src/laget/types.t
 import type { Period, PresenceStore } from '../src/presence/types.ts'
 import { configureVapid, normalizePrivateKey, privateKeyProblem, readPublicKey, sendToAll } from './lib/push-send.mjs'
 import { validatePeriods, validateSchema } from '../src/presence/validate.ts'
+import { validateEvents, validateTodos } from '../src/laget/validate.ts'
 
 const args = process.argv.slice(2)
 const flag = (name: string) => args.includes(name)
@@ -51,13 +52,23 @@ if (problems.length) {
   process.exit(1)
 }
 
-const data: LagetData = {
-  schema,
-  periods,
-  events: readJson<LagetEvent[]>('data/handelser.json', []),
-  todos: readJson<Todo[]>('data/attgora.json', []),
-  klart: readJson<KlartMap>('data/klart.json', {}),
+// Events and to-dos are written by Claude from free text. A malformed file must not silence the
+// morning notification, so it is dropped (loudly) rather than trusted or fatal.
+const personIds = schema.persons.map(p => p.id)
+let events = readJson<LagetEvent[]>('data/handelser.json', [])
+let todos = readJson<Todo[]>('data/attgora.json', [])
+const eventProblems = validateEvents(events, personIds)
+if (eventProblems.length) {
+  console.error(`handelser.json ignoreras:\n- ${eventProblems.join('\n- ')}`)
+  events = []
 }
+const todoProblems = validateTodos(todos, personIds)
+if (todoProblems.length) {
+  console.error(`attgora.json ignoreras:\n- ${todoProblems.join('\n- ')}`)
+  todos = []
+}
+
+const data: LagetData = { schema, periods, events, todos, klart: readJson<KlartMap>('data/klart.json', {}) }
 const settings = readJson<Installningar>('data/installningar.json', DEFAULT_INSTALLNINGAR)
 const log = readJson<NotisLogg>('data/notislogg.json', { skickade: [] })
 

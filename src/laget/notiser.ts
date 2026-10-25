@@ -2,6 +2,7 @@ import { addDays } from '../presence/resolver'
 import { buildDay } from './buildDay'
 import { headline, tomorrowHeadline } from './summary'
 import { stockholmNow } from './time'
+import { dueWords, reminders } from './todos'
 import type { LagetData } from './types'
 
 // What the notification job should send right now. Pure: the job (scripts/laget-notiser.ts, run
@@ -77,6 +78,18 @@ export function dueNotifications(
     const body = tomorrowHeadline(buildDay(date, data), buildDay(addDays(date, 1), data))
     if (body !== null) {
       out.push({ key: imorgonKey, title: 'Läget imorgon', body, url: '/matracet/laget/?vy=imorgon', tag: 'laget-imorgon' })
+    }
+  }
+
+  // To-do reminders: each `remind` entry fires on its own day at its own time, once.
+  for (const todo of data.todos) {
+    if (todo.done !== null) continue
+    for (const r of reminders(todo)) {
+      if (r.date !== date || !isDue(time, r.at)) continue
+      const key = `${date}|pam|${todo.id}|${r.before}`
+      if (sent.has(key)) continue
+      const when = dueWords(todo.due, date) + (todo.dueTime && todo.due === date ? ` ${todo.dueTime}` : '')
+      out.push({ key, title: 'Påminnelse', body: `${todo.title} – ${when}`, url: '/matracet/laget/?vy=idag', tag: `laget-pam-${todo.id}` })
     }
   }
 
