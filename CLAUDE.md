@@ -1215,7 +1215,14 @@ is public, so the endpoint is public too; harmless without the key.
 **Keys**: the VAPID public key is `VAPID_PUBLIC_KEY` in `src/lib/push.ts` (`send-push.mjs` reads
 it from there, one source); the private key exists only as the `VAPID_PRIVATE_KEY` GitHub
 secret — never commit it. Without the secret `send-push.mjs` logs and exits 0. Rotating keys
-invalidates every subscription (each phone must re-subscribe). Not verifiable from the
+invalidates every subscription (each phone must re-subscribe). **Verified working end-to-end
+2026-10-25** (Testnotis arrived on the household iPhone). The first attempt failed because the
+secret was pasted from a phone **without its first 6 characters** (`MWJAJ-`): iOS word-selection
+stops at a `-`, so a base64url key gets silently truncated — `send-push.mjs` now strips
+whitespace/quotes and reports the key's length (never the key) when it isn't 43 chars. Give a
+key to paste on a phone inside a code block, whose copy button copies it whole. Neither
+`workflow_dispatch` nor re-running a run works from a Claude session (GitHub MCP gets 403), so
+the household starts `push-test.yml` themselves (Actions → Testnotis → Run workflow). Not verifiable from the
 sandbox: `web-push` refuses plain-http endpoints, so a local fake push service can't receive
 anything; `generateRequestDetails()` was used to check the encrypted request + VAPID JWT
 instead, and the real end-to-end check is the Testnotis on a phone. Also: never `pkill -f`
