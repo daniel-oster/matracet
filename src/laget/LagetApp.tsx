@@ -4,6 +4,7 @@ import { buildDay, buildWeek } from './buildDay'
 import { stockholmNow } from './time'
 import { Idag, Imorgon, Shield } from './Dagen'
 import Aktiviteter from './Aktiviteter'
+import Inkorg from './Inkorg'
 import KopplingView from './KopplingView'
 import { Meny, Notiser, Perioder, Schema, Vecka } from './Vecka'
 import { useLagetData } from './useLagetData'
@@ -41,7 +42,7 @@ export default function LagetApp() {
   const [view, setView] = useState<View>(initialView)
   const [openDate, setOpenDate] = useState<string | null>(null) // a day picked from Veckan; null = today
   const [tickError, setTickError] = useState<string | null>(null)
-  const { data, settings, status, stale, setPrepDone, setTodoDone, saveNotisTimes, changeSchema, reload } = useLagetData()
+  const { data, settings, status, stale, setPrepDone, setTodoDone, saveNotisTimes, changeSchema, inbox, sendMessage, reloadInbox, reload } = useLagetData()
   const now = useNow()
 
   // Drop ?vy= once read so a later reload doesn't jump back to it.
@@ -52,6 +53,14 @@ export default function LagetApp() {
     const qs = params.toString()
     window.history.replaceState(null, '', `${window.location.pathname}${qs ? `?${qs}` : ''}${window.location.hash}`)
   }, [])
+
+  // While a message waits for Claude (status "ny"), look for the answer every 20 seconds on the start page.
+  const waiting = inbox.some(m => m.status === 'ny')
+  useEffect(() => {
+    if (!waiting || view !== 'hem') return
+    const id = window.setInterval(() => void reloadInbox(), 20_000)
+    return () => window.clearInterval(id)
+  }, [waiting, view, reloadInbox])
 
   const shownDate = openDate ?? now.date
   const today = useMemo(() => (data ? buildDay(now.date, data) : null), [data, now.date])
@@ -131,6 +140,7 @@ export default function LagetApp() {
                   <span className="laget-tile-sub">sju rader</span>
                 </button>
               </div>
+              <Inkorg messages={inbox} onSend={sendMessage} />
             </>
           )}
           {view === 'idag' && <Idag view={shown} tomorrow={shownNext} onTomorrow={() => (shownDate === now.date ? go('imorgon') : openDay(addDays(shownDate, 1)))} onTickTodo={tickTodo} error={tickError} />}

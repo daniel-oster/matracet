@@ -92,3 +92,12 @@ a.laget-tile { color: var(--ink); background: var(--paper); border: 1px solid va
 .laget-act { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
 .laget-act-buttons { display: flex; gap: 6px; flex: none; }
 .laget-act-buttons button { padding: 6px 10px; font-size: 14px; }
+
+.laget-inkorg { margin-top: 14px; }
+.laget-inkorg-row { display: flex; gap: 8px; align-items: stretch; }
+.laget-inkorg-row textarea { flex: 1; min-width: 0; max-width: none; resize: none; }
+.laget-inkorg-replies { list-style: none; margin: 10px 0 0; padding: 0; font-size: 14px; display: grid; gap: 4px; }
+.laget-reply { color: var(--sub); }
+.laget-reply--klar { color: var(--green-d); }
+.laget-reply--oklar { color: var(--gold); }
+.laget-reply--fel { color: var(--red); }

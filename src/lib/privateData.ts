@@ -183,3 +183,30 @@ export async function updatePrivateJson<T>(
   }
   return 'conflict'
 }
+
+/**
+ * File names in a livet-data directory (empty when it doesn't exist yet). Used for `inkorg/`, whose
+ * files are named by timestamp. Not cached: a listing has to be fresh to see a new message.
+ */
+export async function listPrivateDir(path: string, ref?: string): Promise<{ status: PrivateStatus; names: string[] }> {
+  const token = getToken()
+  if (!token) return { status: 'no-token', names: [] }
+  let res: Response
+  try {
+    res = await fetch(fileUrl(path, ref), {
+      headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28' },
+      cache: 'no-store',
+    })
+  } catch {
+    return { status: 'network', names: [] }
+  }
+  if (res.status === 404) return { status: 'ok', names: [] }
+  if (res.status === 401 || res.status === 403) return { status: classifyAuthFailure(res) === 'network' ? 'network' : 'unauthorized', names: [] }
+  if (!res.ok) return { status: 'network', names: [] }
+  try {
+    const body = (await res.json()) as { name: string; type: string }[]
+    return { status: 'ok', names: Array.isArray(body) ? body.filter(f => f.type === 'file').map(f => f.name) : [] }
+  } catch {
+    return { status: 'network', names: [] }
+  }
+}
