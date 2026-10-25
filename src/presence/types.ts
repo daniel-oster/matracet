@@ -97,3 +97,14 @@ export interface PresenceStore {
   /** Optional; if omitted, no activity constraints are applied. */
   activities?: Activity[]
 }
+
+/** A term or break from the private data repo (data/perioder.json). Used by the meal-need
+ *  rule (src/lib/mealNeed.ts) and, later, by Läget. `to: null` = open-ended. */
+export interface Period {
+  id: string
+  kind: 'termin' | 'lov'
+  name: string
+  from: string   // ISO date, inclusive
+  to: string | null
+  personIds: string[]
+}

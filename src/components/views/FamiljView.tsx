@@ -1,9 +1,7 @@
 import { useState } from 'react'
 import { DayMeal, Eater, MealKind, RecipeIndexEntry } from '../../types'
 import type { Meal } from '../../types/meal'
-import type { DayPlan, Activity } from '../../presence/types'
-import { GROUPS, RULES } from '../../presence/seed'
-import { ACTIVITIES } from '../../presence/activities'
+import type { DayPlan, Activity, PresenceStore } from '../../presence/types'
 import { useWeekPlan, applyOverride, diffAttendance } from '../../hooks/useWeekPlan'
 import TopBar from '../TopBar'
 
@@ -33,13 +31,14 @@ interface Props {
   onBack: () => void
   eaters: Eater[]
   dayPlans: DayPlan[]
+  schedule: PresenceStore | null
   rollingDays: DayMeal[]
   rollingLunches: DayMeal[]
   recipeIndex: RecipeIndexEntry[]
   meals: Meal[]
 }
 
-export default function FamiljView({ onBack, eaters, dayPlans, rollingDays, rollingLunches, recipeIndex, meals }: Props) {
+export default function FamiljView({ onBack, eaters, dayPlans, schedule, rollingDays, rollingLunches, recipeIndex, meals }: Props) {
   const [section, setSection] = useState<Section>('profiler')
 
   return (
@@ -62,7 +61,7 @@ export default function FamiljView({ onBack, eaters, dayPlans, rollingDays, roll
               Regler
             </button>
           </div>
-          {section === 'profiler' ? <ProfilerSection eaters={eaters} /> : <ReglerSection />}
+          {section === 'profiler' ? <ProfilerSection eaters={eaters} /> : <ReglerSection schedule={schedule} />}
         </div>
       </div>
     </div>
@@ -221,7 +220,11 @@ function ProfilerSection({ eaters }: { eaters: Eater[] }) {
   )
 }
 
-function ReglerSection() {
+function ReglerSection({ schedule }: { schedule: PresenceStore | null }) {
+  if (!schedule) {
+    return <div className="regler-section"><div className="regler-label">Schemat saknas – lägg in token i Hantera appen.</div></div>
+  }
+  const { groups: GROUPS, rules: RULES, activities: ACTIVITIES = [] } = schedule
   const byPerson: Record<string, Activity[]> = {}
   for (const act of ACTIVITIES) {
     ;(byPerson[act.personId] ??= []).push(act)
