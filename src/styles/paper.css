@@ -1292,3 +1292,18 @@ button.plan-cell { cursor: pointer; }
 .nytt-item-date { font-size: 11.5px; color: var(--muted); white-space: nowrap; }
 .nytt-rader { margin: 6px 0 0; padding-left: 18px; font-size: 13.5px; color: var(--muted2); line-height: 1.5; }
 .nytt-goto { margin-top: 8px; background: none; border: none; padding: 0; color: var(--gold2); font: inherit; font-size: 13px; cursor: pointer; }
+
+/* Hub: shown when the private schedule couldn't be loaded (no token / no access). */
+.hub-note {
+  display: block;
+  width: 100%;
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  text-align: left;
+  font: inherit;
+  font-size: 13px;
+  color: var(--ink);
+  background: var(--blue-bg);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}

@@ -8,7 +8,6 @@
     "build": "tsc -b && vite build && node scripts/prerender.mjs && node scripts/build-recipe-pages.mjs",
     "preview": "vite preview",
     "test": "vitest run",
-    "presence": "tsx scripts/presence-check.ts",
     "brief": "tsx scripts/build-brief.ts",
     "screenshot": "node scripts/screenshot.mjs"
   },

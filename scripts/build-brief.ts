@@ -6,6 +6,9 @@
  * modellen i src/. Ingen LLM, inga nätverksanrop, ingen säsongslogik, ingen
  * slump — samma referensdatum in ger byte-identisk brief ut.
  *
+ * Schema och närvaroregler ligger i det privata repot livet-data (data/schema.json).
+ * Peka ut en lokal checkout med LIVET_DATA_DIR=/sökväg/till/livet-data.
+ *
  * Kör:  npm run brief            (referensdatum = idag)
  *       npx tsx scripts/build-brief.ts 2026-06-19              (valfritt datum)
  *       npx tsx scripts/build-brief.ts 2026-06-19 out.json     (valfri utfil)
@@ -13,10 +16,18 @@
 import { readFileSync, writeFileSync, existsSync } from 'fs'
 import { resolve } from 'path'
 import { resolvePresence } from '../src/presence/resolver.ts'
-import { SEED_STORE, PERSONS } from '../src/presence/seed.ts'
+import type { PresenceStore } from '../src/presence/types.ts'
 import { matchMealByName, resolveMealForRecipe } from '../src/lib/mealResolve.ts'
 import { filterPlannableRecipes } from '../src/lib/recipeKind.ts'
 import type { Meal, MealsFile } from '../src/types/meal.ts'
+
+const LIVET_DATA_DIR = process.env.LIVET_DATA_DIR
+if (!LIVET_DATA_DIR) {
+  console.error('LIVET_DATA_DIR saknas – peka på en checkout av daniel-oster/livet-data (data/schema.json behövs).')
+  process.exit(1)
+}
+const SEED_STORE = JSON.parse(readFileSync(resolve(LIVET_DATA_DIR, 'data/schema.json'), 'utf8')) as PresenceStore
+const PERSONS = SEED_STORE.persons
 
 /** Derive vegan status from a recipe's kategorier array — true = marked vegansk,
  *  false = marked vegetarisk/kott/fisk, undefined = can't tell (warn softly).

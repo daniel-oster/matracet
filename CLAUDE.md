@@ -2503,6 +2503,21 @@ Sensitive data (schedule, events, inbox) goes in a separate **private** data rep
 files (feedback, history, eaters, weeks, task-log) move to `livet-data` too — see the spec's
 "Integritet" section for the full list and the order to do it in.
 
+## Schedule lives in the private repo (2026-10)
+
+The custody schedule, recurring activities and school terms/breaks are no longer in this repo:
+`src/presence/seed.ts` and `activities.ts` are gone. They live in `daniel-oster/livet-data`
+(`data/schema.json` = a `PresenceStore`, `data/perioder.json` = `Period[]`) and the app fetches
+them with the device's token (`src/hooks/useSchedule.ts` → `src/lib/privateData.ts`). Without a
+token `dayPlans` is empty, which every consumer already reads as "unknown attendance" (keep
+asking for a meal, no eating window), and Hub shows a `.hub-note` pointing to Hantera appen.
+- **Never put the real schedule, names or activities in this repo again**, tests included:
+  `src/presence/__fixtures__/testStore.ts` is an anonymised copy of the *structure* (invented
+  ids/labels, same anchors/handovers/times) that resolver and activities tests run against.
+- `scripts/build-brief.ts` needs `LIVET_DATA_DIR=/path/to/livet-data`. `scripts/presence-check.ts`
+  was already broken (imported the deleted Side B module) and was removed.
+- Spec and build order: `docs/laget-spec-2026-10.md`.
+
 ## Deploy
 
 Pushing to `main` triggers the GitHub Actions workflow (`.github/workflows/deploy.yml`) which runs `npm ci && npm run build` and deploys `dist/` to GitHub Pages. No manual steps needed.

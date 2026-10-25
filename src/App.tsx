@@ -23,7 +23,7 @@ import NyttView from './components/views/NyttView'
 import RecipeOverlay from './components/RecipeOverlay'
 import FloatingNav from './components/FloatingNav'
 import { resolvePresenceRange, addDays } from './presence/resolver'
-import { SEED_STORE } from './presence/seed'
+import { useSchedule } from './hooks/useSchedule'
 import type { DayPlan } from './presence/types'
 import { mergeFeedbackBaseline, migrateFeedbackV1 } from './hooks/useFeedback'
 import { useLocalMeals, mergeLocalMeals } from './hooks/useLocalMeals'
@@ -48,7 +48,13 @@ export default function App() {
   const [eaters, setEaters] = useState<EatersData | null>(null)
   const [recipeIndex, setRecipeIndex] = useState<RecipeIndexEntry[]>([])
   const [meals, setMeals] = useState<Meal[]>([])
-  const [dayPlans, setDayPlans] = useState<DayPlan[]>([])
+  const schedule = useSchedule()
+  // No schedule (no token, no access, still loading) → no day plans: every consumer already
+  // treats a missing plan as "unknown attendance" and keeps asking for a meal.
+  const dayPlans = useMemo<DayPlan[]>(() => {
+    const first = rollingDays[0]?.datum
+    return schedule.store && first ? resolvePresenceRange(first, addDays(first, 6), schedule.store) : []
+  }, [schedule.store, rollingDays])
   const [historyEntries, setHistoryEntries] = useState<HistoryEntry[]>([])
   // Set when the boot fetch for the app's two hard-required files (eaters.json,
   // recipes/_index.json) fails — without this, a failed request left the app stuck on
@@ -201,7 +207,6 @@ export default function App() {
       const [year, isoWeek] = todayWeek.split('-W')
       setWeekLabel(`${month.charAt(0).toUpperCase() + month.slice(1)} ${year} · Vecka ${isoWeek}`)
 
-      setDayPlans(resolvePresenceRange(today, addDays(today, 6), SEED_STORE))
     }).catch(err => {
       console.error('[matracet] boot data load failed:', err)
       setLoadError(true)
@@ -296,6 +301,7 @@ export default function App() {
           recipeIndex={recipeIndex}
           meals={mergedMeals}
           dayPlans={dayPlans}
+          scheduleMissing={schedule.status !== 'loading' && schedule.store === null}
           onNavigate={navigate}
           onOpenRecipe={setOverlaySlug}
         />
@@ -322,6 +328,7 @@ export default function App() {
           onBack={toHub}
           eaters={eaters.eaters}
           dayPlans={dayPlans}
+          schedule={schedule.store}
           rollingDays={rollingDays}
           rollingLunches={rollingLunches}
           recipeIndex={recipeIndex}

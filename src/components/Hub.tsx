@@ -28,11 +28,13 @@ interface Props {
   recipeIndex: RecipeIndexEntry[]
   meals: Meal[]
   dayPlans: DayPlan[]
+  /** The schedule couldn't be loaded (no token / no access): eating windows are unavailable. */
+  scheduleMissing?: boolean
   onNavigate: (screen: ScreenName) => void
   onOpenRecipe: (slug: string) => void
 }
 
-export default function Hub({ weekLabel, rollingDays, recipeIndex, meals, dayPlans, onNavigate, onOpenRecipe }: Props) {
+export default function Hub({ weekLabel, rollingDays, recipeIndex, meals, dayPlans, scheduleMissing, onNavigate, onOpenRecipe }: Props) {
   const { getOverride, getAttendance } = useWeekPlan()
   const rawTonight = rollingDays[0]
   const tonight = rawTonight
@@ -64,6 +66,11 @@ export default function Hub({ weekLabel, rollingDays, recipeIndex, meals, dayPla
       </div>
 
       <div className="hub-pad">
+        {scheduleMissing && (
+          <button className="hub-note" onClick={() => onNavigate('hantera')}>
+            Schemat saknas – lägg in token i Hantera appen för att se ätfönster och närvaro.
+          </button>
+        )}
         {tonight && (
           <div
             className="glance"
