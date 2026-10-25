@@ -1,7 +1,7 @@
 {
   "version": 1,
   "deviceId": "c5a20af2-5085-4fb5-bec6-5f1afe465f9e",
-  "updatedAt": "2026-10-25T09:26:48.155Z",
+  "updatedAt": "2026-10-25T09:37:06.944Z",
   "stores": {
     "matracet:category-feedback:v1": {
       "updatedAt": "1970-01-01T00:00:00.000Z",
@@ -233,7 +233,7 @@
       }
     },
     "matracet:shopping:v1": {
-      "updatedAt": "2026-10-25T09:26:48.155Z",
+      "updatedAt": "2026-10-25T09:37:06.944Z",
       "data": {
         "removedIds": [
           "ing:kycklingfilé, tärnad|g",
@@ -866,6 +866,27 @@
               "store": "hemkop",
               "week": "2026-W43"
             }
+          },
+          {
+            "id": "manual:1792921026942:3jp44",
+            "vara": "blandade bönor",
+            "addedAt": "2026-10-25T09:37:06.942Z",
+            "amount": "400 g",
+            "source": "Stekta ägg med bönsallad"
+          },
+          {
+            "id": "manual:1792921026944:dyq0g",
+            "vara": "tomater",
+            "addedAt": "2026-10-25T09:37:06.944Z",
+            "amount": "2 st",
+            "source": "Stekta ägg med bönsallad"
+          },
+          {
+            "id": "manual:1792921026944:ywm9t",
+            "vara": "rödlök",
+            "addedAt": "2026-10-25T09:37:06.944Z",
+            "amount": "0.5 st",
+            "source": "Stekta ägg med bönsallad"
           }
         ],
         "history": [
