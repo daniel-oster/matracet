@@ -10,7 +10,16 @@
 export const VAPID_PUBLIC_KEY =
   'BEc5FoKOWuVANmRj0uD11MuIbR83_UXcSsFPRiLQEVDf88ForiPyiWoWXJH3P0bbkgNQV0ZosvwwQYknnj78UIo'
 
-const SW_URL = `${import.meta.env.BASE_URL}sw.js`
+/** Where an app's service worker lives. Matracet and Läget are separate home-screen apps from one
+ *  codebase, each with its own worker, scope and therefore its own push subscription. */
+export interface PushApp {
+  swUrl: string
+  scope: string
+}
+
+const BASE = import.meta.env.BASE_URL
+export const MATRACET_PUSH: PushApp = { swUrl: `${BASE}sw.js`, scope: BASE }
+export const LAGET_PUSH: PushApp = { swUrl: `${BASE}laget/sw.js`, scope: `${BASE}laget/` }
 
 export type PushSupport = 'ok' | 'not-installed' | 'unsupported'
 
@@ -29,9 +38,9 @@ export function pushSupport(): PushSupport {
   return /iPhone|iPad|iPod/.test(navigator.userAgent) && !isStandalone() ? 'not-installed' : 'unsupported'
 }
 
-export function registerServiceWorker(): void {
+export function registerServiceWorker(app: PushApp = MATRACET_PUSH): void {
   if (!('serviceWorker' in navigator)) return
-  navigator.serviceWorker.register(SW_URL, { scope: import.meta.env.BASE_URL }).catch(err => {
+  navigator.serviceWorker.register(app.swUrl, { scope: app.scope }).catch(err => {
     console.warn('[matracet push] service worker registration failed', err)
   })
 }
@@ -45,17 +54,17 @@ function urlBase64ToArrayBuffer(base64: string): ArrayBuffer {
   return buf
 }
 
-export async function currentSubscription(): Promise<PushSubscription | null> {
+export async function currentSubscription(app: PushApp = MATRACET_PUSH): Promise<PushSubscription | null> {
   if (pushSupport() !== 'ok') return null
-  const reg = await navigator.serviceWorker.getRegistration(import.meta.env.BASE_URL)
+  const reg = await navigator.serviceWorker.getRegistration(app.scope)
   return (await reg?.pushManager.getSubscription()) ?? null
 }
 
 /** Must be called from a tap (iOS rejects a permission prompt that isn't user-initiated). */
-export async function subscribe(): Promise<PushSubscription> {
+export async function subscribe(app: PushApp = MATRACET_PUSH): Promise<PushSubscription> {
   const permission = await Notification.requestPermission()
   if (permission !== 'granted') throw new Error('Notiser nekades')
-  const reg = await navigator.serviceWorker.register(SW_URL, { scope: import.meta.env.BASE_URL })
+  const reg = await navigator.serviceWorker.register(app.swUrl, { scope: app.scope })
   await navigator.serviceWorker.ready
   const existing = await reg.pushManager.getSubscription()
   if (existing) return existing

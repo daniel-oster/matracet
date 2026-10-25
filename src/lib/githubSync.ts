@@ -87,7 +87,7 @@ export function classifyAuthFailure(res: Response): 'unauthorized' | 'network' {
 }
 
 /** UTF-8-safe base64 encode — bare `btoa` throws on non-Latin1 text (e.g. "Grönkålspaj"). */
-function encodeBase64(text: string): string {
+export function encodeBase64(text: string): string {
   const bytes = new TextEncoder().encode(text)
   let binary = ''
   for (const byte of bytes) binary += String.fromCharCode(byte)
@@ -95,7 +95,7 @@ function encodeBase64(text: string): string {
 }
 
 /** Inverse of encodeBase64. GitHub returns base64 content wrapped at 60 chars/line. */
-function decodeBase64(b64: string): string {
+export function decodeBase64(b64: string): string {
   const binary = atob(b64.replace(/\n/g, ''))
   const bytes = new Uint8Array(binary.length)
   for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i)

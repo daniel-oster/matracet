@@ -2526,6 +2526,15 @@ asking for a meal, no eating window), and Hub shows a `.hub-note` pointing to Ha
   One-off events and `pausedOnBreak` are folded into the resolver call as synthetic `ev:` activities
   for that date only; `prepareTonight` keeps ticked items (`done: true`) so the UI can undo.
   Tests use `src/laget/fixtures.ts` (anonymised); never real data.
+- **Läget is its own home-screen app from this codebase** (`laget/index.html` = second Vite input
+  → `/matracet/laget/`; `src/laget/main.tsx`/`LagetApp.tsx`; own `public/laget/manifest.webmanifest`
+  with scope `/matracet/laget/`, own `public/laget/sw.js`, own icon). Its service worker has a
+  longer scope than Matracet's, so on a Läget page the Läget worker is the controller and each app
+  has its own push subscription (`LAGET_PUSH` vs `MATRACET_PUSH` in `src/lib/push.ts`; verified in
+  Chromium: two registrations, controller = laget/sw.js). The token is entered in each app (iOS
+  gives a home-screen app its own storage). A device writes its subscription itself into
+  livet-data's `push-subscriptions.json` (`src/laget/subscriptions.ts` →
+  `updatePrivateJson`, a read-modify-write with one retry on 409) — nothing is pasted into a chat.
 - Spec and build order: `docs/laget-spec-2026-10.md`.
 
 ## Deploy

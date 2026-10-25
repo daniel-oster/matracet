@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { setToken } from './githubSync'
-import { clearPrivateCache, fetchPrivateJson } from './privateData'
+import { clearPrivateCache, fetchPrivateJson, updatePrivateJson } from './privateData'
 
 class MemoryStorage {
   private store = new Map<string, string>()
@@ -131,5 +131,70 @@ describe('fetchPrivateJson', () => {
     await fetchPrivateJson('data/schema.json')
     clearPrivateCache()
     expect(storage.keys()).toEqual(['matracet:sync:token'])
+  })
+})
+
+describe('updatePrivateJson', () => {
+  const b64 = (v: unknown) => btoa(JSON.stringify(v))
+  const file = (v: unknown, sha = 's1') => res(200, { content: b64(v), sha })
+
+  it('does nothing without a token', async () => {
+    expect(await updatePrivateJson('data/klart.json', () => ({}), 'm')).toBe('no-token')
+    expect(fetchMock).not.toHaveBeenCalled()
+  })
+
+  it('reads, applies the update and PUTs with the sha', async () => {
+    setToken('tok')
+    fetchMock.mockResolvedValueOnce(file({ a: 1 })).mockResolvedValueOnce(res(200, {}))
+    const status = await updatePrivateJson<Record<string, number>>('data/klart.json', c => ({ ...c, b: 2 }), 'Bocka')
+    expect(status).toBe('ok')
+    const [, init] = fetchMock.mock.calls[1]
+    expect(init.method).toBe('PUT')
+    const body = JSON.parse(init.body)
+    expect(body.sha).toBe('s1')
+    expect(body.message).toBe('Bocka')
+    expect(JSON.parse(atob(body.content))).toEqual({ a: 1, b: 2 })
+  })
+
+  it('creates the file (no sha) when it does not exist', async () => {
+    setToken('tok')
+    fetchMock.mockResolvedValueOnce(res(404)).mockResolvedValueOnce(res(201, {}))
+    expect(await updatePrivateJson<string[]>('push.json', c => [...(c ?? []), 'x'], 'm')).toBe('ok')
+    expect(JSON.parse(fetchMock.mock.calls[1][1].body).sha).toBeUndefined()
+  })
+
+  it('skips the write when update returns the same reference', async () => {
+    setToken('tok')
+    fetchMock.mockResolvedValueOnce(file({ a: 1 }))
+    expect(await updatePrivateJson('data/klart.json', c => c as object, 'm')).toBe('ok')
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+  })
+
+  it('re-reads once on a 409 and applies the update to the fresher data', async () => {
+    setToken('tok')
+    fetchMock
+      .mockResolvedValueOnce(file({ a: 1 }, 's1'))
+      .mockResolvedValueOnce(res(409))
+      .mockResolvedValueOnce(file({ a: 1, other: 9 }, 's2'))
+      .mockResolvedValueOnce(res(200, {}))
+    expect(await updatePrivateJson<Record<string, number>>('data/klart.json', c => ({ ...c, b: 2 }), 'm')).toBe('ok')
+    const last = JSON.parse(fetchMock.mock.calls[3][1].body)
+    expect(last.sha).toBe('s2')
+    expect(JSON.parse(atob(last.content))).toEqual({ a: 1, other: 9, b: 2 })
+  })
+
+  it('reports conflict after a second 409', async () => {
+    setToken('tok')
+    fetchMock.mockResolvedValue(res(409))
+    fetchMock.mockResolvedValueOnce(file({}, 's1')).mockResolvedValueOnce(res(409)).mockResolvedValueOnce(file({}, 's2'))
+    expect(await updatePrivateJson<object>('data/klart.json', () => ({ x: 1 }), 'm')).toBe('conflict')
+  })
+
+  it('maps auth failures and network errors', async () => {
+    setToken('tok')
+    fetchMock.mockResolvedValueOnce(res(401))
+    expect(await updatePrivateJson('f.json', () => ({}), 'm')).toBe('unauthorized')
+    fetchMock.mockRejectedValueOnce(new TypeError('offline'))
+    expect(await updatePrivateJson('f.json', () => ({}), 'm')).toBe('network')
   })
 })
