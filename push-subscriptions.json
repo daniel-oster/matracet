@@ -1,3 +1,15 @@
 {
-  "subscriptions": []
+  "subscriptions": [
+    {
+      "namn": "Daniels iPhone",
+      "skapad": "2026-10-25",
+      "subscription": {
+        "endpoint": "https://web.push.apple.com/QBNknRfD5-7rpduhH5B7x07z-9safZXgZGsaNkZtph80zPjF_Mtkn-YyICufTCqFNCgF0zkmBmxSKJ9xghLQ2RqnTP2j2Y7I17M1OEHPVcDtahVGKT09SifYmBd6iV15GzeQA2lXRaah79x2xm3Uxs3rJ93dDNOpArvSyXtd_nI",
+        "keys": {
+          "p256dh": "BBAMPvCZyXsvLr8mMgAXJc5IHnnH4w4IcmTvmKperQbE_PbUFEDT8IRS62VnhOCKcbluHvMiuTHa5_VnJv22Lpc",
+          "auth": "3zO0nQBaLqSX9E6_I0rPlA"
+        }
+      }
+    }
+  ]
 }
