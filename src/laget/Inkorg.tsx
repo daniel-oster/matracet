@@ -24,6 +24,11 @@ export default function Inkorg({
     else setText('')
   }
 
+  // A conversation stays in view while it is still being worked on (waiting for Claude, or Claude
+  // asked a question); once finished it folds away behind an arrow.
+  const open = messages.filter(m => m.status === 'ny' || m.status === 'oklar')
+  const done = messages.filter(m => m.status === 'klar' || m.status === 'fel')
+
   return (
     <section className="laget-inkorg">
       <div className="laget-inkorg-row">
@@ -37,12 +42,22 @@ export default function Inkorg({
         <button onClick={() => void send()} disabled={busy || !text.trim()}>Skicka</button>
       </div>
       {error && <p className="laget-status laget-status--unauthorized">{error}</p>}
-      {messages.length > 0 && (
+      {open.length > 0 && (
         <ul className="laget-inkorg-replies">
-          {messages.map(m => (
+          {open.map(m => (
             <li key={m.id} className={`laget-reply laget-reply--${m.status}`}>{statusLine(m)}</li>
           ))}
         </ul>
+      )}
+      {done.length > 0 && (
+        <details className="laget-inkorg-done">
+          <summary>Tidigare ({done.length})</summary>
+          <ul className="laget-inkorg-replies">
+            {done.map(m => (
+              <li key={m.id} className={`laget-reply laget-reply--${m.status}`}>{statusLine(m)}</li>
+            ))}
+          </ul>
+        </details>
       )}
     </section>
   )
