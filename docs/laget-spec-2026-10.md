@@ -248,7 +248,7 @@ Morgon- och eftermiddagsnotisen är bara en länk med en kort rad, till exempel 
 - **Tidszon.** Cron i Actions går i UTC. Schemat körs varje halvtimme och skriptet räknar lokal tid i Europe/Stockholm, så sommartid kräver inga ändringar.
 - **Dubbletter.** Skickade notiser loggas i `data/notislogg.json`, med commit bara när något skickades. En commit med `GITHUB_TOKEN` startar inga andra workflows, så det blir ingen loop.
 - **Minuter.** I ett privat repo räknas Actions-minuterna. Var 30:e minut i 16 timmar blir runt 1 000 jobb i månaden, och varje jobb avrundas uppåt till en hel minut. GitHub Free ger 2 000 minuter i månaden för privata repon ([GitHub plans](https://docs.github.com/en/enterprise-server@3.17/get-started/learning-about-github/githubs-plans)), så det ryms om jobbet hålls litet.
-- **Nycklar.** `push-subscriptions.json` flyttas till datarepot, och `VAPID_PRIVATE_KEY` läggs som secret även där. Varje prenumeration märks med vilken app den hör till.
+- **Nycklar.** `push-subscriptions.json` för Läget ligger i datarepot, Matracets ligger kvar i matracet-repot, och `VAPID_PRIVATE_KEY` läggs som secret även där.
 
 ## Integritet
 
@@ -265,6 +265,58 @@ Så fungerar det med ett privat datarepo:
 - **Historiken** i det publika repot behåller det gamla schemat. Att skriva om historiken är frivilligt och kan vänta.
 
 Inget kalenderflöde byggs från början. Behövs det senare är vägen inom GitHub en hemlig gist som en Action skriver, med magert innehåll: titel, tid och initialer. Gist-id:t går inte att gissa, men alla som har adressen kan läsa den.
+
+## Hemligheter och nycklar
+
+Telefonen har bara en hemlighet, app-token. Resten ligger som Actions-secrets i GitHub, med originalen i din lösenordshanterare. Steg 1 kräver två saker av dig: VAPID-nyckeln i det nya repot och en utökad token.
+
+```mermaid
+flowchart LR
+  subgraph TEL["Telefonen"]
+    L["Läget-appen<br/>app-token (lokalt)"]
+    M["Matracet-appen<br/>app-token (lokalt)"]
+  end
+  subgraph GH["GitHub"]
+    LD["livet-data · privat<br/>VAPID_PRIVATE_KEY<br/>LAGET_ROUTINE_URL *<br/>LAGET_ROUTINE_TOKEN *"]
+    MR["matracet · publikt<br/>VAPID_PRIVATE_KEY (finns)"]
+  end
+  subgraph CA["claude.ai"]
+    R["Routine Läget-inkorg<br/>skapar URL och token *<br/>token visas en gång"]
+  end
+  P["Lösenordshanterare<br/>original: VAPID-nyckeln<br/>kopia av app-token"]
+  L -- anrop med app-token --> LD
+  M -- läser schemat --> LD
+  M -- synk --> MR
+  R -. klistras in en gång .-> LD
+  P -. klistras in en gång .-> LD
+  P -. klistras in en gång .-> MR
+```
+
+Heldragna pilar är anrop som sker hela tiden. Streckade pilar är kopior du gör en gång när du sätter upp det. `*` = steg 2, inkorgen.
+
+| Hemlighet | Var den ligger | Används av | Steg |
+| --- | --- | --- | --- |
+| App-token (finkornig, Contents läs och skriv på matracet och livet-data) | I varje app på telefonen, kopia i lösenordshanteraren | Läget och Matracet, för att läsa och skriva data | 1 |
+| `VAPID_PRIVATE_KEY` | Actions-secret i matracet och livet-data, original i lösenordshanteraren | `notiser.yml` och Matracets erbjudandenotiser | 1 |
+| `LAGET_ROUTINE_URL` | Actions-secret i livet-data | `inkorg.yml` | 2 |
+| `LAGET_ROUTINE_TOKEN` | Actions-secret i livet-data, skapas i claude.ai | `inkorg.yml`, för anropet till `/fire` | 2 |
+
+GitHub visar aldrig en sparad secret igen, och routinens token visas bara en gång. Därför ska originalen ligga i lösenordshanteraren. Kopiera alltid via kodblockets kopieringsknapp på telefonen: markeringen stannar vid ett bindestreck och kapar nyckeln.
+
+**Steg 1, innan bygget börjar**
+
+- [ ] Skapa `livet-data` som privat repo, med en README så att `main` finns.
+- [ ] Ge Claude åtkomst: GitHub → Settings → Applications → Installed GitHub Apps → Claude → Configure, och lägg till `livet-data`.
+- [ ] Lägg VAPID-nyckeln i lösenordshanteraren om den inte redan ligger där. Saknas den måste ett nytt nyckelpar skapas, och alla telefoner slår på notiser igen.
+- [ ] I `livet-data`: Settings → Secrets and variables → Actions → New repository secret, med namnet `VAPID_PRIVATE_KEY`.
+- [ ] Redigera din finkorniga token (Settings → Developer settings → Personal access tokens → Fine-grained tokens): lägg till `livet-data` med Contents läs och skriv.
+- [ ] Lägg en påminnelse en vecka före tokenens utgångsdatum.
+
+**Steg 2, när inkorgen byggs**
+
+- [ ] Skapa routinen "Läget-inkorg" på claude.ai/code/routines, med repot `livet-data` och prompten från avsnittet om inkorgen.
+- [ ] Lägg till en API-trigger, kopiera URL:en och generera token. Spara båda i lösenordshanteraren direkt.
+- [ ] Lägg in dem som `LAGET_ROUTINE_URL` och `LAGET_ROUTINE_TOKEN` i `livet-data`.
 
 ## Byggordning
 
