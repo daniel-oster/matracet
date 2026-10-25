@@ -30,3 +30,14 @@ export function headline(view: DayView): string {
   const week = view.isChildWeek ? 'Barnvecka' : 'Ej barnvecka'
   return `${week} · ${n === 0 ? 'inget inplanerat' : n === 1 ? '1 sak idag' : `${n} saker idag`}`
 }
+
+/** "2 saker imorgon · 1 att förbereda" — the afternoon notification body, or null when tomorrow
+ *  holds nothing (no point pinging about an empty day). */
+export function tomorrowHeadline(today: DayView, tomorrow: DayView): string | null {
+  const n = tomorrow.timeline.filter(t => t.startTime !== null).length
+  const prep = today.prepareTonight.filter(p => !p.done).length
+  if (n === 0 && prep === 0) return null
+  const parts = [n === 0 ? 'inget inplanerat imorgon' : n === 1 ? '1 sak imorgon' : `${n} saker imorgon`]
+  if (prep > 0) parts.push(`${prep} att förbereda`)
+  return parts.join(' · ')
+}

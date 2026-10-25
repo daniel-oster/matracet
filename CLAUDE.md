@@ -2543,6 +2543,15 @@ asking for a meal, no eating window), and Hub shows a `.hub-note` pointing to Ha
   set/delete of one key so a retry on fresher data merges correctly). Veckan, the menu and the
   to-do tick are step 2. When driving it in Playwright use `page.clock.install({ time })` to pin
   "now" and route-mock `api.github.com` (raw `Accept` → file body, JSON `Accept` → `{content, sha}`).
+- **Läget's notifications**: `src/laget/notiser.ts` decides (pure, tested) what is due *now* —
+  `dueNotifications(now, data, settings, log)`, times from `data/installningar.json` (default
+  06:40 idag / 15:40 imorgon), dedupe via `data/notislogg.json`, a 90-minute grace so a late cron run
+  doesn't ping at lunch, and "imorgon" stays silent when tomorrow is empty. `scripts/laget-notiser.ts
+  --data <livet-data>` does the I/O (`--now <ISO> --dry-run` to try it); it logs a notification only
+  once ≥1 phone received it and refuses to send if `schema.json` fails `validateSchema`. Sending is
+  `scripts/lib/push-send.mjs`, shared with `scripts/send-push.mjs`. Verified end-to-end against a
+  local https server posing as the push service (`NODE_TLS_REJECT_UNAUTHORIZED=0`, random VAPID key).
+  The job itself is `notiser.yml` in livet-data (next PR there).
 - Spec and build order: `docs/laget-spec-2026-10.md`.
 
 ## Deploy
