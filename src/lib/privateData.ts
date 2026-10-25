@@ -185,6 +185,30 @@ export async function updatePrivateJson<T>(
 }
 
 /**
+ * Create one binary file (a photo) in livet-data from already base64-encoded content. Create-only: a
+ * file that already exists (422/409) counts as done — photo paths are unique per message id.
+ */
+export async function createPrivateFile(path: string, base64: string, message: string, ref?: string): Promise<UpdateStatus> {
+  const token = getToken()
+  if (!token) return 'no-token'
+  const payload: Record<string, unknown> = { message, content: base64 }
+  if (ref) payload.branch = ref
+  let res: Response
+  try {
+    res = await fetch(fileUrl(path), {
+      method: 'PUT',
+      headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
+  } catch {
+    return 'network'
+  }
+  if (res.status === 200 || res.status === 201 || res.status === 422 || res.status === 409) return 'ok'
+  if (res.status === 401 || res.status === 403) return classifyAuthFailure(res) === 'network' ? 'network' : 'unauthorized'
+  return 'network'
+}
+
+/**
  * File names in a livet-data directory (empty when it doesn't exist yet). Used for `inkorg/`, whose
  * files are named by timestamp. Not cached: a listing has to be fresh to see a new message.
  */

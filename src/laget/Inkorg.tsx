@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { MAX_TEXT, statusLine, type InkorgMeddelande } from './inkorg'
+import { photoToJpegBase64 } from './photo'
 
 /** The text field under the shield and the answer lines under it. The phone keyboard's microphone is
  *  the speech input — no recogniser is built. */
@@ -8,20 +9,37 @@ export default function Inkorg({
   onSend,
 }: {
   messages: InkorgMeddelande[]
-  onSend: (text: string) => Promise<string | null>
+  onSend: (text: string, photoBase64?: string) => Promise<string | null>
 }) {
   const [text, setText] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
+  const [photo, setPhoto] = useState<{ base64: string; url: string } | null>(null)
+  const fileInput = useRef<HTMLInputElement>(null)
+
+  const choosePhoto = async (file: File | undefined) => {
+    if (!file) return
+    setError(null)
+    try {
+      const base64 = await photoToJpegBase64(file)
+      setPhoto({ base64, url: `data:image/jpeg;base64,${base64}` })
+    } catch {
+      setError('Kunde inte läsa bilden.')
+    }
+  }
+
   const send = async () => {
-    if (!text.trim() || busy) return
+    if ((!text.trim() && !photo) || busy) return
     setBusy(true)
     setError(null)
-    const err = await onSend(text)
+    const err = await onSend(text, photo?.base64)
     setBusy(false)
     if (err) setError(err)
-    else setText('')
+    else {
+      setText('')
+      setPhoto(null)
+    }
   }
 
   // A conversation stays in view while it is still being worked on (waiting for Claude, or Claude
@@ -39,7 +57,27 @@ export default function Inkorg({
           placeholder="Skriv eller prata in…"
           onChange={e => setText(e.target.value)}
         />
-        <button onClick={() => void send()} disabled={busy || !text.trim()}>Skicka</button>
+        <button onClick={() => void send()} disabled={busy || (!text.trim() && !photo)}>Skicka</button>
+      </div>
+      <div className="laget-inkorg-photo">
+        <input
+          ref={fileInput}
+          type="file"
+          accept="image/*"
+          hidden
+          onChange={e => {
+            void choosePhoto(e.target.files?.[0])
+            e.target.value = ''
+          }}
+        />
+        {photo ? (
+          <span className="laget-photo-chosen">
+            <img src={photo.url} alt="Vald bild" />
+            <button type="button" onClick={() => setPhoto(null)} aria-label="Ta bort bilden">✕</button>
+          </span>
+        ) : (
+          <button type="button" className="laget-photo-add" onClick={() => fileInput.current?.click()} disabled={busy}>📷 Lägg till foto</button>
+        )}
       </div>
       {error && <p className="laget-status laget-status--unauthorized">{error}</p>}
       {open.length > 0 && (
