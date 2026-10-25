@@ -26,7 +26,7 @@ blanket rule.
 
 Two possible input shapes, both from `src/lib/exportData.ts`:
 
-- **Standalone** (`downloadCategoryFeedback`, Synka screen's "⬇ Exportera
+- **Standalone** (`downloadCategoryFeedback`, Hantera appen screen's "⬇ Exportera
   kategori-flaggningar" button): `{ app, version, kind: 'category-feedback', exportedAt, entries: [...] }` — use `entries` directly.
 - **Inside a full export** (`downloadLocalData`, "⬇ Exportera data"): the same array
   lives at `stores['matracet:category-feedback:v1'].entries`. Everything else in that

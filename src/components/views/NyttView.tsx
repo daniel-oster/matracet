@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { ScreenName } from '../../types'
 import { fetchData } from '../../lib/dataFetch'
-import { currentSubscription, pushSupport, subscribe, subscriptionCode } from '../../lib/push'
+import { currentSubscription, pushSupport } from '../../lib/push'
 import TopBar from '../TopBar'
 
 /** One entry in public/data/nyheter.json, written by scripts/erbjudanden-weekly.mjs. */
@@ -27,10 +27,9 @@ function formatDatum(iso: string): string {
 
 export default function NyttView({ onBack, onNavigate }: Props) {
   const [nyheter, setNyheter] = useState<Nyhet[] | null>(null)
-  const [code, setCode] = useState<string | null>(null)
-  const [busy, setBusy] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [copied, setCopied] = useState(false)
+  // null = still checking. Notification settings live on Hantera appen; here we only nudge
+  // when this phone isn't subscribed yet.
+  const [subscribed, setSubscribed] = useState<boolean | null>(null)
   const support = pushSupport()
 
   useEffect(() => {
@@ -38,68 +37,18 @@ export default function NyttView({ onBack, onNavigate }: Props) {
       .then(r => (r.ok ? r.json() : { nyheter: [] }))
       .then((d: { nyheter: Nyhet[] }) => setNyheter([...d.nyheter].sort((a, b) => b.datum.localeCompare(a.datum))))
       .catch(() => setNyheter([]))
-    currentSubscription().then(sub => sub && setCode(subscriptionCode(sub))).catch(() => {})
+    currentSubscription().then(sub => setSubscribed(sub !== null)).catch(() => setSubscribed(false))
   }, [])
-
-  async function enable() {
-    setBusy(true)
-    setError(null)
-    try {
-      setCode(subscriptionCode(await subscribe()))
-    } catch (err) {
-      setError(err instanceof Error ? err.message : String(err))
-    } finally {
-      setBusy(false)
-    }
-  }
-
-  async function copy() {
-    if (!code) return
-    try {
-      await navigator.clipboard.writeText(code)
-      setCopied(true)
-    } catch {
-      setError('Kunde inte kopiera – markera texten nedan och kopiera den för hand.')
-    }
-  }
 
   return (
     <div className="screen">
       <TopBar onBack={onBack} eyebrow="Uppdateringar" title="Nytt" />
       <div className="screen-body">
-        <section className="nytt-notis">
-          <div className="nytt-notis-title">🔔 Notiser</div>
-          {support === 'not-installed' && (
-            <p className="nytt-hint">
-              Notiser fungerar bara i appen på hemskärmen. Öppna Matracet i Safari, tryck Dela → Lägg till på
-              hemskärmen, och öppna den därifrån.
-            </p>
-          )}
-          {support === 'unsupported' && <p className="nytt-hint">Den här webbläsaren kan inte ta emot notiser.</p>}
-          {support === 'ok' && !code && (
-            <>
-              <p className="nytt-hint">
-                Få en notis när veckans erbjudanden kommer, eller när något på bevakningslistan är på extrapris.
-              </p>
-              <button type="button" className="export-btn synka-download-btn" disabled={busy} onClick={enable}>
-                {busy ? 'Slår på…' : 'Slå på notiser'}
-              </button>
-            </>
-          )}
-          {support === 'ok' && code && (
-            <>
-              <p className="nytt-hint">
-                Notiser är påslagna i den här telefonen. Sista steget, en gång: kopiera koden och klistra in den i en
-                chatt med Claude, så kopplas telefonen in.
-              </p>
-              <button type="button" className="export-btn synka-download-btn" onClick={copy}>
-                {copied ? '✓ Kopierad' : '⧉ Kopiera koden'}
-              </button>
-              <textarea className="nytt-code" readOnly value={code} onFocus={e => e.currentTarget.select()} />
-            </>
-          )}
-          {error && <p className="nytt-hint synka-stat--error">{error}</p>}
-        </section>
+        {support !== 'unsupported' && subscribed === false && (
+          <button type="button" className="nytt-notis nytt-notis--nudge" onClick={() => onNavigate('hantera')}>
+            🔔 Vill du få en notis när det kommer något nytt? Slå på notiser under Hantera appen ›
+          </button>
+        )}
 
         {nyheter === null && <div className="fynd-empty">Laddar…</div>}
         {nyheter?.length === 0 && <div className="fynd-empty">Inga uppdateringar ännu.</div>}

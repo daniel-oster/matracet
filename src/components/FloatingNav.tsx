@@ -11,7 +11,8 @@ const NAV_ITEMS: { screen: TabName; emoji: string; label: string }[] = [
   { screen: 'bevaka', emoji: '🔔', label: 'Bevaka' },
   { screen: 'anteckningar', emoji: '📝', label: 'Anteckningar' },
   { screen: 'historik', emoji: '📜', label: 'Historik' },
-  { screen: 'synka', emoji: '🔄', label: 'Synka' },
+  { screen: 'nytt', emoji: '📣', label: 'Nytt' },
+  { screen: 'hantera', emoji: '⚙️', label: 'Hantera appen' },
 ]
 
 interface Props {
