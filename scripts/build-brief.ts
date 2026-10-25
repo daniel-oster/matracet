@@ -91,6 +91,12 @@ function isoWeekParts(monday: string): { isoWeek: string; year: number; week: nu
 
 const root = process.cwd()
 
+/** Matracet's household files live in livet-data/matracet/, not in this public repo. */
+function readPrivate<T>(name: string): T | null {
+  const path = resolve(LIVET_DATA_DIR!, 'matracet', name)
+  return existsSync(path) ? (JSON.parse(readFileSync(path, 'utf8')) as T) : null
+}
+
 function readJson<T>(relPath: string): T | null {
   const abs = resolve(root, relPath)
   if (!existsSync(abs)) return null
@@ -127,7 +133,7 @@ interface Pantry {
 
 const recipeIndex = (readJson<{ recipes: IndexEntry[] }>('public/data/recipes/_index.json')?.recipes) ?? []
 const pantry = readJson<Pantry>('public/data/pantry.json')
-const eatersData = readJson<{ eaters: { id: string; kost?: string[] }[] }>('public/data/eaters.json')
+const eatersData = readPrivate<{ eaters: { id: string; kost?: string[] }[] }>('eaters.json')
 const mealLibrary = readJson<MealsFile>('public/data/meals.json')?.meals ?? []
 
 const indexBySlug = new Map(recipeIndex.map(r => [r.slug, r]))
@@ -152,7 +158,7 @@ interface FeedbackRecord {
 }
 type FeedbackStore = Record<string, FeedbackRecord>
 
-const feedbackRaw = readJson<{ feedback?: FeedbackStore } & FeedbackStore>('public/data/feedback.json')
+const feedbackRaw = readPrivate<{ feedback?: FeedbackStore } & FeedbackStore>('feedback.json')
 const feedbackStore: FeedbackStore = feedbackRaw?.feedback ?? (feedbackRaw as FeedbackStore) ?? {}
 // Drop the export wrapper keys if a bare-ish payload slipped through.
 const feedbackRecords: FeedbackStore = Object.fromEntries(
@@ -260,7 +266,7 @@ const recentHistory: HistoryEntry[] = []
 for (const back of [2, 1]) {
   const monday = addDays(upcomingMonday, -7 * back)
   const label = isoWeekParts(monday).isoWeek
-  const wf = readJson<WeekFile>(`public/data/weeks/${label}.json`)
+  const wf = readPrivate<WeekFile>(`weeks/${label}.json`)
   if (!wf) continue
   for (const m of wf.middagar) {
     if (!m.receptSlug) continue // hoppa över bortakvällar / fri text utan recept
@@ -280,7 +286,7 @@ for (const back of [2, 1]) {
 // history.json — bara loggade måltider inom samma tvåveckorsfönster, och bara
 // de som länkats till ett riktigt recept (annars finns inget att härleda protein/sentiment ur).
 const historyWindowStart = addDays(upcomingMonday, -14)
-const historyFile = readJson<HistoryFile>('public/data/history.json')
+const historyFile = readPrivate<HistoryFile>('history.json')
 for (const e of historyFile?.entries ?? []) {
   if (!e.recipeSlug || e.datum < historyWindowStart || e.datum >= upcomingMonday) continue
   const idx = indexBySlug.get(e.recipeSlug)
@@ -365,11 +371,11 @@ const brief = {
     sources: [
       'public/data/recipes/_index.json',
       'public/data/meals.json (måltidsbibliotek; antalGånger/senastÄten härlett ur hela history.json)',
-      'public/data/weeks/*.json',
-      'public/data/history.json (spontana/oplanerade måltider, senaste 2 veckorna + all-tid för mealLibrary-frekvens)',
+      'livet-data matracet/weeks/*.json',
+      'livet-data matracet/history.json (spontana/oplanerade måltider, senaste 2 veckorna + all-tid för mealLibrary-frekvens)',
       'public/data/pantry.json',
-      'public/data/feedback.json (sentiment + uteslutningar)',
-      'public/data/eaters.json (kost: vegan → veganRequired)',
+      'livet-data matracet/feedback.json (sentiment + uteslutningar)',
+      'livet-data matracet/eaters.json (kost: vegan → veganRequired)',
       'src/presence/seed.ts + activities.ts (närvaro/vårdnadsschema)',
     ],
     // Den enda inmatningen som inte lever i git: appens localStorage, exporterad och committad.

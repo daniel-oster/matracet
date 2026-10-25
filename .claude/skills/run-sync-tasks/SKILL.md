@@ -1,7 +1,12 @@
 ---
 name: run-sync-tasks
-description: Process pending Matracet intelligence-queue tasks (matracet:synctasks:v1, appended by the app to the device-sync branch's sync/state.json for judgment calls no deterministic script should make) and write their outcomes to public/data/task-log.json on main. Use whenever the user asks to "run sync tasks", "kör synk-tasks", or process the sync queue.
+description: Process pending Matracet intelligence-queue tasks (matracet:synctasks:v1, appended by the app to the device-sync branch's sync/state.json for judgment calls no deterministic script should make) and write their outcomes to livet-data/matracet/task-log.json on main. Use whenever the user asks to "run sync tasks", "kör synk-tasks", or process the sync queue.
 ---
+
+> **Where the data lives (2026-10):** the household files this skill reads/writes (`eaters`, `feedback`,
+> `history`, `task-log`, `weeks/`) are in the **private** repo `daniel-oster/livet-data` under `matracet/`,
+> not in matracet's `public/data/`. Work in a livet-data checkout (attach the repo to the session) and
+> commit there — no deploy is needed, the app reads those files straight from livet-data.
 
 Most of Matracet's GitHub-backed auto-sync (see CLAUDE.md's "GitHub-backed auto-sync"
 section) is deterministic: `scripts/merge-device-sync.mjs`, run by
@@ -18,7 +23,7 @@ division of labor:
   so far. That store syncs inside `sync/state.json` like any other synced store.
 - This **skill** (an interactive Claude Code session, explicitly *not* GitHub Actions — see
   "Why interactive, not Actions" below) reads the queue, processes each task per the catalog
-  in `tasks/`, and writes outcomes to `public/data/task-log.json` on `main`.
+  in `tasks/`, and writes outcomes to `livet-data/matracet/task-log.json` on `main`.
 - The **device** treats `task-log.json` (fetched as ordinary static data, the same way it
   fetches `feedback.json`) as the acknowledgment channel: on boot, `src/lib/
   syncTaskOutcomes.ts`'s `applyTaskOutcome` applies any outcome this client version
@@ -54,7 +59,7 @@ guessing which payload is "right" or inventing a dedup-by-content rule. This sho
 by construction today; it's called out explicitly so a future catalog author doesn't have to
 rediscover the invariant from scratch.
 
-Also read the current `public/data/task-log.json` on `main` and collect its entries' `id`s.
+Also read the current `livet-data/matracet/task-log.json` on `main` and collect its entries' `id`s.
 **Skip any task whose id is already in the log** — it's already been processed by a prior
 run; the device just hasn't hydrated and pruned it locally yet. This makes re-running this
 skill idempotent even if it's invoked again before the device catches up.
@@ -84,7 +89,7 @@ future run (of this skill, once its catalog is extended) to pick up. Never guess
 unrecognized type's intent, never partially process it, never log a placeholder outcome for
 it. This is a hard rule, not a style preference — see the plan's Phase 5 critique gate.
 
-## 3. Write outcomes to public/data/task-log.json
+## 3. Write outcomes to livet-data/matracet/task-log.json
 
 Append one entry per task actually processed this run:
 
@@ -97,7 +102,7 @@ Never remove or edit an existing entry — this file only ever grows. Keep the e
 
 ## 4. Never write to device-sync
 
-This skill only ever writes to files on `main` (today, just `public/data/task-log.json`,
+This skill only ever writes to files on `main` (today, just `livet-data/matracet/task-log.json`,
 plus whatever canonical file a specific task type's own file in `tasks/` says to touch). It
 **never** pushes to the `device-sync` branch or edits `sync/state.json` — the device owns
 that branch's content; a competing writer there would break the single-writer assumption the
