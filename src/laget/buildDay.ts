@@ -141,3 +141,8 @@ export function buildDay(date: string, data: LagetData): DayView {
     tomorrowTeaser: open > 0 ? `${open} att förbereda` : null,
   }
 }
+
+/** `n` consecutive days from `start`, each built independently. */
+export function buildWeek(start: string, data: LagetData, n = 7): DayView[] {
+  return Array.from({ length: n }, (_, i) => buildDay(addDays(start, i), data))
+}

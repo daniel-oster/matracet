@@ -2578,6 +2578,12 @@ asking for a meal, no eating window), and Hub shows a `.hub-note` pointing to Ha
   `attendance.skip` → "Ingen måltid behövs". `buildDay` only has a dinner when `LagetData.dinner` is set
   (the app loads it in `useLagetData`; the notification job doesn't). `format.ts::dinnerText` makes
   "Tacos, ät senast 17:15". Läget never plans meals — it only reads Matracet's plan.
+- **Läget step 2 — Veckan and the menu**: `LagetApp.tsx` now has views hem / idag / imorgon / vecka / meny
+  and, behind ☰, schema (next 14 days, read-only) / aktiviteter / perioder (read-only) / notiser (the two
+  notification times, written to `data/installningar.json`) / koppling, plus a plain link to Matracet
+  (same window). `buildWeek(start, data, n)` = `n` independent `buildDay`s; a day tapped in Veckan opens the
+  Idag screen for that date (back returns to Veckan). Custody rules and periods are deliberately *not*
+  editable in a form (exact but hard to make legible) — changes go through the text field / Claude.
 - Spec and build order: `docs/laget-spec-2026-10.md`.
 
 ## Deploy

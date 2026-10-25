@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { DEFAULT_INSTALLNINGAR, GRACE_MINUTES, dueNotifications, recordSent, type Installningar } from './notiser'
+import { DEFAULT_INSTALLNINGAR, GRACE_MINUTES, dueNotifications, recordSent, withNotisTimes, type Installningar } from './notiser'
 import { makeData } from './fixtures'
 
 // Wed 2026-11-04 is a barnvecka with the dentist at 14:30; Tue 2026-11-03 prepares for it.
@@ -124,5 +124,16 @@ describe('dueNotifications: to-do reminders', () => {
     const t = makeData({ todos: [{ ...busskort, dueTime: '16:00' }] })
     const [n] = names(dueNotifications(at('2026-11-25T06:35:00Z'), t, DEFAULT_INSTALLNINGAR, EMPTY))
     expect(n.body).toBe('Förnya busskortet – idag 16:00')
+  })
+})
+
+describe('withNotisTimes', () => {
+  it('sets both times, keeping other settings', () => {
+    expect(withNotisTimes(DEFAULT_INSTALLNINGAR, '06:55', '16:10')).toEqual({ notiser: { idag: '06:55', imorgon: '16:10' } })
+  })
+  it('refuses anything that is not HH:MM', () => {
+    for (const bad of [['6:55', '16:10'], ['06:55', ''], ['24:00', '16:10'], ['06:60', '16:10'], ['kvart i sju', '16:10']]) {
+      expect(withNotisTimes(DEFAULT_INSTALLNINGAR, bad[0], bad[1]), bad.join()).toBeNull()
+    }
   })
 })
