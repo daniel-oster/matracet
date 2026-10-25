@@ -64,6 +64,10 @@ export function validateSchema(store: PresenceStore): string[] {
     if (!isDate(a.validFrom)) errors.push(`${at}: ogiltigt validFrom`)
     if (a.validUntil !== null && !isDate(a.validUntil)) errors.push(`${at}: ogiltigt validUntil`)
     if (isDate(a.validFrom) && isDate(a.validUntil) && a.validUntil < a.validFrom) errors.push(`${at}: validUntil före validFrom`)
+    for (const [i, pr] of (a.prepare ?? []).entries()) {
+      if (!pr.text?.trim()) errors.push(`${at}: prepare[${i}] saknar text`)
+      if (!Number.isInteger(pr.daysBefore) || pr.daysBefore < 0 || pr.daysBefore > 14) errors.push(`${at}: prepare[${i}].daysBefore måste vara 0–14`)
+    }
   }
 
   return errors

@@ -69,6 +69,17 @@ export interface Activity {
   validFrom: string           // ISO date, inclusive
   validUntil: string | null   // ISO date, inclusive; null = open-ended
   notes: string | null
+  /** Things to do ahead of an occurrence, e.g. "Packa gympapåsen" with daysBefore 1. Shown
+   *  by Läget on the day before (Imorgon); never affects the eating window. */
+  prepare?: Prepare[]
+  /** The activity is cancelled while its owner is on a `lov` period (data/perioder.json). */
+  pausedOnBreak?: boolean
+}
+
+/** A preparation text tied to an occurrence `daysBefore` days earlier (0 = same day). */
+export interface Prepare {
+  text: string
+  daysBefore: number
 }
 
 /** Derived result — never persisted. Computed on demand by the resolver. */

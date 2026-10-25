@@ -2520,6 +2520,12 @@ asking for a meal, no eating window), and Hub shows a `.hub-note` pointing to Ha
   whenever you touch `resolver.ts`** (it is the only check that sees the real schedule). The golden
   is a snapshot, not an oracle: it catches that a past day *changed*, not that it was right;
   `--update-golden` is for deliberate corrections only.
+- `src/laget/` is Läget's pure core (no DOM/localStorage, so the app and the notification job
+  import the same files): `buildDay(date, data)` → `DayView`, `headline`/`topLines` for the texts,
+  `stockholmNow` for wall-clock time (the job runs in UTC, the household in Europe/Stockholm).
+  One-off events and `pausedOnBreak` are folded into the resolver call as synthetic `ev:` activities
+  for that date only; `prepareTonight` keeps ticked items (`done: true`) so the UI can undo.
+  Tests use `src/laget/fixtures.ts` (anonymised); never real data.
 - Spec and build order: `docs/laget-spec-2026-10.md`.
 
 ## Deploy
