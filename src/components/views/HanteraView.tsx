@@ -33,6 +33,7 @@ export default function HanteraView({ onBack }: Props) {
 
   const [tokenInput, setTokenInput] = useState(() => getToken() ?? '')
   const [hasToken, setHasToken] = useState(() => getToken() !== null)
+  const [showToken, setShowToken] = useState(false)
   const [syncing, setSyncing] = useState(false)
   const status = useSyncStatus()
 
@@ -100,14 +101,29 @@ export default function HanteraView({ onBack }: Props) {
             <summary>{hasToken ? 'Byt eller ta bort token' : 'Lägg in token'}</summary>
             <div className="synka-token-field">
               <label htmlFor="synka-token">Fine-grained personal access token (bara detta repo, Contents read/write)</label>
-              <input
-                id="synka-token"
-                type="password"
-                autoComplete="off"
-                value={tokenInput}
-                onChange={e => setTokenInput(e.target.value)}
-                placeholder="github_pat_…"
-              />
+              <div className="synka-token-input-row">
+                <input
+                  id="synka-token"
+                  type={showToken ? 'text' : 'password'}
+                  autoComplete="off"
+                  autoCapitalize="off"
+                  autoCorrect="off"
+                  spellCheck={false}
+                  value={tokenInput}
+                  onChange={e => setTokenInput(e.target.value)}
+                  placeholder="github_pat_…"
+                />
+                <button
+                  type="button"
+                  className="synka-token-eye"
+                  onClick={() => setShowToken(v => !v)}
+                  aria-label={showToken ? 'Dölj token' : 'Visa token'}
+                  aria-pressed={showToken}
+                  title={showToken ? 'Dölj token' : 'Visa token'}
+                >
+                  {showToken ? '🙈' : '👁'}
+                </button>
+              </div>
               <div className="synka-token-actions">
                 <button type="button" className="export-btn synka-download-btn" onClick={handleSaveToken}>
                   Spara token
