@@ -1,0 +1,1051 @@
+{
+  "version": 1,
+  "deviceId": "f71cb36a-ee72-4b51-8f70-bc0b02f5e846",
+  "updatedAt": "2026-10-03T10:55:55.320Z",
+  "stores": {
+    "matracet:category-feedback:v1": {
+      "updatedAt": "1970-01-01T00:00:00.000Z",
+      "data": {
+        "entries": {}
+      }
+    },
+    "matracet:feedback:v2": {
+      "updatedAt": "1970-01-01T00:00:00.000Z",
+      "data": {
+        "pastagratang-okokt-pasta": {
+          "mealId": "pastagratang-okokt-pasta",
+          "persons": [
+            {
+              "personId": "daniel",
+              "sentiment": "likes",
+              "updatedAt": "2026-07-08T16:00:35.031Z"
+            },
+            {
+              "personId": "sarah",
+              "sentiment": "likes",
+              "updatedAt": "2026-07-08T16:00:37.160Z"
+            },
+            {
+              "personId": "annabelle",
+              "sentiment": "likes",
+              "updatedAt": "2026-07-08T16:00:38.460Z"
+            }
+          ],
+          "excludeFromWeekPlan": false,
+          "updatedAt": "2026-07-08T16:00:38.460Z"
+        }
+      }
+    },
+    "matracet:irrelevant-offers:v1": {
+      "updatedAt": "1970-01-01T00:00:00.000Z",
+      "data": {
+        "names": [
+          "fruktklämmisar",
+          "ansiktskräm",
+          "ansiktsvård",
+          "tuggben 25-pack",
+          "tuggben",
+          "tuggben 7-pack"
+        ]
+      }
+    },
+    "matracet:mealpool:v1": {
+      "updatedAt": "2026-09-14T14:10:33.703Z",
+      "data": {
+        "entries": [
+          {
+            "id": "pool:1786717016993:f68oe",
+            "mealSlug": "linsgryta-kokos-lime",
+            "receptSlug": "linsgryta-kokos-lime",
+            "addedAt": "2026-08-14T14:16:56.993Z",
+            "slot": {
+              "date": "2026-08-16",
+              "kind": "dinner"
+            }
+          },
+          {
+            "id": "pool:1789210200509:11s6w",
+            "mealSlug": "snackpotter",
+            "receptSlug": "snackpotter",
+            "addedAt": "2026-09-12T10:50:00.509Z",
+            "slot": {
+              "date": "2026-09-12",
+              "kind": "lunch"
+            }
+          },
+          {
+            "id": "pool:1789210279167:njlog",
+            "mealSlug": "schnitzel-pommes",
+            "receptSlug": null,
+            "addedAt": "2026-09-12T10:51:19.167Z",
+            "slot": {
+              "date": "2026-09-12",
+              "kind": "dinner"
+            }
+          },
+          {
+            "id": "pool:1789210333929:168tw",
+            "mealSlug": "kikartsgryta-rod-curry-kokos",
+            "receptSlug": "kikartsgryta-rod-curry-kokos",
+            "addedAt": "2026-09-12T10:52:13.929Z",
+            "slot": {
+              "date": "2026-09-13",
+              "kind": "dinner"
+            }
+          },
+          {
+            "id": "pool:1789395033702:aewy3",
+            "mealSlug": "kikartsgryta-rod-curry-kokos",
+            "receptSlug": "kikartsgryta-rod-curry-kokos",
+            "addedAt": "2026-09-14T14:10:33.702Z",
+            "slot": {
+              "date": "2026-09-14",
+              "kind": "dinner"
+            }
+          }
+        ]
+      }
+    },
+    "matracet:meals:local:v1": {
+      "updatedAt": "2026-09-12T10:51:19.167Z",
+      "data": {
+        "meals": {
+          "fiskpinnar-och-potatis": {
+            "slug": "fiskpinnar-och-potatis",
+            "namn": "Fiskpinnar och potatis",
+            "alias": [],
+            "komponenter": [
+              {
+                "vara": "Fiskpinnar",
+                "alternativ": [],
+                "valfri": false
+              },
+              {
+                "vara": "Potatis",
+                "alternativ": [],
+                "valfri": false
+              },
+              {
+                "vara": "Remouladsås",
+                "alternativ": [],
+                "valfri": false
+              }
+            ],
+            "receptSlug": null,
+            "taggar": [
+              "Fisk",
+              "barnvänlig"
+            ],
+            "tid_min": 30
+          },
+          "broccolisoppa": {
+            "slug": "broccolisoppa",
+            "namn": "Broccolisoppa",
+            "alias": [],
+            "komponenter": [
+              {
+                "vara": "Grädde",
+                "alternativ": [],
+                "valfri": false
+              },
+              {
+                "vara": "Broccoli",
+                "alternativ": [],
+                "valfri": false
+              }
+            ],
+            "receptSlug": null,
+            "taggar": [],
+            "tid_min": 30
+          },
+          "pestopasta": {
+            "slug": "pestopasta",
+            "namn": "Pestopasta",
+            "alias": [],
+            "komponenter": [
+              {
+                "vara": "Pesto",
+                "alternativ": [],
+                "valfri": false
+              },
+              {
+                "vara": "Pasta",
+                "alternativ": [],
+                "valfri": false
+              },
+              {
+                "vara": "Kikärter",
+                "alternativ": [
+                  "Bönor"
+                ],
+                "valfri": false
+              }
+            ],
+            "receptSlug": null,
+            "taggar": [],
+            "tid_min": 25
+          },
+          "tunbrodrulle": {
+            "slug": "tunbrodrulle",
+            "namn": "Tunbrödrulle",
+            "alias": [],
+            "komponenter": [
+              {
+                "vara": "Korv",
+                "alternativ": [],
+                "valfri": false
+              },
+              {
+                "vara": "Tunnbröd",
+                "alternativ": [],
+                "valfri": false
+              },
+              {
+                "vara": "Potatismos",
+                "alternativ": [],
+                "valfri": false
+              }
+            ],
+            "receptSlug": null,
+            "taggar": [],
+            "tid_min": 29
+          },
+          "schnitzel-pommes": {
+            "slug": "schnitzel-pommes",
+            "namn": "schnitzel & pommes",
+            "alias": [],
+            "komponenter": [
+              {
+                "vara": "schnitzel",
+                "alternativ": [],
+                "valfri": false
+              },
+              {
+                "vara": "pommes",
+                "alternativ": [],
+                "valfri": false
+              }
+            ],
+            "receptSlug": null,
+            "taggar": []
+          }
+        }
+      }
+    },
+    "matracet:shopping:v1": {
+      "updatedAt": "2026-10-03T10:55:55.320Z",
+      "data": {
+        "removedIds": [
+          "ing:kycklingfilé, tärnad|g",
+          "ing:mörk sojasås|dl",
+          "ing:socker|msk",
+          "ing:salladslök, finhackad|knippe",
+          "ing:risvinäger (valfritt, ersätter mirin)|msk",
+          "ing:bröd|skivor",
+          "ing:pasta|g",
+          "ing:ris|port",
+          "ing:salt och peppar|tsk",
+          "manual:1783772880464:hqm7l",
+          "manual:1783760562060:38ci6",
+          "manual:1784108169414:qww01",
+          "manual:1784281931845:xtb4v",
+          "manual:1784111997592:4l2gm",
+          "manual:1784108549216:7ho8m",
+          "manual:1784284109252:dqdmd",
+          "manual:1784111793241:aan7x",
+          "manual:1784282744039:5iz7k",
+          "manual:1784282685986:40ob0",
+          "manual:1784111611330:un5zy",
+          "manual:1784281939284:6aveq",
+          "manual:1784282703242:nito9",
+          "manual:1784283019340:kppzd",
+          "manual:1784283002137:ye4xa",
+          "manual:1784282983411:mjihs",
+          "manual:1784107471330:dwsmt",
+          "manual:1784283032652:fi2j9",
+          "manual:1784281957142:qmqqg",
+          "manual:1784281962783:1ad8h",
+          "manual:1784281917282:7zp3u",
+          "manual:1785500673645:87je6",
+          "manual:1785500673645:hqbki",
+          "manual:1785581748909:ashua",
+          "manual:1785500673645:w8193",
+          "manual:1785500673644:ubcfz",
+          "manual:1785581497109:z98ja",
+          "manual:1785581748909:50bcw",
+          "manual:1785581580663:whhkd",
+          "manual:1785581571049:vm1l5",
+          "manual:1785581649019:dgr3g",
+          "manual:1785581625024:xt1p4",
+          "manual:1785581562407:vl2fi",
+          "manual:1788789848160:v92b8",
+          "manual:1787939123686:qeyna",
+          "manual:1787939185937:phtpn",
+          "manual:1785581488957:l4ddj",
+          "manual:1787939352484:q145f",
+          "manual:1787939333316:y6iwr",
+          "manual:1787939345448:u5ao3",
+          "manual:1787939357644:dt7z3",
+          "manual:1787939164400:88sp6",
+          "manual:1787939296142:nkslz",
+          "manual:1787033983090:jbr0n",
+          "manual:1787939384518:ygw34",
+          "manual:1787939102791:lxsup",
+          "manual:1786711704450:kw0uj",
+          "manual:1787939215525:6mia4",
+          "manual:1791020541065:xd3n8",
+          "manual:1791020504294:7gfle",
+          "manual:1791020504294:vekeh",
+          "manual:1791020504294:kt9c5",
+          "manual:1791020504294:izine",
+          "manual:1791020504294:7y9ew",
+          "manual:1791020504294:1dqmd",
+          "manual:1791020504294:jbmdn",
+          "manual:1791020504294:in3ep",
+          "manual:1791020504293:13hgd",
+          "manual:1791020504294:xbx0m",
+          "manual:1791020721158:lg2n6",
+          "manual:1784107790818:3dv4v",
+          "manual:1791020504294:by2nx",
+          "manual:1791020504294:yeo3y"
+        ],
+        "manualItems": [
+          {
+            "id": "manual:1783760562060:38ci6",
+            "vara": "Färsk kycklingbröstfilé",
+            "addedAt": "2026-07-11T09:02:42.060Z"
+          },
+          {
+            "id": "manual:1783772880464:hqm7l",
+            "vara": "Pulled pork",
+            "addedAt": "2026-07-11T12:28:00.464Z"
+          },
+          {
+            "id": "manual:1784107471330:dwsmt",
+            "vara": "Kaffe",
+            "addedAt": "2026-07-15T09:24:31.330Z",
+            "offerRef": {
+              "store": "hemkop",
+              "week": "2026-W29"
+            }
+          },
+          {
+            "id": "manual:1784107790818:3dv4v",
+            "vara": "Majs 3-pack",
+            "addedAt": "2026-07-15T09:29:50.818Z"
+          },
+          {
+            "id": "manual:1784108169414:qww01",
+            "vara": "Varmrökt regnbågslax",
+            "addedAt": "2026-07-15T09:36:09.414Z"
+          },
+          {
+            "id": "manual:1784108549216:7ho8m",
+            "vara": "Hushållsost",
+            "addedAt": "2026-07-15T09:42:29.216Z",
+            "offerRef": {
+              "store": "willys",
+              "week": "2026-W29"
+            }
+          },
+          {
+            "id": "manual:1784111611330:un5zy",
+            "vara": "Vegetariska måltidsdelar",
+            "addedAt": "2026-07-15T10:33:31.330Z",
+            "offerRef": {
+              "store": "willys",
+              "week": "2026-W29"
+            }
+          },
+          {
+            "id": "manual:1784111793241:aan7x",
+            "vara": "Vitost",
+            "addedAt": "2026-07-15T10:36:33.241Z",
+            "offerRef": {
+              "store": "willys",
+              "week": "2026-W29"
+            }
+          },
+          {
+            "id": "manual:1784111997592:4l2gm",
+            "vara": "Tomat",
+            "addedAt": "2026-07-15T10:39:57.592Z"
+          },
+          {
+            "id": "manual:1784281917282:7zp3u",
+            "vara": "Ekologiska bönor, kikärtor, linser",
+            "addedAt": "2026-07-17T09:51:57.282Z",
+            "offerRef": {
+              "store": "ica",
+              "week": "2026-W29"
+            }
+          },
+          {
+            "id": "manual:1784281931845:xtb4v",
+            "vara": "Vitkål, Spetskål",
+            "addedAt": "2026-07-17T09:52:11.845Z",
+            "offerRef": {
+              "store": "hemkop",
+              "week": "2026-W29"
+            }
+          },
+          {
+            "id": "manual:1784281939284:6aveq",
+            "vara": "Små fina ärter",
+            "addedAt": "2026-07-17T09:52:19.284Z",
+            "offerRef": {
+              "store": "willys",
+              "week": "2026-W29"
+            }
+          },
+          {
+            "id": "manual:1784281957142:qmqqg",
+            "vara": "Minivattenmeloner",
+            "addedAt": "2026-07-17T09:52:37.142Z",
+            "offerRef": {
+              "store": "ica",
+              "week": "2026-W29"
+            }
+          },
+          {
+            "id": "manual:1784281962783:1ad8h",
+            "vara": "Äpplen Pink Lady",
+            "addedAt": "2026-07-17T09:52:42.783Z",
+            "offerRef": {
+              "store": "ica",
+              "week": "2026-W29"
+            }
+          },
+          {
+            "id": "manual:1784282685986:40ob0",
+            "vara": "Ättiksprit",
+            "addedAt": "2026-07-17T10:04:45.988Z",
+            "offerRef": {
+              "store": "willys",
+              "week": "2026-W29"
+            }
+          },
+          {
+            "id": "manual:1784282703242:nito9",
+            "vara": "Kokosmjölk",
+            "addedAt": "2026-07-17T10:05:03.242Z",
+            "offerRef": {
+              "store": "willys",
+              "week": "2026-W29"
+            }
+          },
+          {
+            "id": "manual:1784282744039:5iz7k",
+            "vara": "Pastasås",
+            "addedAt": "2026-07-17T10:05:44.039Z",
+            "offerRef": {
+              "store": "willys",
+              "week": "2026-W29"
+            }
+          },
+          {
+            "id": "manual:1784282983411:mjihs",
+            "vara": "Färsk pasta",
+            "addedAt": "2026-07-17T10:09:43.412Z",
+            "offerRef": {
+              "store": "hemkop",
+              "week": "2026-W29"
+            }
+          },
+          {
+            "id": "manual:1784283002137:ye4xa",
+            "vara": "Ekologisk flytande honung",
+            "addedAt": "2026-07-17T10:10:02.137Z",
+            "offerRef": {
+              "store": "hemkop",
+              "week": "2026-W29"
+            }
+          },
+          {
+            "id": "manual:1784283019340:kppzd",
+            "vara": "Proteinbar",
+            "addedAt": "2026-07-17T10:10:19.340Z",
+            "offerRef": {
+              "store": "willys",
+              "week": "2026-W29"
+            }
+          },
+          {
+            "id": "manual:1784283032652:fi2j9",
+            "vara": "Avfallspåse",
+            "addedAt": "2026-07-17T10:10:32.652Z",
+            "offerRef": {
+              "store": "ica",
+              "week": "2026-W29"
+            }
+          },
+          {
+            "id": "manual:1784284109252:dqdmd",
+            "vara": "Blandsaft",
+            "addedAt": "2026-07-17T10:28:29.252Z",
+            "offerRef": {
+              "store": "ica",
+              "week": "2026-W29"
+            }
+          },
+          {
+            "id": "manual:1785500673644:ubcfz",
+            "vara": "mjölk",
+            "addedAt": "2026-07-31T12:24:33.644Z",
+            "amount": "6 dl",
+            "source": "Halloumiplattar med stekt zucchini"
+          },
+          {
+            "id": "manual:1785500673645:hqbki",
+            "vara": "halloumi",
+            "addedAt": "2026-07-31T12:24:33.645Z",
+            "amount": "200 g",
+            "source": "Halloumiplattar med stekt zucchini"
+          },
+          {
+            "id": "manual:1785500673645:w8193",
+            "vara": "citron",
+            "addedAt": "2026-07-31T12:24:33.645Z",
+            "amount": "1 st",
+            "source": "Halloumiplattar med stekt zucchini"
+          },
+          {
+            "id": "manual:1785500673645:87je6",
+            "vara": "zucchini",
+            "addedAt": "2026-07-31T12:24:33.645Z",
+            "amount": "1 st",
+            "source": "Halloumiplattar med stekt zucchini"
+          },
+          {
+            "id": "manual:1785581488957:l4ddj",
+            "vara": "Mozzarella",
+            "addedAt": "2026-08-01T10:51:28.957Z",
+            "offerRef": {
+              "store": "ica",
+              "week": "2026-W35"
+            }
+          },
+          {
+            "id": "manual:1785581497109:z98ja",
+            "vara": "Fjällfil",
+            "addedAt": "2026-08-01T10:51:37.109Z",
+            "offerRef": {
+              "store": "ica",
+              "week": "2026-W31"
+            }
+          },
+          {
+            "id": "manual:1785581562407:vl2fi",
+            "vara": "Pesto",
+            "addedAt": "2026-08-01T10:52:42.407Z",
+            "offerRef": {
+              "store": "ica",
+              "week": "2026-W31"
+            }
+          },
+          {
+            "id": "manual:1785581571049:vm1l5",
+            "vara": "Vattenmelon",
+            "addedAt": "2026-08-01T10:52:51.049Z",
+            "offerRef": {
+              "store": "hemkop",
+              "week": "2026-W31"
+            }
+          },
+          {
+            "id": "manual:1785581580663:whhkd",
+            "vara": "Svensk Gurka",
+            "addedAt": "2026-08-01T10:53:00.663Z",
+            "offerRef": {
+              "store": "willys",
+              "week": "2026-W31"
+            }
+          },
+          {
+            "id": "manual:1785581625024:xt1p4",
+            "vara": "Skivat bacon",
+            "addedAt": "2026-08-01T10:53:45.024Z",
+            "offerRef": {
+              "store": "willys",
+              "week": "2026-W31"
+            }
+          },
+          {
+            "id": "manual:1785581649019:dgr3g",
+            "vara": "Ekologiska bönor",
+            "addedAt": "2026-08-01T10:54:09.019Z",
+            "offerRef": {
+              "store": "willys",
+              "week": "2026-W31"
+            }
+          },
+          {
+            "id": "manual:1785581748909:50bcw",
+            "vara": "majs",
+            "addedAt": "2026-08-01T10:55:48.909Z",
+            "amount": "2 dl",
+            "source": "Zucchiniplattar med majs och fetaost"
+          },
+          {
+            "id": "manual:1785581748909:ashua",
+            "vara": "fetaost",
+            "addedAt": "2026-08-01T10:55:48.909Z",
+            "amount": "75 g",
+            "source": "Zucchiniplattar med majs och fetaost"
+          },
+          {
+            "id": "manual:1786711704450:kw0uj",
+            "vara": "Torkad mango",
+            "addedAt": "2026-08-14T12:48:24.450Z",
+            "offerRef": {
+              "store": "willys",
+              "week": "2026-W33"
+            }
+          },
+          {
+            "id": "manual:1787033983090:jbr0n",
+            "vara": "Avfallspåse",
+            "addedAt": "2026-08-18T06:19:43.090Z",
+            "offerRef": {
+              "store": "willys",
+              "week": "2026-W33"
+            }
+          },
+          {
+            "id": "manual:1787939102791:lxsup",
+            "vara": "Sockervaddsdruvor",
+            "addedAt": "2026-08-28T17:45:02.791Z",
+            "offerRef": {
+              "store": "hemkop",
+              "week": "2026-W35"
+            }
+          },
+          {
+            "id": "manual:1787939123686:qeyna",
+            "vara": "Äpple pink lady",
+            "addedAt": "2026-08-28T17:45:23.686Z",
+            "offerRef": {
+              "store": "willys",
+              "week": "2026-W35"
+            }
+          },
+          {
+            "id": "manual:1787939164400:88sp6",
+            "vara": "Frysta vegoprodukter",
+            "addedAt": "2026-08-28T17:46:04.400Z",
+            "offerRef": {
+              "store": "ica",
+              "week": "2026-W35"
+            }
+          },
+          {
+            "id": "manual:1787939185937:phtpn",
+            "vara": "Sprödbakade fiskpinnar",
+            "addedAt": "2026-08-28T17:46:25.937Z",
+            "offerRef": {
+              "store": "willys",
+              "week": "2026-W35"
+            }
+          },
+          {
+            "id": "manual:1787939215525:6mia4",
+            "vara": "Smörgåsmat",
+            "addedAt": "2026-08-28T17:46:55.525Z",
+            "offerRef": {
+              "store": "ica",
+              "week": "2026-W35"
+            }
+          },
+          {
+            "id": "manual:1787939296142:nkslz",
+            "vara": "Snacks",
+            "addedAt": "2026-08-28T17:48:16.142Z",
+            "offerRef": {
+              "store": "hemkop",
+              "week": "2026-W35"
+            }
+          },
+          {
+            "id": "manual:1787939333316:y6iwr",
+            "vara": "Lasagneplattor",
+            "addedAt": "2026-08-28T17:48:53.316Z",
+            "offerRef": {
+              "store": "hemkop",
+              "week": "2026-W35"
+            }
+          },
+          {
+            "id": "manual:1787939345448:u5ao3",
+            "vara": "Musli, granola",
+            "addedAt": "2026-08-28T17:49:05.448Z",
+            "offerRef": {
+              "store": "willys",
+              "week": "2026-W35"
+            }
+          },
+          {
+            "id": "manual:1787939352484:q145f",
+            "vara": "Krossade tomater, passerade tomater",
+            "addedAt": "2026-08-28T17:49:12.484Z",
+            "offerRef": {
+              "store": "willys",
+              "week": "2026-W35"
+            }
+          },
+          {
+            "id": "manual:1787939357644:dt7z3",
+            "vara": "Senap",
+            "addedAt": "2026-08-28T17:49:17.644Z",
+            "offerRef": {
+              "store": "willys",
+              "week": "2026-W35"
+            }
+          },
+          {
+            "id": "manual:1787939384518:ygw34",
+            "vara": "Ajvar",
+            "addedAt": "2026-08-28T17:49:44.518Z",
+            "offerRef": {
+              "store": "hemkop",
+              "week": "2026-W35"
+            }
+          },
+          {
+            "id": "manual:1788789848160:v92b8",
+            "vara": "Citroner",
+            "addedAt": "2026-09-07T14:04:08.160Z",
+            "offerRef": {
+              "store": "willys",
+              "week": "2026-W36"
+            }
+          },
+          {
+            "id": "manual:1791020504293:13hgd",
+            "vara": "högrev",
+            "addedAt": "2026-10-03T09:41:44.293Z",
+            "amount": "1.2 kg",
+            "source": "Mustig högrevsgryta"
+          },
+          {
+            "id": "manual:1791020504294:izine",
+            "vara": "morot",
+            "addedAt": "2026-10-03T09:41:44.294Z",
+            "amount": "2 st",
+            "source": "Mustig högrevsgryta"
+          },
+          {
+            "id": "manual:1791020504294:7y9ew",
+            "vara": "palsternacka, stor",
+            "addedAt": "2026-10-03T09:41:44.294Z",
+            "amount": "1 st",
+            "source": "Mustig högrevsgryta"
+          },
+          {
+            "id": "manual:1791020504294:vekeh",
+            "vara": "gul lök, stor",
+            "addedAt": "2026-10-03T09:41:44.294Z",
+            "amount": "1 st",
+            "source": "Mustig högrevsgryta"
+          },
+          {
+            "id": "manual:1791020504294:jbmdn",
+            "vara": "vitlök",
+            "addedAt": "2026-10-03T09:41:44.294Z",
+            "amount": "3 klyftor",
+            "source": "Mustig högrevsgryta"
+          },
+          {
+            "id": "manual:1791020504294:yeo3y",
+            "vara": "rött vin",
+            "addedAt": "2026-10-03T09:41:44.294Z",
+            "amount": "5 dl",
+            "source": "Mustig högrevsgryta"
+          },
+          {
+            "id": "manual:1791020504294:7gfle",
+            "vara": "färsk timjan",
+            "addedAt": "2026-10-03T09:41:44.294Z",
+            "amount": "3 kvistar",
+            "source": "Mustig högrevsgryta"
+          },
+          {
+            "id": "manual:1791020504294:by2nx",
+            "vara": "lagerblad",
+            "addedAt": "2026-10-03T09:41:44.294Z",
+            "amount": "4 st",
+            "source": "Mustig högrevsgryta"
+          },
+          {
+            "id": "manual:1791020504294:1dqmd",
+            "vara": "steklök, små",
+            "addedAt": "2026-10-03T09:41:44.294Z",
+            "amount": "500 g",
+            "source": "Mustig högrevsgryta"
+          },
+          {
+            "id": "manual:1791020504294:kt9c5",
+            "vara": "champinjoner, små",
+            "addedAt": "2026-10-03T09:41:44.294Z",
+            "amount": "250 g",
+            "source": "Mustig högrevsgryta"
+          },
+          {
+            "id": "manual:1791020504294:xbx0m",
+            "vara": "rökt sidfläsk (el. bacon)",
+            "addedAt": "2026-10-03T09:41:44.294Z",
+            "amount": "200 g",
+            "source": "Mustig högrevsgryta"
+          },
+          {
+            "id": "manual:1791020504294:in3ep",
+            "vara": "potatis eller lantbröd",
+            "addedAt": "2026-10-03T09:41:44.294Z",
+            "amount": "6 port",
+            "source": "Mustig högrevsgryta"
+          },
+          {
+            "id": "manual:1791020541065:xd3n8",
+            "vara": "Lager",
+            "addedAt": "2026-10-03T09:42:21.065Z"
+          },
+          {
+            "id": "manual:1791020721158:lg2n6",
+            "vara": "Skinka",
+            "addedAt": "2026-10-03T09:45:21.158Z"
+          }
+        ],
+        "history": [
+          {
+            "vara": "1 msk risvinäger (valfritt, ersätter mirin)",
+            "action": "removed",
+            "at": "2026-07-03T13:07:56.822Z"
+          },
+          {
+            "vara": "1 msk riven färsk ingefära",
+            "action": "removed",
+            "at": "2026-07-03T13:07:56.024Z"
+          },
+          {
+            "vara": "1 knippe salladslök, finhackad",
+            "action": "removed",
+            "at": "2026-07-03T12:24:43.519Z"
+          },
+          {
+            "vara": "1 msk socker",
+            "action": "removed",
+            "at": "2026-07-03T12:24:42.791Z"
+          },
+          {
+            "vara": "1 dl mörk sojasås",
+            "action": "removed",
+            "at": "2026-07-03T12:06:28.646Z"
+          },
+          {
+            "vara": "500 g kycklingfilé, tärnad",
+            "action": "removed",
+            "at": "2026-07-03T12:06:27.371Z"
+          }
+        ],
+        "storeAssignments": {
+          "manual:1784108549216:7ho8m": "willys",
+          "manual:1784111611330:un5zy": "willys",
+          "manual:1784111793241:aan7x": "willys",
+          "manual:1784281917282:7zp3u": "ica",
+          "manual:1784281931845:xtb4v": "hemkop",
+          "manual:1784281939284:6aveq": "willys",
+          "manual:1784281957142:qmqqg": "ica",
+          "manual:1784281962783:1ad8h": "ica",
+          "manual:1784282685986:40ob0": "willys",
+          "manual:1784282703242:nito9": "willys",
+          "manual:1784282744039:5iz7k": "willys",
+          "manual:1784282983411:mjihs": "hemkop",
+          "manual:1784283002137:ye4xa": "hemkop",
+          "manual:1784283019340:kppzd": "willys",
+          "manual:1784283032652:fi2j9": "ica",
+          "manual:1784284109252:dqdmd": "ica",
+          "manual:1785581488957:l4ddj": "ica",
+          "manual:1785581497109:z98ja": "ica",
+          "manual:1785581562407:vl2fi": "ica",
+          "manual:1785581571049:vm1l5": "hemkop",
+          "manual:1785581580663:whhkd": "willys",
+          "manual:1785581625024:xt1p4": "willys",
+          "manual:1785581649019:dgr3g": "willys",
+          "manual:1786711704450:kw0uj": "willys",
+          "manual:1787033983090:jbr0n": "willys",
+          "manual:1787939102791:lxsup": "hemkop",
+          "manual:1787939123686:qeyna": "willys",
+          "manual:1787939164400:88sp6": "ica",
+          "manual:1787939185937:phtpn": "willys",
+          "manual:1787939215525:6mia4": "ica",
+          "manual:1787939296142:nkslz": "hemkop",
+          "manual:1787939333316:y6iwr": "hemkop",
+          "manual:1787939345448:u5ao3": "willys",
+          "manual:1787939352484:q145f": "willys",
+          "manual:1787939357644:dt7z3": "willys",
+          "manual:1787939384518:ygw34": "hemkop",
+          "manual:1788789848160:v92b8": "willys"
+        }
+      }
+    },
+    "matracet:stash:v1": {
+      "updatedAt": "1970-01-01T00:00:00.000Z",
+      "data": {
+        "items": [
+          {
+            "id": "stash:1783423482639:2jcyi",
+            "namn": "Köttfärs",
+            "kind": "stock",
+            "receptSlug": null,
+            "taggar": [],
+            "anteckning": null,
+            "done": false,
+            "addedAt": "2026-07-07T11:24:42.639Z"
+          },
+          {
+            "id": "stash:1783423492254:wr84x",
+            "namn": "Ägg",
+            "kind": "stock",
+            "receptSlug": null,
+            "taggar": [],
+            "anteckning": null,
+            "done": false,
+            "addedAt": "2026-07-07T11:24:52.254Z"
+          },
+          {
+            "id": "stash:1783423563361:mjraa",
+            "namn": "Hamburgare",
+            "kind": "stock",
+            "receptSlug": null,
+            "taggar": [],
+            "anteckning": null,
+            "done": false,
+            "addedAt": "2026-07-07T11:26:03.362Z"
+          },
+          {
+            "id": "stash:1783423639347:su9wy",
+            "namn": "Vego schnitzel",
+            "kind": "stock",
+            "receptSlug": null,
+            "taggar": [],
+            "anteckning": null,
+            "done": false,
+            "addedAt": "2026-07-07T11:27:19.347Z"
+          }
+        ]
+      }
+    },
+    "matracet:synctasks:v1": {
+      "updatedAt": "2026-10-03T09:45:21.159Z",
+      "data": {
+        "tasks": [
+          {
+            "id": "task:1791020541065:h3xop7",
+            "type": "resolve-manual-item",
+            "createdAt": "2026-10-03T09:42:21.065Z",
+            "payload": {
+              "vara": "Lager"
+            }
+          },
+          {
+            "id": "task:1791020721159:yn86eq",
+            "type": "resolve-manual-item",
+            "createdAt": "2026-10-03T09:45:21.159Z",
+            "payload": {
+              "vara": "Skinka"
+            }
+          }
+        ]
+      }
+    },
+    "matracet:weekplan:v3": {
+      "updatedAt": "2026-09-14T14:10:33.703Z",
+      "data": {
+        "2026-07-11": {
+          "lunch": {
+            "mealSlug": "het-kikartsgryta-med-saffran",
+            "receptSlug": "het-kikärtsgryta",
+            "updatedAt": "2026-07-11T09:06:51.895Z"
+          }
+        },
+        "2026-07-18": {
+          "dinner": {
+            "mealSlug": "linsgryta-med-kokos-och-lime",
+            "receptSlug": "linsgryta-kokos-lime",
+            "updatedAt": "2026-07-17T16:15:13.234Z"
+          }
+        },
+        "2026-07-19": {
+          "dinner": {
+            "mealSlug": "halloumiplattar-med-stekt-zucchini",
+            "receptSlug": "halloumiplattar-zucchini",
+            "updatedAt": "2026-07-17T16:16:08.719Z"
+          }
+        },
+        "2026-08-01": {
+          "dinner": {
+            "mealSlug": "rotfruktsgryta-med-rodbetor-och-morotter",
+            "receptSlug": "rotfruktsgryta-med-rodbetor-och-morotter",
+            "updatedAt": "2026-07-31T13:35:21.652Z"
+          }
+        },
+        "2026-07-31": {
+          "lunch": {
+            "mealSlug": "mexikansk-soppa-nachos",
+            "receptSlug": null,
+            "updatedAt": "2026-07-31T12:25:39.079Z"
+          },
+          "dinner": {
+            "mealSlug": "sushi",
+            "receptSlug": null,
+            "updatedAt": "2026-07-31T12:25:50.180Z"
+          }
+        },
+        "2026-08-03": {
+          "dinner": {
+            "mealSlug": "pastagratang-okokt-pasta",
+            "receptSlug": "pastagratang-okokt-pasta",
+            "updatedAt": "2026-07-31T12:27:16.104Z"
+          },
+          "lunch": {
+            "mealSlug": "fiskpinnar-och-potatis",
+            "receptSlug": null,
+            "updatedAt": "2026-07-31T13:56:23.461Z"
+          }
+        },
+        "2026-08-16": {
+          "dinner": {
+            "mealSlug": "linsgryta-kokos-lime",
+            "receptSlug": "linsgryta-kokos-lime",
+            "updatedAt": "2026-08-15T18:26:07.886Z"
+          }
+        },
+        "2026-09-12": {
+          "lunch": {
+            "mealSlug": "snackpotter",
+            "receptSlug": "snackpotter",
+            "updatedAt": "2026-09-12T10:50:00.510Z"
+          },
+          "dinner": {
+            "mealSlug": "schnitzel-pommes",
+            "receptSlug": null,
+            "updatedAt": "2026-09-12T10:51:27.570Z"
+          }
+        },
+        "2026-09-13": {
+          "dinner": {
+            "mealSlug": "kikartsgryta-rod-curry-kokos",
+            "receptSlug": "kikartsgryta-rod-curry-kokos",
+            "updatedAt": "2026-09-12T10:52:13.929Z"
+          }
+        },
+        "2026-09-14": {
+          "dinner": {
+            "mealSlug": "kikartsgryta-rod-curry-kokos",
+            "receptSlug": "kikartsgryta-rod-curry-kokos",
+            "updatedAt": "2026-09-14T14:10:33.703Z"
+          }
+        }
+      }
+    }
+  }
+}
