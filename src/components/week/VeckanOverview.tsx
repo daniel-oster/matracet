@@ -1,6 +1,6 @@
 import { DayMeal, Eater, RecipeIndexEntry } from '../../types'
 import type { Meal } from '../../types/meal'
-import type { DayPlan } from '../../presence/types'
+import type { DayPlan, Period } from '../../presence/types'
 import { useWeekPlan, applyOverride, effectivePresentIds, diffAttendance } from '../../hooks/useWeekPlan'
 import { useFeedback } from '../../hooks/useFeedback'
 import { evaluateFit } from '../../lib/dietFit'
@@ -25,6 +25,7 @@ interface Props {
   days: DayMeal[]
   lunches: DayMeal[]
   dayPlans: DayPlan[]
+  periods: Period[] | null
   eaters: Eater[]
   recipeIndex: RecipeIndexEntry[]
   meals: Meal[]
@@ -32,7 +33,7 @@ interface Props {
   onEdit: () => void
 }
 
-export default function VeckanOverview({ days, lunches, dayPlans, eaters, recipeIndex, meals, onOpenRecipe, onEdit }: Props) {
+export default function VeckanOverview({ days, lunches, dayPlans, periods, eaters, recipeIndex, meals, onOpenRecipe, onEdit }: Props) {
   const { getOverride, getAttendance } = useWeekPlan()
   const { getFeedback } = useFeedback()
   const todayDatum = days[0]?.datum
@@ -69,7 +70,7 @@ export default function VeckanOverview({ days, lunches, dayPlans, eaters, recipe
         // A term-weekday lunch with the kids at school isn't a gap — don't render it as one
         // ("lunch ledig"). An actually planned lunch still shows, whatever the schedule says.
         const lunchPresentIds = effectivePresentIds(planPresentIds, lunchAttendance)
-        const lunchNotNeeded = !lunchLabel && scheduleSkipsMeal(day.datum, 'lunch', lunchPresentIds)
+        const lunchNotNeeded = !lunchLabel && scheduleSkipsMeal(day.datum, 'lunch', lunchPresentIds, periods)
         const dishLabel = day.recept ?? day.anteckning ?? null
 
         return (

@@ -313,6 +313,7 @@ export default function App() {
           rollingDays={rollingDays}
           rollingLunches={rollingLunches}
           dayPlans={dayPlans}
+          periods={schedule.periods}
           eaters={eaters.eaters}
           recipeIndex={recipeIndex}
           meals={mergedMeals}

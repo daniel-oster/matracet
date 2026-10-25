@@ -2373,9 +2373,13 @@ someone was present — the only way to say otherwise was `MealAttendance.skip`,
 per-slot toggle meant for one-off nights out, not a recurring fact about the calendar.
 
 `src/lib/mealNeed.ts` is the whole decision, pure and unit-tested (`mealNeed.test.ts`):
-`TERM_PERIODS` (VT2026 + HT2026 from `2026-08-17`, mirroring the presence rules' own
-spring/summer/autumn split), `SCHOOL_CHILD_IDS`, `isoWeekday`/`isTermDate`/`isSchoolDay`, and
-`scheduleSkipsMeal(date, kind, presentIds)`.
+`isoWeekday`, `isSchoolDayFor(date, personId, periods)` and `scheduleSkipsMeal(date, kind,
+presentIds, periods)`. **Terms and breaks are data, not code (2026-10)**: `periods` is
+`data/perioder.json` from the private repo (`Period { kind: 'termin' | 'lov', from, to, personIds }`),
+passed down as a prop from `App` (`useSchedule`). A person has school on a Mon–Fri date inside one
+of their `termin` periods and outside every `lov`, so höstlov/jullov give lunch at home again
+without splitting a term. `periods === null` (no token) never skips. Before this, `TERM_PERIODS`
+and `SCHOOL_CHILD_IDS` (the children's ids) were hardcoded here and breaks were a known gap.
 
 Three deliberate scope decisions worth not re-litigating:
 - **Scoped to barnveckor, exactly as asked.** The rule fires only when a school-age child is
@@ -2391,12 +2395,6 @@ Three deliberate scope decisions worth not re-litigating:
   on such a day rather than printing "lunch ledig" at it.
 - **`presentIds === null` (unknown attendance) never skips.** The safe direction is to keep
   asking for a meal.
-
-**Known gap, stated rather than silently assumed**: school breaks *inside* a term (höstlov,
-jullov, sportlov) aren't modelled — on those weekdays the app still says no lunch is needed.
-Add them to `TERM_PERIODS` (split a period, or add an exclusion list) once the real dates are
-known; until then a break week is handled like any other exception, by planning the lunch
-anyway from the picker.
 
 **Also in this pass: the term activity schedule was reinstated.** Every entry in
 `src/presence/activities.ts` had `validUntil: '2026-06-01'`, so from the moment spring term
