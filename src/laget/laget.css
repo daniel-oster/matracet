@@ -107,3 +107,5 @@ a.laget-tile { color: var(--ink); background: var(--paper); border: 1px solid va
 @media (display-mode: standalone) {
   .laget { padding-top: max(env(safe-area-inset-top), 50px); }
 }
+.laget-inkorg-done { margin-top: 8px; font-size: 13px; color: var(--sub); }
+.laget-inkorg-done summary { cursor: pointer; }
