@@ -28,6 +28,8 @@ export interface LagetState {
   setTodoDone: (id: string) => Promise<string | null>
   /** Save the notification times (data/installningar.json). Resolves to an error text or null. */
   saveNotisTimes: (idag: string, imorgon: string) => Promise<string | null>
+  /** Apply a change to data/schema.json (an activity edit/end). `apply` runs on the freshest file; an error text comes back, or null. */
+  changeSchema: (apply: (s: PresenceStore) => { ok: true; store: PresenceStore } | { ok: false; error: string }) => Promise<string | null>
   reload: () => void
 }
 
@@ -128,5 +130,30 @@ export function useLagetData(): LagetState {
     return null
   }, [])
 
-  return { data, settings, status, stale, setPrepDone, setTodoDone, saveNotisTimes, reload: () => void load() }
+  const changeSchema = useCallback<LagetState['changeSchema']>(async apply => {
+    let failure: string | null = null
+    let result
+    try {
+      result = await updatePrivateJson<PresenceStore>(
+        'data/schema.json',
+        current => {
+          if (!current) throw new Error('schema.json saknas')
+          const r = apply(current)
+          if (!r.ok) {
+            failure = r.error
+            throw new Error(r.error)
+          }
+          return r.store
+        },
+        'Läget: aktiviteter ändrade',
+      )
+    } catch {
+      return failure ?? 'Kunde inte spara.'
+    }
+    if (result !== 'ok') return result === 'no-token' || result === 'unauthorized' ? 'Token saknar skrivrätt till livet-data.' : 'Kunde inte spara – försök igen.'
+    await load()
+    return null
+  }, [load])
+
+  return { data, settings, status, stale, setPrepDone, setTodoDone, saveNotisTimes, changeSchema, reload: () => void load() }
 }

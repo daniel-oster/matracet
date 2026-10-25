@@ -2584,6 +2584,13 @@ asking for a meal, no eating window), and Hub shows a `.hub-note` pointing to Ha
   (same window). `buildWeek(start, data, n)` = `n` independent `buildDay`s; a day tapped in Veckan opens the
   Idag screen for that date (back returns to Veckan). Custody rules and periods are deliberately *not*
   editable in a form (exact but hard to make legible) — changes go through the text field / Claude.
+- **Läget step 2 — activity form** (`Aktiviteter.tsx`, logic in `activityForm.ts`, written with
+  `changeSchema` → `updatePrivateJson('data/schema.json')`, validated by `validateSchema` before and on
+  the fresh file): editing an activity that has already started **ends it yesterday and starts a new
+  one today** (past days must not change — the schedule's "duplicate, don't rewrite" rule, enforced by
+  `data/schema.golden.json`); only a not-yet-started one or a validity-only change is edited in place;
+  "Avsluta" sets `validUntil`, never deletes. Tested that every pre-today day resolves identically after an
+  edit, and that the app's written file passes `verify-schedule.ts` against real data.
 - Spec and build order: `docs/laget-spec-2026-10.md`.
 
 ## Deploy
