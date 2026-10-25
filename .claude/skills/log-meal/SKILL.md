@@ -1,12 +1,17 @@
 ---
 name: log-meal
-description: Record a meal the household actually ate, told to Claude conversationally — especially off-plan/spontaneous meals (chaos-mode weeks, eating out, improvised dinners) that never show up in public/data/weeks/*.json. Appends to public/data/history.json, matches or creates an entry in public/data/meals.json for the dish itself, and can record per-person ratings. Use whenever the user describes what they ate, e.g. "we grilled burgers Tuesday" or "igår åt vi rester och det gick hem".
+description: Record a meal the household actually ate, told to Claude conversationally — especially off-plan/spontaneous meals (chaos-mode weeks, eating out, improvised dinners) that never show up in livet-data/matracet/weeks/*.json. Appends to livet-data/matracet/history.json, matches or creates an entry in public/data/meals.json for the dish itself, and can record per-person ratings. Use whenever the user describes what they ate, e.g. "we grilled burgers Tuesday" or "igår åt vi rester och det gick hem".
 ---
 
-`public/data/weeks/*.json` already records *planned* meals — that's durable
+> **Where the data lives (2026-10):** the household files this skill reads/writes (`eaters`, `feedback`,
+> `history`, `task-log`, `weeks/`) are in the **private** repo `daniel-oster/livet-data` under `matracet/`,
+> not in matracet's `public/data/`. Work in a livet-data checkout (attach the repo to the session) and
+> commit there — no deploy is needed, the app reads those files straight from livet-data.
+
+`livet-data/matracet/weeks/*.json` already records *planned* meals — that's durable
 history for normal weeks. It has no slot at all for the meals that happen
 outside a plan: chaos-mode/vacation stretches, eating out, improvising from
-whatever's in the fridge. `public/data/history.json` fills that specific gap.
+whatever's in the fridge. `livet-data/matracet/history.json` fills that specific gap.
 It's read by `scripts/build-brief.ts` two ways: folded into `recentHistory` for
 the next week's planning (last 2 weeks only), and as the source of each
 `mealLibrary` entry's derived `antalGånger`/`senastÄten` (computed from the
@@ -22,7 +27,7 @@ From the user's description, get:
 - **A short dish description** (`beskrivning`) — what they said, cleaned up to a
   display-name-like phrase (e.g. "Grillburgare med sallad").
 - **Who was present** (`narvarande`, a list of eater ids from
-  `public/data/eaters.json`) — ask if not stated; don't guess from the presence
+  `livet-data/matracet/eaters.json`) — ask if not stated; don't guess from the presence
   schedule silently, since the whole point of logging is that this was an
   *exception* to the normal pattern.
 
@@ -67,7 +72,7 @@ recipe link, and this skill no longer creates new recipe files at all.
 
 ## 4. Append the history entry
 
-Add one entry to `public/data/history.json`'s `entries` array (schema in
+Add one entry to `livet-data/matracet/history.json`'s `entries` array (schema in
 `src/types/history.ts`):
 
 ```jsonc
@@ -97,7 +102,7 @@ If a recipe got linked in step 3, ask whether anyone's rating should be
 recorded — using the **exact same three values the app's UI uses**:
 `likes` / `dislikes` / `refuses` (see `RecipeFeedbackBar`'s Swedish labels:
 Gillar / Ogillar / Vägrar äta). If yes, upsert into
-`public/data/feedback.json`'s `feedback[recipeSlug].persons` with the same
+`livet-data/matracet/feedback.json`'s `feedback[recipeSlug].persons` with the same
 per-person-replace semantics as `useFeedback.ts`'s `setPersonSentiment` (a new
 entry for that `personId` replaces any existing one for that recipe; leave every
 other person's entry on that recipe untouched).

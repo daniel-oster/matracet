@@ -27,7 +27,9 @@
  */
 import { readFileSync, writeFileSync, existsSync } from 'node:fs'
 
-export const FEEDBACK_PATH = new URL('../public/data/feedback.json', import.meta.url).pathname
+// feedback.json lives in the private repo (livet-data/matracet/feedback.json); the workflow there
+// passes its path in FEEDBACK_FILE.
+export const FEEDBACK_PATH = process.env.FEEDBACK_FILE ?? null
 // Keyed by meal, not recipe, since the app's Stage 5 re-key (see CLAUDE.md's "Meals as the
 // plannable unit" section) — a record's key is a meals.json slug, or a virtual meal slug
 // for a recipe with no matching entry there.
@@ -131,7 +133,7 @@ export function runMerge(snapshotRaw, feedbackFile) {
 if (import.meta.url === `file://${process.argv[1]}`) {
   const snapshotPath = process.argv[2]
   if (!snapshotPath) {
-    console.error('usage: node scripts/merge-device-sync.mjs <snapshot.json>')
+    console.error('usage: FEEDBACK_FILE=<feedback.json> node scripts/merge-device-sync.mjs <snapshot.json>')
     process.exit(1)
   }
 
@@ -143,6 +145,10 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     process.exit(1)
   }
 
+  if (!FEEDBACK_PATH) {
+    console.error('FEEDBACK_FILE saknas – peka på livet-data/matracet/feedback.json')
+    process.exit(1)
+  }
   const feedbackFile = existsSync(FEEDBACK_PATH) ? JSON.parse(readFileSync(FEEDBACK_PATH, 'utf8')) : null
 
   let result
@@ -159,5 +165,5 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     process.exit(0)
   }
   writeFileSync(FEEDBACK_PATH, JSON.stringify(result.feedbackFile, null, 2) + '\n')
-  console.log('wrote public/data/feedback.json')
+  console.log(`wrote ${FEEDBACK_PATH}`)
 }

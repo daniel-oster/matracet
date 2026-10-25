@@ -28,7 +28,7 @@ interface Props {
   recipeIndex: RecipeIndexEntry[]
   meals: Meal[]
   dayPlans: DayPlan[]
-  /** The schedule couldn't be loaded (no token / no access): eating windows are unavailable. */
+  /** The private data couldn't be loaded (no token / no access): no schedule, eating windows or eaters. */
   scheduleMissing?: boolean
   onNavigate: (screen: ScreenName) => void
   onOpenRecipe: (slug: string) => void
@@ -68,7 +68,7 @@ export default function Hub({ weekLabel, rollingDays, recipeIndex, meals, dayPla
       <div className="hub-pad">
         {scheduleMissing && (
           <button className="hub-note" onClick={() => onNavigate('hantera')}>
-            Schemat saknas – lägg in token i Hantera appen för att se ätfönster och närvaro.
+            Familjedata saknas – lägg in token i Hantera appen för schema, närvaro och kost.
           </button>
         )}
         {tonight && (

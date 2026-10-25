@@ -24,6 +24,7 @@ import RecipeOverlay from './components/RecipeOverlay'
 import FloatingNav from './components/FloatingNav'
 import { resolvePresenceRange, addDays } from './presence/resolver'
 import { useSchedule } from './hooks/useSchedule'
+import { fetchPrivateJson } from './lib/privateData'
 import type { DayPlan } from './presence/types'
 import { mergeFeedbackBaseline, migrateFeedbackV1 } from './hooks/useFeedback'
 import { useLocalMeals, mergeLocalMeals } from './hooks/useLocalMeals'
@@ -56,8 +57,7 @@ export default function App() {
     return schedule.store && first ? resolvePresenceRange(first, addDays(first, 6), schedule.store) : []
   }, [schedule.store, rollingDays])
   const [historyEntries, setHistoryEntries] = useState<HistoryEntry[]>([])
-  // Set when the boot fetch for the app's two hard-required files (eaters.json,
-  // recipes/_index.json) fails — without this, a failed request left the app stuck on
+  // Set when the boot fetch for the app's hard-required file (recipes/_index.json) fails — without this, a failed request left the app stuck on
   // "Laddar…" forever with no way to recover short of a manual reload. `reloadAttempt`
   // re-runs the boot effect below when the retry button is tapped.
   const [loadError, setLoadError] = useState(false)
@@ -120,28 +120,27 @@ export default function App() {
     const windowDates = Array.from({ length: 7 }, (_, i) => addDays(today, i))
     const weeksNeeded = [...new Set(windowDates.map(getISOWeekString))]
 
-    const weekFetches = weeksNeeded.map(w =>
-      fetchData(`/matracet/data/weeks/${w}.json`)
-        .then(r => r.ok ? r.json() as Promise<WeekMenu> : null)
-        .catch(() => null),
-    )
+    // The household's own files (eaters, ratings, eating log, week menus, task receipts) live in
+    // the private repo livet-data and are fetched with the device's token. No token / no access
+    // / offline-with-no-cache → null, and the app runs on the public data alone (recipes,
+    // meals, offers) — an empty week and no eaters instead of a stuck "Laddar…".
+    const priv = <T,>(path: string): Promise<T | null> => fetchPrivateJson<T>(path).then(r => r.data)
+
+    const weekFetches = weeksNeeded.map(w => priv<WeekMenu>(`matracet/weeks/${w}.json`))
 
     Promise.all([
-      // These two are the only files the app genuinely cannot start without — unlike every
-      // other fetch in this chain, a failure here must surface as a real error state (see
-      // the .catch on the whole Promise.all below), not silently fall back to null.
-      fetchData('/matracet/data/eaters.json').then(r => {
-        if (!r.ok) throw new Error(`eaters.json fetch failed: ${r.status}`)
-        return r.json() as Promise<EatersData>
-      }),
+      // The only file the app genuinely cannot start without — a failure here must surface as a
+      // real error state (see the .catch on the whole Promise.all below), not fall back to null.
+      // (eaters.json used to be the second one; without a token it is now simply empty.)
+      priv<EatersData>('matracet/eaters.json').then(d => d ?? { eaters: [] }),
       fetchData('/matracet/data/recipes/_index.json').then(r => {
         if (!r.ok) throw new Error(`recipes/_index.json fetch failed: ${r.status}`)
         return r.json() as Promise<RecipeIndex>
       }),
       fetchData('/matracet/data/meals.json').then(r => r.ok ? r.json() as Promise<MealsFile> : null).catch(() => null),
-      fetchData('/matracet/data/history.json').then(r => r.ok ? r.json() as Promise<HistoryFile> : null).catch(() => null),
-      fetchData('/matracet/data/feedback.json').then(r => r.ok ? r.json() as Promise<FeedbackFile> : null).catch(() => null),
-      fetchData('/matracet/data/task-log.json').then(r => r.ok ? r.json() as Promise<TaskLogFile> : null).catch(() => null),
+      priv<HistoryFile>('matracet/history.json'),
+      priv<FeedbackFile>('matracet/feedback.json'),
+      priv<TaskLogFile>('matracet/task-log.json'),
       ...weekFetches,
     ]).then(([eatersData, indexData, mealsData, historyData, feedbackData, taskLogData, ...weekResults]: [EatersData, RecipeIndex, MealsFile | null, HistoryFile | null, FeedbackFile | null, TaskLogFile | null, ...(WeekMenu | null)[]]) => {
       setEaters(eatersData)
@@ -163,8 +162,8 @@ export default function App() {
       if (feedbackBaseline) mergeFeedbackBaseline(feedbackBaseline)
 
       // Sync task acknowledgment (see CLAUDE.md's "GitHub-backed auto-sync" Phase 5) — like
-      // the feedback baseline above, task-log.json is a static git-tracked file every device
-      // fetches directly, not something routed through device-sync.
+      // the feedback baseline above, task-log.json is a git-tracked file (in livet-data) every
+      // device fetches directly, not something routed through device-sync.
       if (taskLogData?.entries?.length) {
         for (const entry of taskLogData.entries) applyTaskOutcome(entry)
         pruneSyncTasks(new Set(taskLogData.entries.map(e => e.id)))
@@ -179,7 +178,7 @@ export default function App() {
         }
       }
 
-      // public/data/weeks/*.json is historical free text (see CLAUDE.md's "Week menus"
+      // matracet/weeks/*.json (livet-data) is historical free text (see CLAUDE.md's "Week menus"
       // section) — resolve each day's `recept` name to a mealSlug, without touching those
       // files themselves. See resolveWeekDayMealSlug's own doc comment for why every
       // dish-day must get one, not just meals.json-matched ones.

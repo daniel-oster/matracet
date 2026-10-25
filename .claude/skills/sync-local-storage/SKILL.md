@@ -1,7 +1,12 @@
 ---
 name: sync-local-storage
-description: Merge an exported Matracet localStorage payload (from the app's Hantera appen screen → Manuell export / "⬇ Exportera data" button) into the git-tracked public/data/feedback.json backend, so per-person meal ratings (gillar/ogillar/vägrar) entered on one device become visible on every device. Use whenever the user pastes or uploads a matracet-data-*.json export, or asks to "sync my ratings" / "synka appen".
+description: Merge an exported Matracet localStorage payload (from the app's Hantera appen screen → Manuell export / "⬇ Exportera data" button) into the git-tracked livet-data/matracet/feedback.json backend, so per-person meal ratings (gillar/ogillar/vägrar) entered on one device become visible on every device. Use whenever the user pastes or uploads a matracet-data-*.json export, or asks to "sync my ratings" / "synka appen".
 ---
+
+> **Where the data lives (2026-10):** the household files this skill reads/writes (`eaters`, `feedback`,
+> `history`, `task-log`, `weeks/`) are in the **private** repo `daniel-oster/livet-data` under `matracet/`,
+> not in matracet's `public/data/`. Work in a livet-data checkout (attach the repo to the session) and
+> commit there — no deploy is needed, the app reads those files straight from livet-data.
 
 Matracet has no backend — per-person feedback (`useFeedback`,
 `matracet:feedback:v2`) lives only in the browser's `localStorage`, so it doesn't
@@ -11,7 +16,7 @@ downloads a `matracet-data-<date>.json` file containing **every** `matracet:*`
 localStorage key on that device (see `ExportPayload` — the export is generic, so
 it automatically includes any store added after this skill was written). The
 user pastes or uploads that file's contents here; this skill's job is to fold
-just the feedback entry out of it into `public/data/feedback.json` (the file
+just the feedback entry out of it into `livet-data/matracet/feedback.json` (the file
 `scripts/build-brief.ts` already reads for sentiment + exclusions when
 generating `planning-brief.json`).
 
@@ -65,9 +70,9 @@ recipe slug — if found, use that meal's `slug`; otherwise the recipe's own slu
 *is* the meal id (its virtual meal). Proceed with the merge below using that
 resolved meal id in place of the raw `recipeId`.
 
-## 2. Merge into public/data/feedback.json — per (meal, person), not whole-file overwrite
+## 2. Merge into livet-data/matracet/feedback.json — per (meal, person), not whole-file overwrite
 
-Read the current `public/data/feedback.json` (shape: `{ app, version, feedback }`,
+Read the current `livet-data/matracet/feedback.json` (shape: `{ app, version, feedback }`,
 or occasionally a bare feedback map — see its own `_om` field). This file already
 holds ratings synced in from *other* devices/sessions, so **never replace it
 wholesale with the pasted export** — that would silently erase every rating the
@@ -93,7 +98,7 @@ asked to, or if the schema itself changes again).
 
 ## 3. Refresh the derived brief
 
-`public/data/feedback.json` feeds `scripts/build-brief.ts`. After merging, run:
+`livet-data/matracet/feedback.json` feeds `scripts/build-brief.ts`. After merging, run:
 
 ```bash
 npm run brief

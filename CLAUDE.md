@@ -2552,6 +2552,13 @@ asking for a meal, no eating window), and Hub shows a `.hub-note` pointing to Ha
   `scripts/lib/push-send.mjs`, shared with `scripts/send-push.mjs`. Verified end-to-end against a
   local https server posing as the push service (`NODE_TLS_REJECT_UNAUTHORIZED=0`, random VAPID key).
   The job itself is `notiser.yml` in livet-data (next PR there).
+- **Household files moved too (2026-10)**: `eaters.json`, `feedback.json`, `history.json`,
+  `task-log.json` and `weeks/` are in `livet-data/matracet/`, fetched in `App.tsx` with
+  `fetchPrivateJson` (the `priv` helper). Without a token the app boots on the public data only (no eaters,
+  empty weeks, no schedule; Hub shows `.hub-note`) instead of sticking on "Laddar…". Anything that used
+  `public/data/{eaters,history,feedback,task-log}.json` or `weeks/` now reads `LIVET_DATA_DIR/matracet/…`
+  (`build-brief.ts`) or `FEEDBACK_FILE` (`merge-device-sync.mjs`, run by `merge-device-sync.yml` in
+  livet-data, still manual-dispatch only). Skills point at livet-data. Tests must not read household files.
 - Spec and build order: `docs/laget-spec-2026-10.md`.
 
 ## Deploy
