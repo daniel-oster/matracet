@@ -2514,6 +2514,12 @@ asking for a meal, no eating window), and Hub shows a `.hub-note` pointing to Ha
   ids/labels, same anchors/handovers/times) that resolver and activities tests run against.
 - `scripts/build-brief.ts` needs `LIVET_DATA_DIR=/path/to/livet-data`. `scripts/presence-check.ts`
   was already broken (imported the deleted Side B module) and was removed.
+- `scripts/verify-schedule.ts <livet-data-dir>` validates `schema.json`/`perioder.json`
+  (`src/presence/validate.ts`) and compares every day up to `data/schema.golden.json`'s `through`
+  date against a snapshot — run by `verifiera-schema.yml` in livet-data, and **run it by hand
+  whenever you touch `resolver.ts`** (it is the only check that sees the real schedule). The golden
+  is a snapshot, not an oracle: it catches that a past day *changed*, not that it was right;
+  `--update-golden` is for deliberate corrections only.
 - Spec and build order: `docs/laget-spec-2026-10.md`.
 
 ## Deploy
