@@ -1,7 +1,7 @@
 {
   "version": 1,
   "deviceId": "c5a20af2-5085-4fb5-bec6-5f1afe465f9e",
-  "updatedAt": "2026-10-25T09:26:31.937Z",
+  "updatedAt": "2026-10-25T09:26:48.155Z",
   "stores": {
     "matracet:category-feedback:v1": {
       "updatedAt": "1970-01-01T00:00:00.000Z",
@@ -233,7 +233,7 @@
       }
     },
     "matracet:shopping:v1": {
-      "updatedAt": "2026-10-25T09:26:31.937Z",
+      "updatedAt": "2026-10-25T09:26:48.155Z",
       "data": {
         "removedIds": [
           "ing:kycklingfilé, tärnad|g",
@@ -857,6 +857,15 @@
               "store": "willys",
               "week": "2026-W43"
             }
+          },
+          {
+            "id": "manual:1792920408155:yv331",
+            "vara": "Mozzarella",
+            "addedAt": "2026-10-25T09:26:48.155Z",
+            "offerRef": {
+              "store": "hemkop",
+              "week": "2026-W43"
+            }
           }
         ],
         "history": [
@@ -933,7 +942,8 @@
           "manual:1792920357777:ijgd4": "ica",
           "manual:1792920373164:d08dm": "ica",
           "manual:1792920382538:b31tg": "hemkop",
-          "manual:1792920391937:z36ce": "willys"
+          "manual:1792920391937:z36ce": "willys",
+          "manual:1792920408155:yv331": "hemkop"
         }
       }
     },
