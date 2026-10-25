@@ -1,11 +1,12 @@
 name: Testnotis
 
 # Sends a "Testnotis" to every phone in push-subscriptions.json. Runs when that file
-# changes (i.e. right after a new phone is connected) and on manual dispatch.
+# changes (i.e. right after a new phone is connected), when the sender script or this
+# workflow changes, and on manual dispatch.
 on:
   push:
     branches: [main]
-    paths: [push-subscriptions.json]
+    paths: [push-subscriptions.json, scripts/send-push.mjs, .github/workflows/push-test.yml]
   workflow_dispatch: {}
 
 permissions:
