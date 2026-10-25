@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "slug": "vitkalsgratang",
+  "nummer": 136,
+  "namn": "Vitkålsgratäng med färskost",
+  "tid_min": 45,
+  "portioner": 4,
+  "kategorier": ["vegetarisk", "glutenfri"],
+  "sasong": ["host", "vinter"],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": ["gratäng", "vitkål", "ost", "lchf"],
+  "kalla": "Lesscarbs.se",
+  "dagkedja": null,
+  "ingredienser": [
+    { "vara": "vitkål", "mangd": 400, "enhet": "g" },
+    { "vara": "gul lök", "mangd": 2, "enhet": "st" },
+    { "vara": "vitlöksklyftor", "mangd": 2, "enhet": "st" },
+    { "vara": "smör", "mangd": 2, "enhet": "msk" },
+    { "vara": "vispgrädde", "mangd": 2, "enhet": "dl" },
+    { "vara": "färskost (cream cheese)", "mangd": 200, "enhet": "g" },
+    { "vara": "Herbamare örtsalt", "mangd": 1, "enhet": "tsk" },
+    { "vara": "svartpeppar", "mangd": null, "enhet": null },
+    { "vara": "riven lagrad ost", "mangd": 1, "enhet": "dl" }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Sätt ugnen på 200 grader (ca 175 grader varmluft).",
+    "Hacka eller strimla vitkålen, skiva löken och hacka 1–2 vitlöksklyftor.",
+    "Stek kål och lök mjukt i smör. Lägg i vitlöken i slutet så att den inte bränns – då smakar den beskt.",
+    "Blanda grädde, färskost, svartpeppar och ½–1 tsk örtsalt.",
+    "Blanda kålen med gräddblandningen i en ugnsform och strö över den rivna osten.",
+    "Gratinera i ugnen ca 20–30 minuter tills osten fått fin färg."
+  ],
+  "tips": "Mejerierna går att byta mot motsvarande mjölkfria alternativ.",
+  "komplett": true
+}
