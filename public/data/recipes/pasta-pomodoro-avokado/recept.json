@@ -19,8 +19,8 @@
     { "vara": "olivolja", "mangd": 2, "enhet": "msk" },
     { "vara": "färsk basilika", "mangd": 1, "enhet": "kruka" },
     { "vara": "salt och peppar", "mangd": 1, "enhet": "tsk" },
-    { "vara": "avokado", "mangd": 2, "enhet": "st", "grupp": "Tillval: Daniel & Sarah" },
-    { "vara": "grillkorv", "mangd": 4, "enhet": "st", "grupp": "Tillval: Daniel & Sarah" }
+    { "vara": "avokado", "mangd": 2, "enhet": "st", "grupp": "Tillval" },
+    { "vara": "grillkorv", "mangd": 4, "enhet": "st", "grupp": "Tillval" }
   ],
   "varianter": {},
   "instruktioner": [
@@ -28,7 +28,7 @@
     "Fräs finhackad vitlök i olivolja på medelvärme någon minut. Häll i krossade tomater, salta och peppra, låt puttra 10 minuter.",
     "Grilla eller stek grillkorven samtidigt och skiva upp den, om den ska användas.",
     "Blanda den varma pastan med tomatsåsen.",
-    "Toppa Daniels och Sarahs portioner med skivad avokado och grillkorv — Annabelle kör tomatsåsen rak av."
+    "Toppa de portioner som vill ha det med skivad avokado och grillkorv — resten kör tomatsåsen rak."
   ],
   "servering": ["färsk basilika"],
   "komplett": true

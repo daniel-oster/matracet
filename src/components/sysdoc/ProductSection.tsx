@@ -9,7 +9,7 @@ export default function ProductSection() {
       {/* ── Bakgrund ─────────────────────────────────────────────────────── */}
       <h3>Bakgrund</h3>
       <p style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.7, marginBottom: 16 }}>
-        Daniel vill bygga <strong style={{ color: 'var(--text)' }}>Life - as it should be</strong> — en app
+        Utvecklaren vill bygga <strong style={{ color: 'var(--text)' }}>Life - as it should be</strong> — en app
         som hjälper med det praktiska i livet. Matplanering valdes som första domän eftersom det är där han
         sliter mest. Hushållet har tre ätare med olika kostbehov som måste hanteras varje dag:
       </p>
@@ -20,26 +20,26 @@ export default function ProductSection() {
         </thead>
         <tbody>
           <tr>
-            <td><strong>Daniel</strong></td>
+            <td><strong>Vuxen A</strong></td>
             <td><span style={{ color: 'var(--muted)', fontSize: 12 }}>Förälder</span></td>
             <td>Lågt natrium, högt blodtryck</td>
             <td>Svamp, fisk, starka smaker</td>
           </tr>
           <tr>
-            <td><strong>Sarah</strong></td>
-            <td><span style={{ color: 'var(--muted)', fontSize: 12 }}>Dotter · 15 år</span></td>
+            <td><strong>Barn A</strong></td>
+            <td><span style={{ color: 'var(--muted)', fontSize: 12 }}>Barn</span></td>
             <td>—</td>
             <td>Pasta, curry, avokado</td>
           </tr>
           <tr>
-            <td><strong>Annabelle</strong></td>
-            <td><span style={{ color: 'var(--muted)', fontSize: 12 }}>Dotter · 11 år</span></td>
+            <td><strong>Barn B</strong></td>
+            <td><span style={{ color: 'var(--muted)', fontSize: 12 }}>Barn</span></td>
             <td>Vegan</td>
             <td>Vegansk mat, pasta</td>
           </tr>
           <tr>
-            <td><strong>Erika</strong></td>
-            <td><span style={{ color: 'var(--muted)', fontSize: 12 }}>Daniels flickvän</span></td>
+            <td><strong>Vuxen B</strong></td>
+            <td><span style={{ color: 'var(--muted)', fontSize: 12 }}>Vuxen</span></td>
             <td>—</td>
             <td>—</td>
           </tr>
@@ -50,7 +50,7 @@ export default function ProductSection() {
       <h3>Filosofi — Personal MVP</h3>
       <p style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.7, marginBottom: 12 }}>
         Detta är <strong style={{ color: 'var(--text)' }}>inte en kommersiell produkt</strong> — i alla fall
-        inte än. Appen byggs för Daniels familj först, och bli kommersiell produkt enbart om värdet bevisas
+        inte än. Appen byggs för Vuxen A:s familj först, och bli kommersiell produkt enbart om värdet bevisas
         i hans eget liv.
       </p>
 

@@ -84,7 +84,7 @@ Add one entry to `livet-data/matracet/history.json`'s `entries` array (schema in
   "mealSlug": "hamburgare",       // or null — see step 2
   "beskrivning": "Grillburgare med sallad",
   "kalla": "spontant",
-  "narvarande": ["daniel", "sarah"],
+  "narvarande": ["vuxen-a", "barn-a"],
   "anteckning": null,               // optional extra context
   "loggad": "<now, ISO timestamp>"
 }

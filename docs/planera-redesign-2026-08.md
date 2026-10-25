@@ -52,7 +52,7 @@ normal mode (days first) were always two ends of the same activity. The redesign
   unslotted week of 10 pool entries = old chaos mode. A fully slotted one = old week mode. Most
   real weeks are in between.
 - **Constraints roll up from slots to the pool level**: "3 of your remaining 4 slots include
-  Annabelle → you need ≥3 vegan-compatible meals" (via the existing `evaluateFit`), "Monday
+  Barn B → you need ≥3 vegan-compatible meals" (via the existing `evaluateFit`), "Monday
   dinner is flagged ⚡ kort om tid → you need a fast meal" (new per-slot manual flag — there's no
   activity data source, so 'short evening' is a one-tap flag the user sets on a slot, same tier
   as the attendance override).

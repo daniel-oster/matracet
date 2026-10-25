@@ -597,7 +597,7 @@
         pengarna ska räcka, hälsan ska hänga med — och morgonen ändå måste hinnas.
       </p>
       <div class="meta">
-        <span>Författare<strong>Daniel</strong></span>
+        <span>Författare<strong>Utvecklaren</strong></span>
         <span>Sambruk<strong>Claude (Opus 4.7)</strong></span>
         <span>Status<strong>Tidigt utkast</strong></span>
         <span>Mål<strong>Hitta MVP-scopet</strong></span>
@@ -647,7 +647,7 @@
         <div class="persona-icon">P</div>
         <div>
           <h4>Primär: Föräldern med blandade matpreferenser</h4>
-          <div class="persona-role">Drivande användare · "Daniel-personan"</div>
+          <div class="persona-role">Drivande användare · "Utvecklar-personan"</div>
           <p>
             Barnfamilj där två eller fler personer äter olika (vegan / "vanligt" / allergier /
             hälsokrav). Har egen hälsofråga (t.ex. blodtryck). Tycker om mat men har slut på
@@ -710,7 +710,7 @@
       <h2><span class="num">04</span>Personal MVP-filosofi</h2>
       <p class="section-intro">
         Det här är en omtag av hela MVP-tanken. Istället för att bygga en produkt för marknaden
-        bygger vi <em>en app för Daniels familj först</em>. Den ska vara körbar inom dagar, inte månader,
+        bygger vi <em>en app för Vuxen A:s familj först</em>. Den ska vara körbar inom dagar, inte månader,
         och kosta noll i månaden att underhålla. Marknadsversionen kommer senare — om den kommer alls.
       </p>
 
@@ -766,7 +766,7 @@
 
       <div class="callout callout-note">
         <strong>Observation:</strong> Det här upplägget förutsätter att utvecklaren är bekväm med
-        utvecklingsmiljön (Daniel: tick), att innehållet inte är externt beroende från dag ett
+        utvecklingsmiljön (utvecklaren: tick), att innehållet inte är externt beroende från dag ett
         (vi har egna recept att börja med), och att det är okej att ingen annan kan använda appen
         innan vi bestämmer att det är dags. Inget av detta är problem här.
       </div>
@@ -848,7 +848,7 @@ man pratar bort dagen.
     {
       "dag": "mandag",
       "recept": "svamprisotto",
-      "kommentar": "Sarah har träning kl 18"
+      "kommentar": "Barn A har träning kl 18"
     },
     {
       "dag": "tisdag",
@@ -885,7 +885,7 @@ man pratar bort dagen.
 │   │       ├── recept.md
 │   │       ├── bild.jpg
 │   │       └── steg-3.jpg          ← framtida möjlighet
-│   ├── eaters.json                  ← Daniel, Sarah, andra barnet
+│   ├── eaters.json                  ← Vuxen A, Barn A, andra barnet
 │   ├── pantry.json                  ← "saker jag alltid har hemma"
 │   ├── weeks/
 │   │   ├── 2026-W21.json
@@ -957,8 +957,8 @@ man pratar bort dagen.
         </div>
         <div class="feature-body"><div class="feature-content">
           <p>
-            Användaren anger antal personer, vilka som äter vad (t.ex. "Sarah = vegan",
-            "Daniel = lågt natrium"), antal middagar att planera (5? 7?), och hur mycket tid
+            Användaren anger antal personer, vilka som äter vad (t.ex. "Barn A = vegan",
+            "Vuxen A = lågt natrium"), antal middagar att planera (5? 7?), och hur mycket tid
             som finns på vardagar kontra helger.
           </p>
           <p>
@@ -1246,7 +1246,7 @@ man pratar bort dagen.
         </div>
         <div class="feature-body"><div class="feature-content">
           <p>
-            Importera kalender. Tisdagar har Sarah träning kl. 18 — då föreslår appen en
+            Importera kalender. Tisdagar har Barn A träning kl. 18 — då föreslår appen en
             snabb middag (max 25 min). Söndagar är hemma — gott om tid till ugnsgryta.
           </p>
           <p><strong>Varför V2:</strong> Enorm kvalitetsskillnad när det funkar, men kräver att veckomenyn redan funkar bra.</p>
@@ -1424,7 +1424,7 @@ man pratar bort dagen.
       <div class="callout callout-risk">
         <strong>Risk 4 — Optimeringsproblemet är inte tekniskt, det är socialt.</strong> Mat handlar
         om humör, vana, kultur, minnen. "Optimal" mat enligt en algoritm kan vara helt fel
-        för en stressig tisdag när Sarah har haft en jobbig dag och bara vill ha pasta.
+        för en stressig tisdag när Barn A har haft en jobbig dag och bara vill ha pasta.
         Appen får aldrig kännas som en diktator.
       </div>
 
@@ -1439,7 +1439,7 @@ man pratar bort dagen.
       <div class="callout callout-risk">
         <strong>Risk 6 — GDPR &amp; familjedata.</strong> Hälsouppgifter (blodtryck, allergier) är
         känsliga personuppgifter enligt GDPR Art. 9. Information om barn har extra skydd.
-        Att lagra "Sarah, 14, vegan, gluten" kräver tydligt samtycke och ändamål.
+        Att lagra "ett barn, 14, med kostkrav" kräver tydligt samtycke och ändamål.
         Lokal datalagring (allt på enheten) är den enklaste vägen tidigt — undvik moln-sync i MVP.
       </div>
     </section>
