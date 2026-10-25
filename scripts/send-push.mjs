@@ -19,7 +19,9 @@ import webpush from 'web-push';
 
 const ROOT = new URL('..', import.meta.url).pathname;
 const PUBLIC_KEY = readFileSync(new URL('../src/lib/push.ts', import.meta.url), 'utf8').match(/'(B[\w-]{80,})'/)?.[1];
-const privateKey = process.env.VAPID_PRIVATE_KEY;
+// Tolerate what a pasted GitHub secret usually picks up: whitespace/newlines and wrapping
+// quotes or backticks. A real VAPID private key is 43 base64url chars (32 bytes).
+const privateKey = (process.env.VAPID_PRIVATE_KEY ?? '').replace(/\s+/g, '').replace(/^[`'"]+|[`'"]+$/g, '');
 
 const arg = process.argv[2];
 if (!arg) {
@@ -31,6 +33,11 @@ if (!privateKey) {
   process.exit(0);
 }
 if (!PUBLIC_KEY) throw new Error('Hittade inte VAPID_PUBLIC_KEY i src/lib/push.ts');
+if (Buffer.from(privateKey, 'base64url').length !== 32) {
+  // Never print the key itself — only enough to tell a truncated paste from an extra one.
+  console.error(`VAPID_PRIVATE_KEY har fel längd (${privateKey.length} tecken, väntat 43). Klistra in den igen i repots Actions-secrets.`);
+  process.exit(1);
+}
 
 const payload =
   arg === '--test'
