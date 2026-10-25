@@ -1,5 +1,11 @@
 name: Merge device-sync into main
 
+# OUT OF DATE (2026-10): the device-sync branch now lives in the private repo
+# daniel-oster/livet-data (matracet/sync/state.json), not here, so this workflow finds no
+# branch and no-ops. It has never been dispatched for real. It moves to livet-data together
+# with feedback.json in the follow-up that moves Matracet's household files (see
+# docs/laget-spec-2026-10.md, "Matracets privata data flyttar också").
+
 # Phase 4 of the GitHub-backed auto-sync plan — see CLAUDE.md's "GitHub-backed auto-sync"
 # section. Deliberately workflow_dispatch-only for now, no `schedule:` trigger: the plan's
 # own Phase 4 critique gate requires the first live run to be a manual dispatch with the

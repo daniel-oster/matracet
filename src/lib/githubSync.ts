@@ -1,16 +1,18 @@
 // GitHub-backed auto-sync — Phase 1: pure client for the GitHub Contents API.
+// The snapshot lives in the PRIVATE data repo (daniel-oster/livet-data) since 2026-10 —
+// it holds ratings, attendance exceptions and the shopping list, which must not be public.
 // See CLAUDE.md's "Plan: GitHub-backed auto-sync" for the full architecture.
 //
 // This module only talks to GitHub. It knows nothing about which localStorage
 // stores get synced, debouncing, or UI — that's Phase 2/3. Snapshot semantics:
-// sync/state.json on the `device-sync` branch always holds the full current
+// matracet/sync/state.json on the `device-sync` branch always holds the full current
 // value of each synced store, last-write-wins (single-device-writer assumption
 // — no diffing, no CRDTs).
 
 const REPO_OWNER = 'daniel-oster'
-const REPO_NAME = 'matracet'
+const REPO_NAME = 'livet-data'
 const SYNC_BRANCH = 'device-sync'
-const SYNC_PATH = 'sync/state.json'
+const SYNC_PATH = 'matracet/sync/state.json'
 const TOKEN_KEY = 'matracet:sync:token'
 const API_BASE = 'https://api.github.com'
 
