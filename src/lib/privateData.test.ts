@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { setToken } from './githubSync'
-import { clearPrivateCache, fetchPrivateJson, listPrivateDir, updatePrivateJson } from './privateData'
+import { clearPrivateCache, createPrivateFile, fetchPrivateJson, listPrivateDir, updatePrivateJson } from './privateData'
 
 class MemoryStorage {
   private store = new Map<string, string>()
@@ -217,6 +217,32 @@ describe('listPrivateDir', () => {
   })
   it('does nothing without a token', async () => {
     expect(await listPrivateDir('inkorg')).toEqual({ status: 'no-token', names: [] })
+    expect(fetchMock).not.toHaveBeenCalled()
+  })
+})
+
+describe('createPrivateFile', () => {
+  it('PUTs the base64 content as-is, without reading the file first', async () => {
+    setToken('tok')
+    fetchMock.mockResolvedValueOnce(res(201, {}))
+    expect(await createPrivateFile('inkorg/bilder/i-1.jpg', 'QUJD', 'foto')).toBe('ok')
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+    const [url, init] = fetchMock.mock.calls[0]
+    expect(url).toBe('https://api.github.com/repos/daniel-oster/livet-data/contents/inkorg/bilder/i-1.jpg')
+    expect(init.method).toBe('PUT')
+    expect(JSON.parse(init.body)).toEqual({ message: 'foto', content: 'QUJD' })
+  })
+  it('counts an already existing photo as done, and maps auth and network failures', async () => {
+    setToken('tok')
+    fetchMock.mockResolvedValueOnce(res(422))
+    expect(await createPrivateFile('inkorg/bilder/i-1.jpg', 'QUJD', 'foto')).toBe('ok')
+    fetchMock.mockResolvedValueOnce(res(403))
+    expect(await createPrivateFile('inkorg/bilder/i-1.jpg', 'QUJD', 'foto')).toBe('unauthorized')
+    fetchMock.mockRejectedValueOnce(new TypeError('offline'))
+    expect(await createPrivateFile('inkorg/bilder/i-1.jpg', 'QUJD', 'foto')).toBe('network')
+  })
+  it('does nothing without a token', async () => {
+    expect(await createPrivateFile('inkorg/bilder/i-1.jpg', 'QUJD', 'foto')).toBe('no-token')
     expect(fetchMock).not.toHaveBeenCalled()
   })
 })

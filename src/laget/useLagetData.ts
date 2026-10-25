@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { fetchPrivateJson, listPrivateDir, updatePrivateJson, type PrivateStatus } from '../lib/privateData'
+import { createPrivateFile, fetchPrivateJson, listPrivateDir, updatePrivateJson, type PrivateStatus } from '../lib/privateData'
 import { latestMessages, newMessage, type InkorgMeddelande } from './inkorg'
 import type { LagetData, KlartMap, LagetEvent, Todo } from './types'
 import type { Period, PresenceStore } from '../presence/types'
@@ -171,9 +171,14 @@ export function useLagetData(): LagetState {
     return null
   }, [load])
 
-  const sendMessage = useCallback(async (text: string): Promise<string | null> => {
-    const msg = newMessage(text, new Date())
+  const sendMessage = useCallback(async (text: string, photoBase64?: string): Promise<string | null> => {
+    const msg = newMessage(text, new Date(), undefined, !!photoBase64)
     if (!msg) return text.trim() ? 'Meddelandet är för långt.' : 'Skriv något först.'
+    // The photo goes first: the message file is what wakes the routine, and by then the photo must exist.
+    if (photoBase64 && msg.image) {
+      const up = await createPrivateFile(msg.image, photoBase64, 'Läget: foto till meddelande')
+      if (up !== 'ok') return up === 'no-token' || up === 'unauthorized' ? 'Token saknar skrivrätt till livet-data.' : 'Kunde inte skicka bilden – försök igen.'
+    }
     // Show it at once; the real file arrives with the next read.
     setInbox(prev => latestMessages([msg, ...prev]))
     const result = await updatePrivateJson<InkorgMeddelande>(`inkorg/${msg.id}.json`, current => current ?? msg, 'Läget: nytt meddelande')

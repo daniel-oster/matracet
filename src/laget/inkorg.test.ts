@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { MAX_TEXT, latestMessages, newMessage, newMessageId, staleNew, statusLine, type InkorgMeddelande } from './inkorg'
+import { MAX_IMAGE_SIDE, MAX_TEXT, PHOTO_ONLY_TEXT, imagePath, latestMessages, scaledSize, newMessage, newMessageId, staleNew, statusLine, type InkorgMeddelande } from './inkorg'
 
 const m = (over: Partial<InkorgMeddelande>): InkorgMeddelande => ({ id: 'i-20261025-0931-x7k', sent: '2026-10-25T08:31:12.000Z', text: 'hej', status: 'ny', ...over })
 
@@ -27,6 +27,37 @@ describe('newMessage', () => {
     expect(newMessage('   ', new Date())).toBeNull()
     expect(newMessage('x'.repeat(MAX_TEXT + 1), new Date())).toBeNull()
     expect(newMessage('x'.repeat(MAX_TEXT), new Date())).not.toBeNull()
+  })
+})
+
+describe('a message with a photo', () => {
+  const now = new Date('2026-10-25T08:31:12Z')
+  it('points at inkorg/bilder/<id>.jpg — a subfolder, so the inbox listing and the job ignore the photo itself', () => {
+    const msg = newMessage('veckobrevet', now, () => 0, true)
+    expect(msg?.image).toBe('inkorg/bilder/i-20261025-0931-aaa.jpg')
+    expect(imagePath('i-1')).toBe('inkorg/bilder/i-1.jpg')
+    expect(imagePath('i-1')).not.toMatch(/^inkorg\/[^/]+\.json$/)
+  })
+  it('lets a photo stand without words, but still refuses an empty message without one', () => {
+    expect(newMessage('  ', now, () => 0, true)?.text).toBe(PHOTO_ONLY_TEXT)
+    expect(newMessage('  ', now, () => 0, false)).toBeNull()
+  })
+  it('has no image field without a photo (keeps old messages byte-identical)', () => {
+    expect(newMessage('hej', now, () => 0)).not.toHaveProperty('image')
+  })
+  it('marks the photo in the answer line while waiting', () => {
+    expect(statusLine(m({ image: 'inkorg/bilder/x.jpg', text: 'veckobrev' }))).toBe('Skickat: 📷 veckobrev')
+  })
+})
+
+describe('scaledSize', () => {
+  it('shrinks the longer side to the limit and keeps the ratio', () => {
+    expect(scaledSize(3200, 2400)).toEqual({ width: MAX_IMAGE_SIDE, height: 1200 })
+    expect(scaledSize(2400, 3200)).toEqual({ width: 1200, height: MAX_IMAGE_SIDE })
+  })
+  it('never scales a small photo up', () => {
+    expect(scaledSize(800, 600)).toEqual({ width: 800, height: 600 })
+    expect(scaledSize(MAX_IMAGE_SIDE, 100)).toEqual({ width: MAX_IMAGE_SIDE, height: 100 })
   })
 })
 

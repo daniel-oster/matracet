@@ -109,3 +109,8 @@ a.laget-tile { color: var(--ink); background: var(--paper); border: 1px solid va
 }
 .laget-inkorg-done { margin-top: 8px; font-size: 13px; color: var(--sub); }
 .laget-inkorg-done summary { cursor: pointer; }
+.laget-inkorg-photo { margin-top: 6px; }
+.laget-photo-add { background: none; border: 1px dashed var(--line2); color: var(--sub); border-radius: 8px; padding: 6px 10px; font: inherit; font-size: 14px; }
+.laget-photo-chosen { display: inline-flex; align-items: flex-start; gap: 6px; }
+.laget-photo-chosen img { height: 64px; border-radius: 6px; border: 1px solid var(--line); }
+.laget-photo-chosen button { background: none; border: none; font-size: 16px; color: var(--sub); padding: 0 4px; }
