@@ -101,3 +101,9 @@ a.laget-tile { color: var(--ink); background: var(--paper); border: 1px solid va
 .laget-reply--klar { color: var(--green-d); }
 .laget-reply--oklar { color: var(--gold); }
 .laget-reply--fel { color: var(--red); }
+
+/* Installed on the home screen, iOS draws the page edge-to-edge under the status bar and does not
+   always report a safe-area inset for a standalone web app — keep the header clear of the clock. */
+@media (display-mode: standalone) {
+  .laget { padding-top: max(env(safe-area-inset-top), 50px); }
+}
