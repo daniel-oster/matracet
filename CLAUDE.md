@@ -2489,8 +2489,11 @@ one step of its "Byggordning" at a time. Decisions already made there, so don't 
 name is **Läget**; two home-screen icons for now (own manifest/scope/service worker, same
 codebase); the app *is* the calendar (no ICS feed for now; keep Cloudflare out of it);
 Claude only runs on free-text input, via a Claude Code routine fired from a GitHub Action.
-Sensitive data (schedule, events, inbox) goes in a separate **private** data repo, never here —
-this repo is public.
+Sensitive data (schedule, events, inbox) goes in a separate **private** data repo,
+`daniel-oster/livet-data`, never here — this repo is public. **This reverses the 2026-07
+"Repo visibility: decided, staying public" note below**: device-sync and Matracet's household
+files (feedback, history, eaters, weeks, task-log) move to `livet-data` too — see the spec's
+"Integritet" section for the full list and the order to do it in.
 
 ## Deploy
 

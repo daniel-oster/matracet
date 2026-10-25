@@ -18,7 +18,7 @@ Fyra principer styr bygget:
 Beslut som återstår:
 
 - [x] Namn på modulen: Läget.
-- [ ] Data i ett nytt privat repo, eller kvar i det publika matracet-repot. Rekommendation: privat repo, se Integritet.
+- [x] Data i ett privat repo, livet-data, både för Läget och för Matracets privata del.
 - [x] Två ikoner tills vidare: Läget och Matracet som separata hemskärmsappar, med en länk från Läget till Matracet.
 - [ ] Vilka telefoner i hushållet ska se Läget? Varje enhet behöver då en egen token.
 
@@ -264,6 +264,34 @@ Så fungerar det med ett privat datarepo:
 - **Actions-minuterna** räknas i det privata repot, se Notiser.
 - **Historiken** i det publika repot behåller det gamla schemat. Att skriva om historiken är frivilligt och kan vänta.
 
+**Matracets privata data flyttar också.** Appens synk är det mest personliga i hela upplägget: veckoplan, närvaroundantag, inköpslista och betyg. Den uppdateras några sekunder efter varje ändring och syns i dag för alla på grenen `device-sync` i det publika repot. Den flyttar till livet-data, tillsammans med de filer i `public/data/` som handlar om familjen. Det ändrar beslutet från juli att låta repot vara publikt.
+
+| Vad | I dag (publikt) | Sedan (livet-data) |
+| --- | --- | --- |
+| Appens synk | grenen `device-sync`, `sync/state.json` | grenen `device-sync`, `matracet/sync/state.json` |
+| Betyg | `public/data/feedback.json` | `matracet/feedback.json` |
+| Ätit-logg | `public/data/history.json` | `matracet/history.json` |
+| Personer, kost och hälsa | `public/data/eaters.json` | `matracet/eaters.json` |
+| Veckomenyer med resor och kalas | `public/data/weeks/` | `matracet/weeks/` |
+| Kvitton på synkuppgifter | `public/data/task-log.json` | `matracet/task-log.json` |
+
+Kvar i det publika repot: recept, `meals.json`, `pantry.json`, erbjudanden och nyheter. Personuppgifterna i `docs/README.md` stryks ur texten.
+
+```
+livet-data/
+├── data/       schema, perioder och Lägets filer
+├── inkorg/     Lägets inkorg
+└── matracet/   Matracets privata filer
+```
+
+Följderna:
+
+- Synken behåller en egen gren, så att telefonens täta commits inte fyller `main`.
+- `merge-device-sync.yml` och skillarna `run-sync-tasks`, `log-meal` och `sync-local-storage` pekas om till livet-data. `build-brief.ts` läser därifrån.
+- Utan token visar Matracet bara det publika: recept, måltider och erbjudanden. Planering med familjens data kräver token.
+- När synken har flyttat behöver app-token inte längre skrivrätt på matracet.
+- Radera den publika grenen `device-sync` efter flytten. Gamla commits kan finnas kvar en tid via sin hash, så det som redan har legat ute får räknas som läckt.
+
 Inget kalenderflöde byggs från början. Behövs det senare är vägen inom GitHub en hemlig gist som en Action skriver, med magert innehåll: titel, tid och initialer. Gist-id:t går inte att gissa, men alla som har adressen kan läsa den.
 
 ## Hemligheter och nycklar
@@ -285,8 +313,7 @@ flowchart LR
   end
   P["Lösenordshanterare<br/>original: VAPID-nyckeln<br/>kopia av app-token"]
   L -- anrop med app-token --> LD
-  M -- läser schemat --> LD
-  M -- synk --> MR
+  M -- läser schemat och synkar --> LD
   R -. klistras in en gång .-> LD
   P -. klistras in en gång .-> LD
   P -. klistras in en gång .-> MR
@@ -296,7 +323,7 @@ Heldragna pilar är anrop som sker hela tiden. Streckade pilar är kopior du gö
 
 | Hemlighet | Var den ligger | Används av | Steg |
 | --- | --- | --- | --- |
-| App-token (finkornig, Contents läs och skriv på matracet och livet-data) | I varje app på telefonen, kopia i lösenordshanteraren | Läget och Matracet, för att läsa och skriva data | 1 |
+| App-token (finkornig, Contents läs och skriv på livet-data, och på matracet bara tills synken har flyttats) | I varje app på telefonen, kopia i lösenordshanteraren | Läget och Matracet, för att läsa och skriva data | 1 |
 | `VAPID_PRIVATE_KEY` | Actions-secret i matracet och livet-data, original i lösenordshanteraren | `notiser.yml` och Matracets erbjudandenotiser | 1 |
 | `LAGET_ROUTINE_URL` | Actions-secret i livet-data | `inkorg.yml` | 2 |
 | `LAGET_ROUTINE_TOKEN` | Actions-secret i livet-data, skapas i claude.ai | `inkorg.yml`, för anropet till `/fire` | 2 |
@@ -305,17 +332,17 @@ GitHub visar aldrig en sparad secret igen, och routinens token visas bara en gå
 
 **Steg 1, innan bygget börjar**
 
-- [ ] Skapa `livet-data` som privat repo, med en README så att `main` finns.
-- [ ] Ge Claude åtkomst: GitHub → Settings → Applications → Installed GitHub Apps → Claude → Configure, och lägg till `livet-data`.
+- [x] Skapa `livet-data` som privat repo, med en README så att `main` finns.
+- [x] Ge Claude åtkomst: GitHub → Settings → Applications → Installed GitHub Apps → Claude → Configure, och lägg till `livet-data`.
 - [ ] Lägg VAPID-nyckeln i lösenordshanteraren om den inte redan ligger där. Saknas den måste ett nytt nyckelpar skapas, och alla telefoner slår på notiser igen.
-- [ ] I `livet-data`: Settings → Secrets and variables → Actions → New repository secret, med namnet `VAPID_PRIVATE_KEY`.
-- [ ] Redigera din finkorniga token (Settings → Developer settings → Personal access tokens → Fine-grained tokens): lägg till `livet-data` med Contents läs och skriv.
-- [ ] Lägg en påminnelse en vecka före tokenens utgångsdatum.
+- [x] I `livet-data`: Settings → Secrets and variables → Actions → New repository secret, med namnet `VAPID_PRIVATE_KEY`.
+- [x] Redigera din finkorniga token (Settings → Developer settings → Personal access tokens → Fine-grained tokens): lägg till `livet-data` med Contents läs och skriv.
+- [x] Lägg en påminnelse en vecka före tokenens utgångsdatum.
 
 **Steg 2, när inkorgen byggs**
 
-- [ ] Skapa routinen "Läget-inkorg" på claude.ai/code/routines, med repot `livet-data` och prompten från avsnittet om inkorgen.
-- [ ] Lägg till en API-trigger, kopiera URL:en och generera token. Spara båda i lösenordshanteraren direkt.
+- [ ] Claude skapar routinen "Läget-inkorg" åt dig när inkorgen byggs, med repot `livet-data` och prompten från avsnittet om inkorgen.
+- [ ] Du lägger till API-triggern på claude.ai/code/routines (Edit → Add another trigger → API), kopierar URL:en och trycker Generate token. Det steget går bara att göra på webben. Spara båda i lösenordshanteraren direkt.
 - [ ] Lägg in dem som `LAGET_ROUTINE_URL` och `LAGET_ROUTINE_TOKEN` i `livet-data`.
 
 ## Byggordning
@@ -324,7 +351,9 @@ Steg 1 ger nytta utan Claude-inkorgen. Börja där, så att dagsvyn hinner bevis
 
 **Steg 1: Dagen**
 
-- [ ] Skapa det privata datarepot och flytta dit `schema.json` och `perioder.json`. Matracet läser dem via token.
+- [ ] Flytta appens synk (`device-sync`) från matracet till livet-data och radera den publika grenen. Liten kodändring, störst vinst för integriteten.
+- [ ] Flytta `schema.json` och `perioder.json` till livet-data. Matracet läser dem via token.
+- [ ] Flytta Matracets övriga privata filer till `livet-data/matracet/` och stryk personuppgifterna ur `docs/README.md`.
 - [ ] `buildDay()` med vitest-tester, i samma stil som resolverns tester.
 - [ ] Startsidan med sköld, Idag och Imorgon.
 - [ ] `notiser.yml` med morgon- och eftermiddagsnotis.
