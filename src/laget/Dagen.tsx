@@ -1,6 +1,7 @@
 import type { DayView, TimelineItem } from './types'
-import { dateLabel, dinnerHref, dinnerText, mealHref } from './format'
-import { topLines } from './summary'
+import { dateLabel, dinnerHref, dinnerText, mealHref, windowLine } from './format'
+import { NO_MEAL_NEEDED } from './dinner'
+import { shieldRows } from './summary'
 
 // The three day screens. Pure presentation over a DayView — buildDay does the thinking.
 
@@ -26,22 +27,46 @@ function TimelineRow({ view, t }: { view: DayView; t: TimelineItem }) {
 }
 
 export function Shield({ view, nowTime, onOpen }: { view: DayView; nowTime: string; onOpen: () => void }) {
-  const lines = topLines(view, 3, nowTime)
-  const dinner = dinnerText(view)
+  const rows = shieldRows(view, 3, nowTime)
+  const window = windowLine(view.presence)
+  const meals = [
+    view.lunch ? { label: 'Lunch', text: view.lunch.title, note: null as string | null } : null,
+    view.dinner && view.dinner.title !== NO_MEAL_NEEDED ? { label: 'Middag', text: view.dinner.title, note: window } : null,
+  ].filter((m): m is { label: string; text: string; note: string | null } => m !== null)
+  const empty = rows.length === 0 && meals.length === 0
   return (
     <button className="laget-shield" onClick={onOpen}>
-      <span className="laget-shield-q">Vad gäller idag?</span>
-      <span className="laget-shield-date">
-        {dateLabel(view.date)} · {view.isChildWeek ? 'barnvecka' : 'ej barnvecka'}
-      </span>
-      <ul className="laget-shield-lines">
-        {lines.map((l, i) => (
-          <li key={i}>{l.text}</li>
-        ))}
-        {dinner && <li>Middag: {dinner}</li>}
-        {lines.length === 0 && !dinner && <li className="laget-muted">Inget som styr dagen.</li>}
-      </ul>
-      <span className="laget-shield-more">Tryck för hela dagen →</span>
+      <span className="laget-shield-q">Idag</span>
+      <span className="laget-shield-date">{dateLabel(view.date)}</span>
+      <span className="laget-shield-sub">{view.isChildWeek ? 'Barnvecka' : 'Ej barnvecka'}</span>
+      {empty && <span className="laget-shield-empty">Inget som styr dagen.</span>}
+      {rows.length > 0 && (
+        <ul className="laget-shield-rows">
+          {rows.map((r, i) => (
+            <li key={i}>
+              <span className="laget-shield-time">{r.time ?? (r.kind === 'gora' ? '☐' : '')}</span>
+              <span className="laget-shield-what">
+                {r.title}
+                {r.note && <small>{r.note}</small>}
+              </span>
+            </li>
+          ))}
+        </ul>
+      )}
+      {meals.length > 0 && (
+        <ul className="laget-shield-rows laget-shield-meals">
+          {meals.map(m => (
+            <li key={m.label}>
+              <span className="laget-shield-time">{m.label}</span>
+              <span className="laget-shield-what">
+                {m.text}
+                {m.note && <small>{m.note}</small>}
+              </span>
+            </li>
+          ))}
+        </ul>
+      )}
+      <span className="laget-shield-more">Hela dagen →</span>
     </button>
   )
 }
