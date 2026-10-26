@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, useSyncExternalStore } from 'react'
 import { addDays } from '../presence/resolver'
 import { buildDay, buildWeek } from './buildDay'
 import { stockholmNow } from './time'
@@ -6,15 +6,20 @@ import { Idag, Imorgon, Shield } from './Dagen'
 import Aktiviteter from './Aktiviteter'
 import Inkorg from './Inkorg'
 import KopplingView from './KopplingView'
+import Natthimlen from './Natthimlen'
+import Utseende from './Utseende'
+import Vintergatan from './Vintergatan'
+import SkyCanvas, { SKY_PRESETS } from './sky/SkyCanvas'
+import { getTheme, subscribeTheme } from './theme'
 import { Meny, Notiser, Perioder, Schema, Vecka } from './Vecka'
 import { useLagetData } from './useLagetData'
 
-type View = 'hem' | 'idag' | 'imorgon' | 'vecka' | 'meny' | 'schema' | 'aktiviteter' | 'perioder' | 'notiser' | 'koppling'
+type View = 'hem' | 'idag' | 'imorgon' | 'vecka' | 'meny' | 'schema' | 'aktiviteter' | 'perioder' | 'notiser' | 'koppling' | 'utseende' | 'natthimmel' | 'vintergatan'
 
 /** Where "back" goes from each screen. */
 const PARENT: Record<View, View | null> = {
   hem: null, idag: 'hem', imorgon: 'hem', vecka: 'hem', meny: 'hem',
-  schema: 'meny', aktiviteter: 'meny', perioder: 'meny', notiser: 'meny', koppling: 'meny',
+  schema: 'meny', aktiviteter: 'meny', perioder: 'meny', notiser: 'meny', koppling: 'meny', utseende: 'meny', natthimmel: 'meny', vintergatan: 'meny',
 }
 
 /** A notification opens /matracet/laget/?vy=idag|imorgon (see the notification job). */
@@ -44,6 +49,7 @@ export default function LagetApp() {
   const [tickError, setTickError] = useState<string | null>(null)
   const { data, settings, status, stale, setPrepDone, setTodoDone, saveNotisTimes, changeSchema, inbox, sendMessage, reloadInbox, reload } = useLagetData()
   const now = useNow()
+  const theme = useSyncExternalStore(subscribeTheme, getTheme)
 
   // Drop ?vy= once read so a later reload doesn't jump back to it.
   useEffect(() => {
@@ -88,9 +94,11 @@ export default function LagetApp() {
   const names = new Map((data?.schema.persons ?? []).map(p => [p.id, p.name]))
   const tick = async (key: string, on: boolean) => setTickError(await setPrepDone(key, on))
   const tickTodo = async (id: string) => setTickError(await setTodoDone(id))
-  const needsData = view !== 'koppling' && view !== 'meny' && view !== 'notiser'
+  const needsData = !['koppling', 'meny', 'notiser', 'utseende', 'natthimmel', 'vintergatan'].includes(view)
 
   return (
+    <>
+    {theme === 'rymd' && view !== 'natthimmel' && <SkyCanvas className="laget-sky-bg" speed={150} preset={SKY_PRESETS.pol} />}
     <div className="laget">
       <header className="laget-head">
         <div>
@@ -112,6 +120,12 @@ export default function LagetApp() {
         <Meny onGo={go} />
       ) : view === 'koppling' ? (
         <KopplingView onChanged={reload} />
+      ) : view === 'utseende' ? (
+        <Utseende />
+      ) : view === 'natthimmel' ? (
+        <Natthimlen />
+      ) : view === 'vintergatan' ? (
+        <Vintergatan />
       ) : view === 'notiser' ? (
         <Notiser settings={settings} onSave={saveNotisTimes} onOpenKoppling={() => go('koppling')} />
       ) : needsData && (!today || !tomorrow || !shown || !shownNext || !data) ? (
@@ -152,5 +166,6 @@ export default function LagetApp() {
         </>
       ) : null}
     </div>
+    </>
   )
 }

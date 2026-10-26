@@ -131,13 +131,18 @@ export function Notiser({
   )
 }
 
-export function Meny({ onGo }: { onGo: (view: 'schema' | 'aktiviteter' | 'perioder' | 'notiser' | 'koppling') => void }) {
-  const items: { view: 'schema' | 'aktiviteter' | 'perioder' | 'notiser' | 'koppling'; label: string; sub: string }[] = [
+type MenyView = 'schema' | 'aktiviteter' | 'perioder' | 'notiser' | 'koppling' | 'utseende' | 'natthimmel' | 'vintergatan'
+
+export function Meny({ onGo }: { onGo: (view: MenyView) => void }) {
+  const items: { view: MenyView; label: string; sub: string }[] = [
     { view: 'schema', label: 'Schema', sub: 'De kommande 14 dagarna' },
     { view: 'aktiviteter', label: 'Aktiviteter', sub: 'Återkommande, med tider' },
     { view: 'perioder', label: 'Lov och perioder', sub: 'Terminer och lov' },
     { view: 'notiser', label: 'Notiser', sub: 'När Läget hör av sig' },
     { view: 'koppling', label: 'Koppling', sub: 'Token och notiser på telefonen' },
+    { view: 'utseende', label: 'Utseende', sub: 'Färgtema för den här telefonen' },
+    { view: 'natthimmel', label: 'Natthimlen', sub: 'Stjärnorna över Hermanus just nu' },
+    { view: 'vintergatan', label: 'Vintergatan', sub: 'En bild, för skojs skull' },
   ]
   return (
     <>

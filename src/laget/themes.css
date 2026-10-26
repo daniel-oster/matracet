@@ -1,0 +1,55 @@
+/* Läget's colour themes. Each one overrides the design tokens from paper.css (and a few Läget-only ones:
+   --btn-*, --shield-*) on <html data-laget-theme="…">. "papper" is the default and has no block here. */
+
+html[data-laget-theme="solarized-mork"] {
+  --cream: #002b36; --paper: #073642; --ink: #eee8d5; --sub: #93a1a1;
+  --muted: #839496; --muted2: #657b83; --line: #1c5361; --line2: #0f4553; --checked: #0b3b47;
+  --gold: #b58900; --gold2: #cb8c1d;
+  --green: #859900; --green-d: #a0b516; --green-bg: #0b3b2b;
+  --red: #dc322f; --red-bg: #3a2429; --blue: #268bd2; --blue-bg: #0a3d52;
+  --btn-bg: #268bd2; --btn-fg: #fdf6e3;
+  --shield-bg: #0a4553; --shield-fg: #eee8d5; --shield-line: rgba(238, 232, 213, 0.18);
+}
+html[data-laget-theme="solarized-mork"] body { background: #002b36; }
+
+html[data-laget-theme="solarized-ljus"] {
+  --cream: #fdf6e3; --paper: #eee8d5; --ink: #073642; --sub: #586e75;
+  --muted: #839496; --muted2: #93a1a1; --line: #d3cbb0; --line2: #e0d9c0; --checked: #e6dfc8;
+  --gold: #b58900; --gold2: #b58900;
+  --green: #859900; --green-d: #6b7a00; --green-bg: #e7e9c5;
+  --red: #dc322f; --red-bg: #f3dcd0; --blue: #268bd2; --blue-bg: #dfe6dc;
+  --btn-bg: #073642; --btn-fg: #fdf6e3;
+  --shield-bg: #073642; --shield-fg: #eee8d5; --shield-line: rgba(238, 232, 213, 0.2);
+}
+html[data-laget-theme="solarized-ljus"] body { background: #fdf6e3; }
+
+html[data-laget-theme="neon"] {
+  --cream: #0a0014; --paper: #13012a; --ink: #e9f9ff; --sub: #bfa8ff;
+  --muted: #9a7ee0; --muted2: #7d62c4; --line: #3d0a6e; --line2: #2a0752; --checked: #1a0436;
+  --gold: #00f0ff; --gold2: #ff3df0;
+  --green: #39ff14; --green-d: #39ff14; --green-bg: #0b2a0b;
+  --red: #ff4466; --red-bg: #33061a; --blue: #00e5ff; --blue-bg: #02202c;
+  --btn-bg: #ff3df0; --btn-fg: #0a0014;
+  --shield-bg: #1a0238; --shield-fg: #e9f9ff; --shield-line: rgba(0, 240, 255, 0.3);
+  --shield-border: 1px solid #00f0ff; --shield-shadow: 0 0 22px rgba(0, 240, 255, 0.35), inset 0 0 18px rgba(255, 61, 240, 0.12);
+}
+html[data-laget-theme="neon"] body { background: #0a0014; }
+html[data-laget-theme="neon"] .laget-card, html[data-laget-theme="neon"] .laget .laget-tile { box-shadow: 0 0 12px rgba(255, 61, 240, 0.18); }
+
+/* Rymd: the real night sky is drawn on a canvas behind everything; the cards become see-through. */
+html[data-laget-theme="rymd"] {
+  --cream: rgba(4, 7, 20, 0.55); --paper: rgba(10, 16, 40, 0.62); --ink: #e9ecff; --sub: #b4bde6;
+  --muted: #8d98c8; --muted2: #7480b0; --line: rgba(150, 170, 255, 0.24); --line2: rgba(150, 170, 255, 0.18); --checked: rgba(30, 40, 90, 0.5);
+  --gold: #9db4ff; --gold2: #ffc27a;
+  --green: #6fe3a0; --green-d: #7beaa9; --green-bg: rgba(20, 70, 50, 0.55);
+  --red: #ff8a7a; --red-bg: rgba(80, 25, 30, 0.55); --blue: #8fb4ff; --blue-bg: rgba(25, 40, 90, 0.55);
+  --btn-bg: #5b6cff; --btn-fg: #ffffff;
+  --shield-bg: rgba(12, 18, 46, 0.66); --shield-fg: #f1f3ff; --shield-line: rgba(160, 180, 255, 0.25);
+  --shield-border: 1px solid rgba(160, 180, 255, 0.28);
+}
+html[data-laget-theme="rymd"] body { background: #01020a; }
+html[data-laget-theme="rymd"] .laget { position: relative; z-index: 1; }
+html[data-laget-theme="rymd"] .laget-card, html[data-laget-theme="rymd"] .laget .laget-tile, html[data-laget-theme="rymd"] .laget .laget-shield {
+  -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px);
+}
+.laget-sky-bg { position: fixed; inset: 0; width: 100vw; height: 100vh; height: 100dvh; z-index: 0; pointer-events: none; }

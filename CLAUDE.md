@@ -2507,6 +2507,25 @@ created on claude.ai (steps in livet-data's README) — until then messages just
 the school letter, a calendar view) is not started. Decisions already made, don't re-litigate: name Läget; two
 icons; the app *is* the calendar (no ICS feed, no Cloudflare); Claude only runs on free text.
 
+## Läget: teman och natthimlen (2026-10)
+
+Menu → **Utseende** picks a colour theme for the phone (`src/laget/theme.ts`: `papper` default, `solarized-ljus`,
+`solarized-mork`, `neon`, `rymd`; kept in `laget:theme:v1`, deliberately not a synced store — a taste of one
+phone). A theme is a block of token overrides on `<html data-laget-theme>` in `src/laget/themes.css`, on top of
+paper.css's tokens plus Läget-only `--btn-*`/`--shield-*` (the shield and buttons used to be hard-coded ink/cream,
+which turns into a light card on a dark theme). New hard-coded colours in laget.css should use a token.
+
+**Natthimlen** (menu) and the **rymd** theme's background are the same canvas, `src/laget/sky/SkyCanvas.tsx`: the real
+sky over Hermanus, South Africa (34.4° S, 19.2° E), looking at the south pole by default. `astro.ts` is the
+pure maths (GMST/LST, RA/Dec → alt/az, stereographic projection; unit-tested, including "the pole stands 34.4°
+up at any time" and clockwise motion). Stars (to mag 6, 5,044) and constellation lines come from
+d3-celestial (BSD-3), baked into `skyData.json` by `scripts/build-sky-data.mjs` (instructions in its header —
+`npm pack d3-celestial`, not a dependency). **The Milky Way is faked on purpose**: soft blobs along the galactic
+plane's real position (`galacticToEquatorial`), brightest toward the galactic centre; the Magellanic Clouds, Carina
+and Omega Centauri are glows at their real positions. Speed 1 redraws once a second; the background runs at 150×
+(a slow visible twist), the sky page offers ×300/×3000. It pauses when hidden and respects reduced-motion.
+Menu → **Vintergatan** shows `public/laget/vintergatan.jpg` if someone adds one (a ChatGPT picture, for fun).
+
 ## Deploy
 
 Pushing to `main` triggers the GitHub Actions workflow (`.github/workflows/deploy.yml`) which runs `npm ci && npm run build` and deploys `dist/` to GitHub Pages. No manual steps needed.
