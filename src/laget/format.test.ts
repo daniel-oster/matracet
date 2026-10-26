@@ -61,9 +61,9 @@ describe('dinnerHref', () => {
   it('opens the recipe in Matracet when one is behind the dish', () => {
     expect(dinnerHref(withDinner({ title: 'Linsgryta', eatBy: null, receptSlug: 'linsgryta-kokos' }), '/matracet/')).toBe('/matracet/recept/linsgryta-kokos/')
   })
-  it('opens Matracet itself for a dish without a recipe', () => {
-    expect(dinnerHref(withDinner({ title: 'Tacos', eatBy: null, receptSlug: null }), '/matracet/')).toBe('/matracet/')
-    expect(dinnerHref(withDinner({ title: 'Tacos', eatBy: null }), '/matracet/')).toBe('/matracet/')
+  it('has no link for a dish without a recipe', () => {
+    expect(dinnerHref(withDinner({ title: 'Tacos', eatBy: null, receptSlug: null }), '/matracet/')).toBeNull()
+    expect(dinnerHref(withDinner({ title: 'Tacos', eatBy: null }), '/matracet/')).toBeNull()
   })
   it('has nothing to open when nothing is planned or no meal is needed', () => {
     expect(dinnerHref(withDinner(null), '/matracet/')).toBeNull()
