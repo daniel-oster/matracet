@@ -2101,6 +2101,15 @@
     "updated": "2026-10-26",
     "motivering": "Brudorkidé: blommor vaxter stämmer"
   },
+  "brudorkid~nederlanderna": {
+    "kategori": "blommor_vaxter",
+    "form": null,
+    "varutyp": "blommor_vaxter",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-10-26"
+  },
   "bruschettamix~garant": {
     "kategori": "inlagt_delikatess",
     "form": "torr",
