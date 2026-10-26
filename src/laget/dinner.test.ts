@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { dinnerFor, mergeMeals, NO_MEAL_NEEDED } from './dinner'
+import { dinnerFor, lunchFor, mergeMeals, NO_MEAL_NEEDED } from './dinner'
 import { makeDinner } from './fixtures'
 import type { Meal } from '../types/meal'
 
@@ -41,5 +41,17 @@ describe('mergeMeals', () => {
     const git = [m('a', 'A'), m('b', 'B')]
     expect(mergeMeals(git, undefined)).toBe(git)
     expect(mergeMeals(git, { b: m('b', 'B2'), c: m('c', 'C') }).map(x => x.namn)).toEqual(['A', 'B2', 'C'])
+  })
+})
+
+describe('lunchFor', () => {
+  it('reads the lunch slot from the Planera plan, with its recipe', () => {
+    const src = makeDinner({ weekplan: { '2026-10-26': { lunch: { mealSlug: 'stekta-agg-bonsallad', receptSlug: 'stekta-agg-bonsallad' } } } })
+    expect(lunchFor('2026-10-26', src)).toMatchObject({ receptSlug: 'stekta-agg-bonsallad', eatBy: null })
+  })
+  it('is null with nothing planned, and when the lunch is marked as not needed', () => {
+    expect(lunchFor('2026-10-26', makeDinner({}))).toBeNull()
+    const skipped = makeDinner({ weekplan: { '2026-10-26': { lunch: { mealSlug: 'x', receptSlug: null }, lunchAttendance: { skip: true } } } })
+    expect(lunchFor('2026-10-26', skipped)).toBeNull()
   })
 })

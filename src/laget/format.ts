@@ -1,7 +1,7 @@
 import type { DayPlan } from '../presence/types'
 import { recipePath } from '../lib/recipeLink'
 import { NO_MEAL_NEEDED } from './dinner'
-import type { DayView, KlartMap } from './types'
+import type { DayView, DinnerLine, KlartMap } from './types'
 
 const dateFmt = new Intl.DateTimeFormat('sv-SE', { weekday: 'long', day: 'numeric', month: 'short', timeZone: 'UTC' })
 
@@ -36,10 +36,12 @@ export function dinnerText(view: DayView): string | null {
   return lower && view.dinner.eatBy ? `${view.dinner.title}, ${lower}` : view.dinner.title
 }
 
-/** Where tapping tonight's dish goes in Matracet: its recipe. Null when there is nothing to open —
- *  no dish, "ingen måltid behövs", or a dish without a recipe (Matracet's start page would help no one).
+/** Where tapping a planned meal goes in Matracet: its recipe. Null when there is nothing to open —
+ *  no meal, "ingen måltid behövs", or a meal without a recipe (Matracet's start page would help no one).
  *  `base` is Vite's BASE_URL. */
-export function dinnerHref(view: DayView, base: string): string | null {
-  if (!view.dinner || view.dinner.title === NO_MEAL_NEEDED || !view.dinner.receptSlug) return null
-  return recipePath(view.dinner.receptSlug, base)
+export function mealHref(meal: DinnerLine | null, base: string): string | null {
+  if (!meal || meal.title === NO_MEAL_NEEDED || !meal.receptSlug) return null
+  return recipePath(meal.receptSlug, base)
 }
+
+export const dinnerHref = (view: DayView, base: string): string | null => mealHref(view.dinner, base)

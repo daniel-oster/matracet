@@ -1,5 +1,5 @@
 import type { DayView, TimelineItem } from './types'
-import { dateLabel, dinnerHref, dinnerText } from './format'
+import { dateLabel, dinnerHref, dinnerText, mealHref } from './format'
 import { topLines } from './summary'
 
 // The three day screens. Pure presentation over a DayView — buildDay does the thinking.
@@ -98,13 +98,20 @@ export function Idag({
         </section>
       )}
 
+      {view.lunch && (
+        <section className="laget-card">
+          <h3>Lunch</h3>
+          <p><MealText href={mealHref(view.lunch, import.meta.env.BASE_URL)}>{view.lunch.title}</MealText></p>
+        </section>
+      )}
+
       <section className="laget-card">
         <h3>Middag</h3>
-        {dinner && dinnerHref(view, import.meta.env.BASE_URL) ? (
-          <p><a className="laget-dinner-link" href={dinnerHref(view, import.meta.env.BASE_URL)!}>{dinner} →</a></p>
-        ) : (
-          <p>{dinner ?? (view.presence.presentPersons.length ? 'Inget planerat. Ätfönstret är öppet.' : 'Ingen hemma.')}</p>
-        )}
+        <p>
+          {dinner
+            ? <MealText href={dinnerHref(view, import.meta.env.BASE_URL)}>{dinner}</MealText>
+            : (view.presence.presentPersons.length ? 'Inget planerat. Ätfönstret är öppet.' : 'Ingen hemma.')}
+        </p>
       </section>
 
       <button className="laget-link" onClick={onTomorrow}>
@@ -162,15 +169,20 @@ export function Imorgon({
             {tomorrow.timeline.map(t => <TimelineRow key={t.id} view={tomorrow} t={t} />)}
           </ul>
         )}
+        {tomorrow.lunch && (
+          <p className="laget-sub">Lunch: <MealText href={mealHref(tomorrow.lunch, import.meta.env.BASE_URL)}>{tomorrow.lunch.title}</MealText></p>
+        )}
         {dinnerText(tomorrow) && (
-          <p className="laget-sub">
-            Middag:{' '}
-            {dinnerHref(tomorrow, import.meta.env.BASE_URL)
-              ? <a className="laget-dinner-link" href={dinnerHref(tomorrow, import.meta.env.BASE_URL)!}>{dinnerText(tomorrow)} →</a>
-              : dinnerText(tomorrow)}
-          </p>
+          <p className="laget-sub">Middag: <MealText href={dinnerHref(tomorrow, import.meta.env.BASE_URL)}>{dinnerText(tomorrow)}</MealText></p>
         )}
       </section>
     </>
   )
+}
+
+/** A planned meal's name, as a link to its recipe in a new window when there is one. A new window
+ *  (target _blank) keeps Läget where it is instead of replacing it with the recipe. */
+function MealText({ href, children }: { href: string | null; children: React.ReactNode }) {
+  if (!href) return <>{children}</>
+  return <a className="laget-dinner-link" href={href} target="_blank" rel="noopener noreferrer">{children} →</a>
 }
