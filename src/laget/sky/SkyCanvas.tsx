@@ -266,8 +266,10 @@ export default function SkyCanvas({ speed, preset, labels = false, onTime, class
       // Ground: a low, uneven horizon with a faint glow above it.
       const edge = (offset: number) => {
         const pts: [number, number][] = []
-        for (let az = view.az - 150; az <= view.az + 150; az += 3) {
-          const hill = 1.1 + 0.9 * Math.sin(az * 0.21) + 0.6 * Math.sin(az * 0.63 + 1) + 0.5 * Math.sin(az * 1.7)
+        // Sampled every 0.5° and built from slow waves only: a coarser step or a fast wave made the
+        // skyline a visibly straight-edged polygon.
+        for (let az = view.az - 150; az <= view.az + 150; az += 0.5) {
+          const hill = 1.4 + 0.9 * Math.sin(az * 0.12) + 0.6 * Math.sin(az * 0.31 + 1) + 0.25 * Math.sin(az * 0.77 + 2)
           const p = project({ az: ((az % 360) + 360) % 360, alt: Math.max(0, hill) * 0.6 + offset }, view)
           if (p.visible) pts.push([p.x, p.y])
         }
