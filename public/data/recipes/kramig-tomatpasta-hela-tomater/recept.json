@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "slug": "kramig-tomatpasta-hela-tomater",
+  "nummer": 137,
+  "namn": "Krämig tomatpasta med hela tomater",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": [
+    "vegetarisk"
+  ],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": [
+    "pasta",
+    "tomat",
+    "vardag",
+    "italienskt"
+  ],
+  "kalla": "Healthylifestyle (Facebook)",
+  "dagkedja": null,
+  "ingredienser": [
+    {
+      "vara": "tomater, hela (ca 6–7 medelstora)",
+      "mangd": 600,
+      "enhet": "g"
+    },
+    {
+      "vara": "olja till stekning",
+      "mangd": 1,
+      "enhet": "msk"
+    },
+    {
+      "vara": "rödlök, tärnad",
+      "mangd": 1,
+      "enhet": "st"
+    },
+    {
+      "vara": "vitlök, hackad",
+      "mangd": 1,
+      "enhet": "msk"
+    },
+    {
+      "vara": "salt",
+      "mangd": null,
+      "enhet": "efter smak"
+    },
+    {
+      "vara": "kryddor (svartpeppar, chiliflingor eller paprikapulver, italienska örter)",
+      "mangd": null,
+      "enhet": "efter smak"
+    },
+    {
+      "vara": "tomatpuré",
+      "mangd": 1,
+      "enhet": "msk"
+    },
+    {
+      "vara": "vispgrädde",
+      "mangd": 1.2,
+      "enhet": "dl"
+    },
+    {
+      "vara": "riven parmesan",
+      "mangd": 0.6,
+      "enhet": "dl"
+    },
+    {
+      "vara": "pasta, kokt (fusilli eller valfri)",
+      "mangd": 450,
+      "enhet": "g"
+    },
+    {
+      "vara": "färsk persilja, hackad (till garnering)",
+      "mangd": null,
+      "enhet": "efter smak"
+    }
+  ],
+  "varianter": {},
+  "instruktioner": [
+    "Hetta upp en skvätt olja i en stor panna på medelvärme och lägg i de hela tomaterna.",
+    "Lägg tärnad lök och hackad vitlök i mitten av pannan, mellan tomaterna. Strö över salt och svartpeppar.",
+    "Lägg på lock och låt tomaterna mjukna och släppa sin saft tills de är möra och lite blåsiga.",
+    "Skala eller justera skalen med en tång om det behövs. Mosa sedan tomater, lök och vitlök direkt i pannan med en potatisstöt till en rik sås.",
+    "Rör ner kryddorna, tomatpurén, grädden och parmesanen och rör tills såsen är len och krämig.",
+    "Blanda ner den kokta pastan i såsen och vänd runt så att allt täcks.",
+    "Toppa med hackad persilja, lite paprikapulver och extra chiliflingor och servera."
+  ],
+  "komplett": true
+}
