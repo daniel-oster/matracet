@@ -28,11 +28,11 @@ export function dinnerFor(date: string, src: DinnerSources, eatBy: string | null
   const day = src.weekplan[date]
   if (day?.dinnerAttendance?.skip) return { title: NO_MEAL_NEEDED, eatBy: null }
   if (day?.dinner) {
-    return { title: resolveMealDisplayName(day.dinner.mealSlug, day.dinner.receptSlug, src.meals, src.recipeIndex), eatBy }
+    return { title: resolveMealDisplayName(day.dinner.mealSlug, day.dinner.receptSlug, src.meals, src.recipeIndex), eatBy, receptSlug: day.dinner.receptSlug }
   }
   for (const week of src.weeks) {
     const planned = week.middagar.find(m => m.datum === date && m.recept)
-    if (planned?.recept) return { title: planned.recept, eatBy }
+    if (planned?.recept) return { title: planned.recept, eatBy, receptSlug: planned.receptSlug ?? null }
   }
   return null
 }

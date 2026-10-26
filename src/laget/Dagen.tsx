@@ -1,5 +1,5 @@
 import type { DayView, TimelineItem } from './types'
-import { dateLabel, dinnerText } from './format'
+import { dateLabel, dinnerHref, dinnerText } from './format'
 import { topLines } from './summary'
 
 // The three day screens. Pure presentation over a DayView — buildDay does the thinking.
@@ -100,7 +100,11 @@ export function Idag({
 
       <section className="laget-card">
         <h3>Middag</h3>
-        <p>{dinner ?? (view.presence.presentPersons.length ? 'Inget planerat. Ätfönstret är öppet.' : 'Ingen hemma.')}</p>
+        {dinner && dinnerHref(view, import.meta.env.BASE_URL) ? (
+          <p><a className="laget-dinner-link" href={dinnerHref(view, import.meta.env.BASE_URL)!}>{dinner} →</a></p>
+        ) : (
+          <p>{dinner ?? (view.presence.presentPersons.length ? 'Inget planerat. Ätfönstret är öppet.' : 'Ingen hemma.')}</p>
+        )}
       </section>
 
       <button className="laget-link" onClick={onTomorrow}>
@@ -158,7 +162,14 @@ export function Imorgon({
             {tomorrow.timeline.map(t => <TimelineRow key={t.id} view={tomorrow} t={t} />)}
           </ul>
         )}
-        {dinnerText(tomorrow) && <p className="laget-sub">Middag: {dinnerText(tomorrow)}</p>}
+        {dinnerText(tomorrow) && (
+          <p className="laget-sub">
+            Middag:{' '}
+            {dinnerHref(tomorrow, import.meta.env.BASE_URL)
+              ? <a className="laget-dinner-link" href={dinnerHref(tomorrow, import.meta.env.BASE_URL)!}>{dinnerText(tomorrow)} →</a>
+              : dinnerText(tomorrow)}
+          </p>
+        )}
       </section>
     </>
   )

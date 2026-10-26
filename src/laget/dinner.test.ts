@@ -6,10 +6,10 @@ import type { Meal } from '../types/meal'
 describe('dinnerFor', () => {
   const src = makeDinner()
   it('uses a slot assigned in Planera, named through meals.json, with the eating window', () => {
-    expect(dinnerFor('2026-11-04', src, '17:15')).toEqual({ title: 'Tacos', eatBy: '17:15' })
+    expect(dinnerFor('2026-11-04', src, '17:15')).toEqual({ title: 'Tacos', eatBy: '17:15', receptSlug: null })
   })
   it('falls back to the dish in the week file', () => {
-    expect(dinnerFor('2026-11-02', src, null)).toEqual({ title: 'Ugnsbakad lax', eatBy: null })
+    expect(dinnerFor('2026-11-02', src, null)).toEqual({ title: 'Ugnsbakad lax', eatBy: null, receptSlug: null })
   })
   it('a planned slot beats the week file for the same day', () => {
     const both = makeDinner({ weekplan: { '2026-11-02': { dinner: { mealSlug: 'tacos', receptSlug: null } } } })
@@ -17,6 +17,10 @@ describe('dinnerFor', () => {
   })
   it('says "no meal needed" for a skipped slot, and drops the eating window', () => {
     expect(dinnerFor('2026-11-03', src, '18:00')).toEqual({ title: NO_MEAL_NEEDED, eatBy: null })
+  })
+  it('carries the recipe behind the dish, so tapping it can open that recipe', () => {
+    const src = makeDinner({ weekplan: { '2026-11-05': { dinner: { mealSlug: 'linsgryta', receptSlug: 'linsgryta-kokos' } } } })
+    expect(dinnerFor('2026-11-05', src, null)?.receptSlug).toBe('linsgryta-kokos')
   })
   it('is null when nothing is planned (no entry, or a week-file day with recept: null)', () => {
     expect(dinnerFor('2026-11-05', src, null)).toBeNull()
