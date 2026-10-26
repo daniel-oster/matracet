@@ -11,6 +11,8 @@ import type { DinnerLine } from './types'
 export interface WeekPlanDay {
   dinner?: { mealSlug: string; receptSlug: string | null }
   dinnerAttendance?: { skip: boolean }
+  lunch?: { mealSlug: string; receptSlug: string | null }
+  lunchAttendance?: { skip: boolean }
 }
 
 export interface DinnerSources {
@@ -33,6 +35,21 @@ export function dinnerFor(date: string, src: DinnerSources, eatBy: string | null
   for (const week of src.weeks) {
     const planned = week.middagar.find(m => m.datum === date && m.recept)
     if (planned?.recept) return { title: planned.recept, eatBy, receptSlug: planned.receptSlug ?? null }
+  }
+  return null
+}
+
+/** The lunch for `date`, or null when nothing is planned or no meal is needed (a skipped lunch isn't
+ *  worth a line of its own). Same sources as the dinner; there is no eating window for lunch. */
+export function lunchFor(date: string, src: DinnerSources): DinnerLine | null {
+  const day = src.weekplan[date]
+  if (day?.lunchAttendance?.skip) return null
+  if (day?.lunch) {
+    return { title: resolveMealDisplayName(day.lunch.mealSlug, day.lunch.receptSlug, src.meals, src.recipeIndex), eatBy: null, receptSlug: day.lunch.receptSlug }
+  }
+  for (const week of src.weeks) {
+    const planned = (week.luncher ?? []).find(m => m.datum === date && m.recept)
+    if (planned?.recept) return { title: planned.recept, eatBy: null, receptSlug: planned.receptSlug ?? null }
   }
   return null
 }

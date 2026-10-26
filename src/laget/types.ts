@@ -108,5 +108,7 @@ export interface DayView {
   prepareTonight: PrepItem[]
   /** From Matracet's plan; null when nothing is planned or `data.dinner` isn't loaded. */
   dinner: DinnerLine | null
+  /** Likewise for lunch (no eating window). */
+  lunch: DinnerLine | null
   tomorrowTeaser: string | null
 }

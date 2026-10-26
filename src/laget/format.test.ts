@@ -43,7 +43,7 @@ describe('withKlart', () => {
 
 describe('dinnerText', () => {
   const view = (dinner: DayView['dinner'], presence: Partial<DayPlan>): DayView => ({
-    date: '2026-11-04', presence: plan(presence), isChildWeek: true, timeline: [], todos: [], prepareTonight: [], dinner, tomorrowTeaser: null,
+    date: '2026-11-04', presence: plan(presence), isChildWeek: true, timeline: [], todos: [], prepareTonight: [], dinner, lunch: null, tomorrowTeaser: null,
   })
   it('combines the dish with the eating window', () => {
     expect(dinnerText(view({ title: 'Tacos', eatBy: '17:15' }, { windowStatus: 'CONFLICT', eatEarlyBy: '17:15' }))).toBe('Tacos, ät tidigt – senast 17:15')
