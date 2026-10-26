@@ -114,3 +114,4 @@ a.laget-tile { color: var(--ink); background: var(--paper); border: 1px solid va
 .laget-photo-chosen { display: inline-flex; align-items: flex-start; gap: 6px; }
 .laget-photo-chosen img { height: 64px; border-radius: 6px; border: 1px solid var(--line); }
 .laget-photo-chosen button { background: none; border: none; font-size: 16px; color: var(--sub); padding: 0 4px; }
+.laget-dinner-link { color: inherit; text-decoration: underline; }

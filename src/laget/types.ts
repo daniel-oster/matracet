@@ -91,6 +91,8 @@ export interface PrepItem {
 export interface DinnerLine {
   title: string
   eatBy: string | null
+  /** The recipe behind the dish, when there is one (the line then links to it in Matracet). */
+  receptSlug?: string | null
 }
 
 /** One day, computed and never stored. */

@@ -146,13 +146,13 @@ describe('buildDay: dinner', () => {
   })
   it('carries the planned dish and the day’s eating window', () => {
     const view = buildDay(WED, makeData({ dinner: makeDinner() }))
-    expect(view.dinner).toEqual({ title: 'Tacos', eatBy: view.presence.eatEarlyBy })
+    expect(view.dinner).toEqual({ title: 'Tacos', eatBy: view.presence.eatEarlyBy, receptSlug: null })
     expect(view.dinner?.eatBy).not.toBeNull()
   })
   it('has no eating window to report on an open day', () => {
     const view = buildDay('2026-11-10', makeData({ dinner: makeDinner({ weekplan: { '2026-11-10': { dinner: { mealSlug: 'tacos', receptSlug: null } } } }) }))
     expect(view.presence.windowStatus).toBe('OPEN')
-    expect(view.dinner).toEqual({ title: 'Tacos', eatBy: null })
+    expect(view.dinner).toEqual({ title: 'Tacos', eatBy: null, receptSlug: null })
   })
 })
 

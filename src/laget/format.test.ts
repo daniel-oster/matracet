@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { dateLabel, dinnerText, windowLine, withKlart } from './format'
+import { dateLabel, dinnerHref, dinnerText, windowLine, withKlart } from './format'
 import type { DayView } from './types'
 import type { DayPlan } from '../presence/types'
 
@@ -53,5 +53,20 @@ describe('dinnerText', () => {
     expect(dinnerText(view({ title: 'Tacos', eatBy: null }, {}))).toBe('Tacos')
     expect(dinnerText(view(null, { windowStatus: 'BOUNDED', windowEndsBy: '18:30' }))).toBe('ät senast 18:30')
     expect(dinnerText(view(null, {}))).toBeNull()
+  })
+})
+
+describe('dinnerHref', () => {
+  const withDinner = (dinner: DayView['dinner']): DayView => ({ dinner } as unknown as DayView)
+  it('opens the recipe in Matracet when one is behind the dish', () => {
+    expect(dinnerHref(withDinner({ title: 'Linsgryta', eatBy: null, receptSlug: 'linsgryta-kokos' }), '/matracet/')).toBe('/matracet/recept/linsgryta-kokos/')
+  })
+  it('opens Matracet itself for a dish without a recipe', () => {
+    expect(dinnerHref(withDinner({ title: 'Tacos', eatBy: null, receptSlug: null }), '/matracet/')).toBe('/matracet/')
+    expect(dinnerHref(withDinner({ title: 'Tacos', eatBy: null }), '/matracet/')).toBe('/matracet/')
+  })
+  it('has nothing to open when nothing is planned or no meal is needed', () => {
+    expect(dinnerHref(withDinner(null), '/matracet/')).toBeNull()
+    expect(dinnerHref(withDinner({ title: 'Ingen måltid behövs', eatBy: null }), '/matracet/')).toBeNull()
   })
 })
