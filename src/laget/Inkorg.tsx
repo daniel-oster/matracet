@@ -49,35 +49,32 @@ export default function Inkorg({
 
   return (
     <section className="laget-inkorg">
+      <input
+        ref={fileInput}
+        type="file"
+        accept="image/*"
+        hidden
+        onChange={e => {
+          void choosePhoto(e.target.files?.[0])
+          e.target.value = ''
+        }}
+      />
+      {photo && (
+        <span className="laget-photo-chosen">
+          <img src={photo.url} alt="Vald bild" />
+          <button type="button" onClick={() => setPhoto(null)} aria-label="Ta bort bilden">✕</button>
+        </span>
+      )}
       <div className="laget-inkorg-row">
         <textarea
-          rows={2}
+          rows={1}
           value={text}
           maxLength={MAX_TEXT}
           placeholder="Skriv eller prata in…"
           onChange={e => setText(e.target.value)}
         />
+        <button type="button" className="laget-photo-add" onClick={() => fileInput.current?.click()} disabled={busy} aria-label="Lägg till foto" title="Lägg till foto">📷</button>
         <button onClick={() => void send()} disabled={busy || (!text.trim() && !photo)}>Skicka</button>
-      </div>
-      <div className="laget-inkorg-photo">
-        <input
-          ref={fileInput}
-          type="file"
-          accept="image/*"
-          hidden
-          onChange={e => {
-            void choosePhoto(e.target.files?.[0])
-            e.target.value = ''
-          }}
-        />
-        {photo ? (
-          <span className="laget-photo-chosen">
-            <img src={photo.url} alt="Vald bild" />
-            <button type="button" onClick={() => setPhoto(null)} aria-label="Ta bort bilden">✕</button>
-          </span>
-        ) : (
-          <button type="button" className="laget-photo-add" onClick={() => fileInput.current?.click()} disabled={busy}>📷 Lägg till foto</button>
-        )}
       </div>
       {error && <p className="laget-status laget-status--unauthorized">{error}</p>}
       {open.length > 0 && (

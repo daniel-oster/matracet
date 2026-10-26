@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { buildDay } from './buildDay'
 import { makeData, makeDinner } from './fixtures'
-import { dayLines, headline, topLines } from './summary'
+import { dayLines, headline, shieldRows, topLines } from './summary'
 
 describe('headline', () => {
   it('names the week type and counts timed things', () => {
@@ -33,6 +33,19 @@ describe('topLines', () => {
     const data = makeData({ todos: [{ id: 't', title: 'Lämna boken', due: '2026-11-01', dueTime: null, done: null }] })
     const lines = topLines(buildDay('2026-11-04', data))
     expect(lines[lines.length - 1]).toEqual({ kind: 'gora', text: 'Lämna boken (försenad)', time: null })
+  })
+})
+
+describe('shieldRows', () => {
+  it('splits the same things as topLines into time, title and a small note', () => {
+    const rows = shieldRows(buildDay('2026-11-04', makeData()))
+    expect(rows[0]).toEqual({ kind: 'tid', time: '14:30', title: 'Tandläkare', note: 'åk 14:05' })
+    expect(rows.length).toBe(topLines(buildDay('2026-11-04', makeData())).length)
+  })
+  it('notes the arrive-by time when it differs from the start, and flags overdue to-dos', () => {
+    const data = makeData({ todos: [{ id: 't', title: 'Lämna boken', due: '2026-11-01', dueTime: null, done: null }] })
+    const rows = shieldRows(buildDay('2026-11-04', data))
+    expect(rows[rows.length - 1]).toEqual({ kind: 'gora', time: null, title: 'Lämna boken', note: 'försenad' })
   })
 })
 

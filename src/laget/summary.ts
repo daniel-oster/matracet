@@ -24,6 +24,32 @@ export function topLines(view: DayView, max = 3, fromTime?: string): TopLine[] {
   return lines.slice(0, max)
 }
 
+export interface ShieldRow {
+  kind: 'tid' | 'gora'
+  /** The time column: start (or the to-do's time), null when it has none. */
+  time: string | null
+  title: string
+  /** Smaller line under the title: "på plats 19:30", "åk 18:40", "försenad". */
+  note: string | null
+}
+
+/** The rows of the start page's shield: timed things (from `fromTime` on) then open to-dos, `max` of them.
+ *  Same selection as topLines, but split into columns instead of one sentence. */
+export function shieldRows(view: DayView, max = 3, fromTime?: string): ShieldRow[] {
+  const timed = view.timeline.filter(t => t.startTime !== null || t.leaveByEffective !== null)
+  const upcoming = fromTime ? timed.filter(t => (t.endTime ?? t.leaveByEffective ?? t.startTime ?? '00:00') >= fromTime) : timed
+  const rows: ShieldRow[] = upcoming.map(t => ({
+    kind: 'tid',
+    time: t.startTime,
+    title: t.title,
+    note: t.leaveBy ? `åk ${t.leaveBy}` : t.arriveBy && t.arriveBy !== t.startTime ? `på plats ${t.arriveBy}` : null,
+  }))
+  for (const todo of view.todos) {
+    rows.push({ kind: 'gora', time: todo.dueTime, title: todo.title, note: todo.due < view.date ? 'försenad' : null })
+  }
+  return rows.slice(0, max)
+}
+
 /** "Barnvecka · 3 saker idag" — the notification body. */
 export function headline(view: DayView): string {
   const n = view.timeline.filter(t => t.startTime !== null).length + view.todos.length
