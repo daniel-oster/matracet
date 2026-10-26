@@ -36,10 +36,10 @@ export function dinnerText(view: DayView): string | null {
   return lower && view.dinner.eatBy ? `${view.dinner.title}, ${lower}` : view.dinner.title
 }
 
-/** Where tapping tonight's dish goes in Matracet: the recipe when one is behind it, otherwise Matracet's
- *  start page. Null when there is no dish to open (nothing planned, or "ingen måltid behövs"). `base` is
- *  Vite's BASE_URL. */
+/** Where tapping tonight's dish goes in Matracet: its recipe. Null when there is nothing to open —
+ *  no dish, "ingen måltid behövs", or a dish without a recipe (Matracet's start page would help no one).
+ *  `base` is Vite's BASE_URL. */
 export function dinnerHref(view: DayView, base: string): string | null {
-  if (!view.dinner || view.dinner.title === NO_MEAL_NEEDED) return null
-  return recipePath(view.dinner.receptSlug ?? null, base)
+  if (!view.dinner || view.dinner.title === NO_MEAL_NEEDED || !view.dinner.receptSlug) return null
+  return recipePath(view.dinner.receptSlug, base)
 }
