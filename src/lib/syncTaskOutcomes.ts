@@ -18,6 +18,9 @@
 
 import type { TaskLogEntry } from '../types/taskLog'
 import { shoppingListStore, type ShoppingOfferRef } from '../hooks/useShoppingList'
+import { weekPlanStore } from '../hooks/useWeekPlan'
+import { mealPoolStore } from '../hooks/useMealPool'
+import type { MealKind } from '../types'
 
 interface ResolveManualItemResult {
   vara: string
@@ -46,8 +49,81 @@ function applyResolveManualItem(entry: TaskLogEntry): void {
   })
 }
 
+// ── move-meal ────────────────────────────────────────────────────────────────────────
+// Läget's inbox routine can't touch the week plan (it lives in each phone's localStorage), so
+// "flytta gårdagens middag till lunch idag" arrives as a task-log entry instead. Unlike
+// resolve-manual-item this is NOT idempotent by nature — task-log.json is replayed on every
+// boot, and re-applying would undo any later edit of those two slots — so each device
+// remembers which entry ids it has already applied (plain localStorage, deliberately not a
+// synced store: every device applies it once by itself).
+interface MoveMealResult {
+  from: { date: string; kind: MealKind }
+  to: { date: string; kind: MealKind }
+}
+
+const APPLIED_KEY = 'matracet:taskapplied:v1'
+
+function readApplied(): string[] {
+  try {
+    const raw = JSON.parse(localStorage.getItem(APPLIED_KEY) ?? '[]')
+    return Array.isArray(raw) ? raw.filter((x): x is string => typeof x === 'string') : []
+  } catch {
+    return []
+  }
+}
+
+function markApplied(id: string): void {
+  try {
+    localStorage.setItem(APPLIED_KEY, JSON.stringify([...readApplied(), id]))
+  } catch {
+    /* storage unavailable: worst case the move is attempted again next boot */
+  }
+}
+
+const KINDS = ['lunch', 'dinner']
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/
+
+function isSlot(x: unknown): x is MoveMealResult['from'] {
+  if (!x || typeof x !== 'object') return false
+  const s = x as { date?: unknown; kind?: unknown }
+  return typeof s.date === 'string' && ISO_DATE.test(s.date) && typeof s.kind === 'string' && KINDS.includes(s.kind)
+}
+
+function applyMoveMeal(entry: TaskLogEntry): void {
+  if (entry.outcome !== 'applied') return
+  const r = entry.result as Partial<MoveMealResult> | undefined
+  if (!r || !isSlot(r.from) || !isSlot(r.to)) return
+  if (readApplied().includes(entry.id)) return
+  const { from, to } = r
+  const plan = weekPlanStore.get()
+  const source = plan[from.date]?.[from.kind]
+  // The dish has to be in a local override: a day that only exists in a git week file has no
+  // slot to move out of. Leave it unapplied-but-marked so it isn't retried forever.
+  markApplied(entry.id)
+  if (!source) return
+  const now = new Date().toISOString()
+  const fromDay = { ...plan[from.date] }
+  delete fromDay[from.kind]
+  const next = { ...plan, [from.date]: fromDay }
+  next[to.date] = { ...next[to.date], [to.kind]: { ...source, updatedAt: now } }
+  weekPlanStore.setSilently(next)
+  // Keep the pool's pointers consistent: the moved entry follows the dish, whatever it
+  // displaced becomes unslotted (reconcilePoolEntries would drop its pointer anyway).
+  const pool = mealPoolStore.get()
+  mealPoolStore.setSilently({
+    entries: pool.entries.map(e => {
+      if (e.slot?.date === to.date && e.slot.kind === to.kind) return { ...e, slot: null }
+      if (e.slot?.date === from.date && e.slot.kind === from.kind && e.mealSlug === source.mealSlug) {
+        return { ...e, slot: { date: to.date, kind: to.kind } }
+      }
+      return e
+    }),
+  })
+}
+
 const APPLIERS: Record<string, (entry: TaskLogEntry) => void> = {
   'resolve-manual-item': applyResolveManualItem,
+  'move-meal': applyMoveMeal,
 }
 
 export function applyTaskOutcome(entry: TaskLogEntry): void {

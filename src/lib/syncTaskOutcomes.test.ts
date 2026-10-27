@@ -1,6 +1,8 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { applyTaskOutcome } from './syncTaskOutcomes'
 import { shoppingListStore } from '../hooks/useShoppingList'
+import { weekPlanStore } from '../hooks/useWeekPlan'
+import { mealPoolStore } from '../hooks/useMealPool'
 import type { TaskLogEntry } from '../types/taskLog'
 
 class MemoryStorage {
@@ -79,5 +81,52 @@ describe('applyTaskOutcome — resolve-manual-item', () => {
     expect(before).not.toBeNull() // the beforeEach's .set() already touched it
     applyTaskOutcome(resolveEntry())
     expect(shoppingListStore.touchedAt()).toBe(before)
+  })
+})
+
+describe('move-meal', () => {
+  const entry: TaskLogEntry = {
+    id: 'flytta:1',
+    type: 'move-meal',
+    processedAt: '2026-10-27T09:00:00.000Z',
+    outcome: 'applied',
+    result: { from: { date: '2026-10-26', kind: 'dinner' }, to: { date: '2026-10-27', kind: 'lunch' } },
+  }
+  const seed = () => {
+    weekPlanStore.set({
+      '2026-10-26': { dinner: { mealSlug: 'nudelwok', receptSlug: 'nudelwok', updatedAt: 'x' } },
+      '2026-10-27': { lunch: { mealSlug: 'tomatsoppa', receptSlug: 'tomatsoppa', updatedAt: 'x' } },
+    })
+    mealPoolStore.set({
+      entries: [
+        { id: 'a', mealSlug: 'nudelwok', receptSlug: 'nudelwok', addedAt: 'x', slot: { date: '2026-10-26', kind: 'dinner' } },
+        { id: 'b', mealSlug: 'tomatsoppa', receptSlug: 'tomatsoppa', addedAt: 'x', slot: { date: '2026-10-27', kind: 'lunch' } },
+      ],
+    })
+  }
+
+  it('moves the dish, follows it in the pool and unslots the displaced one', () => {
+    seed()
+    applyTaskOutcome(entry)
+    const plan = weekPlanStore.get()
+    expect(plan['2026-10-26'].dinner).toBeUndefined()
+    expect(plan['2026-10-27'].lunch?.mealSlug).toBe('nudelwok')
+    const pool = mealPoolStore.get().entries
+    expect(pool.find(e => e.id === 'a')?.slot).toEqual({ date: '2026-10-27', kind: 'lunch' })
+    expect(pool.find(e => e.id === 'b')?.slot).toBeNull()
+  })
+
+  it('applies only once per device even when the log is replayed', () => {
+    seed()
+    applyTaskOutcome(entry)
+    weekPlanStore.setSilently({ ...weekPlanStore.get(), '2026-10-27': { lunch: { mealSlug: 'pizza', receptSlug: null, updatedAt: 'y' } } })
+    applyTaskOutcome(entry)
+    expect(weekPlanStore.get()['2026-10-27'].lunch?.mealSlug).toBe('pizza')
+  })
+
+  it('ignores a malformed result', () => {
+    seed()
+    applyTaskOutcome({ ...entry, result: { from: { date: 'nej', kind: 'dinner' }, to: entry.result } })
+    expect(weekPlanStore.get()['2026-10-26'].dinner?.mealSlug).toBe('nudelwok')
   })
 })

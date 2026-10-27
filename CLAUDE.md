@@ -2526,6 +2526,16 @@ and Omega Centauri are glows at their real positions. Speed 1 redraws once a sec
 (a slow visible twist), the sky page offers ×300/×3000. It pauses when hidden and respects reduced-motion.
 Menu → **Vintergatan** shows `public/laget/vintergatan.jpg` if someone adds one (a ChatGPT picture, for fun).
 
+### Läget can move a planned meal: `move-meal` task-log entries (2026-10)
+
+The inbox routine may not write `device-sync` (the week plan lives in each phone's localStorage), so
+"flytta gårdagens middag till lunch idag" is answered by appending a `type: 'move-meal'` entry to
+`livet-data/matracet/task-log.json` (the one `matracet/` file the routine may touch — see inkorg skill §2b).
+`syncTaskOutcomes.ts::applyMoveMeal` applies it **once per device**, tracked in plain localStorage
+`matracet:taskapplied:v1`: task-log.json is replayed every boot and a move is not idempotent (replaying would
+undo later edits). Catalog: `.claude/skills/run-sync-tasks/tasks/move-meal.md`. Needs a deploy to reach phones;
+a phone on the old build ignores the entry (unknown type) and never applies it.
+
 ## Deploy
 
 Pushing to `main` triggers the GitHub Actions workflow (`.github/workflows/deploy.yml`) which runs `npm ci && npm run build` and deploys `dist/` to GitHub Pages. No manual steps needed.
