@@ -2106,9 +2106,10 @@
     "form": null,
     "varutyp": "blommor_vaxter",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-10-26"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-10-27",
+    "motivering": "Brudorkidé är en snittblomma/krukväxt (orkidé), inte livsmedel; blommor_vaxter stämmer, ingen form (ej mat)."
   },
   "bruschettamix~garant": {
     "kategori": "inlagt_delikatess",
