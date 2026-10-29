@@ -9341,12 +9341,13 @@
   },
   "hogrev~prime": {
     "kategori": "kott",
-    "form": null,
+    "form": "kyld",
     "varutyp": "kott",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-07-17"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-10-29",
+    "motivering": "Rå nötbit (högrev, ca 1,2 kg) från köttdisken; samma som Kalvhögrev Prime, kyld färskvara."
   },
   "honokaka~akes akta hono": {
     "kategori": "tarta_kaka",
@@ -10501,12 +10502,13 @@
   },
   "kallrokt lax gravad lax~falkenberg": {
     "kategori": "fisk",
-    "form": null,
+    "form": "kyld",
     "varutyp": "fisk",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-10-28"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-10-29",
+    "motivering": "Skivad kyld fisk i förpackning, samma produktlinje som Falkenbergs gravad/kallrökt lax som redan ligger i fisk."
   },
   "kalmix rodkal gronkal~garant": {
     "kategori": "gronsaker",
@@ -13022,9 +13024,10 @@
     "form": "farsk",
     "varutyp": "frukt",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-09-11"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-10-29",
+    "motivering": "Färsk lime sålt per styck; citrusfrukt, inte juice eller smaksättning."
   },
   "lime~brasilien mexico colombia": {
     "kategori": "frukt",

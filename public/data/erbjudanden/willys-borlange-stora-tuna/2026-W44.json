@@ -32,7 +32,7 @@
       "kategori": "frukt",
       "form": "farsk",
       "varutyp": "frukt",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-10-28"
     },
     {
@@ -52,9 +52,9 @@
       "ursprung": "Irland",
       "notering": null,
       "kategori": "kott",
-      "form": null,
+      "form": "kyld",
       "varutyp": "kott",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-10-28"
     },
     {
@@ -99,9 +99,9 @@
       "ursprung": null,
       "notering": "Skivad • Olika sorter",
       "kategori": "fisk",
-      "form": null,
+      "form": "kyld",
       "varutyp": "fisk",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-10-28"
     },
     {
