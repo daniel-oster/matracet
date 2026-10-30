@@ -675,7 +675,7 @@
       "kategori": "farska_kryddor",
       "form": "farsk",
       "varutyp": "farska_kryddor",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-10-29"
     },
     {
@@ -697,7 +697,7 @@
       "kategori": "frukt",
       "form": "farsk",
       "varutyp": "frukt",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-10-29"
     },
     {
@@ -743,7 +743,7 @@
       "kategori": "matbrod",
       "form": null,
       "varutyp": "matbrod",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-10-29"
     },
     {
@@ -766,9 +766,9 @@
       "ursprung": "Sverige",
       "notering": "färsk",
       "kategori": "kott",
-      "form": null,
+      "form": "farsk",
       "varutyp": "kott",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-10-29"
     },
     {

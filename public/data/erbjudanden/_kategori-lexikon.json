@@ -4143,9 +4143,10 @@
     "form": "farsk",
     "varutyp": "frukt",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-10-29"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-10-30",
+    "motivering": "Färska druvor (750 g, styckpris) – frukt är rätt."
   },
   "druvor roda klass 1~": {
     "kategori": "frukt",
@@ -4416,9 +4417,10 @@
     "form": "farsk",
     "varutyp": "farska_kryddor",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-10-29"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-10-30",
+    "motivering": "Basilika på 10 st-pris är färsk krydda, inte torkad – farska_kryddor stämmer."
   },
   "ekologisk biff med kappa~garant eko": {
     "kategori": "kott",
@@ -12985,9 +12987,10 @@
     "form": null,
     "varutyp": "matbrod",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-10-29"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-10-30",
+    "motivering": "Levain är ett surdegsbröd, matbrod stämmer; ingen form angiven i noteringen."
   },
   "levain~dafgards": {
     "kategori": "matbrod",
@@ -20418,12 +20421,13 @@
   },
   "svensk ryggbiff entrecte~dalsjofors": {
     "kategori": "kott",
-    "form": null,
+    "form": "farsk",
     "varutyp": "kott",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-10-29"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-10-30",
+    "motivering": "Rått nötkött, noteringen säger uttryckligen färsk – kott/farsk stämmer."
   },
   "svenska jordgubbar~garant": {
     "kategori": "bar",
