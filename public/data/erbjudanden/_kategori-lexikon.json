@@ -450,9 +450,10 @@
     "form": null,
     "varutyp": "ovrigt",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-02"
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Antikljus är stearinljus (10-pack, 25 cm) – hållbar heminredning, ingen matvara; hushållet köper inte ljus på inköpsrunda.",
+    "updated": "2026-11-03"
   },
   "antipasti~garant": {
     "kategori": "inlagt_delikatess",
@@ -955,13 +956,14 @@
     "updated": "2026-07-17"
   },
   "babytval baby schampo~natusan johnson": {
-    "kategori": "hygien",
+    "kategori": "bloja_babyvard",
     "form": null,
-    "varutyp": "hygien",
+    "varutyp": "bloja_babyvard",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-02"
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Babytvål och babyschampo från Natusan/Johnson är rena babyvårdsprodukter, inte vanlig hygien – hushållet vill inte ha babyvård.",
+    "updated": "2026-11-03"
   },
   "babytvatt~minstingen": {
     "kategori": "bloja_babyvard",

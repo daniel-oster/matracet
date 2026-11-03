@@ -43,7 +43,7 @@ const STORES = [
 ];
 
 const DROP_LEAVES = new Set(['bloja_babyvard', 'djurmat', 'djurgodis_tillbehor']);
-const DROP_NAME_RE = /gravljus|värmeljus|kronljus|blockljus|oljeljus|doftljus|ljuslykt|gravlykt|marschall|strumpa|strumpor|socka|sockor|batteri/i;
+const DROP_NAME_RE = /antikljus|gravljus|värmeljus|kronljus|blockljus|oljeljus|doftljus|ljuslykt|gravlykt|marschall|strumpa|strumpor|socka|sockor|batteri/i;
 const ICA_HOME_RE = /^(Hem & fritid|Hälsa & skönhet)$/;
 const KEEP_FROM_ICA_HOME = new Set(['stad_disk_tvatt', 'papper_pasar_folie', 'hygien', 'halsa', 'engangs_grill', 'skadedjur', 'blommor_vaxter']);
 
