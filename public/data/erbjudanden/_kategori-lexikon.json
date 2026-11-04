@@ -3190,6 +3190,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "citroner~": {
+    "kategori": "frukt",
+    "form": "farsk",
+    "varutyp": "frukt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-11-04"
+  },
   "citroner~ica": {
     "kategori": "frukt",
     "form": "farsk",
@@ -10099,6 +10108,15 @@
     "motivering": "Hushållsost (Arla): hårdost",
     "updated": "2026-10-25"
   },
+  "hushallsost~garant": {
+    "kategori": "ost_hard",
+    "form": "kyld",
+    "varutyp": "ost_hard",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-11-04"
+  },
   "hushallspapper 2pack~lotus": {
     "kategori": "papper_pasar_folie",
     "form": null,
@@ -10616,6 +10634,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "jordnotter~exotic snacks": {
+    "kategori": "notter_torkat",
+    "form": null,
+    "varutyp": "notter_torkat",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-11-04"
   },
   "jordnotter~ica": {
     "kategori": "notter_torkat",
@@ -11788,6 +11815,15 @@
     "kalla": "model",
     "updated": "2026-11-02",
     "motivering": "Klämmisar (NESTLÉ) klassas rätt som barnmat"
+  },
+  "klammis~minstingen": {
+    "kategori": "ovrigt",
+    "form": null,
+    "varutyp": "ovrigt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-11-04"
   },
   "klassiker 18pack~gb glace": {
     "kategori": "glass",
@@ -13167,6 +13203,15 @@
     "updated": "2026-10-26",
     "motivering": "Lammstek (Scan. Ursprung Sverige): kott stämmer"
   },
+  "langfranska~garant": {
+    "kategori": "matbrod",
+    "form": null,
+    "varutyp": "matbrod",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-11-04"
+  },
   "lantbrod potatisbrod~ostras brod": {
     "kategori": "matbrod",
     "form": null,
@@ -14179,6 +14224,15 @@
     "kalla": "model",
     "motivering": "Mango: frukt",
     "updated": "2026-10-25"
+  },
+  "marabou kladdkaka~almondy": {
+    "kategori": "choklad",
+    "form": "fryst",
+    "varutyp": "choklad",
+    "markeringar": [],
+    "confidence": "hog",
+    "kalla": "regel",
+    "updated": "2026-11-04"
   },
   "margarin~becel": {
     "kategori": "smor_margarin",
@@ -16471,6 +16525,15 @@
     "kalla": "regel",
     "updated": "2026-08-28"
   },
+  "pasta classic~barilla": {
+    "kategori": "pasta",
+    "form": "torr",
+    "varutyp": "pasta",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-11-04"
+  },
   "pasta korta former~barilla": {
     "kategori": "pasta",
     "form": "torr",
@@ -17544,6 +17607,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-08-28"
+  },
+  "proteinbar~powerking": {
+    "kategori": "bars",
+    "form": null,
+    "varutyp": "bars",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-11-04"
   },
   "proteinbar~propud": {
     "kategori": "bars",
@@ -20552,6 +20624,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "sockerdonut~la lorraine": {
+    "kategori": "tarta_kaka",
+    "form": null,
+    "varutyp": "tarta_kaka",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-11-04"
+  },
   "sockerfri saft~fun light": {
     "kategori": "juice_saft",
     "form": null,
@@ -20718,6 +20799,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "soyadryck~alpro": {
+    "kategori": "lask_vatten",
+    "form": null,
+    "varutyp": "lask_vatten",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-11-04"
   },
   "soygurt~oddlygood": {
     "kategori": "fil_yoghurt",
