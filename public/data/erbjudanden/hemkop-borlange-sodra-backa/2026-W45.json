@@ -207,10 +207,10 @@
       ],
       "ursprung": null,
       "notering": "flera sorter",
-      "kategori": "ovrigt",
+      "kategori": "barnmat",
       "form": null,
-      "varutyp": "ovrigt",
-      "kategori_kalla": "regel",
+      "varutyp": "barnmat",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-11-04",
       "giltigt_till": "2026-11-04"
     },
@@ -281,7 +281,7 @@
       "kategori": "pasta",
       "form": "torr",
       "varutyp": "pasta",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-11-04",
       "giltigt_till": "2026-11-04"
     },
@@ -307,7 +307,7 @@
       "kategori": "fars_kottbullar",
       "form": null,
       "varutyp": "fars_kottbullar",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-11-04",
       "giltigt_till": "2026-11-04"
     },
@@ -330,7 +330,7 @@
       "kategori": "choklad",
       "form": null,
       "varutyp": "choklad",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-11-04",
       "giltigt_till": "2026-11-04"
     },
@@ -381,7 +381,7 @@
       "kategori": "ost_hard",
       "form": "kyld",
       "varutyp": "ost_hard",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-11-04",
       "giltigt_till": "2026-11-04"
     },
@@ -404,7 +404,7 @@
       "kategori": "matbrod",
       "form": null,
       "varutyp": "matbrod",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-11-04",
       "giltigt_till": "2026-11-04"
     },
@@ -452,7 +452,7 @@
       "kategori": "bars",
       "form": null,
       "varutyp": "bars",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-11-04",
       "giltigt_till": "2026-11-04"
     },
@@ -475,7 +475,7 @@
       "kategori": "notter_torkat",
       "form": null,
       "varutyp": "notter_torkat",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-11-04",
       "giltigt_till": "2026-11-04"
     },
@@ -546,7 +546,7 @@
       "kategori": "frukt",
       "form": "farsk",
       "varutyp": "frukt",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-11-04",
       "giltigt_till": "2026-11-04"
     },
@@ -571,7 +571,7 @@
       "kategori": "bar",
       "form": "farsk",
       "varutyp": "bar",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-11-04",
       "giltigt_till": "2026-11-04"
     },
@@ -1155,10 +1155,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "tarta_kaka",
+      "kategori": "fikabrod",
       "form": null,
-      "varutyp": "tarta_kaka",
-      "kategori_kalla": "regel",
+      "varutyp": "fikabrod",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-11-04",
       "giltigt_till": "2026-11-04"
     },

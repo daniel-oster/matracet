@@ -1587,9 +1587,10 @@
     "form": "farsk",
     "varutyp": "bar",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-07-17"
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Färska blåbär i ask, klass 1; bär/färsk stämmer.",
+    "updated": "2026-11-05"
   },
   "blabar~peru": {
     "kategori": "bar",
@@ -3045,9 +3046,10 @@
     "form": null,
     "varutyp": "choklad",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-08-31"
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Fazers chokladkakor är chokladkaka/choklad, inte bakverk; stämmer.",
+    "updated": "2026-11-05"
   },
   "chokladkakor~marabou": {
     "kategori": "choklad",
@@ -3195,9 +3197,10 @@
     "form": "farsk",
     "varutyp": "frukt",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-04"
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Färska citroner i nät, klass 2; frukt/färsk stämmer.",
+    "updated": "2026-11-05"
   },
   "citroner~ica": {
     "kategori": "frukt",
@@ -10113,9 +10116,10 @@
     "form": "kyld",
     "varutyp": "ost_hard",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-04"
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Hushållsost är en hård skivost, kyld vara; ost_hard stämmer.",
+    "updated": "2026-11-05"
   },
   "hushallspapper 2pack~lotus": {
     "kategori": "papper_pasar_folie",
@@ -10640,9 +10644,10 @@
     "form": null,
     "varutyp": "notter_torkat",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-04"
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Salta/rostade jordnötter; notter_torkat stämmer trots snacks i märket.",
+    "updated": "2026-11-05"
   },
   "jordnotter~ica": {
     "kategori": "notter_torkat",
@@ -11817,13 +11822,14 @@
     "motivering": "Klämmisar (NESTLÉ) klassas rätt som barnmat"
   },
   "klammis~minstingen": {
-    "kategori": "ovrigt",
+    "kategori": "barnmat",
     "form": null,
-    "varutyp": "ovrigt",
+    "varutyp": "barnmat",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-04"
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Klämmis 90 g är fruktpuré i klämpåse för barn, samma som klammisar (Minstingen); inte övrigt.",
+    "updated": "2026-11-05"
   },
   "klassiker 18pack~gb glace": {
     "kategori": "glass",
@@ -12180,9 +12186,10 @@
     "form": null,
     "varutyp": "fars_kottbullar",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-07-17"
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Köttbullar (Garant) är färsbaserade bullar; fars_kottbullar stämmer.",
+    "updated": "2026-11-05"
   },
   "kottbullar~prime patrol": {
     "kategori": "fars_kottbullar",
@@ -13208,9 +13215,10 @@
     "form": null,
     "varutyp": "matbrod",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-04"
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Långfranska är ett vitt matbröd; matbrod stämmer.",
+    "updated": "2026-11-05"
   },
   "lantbrod potatisbrod~ostras brod": {
     "kategori": "matbrod",
@@ -16530,9 +16538,10 @@
     "form": "torr",
     "varutyp": "pasta",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-04"
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Torrpasta från Barilla, korta former; pasta/torr stämmer.",
+    "updated": "2026-11-05"
   },
   "pasta korta former~barilla": {
     "kategori": "pasta",
@@ -17613,9 +17622,10 @@
     "form": null,
     "varutyp": "bars",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-04"
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Proteinbar är en bar; bars stämmer.",
+    "updated": "2026-11-05"
   },
   "proteinbar~propud": {
     "kategori": "bars",
@@ -20625,13 +20635,14 @@
     "updated": "2026-07-17"
   },
   "sockerdonut~la lorraine": {
-    "kategori": "tarta_kaka",
+    "kategori": "fikabrod",
     "form": null,
-    "varutyp": "tarta_kaka",
+    "varutyp": "fikabrod",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-04"
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Sockerdonut är ett fikabröd, samma verdict som donut (La Lorraine), inte tårta/kaka.",
+    "updated": "2026-11-05"
   },
   "sockerfri saft~fun light": {
     "kategori": "juice_saft",
@@ -20801,13 +20812,16 @@
     "updated": "2026-07-17"
   },
   "soyadryck~alpro": {
-    "kategori": "lask_vatten",
+    "kategori": "vaxtdryck",
     "form": null,
-    "varutyp": "lask_vatten",
-    "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-04"
+    "varutyp": "vaxtdryck",
+    "markeringar": [
+      "vegansk"
+    ],
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Sojadryck är en växtdryck, inte läsk/vatten; vegansk.",
+    "updated": "2026-11-05"
   },
   "soygurt~oddlygood": {
     "kategori": "fil_yoghurt",

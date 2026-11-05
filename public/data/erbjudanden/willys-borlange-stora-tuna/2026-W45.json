@@ -472,13 +472,15 @@
       "besparing": "4.00kr",
       "klubbpris": false,
       "max_kop": null,
-      "markeringar": [],
+      "markeringar": [
+        "vegansk"
+      ],
       "ursprung": null,
       "notering": "Olika sorter",
-      "kategori": "lask_vatten",
+      "kategori": "vaxtdryck",
       "form": null,
-      "varutyp": "lask_vatten",
-      "kategori_kalla": "regel",
+      "varutyp": "vaxtdryck",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-29"
     },
     {
