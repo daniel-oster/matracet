@@ -168,6 +168,15 @@
     "updated": "2026-11-02",
     "motivering": "Duck Aktiv-Gel är toalettrengöring"
   },
+  "aladdin paradis~marabou": {
+    "kategori": "choklad",
+    "form": null,
+    "varutyp": "choklad",
+    "markeringar": [],
+    "confidence": "hog",
+    "kalla": "regel",
+    "updated": "2026-11-05"
+  },
   "alaska pollock~royal foods": {
     "kategori": "fisk",
     "form": null,
@@ -5679,6 +5688,15 @@
     "kalla": "regel",
     "updated": "2026-07-31"
   },
+  "entrecote i bit~scan": {
+    "kategori": "kott",
+    "form": null,
+    "varutyp": "kott",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-11-05"
+  },
   "entrecte bit brasilien~naturkott": {
     "kategori": "kott",
     "form": null,
@@ -6566,6 +6584,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "flankstek~premium butcher": {
+    "kategori": "kott",
+    "form": null,
+    "varutyp": "kott",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-11-05"
   },
   "flaskfars~garant": {
     "kategori": "fars_kottbullar",
@@ -8220,6 +8247,15 @@
     "kalla": "regel",
     "updated": "2026-07-17"
   },
+  "graddost~glada bonden": {
+    "kategori": "mjolk_gradde",
+    "form": "kyld",
+    "varutyp": "mjolk_gradde",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-11-05"
+  },
   "graddost~wernersson ost": {
     "kategori": "ost_hard",
     "form": "kyld",
@@ -8963,6 +8999,15 @@
     "motivering": "Gul kiwi 800g (ITALIEN): frukt",
     "updated": "2026-10-25"
   },
+  "gul kiwi~italien grekland": {
+    "kategori": "frukt",
+    "form": "farsk",
+    "varutyp": "frukt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-11-05"
+  },
   "gul lok rodlok farsk majskolv gron zucchini~sverige nederlanderna": {
     "kategori": "lok",
     "form": "farsk",
@@ -9307,6 +9352,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "handskalade rakor~marwi": {
+    "kategori": "skaldjur",
+    "form": null,
+    "varutyp": "skaldjur",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-11-05"
   },
   "handtval refill~mevolution": {
     "kategori": "hygien",
@@ -11781,6 +11835,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "kladdkaka~dazzley": {
+    "kategori": "tarta_kaka",
+    "form": "fryst",
+    "varutyp": "tarta_kaka",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-11-05"
   },
   "kladvardsrulle~ica": {
     "kategori": "stad_disk_tvatt",
@@ -18493,6 +18556,15 @@
     "kalla": "regel",
     "updated": "2026-07-31"
   },
+  "roda druvor~": {
+    "kategori": "frukt",
+    "form": "farsk",
+    "varutyp": "frukt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-11-05"
+  },
   "roda karnfria druvor i ask~ica": {
     "kategori": "frukt",
     "form": "farsk",
@@ -19187,6 +19259,15 @@
     "kalla": "model",
     "motivering": "Säsongsbukett: blommor/växter",
     "updated": "2026-10-25"
+  },
+  "sasongsbukett~blommor": {
+    "kategori": "blommor_vaxter",
+    "form": null,
+    "varutyp": "blommor_vaxter",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-11-05"
   },
   "sasongsmix ruccola spenat~sverige": {
     "kategori": "gronsaker",
