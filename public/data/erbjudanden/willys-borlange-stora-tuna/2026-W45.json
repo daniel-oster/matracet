@@ -6,10 +6,10 @@
   "vecka": "2026-W45",
   "giltigt_fran": "2026-11-02",
   "giltigt_till": "2026-11-08",
-  "hamtad": "2026-11-05",
+  "hamtad": "2026-11-06",
   "kalla_url": "https://www.willys.se/erbjudanden/butik",
-  "urval": "automatiskt hämtad (erbjudanden-weekly.mjs): livsmedel och hushåll; 21 av 263 erbjudanden utsorterade (blöjor, djurmat, ljus, kläder, m.m.)",
-  "antal": 242,
+  "urval": "automatiskt hämtad (erbjudanden-weekly.mjs): livsmedel och hushåll; 21 av 262 erbjudanden utsorterade (blöjor, djurmat, ljus, kläder, m.m.)",
+  "antal": 241,
   "erbjudanden": [
     {
       "namn": "Gul kiwi 500g",
@@ -145,28 +145,6 @@
       "form": null,
       "varutyp": "skaldjur",
       "kategori_kalla": "model",
-      "giltigt_fran": "2026-11-05"
-    },
-    {
-      "namn": "Aladdin, paradis",
-      "marke": "MARABOU",
-      "storlek": "410G",
-      "pris_text": "59.90/st",
-      "pris": 59.9,
-      "pris_typ": "st",
-      "jamforpris": "146.10/kg",
-      "ord_pris": "99.90",
-      "pris_30dgr": "99.90kr/st",
-      "besparing": "40.00kr",
-      "klubbpris": true,
-      "max_kop": 1,
-      "markeringar": [],
-      "ursprung": null,
-      "notering": null,
-      "kategori": "choklad",
-      "form": null,
-      "varutyp": "choklad",
-      "kategori_kalla": "regel",
       "giltigt_fran": "2026-11-05"
     },
     {
