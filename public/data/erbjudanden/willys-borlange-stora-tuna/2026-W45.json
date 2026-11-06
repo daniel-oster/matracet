@@ -32,7 +32,7 @@
       "kategori": "frukt",
       "form": "farsk",
       "varutyp": "frukt",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-11-05"
     },
     {
@@ -76,7 +76,7 @@
       "kategori": "blommor_vaxter",
       "form": null,
       "varutyp": "blommor_vaxter",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-11-05"
     },
     {
@@ -98,7 +98,7 @@
       "kategori": "kott",
       "form": null,
       "varutyp": "kott",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-11-05"
     },
     {
@@ -122,7 +122,7 @@
       "kategori": "tarta_kaka",
       "form": "fryst",
       "varutyp": "tarta_kaka",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-11-05"
     },
     {
@@ -144,7 +144,7 @@
       "kategori": "skaldjur",
       "form": null,
       "varutyp": "skaldjur",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-11-05"
     },
     {
@@ -191,7 +191,7 @@
       "kategori": "kott",
       "form": null,
       "varutyp": "kott",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-11-05"
     },
     {

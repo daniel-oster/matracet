@@ -4973,12 +4973,13 @@
   },
   "ekologisk notfars~garant eko": {
     "kategori": "fars_kottbullar",
-    "form": null,
+    "form": "farsk",
     "varutyp": "fars_kottbullar",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-07-17"
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Rå nötfärs 15% enligt noteringen \"färsk\" – färs, kylvara med kort datum",
+    "updated": "2026-11-06"
   },
   "ekologisk olivolja~garant eko": {
     "kategori": "olja_vinager",
@@ -5693,9 +5694,10 @@
     "form": null,
     "varutyp": "kott",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-05"
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Rå entrecôte av nöt i bit – kött",
+    "updated": "2026-11-06"
   },
   "entrecte bit brasilien~naturkott": {
     "kategori": "kott",
@@ -6590,9 +6592,10 @@
     "form": null,
     "varutyp": "kott",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-05"
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Rå flankstek av nöt, styckningsdetalj – kött",
+    "updated": "2026-11-06"
   },
   "flaskfars~garant": {
     "kategori": "fars_kottbullar",
@@ -8248,13 +8251,14 @@
     "updated": "2026-07-17"
   },
   "graddost~glada bonden": {
-    "kategori": "mjolk_gradde",
+    "kategori": "ost_hard",
     "form": "kyld",
-    "varutyp": "mjolk_gradde",
+    "varutyp": "ost_hard",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-05"
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Gräddost är en ost (38% fett), inte grädde – \"grädd\" i namnet vilseledde regeln",
+    "updated": "2026-11-06"
   },
   "graddost~wernersson ost": {
     "kategori": "ost_hard",
@@ -9004,9 +9008,10 @@
     "form": "farsk",
     "varutyp": "frukt",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-05"
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Färsk kiwi klass 2, frukt",
+    "updated": "2026-11-06"
   },
   "gul lok rodlok farsk majskolv gron zucchini~sverige nederlanderna": {
     "kategori": "lok",
@@ -9358,9 +9363,10 @@
     "form": null,
     "varutyp": "skaldjur",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-05"
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Skalade räkor, tillfälligt parti; kyld/fryst oklart i noteringen så form lämnas tom",
+    "updated": "2026-11-06"
   },
   "handtval refill~mevolution": {
     "kategori": "hygien",
@@ -11841,9 +11847,10 @@
     "form": "fryst",
     "varutyp": "tarta_kaka",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-05"
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Djupfryst färdig kladdkaka enligt noteringen – bakverk",
+    "updated": "2026-11-06"
   },
   "kladvardsrulle~ica": {
     "kategori": "stad_disk_tvatt",
@@ -18561,9 +18568,10 @@
     "form": "farsk",
     "varutyp": "frukt",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-05"
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Färska kärnfria druvor i ask, klass 1",
+    "updated": "2026-11-06"
   },
   "roda karnfria druvor i ask~ica": {
     "kategori": "frukt",
@@ -19265,9 +19273,10 @@
     "form": null,
     "varutyp": "blommor_vaxter",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-05"
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Snittblommor/bukett, ingen livsmedelsform",
+    "updated": "2026-11-06"
   },
   "sasongsmix ruccola spenat~sverige": {
     "kategori": "gronsaker",

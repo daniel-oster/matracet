@@ -165,9 +165,9 @@
       "ursprung": "Sverige",
       "notering": "färsk, fetthalt max 15%",
       "kategori": "fars_kottbullar",
-      "form": null,
+      "form": "farsk",
       "varutyp": "fars_kottbullar",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-11-05"
     },
     {
@@ -210,10 +210,10 @@
       ],
       "ursprung": null,
       "notering": "fetthalt 38%",
-      "kategori": "mjolk_gradde",
+      "kategori": "ost_hard",
       "form": "kyld",
-      "varutyp": "mjolk_gradde",
-      "kategori_kalla": "regel",
+      "varutyp": "ost_hard",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-11-05"
     },
     {
@@ -237,7 +237,7 @@
       "kategori": "frukt",
       "form": "farsk",
       "varutyp": "frukt",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-11-05"
     },
     {
