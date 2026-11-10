@@ -6,10 +6,10 @@
   "vecka": "2026-W46",
   "giltigt_fran": "2026-11-09",
   "giltigt_till": "2026-11-15",
-  "hamtad": "2026-11-09",
+  "hamtad": "2026-11-10",
   "kalla_url": "https://www.hemkop.se/erbjudanden/4638",
-  "urval": "automatiskt hämtad (erbjudanden-weekly.mjs): livsmedel och hushåll; 1 av 61 erbjudanden utsorterade (blöjor, djurmat, ljus, kläder, m.m.)",
-  "antal": 60,
+  "urval": "automatiskt hämtad (erbjudanden-weekly.mjs): livsmedel och hushåll; 1 av 62 erbjudanden utsorterade (blöjor, djurmat, ljus, kläder, m.m.)",
+  "antal": 61,
   "erbjudanden": [
     {
       "namn": "Smörgåspålägg",
@@ -30,7 +30,7 @@
         "nyckelhal"
       ],
       "ursprung": null,
-      "notering": "PÅLÄGG 15/ST",
+      "notering": "flera sorter, gäller ej ekologiskt, Rostbiff, Prosciutto",
       "kategori": "palagg_pastej",
       "form": null,
       "varutyp": "palagg_pastej",
@@ -120,7 +120,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": "LUSSEKATT 6/ST",
+      "notering": "flera sorter",
       "kategori": "fikabrod",
       "form": null,
       "varutyp": "fikabrod",
@@ -479,6 +479,30 @@
       "kategori_kalla": "model"
     },
     {
+      "namn": "Svensk högrev",
+      "marke": "Dalsjöfors",
+      "storlek": "CA 1KG",
+      "pris_text": "169.00/kg",
+      "pris": 169,
+      "pris_typ": "st",
+      "jamforpris": "169.00/kg",
+      "ord_pris": "225.00",
+      "pris_30dgr": "199.00kr/kg",
+      "besparing": "56.00kr",
+      "klubbpris": true,
+      "max_kop": null,
+      "markeringar": [
+        "svensk",
+        "kott_sverige"
+      ],
+      "ursprung": "Sverige",
+      "notering": null,
+      "kategori": "kott",
+      "form": null,
+      "varutyp": "kott",
+      "kategori_kalla": "regel"
+    },
+    {
       "namn": "Bondbröd",
       "marke": "Östras",
       "storlek": "1KG",
@@ -772,7 +796,7 @@
       "max_kop": null,
       "markeringar": [],
       "ursprung": null,
-      "notering": "SCHIACCIAT 8/ST",
+      "notering": null,
       "kategori": "matbrod",
       "form": null,
       "varutyp": "matbrod",
