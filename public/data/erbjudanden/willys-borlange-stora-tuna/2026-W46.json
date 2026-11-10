@@ -2674,10 +2674,10 @@
       ],
       "ursprung": null,
       "notering": "CHOKLAD",
-      "kategori": "godis",
+      "kategori": "choklad",
       "form": null,
-      "varutyp": "godis",
-      "kategori_kalla": "regel",
+      "varutyp": "choklad",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-12-25"
     },
     {

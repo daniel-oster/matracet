@@ -21098,13 +21098,14 @@
     "updated": "2026-08-28"
   },
   "smash choco crunch~smash olw": {
-    "kategori": "godis",
+    "kategori": "choklad",
     "form": null,
-    "varutyp": "godis",
+    "varutyp": "choklad",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-09"
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Willys för den under CHOKLAD; OLW Smash! Choco Crunch är chokladbeklädd knaprig snacks i 90–150 g-påse, inte salt snacks.",
+    "updated": "2026-11-10"
   },
   "smash~smash": {
     "kategori": "godis",
