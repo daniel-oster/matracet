@@ -22392,9 +22392,10 @@
     "form": null,
     "varutyp": "kott",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-10"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-11",
+    "motivering": "Högrev är ett färskt nötkött (styckningsdel), Dalsjöfors är en köttproducent; ca 1 kg styck, inte chark eller färdigmat."
   },
   "svensk kalkonbrostfil~ingelsta": {
     "kategori": "fagel",
