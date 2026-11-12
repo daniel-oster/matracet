@@ -4805,6 +4805,15 @@
     "motivering": "Ekologisk biff (Garant Eko): kött",
     "updated": "2026-10-25"
   },
+  "ekologisk blandfars~garant eko": {
+    "kategori": "fars_kottbullar",
+    "form": null,
+    "varutyp": "fars_kottbullar",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-11-12"
+  },
   "ekologisk bregott laktosfri bregott~bregott": {
     "kategori": "smor_margarin",
     "form": "kyld",
@@ -8044,6 +8053,15 @@
     "kalla": "regel",
     "updated": "2026-08-28"
   },
+  "glass 6pack~marabou oreo daim": {
+    "kategori": "kex",
+    "form": null,
+    "varutyp": "kex",
+    "markeringar": [],
+    "confidence": "hog",
+    "kalla": "regel",
+    "updated": "2026-11-12"
+  },
   "glass 8pack~sia glass": {
     "kategori": "glass",
     "form": "fryst",
@@ -8098,6 +8116,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-09-11"
+  },
+  "glasspinnar~dazzley": {
+    "kategori": "glass",
+    "form": "fryst",
+    "varutyp": "glass",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-11-12"
   },
   "glasspints~sammontana": {
     "kategori": "glass",
@@ -11261,6 +11288,15 @@
     "updated": "2026-11-02",
     "motivering": "Julros är en snittblomma/växt"
   },
+  "julstjarna~blommor": {
+    "kategori": "ovrigt",
+    "form": null,
+    "varutyp": "ovrigt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-11-12"
+  },
   "kaffe hela bonor~gevalia": {
     "kategori": "kaffe_te",
     "form": null,
@@ -11404,6 +11440,15 @@
     "kalla": "regel",
     "updated": "2026-09-11"
   },
+  "kaffe~garant": {
+    "kategori": "kaffe_te",
+    "form": null,
+    "varutyp": "kaffe_te",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-11-12"
+  },
   "kaffe~gevalia": {
     "kategori": "kaffe_te",
     "form": null,
@@ -11506,6 +11551,15 @@
     "kalla": "model",
     "updated": "2026-10-29",
     "motivering": "Skivad kyld fisk i förpackning, samma produktlinje som Falkenbergs gravad/kallrökt lax som redan ligger i fisk."
+  },
+  "kallrokt lax~harbour": {
+    "kategori": "fisk",
+    "form": null,
+    "varutyp": "fisk",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-11-12"
   },
   "kalmix rodkal gronkal~garant": {
     "kategori": "gronsaker",
@@ -12209,6 +12263,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-08-28"
+  },
+  "kiwi i korg~italien grekland": {
+    "kategori": "frukt",
+    "form": "farsk",
+    "varutyp": "frukt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-11-12"
   },
   "kiwibar i ask~": {
     "kategori": "frukt",
