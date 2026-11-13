@@ -4810,9 +4810,10 @@
     "form": null,
     "varutyp": "fars_kottbullar",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-12"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-13",
+    "motivering": "Blandfärs (nöt/fläsk) 21% fett; fars_kottbullar stämmer, noteringen ger ingen formsignal."
   },
   "ekologisk bregott laktosfri bregott~bregott": {
     "kategori": "smor_margarin",
@@ -8122,9 +8123,10 @@
     "form": "fryst",
     "varutyp": "glass",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-12"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-13",
+    "motivering": "Glasspinnar med smak tuttifrutti, fryst glass; stämmer."
   },
   "glasspints~sammontana": {
     "kategori": "glass",
@@ -10004,9 +10006,10 @@
     "form": null,
     "varutyp": "frallor_tunnbrod",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-07-31"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-13",
+    "motivering": "Hel baguette från Bonjour, bröd; frallor_tunnbrod stämmer."
   },
   "hel butternut pumpa~spanien portugal": {
     "kategori": "gronsaker",
@@ -11289,13 +11292,14 @@
     "motivering": "Julros är en snittblomma/växt"
   },
   "julstjarna~blommor": {
-    "kategori": "ovrigt",
+    "kategori": "blommor_vaxter",
     "form": null,
-    "varutyp": "ovrigt",
+    "varutyp": "blommor_vaxter",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-12"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-13",
+    "motivering": "Julstjärna är en krukväxt (poinsettia), inte ett skräpvärde; hör till blommor & växter."
   },
   "kaffe hela bonor~gevalia": {
     "kategori": "kaffe_te",
@@ -11445,9 +11449,10 @@
     "form": null,
     "varutyp": "kaffe_te",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-12"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-13",
+    "motivering": "Garants bryggkaffe i olika sorter; kaffe_te stämmer."
   },
   "kaffe~gevalia": {
     "kategori": "kaffe_te",
@@ -11554,12 +11559,13 @@
   },
   "kallrokt lax~harbour": {
     "kategori": "fisk",
-    "form": null,
+    "form": "kyld",
     "varutyp": "fisk",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-12"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-13",
+    "motivering": "Kallrökt lax är kylvara i vakuumpåse; fisk stämmer, form satt till kyld enligt Falkenbergs kallrökta lax."
   },
   "kalmix rodkal gronkal~garant": {
     "kategori": "gronsaker",
@@ -12269,9 +12275,10 @@
     "form": "farsk",
     "varutyp": "frukt",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-12"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-13",
+    "motivering": "Färsk kiwi i korg, klass 2; frukt/farsk stämmer."
   },
   "kiwibar i ask~": {
     "kategori": "frukt",

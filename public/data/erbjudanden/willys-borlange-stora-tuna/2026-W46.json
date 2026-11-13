@@ -27,10 +27,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": "Grenad",
-      "kategori": "ovrigt",
+      "kategori": "blommor_vaxter",
       "form": null,
-      "varutyp": "ovrigt",
-      "kategori_kalla": "regel",
+      "varutyp": "blommor_vaxter",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-15"
     },
     {
@@ -54,7 +54,7 @@
       "kategori": "kaffe_te",
       "form": null,
       "varutyp": "kaffe_te",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-15"
     },
     {
@@ -78,7 +78,7 @@
       "kategori": "frukt",
       "form": "farsk",
       "varutyp": "frukt",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-15"
     },
     {
@@ -125,7 +125,7 @@
       "kategori": "glass",
       "form": "fryst",
       "varutyp": "glass",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-15"
     },
     {
@@ -152,7 +152,7 @@
       "kategori": "fars_kottbullar",
       "form": null,
       "varutyp": "fars_kottbullar",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-15"
     },
     {
@@ -174,9 +174,9 @@
       "ursprung": null,
       "notering": null,
       "kategori": "fisk",
-      "form": null,
+      "form": "kyld",
       "varutyp": "fisk",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-15"
     },
     {
