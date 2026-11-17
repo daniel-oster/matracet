@@ -3923,6 +3923,15 @@
     "kalla": "regel",
     "updated": "2026-08-31"
   },
+  "dates dadlar~lyna": {
+    "kategori": "ovrigt",
+    "form": null,
+    "varutyp": "ovrigt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-11-17"
+  },
   "delad ananas~": {
     "kategori": "frukt",
     "form": "farsk",
@@ -19673,6 +19682,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-08-31"
+  },
+  "risnudlar vermicelli~bamboo tree": {
+    "kategori": "pasta",
+    "form": "torr",
+    "varutyp": "pasta",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-11-17"
   },
   "risnudlar~bamboo tree": {
     "kategori": "pasta",

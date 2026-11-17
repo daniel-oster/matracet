@@ -6,9 +6,9 @@
   "vecka": "2026-W47",
   "giltigt_fran": "2026-11-16",
   "giltigt_till": "2026-11-22",
-  "hamtad": "2026-11-16",
+  "hamtad": "2026-11-17",
   "kalla_url": "https://www.hemkop.se/erbjudanden/4638",
-  "urval": "automatiskt hämtad (erbjudanden-weekly.mjs): livsmedel och hushåll; 2 av 65 erbjudanden utsorterade (blöjor, djurmat, ljus, kläder, m.m.)",
+  "urval": "automatiskt hämtad (erbjudanden-weekly.mjs): livsmedel och hushåll; 3 av 65 erbjudanden utsorterade (blöjor, djurmat, ljus, kläder, m.m.)",
   "antal": 62,
   "erbjudanden": [
     {
@@ -271,7 +271,7 @@
       "pris_typ": "st",
       "jamforpris": "125.00/kg",
       "ord_pris": "28.95",
-      "pris_30dgr": "33.07kr/st",
+      "pris_30dgr": "28.95kr/st",
       "besparing": "6.18kr",
       "klubbpris": true,
       "max_kop": null,
