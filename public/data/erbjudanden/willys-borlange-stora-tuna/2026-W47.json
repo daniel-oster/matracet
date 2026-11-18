@@ -3099,10 +3099,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "ovrigt",
-      "form": null,
-      "varutyp": "ovrigt",
-      "kategori_kalla": "regel",
+      "kategori": "notter_torkat",
+      "form": "torr",
+      "varutyp": "notter_torkat",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-12-25"
     },
     {
@@ -4515,7 +4515,7 @@
       "kategori": "pasta",
       "form": "torr",
       "varutyp": "pasta",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_till": "2026-11-29"
     },
     {

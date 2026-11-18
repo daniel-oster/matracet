@@ -3924,13 +3924,14 @@
     "updated": "2026-08-31"
   },
   "dates dadlar~lyna": {
-    "kategori": "ovrigt",
-    "form": null,
-    "varutyp": "ovrigt",
+    "kategori": "notter_torkat",
+    "form": "torr",
+    "varutyp": "notter_torkat",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-17"
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Dadlar (dates) är torkad frukt, inte ovrigt – 200g påse, samma leaf som LYNA Dadlar och russin.",
+    "updated": "2026-11-18"
   },
   "delad ananas~": {
     "kategori": "frukt",
@@ -19688,9 +19689,10 @@
     "form": "torr",
     "varutyp": "pasta",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-17"
+    "confidence": "hog",
+    "kalla": "model",
+    "motivering": "Torra risnudlar (vermicelli) 400g är nudlar/pastaersättning; pasta är rätt leaf, regelverdiktet stämmer.",
+    "updated": "2026-11-18"
   },
   "risnudlar~bamboo tree": {
     "kategori": "pasta",
