@@ -102,6 +102,15 @@
     "motivering": "Ägg 12-pack (Lantägg): ägg",
     "updated": "2026-10-25"
   },
+  "agg 24pack~garant": {
+    "kategori": "agg",
+    "form": null,
+    "varutyp": "agg",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-11-19"
+  },
   "agg eko ekologisk produktion~mediumlarge garant eko": {
     "kategori": "agg",
     "form": null,
@@ -1489,6 +1498,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "benfri karr~danish crown": {
+    "kategori": "kott",
+    "form": null,
+    "varutyp": "kott",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-11-19"
   },
   "benfri karr~ica": {
     "kategori": "kott",
@@ -20134,6 +20152,15 @@
     "confidence": "lag",
     "kalla": "regel",
     "updated": "2026-09-11"
+  },
+  "rosor mix 7pack~blommor": {
+    "kategori": "blommor_vaxter",
+    "form": null,
+    "varutyp": "blommor_vaxter",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-11-19"
   },
   "rosor ros 10 pack korta~": {
     "kategori": "blommor_vaxter",
