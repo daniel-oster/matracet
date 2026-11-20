@@ -107,9 +107,10 @@
     "form": null,
     "varutyp": "agg",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-19"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-20",
+    "motivering": "Garants 24-pack frigående hönsägg, storlek M — vanliga ägg; form lämnas tom som för övriga äggposter."
   },
   "agg eko ekologisk produktion~mediumlarge garant eko": {
     "kategori": "agg",
@@ -1501,12 +1502,13 @@
   },
   "benfri karr~danish crown": {
     "kategori": "kott",
-    "form": null,
+    "form": "kyld",
     "varutyp": "kott",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-19"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-20",
+    "motivering": "Hel benfri fläskkarré ca 1,2 kg från Danish Crown — rå styckdetalj av gris, kylvara."
   },
   "benfri karr~ica": {
     "kategori": "kott",
@@ -9984,12 +9986,13 @@
   },
   "hamburgare 4pack~garant": {
     "kategori": "fars_kottbullar",
-    "form": null,
+    "form": "kyld",
     "varutyp": "fars_kottbullar",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-08-28"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-20",
+    "motivering": "Färska formade burgare 4×113 g (\"färska\" i noteringen) — formade färsprodukter hör till fars_kottbullar, kylvara."
   },
   "hamburgare 4pack~irland": {
     "kategori": "fars_kottbullar",
@@ -16635,9 +16638,10 @@
     "form": null,
     "varutyp": "godis",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-07-17"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-20",
+    "motivering": "Willys lösviktsgodis (Pick & Mix-sortiment \"Naturgodis\") säljs per kg — godis."
   },
   "natutgodis~pix mix": {
     "kategori": "godis",
@@ -18363,13 +18367,14 @@
     "updated": "2026-07-17"
   },
   "pizzakit~monte castello": {
-    "kategori": "pizza",
-    "form": null,
-    "varutyp": "pizza",
+    "kategori": "bak_sott",
+    "form": "torr",
+    "varutyp": "bak_sott",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-07-31"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-20",
+    "motivering": "Monte Castellos pizzakit 600 g (16,50 kr/kg) är en torr deg-mix att baka själv, inte färdig pizza — samma som Pop Bakerys pizzakit (bak_sott, torr)."
   },
   "pizzamix riven 28~frischgold": {
     "kategori": "pizza",
@@ -20158,9 +20163,10 @@
     "form": null,
     "varutyp": "blommor_vaxter",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-19"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-20",
+    "motivering": "Bukett med sju snittrosor, 40 cm — snittblommor, inte livsmedel."
   },
   "rosor ros 10 pack korta~": {
     "kategori": "blommor_vaxter",

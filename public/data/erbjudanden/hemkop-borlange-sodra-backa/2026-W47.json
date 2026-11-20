@@ -721,7 +721,7 @@
       "kategori": "agg",
       "form": null,
       "varutyp": "agg",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-11-19"
     },
     {
@@ -766,9 +766,9 @@
       "ursprung": "Sverige",
       "notering": "flera sorter, färska",
       "kategori": "fars_kottbullar",
-      "form": null,
+      "form": "kyld",
       "varutyp": "fars_kottbullar",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-11-19"
     },
     {

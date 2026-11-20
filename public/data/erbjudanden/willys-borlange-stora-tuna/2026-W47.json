@@ -32,7 +32,7 @@
       "kategori": "blommor_vaxter",
       "form": null,
       "varutyp": "blommor_vaxter",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-11-19"
     },
     {
@@ -54,7 +54,7 @@
       "kategori": "godis",
       "form": null,
       "varutyp": "godis",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-11-19"
     },
     {
@@ -74,9 +74,9 @@
       "ursprung": "Danmark",
       "notering": null,
       "kategori": "kott",
-      "form": null,
+      "form": "kyld",
       "varutyp": "kott",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-11-19"
     },
     {
@@ -95,10 +95,10 @@
       "markeringar": [],
       "ursprung": null,
       "notering": null,
-      "kategori": "pizza",
-      "form": null,
-      "varutyp": "pizza",
-      "kategori_kalla": "regel",
+      "kategori": "bak_sott",
+      "form": "torr",
+      "varutyp": "bak_sott",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-11-19"
     },
     {
