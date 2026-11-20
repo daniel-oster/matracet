@@ -6,10 +6,10 @@
   "vecka": "2026-W47",
   "giltigt_fran": "2026-11-16",
   "giltigt_till": "2026-11-22",
-  "hamtad": "2026-11-19",
+  "hamtad": "2026-11-20",
   "kalla_url": "https://www.hemkop.se/erbjudanden/4638",
-  "urval": "automatiskt hämtad (erbjudanden-weekly.mjs): livsmedel och hushåll; 3 av 71 erbjudanden utsorterade (blöjor, djurmat, ljus, kläder, m.m.)",
-  "antal": 68,
+  "urval": "automatiskt hämtad (erbjudanden-weekly.mjs): livsmedel och hushåll; 3 av 72 erbjudanden utsorterade (blöjor, djurmat, ljus, kläder, m.m.)",
+  "antal": 69,
   "erbjudanden": [
     {
       "namn": "Krossade tomater",
@@ -744,6 +744,30 @@
       "form": "kyld",
       "varutyp": "ost_hard",
       "kategori_kalla": "model",
+      "giltigt_fran": "2026-11-19"
+    },
+    {
+      "namn": "Svenskt smör",
+      "marke": "Garant",
+      "storlek": "500G",
+      "pris_text": "45.00/st",
+      "pris": 45,
+      "pris_typ": "st",
+      "jamforpris": "90.00/kg",
+      "ord_pris": "52.95",
+      "pris_30dgr": "52.95kr/st",
+      "besparing": "7.95kr",
+      "klubbpris": true,
+      "max_kop": 2,
+      "markeringar": [
+        "svensk"
+      ],
+      "ursprung": null,
+      "notering": "flera sorter, fetthalt 81-82%, gäller ej ekologiskt",
+      "kategori": "smor_margarin",
+      "form": "kyld",
+      "varutyp": "smor_margarin",
+      "kategori_kalla": "regel",
       "giltigt_fran": "2026-11-19"
     },
     {
