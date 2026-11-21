@@ -52,6 +52,17 @@ else in this app — no fuzzy-matching library, just read the names):
   best-effort, `tid_min` only if they mentioned roughly how long it took. Don't
   invent components they didn't describe.
 
+**Variants (2026-11).** Most meals are everyday dishes ("Pasta med sås", "Soppa",
+"Curry och kokosgryta") with a `varianter` list — the specific ways the household
+makes them, sorted by the household themselves. Match a description to the
+everyday dish first and then to a variant: "pasta med tonfisk och citron" is the
+meal `pastasas`, variant "Tonfisk och citron". When the variant isn't listed yet,
+**add it** to that meal's `varianter` (`{namn}`, plus `receptSlug` if step 3 finds
+the recipe) rather than creating a new meal — that is how the library is meant to
+grow, from what is actually eaten, never by classifying up front. Create a new
+top-level meal only when the dish fits no everyday dish at all; if unsure which
+one it fits, ask in one line.
+
 This replaces the old behavior of offering a `komplett: false` recipe stub for
 a spontaneous dish — a meal-with-components is now the escape valve for "this
 isn't a full recipe yet," not a fake recipe file (see CLAUDE.md's "The

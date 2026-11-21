@@ -2527,6 +2527,20 @@ and Omega Centauri are glows at their real positions. Speed 1 redraws once a sec
 (a slow visible twist), the sky page offers ×300/×3000. It pauses when hidden and respects reduced-motion.
 Menu → **Vintergatan** shows `public/laget/vintergatan.jpg` if someone adds one (a ChatGPT picture, for fun).
 
+## Everyday dishes with variants (2026-11)
+
+`meals.json` now holds ~26 everyday dishes ("Pasta med sås", "Soppa", "Curry och kokosgryta" …), each
+with `varianter: MealVariant[]` (`{namn, receptSlug?, mealSlug?}`, see `src/types/meal.ts`), plus
+standalone recipe-less dishes (Pizza, Pannkakor …). The grouping was **sorted by the household** in a
+drag-and-drop artifact (https://claude.ai/artifact/DoqE3e5MeLzry61nyjonP2, db doc `sortering/aktuell`)
+from a proposal covering all 135 meal recipes. Deliberately additive: recipe resolution is unchanged
+(`resolveMealForRecipe` still gives a recipe its own virtual meal, so feedback/history keys didn't move),
+and the 7 older meals kept their slugs (`pastasas`, `tacos`, `hamburgare` became dishes; `sushi`,
+`mexikansk-soppa-nachos` are referenced as variants via `mealSlug`). The library grows by the
+`log-meal` skill adding variants from what's actually eaten — never by classifying up front.
+`MealEditorModal` has no variant UI yet but carries `varianter` through an edit. Nothing in the app
+*uses* variants yet; that's the Matracet redesign (docs/livet-plan.md steps 4–5).
+
 ## Livet: the base page with three shields (2026-11)
 
 Plan and decisions: `docs/livet-plan.md`. `/matracet/livet/` (third Vite entry, `livet/index.html` →

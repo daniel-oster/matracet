@@ -2,90 +2,1077 @@
   "schema_version": 1,
   "meals": [
     {
-      "slug": "hamburgare",
-      "namn": "Hamburgare",
-      "alias": ["burgare", "grillburgare"],
+      "slug": "pastasas",
+      "namn": "Pasta med sås",
+      "alias": [
+        "pasta",
+        "pastasås"
+      ],
       "komponenter": [
-        { "vara": "hamburgerbröd", "alternativ": [] },
-        { "vara": "nötfärsbiff", "alternativ": ["vegansk biff", "halloumi"] },
-        { "vara": "sallad", "alternativ": ["ruccola"], "valfri": true },
-        { "vara": "pommes", "alternativ": ["klyftpotatis", "sötpotatispommes"], "valfri": true }
+        {
+          "vara": "pasta",
+          "alternativ": [
+            "nudlar",
+            "ris"
+          ]
+        },
+        {
+          "vara": "sås",
+          "alternativ": [
+            "tomatsås",
+            "köttfärssås",
+            "gräddsås",
+            "pesto"
+          ]
+        },
+        {
+          "vara": "riven ost",
+          "alternativ": [
+            "vegoost"
+          ],
+          "valfri": true
+        }
       ],
       "receptSlug": null,
-      "taggar": ["grill", "snabbt", "barnvänligt"]
+      "taggar": [
+        "snabbt",
+        "barnvänligt"
+      ],
+      "tid_min": 20,
+      "varianter": [
+        {
+          "namn": "Spaghetti och köttfärssås",
+          "receptSlug": "spaghetti-kottfarssas"
+        },
+        {
+          "namn": "Belugabolognese",
+          "receptSlug": "belugabolognese"
+        },
+        {
+          "namn": "Spaghetti med linser och tomatbiffsås",
+          "receptSlug": "spaghetti-bönbiffsås"
+        },
+        {
+          "namn": "Spaghetti med fetaostbollar och tomatsås",
+          "receptSlug": "spaghetti-fetaostbollar"
+        },
+        {
+          "namn": "Pasta med zucchini och citronsås",
+          "receptSlug": "pasta-zucchini-citron"
+        },
+        {
+          "namn": "Pasta med fetaost och rostad paprika",
+          "receptSlug": "pasta-fetaost-paprika"
+        },
+        {
+          "namn": "Pasta med kantareller och örter",
+          "receptSlug": "pasta-kantareller"
+        },
+        {
+          "namn": "Krämig laxpasta",
+          "receptSlug": "kramig-laxpasta"
+        },
+        {
+          "namn": "Krämig pasta med räkor och vitlök",
+          "receptSlug": "kramig-rakpasta-vitlok"
+        },
+        {
+          "namn": "Sparrispasta med citron och timjan",
+          "receptSlug": "sparrispasta-citron-timjan"
+        },
+        {
+          "namn": "Pasta pomodoro med avokado",
+          "receptSlug": "pasta-pomodoro-avokado"
+        },
+        {
+          "namn": "Krämig tomatpasta med hela tomater",
+          "receptSlug": "kramig-tomatpasta-hela-tomater"
+        },
+        {
+          "namn": "Hemgjord gnocchi med tomatsås",
+          "receptSlug": "hemgjord-gnocchi"
+        }
+      ]
+    },
+    {
+      "slug": "pastasallad",
+      "namn": "Pastasallad",
+      "alias": [],
+      "komponenter": [],
+      "receptSlug": null,
+      "taggar": [],
+      "varianter": [
+        {
+          "namn": "Bönpastasallad",
+          "receptSlug": "bönpastasallad"
+        },
+        {
+          "namn": "Tonfiskpastasallad"
+        },
+        {
+          "namn": "Skinkpastasallad"
+        }
+      ]
+    },
+    {
+      "slug": "pasta-i-ugn",
+      "namn": "Pasta i ugn",
+      "alias": [],
+      "komponenter": [],
+      "receptSlug": null,
+      "taggar": [],
+      "varianter": [
+        {
+          "namn": "Klassisk lasagne",
+          "receptSlug": "klassisk-lasagne"
+        },
+        {
+          "namn": "Vegetarisk lasagne",
+          "receptSlug": "vegetarisk-lasagne"
+        },
+        {
+          "namn": "Lasagne med soltorkade tomater",
+          "receptSlug": "lasagne-soltorkade-tomater"
+        },
+        {
+          "namn": "Cannelloni med belugafyllning",
+          "receptSlug": "cannelloni-belugafyllning"
+        },
+        {
+          "namn": "Fetaost- och tomatpasta i ugn",
+          "receptSlug": "fetaost-tomatpasta"
+        },
+        {
+          "namn": "Vego-pastagratäng på okokt pasta",
+          "receptSlug": "pastagratang-okokt-pasta"
+        }
+      ]
+    },
+    {
+      "slug": "tacos",
+      "namn": "Tacos",
+      "alias": [
+        "tacofredag"
+      ],
+      "komponenter": [
+        {
+          "vara": "tortilla eller tacoskal",
+          "alternativ": []
+        },
+        {
+          "vara": "köttfärs",
+          "alternativ": [
+            "fisk",
+            "halloumi",
+            "svarta bönor"
+          ]
+        },
+        {
+          "vara": "riven ost",
+          "alternativ": [
+            "vegoost"
+          ],
+          "valfri": true
+        },
+        {
+          "vara": "gräddfil",
+          "alternativ": [
+            "vegansk gräddfil"
+          ],
+          "valfri": true
+        },
+        {
+          "vara": "salsa",
+          "alternativ": [],
+          "valfri": true
+        }
+      ],
+      "receptSlug": null,
+      "taggar": [
+        "fredagsmys",
+        "barnvänligt"
+      ],
+      "tid_min": 25,
+      "varianter": [
+        {
+          "namn": "Tacos med köttfärs",
+          "receptSlug": "tacos-kottfars"
+        },
+        {
+          "namn": "Enkla fisktacos med lime",
+          "receptSlug": "enkla-fisktacos-lime"
+        },
+        {
+          "namn": "Halloumitacos med avokadokram",
+          "receptSlug": "halloumitacos-avokadokram"
+        },
+        {
+          "namn": "Snabba vegotacos med tomater och majs",
+          "receptSlug": "vegotacos-svarta-bonor-majs"
+        },
+        {
+          "namn": "Minitortillas med svart bönröra",
+          "receptSlug": "minitortillas-svart-bönröra"
+        },
+        {
+          "namn": "Tacogratäng",
+          "receptSlug": "tacogratang"
+        }
+      ]
+    },
+    {
+      "slug": "chili",
+      "namn": "Chili",
+      "alias": [],
+      "komponenter": [],
+      "receptSlug": null,
+      "taggar": [],
+      "varianter": [
+        {
+          "namn": "Chili con carne",
+          "receptSlug": "chili-con-carne"
+        },
+        {
+          "namn": "Vegetarisk chili",
+          "receptSlug": "vegetarisk-chili"
+        },
+        {
+          "namn": "Chili sin carne",
+          "receptSlug": "chili-sin-carne"
+        }
+      ]
+    },
+    {
+      "slug": "soppa",
+      "namn": "Soppa",
+      "alias": [],
+      "komponenter": [],
+      "receptSlug": null,
+      "taggar": [],
+      "varianter": [
+        {
+          "namn": "Blomkålssoppa med rostad blomkål",
+          "receptSlug": "blomkålssoppa"
+        },
+        {
+          "namn": "Morotssoppa med ingefära och kokosmjölk",
+          "receptSlug": "morotssoppa-kokos"
+        },
+        {
+          "namn": "Tomatsoppa",
+          "receptSlug": "tomatsoppa-bönor"
+        },
+        {
+          "namn": "Rotfruktssoppa",
+          "receptSlug": "rotfruktssoppa"
+        },
+        {
+          "namn": "Ostsoppa med persiljekrutonger",
+          "receptSlug": "ostsoppa-persiljekrutonger"
+        },
+        {
+          "namn": "Röd linssoppa med kokos och tomat",
+          "receptSlug": "rod-linssoppa-kokos-tomat"
+        },
+        {
+          "namn": "Vegansk gulaschsoppa med vita bönor",
+          "receptSlug": "vegetarisk-gulasch-vita-bonor"
+        },
+        {
+          "namn": "Fisksoppa med saffran",
+          "receptSlug": "fisksoppa-saffran"
+        },
+        {
+          "namn": "Risnudelsoppa med ägg",
+          "receptSlug": "risnudelsoppa-ägg"
+        },
+        {
+          "namn": "Mexikansk soppa med nachos",
+          "mealSlug": "mexikansk-soppa-nachos"
+        }
+      ]
+    },
+    {
+      "slug": "curry-och-kokosgryta",
+      "namn": "Curry och kokosgryta",
+      "alias": [],
+      "komponenter": [],
+      "receptSlug": null,
+      "taggar": [],
+      "varianter": [
+        {
+          "namn": "Het kikärtsgryta med saffran",
+          "receptSlug": "het-kikärtsgryta"
+        },
+        {
+          "namn": "Linsgryta med kokos och lime",
+          "receptSlug": "linsgryta-kokos-lime"
+        },
+        {
+          "namn": "Indisk spenatgryta",
+          "receptSlug": "indisk-spenatgryta"
+        },
+        {
+          "namn": "Sötpotatisgryta med linser och berberkryddor",
+          "receptSlug": "sötpotatisgryta-linser-berber"
+        },
+        {
+          "namn": "Garbanzocurry med blomkål och broccoli",
+          "receptSlug": "garbanzocurry"
+        },
+        {
+          "namn": "Thaigryta med grön curry och kokosmjölk",
+          "receptSlug": "vegansk-thaigryta-gron-curry"
+        },
+        {
+          "namn": "Krämig daal med kokos och spenat",
+          "receptSlug": "kramig-daal"
+        },
+        {
+          "namn": "Kikärtsgryta med röd curry och kokosmjölk",
+          "receptSlug": "kikartsgryta-rod-curry-kokos"
+        },
+        {
+          "namn": "Vegetarisk linsgryta med nudlar, kokosmjölk och zucchini",
+          "receptSlug": "vegetarisk-linsgryta-nudlar"
+        },
+        {
+          "namn": "Vego currygryta med halloumi",
+          "receptSlug": "vego-currygryta-halloumi"
+        },
+        {
+          "namn": "Kikärtscurry med halloumi",
+          "receptSlug": "kikartscurry-halloumi"
+        },
+        {
+          "namn": "Fiskgryta på torsk med kokos och curry",
+          "receptSlug": "fiskgryta-torsk-kokos-curry"
+        },
+        {
+          "namn": "Asiatiska kycklingköttbullar i röd curry med kokosris",
+          "receptSlug": "asiatiska-kycklingkottbullar"
+        },
+        {
+          "namn": "Marockansk fusktagine med kikärtor",
+          "receptSlug": "marockansk-fusktagine"
+        }
+      ]
+    },
+    {
+      "slug": "mustig-gryta",
+      "namn": "Mustig gryta",
+      "alias": [],
+      "komponenter": [],
+      "receptSlug": null,
+      "taggar": [],
+      "varianter": [
+        {
+          "namn": "Böngryta med spenat",
+          "receptSlug": "böngryta-spenat"
+        },
+        {
+          "namn": "Lammgryta med rosmarin",
+          "receptSlug": "lammgryta"
+        },
+        {
+          "namn": "Coq au vin",
+          "receptSlug": "coq-au-vin"
+        },
+        {
+          "namn": "Mustig högrevsgryta",
+          "receptSlug": "mustig-hogrevsgryta"
+        },
+        {
+          "namn": "Krämig kycklinggryta med soltorkade tomater",
+          "receptSlug": "kramig-kycklinggryta-soltorkade-tomater"
+        },
+        {
+          "namn": "Rotfruktsgryta med rödbetor och morötter",
+          "receptSlug": "rotfruktsgryta-med-rodbetor-och-morotter"
+        },
+        {
+          "namn": "Ratatouille",
+          "receptSlug": "ratatouille"
+        },
+        {
+          "namn": "Krämig fiskgryta",
+          "receptSlug": "kramig-fiskgryta"
+        }
+      ]
+    },
+    {
+      "slug": "stroganoff",
+      "namn": "Stroganoff",
+      "alias": [],
+      "komponenter": [],
+      "receptSlug": null,
+      "taggar": [],
+      "varianter": [
+        {
+          "namn": "Korvstroganoff med ris",
+          "receptSlug": "korvstroganoff-ris"
+        },
+        {
+          "namn": "Biff Stroganoff",
+          "receptSlug": "biff-stroganoff"
+        },
+        {
+          "namn": "Tofu Stroganoff",
+          "receptSlug": "tofu-stroganoff"
+        }
+      ]
+    },
+    {
+      "slug": "kottbullar-och-biffar-med-mos",
+      "namn": "Köttbullar och biffar med mos",
+      "alias": [],
+      "komponenter": [],
+      "receptSlug": null,
+      "taggar": [],
+      "varianter": [
+        {
+          "namn": "Klassiska köttbullar med potatismos",
+          "receptSlug": "klassiska-kottbullar"
+        },
+        {
+          "namn": "Pannbiff med löksås",
+          "receptSlug": "pannbiff-loksas"
+        },
+        {
+          "namn": "Italienska frikadeller i tomat- och paprikasås",
+          "receptSlug": "italienska-frikadeller-tomat-paprikasas"
+        },
+        {
+          "namn": "Bönbullar med potatismos och lingon",
+          "receptSlug": "bönbullar-potatismos"
+        },
+        {
+          "namn": "Svampbiffar med gräddsås och lingon",
+          "receptSlug": "svampbiffar-gräddsås"
+        },
+        {
+          "namn": "Lindströmare (kidneybönsbiffar)",
+          "receptSlug": "lindströmare-kidneybönor"
+        },
+        {
+          "namn": "Vita bönbullar med brynt smör",
+          "receptSlug": "vita-bönbullar-brynt-smör"
+        }
+      ]
+    },
+    {
+      "slug": "hamburgare",
+      "namn": "Hamburgare",
+      "alias": [
+        "burgare",
+        "grillburgare"
+      ],
+      "komponenter": [
+        {
+          "vara": "hamburgerbröd",
+          "alternativ": []
+        },
+        {
+          "vara": "nötfärsbiff",
+          "alternativ": [
+            "vegansk biff",
+            "halloumi"
+          ]
+        },
+        {
+          "vara": "sallad",
+          "alternativ": [
+            "ruccola"
+          ],
+          "valfri": true
+        },
+        {
+          "vara": "pommes",
+          "alternativ": [
+            "klyftpotatis",
+            "sötpotatispommes"
+          ],
+          "valfri": true
+        }
+      ],
+      "receptSlug": null,
+      "taggar": [
+        "grill",
+        "snabbt",
+        "barnvänligt"
+      ],
+      "varianter": [
+        {
+          "namn": "Linsburgare",
+          "receptSlug": "linsburgare"
+        }
+      ]
+    },
+    {
+      "slug": "falafel-och-vegobiffar",
+      "namn": "Falafel och vegobiffar",
+      "alias": [],
+      "komponenter": [],
+      "receptSlug": null,
+      "taggar": [],
+      "varianter": [
+        {
+          "namn": "Falafel med yoghurtsås",
+          "receptSlug": "falafel"
+        },
+        {
+          "namn": "Kikärtsbiffar med tomatsallad",
+          "receptSlug": "kikärtsbiffar-tomatsallad"
+        },
+        {
+          "namn": "Svarta bönbiffar med tomatsalsa",
+          "receptSlug": "svarta-bönbiffar-tomatsalsa"
+        },
+        {
+          "namn": "Bönbullar i pitabröd med yoghurtsås",
+          "receptSlug": "bönbullar-pitabröd"
+        },
+        {
+          "namn": "Bönrösti med ägg och sallad",
+          "receptSlug": "bönrösti"
+        }
+      ]
+    },
+    {
+      "slug": "fisk-i-ugn",
+      "namn": "Fisk i ugn",
+      "alias": [],
+      "komponenter": [],
+      "receptSlug": null,
+      "taggar": [],
+      "varianter": [
+        {
+          "namn": "Ugnsbakad lax med soja och ingefära",
+          "receptSlug": "laxfile-soja-ingefara"
+        },
+        {
+          "namn": "Ugnsbakad torsk med pesto och tomat",
+          "receptSlug": "ugnsbakad-torsk-pesto-tomat"
+        },
+        {
+          "namn": "Ugnsbakad lax med rostade grönsaker",
+          "receptSlug": "ugnsbakad-lax-rostade-gronsaker"
+        },
+        {
+          "namn": "Världens lättaste torsk i ugn",
+          "receptSlug": "varldens-lattaste-torsk"
+        },
+        {
+          "namn": "Torsk i folie med tomat, pesto och purjolök",
+          "receptSlug": "torsk-folie-tomat-pesto"
+        },
+        {
+          "namn": "Gratinerad lax med potatismos",
+          "receptSlug": "gratinerad-lax-potatismos"
+        }
+      ]
+    },
+    {
+      "slug": "fiskgratang-och-fiskbiffar",
+      "namn": "Fiskgratäng och fiskbiffar",
+      "alias": [],
+      "komponenter": [],
+      "receptSlug": null,
+      "taggar": [],
+      "varianter": [
+        {
+          "namn": "Fiskgratäng med lax och torsk",
+          "receptSlug": "fiskgratang-lax-torsk"
+        },
+        {
+          "namn": "Fiskbiffar i dillsås",
+          "receptSlug": "fiskbiffar-dillsas-ica"
+        },
+        {
+          "namn": "Laxbiffar med dillyoghurt",
+          "receptSlug": "laxbiffar-dillyoghurt"
+        }
+      ]
+    },
+    {
+      "slug": "kott-och-kyckling-i-ugn",
+      "namn": "Kött och kyckling i ugn",
+      "alias": [],
+      "komponenter": [],
+      "receptSlug": null,
+      "taggar": [],
+      "varianter": [
+        {
+          "namn": "Fläskfilé i ugn",
+          "receptSlug": "flaskfile-ugn"
+        },
+        {
+          "namn": "Fläskkarré i ugn med äpple och ingefära",
+          "receptSlug": "flaskkarre-apple-ingefara"
+        },
+        {
+          "namn": "Kyckling på plåt med ugnsrostade rotsaker",
+          "receptSlug": "kyckling-plat-rotsaker"
+        },
+        {
+          "namn": "Flygande Jakob",
+          "receptSlug": "flygande-jakob"
+        },
+        {
+          "namn": "Teriyakikyckling i riskokare",
+          "receptSlug": "teriyakikyckling-riskokare"
+        }
+      ]
+    },
+    {
+      "slug": "husman",
+      "namn": "Husman",
+      "alias": [],
+      "komponenter": [],
+      "receptSlug": null,
+      "taggar": [],
+      "varianter": [
+        {
+          "namn": "Stekt fläsk med löksås",
+          "receptSlug": "stekt-flask-loksas"
+        },
+        {
+          "namn": "Falukorv med stuvade makaroner",
+          "receptSlug": "falukorv-stuvade-makaroner"
+        },
+        {
+          "namn": "Råggmunk med lingon",
+          "receptSlug": "råggmunk-lingon"
+        }
+      ]
+    },
+    {
+      "slug": "pytt",
+      "namn": "Pytt",
+      "alias": [],
+      "komponenter": [],
+      "receptSlug": null,
+      "taggar": [],
+      "varianter": [
+        {
+          "namn": "Pyttipanna",
+          "receptSlug": "pyttipanna"
+        },
+        {
+          "namn": "Rotfruktspytt med stekt ägg",
+          "receptSlug": "rotfruktspytt"
+        }
+      ]
+    },
+    {
+      "slug": "gratang",
+      "namn": "Gratäng",
+      "alias": [],
+      "komponenter": [],
+      "receptSlug": null,
+      "taggar": [],
+      "varianter": [
+        {
+          "namn": "Svampgratäng",
+          "receptSlug": "svamp-gratäng"
+        },
+        {
+          "namn": "Broccoligratang",
+          "receptSlug": "broccoligratang"
+        },
+        {
+          "namn": "Rotfruktsgratang med timjan och citron",
+          "receptSlug": "rotfruktsgratang-timjan-citron"
+        },
+        {
+          "namn": "Vitkålsgratäng med färskost",
+          "receptSlug": "vitkalsgratang"
+        },
+        {
+          "namn": "Gratinerad aubergine med tomatsås",
+          "receptSlug": "gratinerad-aubergine"
+        },
+        {
+          "namn": "Fyllda paprikor med kornotto och fetaost",
+          "receptSlug": "fyllda-paprikor-kornotto"
+        }
+      ]
+    },
+    {
+      "slug": "paj",
+      "namn": "Paj",
+      "alias": [],
+      "komponenter": [],
+      "receptSlug": null,
+      "taggar": [],
+      "varianter": [
+        {
+          "namn": "Paj med svamp och spenat",
+          "receptSlug": "paj-svamp-spenat"
+        },
+        {
+          "namn": "Potatis-quiche",
+          "receptSlug": "potatis-quiche"
+        },
+        {
+          "namn": "Klassisk vasterbottenpaj",
+          "receptSlug": "klassisk-vasterbottenpaj"
+        },
+        {
+          "namn": "Gronkalspaj med fetaost",
+          "receptSlug": "gronkalspaj-fetaost"
+        }
+      ]
+    },
+    {
+      "slug": "aggratter",
+      "namn": "Äggrätter",
+      "alias": [],
+      "komponenter": [],
+      "receptSlug": null,
+      "taggar": [],
+      "varianter": [
+        {
+          "namn": "Frittata med paprika- och olivsallad",
+          "receptSlug": "frittata-paprika-oliver"
+        },
+        {
+          "namn": "Shakshuka med tre sorters paprika",
+          "receptSlug": "shakshuka-paprika"
+        },
+        {
+          "namn": "Huevos Rancheros",
+          "receptSlug": "huevos-rancheros"
+        },
+        {
+          "namn": "Stekta ägg med bönsallad",
+          "receptSlug": "stekta-ägg-bönsallad"
+        },
+        {
+          "namn": "Wokade grönsaker med japansk omelett",
+          "receptSlug": "wokade-grönsaker-omelett"
+        },
+        {
+          "namn": "Ägg & avokado på rostat bröd",
+          "receptSlug": "agg-avokado-rostat-brod"
+        },
+        {
+          "namn": "Asiatisk ugnspannkaka med stekt shiitakesvamp",
+          "receptSlug": "asiatisk-ugnspannkaka"
+        }
+      ]
+    },
+    {
+      "slug": "wok-och-stekt-ris",
+      "namn": "Wok och stekt ris",
+      "alias": [],
+      "komponenter": [],
+      "receptSlug": null,
+      "taggar": [],
+      "varianter": [
+        {
+          "namn": "Fried Rice med sojabönor och cashewnötter",
+          "receptSlug": "fried-rice-sojabönor"
+        },
+        {
+          "namn": "Tofuwok med soja och sesam",
+          "receptSlug": "tofuwok-sojavinager"
+        },
+        {
+          "namn": "Nudelwok med hoisin och broccoli",
+          "receptSlug": "nudelwok-hoisin-broccoli"
+        }
+      ]
+    },
+    {
+      "slug": "sushi-och-risbollar",
+      "namn": "Sushi och risbollar",
+      "alias": [],
+      "komponenter": [],
+      "receptSlug": null,
+      "taggar": [],
+      "varianter": [
+        {
+          "namn": "Sushi",
+          "mealSlug": "sushi"
+        },
+        {
+          "namn": "Onigiri med kyckling",
+          "receptSlug": "onigiri-med-kyckling"
+        },
+        {
+          "namn": "Onigiri med tonfisk",
+          "receptSlug": "onigiri-med-tonfisk"
+        },
+        {
+          "namn": "Onigiri med lax",
+          "receptSlug": "onigiri-med-lax"
+        },
+        {
+          "namn": "Yaki onigiri – grillade risbollar",
+          "receptSlug": "yaki-onigiri-grillade-risbollar"
+        },
+        {
+          "namn": "Jumeokbap med tonfisk och majonnäs",
+          "receptSlug": "jumeokbap-tonfisk-majonnas"
+        },
+        {
+          "namn": "Jumeokbap naturell",
+          "receptSlug": "jumeokbap-naturell"
+        },
+        {
+          "namn": "Jumeokbap med nötkött, ost och kimchi",
+          "receptSlug": "jumeokbap-notkott-ost-kimchi"
+        }
+      ]
+    },
+    {
+      "slug": "bowl-och-matsallad",
+      "namn": "Bowl och matsallad",
+      "alias": [],
+      "komponenter": [],
+      "receptSlug": null,
+      "taggar": [],
+      "varianter": [
+        {
+          "namn": "Quinoa med rostad sötpotatis och chipotledressing",
+          "receptSlug": "quinoa-sötpotatis-chipotle"
+        },
+        {
+          "namn": "Quinoa med sötpotatis och koriander",
+          "receptSlug": "quinoa-sötpotatis-koriander"
+        },
+        {
+          "namn": "Grön bowl med tofu och cashewdressing",
+          "receptSlug": "gron-bowl-tofu-cashewdressing"
+        },
+        {
+          "namn": "Sojabönssallad med sesamdressing",
+          "receptSlug": "sojabönssallad-sesam"
+        },
+        {
+          "namn": "Halloumi med ugnsrostad sötpotatis och granatäppelsalsa",
+          "receptSlug": "halloumi-sötpotatis-granatäpple"
+        },
+        {
+          "namn": "Halloumiplattar med stekt zucchini",
+          "receptSlug": "halloumiplattar-zucchini"
+        },
+        {
+          "namn": "Rostad pumpa med blomkål och harissasalsa",
+          "receptSlug": "rostad-pumpa-blomkål"
+        },
+        {
+          "namn": "Tomat- och mozzarellasallad med pesto",
+          "receptSlug": "tomat-mozzarellasallad"
+        },
+        {
+          "namn": "Tomat-, gurk- och fetaostsallad",
+          "receptSlug": "tomat-gurka-fetasallad"
+        }
+      ]
+    },
+    {
+      "slug": "risotto",
+      "namn": "Risotto",
+      "alias": [],
+      "komponenter": [],
+      "receptSlug": null,
+      "taggar": [],
+      "varianter": [
+        {
+          "namn": "Karljohansvamp-risotto med grönkålschips",
+          "receptSlug": "karljohansvamp-risotto"
+        }
+      ]
+    },
+    {
+      "slug": "plattar",
+      "namn": "Plättar",
+      "alias": [],
+      "komponenter": [],
+      "receptSlug": null,
+      "taggar": [],
+      "varianter": [
+        {
+          "namn": "Potatisplattar med lingon och keso",
+          "receptSlug": "potatisplattar-lingon"
+        },
+        {
+          "namn": "Kokosplattar med morot och ingefära",
+          "receptSlug": "kokosplattar-morot"
+        }
+      ]
+    },
+    {
+      "slug": "snabbt-och-kopt",
+      "namn": "Snabbt och köpt",
+      "alias": [],
+      "komponenter": [],
+      "receptSlug": null,
+      "taggar": [],
+      "varianter": [
+        {
+          "namn": "Snackpotter (köpta, 3 st)",
+          "receptSlug": "snackpotter"
+        }
+      ]
+    },
+    {
+      "slug": "bakad-potatis",
+      "namn": "Bakad potatis",
+      "alias": [],
+      "komponenter": [],
+      "receptSlug": null,
+      "taggar": []
+    },
+    {
+      "slug": "pannkakor",
+      "namn": "Pannkakor",
+      "alias": [],
+      "komponenter": [],
+      "receptSlug": null,
+      "taggar": []
+    },
+    {
+      "slug": "fiskpinnar-med-potatis",
+      "namn": "Fiskpinnar med potatis",
+      "alias": [],
+      "komponenter": [],
+      "receptSlug": null,
+      "taggar": []
+    },
+    {
+      "slug": "korv-med-mos-eller-makaroner",
+      "namn": "Korv med mos eller makaroner",
+      "alias": [],
+      "komponenter": [],
+      "receptSlug": null,
+      "taggar": []
+    },
+    {
+      "slug": "pizza",
+      "namn": "Pizza",
+      "alias": [],
+      "komponenter": [],
+      "receptSlug": null,
+      "taggar": []
+    },
+    {
+      "slug": "tortellini-eller-farsk-pasta",
+      "namn": "Tortellini eller färsk pasta",
+      "alias": [],
+      "komponenter": [],
+      "receptSlug": null,
+      "taggar": []
+    },
+    {
+      "slug": "omelett",
+      "namn": "Omelett",
+      "alias": [],
+      "komponenter": [],
+      "receptSlug": null,
+      "taggar": []
+    },
+    {
+      "slug": "rester",
+      "namn": "Rester",
+      "alias": [],
+      "komponenter": [],
+      "receptSlug": null,
+      "taggar": []
     },
     {
       "slug": "snackpotter",
       "namn": "Snackpotter",
       "alias": [],
       "komponenter": [
-        { "vara": "snackpotter (köpta)", "alternativ": [] }
+        {
+          "vara": "snackpotter (köpta)",
+          "alternativ": []
+        }
       ],
       "receptSlug": "snackpotter",
-      "taggar": ["snabbt", "barnvänligt"],
+      "taggar": [
+        "snabbt",
+        "barnvänligt"
+      ],
       "tid_min": 5
-    },
-    {
-      "slug": "pastasas",
-      "namn": "Pasta med sås",
-      "alias": ["pasta", "pastasås"],
-      "komponenter": [
-        { "vara": "pasta", "alternativ": ["nudlar", "ris"] },
-        { "vara": "sås", "alternativ": ["tomatsås", "köttfärssås", "gräddsås", "pesto"] },
-        { "vara": "riven ost", "alternativ": ["vegoost"], "valfri": true }
-      ],
-      "receptSlug": null,
-      "taggar": ["snabbt", "barnvänligt"],
-      "tid_min": 20
-    },
-    {
-      "slug": "tacos",
-      "namn": "Tacos",
-      "alias": ["tacofredag"],
-      "komponenter": [
-        { "vara": "tortilla eller tacoskal", "alternativ": [] },
-        { "vara": "köttfärs", "alternativ": ["fisk", "halloumi", "svarta bönor"] },
-        { "vara": "riven ost", "alternativ": ["vegoost"], "valfri": true },
-        { "vara": "gräddfil", "alternativ": ["vegansk gräddfil"], "valfri": true },
-        { "vara": "salsa", "alternativ": [], "valfri": true }
-      ],
-      "receptSlug": null,
-      "taggar": ["fredagsmys", "barnvänligt"],
-      "tid_min": 25
     },
     {
       "slug": "mexikansk-soppa-nachos",
       "namn": "Mexikansk soppa med nachos",
       "alias": [],
       "komponenter": [
-        { "vara": "mexikansk soppa", "alternativ": [] },
-        { "vara": "nachos", "alternativ": [], "valfri": true }
+        {
+          "vara": "mexikansk soppa",
+          "alternativ": []
+        },
+        {
+          "vara": "nachos",
+          "alternativ": [],
+          "valfri": true
+        }
       ],
       "receptSlug": null,
-      "taggar": ["snabbt"]
+      "taggar": [
+        "snabbt"
+      ]
     },
     {
       "slug": "sushi",
       "namn": "Sushi",
       "alias": [],
       "komponenter": [
-        { "vara": "sushi (köpt)", "alternativ": [] }
+        {
+          "vara": "sushi (köpt)",
+          "alternativ": []
+        }
       ],
       "receptSlug": null,
-      "taggar": ["köpt", "snabbt"]
+      "taggar": [
+        "köpt",
+        "snabbt"
+      ]
     },
     {
       "slug": "jumeokbap",
       "namn": "Jumeokbap",
-      "alias": ["risbollar", "koreanska risbollar"],
+      "alias": [
+        "risbollar",
+        "koreanska risbollar"
+      ],
       "komponenter": [
-        { "vara": "sushiris", "alternativ": [] },
-        { "vara": "fyllning", "alternativ": ["tonfisk och majonnäs", "nötkött, ost och kimchi"], "valfri": true },
-        { "vara": "furikake eller smulad nori", "alternativ": [], "valfri": true },
-        { "vara": "garnering (salladslök, japansk majonnäs, tonkatsusås)", "alternativ": [], "valfri": true }
+        {
+          "vara": "sushiris",
+          "alternativ": []
+        },
+        {
+          "vara": "fyllning",
+          "alternativ": [
+            "tonfisk och majonnäs",
+            "nötkött, ost och kimchi"
+          ],
+          "valfri": true
+        },
+        {
+          "vara": "furikake eller smulad nori",
+          "alternativ": [],
+          "valfri": true
+        },
+        {
+          "vara": "garnering (salladslök, japansk majonnäs, tonkatsusås)",
+          "alternativ": [],
+          "valfri": true
+        }
       ],
       "receptSlug": null,
-      "taggar": ["koreanskt", "risbollar", "snabbt", "barnvänligt"],
+      "taggar": [
+        "koreanskt",
+        "risbollar",
+        "snabbt",
+        "barnvänligt"
+      ],
       "tid_min": 20
     }
   ]

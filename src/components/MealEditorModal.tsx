@@ -72,6 +72,8 @@ export default function MealEditorModal({
       komponenter: cleanKomponenter,
       receptSlug,
       taggar: splitList(taggarText),
+      // The editor has no UI for variants yet; carry them over so an edit never drops them.
+      ...(meal?.varianter ? { varianter: meal.varianter } : {}),
       ...(tid != null && !Number.isNaN(tid) ? { tid_min: tid } : {}),
     }
   }
