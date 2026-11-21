@@ -23557,9 +23557,10 @@
     "form": "kyld",
     "varutyp": "smor_margarin",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-08-28"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-21",
+    "motivering": "Garants svenska smör 81-82% fett, kylvara i smörhyllan"
   },
   "svinnsmarta hallon~willys": {
     "kategori": "bar",
