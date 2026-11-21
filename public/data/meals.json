@@ -179,6 +179,7 @@
       "receptSlug": null,
       "taggar": [],
       "recept": [
+        "kycklingcurry-broccoli-rod-curry",
         "het-kikärtsgryta",
         "linsgryta-kokos-lime",
         "indisk-spenatgryta",
@@ -227,21 +228,87 @@
       ]
     },
     {
+      "slug": "kottbullar",
+      "namn": "Köttbullar",
+      "alias": [
+        "vegobullar",
+        "frikadeller"
+      ],
+      "komponenter": [
+        {
+          "vara": "köttbullar",
+          "alternativ": [
+            "vegobullar",
+            "bönbullar"
+          ]
+        },
+        {
+          "vara": "potatis eller potatismos",
+          "alternativ": [
+            "pasta"
+          ]
+        },
+        {
+          "vara": "lingon",
+          "alternativ": [],
+          "valfri": true
+        },
+        {
+          "vara": "gräddsås",
+          "alternativ": [],
+          "valfri": true
+        }
+      ],
+      "receptSlug": null,
+      "taggar": [
+        "barnvänligt"
+      ],
+      "recept": [
+        "klassiska-kottbullar",
+        "italienska-frikadeller-tomat-paprikasas",
+        "bönbullar-potatismos",
+        "vita-bönbullar-brynt-smör"
+      ]
+    },
+    {
       "slug": "kottbullar-och-biffar-med-mos",
-      "namn": "Köttbullar och biffar med mos",
+      "namn": "Biffar med mos och lingon",
       "alias": [],
       "komponenter": [],
       "receptSlug": null,
       "taggar": [],
       "recept": [
-        "klassiska-kottbullar",
         "pannbiff-loksas",
-        "italienska-frikadeller-tomat-paprikasas",
-        "bönbullar-potatismos",
         "svampbiffar-gräddsås",
-        "lindströmare-kidneybönor",
-        "vita-bönbullar-brynt-smör"
+        "lindströmare-kidneybönor"
       ]
+    },
+    {
+      "slug": "snitsel",
+      "namn": "Snitsel",
+      "alias": [
+        "schnitzel"
+      ],
+      "komponenter": [
+        {
+          "vara": "snitsel",
+          "alternativ": [
+            "vegoschnitzel"
+          ]
+        },
+        {
+          "vara": "pommes frites",
+          "alternativ": [
+            "potatis"
+          ]
+        }
+      ],
+      "receptSlug": null,
+      "taggar": [
+        "snabbt",
+        "barnvänligt"
+      ],
+      "tid_min": 25
     },
     {
       "slug": "hamburgare",

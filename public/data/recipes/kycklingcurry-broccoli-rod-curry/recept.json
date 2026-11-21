@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "slug": "kycklingcurry-broccoli-rod-curry",
+  "nummer": 142,
+  "namn": "Kyckling och broccoli i röd curry och kokosmjölk",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": [
+    "kott"
+  ],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": [
+    "wok"
+  ],
+  "dagkedja": null,
+  "ingredienser": [
+    {
+      "vara": "kyckling",
+      "mangd": null,
+      "enhet": null
+    },
+    {
+      "vara": "broccoli",
+      "mangd": null,
+      "enhet": null
+    },
+    {
+      "vara": "grönsaker",
+      "mangd": null,
+      "enhet": null
+    },
+    {
+      "vara": "röd currypasta",
+      "mangd": null,
+      "enhet": null
+    },
+    {
+      "vara": "kokosmjölk",
+      "mangd": null,
+      "enhet": null
+    },
+    {
+      "vara": "ris",
+      "mangd": null,
+      "enhet": null
+    }
+  ],
+  "varianter": {},
+  "instruktioner": [],
+  "komplett": false
+}

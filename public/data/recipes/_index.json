@@ -1427,6 +1427,15 @@
       "namn": "Sushi",
       "tid_min": 10,
       "kategorier": []
+    },
+    {
+      "slug": "kycklingcurry-broccoli-rod-curry",
+      "nummer": 142,
+      "namn": "Kyckling och broccoli i röd curry och kokosmjölk",
+      "tid_min": 30,
+      "kategorier": [
+        "kott"
+      ]
     }
   ]
 }
