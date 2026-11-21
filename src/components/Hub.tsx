@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { DayMeal, RecipeIndexEntry, ScreenName } from '../types'
 import { LIVET_URL } from '../lib/livetLink'
 import type { Meal } from '../types/meal'
@@ -8,6 +9,12 @@ import { hardRefresh } from '../lib/hardRefresh'
 const DAY_NAMES: Record<string, string> = {
   mandag: 'Måndag', tisdag: 'Tisdag', onsdag: 'Onsdag',
   torsdag: 'Torsdag', fredag: 'Fredag', lordag: 'Lördag', sondag: 'Söndag',
+}
+
+const MER_KEY = 'matracet:hub-mer-open:v1'
+
+function readMerOpen(): boolean {
+  try { return localStorage.getItem(MER_KEY) === '1' } catch { return false }
 }
 
 function todayLabel(): string {
@@ -36,6 +43,11 @@ interface Props {
 }
 
 export default function Hub({ weekLabel, rollingDays, recipeIndex, meals, dayPlans, scheduleMissing, onNavigate, onOpenRecipe }: Props) {
+  const [merOpen, setMerOpen] = useState(readMerOpen)
+  const setMer = (open: boolean) => {
+    setMerOpen(open)
+    try { localStorage.setItem(MER_KEY, open ? '1' : '0') } catch { /* ignore */ }
+  }
   const { getOverride, getAttendance } = useWeekPlan()
   const rawTonight = rollingDays[0]
   const tonight = rawTonight
@@ -95,20 +107,46 @@ export default function Hub({ weekLabel, rollingDays, recipeIndex, meals, dayPla
           </div>
         )}
 
-        <button className="hub-primary" onClick={() => onNavigate('veckan')}>
-          <span className="hub-primary-icon">🗓️</span>
-          <span>
-            <div className="hub-primary-title">Veckan</div>
-            <div className="hub-primary-sub">Se & planera lunch + middag</div>
-          </span>
-          <span className="hub-primary-arrow">→</span>
+        <div className="hub-primaries">
+          <button className="hub-primary" onClick={() => onNavigate('veckan')}>
+            <span className="hub-primary-icon">🗓️</span>
+            <span>
+              <div className="hub-primary-title">Veckan</div>
+              <div className="hub-primary-sub">Planera och se veckan</div>
+            </span>
+            <span className="hub-primary-arrow">→</span>
+          </button>
+          <button className="hub-primary" onClick={() => onNavigate('handla')}>
+            <span className="hub-primary-icon">🛒</span>
+            <span>
+              <div className="hub-primary-title">Handla</div>
+              <div className="hub-primary-sub">Inköpslistan</div>
+            </span>
+            <span className="hub-primary-arrow">→</span>
+          </button>
+          <button className="hub-primary" onClick={() => onNavigate('recept')}>
+            <span className="hub-primary-icon">📖</span>
+            <span>
+              <div className="hub-primary-title">Recept</div>
+              <div className="hub-primary-sub">Alla recept</div>
+            </span>
+            <span className="hub-primary-arrow">→</span>
+          </button>
+        </div>
+
+        <button
+          className="hub-mer-toggle"
+          aria-expanded={merOpen}
+          onClick={() => setMer(!merOpen)}
+        >
+          <span>Mer</span>
+          <span className="hub-mer-chev">{merOpen ? '▾' : '▸'}</span>
         </button>
 
+        {merOpen && (
         <div className="hub-grid">
           <Tile em="🧺" tn="Skafferi" ts="råvaror & idéer" onClick={() => onNavigate('skafferi')} />
           <Tile em="🏷️" tn="Fynd" ts="veckans erbjudanden" onClick={() => onNavigate('fynd')} />
-          <Tile em="🛒" tn="Handla" ts="inköpslista" onClick={() => onNavigate('handla')} />
-          <Tile em="📖" tn="Recept" ts={`${recipeIndex.length} st`} onClick={() => onNavigate('recept')} />
           <Tile em="👨‍👧‍👧" tn="Familj" ts="schema & profiler" onClick={() => onNavigate('familj')} />
           <Tile em="🔔" tn="Bevaka" ts="bulk-fynd" onClick={() => onNavigate('bevaka')} />
           <Tile em="📝" tn="Anteckningar" ts="idéer & noteringar" onClick={() => onNavigate('anteckningar')} />
@@ -117,6 +155,7 @@ export default function Hub({ weekLabel, rollingDays, recipeIndex, meals, dayPla
           <Tile em="⚙️" tn="Hantera appen" ts="synk, notiser & export" onClick={() => onNavigate('hantera')} />
           <Tile em="🌿" tn="Livet" ts="läget, familjen & schema" onClick={() => window.location.assign(LIVET_URL)} />
         </div>
+        )}
       </div>
     </div>
   )

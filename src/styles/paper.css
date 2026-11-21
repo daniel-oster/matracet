@@ -161,8 +161,15 @@ input, select, textarea { font-family: inherit; }
 .glance-dish { font-size: 16px; margin-top: 3px; }
 .glance-meta { font-size: 12px; color: var(--muted); margin-top: 4px; }
 
+.hub-primaries { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+@media (min-width: 860px), (orientation: landscape) and (max-height: 600px) { .hub-primaries { flex-direction: row; } .hub-primaries .hub-primary { flex: 1; } }
+.hub-mer-toggle {
+  margin-top: 18px; width: 100%; background: transparent; border: none; border-top: 1px solid var(--line2);
+  padding: 12px 2px 4px; display: flex; justify-content: space-between; align-items: center;
+  font-family: inherit; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted2); cursor: pointer;
+}
 .hub-primary {
-  margin-top: 14px; width: 100%; background: var(--ink); color: var(--cream); border: none;
+  margin-top: 0; min-height: 68px; width: 100%; background: var(--ink); color: var(--cream); border: none;
   border-radius: 9px; padding: 16px 18px; display: flex; align-items: center; gap: 12px;
   cursor: pointer; text-align: left;
 }
