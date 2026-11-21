@@ -4,8 +4,10 @@
     {
       "id": "kaffe",
       "vara": "Kaffe",
-      "kategori": "ovrigt",
+      "kategori": "dryck",
       "sok": ["kaffe"],
+      "kategorier": ["kaffe_te"],
+      "undvik_ord": ["snabbkaffe", "kapsl", "pads"],
       "undvik_marken": ["Gevalia", "Löfbergs Lila"],
       "onskat_marke": null,
       "storlek_hint": null,
@@ -50,6 +52,7 @@
       "vara": "Schampo",
       "kategori": "ovrigt",
       "sok": ["schampo"],
+      "undvik_ord": ["baby"],
       "undvik_marken": [],
       "onskat_marke": "Head & Shoulders",
       "storlek_hint": null,
@@ -98,7 +101,7 @@
       "onskat_marke": null,
       "storlek_hint": null,
       "troskel_kr": null,
-      "anteckning": "Chips, godis, snacks – hela kategorin, inget särskilt märke."
+      "anteckning": "Chips, godis, snacks – hela kategorin. Visas bara vid riktigt stor rabatt (minst 40 %)."
     },
     {
       "id": "frukt_gront",
@@ -109,7 +112,7 @@
       "onskat_marke": null,
       "storlek_hint": null,
       "troskel_kr": null,
-      "anteckning": "Allt – morötter, tomater, vattenmelon, jordgubbar m.m. – hela kategorin på extrapris. Ersätter tre tidigare separata poster (Grönt färskt/fryst, Frukt); den 2026-07-rework:ade taxonomin har fryst grönt/frukt som en `form`-attribut på varje erbjudande snarare än en egen bevaknings-kategori, så ett par frysta grönsakserbjudanden kan dyka upp här också."
+      "anteckning": "Allt – morötter, tomater, vattenmelon, jordgubbar m.m. Visas bara vid riktigt stor rabatt (minst 40 %)."
     }
   ]
 }

@@ -100,6 +100,10 @@ export interface BevakningItem {
   sok: string[]
   /** Brand substrings that disqualify an otherwise-matching offer. */
   undvik_marken: string[]
+  /** Words that disqualify a match, e.g. "snabbkaffe" for a watch on ground coffee. */
+  undvik_ord?: string[]
+  /** When set, only offers in these kategori leaves match (keeps "kaffe" off kaffebröd). */
+  kategorier?: string[]
   onskat_marke: string | null
   storlek_hint: string | null
   troskel_kr: number | null

@@ -32,6 +32,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { classify } from './erbjudanden-lib.mjs';
 import { loadLexikon, saveLexikon, lookupLexikon, upsertLexikon, applyLexikonEntry } from './erbjudanden-lexikon.mjs';
+import { matchesWatch, rateOffer, compareRated, dealLabel } from '../src/lib/bevakaMatch.mjs';
 
 const ROOT = new URL('..', import.meta.url).pathname;
 const DATA = join(ROOT, 'public/data/erbjudanden');
@@ -85,15 +86,13 @@ const lexikon = loadLexikon();
 const results = [];
 const STORE_NAMN = { willys: 'Willys', hemkop: 'Hemköp', ica: 'ICA' };
 const offerKey = (o) => `${o.namn}|${o.marke ?? ''}`.toLowerCase();
-// Same rule as src/lib/bevaka.ts matchesBevakning, but only for keyword watches — a
-// category-wide watch (empty `sok`) matches dozens of offers and would make every
-// notification noise.
+// Same matcher as the app's Bevaka screen (src/lib/bevakaMatch.mjs), but only for keyword
+// watches — a category-wide watch (empty `sok`) matches dozens of offers and would make
+// every notification noise. Good deals and the preferred brand come first.
 const bevakning = JSON.parse(readFileSync(join(DATA, 'bevakningslista.json'), 'utf8')).varor.filter((v) => v.sok.length);
 function bevakaHit(o) {
-  const hay = `${o.namn} ${o.marke ?? ''}`.toLowerCase();
-  return bevakning.find(
-    (v) => !v.undvik_marken.some((b) => hay.includes(b.toLowerCase())) && v.sok.some((k) => hay.includes(k.toLowerCase())),
-  );
+  const item = bevakning.find((v) => matchesWatch(v, o));
+  return item ? { item, rating: rateOffer(item, o) } : null;
 }
 const changes = []; // { store, newWeek, total, nya: offer[] }
 
@@ -215,10 +214,11 @@ if (changes.length) {
   const hits = [];
   for (const c of changes) {
     for (const o of c.nya) {
-      const item = bevakaHit(o);
-      if (item) hits.push(`🔔 ${item.vara}: ${STORE_NAMN[c.store]} – ${o.namn}${o.marke ? ` (${o.marke})` : ''}, ${o.pris_text}`);
+      const hit = bevakaHit(o);
+      if (hit) hits.push({ ...hit.rating, text: `${hit.rating.good ? '🔥' : '🔔'} ${hit.item.vara}: ${STORE_NAMN[c.store]} – ${o.namn}${o.marke ? ` (${o.marke})` : ''}, ${o.pris_text}${dealLabel(hit.rating) ? ` ${dealLabel(hit.rating)}` : ''}` });
     }
   }
+  hits.sort(compareRated);
   const newWeek = changes.some((c) => c.newWeek);
   const rader = changes.map((c) =>
     c.newWeek
@@ -229,7 +229,7 @@ if (changes.length) {
     id: `erbjudanden-${new Date().toISOString()}`,
     datum: new Date().toISOString(),
     titel: newWeek ? `Veckans erbjudanden v.${weekNr}` : 'Nya fynd',
-    rader: [...hits, ...rader],
+    rader: [...hits.map((h) => h.text), ...rader],
     notis: true, // only reached when some offer is genuinely new (see `changes`)
     vy: hits.length ? 'bevaka' : 'fynd',
   };
@@ -243,7 +243,7 @@ if (changes.length) {
   console.log(`Nytt: ${nyhet.titel} (${nyhet.rader.length} rader, notis: ${nyhet.notis})`);
 
   if (nyhet.notis && process.env.NOTIS_FILE) {
-    const body = (hits.length ? hits : rader).slice(0, 2).join('\n') + (nyhet.rader.length > 2 ? '\n…' : '');
+    const body = (hits.length ? hits.map((h) => h.text) : rader).slice(0, 2).join('\n') + (nyhet.rader.length > 2 ? '\n…' : '');
     writeFileSync(process.env.NOTIS_FILE, JSON.stringify({ title: nyhet.titel, body, url: '/matracet/?vy=nytt', tag: nyhet.id }));
   }
 }

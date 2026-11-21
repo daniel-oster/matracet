@@ -1,7 +1,8 @@
 import { BevakningItem, Offer, StoreOffers } from '../types'
 import { fileRange, offerRange, type DateRange } from './offerValidity'
 import { ShoppingOfferRef } from '../hooks/useShoppingList'
-import { GROUPS, groupOf } from './kategoriTaxonomy.mjs'
+import { GROUPS } from './kategoriTaxonomy.mjs'
+import { matchesWatch, rateOffer, compareRated, dealLabel as dealLabelRaw } from './bevakaMatch.mjs'
 
 export interface StoreMeta {
   namn: string
@@ -32,10 +33,27 @@ export interface TaggedOffer extends Offer {
   giltig: DateRange
 }
 
+export interface RatedOffer extends TaggedOffer {
+  /** kr saved per item (0 = unknown). */
+  kr: number
+  /** share of the ordinary price saved, in percent (0 = unknown). */
+  pct: number
+  /** the brand the household asked for (onskat_marke). */
+  preferred: boolean
+  /** a good enough deal to tell the household about — see bevakaMatch.mjs. */
+  good: boolean
+}
+
 export interface BevakaHit {
   item: BevakningItem
-  offers: TaggedOffer[]
+  /** Best first (good deals, preferred brand, biggest share off). */
+  offers: RatedOffer[]
+  /** How many of `offers` are good deals. */
+  goodCount: number
 }
+
+/** How many matches a whole-category watch may show — they are only ever the very best. */
+export const CATEGORY_HIT_CAP = 6
 
 export function tagOffers(stores: StoreOffers[]): TaggedOffer[] {
   return stores.flatMap(s => {
@@ -50,21 +68,43 @@ export function toOfferRef(o: TaggedOffer): ShoppingOfferRef {
   return { store: o.store, week: o.week }
 }
 
-/** Empty `sok` means "watch the whole category" instead of matching specific
- * keywords — `item.kategori` is a *group* id here (e.g. "godis_snacks",
- * "frukt_gront"), not a single leaf, since the whole point is breadth ("all of
- * snacks", not just one snack leaf). */
+/** Does this offer belong to the watch? Accent- and case-insensitive on namn+marke;
+ * `undvik_marken`/`undvik_ord` disqualify, `kategorier` (when set) narrows to those leaves.
+ * Empty `sok` means "watch the whole category" — `item.kategori` is then a *group* id
+ * (e.g. "godis_snacks", "frukt_gront"), not a single leaf. Logic lives in bevakaMatch.mjs,
+ * shared with the daily offer job's notifications. */
 export function matchesBevakning(item: BevakningItem, o: TaggedOffer): boolean {
-  const hay = `${o.namn} ${o.marke ?? ''}`.toLowerCase()
-  if (item.undvik_marken.some(b => hay.includes(b.toLowerCase()))) return false
-  if (item.sok.length === 0) return groupOf(o.kategori) === item.kategori
-  return item.sok.some(k => hay.includes(k.toLowerCase()))
+  return matchesWatch(item, o)
 }
 
+export function rateBevakning(item: BevakningItem, o: TaggedOffer): RatedOffer {
+  return { ...o, ...(rateOffer(item, o) as { kr: number; pct: number; preferred: boolean; good: boolean }) }
+}
+
+/** Matches per watch item, rated and best first. A keyword watch keeps every match (the
+ * good ones on top); a whole-category watch keeps only good deals, capped, since "all of
+ * frukt & grönt" otherwise buries the one coffee deal that matters. Keyword watches come
+ * before category watches; within each, items with a good deal first. */
 export function findBevakaHits(items: BevakningItem[], all: TaggedOffer[]): BevakaHit[] {
   return items
-    .map(item => ({ item, offers: all.filter(o => matchesBevakning(item, o)) }))
+    .map((item, idx) => {
+      let offers = all.filter(o => matchesBevakning(item, o)).map(o => rateBevakning(item, o)).sort(compareRated)
+      if (item.sok.length === 0) offers = offers.filter(o => o.good).slice(0, CATEGORY_HIT_CAP)
+      return { item, offers, goodCount: offers.filter(o => o.good).length, idx }
+    })
     .filter(h => h.offers.length > 0)
+    .sort(
+      (a, b) =>
+        Number(a.item.sok.length === 0) - Number(b.item.sok.length === 0) ||
+        Number(b.goodCount > 0) - Number(a.goodCount > 0) ||
+        a.idx - b.idx,
+    )
+    .map(({ item, offers, goodCount }) => ({ item, offers, goodCount }))
+}
+
+/** "−26 kr (29 %)", or '' when the saving is unknown. */
+export function dealLabel(o: { kr: number; pct: number }): string {
+  return dealLabelRaw(o)
 }
 
 /** "ICA · Zoégas · 500g" — store plus the actual product label, not just a price. */

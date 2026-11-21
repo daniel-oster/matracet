@@ -706,6 +706,17 @@ button.plan-cell { cursor: pointer; }
 
 .match-group { margin-bottom: 16px; }
 .match-label { font-size: 13.5px; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+.match-count { margin-left: auto; font-size: 11.5px; color: var(--muted); }
+.match-row.weak { opacity: .6; }
+.match-row.good { border-color: var(--red); }
+.match-deal { font-size: 11.5px; color: var(--muted); white-space: nowrap; }
+.match-deal.good { color: var(--red); font-weight: 600; }
+.fynd-tag.pref { background: #fdf3d6; color: var(--ink); }
+.bevaka-glance { display: block; width: 100%; text-align: left; margin-top: 12px; padding: 12px 14px; background: var(--paper); border: 1px solid var(--line); border-radius: 12px; font: inherit; color: var(--ink); cursor: pointer; }
+.bevaka-glance-head { display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; }
+.bevaka-glance-count { font-weight: 400; color: var(--muted); font-size: 13px; margin-left: auto; }
+.bevaka-glance-row { font-size: 13.5px; margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px 6px; align-items: baseline; }
+.bevaka-glance-more { font-size: 12px; color: var(--muted); margin-top: 6px; }
 
 .fynd-row.done { opacity: 0.5; }
 .fynd-irrelevant-title { color: var(--muted); }

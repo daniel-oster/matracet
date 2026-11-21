@@ -5,6 +5,7 @@ import type { Meal } from '../types/meal'
 import { useWeekPlan, applyOverride } from '../hooks/useWeekPlan'
 import type { DayPlan } from '../presence/types'
 import { hardRefresh } from '../lib/hardRefresh'
+import BevakaGlance from './BevakaGlance'
 
 const DAY_NAMES: Record<string, string> = {
   mandag: 'Måndag', tisdag: 'Tisdag', onsdag: 'Onsdag',
@@ -133,6 +134,8 @@ export default function Hub({ weekLabel, rollingDays, recipeIndex, meals, dayPla
             <span className="hub-primary-arrow">→</span>
           </button>
         </div>
+
+        <BevakaGlance onOpen={() => onNavigate('bevaka')} />
 
         <button
           className="hub-mer-toggle"

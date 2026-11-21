@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { matchesBevakning, findBevakaHits, tagOffers, toOfferRef } from './bevaka'
+import { matchesBevakning, findBevakaHits, tagOffers, toOfferRef, rateBevakning, dealLabel } from './bevaka'
 import type { BevakningItem, Offer, StoreOffers } from '../types'
 
 const WEEK31 = { from: '2026-07-27', to: '2026-08-02' }
@@ -49,9 +49,8 @@ describe('matchesBevakning', () => {
   it('matches against the brand field too, not just namn', () => {
     const item = makeItem({ sok: ['zoegas'] })
     const offer = { ...makeOffer({ namn: 'Bryggkaffe', marke: 'Zoégas' }), store: 'willys', week: '2026-W31', giltig: WEEK31 }
-    // sok is matched lowercase against "namn marke" — Zoégas has to appear literally to match;
-    // this asserts the current (case-insensitive, accent-sensitive) behaviour.
-    expect(matchesBevakning(item, offer)).toBe(false) // 'zoegas' (no é) does not match 'zoégas'
+    // accent- and case-insensitive: 'zoegas' finds 'Zoégas' in the brand field
+    expect(matchesBevakning(item, offer)).toBe(true)
   })
 
   it('does not match when no sok keyword is present', () => {
@@ -118,6 +117,47 @@ describe('toOfferRef', () => {
   it('extracts just {store, week} from a tagged offer', () => {
     const tagged = { ...makeOffer(), store: 'ica', week: '2026-W29', giltig: WEEK31 }
     expect(toOfferRef(tagged)).toEqual({ store: 'ica', week: '2026-W29' })
+  })
+})
+
+describe('smarter matching (2026-11)', () => {
+  const tag = (o: Partial<Offer>) => ({ ...makeOffer(o), store: 'hemkop', week: '2026-W47', giltig: WEEK31 })
+  const kaffe = makeItem({ sok: ['kaffe'], kategorier: ['kaffe_te'], undvik_ord: ['snabbkaffe', 'kapsl'], undvik_marken: ['Gevalia'] })
+
+  it('rates the real Zoégas 2-för offer as a good deal', () => {
+    const o = tag({ namn: 'Kaffe', marke: 'Zoégas', pris: 64.5, pris_text: '2 FÖR 129.00', ord_pris: '90.00', besparing: '22.45-25.85kr', kategori: 'kaffe_te' })
+    const r = rateBevakning(kaffe, o)
+    expect(r.good).toBe(true)
+    expect(r.kr).toBe(26)
+    expect(r.pct).toBe(28)
+    expect(dealLabel(r)).toBe('−26 kr (28 %)')
+  })
+
+  it('undvik_ord and kategorier keep instant coffee, capsules and kaffebröd out', () => {
+    expect(matchesBevakning(kaffe, tag({ namn: 'Snabbkaffe', marke: 'Löfbergs', kategori: 'kaffe_te' }))).toBe(false)
+    expect(matchesBevakning(kaffe, tag({ namn: 'Kaffekapslar', marke: "L'OR", kategori: 'kaffe_te' }))).toBe(false)
+    expect(matchesBevakning(kaffe, tag({ namn: 'Kaffebröd', marke: 'Pågen', kategori: 'fikabrod' }))).toBe(false)
+  })
+
+  it('a small discount matches but is not good; troskel_kr can make it good', () => {
+    const o = tag({ namn: 'Kaffe', marke: 'Arvid Nordquist', pris: 80, ord_pris: '89.90', besparing: null, kategori: 'kaffe_te' })
+    expect(rateBevakning(kaffe, o).good).toBe(false)
+    expect(rateBevakning({ ...kaffe, troskel_kr: 8 }, o).good).toBe(true)
+  })
+
+  it('puts good deals and the preferred brand first, and drops weak category-wide matches', () => {
+    const tp = makeItem({ id: 'tp', sok: ['toalettpapper'], onskat_marke: 'Serla' })
+    const frukt = makeItem({ id: 'frukt', sok: [], kategori: 'frukt_gront' })
+    const offers = [
+      tag({ namn: 'Toalettpapper', marke: 'Lambi', pris: 60, besparing: '30kr', kategori: 'papper' }),
+      tag({ namn: 'Toalettpapper', marke: 'Serla', pris: 60, besparing: '30kr', kategori: 'papper' }),
+      tag({ namn: 'Äpplen', marke: null, pris: 20, besparing: '2kr', kategori: 'frukt' }),
+      tag({ namn: 'Druvor', marke: null, pris: 20, besparing: '20kr', kategori: 'frukt' }),
+    ]
+    const hits = findBevakaHits([frukt, tp], offers)
+    expect(hits.map(h => h.item.id)).toEqual(['tp', 'frukt'])
+    expect(hits[0].offers[0].marke).toBe('Serla')
+    expect(hits[1].offers.map(o => o.namn)).toEqual(['Druvor'])
   })
 })
 

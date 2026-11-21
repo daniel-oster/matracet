@@ -1233,6 +1233,24 @@ a pattern that appears in your own command line in this sandbox — it kills the
 
 `public/data/erbjudanden/bevakningslista.json` holds a standing list of products to bulk-buy whenever they're a genuine bargain (e.g. a coffee brand, toilet paper in the usual big pack, a specific toothpaste). Each entry (`BevakningItem` in `types.ts`) has `sok` (lowercase keyword substrings matched against an offer's `namn`/`marke`), `undvik_marken` (brand substrings that disqualify a match — e.g. "not Gevalia"), and optional `onskat_marke`/`storlek_hint`/`troskel_kr`/`anteckning` for extra context. `BevakaView.tsx` cross-references this list against the current week's offers (via `useOffers`, same hook as Fynd): the left page shows the full watch-list with a 🔔 badge on any item currently matched, the right page shows the matched offers grouped by item — clicking a matched offer row (`.match-row`, same "whole row is the control" convention as `FyndView`'s double-click, `.in-list`/`🛒` shown once added) explicitly adds it to the shopping list via `useShoppingList`'s `addOrRestoreByName`/`removeOrMarkByName`/`isActiveByName`; clicking an already-added one removes it again (see the Shopping list section above — a bevaka match no longer lands on the list just by existing). **When adding a watch-list item, add an entry to `bevakningslista.json`** — there's no in-app "add" UI (consistent with this app's no-backend/JSON-in-git model), so new items or refinements (e.g. filling in a specific brand once decided) go straight into the file. Note four entries (`frukt`, `gront_farskt`, `gront_fryst`, `snacks_godis`) have an empty `sok`, meaning "watch the whole category" rather than a specific keyword (see `matchesBevakning` in `bevaka.ts`) — these can surface dozens of matches in one week, which is fine now that surfacing a match and adding it to the shopping list are two separate, explicit steps.
 
+### Smarter watch-list matching + start-page card (2026-11)
+
+Household report: Zoégas coffee "2 för 129" (−26 kr) at Hemköp was never noticed. It *did*
+match, but drowned among instant coffee, capsules and dozens of category-wide frukt/godis
+hits with no ranking, and Bevaka sat hidden under "Mer". Also, Hemköp/Willys v.47 was
+imported by hand in a session, which writes no nyhet and sends no notification — only the
+daily job (`erbjudanden-weekly.mjs`) does.
+
+`src/lib/bevakaMatch.mjs` (isomorphic, shared by `bevaka.ts` *and* the daily job so the
+screen and the notification agree): accent/case-insensitive matching (`zoegas` = `Zoégas`),
+optional per-item `undvik_ord` (e.g. snabbkaffe, kapsl) and `kategorier` (leaf whitelist,
+keeps "kaffe" off kaffebröd), and a per-item deal rating `dealOf` → kr + % off. **Use
+ord_pris − pris, not `besparing`**: Willys states besparing for the whole multibuy and as a
+range across variants ("2 FÖR 28", "3.80-15.80kr" → read naively as 99 % off). A keyword
+watch is "good" at ≥20 % (or `troskel_kr`); a category-wide watch only at ≥40 %, capped at 6.
+Hits sort good → preferred brand (`onskat_marke`) → % off. `BevakaGlance` on the Hub shows the
+good keyword hits; BevakaView lists "Fynd nu" first.
+
 ## Lessons learned
 
 Durable gotchas discovered while working in this repo. Add to this list rather than rediscovering the same thing in a future session.

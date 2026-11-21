@@ -1,7 +1,7 @@
 import { useOffersValidDuring } from '../../hooks/useOffers'
 import { useBevakningslista } from '../../hooks/useBevakningslista'
 import { useShoppingList } from '../../hooks/useShoppingList'
-import { STORES, CATEGORY_EMOJI, TaggedOffer, findBevakaHits, tagOffers, toOfferRef } from '../../lib/bevaka'
+import { STORES, CATEGORY_EMOJI, TaggedOffer, findBevakaHits, tagOffers, toOfferRef, dealLabel } from '../../lib/bevaka'
 import { todayISO } from '../../lib/offerValidity'
 import TopBar from '../TopBar'
 
@@ -27,17 +27,66 @@ export default function BevakaView({ onBack }: Props) {
 
   const all: TaggedOffer[] = tagOffers(stores)
   const hits = findBevakaHits(items, all)
-  const hitIds = new Set(hits.map(h => h.item.id))
+  const hitIds = new Set(hits.filter(h => h.goodCount > 0).map(h => h.item.id))
+  const goodItems = hits.filter(h => h.goodCount > 0).length
 
   return (
     <div className="screen">
       <TopBar
         onBack={onBack}
-        eyebrow="Stående lista – dyker upp här vid extrapris"
+        eyebrow="Stående lista – dyker upp här vid bra rabatt"
         title="Bevakning"
-        right={hits.length > 0 ? `${hits.length} träff${hits.length > 1 ? 'ar' : ''}` : undefined}
+        right={goodItems > 0 ? `${goodItems} bra pris` : undefined}
       />
       <div className="screen-body bevaka-grid">
+        <div className="bevaka-col">
+          <h3 className="shop-group-title">Fynd nu</h3>
+          {hits.length === 0 && (
+            <div className="fynd-empty">
+              {staleNote
+                ? `Inga aktuella erbjudanden – ${staleNote}.`
+                : 'Inget på bevakningslistan är på rea just nu.'}
+            </div>
+          )}
+          {hits.map(h => { const { item, offers } = h; return (
+            <div className="match-group" key={item.id}>
+              <div className="match-label">
+                <span className="match-cat-emoji">{CATEGORY_EMOJI[item.kategori] ?? '📦'}</span>
+                {item.vara}
+                <span className="match-count">
+                  {h.goodCount > 0 ? `🔥 ${h.goodCount} bra pris` : 'bara liten rabatt'}
+                </span>
+              </div>
+              {offers.map((o, i) => {
+                const inList = isActiveForOffer(o.namn, o.store)
+                const deal = dealLabel(o)
+                return (
+                  <div
+                    className={`match-row${inList ? ' in-list' : ''}${o.good ? ' good' : ' weak'}`}
+                    key={`${o.store}-${i}`}
+                    onClick={() => (inList ? removeOrMarkForOffer(o.namn, o.store) : addOrRestoreByName(o.namn, { offerRef: toOfferRef(o) }))}
+                    title={inList ? 'I inköpslistan — klicka för att ta bort' : 'Klicka för att lägga i inköpslistan'}
+                  >
+                    <span className={`fynd-store ${STORES[o.store]?.klass}`}>{STORES[o.store]?.namn}</span>
+                    <div className="match-info">
+                      {inList && <span className="fynd-cart" title="I inköpslistan">🛒</span>}
+                      {[o.marke, o.storlek].filter(Boolean).join(' · ') && (
+                        <span className="match-size">{[o.marke, o.storlek].filter(Boolean).join(' · ')}</span>
+                      )}
+                      {o.jamforpris && <span className="fynd-jmf">{o.jamforpris}</span>}
+                      {o.preferred && <span className="fynd-tag pref" title="Önskat märke">⭐ {item.onskat_marke}</span>}
+                      {o.klubbpris && <span className="fynd-tag club">klubb</span>}
+                    </div>
+                    <div className="match-price">
+                      <span className="fynd-pris">{o.pris_text}</span>
+                      {deal && <span className={`match-deal${o.good ? ' good' : ''}`}>{deal}</span>}
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          ) })}
+        </div>
         <div className="bevaka-col">
           <h3 className="shop-group-title">Bevakningslista</h3>
           <div className="bevaka-list">
@@ -61,48 +110,6 @@ export default function BevakaView({ onBack }: Props) {
           </div>
         </div>
 
-        <div className="bevaka-col">
-          <h3 className="shop-group-title">Fynd nu</h3>
-          {hits.length === 0 && (
-            <div className="fynd-empty">
-              {staleNote
-                ? `Inga aktuella erbjudanden – ${staleNote}.`
-                : 'Inget på bevakningslistan är på extrapris just nu.'}
-            </div>
-          )}
-          {hits.map(({ item, offers }) => (
-            <div className="match-group" key={item.id}>
-              <div className="match-label">
-                <span className="match-cat-emoji">{CATEGORY_EMOJI[item.kategori] ?? '📦'}</span>
-                {item.vara}
-              </div>
-              {offers.map((o, i) => {
-                const inList = isActiveForOffer(o.namn, o.store)
-                return (
-                  <div
-                    className={`match-row${inList ? ' in-list' : ''}`}
-                    key={`${o.store}-${i}`}
-                    onClick={() => (inList ? removeOrMarkForOffer(o.namn, o.store) : addOrRestoreByName(o.namn, { offerRef: toOfferRef(o) }))}
-                    title={inList ? 'I inköpslistan — klicka för att ta bort' : 'Klicka för att lägga i inköpslistan'}
-                  >
-                    <span className={`fynd-store ${STORES[o.store]?.klass}`}>{STORES[o.store]?.namn}</span>
-                    <div className="match-info">
-                      {inList && <span className="fynd-cart" title="I inköpslistan">🛒</span>}
-                      {[o.marke, o.storlek].filter(Boolean).join(' · ') && (
-                        <span className="match-size">{[o.marke, o.storlek].filter(Boolean).join(' · ')}</span>
-                      )}
-                      {o.jamforpris && <span className="fynd-jmf">{o.jamforpris}</span>}
-                      {o.klubbpris && <span className="fynd-tag club">klubb</span>}
-                    </div>
-                    <div className="match-price">
-                      <span className="fynd-pris">{o.pris_text}</span>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          ))}
-        </div>
       </div>
     </div>
   )
