@@ -5,6 +5,10 @@ import { resolve } from 'path'
 export default defineConfig({
   plugins: [react()],
   base: '/matracet/',
+  // Shown on Hantera appen, so a home-screen icon still running an old bundle is easy to spot.
+  define: {
+    __BUILD_TIME__: JSON.stringify(new Date().toISOString()),
+  },
   build: {
     rollupOptions: {
       input: {

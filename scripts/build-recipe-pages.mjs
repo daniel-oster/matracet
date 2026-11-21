@@ -44,13 +44,22 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;')
 }
 
+/** _index.json's bildUrl is the ?w=400 card thumbnail; a share card wants the 800 px hero that
+ *  recept.json uses. Same photo, different query parameter. A URL without `w=` is left alone. */
+function bumpImageWidth(url) {
+  return url.replace(/([?&]w=)\d+/, '$1800')
+}
+
 function buildOgBlock({ namn, tid_min, kategorier, bildUrl, url }) {
+  // og:site_name already says "Matracet", so og:title is just the name — otherwise the card shows
+  // "Matracet" twice. The browser-tab <title> keeps the suffix.
   const title = escapeHtml(`${namn} · Matracet`)
+  const ogTitle = escapeHtml(namn)
   const descriptionParts = [`${tid_min} min`, ...kategorier.map((k) => KATEGORI_LABELS[k] ?? k)]
   const description = escapeHtml(descriptionParts.join(' · '))
   const lines = [
     '<title>' + title + '</title>',
-    `<meta property="og:title" content="${title}" />`,
+    `<meta property="og:title" content="${ogTitle}" />`,
     `<meta property="og:description" content="${description}" />`,
     `<meta property="og:type" content="article" />`,
     `<meta property="og:site_name" content="Matracet" />`,
@@ -61,7 +70,7 @@ function buildOgBlock({ namn, tid_min, kategorier, bildUrl, url }) {
   // Resolving against SITE_URL leaves an already-absolute URL untouched, so both a
   // repo-hosted image and a remote one work through the same line.
   if (bildUrl) {
-    const absolute = new URL(bildUrl, SITE_URL).href
+    const absolute = new URL(bumpImageWidth(bildUrl), SITE_URL).href
     lines.push(`<meta property="og:image" content="${escapeHtml(absolute)}" />`)
   }
   lines.push(`<meta name="twitter:card" content="summary_large_image" />`)
