@@ -1237,9 +1237,12 @@ a pattern that appears in your own command line in this sandbox — it kills the
 
 Household report: Zoégas coffee "2 för 129" (−26 kr) at Hemköp was never noticed. It *did*
 match, but drowned among instant coffee, capsules and dozens of category-wide frukt/godis
-hits with no ranking, and Bevaka sat hidden under "Mer". Also, Hemköp/Willys v.47 was
-imported by hand in a session, which writes no nyhet and sends no notification — only the
-daily job (`erbjudanden-weekly.mjs`) does.
+hits with no ranking, and Bevaka sat hidden under "Mer". And no notification went out: the
+scheduled review session (06:4x UTC) found v.47 missing and fetched it itself, hours before the
+daily job actually ran (GitHub's 04:17 cron fires around 12:45). The job then judged "new"
+against the file on disk, saw nothing new, and announced nothing. Fixed with
+`public/data/erbjudanden/_aviserat.json`: the job's own per-store ledger of offer keys it has
+announced for the current week — "new" means "not in the ledger", whoever wrote the file.
 
 `src/lib/bevakaMatch.mjs` (isomorphic, shared by `bevaka.ts` *and* the daily job so the
 screen and the notification agree): accent/case-insensitive matching (`zoegas` = `Zoégas`),

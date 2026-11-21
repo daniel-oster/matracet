@@ -95,6 +95,16 @@ function bevakaHit(o) {
   return item ? { item, rating: rateOffer(item, o) } : null;
 }
 const changes = []; // { store, newWeek, total, nya: offer[] }
+// What this job has already announced, per store, for the current week. "New" is judged
+// against this ledger, not against the week file on disk: another writer (the scheduled
+// review session, a manual import) can create the file first, and comparing against the
+// file then made a whole new week look unchanged — v.47 went out with no nyhet and no
+// notification that way (Zoégas 2 för 129 was never announced).
+const aviseratPath = join(DATA, '_aviserat.json');
+let aviserat = {};
+try {
+  aviserat = JSON.parse(readFileSync(aviseratPath, 'utf8'));
+} catch {}
 
 for (const s of STORES) {
   if (s.manual && !icaHtml) continue; // ICA: only from a saved page, see the header
@@ -179,9 +189,11 @@ for (const { s, kept, dropped, newProducts, start, end, total } of results) {
   } catch {}
   const same = previous && JSON.stringify({ ...previous, hamtad: null }) === JSON.stringify({ ...file, hamtad: null });
   if (same) console.log(`  (${s.butik}: oförändrad sedan ${previous.hamtad})`);
-  const before = new Set((previous?.erbjudanden ?? []).map(offerKey));
+  const led = aviserat[s.id]?.vecka === vecka ? aviserat[s.id] : null;
+  const before = new Set(led?.nycklar ?? []);
   const nya = kept.filter((o) => !before.has(offerKey(o)));
-  if (nya.length) changes.push({ store: s.kalla, newWeek: !previous, total: kept.length, nya });
+  if (nya.length) changes.push({ store: s.kalla, newWeek: !led, total: kept.length, nya });
+  aviserat[s.id] = { vecka, nycklar: [...new Set([...before, ...kept.map(offerKey)])].sort() };
   if (!dryRun && !same) {
     mkdirSync(join(DATA, s.id), { recursive: true });
     writeFileSync(path, JSON.stringify(file, null, 2) + '\n');
@@ -194,6 +206,7 @@ if (dryRun) {
 }
 
 saveLexikon(lexikon);
+writeFileSync(aviseratPath, JSON.stringify(aviserat, null, 1) + '\n');
 const idxPath = join(DATA, '_index.json');
 const idx = JSON.parse(readFileSync(idxPath, 'utf8'));
 if (!idx.veckor.includes(vecka)) {
