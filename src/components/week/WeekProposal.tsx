@@ -23,7 +23,8 @@ interface Props {
   recentRecipeSlugs: string[]
   recentMealSlugs: string[]
   onKeep: (c: ProposalCandidate) => void
-  onOpenRecipe: (slug: string) => void
+  /** "Har ni något på lut?" — jump to the search box to add an own meal or recipe. */
+  onAddOwn: () => void
   /** Number of dishes that "Fördela på dagar" would place (0 hides the button). */
   distributeCount: number
   onDistribute: () => void
@@ -51,29 +52,40 @@ export default function WeekProposal(p: Props) {
       slots: ordered.map(s => ({ date: keyOf(s), presentIds: s.presentIds, fast: s.fast })),
       meals: p.meals, recipeIndex: p.recipeIndex, fullRecipes: p.fullRecipes,
       eaters: p.eaters, offers: p.offers, getFeedback: p.getFeedback,
-      recentRecipeSlugs: p.recentRecipeSlugs, recentMealSlugs: p.recentMealSlugs, seed,
+      recentRecipeSlugs: p.recentRecipeSlugs, recentMealSlugs: p.recentMealSlugs, seed, alternatives: 40,
     }),
     // Open slots are read at (re)compute time only; gathering a dish must not reshuffle.
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [seed, recipeCount, p.offers, p.meals, p.recipeIndex, p.eaters, p.recentRecipeSlugs, p.recentMealSlugs, ordered.length],
   )
 
+  // Step 1 proposes meals, not recipes: one candidate per meal (its best recipe is only
+  // used to pre-pick when the meal has no recipe choice of its own — see VeckanPlanner).
+  const byMeal = useMemo(() => {
+    const out: Record<string, ProposalCandidate[]> = {}
+    for (const [k, list] of Object.entries(cands)) {
+      const seen = new Set<string>()
+      out[k] = list.filter(c => !seen.has(c.mealSlug) && (seen.add(c.mealSlug), true)).slice(0, 8)
+    }
+    return out
+  }, [cands])
+
   const need = Math.max(0, p.openSlots.length - p.gathered)
   const inPool = new Set(p.poolMealSlugs)
   const openKeys = new Set(ordered.map(keyOf))
   const keys = ordered.map(keyOf)
-    .filter(k => (cands[k]?.length ?? 0) > 0 && !gone.has(k) && openKeys.has(k))
+    .filter(k => (byMeal[k]?.length ?? 0) > 0 && !gone.has(k) && openKeys.has(k))
     .slice(0, need)
 
   function curIdx(k: string): number {
     if (idx[k] !== undefined) return idx[k]
-    const i = cands[k].findIndex(c => !inPool.has(c.mealSlug))
+    const i = byMeal[k].findIndex(c => !inPool.has(c.mealSlug))
     return i < 0 ? 0 : i
   }
-  function pickAt(k: string): ProposalCandidate { return cands[k][curIdx(k) % cands[k].length] }
+  function pickAt(k: string): ProposalCandidate { return byMeal[k][curIdx(k) % byMeal[k].length] }
 
   function swap(k: string) {
-    const list = cands[k]
+    const list = byMeal[k]
     const others = new Set(keys.filter(x => x !== k).map(x => pickAt(x).mealSlug))
     const cur = curIdx(k)
     for (let i = 1; i <= list.length; i++) {
@@ -110,9 +122,11 @@ export default function WeekProposal(p: Props) {
   return (
     <div className="wprop">
       <div className="wprop-head">
+        <span className="wprop-step">1</span>
         <span className="wprop-title">Veckan behöver {need} måltid{need === 1 ? '' : 'er'}</span>
       </div>
       <div className="wprop-def">{sub}</div>
+      <button className="wprop-own" onClick={p.onAddOwn}>Har ni något på lut? Lägg till det först ›</button>
       {keys.length === 0 && <div className="wprop-empty">Inga förslag att visa just nu.</div>}
       {keys.map(k => {
         const c = pickAt(k)
@@ -120,16 +134,10 @@ export default function WeekProposal(p: Props) {
           <div className="wprop-row" key={k}>
             <div className="wprop-main">
               <div className="wprop-meal">{c.mealNamn}</div>
-              <button className="wprop-recipe" onClick={() => p.onOpenRecipe(c.receptSlug)}>{c.receptNamn} ›</button>
-              {c.reasons.length > 0 && (
-                <div className="wprop-reasons">
-                  {c.reasons.map((r, i) => <span className="wprop-chip" key={i}>{r}</span>)}
-                </div>
-              )}
             </div>
             <div className="wprop-actions">
               <button className="wprop-btn wprop-btn--keep" onClick={() => keep(k)}>Behåll</button>
-              <button className="wprop-btn" onClick={() => swap(k)} disabled={cands[k].length < 2}>Byt</button>
+              <button className="wprop-btn" onClick={() => swap(k)} disabled={byMeal[k].length < 2}>Byt</button>
               <button className="wprop-btn wprop-btn--x" aria-label="Dölj förslaget"
                 onClick={() => setGone(g => new Set(g).add(k))}>✕</button>
             </div>

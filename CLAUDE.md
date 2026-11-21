@@ -2585,6 +2585,12 @@ Plan: `docs/matracet-ombyggnad-2026-11.md`. Built as three jobs run by Sonnet su
   dishes *without day names* (`proposeWeek` fed slots keyed `date|kind`), and Behåll adds to the meal
   pool unslotted. **"Fördela på dagar"** (`src/lib/distribute.ts::distributeToSlots`, tested: dinners
   first, fast dishes to fast-flagged slots) then places the pool via `assignToSlot(..., entryId)`.
+- **Two steps, meals before recipes (2026-11, household ask)**: step 1 (`WeekProposal`) shows only meal
+  names — no recipe link, no offer chips ("jag vill inte ha ett förslag direkt på vad det är") — deduped
+  per meal; Behåll gathers a meal with several recipes as general (`receptSlug: null`). "Har ni något på
+  lut?" jumps to the search box. Step 2 (`week/RecipeChoice.tsx`, "Vilket recept?") lists gathered meals
+  with >1 recipe and no choice, recipes as chips (on-offer first, recently eaten last); choosing calls
+  `pool.setRecipe` (+ `setMeal` if already slotted). Choosing is optional.
 
 ## Livet: the base page with three shields (2026-11)
 

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { DayMeal, Eater, MealKind, Recipe, RecipeIndexEntry } from '../../types'
 import type { Meal } from '../../types/meal'
 import type { HistoryEntry } from '../../types/history'
@@ -37,6 +37,7 @@ import SlotDetail from './SlotDetail'
 import MealPoolList from './MealPoolList'
 import OffersPanel from './OffersPanel'
 import WeekProposal from './WeekProposal'
+import RecipeChoice from './RecipeChoice'
 import { distributeToSlots } from '../../lib/distribute'
 import AssignControls from './AssignControls'
 import type { SlotChipData } from './SlotPicker'
@@ -473,6 +474,10 @@ export default function VeckanPlanner({ days, lunches, dayPlans, periods, eaters
       if (e) assignToSlot(a.date, a.kind, e.mealSlug, e.receptSlug, e.id)
     }
   }
+  const toChoose = useMemo(() => filterEntriesToWindow(pool.entries, windowDates)
+    .filter(e => !e.done && !e.receptSlug && (meals.find(m => m.slug === e.mealSlug)?.recept?.length ?? 0) > 1),
+  [pool.entries, windowDates, meals])
+  const searchRef = useRef<HTMLInputElement>(null)
   const recent = useMemo(() => {
     const today = days[0]?.datum ?? ''
     const from = today ? addDays(today, -14) : ''
@@ -503,8 +508,27 @@ export default function VeckanPlanner({ days, lunches, dayPlans, periods, eaters
             getFeedback={getFeedback}
             recentRecipeSlugs={recent.recipes}
             recentMealSlugs={recent.meals}
-            onKeep={c => { pool.addEntry(c.mealSlug, c.receptSlug) }}
-            onOpenRecipe={onOpenRecipe}
+            onKeep={c => {
+              // A meal with several recipes is gathered general; the recipe is chosen in step 2.
+              const general = meals.some(m => m.slug === c.mealSlug && (m.recept?.length ?? 0) > 1)
+              pool.addEntry(c.mealSlug, general ? null : c.receptSlug)
+            }}
+            onAddOwn={() => {
+              searchRef.current?.focus()
+              searchRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+            }}
+          />
+          <RecipeChoice
+            entries={toChoose}
+            meals={meals}
+            recipeIndex={recipeIndex}
+            fullRecipes={fullRecipes}
+            offers={foodOffers}
+            recentRecipeSlugs={recent.recipes}
+            onChoose={(e, slug) => {
+              pool.setRecipe(e.id, slug)
+              if (e.slot) setMeal(e.slot.date, e.slot.kind, e.mealSlug, slug)
+            }}
           />
           {/* The list is the top of the screen and owns the header (2026-08 "list-first"
               redesign, docs/planera-list-first-2026-08.md, Problem 3) — the budget line +
@@ -520,6 +544,7 @@ export default function VeckanPlanner({ days, lunches, dayPlans, periods, eaters
 
             <div className="plan-search-row">
               <input
+                ref={searchRef}
                 className="tray-search"
                 type="search"
                 placeholder="Sök måltid eller recept…"

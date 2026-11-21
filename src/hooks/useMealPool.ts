@@ -90,6 +90,13 @@ function setSlot(id: string, slot: MealPoolSlotPointer | null): void {
   mealPoolStore.set({ entries: currentEntries().map(e => (e.id === id ? { ...e, slot } : e)) })
 }
 
+/** Pick (or clear) which recipe a gathered meal will be made from — Planera's step 2,
+ *  "Välj recept". Only the pool's own field; a slotted entry's week-plan slot is updated by
+ *  the caller (VeckanPlanner) with setMeal, same split as setSlot. */
+function setRecipe(id: string, receptSlug: string | null): void {
+  mealPoolStore.set({ entries: currentEntries().map(e => (e.id === id ? { ...e, receptSlug } : e)) })
+}
+
 function findBySlot(date: string, kind: MealKind): MealPoolEntry | undefined {
   return currentEntries().find(e => e.slot?.date === date && e.slot?.kind === kind)
 }
@@ -134,6 +141,7 @@ export interface UseMealPool {
   removeEntry: (id: string) => void
   toggleDone: (id: string) => void
   setSlot: (id: string, slot: MealPoolSlotPointer | null) => void
+  setRecipe: (id: string, receptSlug: string | null) => void
   findBySlot: (date: string, kind: MealKind) => MealPoolEntry | undefined
 }
 
@@ -141,5 +149,5 @@ export function useMealPool(): UseMealPool {
   const poolData = useSyncExternalStore(mealPoolStore.subscribe, mealPoolStore.getSnapshot, () => EMPTY)
   const weekPlanData = useSyncExternalStore(weekPlanStore.subscribe, weekPlanStore.getSnapshot, () => ({} as WeekPlanStore))
   const entries = reconcilePoolEntries(poolData.entries, weekPlanData)
-  return { entries, addEntry, removeEntry, toggleDone, setSlot, findBySlot }
+  return { entries, addEntry, removeEntry, toggleDone, setSlot, setRecipe, findBySlot }
 }

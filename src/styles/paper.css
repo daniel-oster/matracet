@@ -1338,6 +1338,14 @@ button.plan-cell { cursor: pointer; }
 .wprop--done { font-size: 13px; color: var(--green-d); border-color: var(--line); box-shadow: none; padding: 8px 12px; }
 .wprop-head { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
 .wprop-title { font-size: 17px; font-weight: 600; letter-spacing: .01em; }
+.wprop-step { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: var(--ink); color: var(--cream); font-size: 12px; font-weight: 600; align-self: center; }
+.wprop-own { display: block; background: none; border: none; padding: 0; margin: 0 0 8px; font: inherit; font-size: 13px; color: var(--gold2); text-decoration: underline dotted; cursor: pointer; }
+.rchoice { margin-top: 12px; }
+.rchoice-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.rchoice-chip { font: inherit; font-size: 13px; padding: 6px 11px; border-radius: 99px; border: 1px solid var(--line2); background: var(--paper); color: var(--ink); cursor: pointer; text-align: left; }
+.rchoice-offer { color: var(--red); white-space: nowrap; }
+.rchoice-recent { color: var(--muted); }
+.rchoice-more { font: inherit; font-size: 12.5px; background: none; border: none; color: var(--muted); text-decoration: underline; cursor: pointer; }
 .wprop-count { font-size: 13px; color: var(--gold2); }
 .wprop-def, .wprop-empty { font-size: 11.5px; color: var(--muted); font-style: italic; margin: 1px 0 6px; }
 .wprop-row { display: grid; grid-template-columns: 1fr; gap: 2px 8px; padding: 8px 0; border-top: 1px solid var(--line2); }
