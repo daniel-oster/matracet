@@ -149,6 +149,7 @@ export default function HanteraView({ onBack }: Props) {
             Hämtar senaste versionen av appen och dess data (nya recept, veckans erbjudanden). Dina egna val
             på den här enheten rörs inte.
           </p>
+          <p className="nytt-hint">Den här versionen byggdes: <strong>{formatTimestamp(__BUILD_TIME__)}</strong></p>
           <button type="button" className="hantera-secondary-btn" onClick={hardRefresh}>
             ⟳ Hämta senaste versionen
           </button>
