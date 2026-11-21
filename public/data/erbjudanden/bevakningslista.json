@@ -102,17 +102,6 @@
       "storlek_hint": null,
       "troskel_kr": null,
       "anteckning": "Chips, godis, snacks – hela kategorin. Visas bara vid riktigt stor rabatt (minst 40 %)."
-    },
-    {
-      "id": "frukt_gront",
-      "vara": "Frukt & Grönt",
-      "kategori": "frukt_gront",
-      "sok": [],
-      "undvik_marken": [],
-      "onskat_marke": null,
-      "storlek_hint": null,
-      "troskel_kr": null,
-      "anteckning": "Allt – morötter, tomater, vattenmelon, jordgubbar m.m. Visas bara vid riktigt stor rabatt (minst 40 %)."
     }
   ]
 }
