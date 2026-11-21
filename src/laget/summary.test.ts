@@ -5,56 +5,56 @@ import { dayLines, headline, shieldRows, topLines } from './summary'
 
 describe('headline', () => {
   it('names the week type and counts timed things', () => {
-    expect(headline(buildDay('2026-11-04', makeData()))).toBe('Barnvecka · 2 saker idag')
+    expect(headline(buildDay('2026-11-11', makeData()))).toBe('Barnvecka · 2 saker idag')
   })
   it('handles one thing, none, and a week without kids', () => {
-    expect(headline(buildDay('2026-11-03', makeData({ events: [] })))).toBe('Ej barnvecka · inget inplanerat')
+    expect(headline(buildDay('2026-11-10', makeData({ events: [] })))).toBe('Ej barnvecka · inget inplanerat')
     const one = makeData()
     one.schema.activities = one.schema.activities!.filter(a => a.id !== 'barn-a-wed-a6-ht26')
-    expect(headline(buildDay('2026-11-04', one))).toBe('Barnvecka · 1 sak idag')
+    expect(headline(buildDay('2026-11-11', one))).toBe('Barnvecka · 1 sak idag')
   })
   it('counts open to-dos', () => {
-    const data = makeData({ events: [], todos: [{ id: 't', title: 'Förnya busskortet', due: '2026-11-03', dueTime: null, done: null }] })
-    expect(headline(buildDay('2026-11-03', data))).toBe('Ej barnvecka · 1 sak idag')
+    const data = makeData({ events: [], todos: [{ id: 't', title: 'Förnya busskortet', due: '2026-11-10', dueTime: null, done: null }] })
+    expect(headline(buildDay('2026-11-10', data))).toBe('Ej barnvecka · 1 sak idag')
   })
 })
 
 describe('topLines', () => {
   it('gives the three most urgent lines in the spec’s format', () => {
-    const lines = topLines(buildDay('2026-11-04', makeData()))
-    expect(lines[0]).toEqual({ kind: 'tid', text: 'Tandläkare 14:30, åk 14:05', time: '14:05' })
+    const lines = topLines(buildDay('2026-11-11', makeData()))
+    expect(lines[0]).toEqual({ kind: 'tid', text: 'Tandläkare 14:50, åk 14:25', time: '14:25' })
     expect(lines).toHaveLength(2)
   })
   it('skips what is already over when given the time', () => {
-    const lines = topLines(buildDay('2026-11-04', makeData()), 3, '16:00')
+    const lines = topLines(buildDay('2026-11-11', makeData()), 3, '16:20')
     expect(lines.map(l => l.text)).toEqual([expect.stringContaining('Aktivitet F')])
   })
   it('lists overdue to-dos after the timed items, flagged', () => {
-    const data = makeData({ todos: [{ id: 't', title: 'Lämna boken', due: '2026-11-01', dueTime: null, done: null }] })
-    const lines = topLines(buildDay('2026-11-04', data))
+    const data = makeData({ todos: [{ id: 't', title: 'Lämna boken', due: '2026-11-08', dueTime: null, done: null }] })
+    const lines = topLines(buildDay('2026-11-11', data))
     expect(lines[lines.length - 1]).toEqual({ kind: 'gora', text: 'Lämna boken (försenad)', time: null })
   })
 })
 
 describe('shieldRows', () => {
   it('splits the same things as topLines into time, title and a small note', () => {
-    const rows = shieldRows(buildDay('2026-11-04', makeData()))
-    expect(rows[0]).toEqual({ kind: 'tid', time: '14:30', title: 'Tandläkare', note: 'åk 14:05' })
-    expect(rows.length).toBe(topLines(buildDay('2026-11-04', makeData())).length)
+    const rows = shieldRows(buildDay('2026-11-11', makeData()))
+    expect(rows[0]).toEqual({ kind: 'tid', time: '14:50', title: 'Tandläkare', note: 'åk 14:25' })
+    expect(rows.length).toBe(topLines(buildDay('2026-11-11', makeData())).length)
   })
   it('notes the arrive-by time when it differs from the start, and flags overdue to-dos', () => {
-    const data = makeData({ todos: [{ id: 't', title: 'Lämna boken', due: '2026-11-01', dueTime: null, done: null }] })
-    const rows = shieldRows(buildDay('2026-11-04', data))
+    const data = makeData({ todos: [{ id: 't', title: 'Lämna boken', due: '2026-11-08', dueTime: null, done: null }] })
+    const rows = shieldRows(buildDay('2026-11-11', data))
     expect(rows[rows.length - 1]).toEqual({ kind: 'gora', time: null, title: 'Lämna boken', note: 'försenad' })
   })
 })
 
 describe('pick-up time', () => {
   it('shows when to fetch someone from a recurring activity, but not for an event', () => {
-    const rows = shieldRows(buildDay('2026-11-04', makeData()))
-    expect(rows.find(r => r.title === 'Aktivitet F')?.note).toBe('på plats 18:30 · hämta 20:15')
-    expect(rows.find(r => r.title === 'Tandläkare')?.note).toBe('åk 14:05')
-    expect(topLines(buildDay('2026-11-04', makeData()))[1].text).toBe('Aktivitet F 18:45, hämta 20:15')
+    const rows = shieldRows(buildDay('2026-11-11', makeData()))
+    expect(rows.find(r => r.title === 'Aktivitet F')?.note).toBe('på plats 18:50 · hämta 20:35')
+    expect(rows.find(r => r.title === 'Tandläkare')?.note).toBe('åk 14:25')
+    expect(topLines(buildDay('2026-11-11', makeData()))[1].text).toBe('Aktivitet F 19:05, hämta 20:35')
   })
 })
 
@@ -62,16 +62,16 @@ describe('dayLines', () => {
   it('lists timed items, open to-dos and the dinner, one short line each', () => {
     const data = makeData({
       dinner: makeDinner(),
-      todos: [{ id: 't', title: 'Lämna boken', due: '2026-11-04', dueTime: null, done: null }],
+      todos: [{ id: 't', title: 'Lämna boken', due: '2026-11-11', dueTime: null, done: null }],
     })
-    expect(dayLines(buildDay('2026-11-04', data))).toEqual([
-      'Tandläkare 14:30',
-      'Aktivitet F 18:45–20:15',
+    expect(dayLines(buildDay('2026-11-11', data))).toEqual([
+      'Tandläkare 14:50',
+      'Aktivitet F 19:05–20:35',
       'Lämna boken (att göra)',
       'Middag: Tacos',
     ])
   })
   it('is empty on a day with nothing', () => {
-    expect(dayLines(buildDay('2026-11-10', makeData({ events: [] })))).toEqual([])
+    expect(dayLines(buildDay('2026-11-17', makeData({ events: [] })))).toEqual([])
   })
 })

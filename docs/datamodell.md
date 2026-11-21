@@ -194,36 +194,27 @@ Strukturen `varianter.<namn>.byt` är ett enkelt key→value-map som säger "nä
     {
       "id": "vuxen-a",
       "namn": "Vuxen A",
-      "roll": "Pappa",
+      "roll": "Förälder",
       "kost": [],
-      "halsa": ["lågt natrium", "högt blodtryck"],
-      "gillar": ["svamp", "fisk", "starka smaker"],
+      "halsa": [],
+      "gillar": ["fisk", "starka smaker"],
       "undviker": []
     },
     {
       "id": "barn-a",
       "namn": "Barn A",
-      "roll": "Dotter · år 9",
+      "roll": "Barn",
       "kost": ["vegan"],
       "halsa": [],
-      "gillar": ["pasta", "curry", "avokado"],
-      "undviker": ["svamp", "bittert"]
-    },
-    {
-      "id": "yngsta",
-      "namn": "Yngsta barnet",
-      "roll": "Barn",
-      "kost": [],
-      "halsa": [],
-      "gillar": ["kött", "potatismos", "pasta"],
-      "undviker": ["bönor", "linser", "grön sallad"]
+      "gillar": ["pasta", "curry"],
+      "undviker": ["svamp"]
     }
   ],
   "veckorutin": {
     "vardag_max_min": 35,
     "specialer": [
-      { "dag": "tisdag", "anteckning": "Barn A har träning 18 — snabbmat" },
-      { "dag": "fredag", "anteckning": "Oftast pizza-utflykt" }
+      { "dag": "tisdag", "anteckning": "Träning på kvällen — snabbmat" },
+      { "dag": "fredag", "anteckning": "Fredagsmys" }
     ]
   }
 }

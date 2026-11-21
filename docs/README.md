@@ -12,10 +12,7 @@ Utvecklaren (vana att hantera kod via Claude Code) vill bygga något han kallat 
 
 Hushållet har olika kostpreferenser samtidigt:
 
-- **Vuxen A**: förälder, lågt natrium (högt blodtryck), gillar svamp, fisk, starka smaker
-- **Barn A** (dotter, 15 år): vegan, gillar pasta/curry/avokado
-- **Barn B** (dotter, 11 år): "vanlig mat", gillar kött och potatismos
-- **Vuxen B**: Vuxen
+Hushållet har olika kostbehov samtidigt (t.ex. någon som äter veganskt, någon som vill ha "vanlig mat"). Vilka personerna är, deras kost och umgängesschemat ligger i det privata datarepot `livet-data`, inte här.
 
 Utöver det: morgnar är stressiga, mat har blivit dyrt, säsongstänk är viktigt, och vardagsschemat (träningar, läxor) påverkar hur mycket tid det finns för matlagning.
 
@@ -88,21 +85,7 @@ Entiteter: `Person`, `Group`, `PresenceRule` (WEEKLY | BIWEEKLY med anchor + par
 Resolver: `resolvePresence(date)` → `DayPlan`, `resolvePresenceRange(start, end)` → `DayPlan[]`.
 Ren funktion — ingen sido-effekt.
 
-Verkligt vårdnadsmönster (kanoniskt exempel, anchor 2026-05-22):
-
-| Dag | Vuxen A:s vecka | Frisvecka |
-|---|---|---|
-| Mån | Vuxen A + barn | Vuxen A + barn |
-| Tis | (mamman) | (mamman) |
-| Ons | Vuxen A + barn | Vuxen A + barn |
-| Tor | (mamman) | (mamman) |
-| Fre | Vuxen A + barn | (mamman) |
-| Lör | Vuxen A + barn | (mamman) |
-| Sön | Vuxen A + barn | (mamman) |
-
-Måndag och onsdag täcks av en `WEEKLY`-regel; fredag–söndag av en `BIWEEKLY`-regel med
-samma anchor. Erikas alternering och barnens aktiviteter läggs till i Prompt 2 som ytterligare
-`PresenceRule`-poster — ingen schemaändring krävs.
+Det riktiga umgängesmönstret (regler, ankardatum, överlämningar) ligger i det privata datarepot `livet-data`.
 
 ### Stack
 
@@ -268,26 +251,18 @@ man pratar bort dagen.
     {
       "id": "vuxen-a",
       "namn": "Vuxen A",
-      "roll": "Pappa",
-      "halsa": ["lågt natrium", "högt blodtryck"],
-      "gillar": ["svamp", "fisk", "starka smaker"],
+      "roll": "Förälder",
+      "kost": [],
+      "gillar": ["fisk", "starka smaker"],
       "undviker": []
     },
     {
       "id": "barn-a",
       "namn": "Barn A",
-      "roll": "Dotter · år 9",
-      "kost": ["vegan"],
-      "gillar": ["pasta", "curry", "avokado"],
-      "undviker": ["svamp", "bittert"]
-    },
-    {
-      "id": "yngsta",
-      "namn": "Yngsta barnet",
       "roll": "Barn",
-      "kost": ["vanlig"],
-      "gillar": ["kött", "potatismos", "pasta"],
-      "undviker": ["bönor", "linser", "grön sallad"]
+      "kost": ["vegan"],
+      "gillar": ["pasta", "curry"],
+      "undviker": ["svamp"]
     }
   ]
 }

@@ -1,7 +1,8 @@
 import type { PresenceStore } from '../types'
 
-// Synthetic, anonymised copy of the real schedule's *structure* (same rules, anchors, handovers
-// and activity times; invented ids/labels). The real schedule lives in the private repo
+// Synthetic, anonymised schedule with the same *structure* as the real one (same kinds of rules,
+// handovers and activities; invented ids/labels). Every date is shifted one week and every clock
+// time 20 minutes (2026-11) so it no longer matches the household's real calendar. The real schedule lives in the private repo
 // daniel-oster/livet-data (data/schema.json) — never commit it here. Generated once from the
 // old seed.ts; edit by hand from now on.
 export const TEST_STORE: PresenceStore = {
@@ -62,11 +63,11 @@ export const TEST_STORE: PresenceStore = {
         1
       ],
       "anchorDate": null,
-      "validFrom": "2026-01-01",
-      "validUntil": "2026-06-01",
+      "validFrom": "2026-01-08",
+      "validUntil": "2026-06-08",
       "priority": 2,
       "handoverByWeekday": {
-        "1": "19:00"
+        "1": "19:20"
       }
     },
     {
@@ -76,12 +77,12 @@ export const TEST_STORE: PresenceStore = {
       "weekdays": [
         3
       ],
-      "anchorDate": "2026-05-22",
-      "validFrom": "2026-01-01",
-      "validUntil": "2026-06-01",
+      "anchorDate": "2026-05-29",
+      "validFrom": "2026-01-08",
+      "validUntil": "2026-06-08",
       "priority": 2,
       "handoverByWeekday": {
-        "3": "19:00"
+        "3": "19:20"
       }
     },
     {
@@ -92,8 +93,8 @@ export const TEST_STORE: PresenceStore = {
         1
       ],
       "anchorDate": null,
-      "validFrom": "2026-06-02",
-      "validUntil": "2026-08-16",
+      "validFrom": "2026-06-09",
+      "validUntil": "2026-08-23",
       "priority": 2
     },
     {
@@ -103,9 +104,9 @@ export const TEST_STORE: PresenceStore = {
       "weekdays": [
         3
       ],
-      "anchorDate": "2026-05-22",
-      "validFrom": "2026-06-02",
-      "validUntil": "2026-08-16",
+      "anchorDate": "2026-05-29",
+      "validFrom": "2026-06-09",
+      "validUntil": "2026-08-23",
       "priority": 2
     },
     {
@@ -116,11 +117,11 @@ export const TEST_STORE: PresenceStore = {
         1
       ],
       "anchorDate": null,
-      "validFrom": "2026-08-17",
+      "validFrom": "2026-08-24",
       "validUntil": null,
       "priority": 2,
       "handoverByWeekday": {
-        "1": "19:00"
+        "1": "19:20"
       }
     },
     {
@@ -130,12 +131,12 @@ export const TEST_STORE: PresenceStore = {
       "weekdays": [
         3
       ],
-      "anchorDate": "2026-05-22",
-      "validFrom": "2026-08-17",
+      "anchorDate": "2026-05-29",
+      "validFrom": "2026-08-24",
       "validUntil": null,
       "priority": 2,
       "handoverByWeekday": {
-        "3": "19:00"
+        "3": "19:20"
       }
     },
     {
@@ -147,8 +148,8 @@ export const TEST_STORE: PresenceStore = {
         6,
         7
       ],
-      "anchorDate": "2026-05-22",
-      "validFrom": "2026-01-01",
+      "anchorDate": "2026-05-29",
+      "validFrom": "2026-01-08",
       "validUntil": null,
       "priority": 2
     },
@@ -162,8 +163,8 @@ export const TEST_STORE: PresenceStore = {
         3,
         4
       ],
-      "anchorDate": "2026-05-25",
-      "validFrom": "2026-01-01",
+      "anchorDate": "2026-06-01",
+      "validFrom": "2026-01-08",
       "validUntil": null,
       "priority": 2
     },
@@ -176,8 +177,8 @@ export const TEST_STORE: PresenceStore = {
         6,
         7
       ],
-      "anchorDate": "2026-05-29",
-      "validFrom": "2026-01-01",
+      "anchorDate": "2026-06-05",
+      "validFrom": "2026-01-08",
       "validUntil": null,
       "priority": 1
     },
@@ -191,8 +192,8 @@ export const TEST_STORE: PresenceStore = {
         3,
         4
       ],
-      "anchorDate": "2026-06-01",
-      "validFrom": "2026-01-01",
+      "anchorDate": "2026-06-08",
+      "validFrom": "2026-01-08",
       "validUntil": null,
       "priority": 1
     },
@@ -210,7 +211,7 @@ export const TEST_STORE: PresenceStore = {
         7
       ],
       "anchorDate": null,
-      "validFrom": "2026-01-01",
+      "validFrom": "2026-01-08",
       "validUntil": null,
       "priority": 0
     }
@@ -227,8 +228,8 @@ export const TEST_STORE: PresenceStore = {
       "leaveBy": null,
       "endTime": null,
       "affectsWindow": false,
-      "validFrom": "2026-01-01",
-      "validUntil": "2026-06-01",
+      "validFrom": "2026-01-08",
+      "validUntil": "2026-06-08",
       "notes": null
     },
     {
@@ -236,13 +237,13 @@ export const TEST_STORE: PresenceStore = {
       "personId": "barn-a",
       "label": "Aktivitet B",
       "weekday": 5,
-      "startTime": "17:30",
-      "arriveBy": "17:15",
+      "startTime": "17:50",
+      "arriveBy": "17:35",
       "leaveBy": null,
-      "endTime": "18:45",
+      "endTime": "19:05",
       "affectsWindow": true,
-      "validFrom": "2026-01-01",
-      "validUntil": "2026-06-01",
+      "validFrom": "2026-01-08",
+      "validUntil": "2026-06-08",
       "notes": null
     },
     {
@@ -250,13 +251,13 @@ export const TEST_STORE: PresenceStore = {
       "personId": "barn-a",
       "label": "Aktivitet C",
       "weekday": 7,
-      "startTime": "12:00",
-      "arriveBy": "11:45",
+      "startTime": "12:20",
+      "arriveBy": "12:05",
       "leaveBy": null,
-      "endTime": "13:30",
+      "endTime": "13:50",
       "affectsWindow": true,
-      "validFrom": "2026-01-01",
-      "validUntil": "2026-06-01",
+      "validFrom": "2026-01-08",
+      "validUntil": "2026-06-08",
       "notes": null
     },
     {
@@ -264,13 +265,13 @@ export const TEST_STORE: PresenceStore = {
       "personId": "barn-a",
       "label": "Aktivitet D",
       "weekday": 7,
-      "startTime": "17:45",
-      "arriveBy": "17:30",
+      "startTime": "18:05",
+      "arriveBy": "17:50",
       "leaveBy": null,
-      "endTime": "19:15",
+      "endTime": "19:35",
       "affectsWindow": true,
-      "validFrom": "2026-01-01",
-      "validUntil": "2026-06-01",
+      "validFrom": "2026-01-08",
+      "validUntil": "2026-06-08",
       "notes": null
     },
     {
@@ -283,8 +284,8 @@ export const TEST_STORE: PresenceStore = {
       "leaveBy": null,
       "endTime": null,
       "affectsWindow": false,
-      "validFrom": "2026-01-01",
-      "validUntil": "2026-06-01",
+      "validFrom": "2026-01-08",
+      "validUntil": "2026-06-08",
       "notes": null
     },
     {
@@ -292,13 +293,13 @@ export const TEST_STORE: PresenceStore = {
       "personId": "barn-a",
       "label": "Aktivitet E",
       "weekday": 1,
-      "startTime": "18:00",
+      "startTime": "18:20",
       "arriveBy": null,
       "leaveBy": null,
-      "endTime": "20:00",
+      "endTime": "20:20",
       "affectsWindow": true,
-      "validFrom": "2026-01-01",
-      "validUntil": "2026-06-01",
+      "validFrom": "2026-01-08",
+      "validUntil": "2026-06-08",
       "notes": null
     },
     {
@@ -306,13 +307,13 @@ export const TEST_STORE: PresenceStore = {
       "personId": "barn-a",
       "label": "Aktivitet F",
       "weekday": 3,
-      "startTime": "18:45",
-      "arriveBy": "18:30",
+      "startTime": "19:05",
+      "arriveBy": "18:50",
       "leaveBy": null,
-      "endTime": "20:15",
+      "endTime": "20:35",
       "affectsWindow": true,
-      "validFrom": "2026-01-01",
-      "validUntil": "2026-06-01",
+      "validFrom": "2026-01-08",
+      "validUntil": "2026-06-08",
       "notes": null
     },
     {
@@ -325,8 +326,8 @@ export const TEST_STORE: PresenceStore = {
       "leaveBy": null,
       "endTime": null,
       "affectsWindow": false,
-      "validFrom": "2026-01-01",
-      "validUntil": "2026-06-01",
+      "validFrom": "2026-01-08",
+      "validUntil": "2026-06-08",
       "notes": null
     },
     {
@@ -334,13 +335,13 @@ export const TEST_STORE: PresenceStore = {
       "personId": "barn-b",
       "label": "Aktivitet G",
       "weekday": 5,
-      "startTime": "16:00",
-      "arriveBy": "15:30",
+      "startTime": "16:20",
+      "arriveBy": "15:50",
       "leaveBy": null,
-      "endTime": "17:00",
+      "endTime": "17:20",
       "affectsWindow": true,
-      "validFrom": "2026-01-01",
-      "validUntil": "2026-06-01",
+      "validFrom": "2026-01-08",
+      "validUntil": "2026-06-08",
       "notes": null
     },
     {
@@ -348,13 +349,13 @@ export const TEST_STORE: PresenceStore = {
       "personId": "barn-b",
       "label": "Aktivitet H",
       "weekday": 7,
-      "startTime": "14:15",
+      "startTime": "14:35",
       "arriveBy": null,
       "leaveBy": null,
-      "endTime": "16:15",
+      "endTime": "16:35",
       "affectsWindow": true,
-      "validFrom": "2026-01-01",
-      "validUntil": "2026-06-01",
+      "validFrom": "2026-01-08",
+      "validUntil": "2026-06-08",
       "notes": null
     },
     {
@@ -367,8 +368,8 @@ export const TEST_STORE: PresenceStore = {
       "leaveBy": null,
       "endTime": null,
       "affectsWindow": false,
-      "validFrom": "2026-01-01",
-      "validUntil": "2026-06-01",
+      "validFrom": "2026-01-08",
+      "validUntil": "2026-06-08",
       "notes": null
     },
     {
@@ -381,8 +382,8 @@ export const TEST_STORE: PresenceStore = {
       "leaveBy": null,
       "endTime": null,
       "affectsWindow": false,
-      "validFrom": "2026-01-01",
-      "validUntil": "2026-06-01",
+      "validFrom": "2026-01-08",
+      "validUntil": "2026-06-08",
       "notes": null
     },
     {
@@ -390,13 +391,13 @@ export const TEST_STORE: PresenceStore = {
       "personId": "barn-b",
       "label": "Aktivitet I",
       "weekday": 1,
-      "startTime": "17:30",
-      "arriveBy": "17:15",
+      "startTime": "17:50",
+      "arriveBy": "17:35",
       "leaveBy": null,
-      "endTime": "18:30",
+      "endTime": "18:50",
       "affectsWindow": true,
-      "validFrom": "2026-01-01",
-      "validUntil": "2026-06-01",
+      "validFrom": "2026-01-08",
+      "validUntil": "2026-06-08",
       "notes": null
     },
     {
@@ -409,7 +410,7 @@ export const TEST_STORE: PresenceStore = {
       "leaveBy": null,
       "endTime": null,
       "affectsWindow": false,
-      "validFrom": "2026-08-17",
+      "validFrom": "2026-08-24",
       "validUntil": null,
       "notes": null
     },
@@ -418,12 +419,12 @@ export const TEST_STORE: PresenceStore = {
       "personId": "barn-a",
       "label": "Aktivitet B",
       "weekday": 5,
-      "startTime": "17:30",
-      "arriveBy": "17:15",
+      "startTime": "17:50",
+      "arriveBy": "17:35",
       "leaveBy": null,
-      "endTime": "18:45",
+      "endTime": "19:05",
       "affectsWindow": true,
-      "validFrom": "2026-08-17",
+      "validFrom": "2026-08-24",
       "validUntil": null,
       "notes": null
     },
@@ -432,12 +433,12 @@ export const TEST_STORE: PresenceStore = {
       "personId": "barn-a",
       "label": "Aktivitet C",
       "weekday": 7,
-      "startTime": "12:00",
-      "arriveBy": "11:45",
+      "startTime": "12:20",
+      "arriveBy": "12:05",
       "leaveBy": null,
-      "endTime": "13:30",
+      "endTime": "13:50",
       "affectsWindow": true,
-      "validFrom": "2026-08-17",
+      "validFrom": "2026-08-24",
       "validUntil": null,
       "notes": null
     },
@@ -446,12 +447,12 @@ export const TEST_STORE: PresenceStore = {
       "personId": "barn-a",
       "label": "Aktivitet D",
       "weekday": 7,
-      "startTime": "17:45",
-      "arriveBy": "17:30",
+      "startTime": "18:05",
+      "arriveBy": "17:50",
       "leaveBy": null,
-      "endTime": "19:15",
+      "endTime": "19:35",
       "affectsWindow": true,
-      "validFrom": "2026-08-17",
+      "validFrom": "2026-08-24",
       "validUntil": null,
       "notes": null
     },
@@ -465,7 +466,7 @@ export const TEST_STORE: PresenceStore = {
       "leaveBy": null,
       "endTime": null,
       "affectsWindow": false,
-      "validFrom": "2026-08-17",
+      "validFrom": "2026-08-24",
       "validUntil": null,
       "notes": null
     },
@@ -474,12 +475,12 @@ export const TEST_STORE: PresenceStore = {
       "personId": "barn-a",
       "label": "Aktivitet E",
       "weekday": 1,
-      "startTime": "18:00",
+      "startTime": "18:20",
       "arriveBy": null,
       "leaveBy": null,
-      "endTime": "20:00",
+      "endTime": "20:20",
       "affectsWindow": true,
-      "validFrom": "2026-08-17",
+      "validFrom": "2026-08-24",
       "validUntil": null,
       "notes": null
     },
@@ -488,12 +489,12 @@ export const TEST_STORE: PresenceStore = {
       "personId": "barn-a",
       "label": "Aktivitet F",
       "weekday": 3,
-      "startTime": "18:45",
-      "arriveBy": "18:30",
+      "startTime": "19:05",
+      "arriveBy": "18:50",
       "leaveBy": null,
-      "endTime": "20:15",
+      "endTime": "20:35",
       "affectsWindow": true,
-      "validFrom": "2026-08-17",
+      "validFrom": "2026-08-24",
       "validUntil": null,
       "notes": null
     },
@@ -507,7 +508,7 @@ export const TEST_STORE: PresenceStore = {
       "leaveBy": null,
       "endTime": null,
       "affectsWindow": false,
-      "validFrom": "2026-08-17",
+      "validFrom": "2026-08-24",
       "validUntil": null,
       "notes": null
     },
@@ -516,12 +517,12 @@ export const TEST_STORE: PresenceStore = {
       "personId": "barn-b",
       "label": "Aktivitet G",
       "weekday": 5,
-      "startTime": "16:00",
-      "arriveBy": "15:30",
+      "startTime": "16:20",
+      "arriveBy": "15:50",
       "leaveBy": null,
-      "endTime": "17:00",
+      "endTime": "17:20",
       "affectsWindow": true,
-      "validFrom": "2026-08-17",
+      "validFrom": "2026-08-24",
       "validUntil": null,
       "notes": null
     },
@@ -530,12 +531,12 @@ export const TEST_STORE: PresenceStore = {
       "personId": "barn-b",
       "label": "Aktivitet H",
       "weekday": 7,
-      "startTime": "14:15",
+      "startTime": "14:35",
       "arriveBy": null,
       "leaveBy": null,
-      "endTime": "16:15",
+      "endTime": "16:35",
       "affectsWindow": true,
-      "validFrom": "2026-08-17",
+      "validFrom": "2026-08-24",
       "validUntil": null,
       "notes": null
     },
@@ -549,7 +550,7 @@ export const TEST_STORE: PresenceStore = {
       "leaveBy": null,
       "endTime": null,
       "affectsWindow": false,
-      "validFrom": "2026-08-17",
+      "validFrom": "2026-08-24",
       "validUntil": null,
       "notes": null
     },
@@ -563,7 +564,7 @@ export const TEST_STORE: PresenceStore = {
       "leaveBy": null,
       "endTime": null,
       "affectsWindow": false,
-      "validFrom": "2026-08-17",
+      "validFrom": "2026-08-24",
       "validUntil": null,
       "notes": null
     },
@@ -572,12 +573,12 @@ export const TEST_STORE: PresenceStore = {
       "personId": "barn-b",
       "label": "Aktivitet I",
       "weekday": 1,
-      "startTime": "17:30",
-      "arriveBy": "17:15",
+      "startTime": "17:50",
+      "arriveBy": "17:35",
       "leaveBy": null,
-      "endTime": "18:30",
+      "endTime": "18:50",
       "affectsWindow": true,
-      "validFrom": "2026-08-17",
+      "validFrom": "2026-08-24",
       "validUntil": null,
       "notes": null
     }

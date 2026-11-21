@@ -22,7 +22,7 @@ export default function ProductSection() {
           <tr>
             <td><strong>Vuxen A</strong></td>
             <td><span style={{ color: 'var(--muted)', fontSize: 12 }}>Förälder</span></td>
-            <td>Lågt natrium, högt blodtryck</td>
+            <td>—</td>
             <td>Svamp, fisk, starka smaker</td>
           </tr>
           <tr>

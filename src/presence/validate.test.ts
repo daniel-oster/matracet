@@ -30,8 +30,8 @@ describe('validateSchema', () => {
   })
   it('flags inverted validity ranges and duplicate ids', () => {
     const s = clone()
-    s.rules[0].validFrom = '2026-09-01'
-    s.rules[0].validUntil = '2026-01-01'
+    s.rules[0].validFrom = '2026-09-08'
+    s.rules[0].validUntil = '2026-01-08'
     s.groups.push({ ...s.groups[0] })
     const out = validateSchema(s).join('\n')
     expect(out).toContain('validUntil före validFrom')
@@ -50,12 +50,12 @@ describe('validateSchema', () => {
 })
 
 describe('validatePeriods', () => {
-  const ok: Period[] = [{ id: 'a', kind: 'termin', name: 'T', from: '2026-08-17', to: null, personIds: ['barn-a'] }]
+  const ok: Period[] = [{ id: 'a', kind: 'termin', name: 'T', from: '2026-08-24', to: null, personIds: ['barn-a'] }]
   it('accepts a valid open-ended term', () => {
     expect(validatePeriods(ok, TEST_STORE)).toEqual([])
   })
   it('flags unknown people, bad kinds and inverted ranges', () => {
-    const bad = [{ id: 'b', kind: 'semester', name: 'S', from: '2026-10-30', to: '2026-10-26', personIds: ['ingen'] }] as unknown as Period[]
+    const bad = [{ id: 'b', kind: 'semester', name: 'S', from: '2026-11-06', to: '2026-11-02', personIds: ['ingen'] }] as unknown as Period[]
     const out = validatePeriods(bad, TEST_STORE).join('\n')
     expect(out).toContain('kind måste vara')
     expect(out).toContain('to före from')

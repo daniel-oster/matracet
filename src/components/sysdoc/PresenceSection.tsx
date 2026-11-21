@@ -54,84 +54,12 @@ export default function PresenceSection() {
           <tr><td><span className="field-name">name</span></td><td>string</td><td>Visningsnamn</td></tr>
         </tbody>
       </table>
-      <p style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 4 }}>Seed-data:</p>
-      <table className="field-table" style={{ marginBottom: 20 }}>
-        <thead><tr><th>id</th><th>Namn</th><th>Roll</th></tr></thead>
-        <tbody>
-          <tr><td><span className="field-name">vuxen-a</span></td><td>Vuxen A</td><td>Förälder</td></tr>
-          <tr><td><span className="field-name">barn-a</span></td><td>Barn A</td><td>Barn</td></tr>
-          <tr><td><span className="field-name">barn-b</span></td><td>Barn B</td><td>Barn</td></tr>
-          <tr><td><span className="field-name">vuxen-b</span></td><td>Vuxen B</td><td>Vuxen</td></tr>
-        </tbody>
-      </table>
-
-      <h4 style={{ marginTop: 16, marginBottom: 4 }}>Group</h4>
-      <p style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.7, marginBottom: 8 }}>
-        Namngiven uppsättning personer som äter tillsammans. En måltid planeras för en grupp,
-        inte en individ. Portioner = antal aktiva gruppmedlemmar.
-      </p>
-      <table className="field-table" style={{ marginBottom: 20 }}>
-        <thead><tr><th>id</th><th>Namn</th><th>Medlemmar</th></tr></thead>
-        <tbody>
-          <tr><td><span className="field-name">grupp-barn</span></td><td>Vuxen A + barn</td><td>Vuxen A, Barn A, Barn B</td></tr>
-          <tr><td><span className="field-name">grupp-vuxen-b</span></td><td>Vuxen A + Vuxen B</td><td>Vuxen A, Vuxen B</td></tr>
-          <tr><td><span className="field-name">vuxen-a</span></td><td>Vuxen A</td><td>Vuxen A (solo)</td></tr>
-        </tbody>
-      </table>
-
-      <h4 style={{ marginTop: 16, marginBottom: 4 }}>PresenceRule</h4>
-      <p style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.7, marginBottom: 8 }}>
-        Deklarerar att en grupp är aktiv på ett återkommande schema. Fältet{' '}
-        <code>handoverByWeekday</code> bär strukturella överlämnings­tider (t.ex. barnen
-        överlämnas kl 19:00 på måndag och onsdag) — dessa är fakta om vardagen, inte aktiviteter.
-      </p>
-      <table className="field-table" style={{ marginBottom: 8 }}>
-        <thead><tr><th>Fält</th><th>Typ</th><th>Beskrivning</th></tr></thead>
-        <tbody>
-          <tr><td><span className="field-name">id</span></td><td>string</td><td>Unikt id</td></tr>
-          <tr><td><span className="field-name">groupId</span></td><td>string</td><td>Grupp som aktiveras</td></tr>
-          <tr><td><span className="field-name">cadence</span></td><td>WEEKLY | BIWEEKLY</td><td>Upprepningstakt</td></tr>
-          <tr><td><span className="field-name">weekdays</span></td><td>Weekday[]</td><td>1=Mån … 7=Sön</td></tr>
-          <tr><td><span className="field-name">anchorDate</span></td><td>ISO | null</td><td>Referensdatum för BIWEEKLY-paritet</td></tr>
-          <tr><td><span className="field-name">validFrom / validUntil</span></td><td>ISO | null</td><td>Giltighetsfönster</td></tr>
-          <tr><td><span className="field-name">priority</span></td><td>number</td><td>Högst vinner vid konflikt</td></tr>
-          <tr><td><span className="field-name">handoverByWeekday</span></td><td>Record&lt;Weekday, HH:MM&gt; | undefined</td><td>Strukturell överlämnings­tid per veckodag</td></tr>
-        </tbody>
-      </table>
-      <p style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 4 }}>Seed-data:</p>
+      <p style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 4 }}>Påhittat exempel (de riktiga reglerna ligger i det privata datarepot):</p>
       <table className="field-table" style={{ marginBottom: 20 }}>
         <thead><tr><th>Regel-id</th><th>Cadence</th><th>Veckodagar</th><th>handoverByWeekday</th></tr></thead>
         <tbody>
-          <tr>
-            <td><span className="field-name">mon-weekly</span></td>
-            <td>WEEKLY</td>
-            <td>Mån</td>
-            <td>{'{'} 1: "19:00" {'}'}</td>
-          </tr>
-          <tr>
-            <td><span className="field-name">wed-biweekly</span></td>
-            <td>BIWEEKLY</td>
-            <td>Ons (Vuxen A:s veckor)</td>
-            <td>{'{'} 3: "19:00" {'}'}</td>
-          </tr>
-          <tr>
-            <td><span className="field-name">weekend-biweekly</span></td>
-            <td>BIWEEKLY</td>
-            <td>Fre, Lör, Sön (Vuxen A:s veckor)</td>
-            <td>— (fredag­byte varierar; använd Override)</td>
-          </tr>
-          <tr>
-            <td><span className="field-name">b-week-biweekly</span></td>
-            <td>BIWEEKLY</td>
-            <td>Tis–Sön (Vuxen B-veckor)</td>
-            <td>—</td>
-          </tr>
-          <tr>
-            <td><span className="field-name">solo-baseline</span></td>
-            <td>WEEKLY</td>
-            <td>Alla dagar (baslinje, lägst prioritet)</td>
-            <td>—</td>
-          </tr>
+          <tr><td><span className="field-name">barn-varannan</span></td><td>BIWEEKLY</td><td>Mån–Sön (varannan vecka)</td><td>{'{'} 5: "16:00" {'}'}</td></tr>
+          <tr><td><span className="field-name">vuxna-baslinje</span></td><td>WEEKLY</td><td>Alla dagar (baslinje, lägst prioritet)</td><td>—</td></tr>
         </tbody>
       </table>
       <p style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 20 }}>
@@ -217,11 +145,9 @@ export default function PresenceSection() {
       <table className="field-table" style={{ marginBottom: 20 }}>
         <thead><tr><th>Aktivitet</th><th>Eff. avgång</th><th>Binder middag?</th><th>Motivering</th></tr></thead>
         <tbody>
-          <tr><td>Barn A: Aktivitet C (Sön 12:00)</td><td>11:45</td><td>Nej</td><td>Klart långt innan middag</td></tr>
-          <tr><td>Barn B: Aktivitet H (Sön 14:15)</td><td>14:15</td><td>Nej</td><td>Tillbaka 16:15, hinner middagen</td></tr>
-          <tr><td>Barn B: Aktivitet G (Fre 16:00)</td><td>15:30</td><td>Ja</td><td>≥ 15:00, binder fönstret</td></tr>
-          <tr><td>Barn A: Aktivitet B (Fre 17:30)</td><td>17:15</td><td>Ja</td><td>Kvällstid</td></tr>
-          <tr><td>Barn A: Aktivitet E (Mån 18:00)</td><td>18:00</td><td>Ja</td><td>Kvällstid, skapar CONFLICT</td></tr>
+          <tr><td>Exempel: förmiddagsaktivitet (start 10:00)</td><td>09:45</td><td>Nej</td><td>Klart långt innan middag</td></tr>
+          <tr><td>Exempel: eftermiddagsaktivitet (start 16:00)</td><td>15:30</td><td>Ja</td><td>≥ 15:00, binder fönstret</td></tr>
+          <tr><td>Exempel: kvällsaktivitet (start 18:00)</td><td>18:00</td><td>Ja</td><td>Kvällstid, kan skapa CONFLICT</td></tr>
         </tbody>
       </table>
 
@@ -258,41 +184,6 @@ export default function PresenceSection() {
         </div>
       </div>
 
-      {/* ── Schemat denna termin ────────────────────────────────────────── */}
-      <h3>Schemat denna termin</h3>
-      <p style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.7, marginBottom: 8 }}>
-        Alla aktiviteter i <code>src/presence/activities.ts</code> med{' '}
-        <code>validFrom: '2026-01-01'</code>. Tiderna är i 24h-format HH:MM.
-        Kolumnen <em>Binder middag</em> visar om aktiviteten ingår i fönsterberäkningen.
-      </p>
-
-      <h5 style={{ marginTop: 12, marginBottom: 4 }}>Barn A</h5>
-      <table className="field-table" style={{ marginBottom: 12 }}>
-        <thead><tr><th>Dag</th><th>Aktivitet</th><th>Start</th><th>arriveBy</th><th>end</th><th>Binder middag</th></tr></thead>
-        <tbody>
-          <tr><td>Fre</td><td>Skola: Idrott</td><td>—</td><td>—</td><td>—</td><td>Nej (tidlös)</td></tr>
-          <tr><td>Fre</td><td>Aktivitet B</td><td>17:30</td><td>17:15</td><td>18:45</td><td>Ja → cutoff 17:15</td></tr>
-          <tr><td>Sön</td><td>Aktivitet C</td><td>12:00</td><td>11:45</td><td>13:30</td><td>Nej (dagtid)</td></tr>
-          <tr><td>Sön</td><td>Aktivitet D</td><td>17:45</td><td>17:30</td><td>19:15</td><td>Ja → cutoff 17:30</td></tr>
-          <tr><td>Mån</td><td>Skola: Idrott</td><td>—</td><td>—</td><td>—</td><td>Nej (tidlös)</td></tr>
-          <tr><td>Mån</td><td>Aktivitet E</td><td>18:00</td><td>—</td><td>20:00</td><td>Ja → cutoff 18:00 → CONFLICT</td></tr>
-          <tr><td>Ons</td><td>Aktivitet F</td><td>18:45</td><td>18:30</td><td>20:15</td><td>Ja → cutoff 18:30 → CONFLICT</td></tr>
-        </tbody>
-      </table>
-
-      <h5 style={{ marginTop: 12, marginBottom: 4 }}>Barn B</h5>
-      <table className="field-table" style={{ marginBottom: 24 }}>
-        <thead><tr><th>Dag</th><th>Aktivitet</th><th>Start</th><th>arriveBy</th><th>end</th><th>Binder middag</th></tr></thead>
-        <tbody>
-          <tr><td>Fre</td><td>Skola: Idrott</td><td>—</td><td>—</td><td>—</td><td>Nej (tidlös)</td></tr>
-          <tr><td>Fre</td><td>Aktivitet G</td><td>16:00</td><td>15:30</td><td>17:00</td><td>Ja → cutoff 15:30</td></tr>
-          <tr><td>Sön</td><td>Aktivitet H</td><td>14:15</td><td>—</td><td>16:15</td><td>Nej (dagtid, eff. 14:15 &lt; 15:00)</td></tr>
-          <tr><td>Mån</td><td>Skola: Ämne 2</td><td>—</td><td>—</td><td>—</td><td>Nej (tidlös)</td></tr>
-          <tr><td>Mån</td><td>Skola: Idrott</td><td>—</td><td>—</td><td>—</td><td>Nej (tidlös)</td></tr>
-          <tr><td>Mån</td><td>Aktivitet I</td><td>17:30</td><td>17:15</td><td>18:30</td><td>Ja → cutoff 17:15</td></tr>
-        </tbody>
-      </table>
-
       {/* ── DayPlan ─────────────────────────────────────────────────────── */}
       <h3>DayPlan (härlett — sparas ej)</h3>
       <table className="field-table" style={{ marginBottom: 24 }}>
@@ -327,32 +218,6 @@ export default function PresenceSection() {
           Annars → <code>BOUNDED</code>, <code>windowEndsBy</code> = bindande cutoff.
         </li>
       </ol>
-
-      {/* ── Verkligt mönster ────────────────────────────────────────────── */}
-      <h3>Verkligt mönster — kanonisk 14-dagarscykel</h3>
-      <table className="field-table" style={{ marginBottom: 24 }}>
-        <thead>
-          <tr><th>Dag</th><th>Vuxen A:s vecka</th><th>Vuxen B-vecka</th><th>Matfönster (Vuxen A:s v.)</th></tr>
-        </thead>
-        <tbody>
-          {([
-            ['Mån', 'Vuxen A + barn', 'Vuxen A + barn', 'CONFLICT — ät senast 17:15 (Modern + Aktivitet E + överlämn. 19:00)'],
-            ['Tis', 'Vuxen A (ensam)', 'Vuxen A + Vuxen B', '—'],
-            ['Ons', 'Vuxen A + barn', 'Vuxen A + Vuxen B', 'CONFLICT — ät senast 18:30 (Aktivitet F + överlämn. 19:00)'],
-            ['Tor', 'Vuxen A (ensam)', 'Vuxen A + Vuxen B', '—'],
-            ['Fre', 'Vuxen A + barn', 'Vuxen A + Vuxen B', 'BOUNDED — senast 15:30 (Aktivitet G)'],
-            ['Lör', 'Vuxen A + barn', 'Vuxen A + Vuxen B', 'OPEN'],
-            ['Sön', 'Vuxen A + barn', 'Vuxen A + Vuxen B', 'BOUNDED — senast 17:30 (Aktivitet D)'],
-          ] as [string, string, string, string][]).map(([day, danielWeek, offWeek, window]) => (
-            <tr key={day}>
-              <td><strong>{day}</strong></td>
-              <td>{danielWeek}</td>
-              <td style={{ color: offWeek.startsWith('(') ? 'var(--muted)' : undefined }}>{offWeek}</td>
-              <td style={{ fontSize: 12, color: 'var(--muted)' }}>{window}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
 
       {/* ── Kör acceptance-testet ────────────────────────────────────────── */}
       <h3>Kör acceptance-testet</h3>
