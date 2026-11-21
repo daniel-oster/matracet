@@ -60,6 +60,8 @@ export default function BevakaView({ onBack }: Props) {
               {offers.map((o, i) => {
                 const inList = isActiveForOffer(o.namn, o.store)
                 const deal = dealLabel(o)
+                const origin = o.ursprung && !(o.marke ?? '').toLowerCase().includes(o.ursprung.toLowerCase()) ? o.ursprung : null
+                const meta = [o.marke, o.storlek, origin].filter(Boolean).join(' · ')
                 return (
                   <div
                     className={`match-row${inList ? ' in-list' : ''}${o.good ? ' good' : ' weak'}`}
@@ -69,13 +71,16 @@ export default function BevakaView({ onBack }: Props) {
                   >
                     <span className={`fynd-store ${STORES[o.store]?.klass}`}>{STORES[o.store]?.namn}</span>
                     <div className="match-info">
-                      {inList && <span className="fynd-cart" title="I inköpslistan">🛒</span>}
-                      {[o.marke, o.storlek].filter(Boolean).join(' · ') && (
-                        <span className="match-size">{[o.marke, o.storlek].filter(Boolean).join(' · ')}</span>
-                      )}
-                      {o.jamforpris && <span className="fynd-jmf">{o.jamforpris}</span>}
-                      {o.preferred && <span className="fynd-tag pref" title="Önskat märke">⭐ {item.onskat_marke}</span>}
-                      {o.klubbpris && <span className="fynd-tag club">klubb</span>}
+                      <div className="fynd-name">
+                        {inList && <span className="fynd-cart" title="I inköpslistan">🛒</span>}
+                        {o.namn}
+                      </div>
+                      <div className="match-size">
+                        {meta && <span>{meta}</span>}
+                        {o.jamforpris && <span className="fynd-jmf">{o.jamforpris}</span>}
+                        {o.preferred && <span className="fynd-tag pref" title="Önskat märke">⭐ {item.onskat_marke}</span>}
+                        {o.klubbpris && <span className="fynd-tag club">klubb</span>}
+                      </div>
                     </div>
                     <div className="match-price">
                       <span className="fynd-pris">{o.pris_text}</span>
