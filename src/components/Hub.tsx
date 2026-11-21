@@ -1,4 +1,5 @@
 import { DayMeal, RecipeIndexEntry, ScreenName } from '../types'
+import { LIVET_URL } from '../lib/livetLink'
 import type { Meal } from '../types/meal'
 import { useWeekPlan, applyOverride } from '../hooks/useWeekPlan'
 import type { DayPlan } from '../presence/types'
@@ -114,6 +115,7 @@ export default function Hub({ weekLabel, rollingDays, recipeIndex, meals, dayPla
           <Tile em="📜" tn="Historik" ts="vad vi ätit" onClick={() => onNavigate('historik')} />
           <Tile em="📣" tn="Nytt" ts="veckans uppdateringar" onClick={() => onNavigate('nytt')} />
           <Tile em="⚙️" tn="Hantera appen" ts="synk, notiser & export" onClick={() => onNavigate('hantera')} />
+          <Tile em="🌿" tn="Livet" ts="läget, familjen & schema" onClick={() => window.location.assign(LIVET_URL)} />
         </div>
       </div>
     </div>

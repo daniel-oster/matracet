@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
+import { OPENED_FROM_LIVET, goToLivet, stripDeepLinkParams } from './lib/livetLink'
 import { getISOWeekString } from './lib/isoWeek'
 import { WeekMenu, EatersData, RecipeIndex, RecipeIndexEntry, DayMeal, WeekNote, ScreenName } from './types'
 import type { HistoryEntry, HistoryFile } from './types/history'
@@ -42,6 +43,17 @@ function dagFromDate(isoDate: string): string {
   return names[new Date(isoDate + 'T00:00:00Z').getUTCDay()]
 }
 
+const LINKABLE_SCREENS: ScreenName[] = ['nytt', 'familj', 'hantera']
+
+function initialScreen(): ScreenName {
+  if (typeof window === 'undefined') return 'hub'
+  const vy = new URLSearchParams(window.location.search).get('vy') as ScreenName | null
+  return vy && LINKABLE_SCREENS.includes(vy) ? vy : 'hub'
+}
+
+/** The screen this load was opened on, when Livet opened it. */
+const LIVET_ENTRY: ScreenName | null = OPENED_FROM_LIVET ? initialScreen() : null
+
 export default function App() {
   const [rollingDays, setRollingDays] = useState<DayMeal[]>([])
   const [rollingLunches, setRollingLunches] = useState<DayMeal[]>([])
@@ -63,19 +75,12 @@ export default function App() {
   // re-runs the boot effect below when the retry button is tapped.
   const [loadError, setLoadError] = useState<string | null>(null)
   const [reloadAttempt, setReloadAttempt] = useState(0)
-  // A tapped push notification opens /matracet/?vy=nytt (public/sw.js) — start on that screen.
-  const [screen, setScreen] = useState<ScreenName>(() =>
-    typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('vy') === 'nytt' ? 'nytt' : 'hub',
-  )
+  // A tapped push notification opens /matracet/?vy=nytt (public/sw.js), and Livet's settings
+  // links open ?vy=familj|hantera&fran=livet — start on that screen.
+  const [screen, setScreen] = useState<ScreenName>(initialScreen)
   const [screenHistory, setScreenHistory] = useState<ScreenName[]>([])
-  // …and drop ?vy= once read, so a later ⟳ reload doesn't jump back to Nytt.
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-    if (!params.has('vy')) return
-    params.delete('vy')
-    const qs = params.toString()
-    window.history.replaceState(null, '', `${window.location.pathname}${qs ? `?${qs}` : ''}${window.location.hash}`)
-  }, [])
+  // …and drop ?vy=/&fran= once read, so a later ⟳ reload doesn't jump back.
+  useEffect(stripDeepLinkParams, [])
   // A shared recipe link (/matracet/recept/<slug>/, or an old #recept/<slug> hash link) opens
   // the overlay straight away on boot — see src/lib/recipeLink.ts for why it's a real path now.
   const [overlaySlug, setOverlaySlug] = useState<string | null>(() => {
@@ -280,6 +285,8 @@ export default function App() {
   }
 
   const toHub = () => navigate('hub')
+  // A screen Livet opened goes back to Livet rather than to Matracet's own hub.
+  const backFrom = (s: ScreenName) => (LIVET_ENTRY === s && screenHistory.length === 0 ? goToLivet : toHub)
 
   function goBack() {
     setScreenHistory(prev => {
@@ -328,7 +335,7 @@ export default function App() {
       )}
       {screen === 'familj' && (
         <FamiljView
-          onBack={toHub}
+          onBack={backFrom('familj')}
           eaters={eaters.eaters}
           dayPlans={dayPlans}
           schedule={schedule.store}
@@ -355,7 +362,7 @@ export default function App() {
           onOpenRecipe={setOverlaySlug}
         />
       )}
-      {screen === 'hantera' && <HanteraView onBack={toHub} />}
+      {screen === 'hantera' && <HanteraView onBack={backFrom('hantera')} />}
       {screen === 'nytt' && <NyttView onBack={toHub} onNavigate={navigate} />}
 
       {screen !== 'hub' && !overlaySlug && (

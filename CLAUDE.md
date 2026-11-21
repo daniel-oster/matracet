@@ -2527,6 +2527,18 @@ and Omega Centauri are glows at their real positions. Speed 1 redraws once a sec
 (a slow visible twist), the sky page offers ×300/×3000. It pauses when hidden and respects reduced-motion.
 Menu → **Vintergatan** shows `public/laget/vintergatan.jpg` if someone adds one (a ChatGPT picture, for fun).
 
+## Livet: the base page with three shields (2026-11)
+
+Plan and decisions: `docs/livet-plan.md`. `/matracet/livet/` (third Vite entry, `livet/index.html` →
+`src/livet/`) shows three shields — Läget, Matracet, Livet. The Livet shield lists the settings that are
+about the household; **for now each link opens the existing screen inside Läget or Matracet** via
+`?vy=<screen>&fran=livet` (`src/lib/livetLink.ts`), and that screen's back button returns to Livet instead
+of the app's own start page. Linkable today: Läget `schema|aktiviteter|perioder|notiser|koppling` (plus the
+notification views `idag|imorgon`), Matracet `familj|hantera` (plus `nytt`). Nothing has moved yet — moving
+the screens into Livet is step 2 of the plan. Livet's manifest has `scope: /matracet/` so an icon of its own
+would cover both apps; the household keeps their existing icons (Matracet's scope already covers Livet, so
+no new token). Läget's menu and Matracet's hub each have a link to Livet.
+
 ## Deploy
 
 Pushing to `main` triggers the GitHub Actions workflow (`.github/workflows/deploy.yml`) which runs `npm ci && npm run build` and deploys `dist/` to GitHub Pages. No manual steps needed.

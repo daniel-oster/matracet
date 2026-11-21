@@ -11,6 +11,7 @@ export default defineConfig({
         main: resolve(__dirname, 'index.html'),
         sysdoc: resolve(__dirname, 'sysdoc.html'),
         laget: resolve(__dirname, 'laget/index.html'),
+        livet: resolve(__dirname, 'livet/index.html'),
       },
     },
   },

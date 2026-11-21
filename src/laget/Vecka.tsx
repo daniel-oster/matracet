@@ -157,6 +157,12 @@ export function Meny({ onGo }: { onGo: (view: MenyView) => void }) {
           </li>
         ))}
         <li>
+          <a className="laget-tile laget-tile--link" href={`${import.meta.env.BASE_URL}livet/`}>
+            <span className="laget-tile-title">Livet</span>
+            <span className="laget-tile-sub">Läget, Matracet och det som handlar om oss</span>
+          </a>
+        </li>
+        <li>
           <a className="laget-tile laget-tile--link" href={import.meta.env.BASE_URL}>
             <span className="laget-tile-title">Matracet</span>
             <span className="laget-tile-sub">Veckans mat och inköp</span>

@@ -13,6 +13,7 @@ import SkyCanvas, { SKY_PRESETS } from './sky/SkyCanvas'
 import { getTheme, subscribeTheme } from './theme'
 import { Meny, Notiser, Perioder, Schema, Vecka } from './Vecka'
 import { useLagetData } from './useLagetData'
+import { OPENED_FROM_LIVET, goToLivet, stripDeepLinkParams } from '../lib/livetLink'
 
 type View = 'hem' | 'idag' | 'imorgon' | 'vecka' | 'meny' | 'schema' | 'aktiviteter' | 'perioder' | 'notiser' | 'koppling' | 'utseende' | 'natthimmel' | 'vintergatan'
 
@@ -22,11 +23,17 @@ const PARENT: Record<View, View | null> = {
   schema: 'meny', aktiviteter: 'meny', perioder: 'meny', notiser: 'meny', koppling: 'meny', utseende: 'meny', natthimmel: 'meny', vintergatan: 'meny',
 }
 
-/** A notification opens /matracet/laget/?vy=idag|imorgon (see the notification job). */
+/** Screens a link may open directly: a notification opens ?vy=idag|imorgon (see the notification
+ *  job), and Livet's settings links open ?vy=schema|aktiviteter|perioder|notiser&fran=livet. */
+const LINKABLE: View[] = ['idag', 'imorgon', 'schema', 'aktiviteter', 'perioder', 'notiser', 'koppling']
+
 function initialView(): View {
-  const vy = new URLSearchParams(window.location.search).get('vy')
-  return vy === 'idag' || vy === 'imorgon' ? vy : 'hem'
+  const vy = new URLSearchParams(window.location.search).get('vy') as View | null
+  return vy && LINKABLE.includes(vy) ? vy : 'hem'
 }
+
+/** The screen this load was opened on, when Livet opened it; its back button returns to Livet. */
+const LIVET_ENTRY: View | null = OPENED_FROM_LIVET ? initialView() : null
 
 /** Wall-clock "now" in Stockholm, refreshed every 30 s and when the app is resumed. */
 function useNow() {
@@ -51,14 +58,9 @@ export default function LagetApp() {
   const now = useNow()
   const theme = useSyncExternalStore(subscribeTheme, getTheme)
 
-  // Drop ?vy= once read so a later reload doesn't jump back to it.
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-    if (!params.has('vy')) return
-    params.delete('vy')
-    const qs = params.toString()
-    window.history.replaceState(null, '', `${window.location.pathname}${qs ? `?${qs}` : ''}${window.location.hash}`)
-  }, [])
+  // Drop ?vy=/&fran= once read so a later reload doesn't jump back to it.
+  useEffect(stripDeepLinkParams, [])
+  const backToLivet = LIVET_ENTRY !== null && view === LIVET_ENTRY
 
   // While a message waits for Claude (status "ny"), look for the answer every 20 seconds on the start page.
   const waiting = inbox.some(m => m.status === 'ny')
@@ -88,6 +90,7 @@ export default function LagetApp() {
   const back = () => {
     // A day opened from Veckan goes back to Veckan.
     if (view === 'idag' && openDate) return go('vecka')
+    if (backToLivet) return goToLivet()
     go(PARENT[view] ?? 'hem')
   }
 
@@ -108,7 +111,7 @@ export default function LagetApp() {
               <h1 className="laget-title">Läget</h1>
             </>
           ) : (
-            <button className="laget-back" onClick={back}>‹ {view === 'idag' && openDate ? 'Veckan' : PARENT[view] === 'meny' ? 'Meny' : 'Läget'}</button>
+            <button className="laget-back" onClick={back}>‹ {backToLivet ? 'Livet' : view === 'idag' && openDate ? 'Veckan' : PARENT[view] === 'meny' ? 'Meny' : 'Läget'}</button>
           )}
         </div>
         {view !== 'meny' && !PARENT[view]?.startsWith('meny') && (

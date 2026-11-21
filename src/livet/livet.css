@@ -1,0 +1,35 @@
+/* Livet: three shields on paper. Tokens come from paper.css. */
+body { background: var(--cream); }
+.livet {
+  max-width: 520px; margin: 0 auto;
+  padding: calc(env(safe-area-inset-top, 0px) + 28px) 16px calc(env(safe-area-inset-bottom, 0px) + 28px);
+  color: var(--ink);
+}
+.livet-title { font-size: 34px; font-weight: normal; margin: 0 0 20px; text-align: center; letter-spacing: 0.02em; }
+.livet-shields { display: grid; gap: 14px; }
+.livet-shield {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+  min-height: 150px; padding: 20px 16px; width: 100%;
+  background: var(--ink); color: var(--cream); border: none; border-radius: 18px;
+  font: inherit; text-decoration: none; text-align: center; cursor: pointer;
+}
+.livet-shield:active { opacity: 0.85; }
+.livet-shield-name { font-size: 28px; }
+.livet-shield-sub { font-size: 14px; color: var(--gold2); letter-spacing: 0.04em; }
+
+.livet-back { background: none; border: none; padding: 4px 0; font: inherit; font-size: 16px; color: var(--sub); cursor: pointer; }
+.livet-h { font-size: 28px; font-weight: normal; margin: 10px 0 2px; }
+.livet-lead { margin: 0 0 18px; color: var(--sub); font-style: italic; }
+.livet-links { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.livet-link {
+  display: flex; flex-direction: column; gap: 2px; padding: 14px 16px;
+  background: var(--paper); color: var(--ink); border: 1px solid var(--line); border-radius: 12px; text-decoration: none;
+}
+.livet-link-title { font-size: 18px; font-weight: 600; }
+.livet-link-sub { font-size: 14px; color: var(--sub); }
+
+@media (orientation: landscape) and (max-height: 600px), (min-width: 860px) {
+  .livet { max-width: 900px; }
+  .livet-shields { grid-template-columns: repeat(3, 1fr); }
+  .livet-shield { min-height: 180px; }
+}
