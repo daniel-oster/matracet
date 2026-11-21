@@ -1,7 +1,7 @@
 import type { DayView, TimelineItem } from './types'
 import { dateLabel, dinnerHref, dinnerText, mealHref, windowLine } from './format'
 import { NO_MEAL_NEEDED } from './dinner'
-import { shieldRows } from './summary'
+import { pickupTime, shieldRows } from './summary'
 
 // The three day screens. Pure presentation over a DayView — buildDay does the thinking.
 
@@ -16,9 +16,14 @@ function TimelineRow({ view, t }: { view: DayView; t: TimelineItem }) {
       <span className="laget-tl-time">{t.startTime ?? '–'}</span>
       <span className="laget-tl-body">
         <span className="laget-tl-title">{t.title}</span>
-        {(t.leaveBy || t.place || who(view, t)) && (
+        {(t.leaveBy || pickupTime(t) || t.place || who(view, t)) && (
           <span className="laget-tl-sub">
-            {[t.leaveBy ? `åk senast ${t.leaveBy}` : null, t.place, who(view, t) || null].filter(Boolean).join(' · ')}
+            {[
+              t.leaveBy ? `åk senast ${t.leaveBy}` : null,
+              pickupTime(t) ? `hämta ${pickupTime(t)}` : null,
+              t.place,
+              who(view, t) || null,
+            ].filter(Boolean).join(' · ')}
           </span>
         )}
       </span>

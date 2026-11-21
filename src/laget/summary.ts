@@ -9,8 +9,15 @@ export interface TopLine {
   time: string | null
 }
 
+/** When to fetch someone from a recurring activity (dance, riding …): its end time. Events are left
+ *  out — a dentist's end time is not a pick-up, and the adult may well be the one going. */
+export function pickupTime(t: TimelineItem): string | null {
+  return t.kind === 'aktivitet' ? t.endTime : null
+}
+
 function timeLine(t: TimelineItem): string {
-  return `${t.title}${t.startTime ? ` ${t.startTime}` : ''}${t.leaveBy ? `, åk ${t.leaveBy}` : ''}`
+  const pickup = pickupTime(t)
+  return `${t.title}${t.startTime ? ` ${t.startTime}` : ''}${t.leaveBy ? `, åk ${t.leaveBy}` : ''}${pickup ? `, hämta ${pickup}` : ''}`
 }
 
 /** Items worth a glance: timed things (from `fromTime` on, when given) then open to-dos. */
@@ -42,7 +49,10 @@ export function shieldRows(view: DayView, max = 3, fromTime?: string): ShieldRow
     kind: 'tid',
     time: t.startTime,
     title: t.title,
-    note: t.leaveBy ? `åk ${t.leaveBy}` : t.arriveBy && t.arriveBy !== t.startTime ? `på plats ${t.arriveBy}` : null,
+    note: [
+      t.leaveBy ? `åk ${t.leaveBy}` : t.arriveBy && t.arriveBy !== t.startTime ? `på plats ${t.arriveBy}` : null,
+      pickupTime(t) ? `hämta ${pickupTime(t)}` : null,
+    ].filter(Boolean).join(' · ') || null,
   }))
   for (const todo of view.todos) {
     rows.push({ kind: 'gora', time: todo.dueTime, title: todo.title, note: todo.due < view.date ? 'försenad' : null })
@@ -72,7 +82,7 @@ export function tomorrowHeadline(today: DayView, tomorrow: DayView): string | nu
 export function dayLines(view: DayView): string[] {
   const lines: string[] = view.timeline
     .filter(t => t.startTime !== null)
-    .map(t => `${t.title} ${t.startTime}`)
+    .map(t => `${t.title} ${t.startTime}${pickupTime(t) ? `–${pickupTime(t)}` : ''}`)
   for (const todo of view.todos) lines.push(`${todo.title} (att göra)`)
   if (view.dinner) lines.push(`Middag: ${view.dinner.title}`)
   return lines
