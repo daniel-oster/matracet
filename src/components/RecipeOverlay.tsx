@@ -234,6 +234,9 @@ export default function RecipeOverlay({ slug, onClose }: Props) {
 
             <div className="overlay-instructions-col" data-print-cols={printCols}>
               <div className="overlay-section-head">Tillagning</div>
+              {!recipe.komplett && recipe.instruktioner.length === 0 && (
+                <p className="overlay-thin-note">Kort recept – bara namn och några ingredienser än så länge. Fyll på nästa gång ni lagar det.</p>
+              )}
               <ol className="overlay-steps">
                 {recipe.instruktioner.map((step, i) => (
                   <li key={i} className="overlay-step">{step}</li>

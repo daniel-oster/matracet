@@ -8,7 +8,7 @@ Beslutat i samtal med hushållet. Ändra inte på egen hand; fråga först.
 
 - **Läget** – visar snabbt hur det står till nu. Bara visning, ingen konfiguration.
 - **Matracet** – vad vi äter och handlar, inklusive matens egna inställningar
-  (måltidsbibliotek med varianter, "det vi brukar köpa").
+  (måltidsbibliotek med måltider och deras recept, "det vi brukar köpa").
 
 Livets startsida har tre stora sköldar:
 
@@ -52,7 +52,7 @@ Kvar i Lägets meny: Utseende, Natthimlen och en länk "Livet ›". Kvar i Matra
    inställningsskärmarna (ingen flytt av logik ännu).
 2. Flytta skärmarna en i taget enligt tabellen; Matracets och Lägets menyer länkar dit.
 3. Matracet: förenkla startsidan till Veckan, Handla, Recept (+ Mer).
-4. Matracet: måltidsbibliotek där varianter upptäcks (historik, receptbanken, förslag) – aldrig
-   handklassning.
+4. Matracet: måltidsbibliotek – måltider med recept, där nya (gärna korta) recept tillkommer från
+   det vi äter och från förslag – aldrig handklassning. Grundsorteringen är gjord (2026-11).
 5. Matracet: veckoförslag (behåll/byt/ta bort) som startpunkt, rabatter synliga i förslagen,
    "köp nu"-kort från listan över det vi brukar köpa.

@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "slug": "tonfiskpastasallad",
+  "nummer": 138,
+  "namn": "Tonfiskpastasallad",
+  "tid_min": 20,
+  "portioner": 4,
+  "kategorier": [
+    "fisk"
+  ],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": [],
+  "dagkedja": null,
+  "ingredienser": [
+    {
+      "vara": "pasta",
+      "mangd": null,
+      "enhet": null
+    },
+    {
+      "vara": "tonfisk",
+      "mangd": null,
+      "enhet": null
+    }
+  ],
+  "varianter": {},
+  "instruktioner": [],
+  "komplett": false
+}

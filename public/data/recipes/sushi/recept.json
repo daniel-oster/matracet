@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "slug": "sushi",
+  "nummer": 141,
+  "namn": "Sushi",
+  "tid_min": 10,
+  "portioner": 4,
+  "kategorier": [],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": [
+    "köpt",
+    "snabbt"
+  ],
+  "dagkedja": null,
+  "ingredienser": [
+    {
+      "vara": "sushi (köpt)",
+      "mangd": null,
+      "enhet": null
+    }
+  ],
+  "varianter": {},
+  "instruktioner": [],
+  "komplett": false
+}

@@ -914,7 +914,9 @@ button.plan-cell { cursor: pointer; }
 .overlay-wakelock-btn, .overlay-share-btn, .overlay-print-btn { font-family: inherit; font-size: 11px; padding: 6px 10px; border-radius: 7px; border: 1px solid #3a3a3a; background: #252525; color: #cfc7b8; cursor: pointer; white-space: nowrap; }
 .overlay-print-btn { font-size: 14px; padding: 4px 9px; }
 .overlay-print-btn:disabled { opacity: 0.5; cursor: default; }
-/* Only ever rendered on paper — see the @media print block at the end of this file. */
+/* Only ever rendered on paper — see the .overlay-thin-note { color: var(--sub); font-style: italic; font-size: 14px; margin: 4px 0 12px; }
+
+@media print block at the end of this file. */
 .overlay-print-head { display: none; }
 .overlay-wakelock-btn.active { background: var(--gold); color: #201a0d; border-color: var(--gold); }
 .overlay-share-btn.copied { background: var(--green-d); color: #fff; border-color: var(--green-d); }

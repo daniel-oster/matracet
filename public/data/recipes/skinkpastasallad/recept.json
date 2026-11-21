@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "slug": "skinkpastasallad",
+  "nummer": 139,
+  "namn": "Skinkpastasallad",
+  "tid_min": 20,
+  "portioner": 4,
+  "kategorier": [
+    "kott"
+  ],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": [],
+  "dagkedja": null,
+  "ingredienser": [
+    {
+      "vara": "pasta",
+      "mangd": null,
+      "enhet": null
+    },
+    {
+      "vara": "skinka",
+      "mangd": null,
+      "enhet": null
+    }
+  ],
+  "varianter": {},
+  "instruktioner": [],
+  "komplett": false
+}

@@ -6,15 +6,6 @@ export interface MealComponent {
   valfri?: boolean
 }
 
-/** One way of making a meal, e.g. "Belugabolognese" under "Pasta med sås". Points at a recipe,
- *  at another meal (an existing meals.json entry), or is just a name (a dish with no recipe).
- *  Not the same thing as Recipe.varianter, which are ingredient swaps inside one recipe. */
-export interface MealVariant {
-  namn: string
-  receptSlug?: string
-  mealSlug?: string
-}
-
 export interface Meal {
   slug: string              // same convention as recipes: lowercase, hyphens, ö→o ä→a å→a
   namn: string
@@ -27,9 +18,11 @@ export interface Meal {
   /** Only for meals with no recipe behind them; recipe-linked meals derive from
    *  Recipe.tid_min. Optional — most recipe-less meals are fast and can omit it. */
   tid_min?: number
-  /** The everyday dish's known variants (2026-11, sorted by the household). Grows as new
-   *  ways of making it are eaten or suggested; never classified by hand up front. */
-  varianter?: MealVariant[]
+  /** Recipes this everyday dish can be made from (recipe slugs), e.g. every pasta sauce under
+   *  "Pasta med sås". A recipe can be thin (komplett: false, just a name and a few
+   *  ingredients) and filled in later. Grows from what is actually eaten; never classified by
+   *  hand up front. Distinct from receptSlug, the single recipe an older meal pointed at. */
+  recept?: string[]
 }
 
 export interface MealsFile {

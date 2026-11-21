@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "slug": "mexikansk-soppa-nachos",
+  "nummer": 140,
+  "namn": "Mexikansk soppa med nachos",
+  "tid_min": 30,
+  "portioner": 4,
+  "kategorier": [],
+  "sasong": [],
+  "svarighet": "enkel",
+  "barnvanlig": "ja",
+  "taggar": [
+    "snabbt"
+  ],
+  "dagkedja": null,
+  "ingredienser": [
+    {
+      "vara": "mexikansk soppa",
+      "mangd": null,
+      "enhet": null
+    },
+    {
+      "vara": "nachos",
+      "mangd": null,
+      "enhet": null
+    }
+  ],
+  "varianter": {},
+  "instruktioner": [],
+  "komplett": false
+}
