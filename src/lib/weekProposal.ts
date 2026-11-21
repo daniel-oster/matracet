@@ -53,6 +53,11 @@ function mealForRecipe(entry: RecipeIndexEntry, meals: Meal[]): Meal {
 
 const RECENT_RECIPE_PENALTY = 3
 const RECENT_MEAL_PENALTY = 2
+const KIND_REUSE_PENALTY = 1
+
+const offerBonus = (offer: TaggedOffer) => 3 + Math.min(parseSavings(offer.besparing), 50) / 10
+
+const offerKey = (offer: TaggedOffer) => `${offer.store}:${offer.namn.toLowerCase()}`
 
 /**
  * Per slot date, a ranked list of recipe candidates (first = the proposal, rest = "byt").
@@ -66,6 +71,12 @@ export function proposeWeek(o: ProposeWeekOptions): Record<string, ProposalCandi
   const recentMeals = new Set(o.recentMealSlugs ?? [])
   const plannable = filterPlannableRecipes(o.recipeIndex)
   const usedMeals = new Set<string>()
+  const usedOffers = new Map<string, number>()
+  const usedKinds = new Map<string, number>()
+  const kindOf = new Map(plannable.map(r => [
+    r.slug,
+    r.kategorier.includes('fisk') ? 'fisk' : r.kategorier.includes('kott') ? 'kott' : 'vego',
+  ]))
   const result: Record<string, ProposalCandidate[]> = {}
 
   const slots = [...o.slots].sort((a, b) => a.date.localeCompare(b.date))
@@ -89,7 +100,7 @@ export function proposeWeek(o: ProposeWeekOptions): Record<string, ProposalCandi
       const offer = findOfferMatch(full, o.offers)
       if (offer) {
         const kr = parseSavings(offer.besparing)
-        score += 3 + Math.min(kr, 50) / 10
+        score += offerBonus(offer)
         reasons.push(kr > 0 ? `🏷 ${offer.namn} −${kr} kr` : `🏷 ${offer.namn}`)
       }
       const likers = (feedback?.persons ?? []).filter(
@@ -121,11 +132,25 @@ export function proposeWeek(o: ProposeWeekOptions): Record<string, ProposalCandi
       })
     }
 
+    // Variety across the week: the same offer and the same protein kind (fisk/kött/vego)
+    // shouldn't carry several first picks — one cheap salmon must not become three fish nights.
+    for (const c of cands) {
+      // An offer already carrying a first pick gives no further bonus (the reason chip stays,
+      // since the dish really is cheaper); each earlier pick of the same kind costs a point.
+      if (c.offer && usedOffers.has(offerKey(c.offer))) c.score -= offerBonus(c.offer)
+      c.score -= KIND_REUSE_PENALTY * (usedKinds.get(kindOf.get(c.receptSlug) ?? 'vego') ?? 0)
+    }
     cands.sort((a, b) => b.score - a.score || a.receptSlug.localeCompare(b.receptSlug))
     // Variety: best candidate whose meal hasn't been a first pick yet goes first.
     const firstIdx = cands.findIndex(c => !usedMeals.has(c.mealSlug))
     if (firstIdx > 0) cands.unshift(...cands.splice(firstIdx, 1))
-    if (cands.length > 0) usedMeals.add(cands[0].mealSlug)
+    if (cands.length > 0) {
+      const first = cands[0]
+      usedMeals.add(first.mealSlug)
+      if (first.offer) usedOffers.set(offerKey(first.offer), (usedOffers.get(offerKey(first.offer)) ?? 0) + 1)
+      const k = kindOf.get(first.receptSlug) ?? 'vego'
+      usedKinds.set(k, (usedKinds.get(k) ?? 0) + 1)
+    }
     result[slot.date] = cands.slice(0, nAlt)
   }
   return result

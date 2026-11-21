@@ -326,6 +326,7 @@ export default function App() {
           eaters={eaters.eaters}
           recipeIndex={recipeIndex}
           meals={mergedMeals}
+          history={historyEntries}
           onOpenRecipe={setOverlaySlug}
         />
       )}

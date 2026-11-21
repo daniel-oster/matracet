@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { DayMeal, Eater, MealKind, Recipe, RecipeIndexEntry } from '../../types'
 import type { Meal } from '../../types/meal'
+import type { HistoryEntry } from '../../types/history'
 import type { DayPlan, Period } from '../../presence/types'
 import { addDays } from '../../presence/resolver'
 import {
@@ -35,6 +36,7 @@ import SlotBoard, { BoardDayRow, BoardCell } from './SlotBoard'
 import SlotDetail from './SlotDetail'
 import MealPoolList from './MealPoolList'
 import OffersPanel from './OffersPanel'
+import WeekProposal from './WeekProposal'
 import AssignControls from './AssignControls'
 import type { SlotChipData } from './SlotPicker'
 
@@ -97,6 +99,7 @@ interface Props {
   eaters: Eater[]
   recipeIndex: RecipeIndexEntry[]
   meals: Meal[]
+  history?: HistoryEntry[]
   onOpenRecipe: (slug: string) => void
 }
 
@@ -108,7 +111,7 @@ interface Props {
  * (attendance, "kort om tid", component swaps) rather than the thing that drives assignment.
  * See CLAUDE.md's "Planera redesign" section for the full data-model writeup.
  */
-export default function VeckanPlanner({ days, lunches, dayPlans, periods, eaters, recipeIndex, meals, onOpenRecipe }: Props) {
+export default function VeckanPlanner({ days, lunches, dayPlans, periods, eaters, recipeIndex, meals, history = [], onOpenRecipe }: Props) {
   const { getOverride, setMeal, clearOverride, setComponentSwap, getAttendance, setAttendance, clearAttendance, getFast, setFast } = useWeekPlan()
   const { getFeedback } = useFeedback()
   const allSlugs = useMemo(() => recipeIndex.map(r => r.slug), [recipeIndex])
@@ -449,12 +452,44 @@ export default function VeckanPlanner({ days, lunches, dayPlans, periods, eaters
     else addOrRestoreByName(o.namn, { offerRef: { store: o.store, week: o.week } })
   }
 
+  // Open dinners for "Veckans förslag": same needsMeal rule as the budget, and still empty.
+  const openDinnerSlots = useMemo(() => daySlots.map(d => d.dinner)
+    .filter(s => !s.skip && !s.label && (!s.scheduleSkip) && (s.presentIds === null || s.presentIds.length > 0))
+    .map(s => ({ date: s.date, presentIds: s.presentIds, fast: s.fast })), [daySlots])
+  const recent = useMemo(() => {
+    const today = days[0]?.datum ?? ''
+    const from = today ? addDays(today, -14) : ''
+    const rows = history.filter(h => h.datum >= from && h.datum < today)
+    return {
+      recipes: rows.map(h => h.recipeSlug).filter((x): x is string => !!x),
+      meals: rows.map(h => h.mealSlug).filter((x): x is string => !!x),
+    }
+  }, [history, days])
+  function fullDayLabel(date: string): string {
+    const dag = days.find(d => d.datum === date)?.dag ?? ''
+    return `${DAY_NAMES[dag] ?? dag} ${dateNum(date)}`
+  }
+
   const freeSlotCount = useMemo(() => flatSlots.filter(s => !s.skip && !s.scheduleSkip && !s.label).length, [flatSlots])
 
   return (
     <div className="planner">
       <div className="plan-cols">
         <div className="plan-supply">
+          <WeekProposal
+            openSlots={openDinnerSlots}
+            meals={meals}
+            recipeIndex={recipeIndex}
+            fullRecipes={fullRecipes}
+            eaters={eaters}
+            offers={foodOffers}
+            getFeedback={getFeedback}
+            recentRecipeSlugs={recent.recipes}
+            recentMealSlugs={recent.meals}
+            dayLabel={fullDayLabel}
+            onKeep={(date, c) => assignToSlot(date, 'dinner', c.mealSlug, c.receptSlug)}
+            onOpenRecipe={onOpenRecipe}
+          />
           {/* The list is the top of the screen and owns the header (2026-08 "list-first"
               redesign, docs/planera-list-first-2026-08.md, Problem 3) — the budget line +
               definition replace the old always-visible standalone BudgetBar, and add/search

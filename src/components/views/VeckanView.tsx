@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { DayMeal, Eater, RecipeIndexEntry } from '../../types'
 import type { Meal } from '../../types/meal'
+import type { HistoryEntry } from '../../types/history'
 import type { DayPlan, Period } from '../../presence/types'
 import TopBar from '../TopBar'
 import VeckanOverview from '../week/VeckanOverview'
@@ -16,10 +17,11 @@ interface Props {
   eaters: Eater[]
   recipeIndex: RecipeIndexEntry[]
   meals: Meal[]
+  history: HistoryEntry[]
   onOpenRecipe: (slug: string) => void
 }
 
-export default function VeckanView({ onBack, weekLabel, rollingDays, rollingLunches, dayPlans, periods, eaters, recipeIndex, meals, onOpenRecipe }: Props) {
+export default function VeckanView({ onBack, weekLabel, rollingDays, rollingLunches, dayPlans, periods, eaters, recipeIndex, meals, history, onOpenRecipe }: Props) {
   const [mode, setMode] = useState<'view' | 'plan'>('view')
 
   return (
@@ -51,6 +53,7 @@ export default function VeckanView({ onBack, weekLabel, rollingDays, rollingLunc
             eaters={eaters}
             recipeIndex={recipeIndex}
             meals={meals}
+            history={history}
             onOpenRecipe={onOpenRecipe}
           />
         )}

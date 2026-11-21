@@ -2547,6 +2547,20 @@ equal the old meal slugs. The library grows by the `log-meal` skill adding thin 
 actually eaten. `MealEditorModal` has no UI for `recept` yet but carries it through an edit. Nothing
 in the app *uses* the meal→recipes link yet; that's the Matracet redesign (docs/livet-plan.md 4–5).
 
+## Matracet rebuild: week proposal + calmer start page (2026-11)
+
+Plan: `docs/matracet-ombyggnad-2026-11.md`. Built as three jobs run by Sonnet subagents and reviewed here.
+- **Start page** (`Hub.tsx`): tonight card, three big buttons (Veckan/Handla/Recept), every other tile
+  under a collapsed "Mer" (open state in plain localStorage `matracet:hub-mer-open:v1`).
+- **`src/lib/weekProposal.ts::proposeWeek`**: pure, tested. Per empty dinner slot a ranked candidate list
+  (first = proposal, rest = "Byt"). Excludes refused/excluded/unsolvable diet (vegan fail-closed);
+  scores offer savings, likes, fast-on-fast-nights, minus recently eaten (history, 14 days). Variety:
+  a meal at most once among first picks, an offer gives its bonus to only one first pick, and each
+  earlier pick of the same protein kind (fisk/kött/vego) costs a point — without these, one cheap salmon
+  produced three fish nights in a row. Deterministic per `seed` ("Föreslå nytt").
+- **`week/WeekProposal.tsx`** at the top of Planera: Behåll (via `assignToSlot`), Byt, ✕, Behåll alla,
+  Föreslå nytt. Dinners only; lunches still planned the old way.
+
 ## Livet: the base page with three shields (2026-11)
 
 Plan and decisions: `docs/livet-plan.md`. `/matracet/livet/` (third Vite entry, `livet/index.html` →

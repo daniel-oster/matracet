@@ -103,4 +103,19 @@ describe('proposeWeek', () => {
     const distinct = new Set([1, 2, 3, 4, 5].map(run))
     expect(distinct.size).toBeGreaterThan(1)
   })
+
+  it('spreads one offer and one protein kind across the week instead of stacking them', () => {
+    const days = ['2026-11-23', '2026-11-24', '2026-11-25']
+    const r = proposeWeek(opts({
+      slots: days.map(date => ({ date, presentIds: ['a'], fast: false })),
+      recipeIndex: [
+        idx('lax1', { kategorier: ['fisk'] }), idx('lax2', { kategorier: ['fisk'] }), idx('lax3', { kategorier: ['fisk'] }),
+        idx('kott1', { kategorier: ['kott'] }), idx('vego1', { kategorier: ['vegetarisk'] }),
+      ],
+      fullRecipes: { lax1: full('lax1', ['laxfilé']), lax2: full('lax2', ['laxfilé']), lax3: full('lax3', ['laxfilé']) },
+      offers: [offer('Laxfilé', '15kr')],
+    }))
+    const picks = days.map(d => r[d][0].receptSlug)
+    expect(picks.filter(p => p.startsWith('lax')).length).toBe(1)
+  })
 })
