@@ -10,8 +10,14 @@ Beslutat i samtal med hushållet. Ändra inte på egen hand; fråga först.
 - **Matracet** – vad vi äter och handlar, inklusive matens egna inställningar
   (måltidsbibliotek med varianter, "det vi brukar köpa").
 
-Livets startsida har två stora sköldar (Läget, Matracet) och, mer dämpat, det som handlar om oss:
-familjen, schema och perioder, aktiviteter, notiser, koppling (token/synk).
+Livets startsida har tre stora sköldar:
+
+- **Läget** → `/matracet/laget/`
+- **Matracet** → `/matracet/`
+- **Livet** → det som handlar om oss: familjen, schema och perioder, aktiviteter, notiser,
+  koppling (token/synk).
+
+Startsidan är bara de tre sköldarna; allt innehåll ligger bakom dem.
 
 All data ligger i det privata repot `livet-data`. Inget om familjens personer i det här publika repot.
 
@@ -42,7 +48,8 @@ Kvar i Lägets meny: Utseende, Natthimlen och en länk "Livet ›". Kvar i Matra
 
 ## Ordning
 
-1. Livet-sidan (sköldar + länkar till de befintliga inställningsskärmarna, ingen flytt av logik ännu).
+1. Livet-sidan med tre sköldar; Livet-skölden leder till en sida med länkar till de befintliga
+   inställningsskärmarna (ingen flytt av logik ännu).
 2. Flytta skärmarna en i taget enligt tabellen; Matracets och Lägets menyer länkar dit.
 3. Matracet: förenkla startsidan till Veckan, Handla, Recept (+ Mer).
 4. Matracet: måltidsbibliotek där varianter upptäcks (historik, receptbanken, förslag) – aldrig
