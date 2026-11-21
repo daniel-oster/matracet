@@ -37,6 +37,7 @@ import SlotDetail from './SlotDetail'
 import MealPoolList from './MealPoolList'
 import OffersPanel from './OffersPanel'
 import WeekProposal from './WeekProposal'
+import { distributeToSlots } from '../../lib/distribute'
 import AssignControls from './AssignControls'
 import type { SlotChipData } from './SlotPicker'
 
@@ -452,10 +453,26 @@ export default function VeckanPlanner({ days, lunches, dayPlans, periods, eaters
     else addOrRestoreByName(o.namn, { offerRef: { store: o.store, week: o.week } })
   }
 
-  // Open dinners for "Veckans förslag": same needsMeal rule as the budget, and still empty.
-  const openDinnerSlots = useMemo(() => daySlots.map(d => d.dinner)
-    .filter(s => !s.skip && !s.label && (!s.scheduleSkip) && (s.presentIds === null || s.presentIds.length > 0))
-    .map(s => ({ date: s.date, presentIds: s.presentIds, fast: s.fast })), [daySlots])
+  // Open slots (lunch + dinner) for "Veckan behöver N måltider": same needsMeal rule as the
+  // budget, and still empty.
+  const openNeedSlots = useMemo(() => flatSlots
+    .filter(s => !s.skip && (!s.scheduleSkip || !!s.label) && (s.presentIds === null || s.presentIds.length > 0) && !s.label)
+    .map(s => ({ date: s.date, kind: s.kind, presentIds: s.presentIds, fast: s.fast })), [flatSlots])
+  const gatheredEntries = useMemo(
+    () => filterEntriesToWindow(pool.entries, windowDates).filter(e => e.slot === null && !e.done),
+    [pool.entries, windowDates])
+  const distFree = useMemo(() => flatSlots
+    .filter(s => !s.skip && !s.scheduleSkip && !s.label && (s.presentIds === null || s.presentIds.length > 0))
+    .map(s => ({ date: s.date, kind: s.kind, fast: s.fast })), [flatSlots])
+  const distPlan = useMemo(() => distributeToSlots(
+    gatheredEntries.map(e => ({ id: e.id, tidMin: recipeIndex.find(r => r.slug === e.receptSlug)?.tid_min ?? null })),
+    distFree), [gatheredEntries, distFree, recipeIndex])
+  function distribute() {
+    for (const a of distPlan) {
+      const e = gatheredEntries.find(x => x.id === a.entryId)
+      if (e) assignToSlot(a.date, a.kind, e.mealSlug, e.receptSlug, e.id)
+    }
+  }
   const recent = useMemo(() => {
     const today = days[0]?.datum ?? ''
     const from = today ? addDays(today, -14) : ''
@@ -465,10 +482,6 @@ export default function VeckanPlanner({ days, lunches, dayPlans, periods, eaters
       meals: rows.map(h => h.mealSlug).filter((x): x is string => !!x),
     }
   }, [history, days])
-  function fullDayLabel(date: string): string {
-    const dag = days.find(d => d.datum === date)?.dag ?? ''
-    return `${DAY_NAMES[dag] ?? dag} ${dateNum(date)}`
-  }
 
   const freeSlotCount = useMemo(() => flatSlots.filter(s => !s.skip && !s.scheduleSkip && !s.label).length, [flatSlots])
 
@@ -477,7 +490,11 @@ export default function VeckanPlanner({ days, lunches, dayPlans, periods, eaters
       <div className="plan-cols">
         <div className="plan-supply">
           <WeekProposal
-            openSlots={openDinnerSlots}
+            openSlots={openNeedSlots}
+            gathered={gatheredEntries.length}
+            poolMealSlugs={gatheredEntries.map(e => e.mealSlug)}
+            distributeCount={distPlan.length}
+            onDistribute={distribute}
             meals={meals}
             recipeIndex={recipeIndex}
             fullRecipes={fullRecipes}
@@ -486,8 +503,7 @@ export default function VeckanPlanner({ days, lunches, dayPlans, periods, eaters
             getFeedback={getFeedback}
             recentRecipeSlugs={recent.recipes}
             recentMealSlugs={recent.meals}
-            dayLabel={fullDayLabel}
-            onKeep={(date, c) => assignToSlot(date, 'dinner', c.mealSlug, c.receptSlug)}
+            onKeep={c => { pool.addEntry(c.mealSlug, c.receptSlug) }}
             onOpenRecipe={onOpenRecipe}
           />
           {/* The list is the top of the screen and owns the header (2026-08 "list-first"

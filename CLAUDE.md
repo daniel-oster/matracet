@@ -2558,8 +2558,12 @@ Plan: `docs/matracet-ombyggnad-2026-11.md`. Built as three jobs run by Sonnet su
   a meal at most once among first picks, an offer gives its bonus to only one first pick, and each
   earlier pick of the same protein kind (fisk/kött/vego) costs a point — without these, one cheap salmon
   produced three fish nights in a row. Deterministic per `seed` ("Föreslå nytt").
-- **`week/WeekProposal.tsx`** at the top of Planera: Behåll (via `assignToSlot`), Byt, ✕, Behåll alla,
-  Föreslå nytt. Dinners only; lunches still planned the old way.
+- **`week/WeekProposal.tsx`** at the top of Planera is **need-first, not day-first** (household ask:
+  "don't start by putting days on everything"): it counts open lunch+dinner slots that need a meal (same
+  needsMeal rule as the budget) minus unslotted pool entries ("redan på listan"), proposes that many
+  dishes *without day names* (`proposeWeek` fed slots keyed `date|kind`), and Behåll adds to the meal
+  pool unslotted. **"Fördela på dagar"** (`src/lib/distribute.ts::distributeToSlots`, tested: dinners
+  first, fast dishes to fast-flagged slots) then places the pool via `assignToSlot(..., entryId)`.
 
 ## Livet: the base page with three shields (2026-11)
 
