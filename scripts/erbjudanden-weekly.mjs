@@ -3,8 +3,11 @@
 // Run by .github/workflows/erbjudanden-weekly.yml every morning; safe to run by hand.
 // A day where no store's offers changed writes nothing (only `hamtad` would differ).
 //
-//   1. Fetch: Willys + Hemköp via erbjudanden-fetch-axfood.mjs, ICA's store page via
-//      erbjudanden-parse-ica-html.mjs (state-blob path).
+//   1. Fetch: Willys + Hemköp via erbjudanden-fetch-axfood.mjs. ICA is manual-only:
+//      ica.se answers 403 to every datacenter IP (GitHub runners, Claude sandboxes) since
+//      2026-W45, so the job doesn't try — and doesn't report it as an error. Pass a page
+//      saved from Safari with --ica-html <file> (extract a .webarchive first with
+//      erbjudanden-webarchive-extract.py); it's parsed with erbjudanden-parse-ica-html.mjs.
 //   2. Classify: lexicon first, the rule engine only for a product never seen before —
 //      the same lexicon-first rule as erbjudanden-recategorize.mjs. New products land in
 //      the lexicon as kalla:'regel' / confidence:'lag', i.e. visibly unreviewed.
@@ -22,11 +25,10 @@
 //      Category fixes and removed offers don't count: they change no offer's name+brand. Exits non-zero on a verify FAIL or when no store
 //      could be fetched at all; a single store failing is reported and skipped.
 //
-// Usage: node scripts/erbjudanden-weekly.mjs [--dry-run]
+// Usage: node scripts/erbjudanden-weekly.mjs [--dry-run] [--ica-html <saved ica page.html>]
 
 import { execFileSync } from 'node:child_process';
-import { mkdtempSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs';
-import { tmpdir } from 'node:os';
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { classify } from './erbjudanden-lib.mjs';
 import { loadLexikon, saveLexikon, lookupLexikon, upsertLexikon, applyLexikonEntry } from './erbjudanden-lexikon.mjs';
@@ -34,24 +36,23 @@ import { loadLexikon, saveLexikon, lookupLexikon, upsertLexikon, applyLexikonEnt
 const ROOT = new URL('..', import.meta.url).pathname;
 const DATA = join(ROOT, 'public/data/erbjudanden');
 const dryRun = process.argv.includes('--dry-run');
-const work = mkdtempSync(join(tmpdir(), 'erbj-'));
+const icaArg = process.argv.indexOf('--ica-html');
+const icaHtml = icaArg > -1 ? process.argv[icaArg + 1] : null;
 
 const STORES = [
   { id: 'willys-borlange-stora-tuna', kalla: 'willys', butik: 'Willys Borlänge Stora Tuna', storeId: '2353', url: 'https://www.willys.se/erbjudanden/butik' },
   { id: 'hemkop-borlange-sodra-backa', kalla: 'hemkop', butik: 'Hemköp Borlänge Södra Backa', storeId: '4638', url: 'https://www.hemkop.se/erbjudanden/4638' },
-  { id: 'maxi-ica-stormarknad-borlange', kalla: 'ica', butik: 'Maxi ICA Stormarknad Borlänge', url: 'https://www.ica.se/erbjudanden/maxi-ica-stormarknad-borlange-1004119/' },
+  { id: 'maxi-ica-stormarknad-borlange', kalla: 'ica', butik: 'Maxi ICA Stormarknad Borlänge', url: 'https://www.ica.se/erbjudanden/maxi-ica-stormarknad-borlange-1004119/', manual: true },
 ];
 
 const DROP_LEAVES = new Set(['bloja_babyvard', 'djurmat', 'djurgodis_tillbehor']);
-const DROP_NAME_RE = /antikljus|gravljus|värmeljus|kronljus|blockljus|oljeljus|doftljus|ljuslykt|gravlykt|marschall|strumpa|strumpor|socka|sockor|batteri/i;
+const DROP_NAME_RE = /antikljus|gravljus|värmeljus|kronljus|blockljus|oljeljus|doftljus|ljuslykt|gravlykt|marschall|strumpa|strumpor|socka|sockor|batteri|mopp\b|eltandborste|oneblade (?!rakblad)/i;
 const ICA_HOME_RE = /^(Hem & fritid|Hälsa & skönhet)$/;
 const KEEP_FROM_ICA_HOME = new Set(['stad_disk_tvatt', 'papper_pasar_folie', 'hygien', 'halsa', 'engangs_grill', 'skadedjur', 'blommor_vaxter']);
 
 function fetchStore(s) {
   if (s.kalla === 'ica') {
-    const html = join(work, 'ica.html');
-    execFileSync('curl', ['-sSf', '-m', '60', '-A', 'Mozilla/5.0 (Macintosh) Safari/605', s.url, '-o', html]);
-    const out = execFileSync('node', [join(ROOT, 'scripts/erbjudanden-parse-ica-html.mjs'), html], { maxBuffer: 1 << 26 });
+    const out = execFileSync('node', [join(ROOT, 'scripts/erbjudanden-parse-ica-html.mjs'), icaHtml, '--file-end', addDays(mondayOf(new Date().toISOString().slice(0, 10)), 6)], { maxBuffer: 1 << 26 });
     return JSON.parse(out);
   }
   const out = execFileSync('node', [join(ROOT, 'scripts/erbjudanden-fetch-axfood.mjs'), s.kalla, s.storeId], { maxBuffer: 1 << 26 });
@@ -97,6 +98,7 @@ function bevakaHit(o) {
 const changes = []; // { store, newWeek, total, nya: offer[] }
 
 for (const s of STORES) {
+  if (s.manual && !icaHtml) continue; // ICA: only from a saved page, see the header
   let raw;
   try {
     raw = fetchStore(s);

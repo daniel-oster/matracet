@@ -1157,7 +1157,7 @@ uses the shared type, so the next field added there can't silently miss a call s
 `.github/workflows/erbjudanden-weekly.yml` runs `scripts/erbjudanden-weekly.mjs` every day
 04:17 UTC (and on `workflow_dispatch`) — daily, at the household's request, so mid-week offers
 land and a broken store shows up within a day; a day where nothing changed writes nothing
-(the file is left alone when only `hamtad` would differ), so there's no daily commit/redeploy: fetches all three stores (see the "Store offers can be
+(the file is left alone when only `hamtad` would differ), so there's no daily commit/redeploy: fetches Willys and Hemköp (**ICA is manual-only since 2026-W45** — ica.se 403s every datacenter IP, so the job skips it silently and a household-saved Safari page is imported with `--ica-html`; see the import skill) (see the "Store offers can be
 fetched directly" lesson below), classifies lexicon-first, drops what the household never buys
 on a grocery run, writes `<store>/<vecka>.json` + `_index.json` + `_latest.json`, runs
 `erbjudanden-verify.mjs`, commits straight to `main` and dispatches `deploy.yml` (a

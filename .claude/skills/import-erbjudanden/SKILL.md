@@ -20,12 +20,13 @@ import the current week right now. The manual paths below are for when that brea
   uses (`/search/campaigns/offline?q=<storeId>`). Prints the file window
   (giltigt_fran/giltigt_till) on stderr. Undocumented endpoint: if it breaks, fall back to
   the webarchive path below.
-- ICA: `curl -sS -A "Mozilla/5.0" https://www.ica.se/erbjudanden/maxi-ica-stormarknad-borlange-1004119/ -o ica.html`
-  then `node scripts/erbjudanden-parse-ica-html.mjs ica.html`. A curl'd page server-renders
-  only ~20 cards, so the parser reads the page's Nuxt state blob instead (all offers). Each
-  offer then carries a temporary `_ica_avdelning` (ICA's own department) — "Hem & fritid",
-  "Hälsa & skönhet" is where the non-food lives; review those by name, keep consumables,
-  and strip the field before saving.
+- ICA: **manual only** — ica.se answers 403 to every datacenter IP (GitHub runners and
+  Claude sandboxes alike) since 2026-W45, so don't try to fetch it. The household saves the
+  page in Safari as a `.webarchive`; extract it with `erbjudanden-webarchive-extract.py`, then
+  run `node scripts/erbjudanden-weekly.mjs --ica-html ica.html` — the same classify/drop/write
+  pipeline as the daily job (it re-fetches Willys/Hemköp too, harmless). The parser reads the
+  page's Nuxt state blob (it carries ICA's department as `_ica_avdelning`, which the drop rule
+  uses; "Hem & fritid" is mostly julpynt/prylar). Then review the week's new `lag` products as usual.
 
 - **Best case**: a structured product-list export (e-handel/webshop list), not the
   graphic flyer. It has a real, clean text layer.

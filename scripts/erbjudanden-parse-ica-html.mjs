@@ -42,6 +42,11 @@ import { readFileSync } from 'node:fs';
 import { extractUrsprung, markeringarFromUrsprung, classify, tightenUnit, toNumber } from './erbjudanden-lib.mjs';
 
 const [, , input] = process.argv;
+// --file-end <date>: the file's own giltigt_till is already decided (the weekly job
+// files the current Mon–Sun week), so strip only that date and keep every other one —
+// otherwise offers running a week longer than the file would look expired on Monday.
+const fileEndArg = process.argv.indexOf('--file-end');
+const fixedFileEnd = fileEndArg > -1 ? process.argv[fileEndArg + 1] : null;
 if (!input) {
   console.error('Usage: node erbjudanden-parse-ica-html.mjs <page.html>');
   process.exit(1);
@@ -127,9 +132,11 @@ function parseArticle(chunk) {
   // Only real offer cards, not editorial "ids-article-card" ad blocks.
   const classM = chunk.match(/^<article[^>]*class="([^"]*)"/);
   const classes = classM ? classM[1].split(/\s+/) : [];
-  if (!classes.includes('offer-card')) return null;
+  // 2026-W47: ICA renamed every class with an "ids-" prefix (ids-offer-card,
+  // ids-offer-card__title, ...), so all lookups below accept both spellings.
+  if (!classes.includes('offer-card') && !classes.includes('ids-offer-card')) return null;
 
-  const titleM = chunk.match(/offer-card__title"[^>]*>([^<]*)</);
+  const titleM = chunk.match(/(?:ids-)?offer-card__title"[^>]*>([^<]*)</);
   const namn = titleM ? decodeEntities(titleM[1]) : null;
   if (!namn) return null;
 
@@ -157,7 +164,9 @@ function parseArticle(chunk) {
   const ordM = detailText.match(/Ord\.pris ([\d:,.\-\s]+?) kr/);
   const p30M = detailText.match(/30dgr\.pris ([\d:,.\-\s]+?) kr/);
 
-  const srM = chunk.match(/sr-only"[^>]*>([^<]*)<\/span>/);
+  // The price is the sr-only span *inside the price splash*: since the 2026-W47 markup
+  // the info button carries an empty sr-only status span earlier in the card.
+  const srM = chunk.match(/price-splash.*?sr-only"[^>]*>([^<]*)<\/span>/s) ?? chunk.match(/sr-only"[^>]*>([^<]+)<\/span>/);
   const splash = srM ? parseSplash(decodeEntities(srM[1])) : null;
   if (!splash) return null; // decorative/no-price card slipped through
 
@@ -259,7 +268,9 @@ function parseStateEntry(entry) {
 const articleRe = /<article[^>]*>.*?<\/article>/gs;
 const articleChunks = html.match(articleRe) ?? [];
 const blobStarts = [...html.matchAll(/"id":"\d+","details":\{/g)].map((m) => m.index);
-const useBlob = blobStarts.length > articleChunks.filter((c) => /offer-card__title/.test(c)).length;
+// Prefer the blob even when it is merely as complete as the markup: only the blob
+// carries the department (_ica_avdelning) the weekly job filters non-food on.
+const useBlob = blobStarts.length > 0 && blobStarts.length >= articleChunks.filter((c) => /offer-card__title/.test(c)).length;
 const chunks = useBlob
   ? blobStarts.map((s, i) => html.slice(s, blobStarts[i + 1] ?? s + 6000))
   : articleChunks;
@@ -279,6 +290,7 @@ let fileEnd = null;
 for (const [date, n] of endCounts) {
   if (fileEnd === null || n > endCounts.get(fileEnd)) fileEnd = date;
 }
+if (fixedFileEnd) fileEnd = fixedFileEnd;
 const outliers = [];
 for (const o of offers) {
   if (o.giltigt_till === fileEnd) o.giltigt_till = null;
