@@ -49,6 +49,15 @@ describe('shieldRows', () => {
   })
 })
 
+describe('pick-up time', () => {
+  it('shows when to fetch someone from a recurring activity, but not for an event', () => {
+    const rows = shieldRows(buildDay('2026-11-04', makeData()))
+    expect(rows.find(r => r.title === 'Aktivitet F')?.note).toBe('på plats 18:30 · hämta 20:15')
+    expect(rows.find(r => r.title === 'Tandläkare')?.note).toBe('åk 14:05')
+    expect(topLines(buildDay('2026-11-04', makeData()))[1].text).toBe('Aktivitet F 18:45, hämta 20:15')
+  })
+})
+
 describe('dayLines', () => {
   it('lists timed items, open to-dos and the dinner, one short line each', () => {
     const data = makeData({
@@ -57,7 +66,7 @@ describe('dayLines', () => {
     })
     expect(dayLines(buildDay('2026-11-04', data))).toEqual([
       'Tandläkare 14:30',
-      expect.stringMatching(/^Aktivitet F 18:45$/),
+      'Aktivitet F 18:45–20:15',
       'Lämna boken (att göra)',
       'Middag: Tacos',
     ])
