@@ -511,9 +511,10 @@
     "form": null,
     "varutyp": "hygien",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-21"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Nivea ansiktstvätt och rengöringsservetter, hudvård"
   },
   "ansiktsvard kroppsvard~weleda": {
     "kategori": "hygien",
@@ -668,9 +669,10 @@
     "form": "farsk",
     "varutyp": "frukt",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-21"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Färska Pink Lady-äpplen"
   },
   "applen royal gala~ica": {
     "kategori": "frukt",
@@ -925,9 +927,10 @@
     "form": "farsk",
     "varutyp": "frukt",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-21"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Färsk avokado, säljs bland frukt"
   },
   "avokado~colombiaperusydafrikabrasilien": {
     "kategori": "frukt",
@@ -1038,9 +1041,10 @@
     "form": "farsk",
     "varutyp": "gronsaker",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-21"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Färska små tomater i ask, klass 1"
   },
   "babyplommontomater~": {
     "kategori": "gronsaker",
@@ -1402,9 +1406,10 @@
     "form": "torr",
     "varutyp": "ris_gryn",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-21"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Basmati/jasminris i kokpåse, torrvara"
   },
   "basmatiris~garant": {
     "kategori": "ris_gryn",
@@ -1783,9 +1788,10 @@
     "form": "farsk",
     "varutyp": "bar",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-21"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Färska blåbär i ask, importerade"
   },
   "blabarsdryck~finnerodja": {
     "kategori": "juice_saft",
@@ -1931,12 +1937,13 @@
   },
   "blandfars~ica ursprung sverige": {
     "kategori": "fars_kottbullar",
-    "form": null,
+    "form": "farsk",
     "varutyp": "fars_kottbullar",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-21"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Färsk blandfärs nöt/gris från köttdisk"
   },
   "blandfars~scan": {
     "kategori": "fars_kottbullar",
@@ -2195,9 +2202,10 @@
     "form": "torr",
     "varutyp": "pasta",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-21"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Pasta gjord på bönor/linser, används som pasta"
   },
   "bordsmargarin~becel flora": {
     "kategori": "smor_margarin",
@@ -2515,9 +2523,10 @@
     "form": "farsk",
     "varutyp": "gronsaker",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-21"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Färsk brysselkål i påse"
   },
   "brysselkal i pase~ica rosa bandet nederlanderna": {
     "kategori": "gronsaker",
@@ -3956,9 +3965,10 @@
     "form": null,
     "varutyp": "hygien",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-07-17"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Ansiktskrämer från Nivea, hudvård"
   },
   "dagcreme nattcreme~loral wrinkle expert triple active": {
     "kategori": "hygien",
@@ -4019,18 +4029,20 @@
     "form": null,
     "varutyp": "stad_disk_tvatt",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-21"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Swiffer refill-dammvippor, städförbrukning"
   },
   "dammvippa 3d clean xxl~": {
     "kategori": "stad_disk_tvatt",
     "form": null,
     "varutyp": "stad_disk_tvatt",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-21"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Swiffer dammvippa med skaft, städredskap"
   },
   "dammvippa refill 5pack~swiffer": {
     "kategori": "stad_disk_tvatt",
@@ -5919,9 +5931,10 @@
     "form": "farsk",
     "varutyp": "potatis_rotfrukt",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-21"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Färska ekologiska morötter, rotfrukt"
   },
   "ekologiska morotter~garant eko": {
     "kategori": "potatis_rotfrukt",
@@ -7336,12 +7349,13 @@
   },
   "flaskfil~ica ursprung sverige": {
     "kategori": "kott",
-    "form": null,
+    "form": "farsk",
     "varutyp": "kott",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-21"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Färsk fläskfilé från köttdisk"
   },
   "flasklagg~moab": {
     "kategori": "kott",
@@ -8344,27 +8358,30 @@
     "form": "fryst",
     "varutyp": "fagel",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-21"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Frysta kycklingben, klubbor och vingar"
   },
   "frysta potatisklyftor~ica": {
     "kategori": "potatis_rotfrukt",
     "form": "fryst",
     "varutyp": "potatis_rotfrukt",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-21"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Frysta potatisklyftor för ugn"
   },
   "frysta rakor med skal 7090~royal greenland": {
     "kategori": "skaldjur",
     "form": "fryst",
     "varutyp": "skaldjur",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-07-17"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Frysta skalräkor från Royal Greenland"
   },
   "frysta rakor~leroy": {
     "kategori": "skaldjur",
@@ -8408,9 +8425,10 @@
     "form": "fryst",
     "varutyp": "enportionsratt",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-08-31"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Daloon frysta vårrullar, färdigrätt att värma"
   },
   "frysta vegoprodukter~halsans kok": {
     "kategori": "kott",
@@ -11995,9 +12013,10 @@
     "form": null,
     "varutyp": "papper_pasar_folie",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-21"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Pappersservetter med julmönster, förbrukningsvara"
   },
   "julstjarna~blommor": {
     "kategori": "blommor_vaxter",
@@ -13476,12 +13495,13 @@
   },
   "kotlett med ben~ica ursprung sverige": {
     "kategori": "kott",
-    "form": null,
+    "form": "farsk",
     "varutyp": "kott",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-21"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Färsk fläskkotlett med ben, köttdisk"
   },
   "kottbullar fardiglagade~garant": {
     "kategori": "fars_kottbullar",
@@ -14023,9 +14043,10 @@
     "form": "fryst",
     "varutyp": "fars_kottbullar",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-21"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Frysta förädlade kycklingprodukter, burgare och nuggets"
   },
   "kycklingkebab tacokyckling~ica basic": {
     "kategori": "fagel",
@@ -16245,9 +16266,10 @@
     "form": "kyld",
     "varutyp": "fil_yoghurt",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-07-17"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Arla mild yoghurt i liter, kylvara"
   },
   "min frukt grot~nestl": {
     "kategori": "frukt",
@@ -16681,9 +16703,10 @@
     "form": null,
     "varutyp": "matbrod",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-21"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Pågen müslibröd, förpackat matbröd"
   },
   "msli~frebaco": {
     "kategori": "flingor_musli",
@@ -17475,9 +17498,10 @@
     "form": null,
     "varutyp": "hygien",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-21"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Ersättningsblad till rakapparat, hygienförbrukning"
   },
   "orange juice with bits~god morgon": {
     "kategori": "juice_saft",
@@ -18094,9 +18118,10 @@
     "form": "farsk",
     "varutyp": "frukt",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-21"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Färska päron, sexpack"
   },
   "paron migo~": {
     "kategori": "frukt",
@@ -18127,12 +18152,13 @@
   },
   "passerade tomater pizzasas pinsasas~mutti": {
     "kategori": "konserv_tomat",
-    "form": "torr",
+    "form": "konserv",
     "varutyp": "konserv_tomat",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-21"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Mutti passerade tomater och tomatbaserade såser"
   },
   "passerade tomater~garant": {
     "kategori": "konserv_tomat",
@@ -18343,12 +18369,13 @@
   },
   "pepparbiff~ica ursprung sverige": {
     "kategori": "kott",
-    "form": null,
+    "form": "farsk",
     "varutyp": "kott",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-21"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Pepparkryddad rostbiffbit, rått nötkött"
   },
   "pepparkakor~annas": {
     "kategori": "kex",
@@ -20138,9 +20165,10 @@
     "form": "kyld",
     "varutyp": "ost_hard",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-07-17"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Riven hårdost, kylvara"
   },
   "riven ost~frischgold": {
     "kategori": "ost_hard",
@@ -20510,12 +20538,13 @@
   },
   "rostade sesamfron~ica asia": {
     "kategori": "notter_torkat",
-    "form": null,
+    "form": "torr",
     "varutyp": "notter_torkat",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-21"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Rostade sesamfrön, fröer hör till nötter/torkat"
   },
   "rosta~pagen": {
     "kategori": "matbrod",
@@ -22132,9 +22161,10 @@
     "form": "farsk",
     "varutyp": "frukt",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-21"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Färska clementiner/småcitrus i nät"
   },
   "smacitrus nadorcott~ica": {
     "kategori": "frukt",
@@ -22251,12 +22281,13 @@
   },
   "smaksatta riskakor majskakor~friggs": {
     "kategori": "knackebrod",
-    "form": null,
+    "form": "torr",
     "varutyp": "knackebrod",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-21"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Friggs ris-/majskakor, knäckebrödsliknande torrvara"
   },
   "smalandska isterband~lithells": {
     "kategori": "korv",
@@ -22506,9 +22537,10 @@
     "form": "kyld",
     "varutyp": "smor_margarin",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-21"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Vanligt smör 500 g, kylvara"
   },
   "smor~norrmejerier": {
     "kategori": "smor_margarin",
@@ -22931,9 +22963,10 @@
     "form": null,
     "varutyp": "papper_pasar_folie",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-21"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Sopsäckar 125 liter, påsar"
   },
   "sotmandel~garant": {
     "kategori": "notter_torkat",
@@ -24304,9 +24337,10 @@
     "form": null,
     "varutyp": "hygien",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-21"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Tandborsthuvuden till eltandborste, munhygien"
   },
   "tandborstrefill io 4pack~oralb": {
     "kategori": "hygien",
@@ -24539,12 +24573,13 @@
   },
   "tex mex matchips~ica": {
     "kategori": "chips_snacks",
-    "form": null,
+    "form": "torr",
     "varutyp": "chips_snacks",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-21"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Tortillachips för tex mex, salta snacks"
   },
   "textilspray~softlan": {
     "kategori": "stad_disk_tvatt",
@@ -25139,12 +25174,13 @@
   },
   "tortillabrod~santa maria": {
     "kategori": "frallor_tunnbrod",
-    "form": null,
+    "form": "torr",
     "varutyp": "frallor_tunnbrod",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-07-17"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Förpackat tortillabröd, tunnbröd med lång hållbarhet"
   },
   "tortillachips nachoschips~banderos": {
     "kategori": "chips_snacks",
@@ -26400,9 +26436,10 @@
     "form": "torr",
     "varutyp": "pasta",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-21"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Snabbnudlar i kopp, torr nudelvara"
   },
   "yalla~arla": {
     "kategori": "fil_yoghurt",
@@ -26445,10 +26482,13 @@
     "kategori": "fil_yoghurt",
     "form": "kyld",
     "varutyp": "fil_yoghurt",
-    "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-21"
+    "markeringar": [
+      "vegansk"
+    ],
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-22",
+    "motivering": "Alpro växtbaserad yoghurt/kvarg, veganskt kylvaru-alternativ"
   },
   "yoghurt naturell~ica": {
     "kategori": "fil_yoghurt",
