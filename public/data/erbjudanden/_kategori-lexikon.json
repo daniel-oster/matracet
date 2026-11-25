@@ -12522,6 +12522,15 @@
     "motivering": "Kaffekapslar (L'Or): kaffe/te",
     "updated": "2026-10-25"
   },
+  "kaffekapslar~starbucks zogas": {
+    "kategori": "kaffe_te",
+    "form": null,
+    "varutyp": "kaffe_te",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-11-25"
+  },
   "kaffe~arvid nordquist": {
     "kategori": "kaffe_te",
     "form": null,
@@ -12559,6 +12568,15 @@
     "kalla": "model",
     "motivering": "Kaffe (Gevalia): kaffe/te",
     "updated": "2026-10-25"
+  },
+  "kaffe~gevalia zogas": {
+    "kategori": "kaffe_te",
+    "form": null,
+    "varutyp": "kaffe_te",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-11-25"
   },
   "kaffe~lofbergs": {
     "kategori": "kaffe_te",
@@ -13427,6 +13445,15 @@
     "confidence": "hog",
     "kalla": "regel",
     "updated": "2026-07-17"
+  },
+  "kiwi gul i korg~italien grekland": {
+    "kategori": "frukt",
+    "form": "farsk",
+    "varutyp": "frukt",
+    "markeringar": [],
+    "confidence": "lag",
+    "kalla": "regel",
+    "updated": "2026-11-25"
   },
   "kiwi i korg~ica": {
     "kategori": "frukt",
