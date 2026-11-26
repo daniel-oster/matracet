@@ -12524,12 +12524,13 @@
   },
   "kaffekapslar~starbucks zogas": {
     "kategori": "kaffe_te",
-    "form": null,
+    "form": "torr",
     "varutyp": "kaffe_te",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-25"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-26",
+    "motivering": "Kaffekapslar för maskin, torrvara"
   },
   "kaffe~arvid nordquist": {
     "kategori": "kaffe_te",
@@ -12571,12 +12572,13 @@
   },
   "kaffe~gevalia zogas": {
     "kategori": "kaffe_te",
-    "form": null,
+    "form": "torr",
     "varutyp": "kaffe_te",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-25"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-26",
+    "motivering": "Bryggkaffe Gevalia/Zoégas, ej hela bönor; torrvara"
   },
   "kaffe~lofbergs": {
     "kategori": "kaffe_te",
@@ -13451,9 +13453,10 @@
     "form": "farsk",
     "varutyp": "frukt",
     "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-11-25"
+    "confidence": "hog",
+    "kalla": "model",
+    "updated": "2026-11-26",
+    "motivering": "Gul kiwi i korg, färsk frukt; ursprung i märket"
   },
   "kiwi i korg~ica": {
     "kategori": "frukt",

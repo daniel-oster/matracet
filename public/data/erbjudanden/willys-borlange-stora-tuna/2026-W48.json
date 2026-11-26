@@ -56,7 +56,7 @@
       "kategori": "frukt",
       "form": "farsk",
       "varutyp": "frukt",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-11-25"
     },
     {
@@ -76,9 +76,9 @@
       "ursprung": null,
       "notering": "Olika sorter • Gäller ej hela bönor",
       "kategori": "kaffe_te",
-      "form": null,
+      "form": "torr",
       "varutyp": "kaffe_te",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-11-25"
     },
     {
@@ -120,9 +120,9 @@
       "ursprung": null,
       "notering": "Olika sorter",
       "kategori": "kaffe_te",
-      "form": null,
+      "form": "torr",
       "varutyp": "kaffe_te",
-      "kategori_kalla": "regel",
+      "kategori_kalla": "model",
       "giltigt_fran": "2026-11-25"
     },
     {
