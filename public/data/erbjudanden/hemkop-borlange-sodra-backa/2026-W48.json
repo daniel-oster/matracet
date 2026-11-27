@@ -6,7 +6,7 @@
   "vecka": "2026-W48",
   "giltigt_fran": "2026-11-23",
   "giltigt_till": "2026-11-29",
-  "hamtad": "2026-11-26",
+  "hamtad": "2026-11-27",
   "kalla_url": "https://www.hemkop.se/erbjudanden/4638",
   "urval": "automatiskt hämtad (erbjudanden-weekly.mjs): livsmedel och hushåll; 2 av 71 erbjudanden utsorterade (blöjor, djurmat, ljus, kläder, m.m.)",
   "antal": 69,
@@ -401,9 +401,9 @@
       "notering": "färsk, benfri, i bit",
       "kategori": "kott",
       "form": null,
+      "varutyp": "kott",
       "kategori_kalla": "model",
-      "giltigt_fran": "2026-11-26",
-      "varutyp": "kott"
+      "giltigt_fran": "2026-11-26"
     },
     {
       "namn": "Gräddfil",
@@ -425,9 +425,9 @@
       "notering": "fetthalt 12%, gäller ej laktosfri, ekologisk",
       "kategori": "fil_yoghurt",
       "form": "kyld",
+      "varutyp": "fil_yoghurt",
       "kategori_kalla": "model",
-      "giltigt_fran": "2026-11-26",
-      "varutyp": "fil_yoghurt"
+      "giltigt_fran": "2026-11-26"
     },
     {
       "namn": "Olivolja Classico",
