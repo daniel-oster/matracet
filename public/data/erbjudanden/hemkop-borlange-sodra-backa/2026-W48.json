@@ -401,9 +401,9 @@
       "notering": "färsk, benfri, i bit",
       "kategori": "kott",
       "form": null,
-      "varutyp": "kott",
-      "kategori_kalla": "regel",
-      "giltigt_fran": "2026-11-26"
+      "kategori_kalla": "model",
+      "giltigt_fran": "2026-11-26",
+      "varutyp": "kott"
     },
     {
       "namn": "Gräddfil",
@@ -425,9 +425,9 @@
       "notering": "fetthalt 12%, gäller ej laktosfri, ekologisk",
       "kategori": "fil_yoghurt",
       "form": "kyld",
-      "varutyp": "fil_yoghurt",
-      "kategori_kalla": "regel",
-      "giltigt_fran": "2026-11-26"
+      "kategori_kalla": "model",
+      "giltigt_fran": "2026-11-26",
+      "varutyp": "fil_yoghurt"
     },
     {
       "namn": "Olivolja Classico",

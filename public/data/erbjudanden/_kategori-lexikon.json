@@ -9378,12 +9378,12 @@
   },
   "graddfil~garant": {
     "kategori": "fil_yoghurt",
-    "form": "kyld",
     "varutyp": "fil_yoghurt",
-    "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-07-17"
+    "form": "kyld",
+    "kalla": "model",
+    "confidence": "hog",
+    "motivering": "Gräddfil 12 % är fil/surmjölksprodukt i kyldisk, inte grädde.",
+    "updated": "2026-11-27"
   },
   "graddglass~sia glass": {
     "kategori": "glass",
@@ -24311,12 +24311,12 @@
   },
   "svensk flaskkarr~dalsjofors": {
     "kategori": "kott",
-    "form": null,
     "varutyp": "kott",
-    "markeringar": [],
-    "confidence": "lag",
-    "kalla": "regel",
-    "updated": "2026-09-11"
+    "form": null,
+    "kalla": "model",
+    "confidence": "hog",
+    "motivering": "Färsk benfri fläskkarré i bit från charkdisk – rått griskött, rätt som kott.",
+    "updated": "2026-11-27"
   },
   "svensk flaskkar~dalsjofors": {
     "kategori": "kott",
